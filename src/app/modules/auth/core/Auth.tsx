@@ -36,10 +36,10 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
 
   
 
-  const requestUser = async (apiToken: string) => {
+  const requestUser = async () => {
     try {
       if (!currentUser) {
-        const data = await getProfileInfo(apiToken)
+        const data = await getProfileInfo()
         if (data) {  
           setCurrentUser(data)  
           console.log("hello")
@@ -58,7 +58,7 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
       //Check if the token has expired
       if(auth.isValid && auth.result.tokenIsValid){
         console.log("Token is valid");
-        requestUser(auth.result.token);
+        requestUser();
         // handleToast(auth);
       }
       else {
@@ -89,10 +89,10 @@ const AuthInit: FC<WithChildren> = ({children}) => {
 
  
   useEffect(() => {
-    const requestUser = async (apiToken: string) => {
+    const requestUser = async () => {
       try {
         if (!currentUser) {
-          const data = await getProfileInfo(apiToken)
+          const data = await getProfileInfo()
           if (data) {
             console.log(data)
             setCurrentUser(data)
@@ -111,7 +111,7 @@ const AuthInit: FC<WithChildren> = ({children}) => {
       // Check if the token has expired
       if (auth.result.tokenIsValid) {
         console.log("Token is valid");
-        requestUser(auth.result.token);
+        requestUser();
       } else {
         console.log("Token has expired. Please log in again.");
      
