@@ -1,0 +1,23 @@
+https://mijn.invoicehippo.nl/reset?uuid=6e24bc6ac7d34569af9957ae53485753
+
+http://localhost:5173/metronic8/react/demo1/reset?uuid=6e24bc6ac7d34569af9957ae53485753
+
+// Register request
+export function register(
+  email: string,
+  firstname: string,
+  lastname: string,
+  password: string,
+  password_confirmation: string
+) {
+  return apiRequest<void>(REGISTER_URL, {
+    method: 'POST',
+    data: {
+      email,
+      first_name: firstname,
+      last_name: lastname,
+      password,
+      password_confirmation,
+    },
+  });
+}
