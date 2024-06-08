@@ -34,7 +34,6 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
   const [auth, setAuth] = useState<AuthModel | undefined>(authHelper.getAuth())
   const [currentUser, setCurrentUser] = useState<UserModel | undefined>()
 
-  
 
   const requestUser = async () => {
     try {
@@ -43,7 +42,7 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
         if (data) {  
           setCurrentUser(data)  
           console.log("hello")
-          toast.success("Logged in successfully");
+          toast.success("Ingelogd succesvol");
         }
       }
     } catch (error) {
@@ -73,7 +72,7 @@ const AuthProvider: FC<WithChildren> = ({children}) => {
   const logout = () => {
     saveAuth(undefined)
     setCurrentUser(undefined)
-    toast.error("Logged out")
+    toast.error("Uitgelogd")
   }
 
   return (

@@ -11,6 +11,13 @@
         }
     }
 
+    .menu-#{$name} {
+        .menu-language {
+            //$title-color, $icon-color, $bullet-color, $arrow-color, $bg-color
+            @include menu-link-default-state( var(--#{$prefix}#{$name}), var(--#{$prefix}#{$name}), var(--#{$prefix}#{$name}), var(--#{$prefix}#{$name}), null );
+        }
+    }
+
     .menu-title-#{$name} {
         .menu-item {
             //$title-color, $icon-color, $bullet-color, $arrow-color, $bg-color

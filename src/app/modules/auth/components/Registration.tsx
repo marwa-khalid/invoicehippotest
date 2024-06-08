@@ -8,6 +8,8 @@ import clsx from 'clsx'
 import {Link} from 'react-router-dom'
 import {PasswordMeterComponent} from '../../../../_metronic/assets/ts/components'
 import {useAuth} from '../core/Auth'
+import { useIntl } from 'react-intl'
+import { Languages } from '../../../../_metronic/partials/layout/header-menus/Languages'
 
 const initialValues = {
   firstname: '',
@@ -47,6 +49,7 @@ const registrationSchema = Yup.object().shape({
 export function Registration() {
   const [loading, setLoading] = useState(false)
   const {saveAuth} = useAuth()
+  const intl = useIntl()
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
@@ -84,9 +87,9 @@ export function Registration() {
             <i className="ki-outline ki-black-left fs-2 text-gray-800"></i>
           </Link>
         <div >
-          <span className="text-gray-500 fw-bold fs-5 me-2" data-kt-translate="sign-in-head-desc">Already a Member?</span>
+          <span className="text-gray-500 fw-bold fs-5 me-2" data-kt-translate="sign-in-head-desc">{intl.formatMessage({id: 'LOGINANDREGISTRATION.SUBTITLEREGISTER'})}</span>
           <Link to='/' className='link-primary fw-bold fs-5'>
-            Sign in
+            {intl.formatMessage({id: 'LOGINANDREGISTRATION.SUBTITLELINKREGISTER'})}
           </Link>
         </div>
       </div>
@@ -99,17 +102,17 @@ export function Registration() {
       {/* begin::Heading */}
       <div className='text-start mb-11'>
         {/* begin::Title */}
-        <h1 className='text-gray-900 mb-3 fs-3x'>Sign Up</h1>
+        <h1 className='text-gray-900 mb-3 fs-3x'>{intl.formatMessage({id: 'LOGINANDREGISTRATION.TITLEREGISTER'})}</h1>
         {/* end::Title */}
 
-        <div className="text-gray-500 fw-semibold fs-6" data-kt-translate="general-desc">Get unlimited access & earn money</div>
+        <div className="text-gray-500 fw-semibold fs-6" data-kt-translate="general-desc">{intl.formatMessage({id: 'LOGINANDREGISTRATION.REGISTRATIONSTEP3SUBTITLE'})}</div>
 									
       </div>
       {/* end::Heading */}
       <div className='row mb-10'>
         <div className='col-xl-6'>
         <input 
-        placeholder='First name'
+          placeholder={intl.formatMessage({id: 'LOGINANDREGISTRATION.FIRSTNAME'})}
           type='text'
           autoComplete='off'
           {...formik.getFieldProps('firstname')}
@@ -134,7 +137,7 @@ export function Registration() {
         </div>
         {/* Last Name */}
         <div className='col-xl-6'>
-        <input  placeholder='Last name'
+        <input  placeholder={intl.formatMessage({id: 'LOGINANDREGISTRATION.LASTNAME'})}
           type='text'
           autoComplete='off'
           {...formik.getFieldProps('lastname')}
@@ -161,7 +164,7 @@ export function Registration() {
       {/* Email */}
       <div className='fv-row mb-10'>
         <input
-          placeholder='Email'
+          placeholder={intl.formatMessage({id: 'LOGINANDREGISTRATION.EMAILADDRESS'})}
           type='email'
           autoComplete='off'
           data-kt-translate='sign-up-input-email'
@@ -189,7 +192,7 @@ export function Registration() {
           <div className='position-relative mb-3'>
             <input
               type='password'
-              placeholder='Password'
+              placeholder={intl.formatMessage({id: 'LOGINANDREGISTRATION.PASSWORDREGISTRATION'})}
               autoComplete='off'
               {...formik.getFieldProps('password')}
               name='password'
@@ -211,26 +214,29 @@ export function Registration() {
                 </div>
               </div>
             )}
-            <span className='btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2' data-kt-password-meter-control='visibility'>
+            {/* <span className='btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2' data-kt-password-meter-control='visibility'>
               <i className='ki-outline ki-eye-slash fs-2'></i>
               <i className='ki-outline ki-eye fs-2 d-none'></i>
-            </span>
+            </span> */}
           </div>
           <div className='d-flex align-items-center mb-3' data-kt-password-meter-control='highlight'>
-            <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-            <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
+            <div className='flex-grow-1 bg-secondary bg-active-red rounded h-5px me-2'></div>
+            <div className='flex-grow-1 bg-secondary bg-active-warning rounded h-5px me-2'></div>
             <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
             <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px'></div>
+           
           </div>
+
         </div>
-        <div className='text-muted' data-kt-translate='sign-up-hint'>Use 8 or more characters with a mix of letters, numbers & symbols.</div>
+                                
+        <div className='text-muted' data-kt-translate='sign-up-hint'>{intl.formatMessage({id: 'LOGINANDREGISTRATION.REGISTERHINT'})}</div>
       </div>
       
       {/* Confirm Password */}
       <div className='fv-row mb-10'>
         <input 
           type='password'
-          placeholder='Password confirmation'
+          placeholder={intl.formatMessage({id: 'LOGINANDREGISTRATION.PASSWORDVERIFICATION'})}
           autoComplete='off'
           {...formik.getFieldProps('changepassword')}
           name='confirm-password' 
@@ -260,7 +266,7 @@ export function Registration() {
         <button id='kt_sign_up_submit' className='btn btn-primary' data-kt-translate='sign-up-submit'
         disabled={formik.isSubmitting || !formik.isValid || !formik.values.acceptTerms}>
          
-          {!loading && <span className='indicator-label'>Submit</span>}
+          {!loading && <span className='indicator-label'>{intl.formatMessage({id: 'LOGINANDREGISTRATION.TITLEREGISTER'})}</span>}
           {loading && (
             <span className='indicator-progress' style={{display: 'block'}}>
               Please wait...{' '}
@@ -270,6 +276,7 @@ export function Registration() {
           <span className='indicator-progress'>Please wait... <span className='spinner-border spinner-border-sm align-middle ms-2'></span></span>
         </button>
 
+        <Languages/>
       </div>
   
 

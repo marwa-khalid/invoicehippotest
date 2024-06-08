@@ -4,9 +4,10 @@ import {Link} from 'react-router-dom'
 import {useAuth} from '../../../../app/modules/auth'
 import {Languages} from './Languages'
 import {toAbsoluteUrl} from '../../../helpers'
-
+import { useIntl } from 'react-intl'
 const HeaderUserMenu: FC = () => {
   const {currentUser, logout} = useAuth()
+  const intl = useIntl()
   return (
     <div
       className='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px'
@@ -34,7 +35,7 @@ const HeaderUserMenu: FC = () => {
 
       <div className='menu-item px-5'>
         <Link to={'/crafted/pages/profile'} className='menu-link px-5'>
-          My Profile
+          {intl.formatMessage({id: 'FIELDS.MODALMANAGEMYUSERPROFILE'})}
         </Link>
       </div>
 
@@ -114,8 +115,17 @@ const HeaderUserMenu: FC = () => {
       </div>
 
       <div className='separator my-2'></div>
-
-      <Languages />
+      
+      <div className='text-muted d-flex px-5 align-items-center justify-content-between'>
+        {/* Paragraph with some right margin */}
+        <p className='menu-link px-5 mb-0' style={{ marginRight: '20px' }}> {/* mb-0 removes any default margin-bottom */}
+          {intl.formatMessage({ id: 'FIELDS.LANGUAGEPREFERENCETYPE' })}
+        </p>
+        
+        {/* Languages component */}
+        <Languages />
+      </div>
+      
 
       <div className='menu-item px-5 my-1'>
         <Link to='/crafted/account/settings' className='menu-link px-5'>
@@ -125,7 +135,7 @@ const HeaderUserMenu: FC = () => {
 
       <div className='menu-item px-5'>
         <a onClick={logout} className='menu-link px-5'>
-          Sign Out
+          {intl.formatMessage({id: 'MENU.LOGOUT'})}
         </a>
       </div>
     </div>

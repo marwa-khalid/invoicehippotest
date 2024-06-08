@@ -6,6 +6,7 @@ import {useFormik} from 'formik'
 import {requestResetLink} from '../core/_requests'
 import { useNavigate } from 'react-router-dom'
 import {toast,ToastContainer} from 'react-toastify'
+import {useIntl} from 'react-intl'
 import { handleToast } from '../core/_toast'
 const initialValues = {
   email: '',
@@ -24,6 +25,7 @@ export function ForgotPassword() {
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
+  const intl = useIntl()
 
   const formik = useFormik({
     initialValues,
@@ -59,12 +61,7 @@ export function ForgotPassword() {
           <Link to='/' className="btn btn-icon bg-light rounded-circle">
             <i className="ki-outline ki-black-left fs-2 text-gray-800"></i>
           </Link>
-        <div>
-          <span className="text-gray-500 fw-bold fs-5 me-2" data-kt-translate="sign-in-head-desc">Already a Member?</span>
-          <Link to='/' className='link-primary fw-bold fs-5'>
-            Sign in
-          </Link>
-        </div>
+       
       </div>
     
       <form
@@ -75,12 +72,12 @@ export function ForgotPassword() {
       >
         <div className='text-start mb-10'>
           {/* begin::Title */}
-          <h1 className='text-gray-900 mb-3 fs-3x'>Forgot Password ?</h1>
+          <h1 className='text-gray-900 mb-3 fs-2x' >{intl.formatMessage({id: 'LOGINANDREGISTRATION.RESETTITLE'})}</h1>
           {/* end::Title */}
 
           {/* begin::Link */}
           <div className='text-gray-500 fw-semibold fs-6'>
-            Enter your email to reset your password.
+            {intl.formatMessage({id: 'LOGINANDREGISTRATION.RESETSUBTITLE'})}
           </div>
           {/* end::Link */}
         </div>
@@ -90,7 +87,7 @@ export function ForgotPassword() {
          
           <input
             type='email'
-            placeholder='Email'
+            placeholder={intl.formatMessage({id: 'FIELDS.EMAILADDRESSES'})}
             autoComplete='off'
             
             {...formik.getFieldProps('email')}
@@ -115,7 +112,7 @@ export function ForgotPassword() {
         {/* begin::Form group */}
         <div className='d-flex flex-wrap justify-content-start pb-lg-0'>
           <button type='submit' id='kt_password_reset_submit' className='btn btn-primary me-4'>
-            <span className='indicator-label'>Submit</span>
+            <span className='indicator-label'>{intl.formatMessage({id: 'FIELDS.ACTIONSENDEMAIL'})}</span>
             {loading && (
               <span className='indicator-progress'>
                 Please wait...
@@ -130,7 +127,7 @@ export function ForgotPassword() {
               className='btn btn-lg btn-light-primary fw-bold'
               disabled={formik.isSubmitting || !formik.isValid}
             >
-              Cancel
+              {intl.formatMessage({id: 'FIELDS.ACTIONCANCEL'})}
             </button>
           </Link>{' '}
         </div>
