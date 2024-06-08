@@ -5,3 +5,4 @@ export const REQUEST_PASSWORD_URL = `${API_URL_V1}/profile/password/reset/reques
 export const GET_PROFILE_INFO = `${API_URL_V1}/profile/info`;
 export const REDIRECT_URL_V1="http://localhost:5173/reset"
 export const CHANGE_PASSWORD = `${API_URL_V1}/profile/password/reset/change`;
+export const ODATA_VALIDATION = `${API_URL_V1}/registration/sepa/confirm?odata=`;

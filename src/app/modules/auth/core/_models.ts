@@ -21,9 +21,6 @@ export interface AuthResult {
   canRedirectToModule: boolean;
 }
 
-export type AuthModel = ApiResponse<AuthResult>;
-
-
 export interface UserResult {
   subscriberId: number;
   person: {
@@ -220,11 +217,40 @@ export interface PasswordResetResult {
   passwordResetToken: string
 }
 
+export interface SepaResult {
+  id: number;
+  taskId: number;
+  isBusiness: boolean;
+  companyName: string;
+  emailAddress: string;
+  sepaIsAllreadyValidated: boolean;
+  vatNumber: string;
+  registrationNumber: string;
+  ibanNumber: string;
+  firstName: string;
+  betweenName: string;
+  lastName: string;
+  subscriptionDescription: string;
+  subscriberCompanyName: string;
+  subscriberCompanySupportEmailAddress: string;
+  subscriberCompanyWebUrl: string;
+  subscriberCompanyLogoUrl: string;
+  clientHasActiveSepaMandate: boolean;
+  sepaMandateReference: string;
+  sepaMandateSignatureDate: string;
+  hasEmail: boolean;
+  hasIbanNumber: boolean;
+  hasVatNumber: boolean;
+  hasRegistrationNumber: boolean;
+  fullName: string;
+}
 
 // Specific models
-
+export type AuthModel = ApiResponse<AuthResult>;
 export type UserModel = ApiResponse<UserResult>;
 export type PasswordResetModel = ApiResponse<PasswordResetResult>
+export type SepaModel = ApiResponse<SepaResult>;
+
 
 
 export interface UserAddressModel {
