@@ -1,31 +1,56 @@
 import React from "react";
-
-const Step1: React.FC = () => {
+import clsx from "clsx";
+import { Link } from "react-router-dom";
+import { KTIcon } from "../../../../_metronic/helpers";
+import { SepaResult } from "../../auth";
+import { useIntl } from "react-intl";
+interface Step1Props {
+  sepaResponse: SepaResult; // Adjust the type according to your actual data structure
+}
+const Step1 = (sepaResponse: Step1Props) => {
+  const intl = useIntl();
   return (
-    <form className="space-y-4">
-      <h2 className="text-2xl font-bold mb-4">Login Form</h2>
-      <div className="space-y-2">
-        <label className="block text-gray-700">Username:</label>
-        <input
-          className="w-full border border-gray-300 p-2 rounded"
-          type="text"
-          name="username"
-        />
+    <form
+      className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework py-20"
+      noValidate
+      id="kt_login_signup_form"
+    >
+      {/* begin::Heading */}
+      <div className="text-start mb-2">
+        {/* begin::Title */}
+        <h1 className="text-gray-900 mb-3 fs-2x">
+          {intl.formatMessage({
+            id: "LOGINANDREGISTRATION.SEPAINTROTITLE",
+          })}
+        </h1>
+        {/* end::Title */}
       </div>
-      <div className="space-y-2">
-        <label className="block text-gray-700">Password:</label>
-        <input
-          className="w-full border border-gray-300 p-2 rounded"
-          type="password"
-          name="password"
-        />
+      {/* end::Heading */}
+      <p className="text-gray-500">
+        {sepaResponse.sepaResponse.sepaIsAllreadyValidated
+          ? intl.formatMessage({
+              id: "LOGINANDREGISTRATION.SEPAINTROONUPDATEEXISTING",
+            })
+          : intl.formatMessage({
+              id: "LOGINANDREGISTRATION.SEPAINTROONVERIFICATIONONNEW",
+            })}
+      </p>
+
+      <div className="text-start mb-2">
+        {/* begin::Title */}
+        <h1 className="text-gray-900 mb-3 fs-sm">
+          {intl.formatMessage({
+            id: "LOGINANDREGISTRATION.SEPAINTROTITLE",
+          })}
+        </h1>
+        {/* end::Title */}
       </div>
-      <button
-        className="w-full bg-blue-500 text-white py-2 rounded"
-        type="submit"
-      >
-        Login
-      </button>
+
+      <p className="text-gray-500">
+        {sepaResponse?.sepaResponse?.subscriptionDescription}
+      </p>
+
+      {/* end::Login options */}
     </form>
   );
 };

@@ -17,25 +17,25 @@ const StepIndicator: React.FC<StepIndicatorProps> = ({
   onStepClick,
 }) => {
   return (
-    <div className="flex justify-around mb-8 space-x-8">
+    <div className=" d-flex flex-row align-items-center justify-center">
       {steps.map((step) => (
         <div
           key={step.number}
-          className={`flex items-center cursor-pointer p-4 space-x-2 ${
-            currentStep === step.number ? "text-green-500" : "text-gray-500"
+          className={`mx-2 space-2  ${
+            currentStep === step.number ? "text-success" : "text-secondary"
           }`}
           onClick={() => onStepClick(step.number)}
         >
-          <div
-            className={`w-10 h-10 rounded-full flex items-center justify-center ${
+          <span
+            className={`rounded-full px-4 py-1 ${
               currentStep === step.number
-                ? "bg-green-500 text-white"
-                : "bg-blue-500 text-white"
+                ? "bg-success text-white"
+                : "bg-primary text-white"
             }`}
           >
             {step.number}
-          </div>
-          <div className="font-bold">{step.name}</div>
+          </span>
+          <span className="ml-2 font-bold">{step.name}</span>
         </div>
       ))}
     </div>

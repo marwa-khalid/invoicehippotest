@@ -3,8 +3,8 @@ import { TraceInfoType } from './_models';
 
 // Utility function to handle errors
 export function handleToast(response:any) {
-    let message = response.messages[0].message
-    let messageType = response.messages[0].type;
+    let message = response.messages[0]?.message
+    let messageType = response.messages[0]?.type;
 
     if (response && response.messages && response.messages.length > 0) {
         message = response.messages[0].message;
