@@ -77,6 +77,7 @@ const Step2 = (sepaResponse: Step1Props) => {
               id: "FIELDS.FIRSTNAME",
             })}
           </label>
+          <span style={{ color: "red" }}>*</span>
           <input
             placeholder={intl.formatMessage({
               id: "FIELDS.FIRSTNAME",
@@ -129,7 +130,7 @@ const Step2 = (sepaResponse: Step1Props) => {
               //   "is-valid": formik.touched.lastname && !formik.errors.lastname,
               // }
             )}
-            name="last-name"
+            name="between-name"
             data-kt-translate="sign-up-input-last-name"
           />
           {/* {formik.touched.lastname && formik.errors.lastname && (
@@ -146,6 +147,7 @@ const Step2 = (sepaResponse: Step1Props) => {
             {intl.formatMessage({
               id: "FIELDS.LASTNAME",
             })}
+            <span style={{ color: "red" }}>*</span>
           </label>
           <input
             placeholder={intl.formatMessage({
@@ -214,6 +216,7 @@ const Step2 = (sepaResponse: Step1Props) => {
           {intl.formatMessage({
             id: "FIELDS.EMAILADDRESS",
           })}
+          <span style={{ color: "red" }}>*</span>
         </label>
         <input
           placeholder={intl.formatMessage({

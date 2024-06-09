@@ -170,18 +170,16 @@ const SepaValidation = () => {
       return;
     }
 
-    // Check if the current step is not the last step
-    if (stepper.currentStepIndex !== stepper.totalStepsNumber - 1) {
-      // Go to the next step
+    if (stepper.currentStepIndex !== stepper.totalStepsNumber) {
       stepper.goNext();
     } else {
-      // If it's the last step, go back to the first step and reset the form
       stepper.goto(1);
       actions.resetForm();
     }
 
-    // Update the current schema based on the current step
-    setCurrentSchema(createAccountSchemas[stepper.currentStepIndex]);
+    console.log(values);
+
+    setCurrentSchema(createAccountSchemas[stepper.currentStepIndex - 1]);
   };
 
   useEffect(() => {
@@ -358,9 +356,17 @@ const SepaValidation = () => {
                         type="submit"
                         className="btn btn-lg btn-primary me-3"
                       >
-                        <span className="indicator-label">
+                        <span className="indicator-label align-items-center d-flex justify-center">
                           {stepper?.currentStepIndex !==
-                            (stepper?.totalStepsNumber || 2) - 1 &&
+                          stepper?.totalStepsNumber
+                            ? intl.formatMessage({
+                                id: "COMMON.WIZARDSTEPNEXT",
+                              })
+                            : intl.formatMessage({
+                                id: "LOGINANDREGISTRATION.SEPABTNVERIFYONEXISTING",
+                              })}
+                          {/* {stepper?.currentStepIndex == 2 &&
+                           
                             intl.formatMessage({
                               id: "COMMON.WIZARDSTEPNEXT",
                             })}
@@ -368,7 +374,7 @@ const SepaValidation = () => {
                             (stepper?.totalStepsNumber || 2) - 1 &&
                             intl.formatMessage({
                               id: "LOGINANDREGISTRATION.SEPABTNVERIFYONEXISTING",
-                            })}
+                            })} */}
                           <KTIcon
                             iconName="arrow-right"
                             className="fs-3 ms-2 me-0"
