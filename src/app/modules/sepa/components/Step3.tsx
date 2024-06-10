@@ -90,7 +90,7 @@ const Step3: React.FC<Step3Props> = ({
 
       <div className="text-start mb-2">
         {/* begin::Title */}
-        <h1 className="text-gray-900 mb-3 fs-sm">
+        <h1 className="text-gray-900 mb-3 fs-xl">
           {intl.formatMessage({
             id: "LOGINANDREGISTRATION.SEPAREGISTRATIONSTEP3Sub",
           })}
@@ -123,6 +123,28 @@ const Step3: React.FC<Step3Props> = ({
           </tr>
         </tbody>
       </table>
+
+      <div className="text-start  mb-2">
+        {/* begin::Title */}
+        <h1 className="text-gray-900 mb-3 fs-xl">
+          {intl.formatMessage({
+            id: "FIELDS.PERMISSION",
+          })}
+          :
+        </h1>
+        {/* end::Title */}
+      </div>
+      <div className="flex items-center bg-light-primary p-4 rounded-lg">
+        {/* Exclamation Icon */}
+        <KTIcon iconName="ki-duotone ki-information text-primary" />
+
+        {/* Paragraph Text */}
+        <p className="text-primary text-base">
+          {intl.formatMessage({
+            id: "LOGINANDREGISTRATION.SEPAINTROONVERIFICATIONONNEW",
+          })}
+        </p>
+      </div>
 
       {/* end::Login options */}
       <div className="d-flex flex-stack">
