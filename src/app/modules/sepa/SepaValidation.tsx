@@ -86,6 +86,7 @@ import { checkSepaOdata } from "../auth/core/_requests";
 import { handleToast } from "../auth/core/_toast";
 import { useIntl } from "react-intl";
 import { SepaResult } from "../auth";
+import { toAbsoluteUrl } from "../../../_metronic/helpers";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -190,182 +191,193 @@ const SepaValidation = () => {
     loadStepper();
   }, [stepperRef]);
   return (
-    <>
-      <ToolbarWrapper />
-      <Content>
-        <div
-          ref={stepperRef}
-          className="stepper stepper-pills stepper-column d-flex flex-column flex-xl-row flex-row-fluid"
-          id="kt_create_account_stepper"
-        >
-          {/* begin::Aside*/}
-          <div className="card d-flex justify-content-center justify-content-xl-start flex-row-auto w-100 w-xl-300px w-xxl-400px me-9">
-            {/* begin::Wrapper*/}
-            <div className="card-body px-6 px-lg-10 px-xxl-15 py-20">
-              {/* begin::Nav*/}
-              <div className="stepper-nav">
-                {/* begin::Step 1*/}
-                <div
-                  className="stepper-item current"
-                  data-kt-stepper-element="nav"
-                >
-                  {/* begin::Wrapper*/}
-                  <div className="stepper-wrapper">
-                    {/* begin::Icon*/}
-                    <div className="stepper-icon w-40px h-40px">
-                      <i className="stepper-check fas fa-check"></i>
-                      <span className="stepper-number">1</span>
-                    </div>
-                    {/* end::Icon*/}
-
-                    {/* begin::Label*/}
-                    <div className="stepper-label">
-                      <h3 className="stepper-title">
-                        {intl.formatMessage({
-                          id: "LOGINANDREGISTRATION.REGISTRATIONSTEP1",
-                        })}
-                      </h3>
-
-                      <div className="stepper-desc fw-semibold">
-                        Setup Your Account Details
-                      </div>
-                    </div>
-                    {/* end::Label*/}
-                  </div>
-                  {/* end::Wrapper*/}
-
-                  {/* begin::Line*/}
-                  <div className="stepper-line h-40px"></div>
-                  {/* end::Line*/}
-                </div>
-                {/* end::Step 1*/}
-
-                {/* begin::Step 2*/}
-                <div className="stepper-item" data-kt-stepper-element="nav">
-                  {/* begin::Wrapper*/}
-                  <div className="stepper-wrapper">
-                    {/* begin::Icon*/}
-                    <div className="stepper-icon w-40px h-40px">
-                      <i className="stepper-check fas fa-check"></i>
-                      <span className="stepper-number">2</span>
-                    </div>
-                    {/* end::Icon*/}
-
-                    {/* begin::Label*/}
-                    <div className="stepper-label">
-                      <h3 className="stepper-title">
-                        {intl.formatMessage({
-                          id: "LOGINANDREGISTRATION.SEPAREGISTRATIONSTEP2",
-                        })}
-                      </h3>
-                      <div className="stepper-desc fw-semibold">
-                        Setup Your Account Settings
-                      </div>
-                    </div>
-                    {/* end::Label*/}
-                  </div>
-                  {/* end::Wrapper*/}
-
-                  {/* begin::Line*/}
-                  <div className="stepper-line h-40px"></div>
-                  {/* end::Line*/}
-                </div>
-                {/* end::Step 2*/}
-
-                {/* begin::Step 3*/}
-                <div className="stepper-item" data-kt-stepper-element="nav">
-                  {/* begin::Wrapper*/}
-                  <div className="stepper-wrapper">
-                    {/* begin::Icon*/}
-                    <div className="stepper-icon w-40px h-40px">
-                      <i className="stepper-check fas fa-check"></i>
-                      <span className="stepper-number">3</span>
-                    </div>
-                    {/* end::Icon*/}
-
-                    {/* begin::Label*/}
-                    <div className="stepper-label">
-                      <h3 className="stepper-title">
-                        {" "}
-                        {intl.formatMessage({
-                          id: "LOGINANDREGISTRATION.SEPAREGISTRATIONSTEP3",
-                        })}
-                      </h3>
-                      <div className="stepper-desc fw-semibold">
-                        Your Business Related Info
-                      </div>
-                    </div>
-                    {/* end::Label*/}
-                  </div>
-                  {/* end::Wrapper*/}
-
-                  {/* begin::Line*/}
-                  <div className="stepper-line h-40px"></div>
-                  {/* end::Line*/}
-                </div>
-                {/* end::Step 3*/}
-              </div>
-              {/* end::Nav*/}
-            </div>
-            {/* end::Wrapper*/}
+    <div
+      ref={stepperRef}
+      className="stepper stepper-pills stepper-column d-flex flex-column flex-xl-row flex-row-fluid"
+      id="kt_create_account_stepper"
+    >
+      {/* begin::Aside*/}
+      <div
+        style={{
+          backgroundImage: `url(${toAbsoluteUrl("media/auth/auth-bg.png")})`,
+        }}
+        className="card d-flex flex-center justify-content-center bgi-size-cover justify-content-xl-start flex-row-auto w-100 w-xl-500px w-xxl-400px me-9 pt-20"
+      >
+        {/* begin::header*/}
+        <div className="card-body px-20 px-lg-10 px-xxl-15 pt-20">
+          <div className="stepper-logo d-flex flex-center ">
+            <img
+              className="w-25 h-25"
+              src={sepaResponse.subscriberCompanyLogoUrl}
+              alt=""
+            />
           </div>
-          {/* begin::Aside*/}
 
-          <div className="d-flex flex-row-fluid flex-center bg-body rounded">
-            <Formik
-              validationSchema={currentSchema}
-              initialValues={initValues}
-              onSubmit={submitStep}
-            >
-              {() => (
-                <Form
-                  className=" w-100 w-xl-700px px-9"
-                  noValidate
-                  id="kt_create_account_form"
-                  placeholder={undefined}
+          {/* end::header*/}
+        </div>
+        {/* begin::Wrapper*/}
+        <div className="card-body  px-20 px-lg-10 px-xxl-15 py-20">
+          {/* begin::Nav*/}
+          <div className="stepper-nav">
+            {/* begin::Step 1*/}
+            <div className="stepper-item current" data-kt-stepper-element="nav">
+              {/* begin::Wrapper*/}
+              <div className="stepper-wrapper">
+                {/* begin::Icon*/}
+                <div
+                  className={`stepper-icon w-40px h-40px ${
+                    stepper ? "bg-success" : ""
+                  }`}
                 >
-                  <div className="current" data-kt-stepper-element="content">
-                    <Step1 sepaResponse={sepaResponse} />
+                  <i className="stepper-check fas fa-check text-success"></i>
+                  <span className="stepper-number ">1</span>
+                </div>
+                {/* end::Icon*/}
+
+                {/* begin::Label*/}
+                <div className="stepper-label">
+                  <h3 className="stepper-title">
+                    {intl.formatMessage({
+                      id: "LOGINANDREGISTRATION.REGISTRATIONSTEP1",
+                    })}
+                  </h3>
+
+                  <div className="stepper-desc fw-semibold">
+                    Setup Your Account Details
                   </div>
+                </div>
+                {/* end::Label*/}
+              </div>
+              {/* end::Wrapper*/}
 
-                  <div data-kt-stepper-element="content">
-                    <Step2 sepaResponse={sepaResponse} />
+              {/* begin::Line*/}
+              <div className="stepper-line h-40px"></div>
+              {/* end::Line*/}
+            </div>
+            {/* end::Step 1*/}
+
+            {/* begin::Step 2*/}
+            <div className="stepper-item" data-kt-stepper-element="nav">
+              {/* begin::Wrapper*/}
+              <div className="stepper-wrapper">
+                {/* begin::Icon*/}
+                <div className="stepper-icon w-40px h-40px">
+                  <i className="stepper-check fas fa-check text-success"></i>
+                  <span className="stepper-number">2</span>
+                </div>
+                {/* end::Icon*/}
+
+                {/* begin::Label*/}
+                <div className="stepper-label">
+                  <h3 className="stepper-title">
+                    {intl.formatMessage({
+                      id: "LOGINANDREGISTRATION.SEPAREGISTRATIONSTEP2",
+                    })}
+                  </h3>
+                  <div className="stepper-desc fw-semibold">
+                    Setup Your Account Settings
                   </div>
+                </div>
+                {/* end::Label*/}
+              </div>
+              {/* end::Wrapper*/}
 
-                  <div data-kt-stepper-element="content">
-                    <Step3 />
+              {/* begin::Line*/}
+              <div className="stepper-line h-40px"></div>
+              {/* end::Line*/}
+            </div>
+            {/* end::Step 2*/}
+
+            {/* begin::Step 3*/}
+            <div className="stepper-item" data-kt-stepper-element="nav">
+              {/* begin::Wrapper*/}
+              <div className="stepper-wrapper">
+                {/* begin::Icon*/}
+                <div className="stepper-icon w-40px h-40px">
+                  <i className="stepper-check fas fa-check text-success"></i>
+                  <span className="stepper-number">3</span>
+                </div>
+                {/* end::Icon*/}
+
+                {/* begin::Label*/}
+                <div className="stepper-label">
+                  <h3 className="stepper-title">
+                    {" "}
+                    {intl.formatMessage({
+                      id: "LOGINANDREGISTRATION.SEPAREGISTRATIONSTEP3",
+                    })}
+                  </h3>
+                  <div className="stepper-desc fw-semibold">
+                    Your Business Related Info
                   </div>
+                </div>
+                {/* end::Label*/}
+              </div>
+              {/* end::Wrapper*/}
 
-                  <div className="d-flex flex-stack">
-                    <div className="mr-2">
-                      <button
-                        onClick={prevStep}
-                        type="button"
-                        className="btn btn-lg btn-light-primary me-3"
-                        data-kt-stepper-action="previous"
-                      >
-                        <KTIcon iconName="arrow-left" className="fs-4 me-1" />
-                        {intl.formatMessage({
-                          id: "COMMON.WIZARDSTEPPREVIOUS",
-                        })}
-                      </button>
-                    </div>
+              {/* begin::Line*/}
+              <div className="stepper-line h-40px"></div>
+              {/* end::Line*/}
+            </div>
+            {/* end::Step 3*/}
+          </div>
+          {/* end::Nav*/}
+        </div>
+        {/* end::Wrapper*/}
+      </div>
+      {/* begin::Aside*/}
 
-                    <div>
-                      <button
-                        type="submit"
-                        className="btn btn-lg btn-primary me-3"
-                      >
-                        <span className="indicator-label align-items-center d-flex justify-center">
-                          {stepper?.currentStepIndex !==
-                          stepper?.totalStepsNumber
-                            ? intl.formatMessage({
-                                id: "COMMON.WIZARDSTEPNEXT",
-                              })
-                            : intl.formatMessage({
-                                id: "LOGINANDREGISTRATION.SEPABTNVERIFYONEXISTING",
-                              })}
-                          {/* {stepper?.currentStepIndex == 2 &&
+      <div className="d-flex flex-row-fluid flex-center bg-body">
+        <Formik
+          validationSchema={currentSchema}
+          initialValues={initValues}
+          onSubmit={submitStep}
+        >
+          {() => (
+            <Form
+              className=" w-100 w-xl-700px px-9"
+              noValidate
+              id="kt_create_account_form"
+              placeholder={undefined}
+            >
+              <div className="current" data-kt-stepper-element="content">
+                <Step1 sepaResponse={sepaResponse} />
+              </div>
+
+              <div data-kt-stepper-element="content">
+                <Step2 sepaResponse={sepaResponse} />
+              </div>
+
+              <div data-kt-stepper-element="content">
+                <Step3 />
+              </div>
+
+              <div className="d-flex flex-stack">
+                <div className="mr-2">
+                  <button
+                    onClick={prevStep}
+                    type="button"
+                    className="btn btn-lg btn-light-primary me-3"
+                    data-kt-stepper-action="previous"
+                  >
+                    <KTIcon iconName="arrow-left" className="fs-4 me-1" />
+                    {intl.formatMessage({
+                      id: "COMMON.WIZARDSTEPPREVIOUS",
+                    })}
+                  </button>
+                </div>
+
+                <div>
+                  <button type="submit" className="btn btn-lg btn-primary me-3">
+                    <span className="indicator-label align-items-center d-flex justify-center">
+                      {stepper?.currentStepIndex !== stepper?.totalStepsNumber
+                        ? intl.formatMessage({
+                            id: "COMMON.WIZARDSTEPNEXT",
+                          })
+                        : intl.formatMessage({
+                            id: "LOGINANDREGISTRATION.SEPABTNVERIFYONEXISTING",
+                          })}
+                      {/* {stepper?.currentStepIndex == 2 &&
                            
                             intl.formatMessage({
                               id: "COMMON.WIZARDSTEPNEXT",
@@ -375,21 +387,19 @@ const SepaValidation = () => {
                             intl.formatMessage({
                               id: "LOGINANDREGISTRATION.SEPABTNVERIFYONEXISTING",
                             })} */}
-                          <KTIcon
-                            iconName="arrow-right"
-                            className="fs-3 ms-2 me-0"
-                          />
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
-        </div>
-      </Content>
-    </>
+                      <KTIcon
+                        iconName="arrow-right"
+                        className="fs-3 ms-2 me-0"
+                      />
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </div>
   );
 };
 

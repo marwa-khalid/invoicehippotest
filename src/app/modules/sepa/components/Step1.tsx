@@ -27,7 +27,7 @@ const Step1 = (sepaResponse: Step1Props) => {
       </div>
       {/* end::Heading */}
       <p className="text-gray-500 mb-11">
-        {sepaResponse.sepaResponse.sepaIsAllreadyValidated
+        {sepaResponse.sepaResponse.clientHasActiveSepaMandate
           ? intl.formatMessage({
               id: "LOGINANDREGISTRATION.SEPAINTROONUPDATEEXISTING",
             })

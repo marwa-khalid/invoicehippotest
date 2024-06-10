@@ -54,110 +54,132 @@ const Login: FC = () => {
 
   return (
     <div>
-      <div className='text-end mb-5'>
-         <span className="text-gray-500 fw-bold fs-5 me-2" data-kt-translate="sign-in-head-desc"> {intl.formatMessage({id: 'LOGINANDREGISTRATION.SUBTITLELOGIN'})}</span>
-        <Link to='/registration' className='link-primary fw-bold fs-5'>
-          {intl.formatMessage({id: 'LOGINANDREGISTRATION.SUBTITLELINKLOGIN'})}
+      <div className="text-end mb-5">
+        <span
+          className="text-gray-500 fw-bold fs-5 me-2"
+          data-kt-translate="sign-in-head-desc"
+        >
+          {" "}
+          {intl.formatMessage({ id: "LOGINANDREGISTRATION.SUBTITLELOGIN" })}
+        </span>
+        <Link to="/registration" className="link-primary fw-bold fs-5">
+          {intl.formatMessage({ id: "LOGINANDREGISTRATION.SUBTITLELINKLOGIN" })}
         </Link>
-        
       </div>
 
       <form
-        className='form w-100 py-20'
+        className="form w-100 py-20"
         onSubmit={formik.handleSubmit}
         noValidate
-        id='kt_login_signin_form'
+        id="kt_login_signin_form"
       >
-
         {/* Large text: Sign In */}
-        <div className='text-start mb-5'>
-          <h1 className='text-gray-900 mb-3 fs-3x'> {intl.formatMessage({id: 'LOGINANDREGISTRATION.TITLELOGIN'})}</h1>
-          <div className='text-gray-500 fw-semibold fs-6 mb-10'>{intl.formatMessage({id: 'LOGINANDREGISTRATION.TITLELOGINSLOGAN'})}</div>
+        <div className="text-start mb-5">
+          <h1 className="text-gray-900 mb-3 fs-3x">
+            {" "}
+            {intl.formatMessage({ id: "LOGINANDREGISTRATION.TITLELOGIN" })}
+          </h1>
+          <div className="text-gray-500 fw-semibold fs-6 mb-10">
+            {intl.formatMessage({
+              id: "LOGINANDREGISTRATION.TITLELOGINSLOGAN",
+            })}
+          </div>
         </div>
 
         {/* Email and Password inputs */}
-        <div className=' rounded mb-5'>
-          <div className='fv-row mb-3'>
+        <div className=" rounded mb-5">
+          <div className="fv-row mb-3">
             <input
-              placeholder={intl.formatMessage({id: 'LOGINANDREGISTRATION.USERNAME'})}
-              {...formik.getFieldProps('email')}
+              placeholder={intl.formatMessage({
+                id: "LOGINANDREGISTRATION.USERNAME",
+              })}
+              {...formik.getFieldProps("email")}
               className={clsx(
-                'form-control bg-light border-0 mb-8',
-                {'is-invalid': formik.touched.email && formik.errors.email},
-                {'is-valid': formik.touched.email && !formik.errors.email},
-                
+                "form-control bg-light border-0 mb-8",
+                { "is-invalid": formik.touched.email && formik.errors.email },
+                { "is-valid": formik.touched.email && !formik.errors.email }
               )}
-              type='email'
-              name='email'
-              autoComplete='off'
+              type="email"
+              name="email"
+              autoComplete="off"
             />
             {formik.touched.email && formik.errors.email && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                <span role='alert'>{formik.errors.email}</span>
+              <div className="fv-plugins-message-container">
+                <div className="fv-help-block">
+                  <span role="alert">{formik.errors.email}</span>
                 </div>
               </div>
             )}
           </div>
 
-          <div className='fv-row mb-3'>
+          <div className="fv-row mb-3">
             <input
-              type='password'
-              placeholder={intl.formatMessage({id: 'LOGINANDREGISTRATION.PASSWORD'})}
-              {...formik.getFieldProps('password')}
+              type="password"
+              placeholder={intl.formatMessage({
+                id: "LOGINANDREGISTRATION.PASSWORD",
+              })}
+              {...formik.getFieldProps("password")}
               className={clsx(
-                'form-control form-control-solid bg-light border-0 mb-8',
-                {'is-invalid': formik.touched.password && formik.errors.password},
-                {'is-valid': formik.touched.password && !formik.errors.password}
+                "form-control form-control-solid bg-light border-0 mb-8",
+                {
+                  "is-invalid":
+                    formik.touched.password && formik.errors.password,
+                },
+                {
+                  "is-valid":
+                    formik.touched.password && !formik.errors.password,
+                }
               )}
             />
             {formik.touched.password && formik.errors.password && (
-              <div className='fv-plugins-message-container'>
-                <div className='fv-help-block'>
-                  <span role='alert'>{formik.errors.password}</span>
+              <div className="fv-plugins-message-container">
+                <div className="fv-help-block">
+                  <span role="alert">{formik.errors.password}</span>
                 </div>
               </div>
             )}
           </div>
 
           {/* Forgot Password link */}
-          <div className='text-end'>
-            <Link to='/forgot-password' className='link-primary'>
-              {intl.formatMessage({id: 'LOGINANDREGISTRATION.FORGOTPASSWORD'})}
+          <div className="text-end">
+            <Link to="/forgot-password" className="link-primary">
+              {intl.formatMessage({
+                id: "LOGINANDREGISTRATION.FORGOTPASSWORD",
+              })}
             </Link>
           </div>
         </div>
-        
-        <div className='d-flex justify-content-between align-items-center mb-5'>
-         
+
+        <div className="d-flex justify-content-between align-items-center mb-5">
           <button
-            type='submit'
-            id='kt_sign_in_submit'
-            className='btn btn-primary'
+            type="submit"
+            id="kt_sign_in_submit"
+            className="btn btn-primary"
             disabled={formik.isSubmitting || !formik.isValid}
           >
-            {!loading && <span className='indicator-label'>{intl.formatMessage({id: 'LOGINANDREGISTRATION.LOGINBUTTONTEXT'})}</span>}
+            {!loading && (
+              <span className="indicator-label">
+                {intl.formatMessage({
+                  id: "LOGINANDREGISTRATION.LOGINBUTTONTEXT",
+                })}
+              </span>
+            )}
             {loading && (
-              <span className='indicator-progress' style={{display: 'block'}}>
+              <span className="indicator-progress" style={{ display: "block" }}>
                 Please wait...
-                <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             )}
           </button>
-          <Languages/>
-
         </div>
-       
-       
+
         {/* <ToastContainer 
           position="top-center" 
           draggable
           /> */}
-          
       </form>
-      
+      <Languages />
     </div>
-
   );
 }
 
