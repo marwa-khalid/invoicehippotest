@@ -5,53 +5,67 @@ import { KTIcon } from "../../../../_metronic/helpers";
 import { SepaResult } from "../../auth";
 import { useIntl } from "react-intl";
 interface Step1Props {
-  sepaResponse: SepaResult; // Adjust the type according to your actual data structure
+  sepaResponse: SepaResult;
+  nextStep: () => void;
 }
-const Step1 = (sepaResponse: Step1Props) => {
+const Step1: React.FC<Step1Props> = ({ sepaResponse, nextStep }) => {
   const intl = useIntl();
+  const goToNext = () => {
+    nextStep();
+  };
   return (
-    <form
-      className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework py-20"
-      noValidate
-      id="kt_login_signup_form"
-    >
-      {/* begin::Heading */}
-      <div className="text-start mb-2">
-        {/* begin::Title */}
-        <h1 className="text-gray-900 mb-3 fs-2x">
-          {intl.formatMessage({
-            id: "LOGINANDREGISTRATION.SEPAINTROTITLE",
-          })}
-        </h1>
-        {/* end::Title */}
-      </div>
-      {/* end::Heading */}
-      <p className="text-gray-500 mb-11">
-        {sepaResponse.sepaResponse.clientHasActiveSepaMandate
-          ? intl.formatMessage({
-              id: "LOGINANDREGISTRATION.SEPAINTROONUPDATEEXISTING",
-            })
-          : intl.formatMessage({
-              id: "LOGINANDREGISTRATION.SEPAINTROONVERIFICATIONONNEW",
+    <div className="d-flex flex-column">
+      <form
+        className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework py-20"
+        noValidate
+        id="kt_login_signup_form"
+      >
+        {/* begin::Heading */}
+        <div className="text-start mb-2">
+          {/* begin::Title */}
+          <h1 className="text-gray-900 mb-3 fs-2x">
+            {intl.formatMessage({
+              id: "LOGINANDREGISTRATION.SEPAINTROTITLE",
             })}
-      </p>
+          </h1>
+          {/* end::Title */}
+        </div>
+        {/* end::Heading */}
+        <p className="text-gray-500 mb-11">
+          {sepaResponse.clientHasActiveSepaMandate
+            ? intl.formatMessage({
+                id: "LOGINANDREGISTRATION.SEPAINTROONUPDATEEXISTING",
+              })
+            : intl.formatMessage({
+                id: "LOGINANDREGISTRATION.SEPAINTROONVERIFICATIONONNEW",
+              })}
+        </p>
 
-      <div className="text-start mb-2">
-        {/* begin::Title */}
-        <h1 className="text-gray-900 mb-3 fs-sm">
-          {intl.formatMessage({
-            id: "LOGINANDREGISTRATION.SEPAINTROTITLE",
-          })}
-        </h1>
-        {/* end::Title */}
+        <div className="text-start mb-2">
+          {/* begin::Title */}
+          <h1 className="text-gray-900 mb-3 fs-sm">
+            {intl.formatMessage({
+              id: "LOGINANDREGISTRATION.SEPAINTROTITLE",
+            })}
+          </h1>
+          {/* end::Title */}
+        </div>
+
+        <p className="text-gray-500">{sepaResponse?.subscriptionDescription}</p>
+
+        {/* end::Login options */}
+      </form>
+      <div>
+        <button onClick={goToNext} className="btn btn-lg btn-primary me-3">
+          <span className="indicator-label align-items-center d-flex justify-center">
+            {intl.formatMessage({
+              id: "COMMON.WIZARDSTEPNEXT",
+            })}
+            <KTIcon iconName="arrow-right" className="fs-3 ms-2 me-0" />
+          </span>
+        </button>
       </div>
-
-      <p className="text-gray-500">
-        {sepaResponse?.sepaResponse?.subscriptionDescription}
-      </p>
-
-      {/* end::Login options */}
-    </form>
+    </div>
   );
 };
 
