@@ -31,15 +31,23 @@ const Step1: React.FC<Step1Props> = ({ sepaResponse, nextStep }) => {
           {/* end::Title */}
         </div>
         {/* end::Heading */}
-        <p className="text-gray-500 mb-11">
-          {sepaResponse.clientHasActiveSepaMandate
-            ? intl.formatMessage({
-                id: "LOGINANDREGISTRATION.SEPAINTROONUPDATEEXISTING",
-              })
-            : intl.formatMessage({
-                id: "LOGINANDREGISTRATION.SEPAINTROONVERIFICATIONONNEW",
-              })}
-        </p>
+        <p
+          className="text-gray-500 mb-11"
+          dangerouslySetInnerHTML={{
+            __html: sepaResponse.clientHasActiveSepaMandate
+              ? intl
+                  .formatMessage({
+                    id: "LOGINANDREGISTRATION.SEPAINTROONUPDATEEXISTING",
+                  })
+                  .replace(
+                    "{0}",
+                    `<strong>${sepaResponse.companyName}</strong>`
+                  )
+              : intl.formatMessage({
+                  id: "LOGINANDREGISTRATION.SEPAINTROONVERIFICATIONONNEW",
+                }),
+          }}
+        />
 
         <div className="text-start mb-2">
           {/* begin::Title */}

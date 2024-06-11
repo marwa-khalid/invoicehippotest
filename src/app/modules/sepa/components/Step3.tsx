@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-
-import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { KTIcon } from "../../../../_metronic/helpers";
 import { SepaResult } from "../../auth";
+import { ConditionsModal } from "./ConditionsModal";
 
 interface Step3Props {
   sepaResponse: SepaResult;
@@ -31,6 +30,7 @@ const Step3: React.FC<Step3Props> = ({
   // const test = localStorage.getItem("sepaValues");
   // const storedValuess = JSON.parse(test);
   const [storedValues, setStoredValues] = useState<StoredValues>({});
+  const [isModalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const getValues = () => {
@@ -43,7 +43,15 @@ const Step3: React.FC<Step3Props> = ({
       setStoredValues(storedValues);
     };
     getValues();
-  }, [refreshKey]);
+  }, [storedValues]);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   console.log(storedValues);
   return (
@@ -124,6 +132,14 @@ const Step3: React.FC<Step3Props> = ({
         </tbody>
       </table>
 
+      {isModalOpen && (
+        <ConditionsModal
+          show={isModalOpen}
+          handleClose={closeModal}
+          companyName={sepaResponse.companyName}
+        />
+      )}
+
       <div className="text-start  mb-2">
         {/* begin::Title */}
         <h1 className="text-gray-900 mb-3 fs-xl">
@@ -134,9 +150,36 @@ const Step3: React.FC<Step3Props> = ({
         </h1>
         {/* end::Title */}
       </div>
-      <div className="flex items-center bg-light-primary p-4 rounded-lg">
+      <div className="d-flex items-center flex-row bg-light-primary p-5 rounded-lg">
         {/* Exclamation Icon */}
-        <KTIcon iconName="ki-duotone ki-information text-primary" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="50"
+          height="50"
+          viewBox="0 0 24 24"
+          className="bg-blue-500 rounded-full me-5"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="white"
+            strokeWidth="0"
+            fill="#1b84ff"
+          />
+          <text
+            x="50%"
+            y="50%"
+            dominantBaseline="middle"
+            textAnchor="middle"
+            fontSize="16"
+            fill="white"
+            fontFamily="monospace"
+            fontWeight="bold"
+          >
+            i
+          </text>
+        </svg>
 
         {/* Paragraph Text */}
         <p className="text-primary text-base">
@@ -146,8 +189,26 @@ const Step3: React.FC<Step3Props> = ({
         </p>
       </div>
 
+      <label className="form-check form-switch form-check-custom form-check-solid mt-4">
+        <input className="form-check-input" type="checkbox" value="1" />
+        <span className="form-check-label fw-semibold text-muted me-1">
+          {intl.formatMessage({
+            id: "FIELDS.TABSETTINGSAGREE",
+          })}
+        </span>
+        <Link
+          to="#"
+          onClick={() => openModal()}
+          className="text-primary cursor-pointer "
+        >
+          {intl.formatMessage({
+            id: "FIELDS.TABSETTINGSGENERALCONDITIONS",
+          })}
+        </Link>
+      </label>
+
       {/* end::Login options */}
-      <div className="d-flex flex-stack">
+      <div className="d-flex flex-stack mt-11">
         <div className="mr-2">
           <button
             onClick={prevStep}
@@ -165,7 +226,7 @@ const Step3: React.FC<Step3Props> = ({
           <button onClick={nextStep} className="btn btn-lg btn-primary me-3">
             <span className="indicator-label align-items-center d-flex justify-center">
               {intl.formatMessage({
-                id: "LOGINANDREGISTRATION.SEPABTNVERIFYONEXISTING",
+                id: "LOGINANDREGISTRATION.SEPABTNVERIFYONNEW",
               })}
               <KTIcon iconName="arrow-right" className="fs-3 ms-2 me-0" />
             </span>

@@ -1751,6 +1751,7 @@
   "FIELDS.SUMMARYTOTALQUOTES": "Delete",
   "FIELDS.TABSETTINGSCOMMON": "General",
   "FIELDS.TABSETTINGSTEMPLATE": "Template",
+  "FIELDS.TABSETTINGSAGREE": "I agree with the",
   "FIELDS.TABSETTINGSGENERALCONDITIONS": "General Conditions",
   "FIELDS.ANNUALSTARTINDEX": "annual starting index",
   "FIELDS.ANNUALSTARTINDEXINFO": "This is the first number assigned to your first final invoice/quote. Every year the count starts again with this number as the start!",
@@ -1788,6 +1789,7 @@
   "FIELDS.FILEPICKERTEMPLATEDEFAULT": "default template",
   "FIELDS.FILEPICKERTEMPLATECREDITNOTA": "credit note template",
   "FIELDS.FILEPICKERTEMPLATESUBSCRIPTIONS": "subscription template",
+
   "FIELDS.FILEPICKERTEMPLATETERMSANDCONDITIONS": "terms and conditions",
   "FIELDS.FILEPICKERTEMPLATEEXTRA": "extra attachment",
   "FIELDS.FILEPICKERSELECTSINGLEDOCUMENT": "select a document",
@@ -1992,6 +1994,7 @@
   "LOGINANDREGISTRATION.SEPAINTROTITLE": "Permission details",
   "LOGINANDREGISTRATION.SEPAPERIODINFOTITLE": "Payment moment(s)",
   "LOGINANDREGISTRATION.SEPAACCEPTTERMSANDCONDITIONS": "You authorize \u003cstrong\u003e {0} \u003c/strong\u003e to send standing direct debit orders to your bank to debit an amount from your account and to your bank to debit an amount from your account continuously in accordance with the instruction from \u003cstrong\u003e {0} \u003c/strong\u003e. If you do not agree with this debit, you can have it reversed. Please contact your bank within 8 weeks after the debit. Ask your bank for the conditions.",
+  "LOGINANDREGISTRATION.SEPASTEP3MODALTITLE": "SEPA Authorization",
   "LOGINANDREGISTRATION.SEPAINTROONNEW": "With the form below you can agree to the authorization below. After approval, Mollie Payments will collect money from your account once or periodically on behalf of \u003cstrong\u003e{0}\u003c/strong\u003e.",
   "LOGINANDREGISTRATION.SEPAINTROONUPDATEEXISTING": "Dear customer, you already have a current SEPA authorization with us. With the form below you can approve the new direct debit. After approval, Mollie Payments will collect money from your account once or periodically on behalf of \u003cstrong\u003e {0} \u003c/strong\u003e.",
   "LOGINANDREGISTRATION.SEPAINTROONVERIFICATIONONNEW": "To retrieve and verify your account or credit card number, we ask you to make a payment of € 0.01 (iDEAL, KBC, Belfius, Creditcard).",
