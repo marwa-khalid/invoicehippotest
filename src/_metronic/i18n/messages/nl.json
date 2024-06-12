@@ -1994,8 +1994,8 @@
   "LOGINANDREGISTRATION.SEPAINTROSUBTITLE": "incassofrequentie",
   "LOGINANDREGISTRATION.SEPAPERIODINFOTITLE": "Betaalmoment(en)",
   "LOGINANDREGISTRATION.SEPAACCEPTTERMSANDCONDITIONS": "Je geeft toestemming aan \u003cstrong\u003e{0}\u003c/strong\u003e om doorlopende incasso-opdrachten te sturen naar jouw bank om een bedrag van jouw rekening af te schrijven en aan jouw bank om doorlopend een bedrag van jouw rekening af te schrijven overeenkomstig de opdracht van \u003cstrong\u003e{0}\u003c/strong\u003e. Als je het niet eens bent met deze afschrijving kunt u deze laten terugboeken. Neem hiervoor binnen 8 weken na afschrijving contact op met jouw bank. Vraag jouw bank naar de voorwaarden.",
-  "LOGINANDREGISTRATION.SEPASTEP3MODALTITLE":"SEPA Machtiging"
-  ,"LOGINANDREGISTRATION.SEPAINTROONNEW": "Met het onderstaande formulier kun je een akkoord geven op de onderstaande machtiging. Na goedkeuring zal Mollie Payments in opdracht van \u003cstrong\u003e{0}\u003c/strong\u003e eenmalig of periodiek gelden van je rekening incasseren.",
+  "LOGINANDREGISTRATION.SEPASTEP3MODALTITLE": "SEPA Machtiging",
+  "LOGINANDREGISTRATION.SEPAINTROONNEW": "Met het onderstaande formulier kun je een akkoord geven op de onderstaande machtiging. Na goedkeuring zal Mollie Payments in opdracht van \u003cstrong\u003e{0}\u003c/strong\u003e eenmalig of periodiek gelden van je rekening incasseren.",
   "LOGINANDREGISTRATION.SEPAINTROONUPDATEEXISTING": "Beste klant, je hebt bij ons al een lopende SEPA machtiging lopen. Met het onderstaande formulier kun je een akkoord geven op de nieuwe incasso. Na goedkeuring zal Mollie Payments in opdracht van \u003cstrong\u003e{0}\u003c/strong\u003e eenmalig of periodiek gelden van je rekening incasseren.",
   "LOGINANDREGISTRATION.SEPAINTROONVERIFICATIONONNEW": "Om jouw rekening- of creditcard nummer op te halen en te verifiëren vragen wij jou een betaling van € 0,01 (iDEAL, KBC, Belfius, Creditcard) te doen.",
   "LOGINANDREGISTRATION.SEPABTNVERIFYONNEW": "Akkoord \u0026 Betalingswijze Verifiëren",

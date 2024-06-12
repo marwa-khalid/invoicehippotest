@@ -64,7 +64,7 @@ const SepaValidation = () => {
   const odata = query.get("odata");
   const reset_email = localStorage.getItem("reset_email");
   const [refreshKey, setRefreshKey] = useState(false);
-
+  let num = 1;
   useEffect(() => {
     const checkOdata = async () => {
       const response = await checkSepaOdata(odata);
@@ -78,6 +78,7 @@ const SepaValidation = () => {
 
       handleToast(response);
     };
+
     checkOdata();
   }, []);
 
@@ -123,11 +124,11 @@ const SepaValidation = () => {
     >
       {/* begin::Aside*/}
       <div
-        className="d-flex flex-center flex-column justify-content-center bgi-size-cover justify-content-start w-100 w-xl-500px w-xxl-400px vh-100 pt-20"
+        className="d-flex flex-center flex-column justify-content-center bgi-size-cover justify-content-start w-100 w-xl-500px w-xxl-400px pt-20 overflow-auto"
         style={{
           backgroundImage: `url(${toAbsoluteUrl("media/auth/auth-bg.png")})`,
-          overflow: "auto",
           position: "relative",
+          height: "100vh",
         }}
       >
         {/* begin::header*/}
@@ -292,11 +293,8 @@ const SepaValidation = () => {
       </div>
       {/* begin::Aside*/}
 
-      <div
-        className="d-flex flex-row-fluid flex-center bg-body p-100 "
-        // style={{ overflowY: "scroll" }}
-      >
-        <div className=" w-100 w-xl-700px px-9" id="kt_create_account_form">
+      <div className="d-flex flex-row-fluid  bg-body pt-50 vh-100 overflow-auto">
+        <div className=" w-100 w-xl-700px px-20" id="kt_create_account_form">
           <div className="current" data-kt-stepper-element="content">
             <Step1 sepaResponse={sepaResponse} nextStep={nextStep} />
           </div>

@@ -5,6 +5,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { SepaResult } from "../../auth";
 import { KTIcon } from "../../../../_metronic/helpers";
+
+import { createAccountSchemas } from "./CreateAccountWizardHelper";
+
 interface Step2Props {
   sepaResponse: SepaResult;
   prevStep: () => void;
@@ -12,31 +15,7 @@ interface Step2Props {
   setRefreshKey: (key: boolean) => void;
 }
 
-const validationSchema = Yup.object().shape({
-  companyName: Yup.string()
-    .required("Company Name is required for businesses")
-    .label("Company Name"),
-  kvkNumber: Yup.string().label("KVK Number"),
-  btwNumber: Yup.string().label("BTW Number"),
-  firstName: Yup.string()
-    .required("First Name is required")
-    .label("First Name"),
-  betweenName: Yup.string().label("Between Name"),
-  lastName: Yup.string().required("Last Name is required").label("Last Name"),
-  ibanNumber: Yup.string()
-    .required("IBAN is required")
-    .matches(
-      /^([A-Z]{2}[0-9]{2})(?:[ ]?[0-9A-Z]{4}){3}(?:[ ]?[0-9A-Z]{1,2})?$/,
-      "Invalid IBAN format"
-    )
-    .label("IBAN"),
-  emailAddress: Yup.string()
-    .email("Invalid email address format")
-    .label("Email Address")
-    .min(3, "Minimum 3 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("E-mail is vereist"),
-});
+
 
 const Step2: React.FC<Step2Props> = ({
   sepaResponse,
@@ -45,6 +24,31 @@ const Step2: React.FC<Step2Props> = ({
   setRefreshKey,
 }) => {
   const intl = useIntl();
+  const validationSchema = Yup.object().shape({
+    ...(sepaResponse.isBusiness
+      ? {
+          companyName: Yup.string().required(
+            "Company Name is required for businesses"
+          ),
+        }
+      : {}),
+    // kvknr: Yup.string().label("KVK Number"), // Optional or use when if conditionally required
+    // btwnr: Yup.string().label("BTW Number"), // Optional or use when if conditionally required
+    firstName: Yup.string().required("First Name is required"),
+    betweenName: Yup.string().label("Between Name"),
+    lastName: Yup.string().required("Last Name is required"),
+    ibanNumber: Yup.string()
+      .required("IBAN is required")
+      .matches(
+        /^([A-Z]{2}[0-9]{2})(?:[ ]?[0-9A-Z]{4}){3}(?:[ ]?[0-9A-Z]{1,2})?$/,
+        "Invalid IBAN format"
+      ),
+    emailAddress: Yup.string()
+      .email("Invalid email address format")
+      .min(3, "Minimum 3 symbols")
+      .max(50, "Maximum 50 symbols")
+      .required("E-mail is required"),
+  });
   const initialValues = {
     companyName: sepaResponse.companyName || "", // Use sepaResponse value if available
     kvknr: "",
@@ -54,12 +58,11 @@ const Step2: React.FC<Step2Props> = ({
     lastName: "",
     ibanNumber: sepaResponse.ibanNumber || "",
     emailAddress: sepaResponse.emailAddress || "",
+    isBusiness: sepaResponse.isBusiness,
   };
   // Initialize Formik
   const formik = useFormik({
-    initialValues: {
-      ...initialValues,
-    },
+    initialValues,
     validationSchema,
 
     onSubmit: (values) => {
@@ -142,8 +145,8 @@ const Step2: React.FC<Step2Props> = ({
       )}
 
       {sepaResponse.isBusiness && (
-        <div className="row mb-10">
-          <div className="col-xl-6">
+        <div className="row mb-10 ">
+          <div className="col-xl-6 mb-6 xl:mb-0">
             <label className="fw-bold mb-3">
               {intl.formatMessage({
                 id: "FIELDS.KVKNR",
@@ -213,7 +216,7 @@ const Step2: React.FC<Step2Props> = ({
       )}
 
       <div className="row mb-10">
-        <div className="col-xl-4">
+        <div className="col-xl-4 mb-6 xl:mb-0">
           <label className="fw-bold mb-3">
             {intl.formatMessage({
               id: "FIELDS.FIRSTNAME",
@@ -249,7 +252,7 @@ const Step2: React.FC<Step2Props> = ({
           )}
         </div>
         {/* Between Name */}
-        <div className="col-xl-3">
+        <div className="col-xl-3 mb-6 xl:mb-0">
           <label className="fw-bold mb-3">
             {intl.formatMessage({
               id: "FIELDS.BETWEENNAME",

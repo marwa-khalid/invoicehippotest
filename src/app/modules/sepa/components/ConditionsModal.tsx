@@ -31,7 +31,7 @@ const ConditionsModal: React.FC<Props> = ({
               .formatMessage({
                 id: "LOGINANDREGISTRATION.SEPAACCEPTTERMSANDCONDITIONS",
               })
-              .replace(/{0}/g, `<strong>${companyName}</strong>`),
+              .replace("{0}", `${companyName}`),
           }}
         />
       </Modal.Body>

@@ -1,25 +1,26 @@
 import * as Yup from "yup";
 
 export interface ICreateAccount {
-  companyName?: string;
-  kvknr?: string;
-  btwnr?: string;
+  companyName: string;
+  kvknr: string;
+  btwnr: string;
   firstName: string;
-  betweenName?: string;
+  betweenName: string;
   lastName: string;
   ibanNumber: string;
   emailAddress: string;
+  isBusiness: boolean;
 }
 
 const createAccountSchemas = [
-  // Step 2: Business and Personal Information
   Yup.object().shape({
-    companyName: Yup.string()
-      .required("Company Name is required for businesses")
-      .label("Company Name"),
-    kvkNumber: Yup.string()
-      .required("KVK Number is required for businesses")
-      .label("KVK Number"),
+    companyName: Yup.string().when("isBusiness", {
+      is: true,
+      then: (schema) =>
+        schema.required("Company Name is required for businesses"),
+      otherwise: (schema) => schema.optional(), // Not required if not a business
+    }),
+    kvkNumber: Yup.string().label("KVK Number"),
     btwNumber: Yup.string().label("BTW Number"),
     firstName: Yup.string()
       .required("First Name is required")
@@ -43,15 +44,15 @@ const createAccountSchemas = [
 ];
 
 const inits: ICreateAccount = {
-  companyName: "Keenthemes Inc.", // Only for business accounts
-  kvknr: "12345678", // Company registration number
-  btwnr: "NL123456789B01", // Tax identification number
-  firstName: "John",
+  companyName: "", // Only for business accounts
+  kvknr: "", // Company registration number
+  btwnr: "", // Tax identification number
+  firstName: "",
   betweenName: "", // Optional field
-  lastName: "Doe",
-  ibanNumber: "NL91ABNA0417164300", // Example IBAN
-  emailAddress: "john.doe@example.com",
+  lastName: "",
+  ibanNumber: "", // Example IBAN
+  emailAddress: "",
+  isBusiness: false,
 };
-
 
 export { createAccountSchemas, inits };

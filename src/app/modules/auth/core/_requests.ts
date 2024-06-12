@@ -1,11 +1,20 @@
-import { AuthModel, UserModel, PasswordResetModel, SepaModel } from "./_models";
+import {
+  AuthModel,
+  UserModel,
+  PasswordResetModel,
+  SepaModel,
+  SepaResult,
+} from "./_models";
+import { ICreateAccount } from "../../sepa/components/CreateAccountWizardHelper";
+interface StoredValues extends Partial<ICreateAccount> {}
+
 import {
   LOGIN_URL,
   REQUEST_PASSWORD_URL,
   GET_PROFILE_INFO,
   REDIRECT_URL_V1,
   CHANGE_PASSWORD,
-  ODATA_VALIDATION,
+  SEPA_CONFIRM,
 } from "./constants";
 import { postRequest, getRequest } from "./_apiservice";
 // Login request
@@ -67,5 +76,31 @@ export function getProfileInfo() {
 }
 
 export function checkSepaOdata(odata: string | null) {
-  return getRequest<SepaModel>(`${ODATA_VALIDATION}${odata}`, false);
+  return getRequest<SepaModel>(`${SEPA_CONFIRM}?odata=${odata}`, false);
+}
+
+export function sepaRegisterConfirm(
+  sepaResponse: SepaResult,
+  formData: StoredValues,
+  isConsentGiven: boolean
+) {
+  return postRequest<SepaModel>(
+    SEPA_CONFIRM,
+    {
+      id: sepaResponse.id,
+      taskId: sepaResponse.taskId,
+      companyName: formData.companyName,
+      emailAddress: formData.emailAddress,
+      btwNumber: formData.btwnr,
+      registrationNumber: sepaResponse.registrationNumber,
+      ibanNumber: formData.ibanNumber,
+      firstName: formData.firstName,
+      betweenName: formData.betweenName,
+      lastName: formData.lastName,
+      isConsentGiven: true,
+      isBusiness: sepaResponse.isBusiness,
+      clientHasActiveSepaMandate: sepaResponse.clientHasActiveSepaMandate,
+    },
+    false
+  );
 }

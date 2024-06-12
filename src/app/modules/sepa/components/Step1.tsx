@@ -13,8 +13,9 @@ const Step1: React.FC<Step1Props> = ({ sepaResponse, nextStep }) => {
   const goToNext = () => {
     nextStep();
   };
+  
   return (
-    <div className="d-flex flex-column">
+    <div className="d-flex flex-column pt-20">
       <form
         className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework py-20"
         noValidate
@@ -63,7 +64,7 @@ const Step1: React.FC<Step1Props> = ({ sepaResponse, nextStep }) => {
 
         {/* end::Login options */}
       </form>
-      <div>
+      <div className="d-flex flex-end">
         <button onClick={goToNext} className="btn btn-lg btn-primary me-3">
           <span className="indicator-label align-items-center d-flex justify-center">
             {intl.formatMessage({
