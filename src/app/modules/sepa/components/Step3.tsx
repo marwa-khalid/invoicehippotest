@@ -59,21 +59,6 @@ const Step3: React.FC<Step3Props> = ({
     setModalOpen(false);
   };
 
-  const submitSepa = async () => {
-    console.log(sepaResponse);
-    console.log(storedValues);
-    const sepaConfirm = await sepaRegisterConfirm(
-      sepaResponse,
-      storedValues,
-      isConsentGiven
-    );
-    if (sepaConfirm.isValid) {
-      navigate("/");
-    }
-
-    console.log(sepaConfirm);
-    handleToast(sepaConfirm);
-  };
   const formik = useFormik({
     initialValues: {
       isConsentGiven: false,
@@ -89,8 +74,20 @@ const Step3: React.FC<Step3Props> = ({
       console.log(sepaConfirm);
       handleToast(sepaConfirm);
       if (sepaConfirm.isValid) {
-        console.log(sepaConfirm);
-        navigate("/");
+        if (sepaConfirm.result.paymentRedirectUrl) {
+          window.location.href = sepaConfirm.result.paymentRedirectUrl;
+        } else {
+          localStorage.setItem(
+            "supportEmail",
+            sepaResponse.subscriberCompanySupportEmailAddress
+          );
+          if (typeof storedValues.firstName !== "undefined") {
+            localStorage.setItem("firstName", storedValues.firstName);
+          }
+          navigate("/sepa/validate/success");
+        }
+      } else {
+        handleToast(sepaConfirm);
       }
     },
   });
@@ -107,7 +104,7 @@ const Step3: React.FC<Step3Props> = ({
         {/* begin::Title */}
         <h1 className="text-gray-900 mb-3 fs-2x">
           {intl.formatMessage({
-            id: "LOGINANDREGISTRATION.REGISTRATIONSTEP3",
+            id: "LoginAndRegistration.RegistrationStep3",
           })}
         </h1>
         {/* end::Title */}
@@ -117,7 +114,7 @@ const Step3: React.FC<Step3Props> = ({
         data-kt-translate="general-desc"
       >
         {intl.formatMessage({
-          id: "LOGINANDREGISTRATION.SEPAREGISTRATIONSTEP3SUBTITLE",
+          id: "LoginAndRegistration.SepaRegistrationStep3SubTitle",
         })}
       </div>
 
@@ -127,7 +124,7 @@ const Step3: React.FC<Step3Props> = ({
         {/* begin::Title */}
         <h1 className="text-gray-900 mb-3 fs-sm">
           {intl.formatMessage({
-            id: "LOGINANDREGISTRATION.SEPAINTROSUBTITLE",
+            id: "LoginAndRegistration.SepaRegistrationStep3Heading1",
           })}
           :
         </h1>
@@ -142,7 +139,7 @@ const Step3: React.FC<Step3Props> = ({
         {/* begin::Title */}
         <h1 className="text-gray-900 mb-3 fs-xl">
           {intl.formatMessage({
-            id: "LOGINANDREGISTRATION.SEPAREGISTRATIONSTEP3Sub",
+            id: "LoginAndRegistration.SepaRegistrationStep3Heading2",
           })}
           :
         </h1>
@@ -152,16 +149,16 @@ const Step3: React.FC<Step3Props> = ({
       <table className="table table-borderless mb-6">
         <tbody>
           {sepaResponse.isBusiness && (
-            <tr>
-              <td className="text-gray-500 fw-bold">
-                {intl.formatMessage({ id: "FIELDS.COMPANYNAME" })}:
+            <tr className="space-x-2">
+              <td className="text-gray-500 fw-bold ">
+                {intl.formatMessage({ id: "Fields.CompanyName" })}:
               </td>
               <td className="text-gray-500">{sepaResponse.companyName}</td>
             </tr>
           )}
           <tr>
             <td className="text-gray-500 fw-bold">
-              {intl.formatMessage({ id: "FIELDS.FULLNAME" })}:
+              {intl.formatMessage({ id: "Fields.FullName" })}:
             </td>
             <td className="text-gray-500">
               {`${storedValues.firstName} ${storedValues.betweenName} ${storedValues.lastName}`.trim()}
@@ -169,13 +166,13 @@ const Step3: React.FC<Step3Props> = ({
           </tr>
           <tr>
             <td className="text-gray-500 fw-bold">
-              {intl.formatMessage({ id: "FIELDS.ACCOUNTNRIBAN" })}:
+              {intl.formatMessage({ id: "Fields.AccountNrIBAN" })}:
             </td>
             <td className="text-gray-500">{storedValues.ibanNumber}</td>
           </tr>
           <tr>
             <td className="text-gray-500 fw-bold">
-              {intl.formatMessage({ id: "FIELDS.EMAILADDRESS" })}:
+              {intl.formatMessage({ id: "Fields.EmailAddress" })}:
             </td>
             <td className="text-gray-500">{storedValues.emailAddress}</td>
           </tr>
@@ -189,13 +186,13 @@ const Step3: React.FC<Step3Props> = ({
           companyName={sepaResponse.companyName}
         />
       )}
-      {sepaResponse.isBusiness && (
+      {/* {sepaResponse.isBusiness && ( */}
         <>
           <div className="text-start  mb-2">
             {/* begin::Title */}
             <h1 className="text-gray-900 mb-3 fs-xl">
               {intl.formatMessage({
-                id: "FIELDS.PERMISSION",
+                id: "LoginAndRegistration.SepaRegistrationStep3Heading3",
               })}
               :
             </h1>
@@ -235,7 +232,7 @@ const Step3: React.FC<Step3Props> = ({
             {/* Paragraph Text */}
             <p className="text-primary text-base">
               {intl.formatMessage({
-                id: "LOGINANDREGISTRATION.SEPAINTROONVERIFICATIONONNEW",
+                id: "LoginAndRegistration.SepaIntroOnVerificationOnNew",
               })}
             </p>
           </div>
@@ -248,23 +245,19 @@ const Step3: React.FC<Step3Props> = ({
               checked={isConsentGiven}
               onChange={() => setConsentGiven(!isConsentGiven)}
             />
-            <span className="form-check-label fw-semibold text-muted me-1">
-              {intl.formatMessage({
-                id: "FIELDS.TABSETTINGSAGREE",
-              })}
-            </span>
             <Link
-              to="#"
               onClick={() => openModal()}
-              className="text-primary cursor-pointer underline"
-            >
-              {intl.formatMessage({
-                id: "FIELDS.TABSETTINGSGENERALCONDITIONS",
-              })}
-            </Link>
+              to="#"
+              className="cursor-pointer ms-3"
+              dangerouslySetInnerHTML={{
+                __html: intl.formatMessage({
+                  id: "LoginAndRegistration.SepaRegistrationStep3Agreement",
+                }),
+              }}
+            ></Link>
           </label>
         </>
-      )}
+      {/* )} */}
 
       {/* end::Login options */}
       <div className="d-flex flex-stack mt-11">
@@ -277,7 +270,7 @@ const Step3: React.FC<Step3Props> = ({
           >
             <KTIcon iconName="arrow-left" className="fs-4 me-1" />
             {intl.formatMessage({
-              id: "COMMON.WIZARDSTEPPREVIOUS",
+              id: "Common.WizardStepPrevious",
             })}
           </button>
         </div>
@@ -289,7 +282,7 @@ const Step3: React.FC<Step3Props> = ({
           >
             <span className="indicator-label align-items-center d-flex justify-center">
               {intl.formatMessage({
-                id: "LOGINANDREGISTRATION.SEPABTNVERIFYONNEW",
+                id: "LoginAndRegistration.SepaBtnVerifyOnNew",
               })}
               <KTIcon iconName="arrow-right" className="fs-3 ms-2 me-0" />
             </span>

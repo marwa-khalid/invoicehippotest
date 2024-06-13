@@ -19,7 +19,7 @@ const ConditionsModal: React.FC<Props> = ({
       <Modal.Header closeButton className="bg-primary">
         <Modal.Title className=" text-white">
           {intl.formatMessage({
-            id: "LOGINANDREGISTRATION.SEPASTEP3MODALTITLE",
+            id: "LoginAndRegistration.SepaRegistrationStep3AgreementModalTitle",
           })}
         </Modal.Title>
       </Modal.Header>
@@ -29,16 +29,16 @@ const ConditionsModal: React.FC<Props> = ({
           dangerouslySetInnerHTML={{
             __html: intl
               .formatMessage({
-                id: "LOGINANDREGISTRATION.SEPAACCEPTTERMSANDCONDITIONS",
+                id: "LoginAndRegistration.SepaAcceptTermsAndConditions",
               })
-              .replace("{0}", `${companyName}`),
+              .replace(/\{0\}/g, `${companyName}`),
           }}
         />
       </Modal.Body>
       <Modal.Footer>
         <Button className="btn btn-light-primary" onClick={handleClose}>
           {intl.formatMessage({
-            id: "FIELDS.ACTIONCLOSE",
+            id: "Fields.ActionClose",
           })}
         </Button>
       </Modal.Footer>

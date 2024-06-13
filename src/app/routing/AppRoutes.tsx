@@ -5,6 +5,8 @@ import { ErrorsPage } from "../modules/errors/ErrorsPage";
 import { Logout, AuthPage, useAuth } from "../modules/auth";
 import { App } from "../App";
 import { SepaValidation } from "../modules/sepa/SepaValidation";
+import { ClientSuccessPage } from "../modules/sepa/components/ClientSuccessPage";
+import { PaymentFailurePage } from "../modules/sepa/components/PaymentFailurePage";
 
 const { BASE_URL } = import.meta.env;
 
@@ -18,6 +20,11 @@ const AppRoutes: FC = () => {
           <Route path="error/*" element={<ErrorsPage />} />
           <Route path="logout" element={<Logout />} />
           <Route path="/sepa/validate" element={<SepaValidation />} />
+          <Route
+            path="/sepa/validate/success"
+            element={<ClientSuccessPage />}
+          />
+          <Route path="/payment/validate" element={<PaymentFailurePage />} />
 
           {currentUser ? (
             <>

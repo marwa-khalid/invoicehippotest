@@ -52,6 +52,8 @@ const SepaValidation = () => {
     hasVatNumber: false,
     hasRegistrationNumber: false,
     fullName: "",
+    paymentRedirectUrl: "",
+    resultType: 1,
   };
 
   // Set this as the initial state
@@ -133,13 +135,15 @@ const SepaValidation = () => {
       >
         {/* begin::header*/}
         <div className=" px-20 px-lg-10 px-xxl-15 pt-20">
-          <div className="stepper-logo d-flex flex-center ">
-            <img
-              className="w-25 h-25"
-              src={sepaResponse.subscriberCompanyLogoUrl}
-              alt=""
-            />
-          </div>
+          {sepaResponse.subscriberCompanyLogoUrl && (
+            <div className="stepper-logo d-flex flex-center ">
+              <img
+                className="w-25 h-25"
+                src={sepaResponse.subscriberCompanyLogoUrl}
+                alt=""
+              />
+            </div>
+          )}
 
           {/* end::header*/}
         </div>
@@ -176,7 +180,7 @@ const SepaValidation = () => {
                 <div className="stepper-label">
                   <h3 className="stepper-title text-white">
                     {intl.formatMessage({
-                      id: "LOGINANDREGISTRATION.REGISTRATIONSTEP1",
+                      id: "LoginAndRegistration.SepaRegistrationWizardNavigationStep1",
                     })}
                   </h3>
 
@@ -223,7 +227,7 @@ const SepaValidation = () => {
                 <div className="stepper-label">
                   <h3 className="stepper-title text-white">
                     {intl.formatMessage({
-                      id: "LOGINANDREGISTRATION.SEPAREGISTRATIONSTEP2",
+                      id: "LoginAndRegistration.SepaRegistrationWizardNavigationStep2",
                     })}
                   </h3>
                   <div className="stepper-desc fw-semibold text-gray-300">
@@ -270,7 +274,7 @@ const SepaValidation = () => {
                   <h3 className="stepper-title text-white">
                     {" "}
                     {intl.formatMessage({
-                      id: "LOGINANDREGISTRATION.SEPAREGISTRATIONSTEP3",
+                      id: "LoginAndRegistration.SepaRegistrationWizardNavigationStep3",
                     })}
                   </h3>
                   <div className="stepper-desc fw-semibold text-gray-300">

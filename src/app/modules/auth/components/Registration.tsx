@@ -1,60 +1,58 @@
-
-
-import {useState, useEffect} from 'react'
-import {useFormik} from 'formik'
-import * as Yup from 'yup'
-import clsx from 'clsx'
+import { useState, useEffect } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import clsx from "clsx";
 // import { register} from '../core/_requests'
-import {Link} from 'react-router-dom'
-import {PasswordMeterComponent} from '../../../../_metronic/assets/ts/components'
-import {useAuth} from '../core/Auth'
-import { useIntl } from 'react-intl'
-import { Languages } from '../../../../_metronic/partials/layout/header-menus/Languages'
+import { Link } from "react-router-dom";
+import { PasswordMeterComponent } from "../../../../_metronic/assets/ts/components";
+import { useAuth } from "../core/Auth";
+import { useIntl } from "react-intl";
+import { Languages } from "../../../../_metronic/partials/layout/header-menus/Languages";
 
 const initialValues = {
-  firstname: '',
-  lastname: '',
-  email: '',
-  password: '',
-  changepassword: '',
+  firstname: "",
+  lastname: "",
+  email: "",
+  password: "",
+  changepassword: "",
   acceptTerms: false,
-}
+};
 
 const registrationSchema = Yup.object().shape({
   firstname: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('First name is required'),
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("First name is required"),
   email: Yup.string()
-    .email('Wrong email format')
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Email is required'),
+    .email("Wrong email format")
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("Email is required"),
   lastname: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Last name is required'),
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("Last name is required"),
   password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Password is required'),
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("Password is required"),
   changepassword: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Password confirmation is required')
-    .oneOf([Yup.ref('password')], "Password and Confirm Password didn't match"),
-  acceptTerms: Yup.bool().required('You must accept the terms and conditions'),
-})
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("Password confirmation is required")
+    .oneOf([Yup.ref("password")], "Password and Confirm Password didn't match"),
+  acceptTerms: Yup.bool().required("You must accept the terms and conditions"),
+});
 
 export function Registration() {
-  const [loading, setLoading] = useState(false)
-  const {saveAuth} = useAuth()
-  const intl = useIntl()
+  const [loading, setLoading] = useState(false);
+  const { saveAuth } = useAuth();
+  const intl = useIntl();
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
-    onSubmit: async (values, {setStatus, setSubmitting}) => {
-      setLoading(true)
+    onSubmit: async (values, { setStatus, setSubmitting }) => {
+      setLoading(true);
       // try {
       //   const {data: auth} = await register(
       //     values.email,
@@ -72,11 +70,11 @@ export function Registration() {
       //   setLoading(false)
       // }
     },
-  })
+  });
 
   useEffect(() => {
-    PasswordMeterComponent.bootstrap()
-  }, [])
+    PasswordMeterComponent.bootstrap();
+  }, []);
 
   return (
     <div>
@@ -90,12 +88,12 @@ export function Registration() {
             data-kt-translate="sign-in-head-desc"
           >
             {intl.formatMessage({
-              id: "LOGINANDREGISTRATION.SUBTITLEREGISTER",
+              id: "LoginAndRegistration.SubTitleRegister",
             })}
           </span>
           <Link to="/" className="link-primary fw-bold fs-5">
             {intl.formatMessage({
-              id: "LOGINANDREGISTRATION.SUBTITLELINKREGISTER",
+              id: "LoginAndRegistration.SubTitleLinkRegister",
             })}
           </Link>
         </div>
@@ -110,7 +108,7 @@ export function Registration() {
         <div className="text-start mb-11">
           {/* begin::Title */}
           <h1 className="text-gray-900 mb-3 fs-3x">
-            {intl.formatMessage({ id: "LOGINANDREGISTRATION.TITLEREGISTER" })}
+            {intl.formatMessage({ id: "LoginAndRegistration.TitleRegister" })}
           </h1>
           {/* end::Title */}
 
@@ -119,7 +117,7 @@ export function Registration() {
             data-kt-translate="general-desc"
           >
             {intl.formatMessage({
-              id: "LOGINANDREGISTRATION.REGISTRATIONSTEP3SUBTITLE",
+              id: "LoginAndRegistration.RegistrationStep3SubTitle",
             })}
           </div>
         </div>
@@ -128,7 +126,7 @@ export function Registration() {
           <div className="col-xl-6">
             <input
               placeholder={intl.formatMessage({
-                id: "LOGINANDREGISTRATION.FIRSTNAME",
+                id: "LoginAndRegistration.FirstName",
               })}
               type="text"
               autoComplete="off"
@@ -159,7 +157,7 @@ export function Registration() {
           <div className="col-xl-6">
             <input
               placeholder={intl.formatMessage({
-                id: "LOGINANDREGISTRATION.LASTNAME",
+                id: "LoginAndRegistration.LastName",
               })}
               type="text"
               autoComplete="off"
@@ -192,7 +190,7 @@ export function Registration() {
         <div className="fv-row mb-10">
           <input
             placeholder={intl.formatMessage({
-              id: "LOGINANDREGISTRATION.EMAILADDRESS",
+              id: "LoginAndRegistration.EmailAddress",
             })}
             type="email"
             autoComplete="off"
@@ -222,7 +220,7 @@ export function Registration() {
               <input
                 type="password"
                 placeholder={intl.formatMessage({
-                  id: "LOGINANDREGISTRATION.PASSWORDREGISTRATION",
+                  id: "LoginAndRegistration.PasswordRegistration",
                 })}
                 autoComplete="off"
                 {...formik.getFieldProps("password")}
@@ -264,7 +262,13 @@ export function Registration() {
           </div>
 
           <div className="text-muted" data-kt-translate="sign-up-hint">
-            {intl.formatMessage({ id: "LOGINANDREGISTRATION.REGISTERHINT" })}
+            <p
+              dangerouslySetInnerHTML={{
+                __html: intl.formatMessage({
+                  id: "Fields.WeakPasswordMessage",
+                }),
+              }}
+            />
           </div>
         </div>
 
@@ -273,7 +277,7 @@ export function Registration() {
           <input
             type="password"
             placeholder={intl.formatMessage({
-              id: "LOGINANDREGISTRATION.PASSWORDVERIFICATION",
+              id: "LoginAndRegistration.PasswordVerification",
             })}
             autoComplete="off"
             {...formik.getFieldProps("changepassword")}
@@ -317,18 +321,24 @@ export function Registration() {
             {!loading && (
               <span className="indicator-label">
                 {intl.formatMessage({
-                  id: "LOGINANDREGISTRATION.TITLEREGISTER",
+                  id: "LoginAndRegistration.TitleRegister",
                 })}
               </span>
             )}
             {loading && (
               <span className="indicator-progress" style={{ display: "block" }}>
-                Please wait...{" "}
+                {intl.formatMessage({
+                  id: "Common.Busy",
+                })}
+                ...{" "}
                 <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             )}
             <span className="indicator-progress">
-              Please wait...{" "}
+              {intl.formatMessage({
+                id: "Common.Busy",
+              })}
+              ...{" "}
               <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
           </button>

@@ -26,7 +26,7 @@ const Step1: React.FC<Step1Props> = ({ sepaResponse, nextStep }) => {
           {/* begin::Title */}
           <h1 className="text-gray-900 mb-3 fs-2x">
             {intl.formatMessage({
-              id: "LOGINANDREGISTRATION.SEPAINTROTITLE",
+              id: "LoginAndRegistration.SepaIntroTitle",
             })}
           </h1>
           {/* end::Title */}
@@ -38,14 +38,14 @@ const Step1: React.FC<Step1Props> = ({ sepaResponse, nextStep }) => {
             __html: sepaResponse.clientHasActiveSepaMandate
               ? intl
                   .formatMessage({
-                    id: "LOGINANDREGISTRATION.SEPAINTROONUPDATEEXISTING",
+                    id: "LoginAndRegistration.SepaIntroOnUpdateExisting",
                   })
                   .replace(
                     "{0}",
                     `<strong>${sepaResponse.companyName}</strong>`
                   )
               : intl.formatMessage({
-                  id: "LOGINANDREGISTRATION.SEPAINTROONVERIFICATIONONNEW",
+                  id: "LoginAndRegistration.SepaIntroOnVerificationOnNew",
                 }),
           }}
         />
@@ -54,7 +54,7 @@ const Step1: React.FC<Step1Props> = ({ sepaResponse, nextStep }) => {
           {/* begin::Title */}
           <h1 className="text-gray-900 mb-3 fs-sm">
             {intl.formatMessage({
-              id: "LOGINANDREGISTRATION.SEPAINTROTITLE",
+              id: "LoginAndRegistration.SepaIntroTitle",
             })}
           </h1>
           {/* end::Title */}
@@ -68,7 +68,7 @@ const Step1: React.FC<Step1Props> = ({ sepaResponse, nextStep }) => {
         <button onClick={goToNext} className="btn btn-lg btn-primary me-3">
           <span className="indicator-label align-items-center d-flex justify-center">
             {intl.formatMessage({
-              id: "COMMON.WIZARDSTEPNEXT",
+              id: "Common.WizardStepNext",
             })}
             <KTIcon iconName="arrow-right" className="fs-3 ms-2 me-0" />
           </span>

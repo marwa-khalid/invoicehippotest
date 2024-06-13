@@ -15,8 +15,6 @@ interface Step2Props {
   setRefreshKey: (key: boolean) => void;
 }
 
-
-
 const Step2: React.FC<Step2Props> = ({
   sepaResponse,
   nextStep,
@@ -24,38 +22,84 @@ const Step2: React.FC<Step2Props> = ({
   setRefreshKey,
 }) => {
   const intl = useIntl();
+  // const validationSchema = Yup.object().shape({
+  //   ...(sepaResponse.isBusiness
+  //     ? {
+  //         companyName: Yup.string().required(
+  //           "Company Name is required for businesses"
+  //         ),
+  //       }
+  //     : {}),
+
+  //   firstName: Yup.string().required("First Name is required"),
+  //   betweenName: Yup.string().label("Between Name"),
+  //   lastName: Yup.string().required("Last Name is required"),
+  //   ibanNumber: Yup.string()
+  //     .required("IBAN is required")
+  //     .matches(
+  //       /^([A-Z]{2}[0-9]{2})(?:[ ]?[0-9A-Z]{4}){3}(?:[ ]?[0-9A-Z]{1,2})?$/,
+  //       "Invalid IBAN format"
+  //     ),
+  //   emailAddress: Yup.string()
+  //     .email("Invalid email address format")
+  //     .min(3, "Minimum 3 symbols")
+  //     .max(50, "Maximum 50 symbols")
+  //     .required("E-mail is required"),
+  // });
+
   const validationSchema = Yup.object().shape({
     ...(sepaResponse.isBusiness
       ? {
           companyName: Yup.string().required(
-            "Company Name is required for businesses"
+            intl
+              .formatMessage({ id: "Common.RequiredFieldHint2" })
+              .replace("{0}", intl.formatMessage({ id: "Fields.CompanyName" }))
           ),
         }
       : {}),
-    // kvknr: Yup.string().label("KVK Number"), // Optional or use when if conditionally required
-    // btwnr: Yup.string().label("BTW Number"), // Optional or use when if conditionally required
-    firstName: Yup.string().required("First Name is required"),
-    betweenName: Yup.string().label("Between Name"),
-    lastName: Yup.string().required("Last Name is required"),
+    firstName: Yup.string().required(
+      intl
+        .formatMessage({ id: "Common.RequiredFieldHint2" })
+        .replace("{0}", intl.formatMessage({ id: "Fields.FirstName" }))
+    ),
+    betweenName: Yup.string().label("BetweenName"),
+    lastName: Yup.string().required(
+      intl
+        .formatMessage({ id: "Common.RequiredFieldHint2" })
+        .replace("{0}", intl.formatMessage({ id: "Fields.LastName" }))
+    ),
     ibanNumber: Yup.string()
-      .required("IBAN is required")
+      .required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.AccountNrIBAN" }))
+      )
       .matches(
         /^([A-Z]{2}[0-9]{2})(?:[ ]?[0-9A-Z]{4}){3}(?:[ ]?[0-9A-Z]{1,2})?$/,
-        "Invalid IBAN format"
+        intl
+          .formatMessage({ id: "Common.InvalidFormat" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.AccountNrIBAN" }))
       ),
     emailAddress: Yup.string()
-      .email("Invalid email address format")
-      .min(3, "Minimum 3 symbols")
-      .max(50, "Maximum 50 symbols")
-      .required("E-mail is required"),
+      .email(
+        intl
+          .formatMessage({ id: "Common.InvalidFormat" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.EmailAddress" }))
+      )
+
+      .required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.EmailAddress" }))
+      ),
   });
   const initialValues = {
     companyName: sepaResponse.companyName || "", // Use sepaResponse value if available
     kvknr: "",
     btwnr: "",
-    firstName: "",
+    firstName: sepaResponse.firstName,
     betweenName: "",
-    lastName: "",
+    lastName: sepaResponse.lastName || "",
     ibanNumber: sepaResponse.ibanNumber || "",
     emailAddress: sepaResponse.emailAddress || "",
     isBusiness: sepaResponse.isBusiness,
@@ -64,6 +108,7 @@ const Step2: React.FC<Step2Props> = ({
   const formik = useFormik({
     initialValues,
     validationSchema,
+    enableReinitialize: true,
 
     onSubmit: (values) => {
       localStorage.setItem("sepaValues", JSON.stringify(values));
@@ -88,7 +133,7 @@ const Step2: React.FC<Step2Props> = ({
         {/* begin::Title */}
         <h1 className="text-gray-900 mb-3 fs-2x">
           {intl.formatMessage({
-            id: "LOGINANDREGISTRATION.SEPAREGISTRATIONSTEP2",
+            id: "LoginAndRegistration.SepaRegistrationStep2",
           })}
         </h1>
         {/* end::Title */}
@@ -98,7 +143,7 @@ const Step2: React.FC<Step2Props> = ({
           data-kt-translate="general-desc"
         >
           {intl.formatMessage({
-            id: "LOGINANDREGISTRATION.SEPAREGISTRATIONSTEP2SUBTITLE",
+            id: "LoginAndRegistration.SepaRegistrationStep2SubTitle",
           })}
         </div>
       </div>
@@ -109,13 +154,13 @@ const Step2: React.FC<Step2Props> = ({
         <div className="fv-row mb-10">
           <label className="fw-bold mb-3">
             {intl.formatMessage({
-              id: "FIELDS.COMPANYNAME",
+              id: "Fields.CompanyName",
             })}
           </label>
           <span style={{ color: "red" }}>*</span>
           <input
             placeholder={intl.formatMessage({
-              id: "FIELDS.COMPANYNAME",
+              id: "Fields.CompanyName",
             })}
             {...formik.getFieldProps("companyName")}
             type="text"
@@ -137,7 +182,12 @@ const Step2: React.FC<Step2Props> = ({
           {formik.touched.companyName && formik.errors.companyName && (
             <div className="fv-plugins-message-container">
               <div className="fv-help-block">
-                <span role="alert">{formik.errors.companyName}</span>
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: formik.errors.companyName,
+                  }}
+                  role="alert"
+                />
               </div>
             </div>
           )}
@@ -149,32 +199,36 @@ const Step2: React.FC<Step2Props> = ({
           <div className="col-xl-6 mb-6 xl:mb-0">
             <label className="fw-bold mb-3">
               {intl.formatMessage({
-                id: "FIELDS.KVKNR",
+                id: "Fields.KvkNr",
               })}
             </label>
 
             <input
               placeholder={intl.formatMessage({
-                id: "FIELDS.KVKNR",
+                id: "Fields.KvkNr",
               })}
               {...formik.getFieldProps("kvknr")}
               type="text"
               autoComplete="off"
               className={clsx(
-                "form-control form-control-lg form-control-solid bg-secondary",
-                {
-                  "is-invalid": formik.touched.kvknr && formik.errors.kvknr,
-                },
-                {
-                  "is-valid": formik.touched.kvknr && !formik.errors.kvknr,
-                }
+                "form-control form-control-lg form-control-solid bg-secondary"
+                // {
+                //   "is-invalid": formik.touched.kvknr && formik.errors.kvknr,
+                // },
+                // {
+                //   "is-valid": formik.touched.kvknr && !formik.errors.kvknr,
+                // }
               )}
               data-kt-translate="sign-up-input-kvknr"
             />
             {formik.touched.kvknr && formik.errors.kvknr && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.kvknr}</span>
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: formik.errors.kvknr,
+                    }}
+                  />
                 </div>
               </div>
             )}
@@ -183,31 +237,35 @@ const Step2: React.FC<Step2Props> = ({
           <div className="col-xl-6">
             <label className="fw-bold mb-3">
               {intl.formatMessage({
-                id: "FIELDS.BTWNR",
+                id: "Fields.BtwNr",
               })}
             </label>
             <input
               placeholder={intl.formatMessage({
-                id: "FIELDS.BTWNR",
+                id: "Fields.BtwNr",
               })}
               {...formik.getFieldProps("btwnr")}
               type="text"
               autoComplete="off"
               className={clsx(
-                "form-control form-control-lg form-control-solid bg-secondary",
-                {
-                  "is-invalid": formik.touched.btwnr && formik.errors.btwnr,
-                },
-                {
-                  "is-valid": formik.touched.btwnr && !formik.errors.btwnr,
-                }
+                "form-control form-control-lg form-control-solid bg-secondary"
+                // {
+                //   "is-invalid": formik.touched.btwnr && formik.errors.btwnr,
+                // },
+                // {
+                //   "is-valid": formik.touched.btwnr && !formik.errors.btwnr,
+                // }
               )}
               data-kt-translate="sign-up-input-btwnr"
             />
             {formik.touched.btwnr && formik.errors.btwnr && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.btwnr}</span>
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: formik.errors.btwnr,
+                    }}
+                  />
                 </div>
               </div>
             )}
@@ -219,13 +277,13 @@ const Step2: React.FC<Step2Props> = ({
         <div className="col-xl-4 mb-6 xl:mb-0">
           <label className="fw-bold mb-3">
             {intl.formatMessage({
-              id: "FIELDS.FIRSTNAME",
+              id: "Fields.FirstName",
             })}
           </label>
           <span style={{ color: "red" }}>*</span>
           <input
             placeholder={intl.formatMessage({
-              id: "FIELDS.FIRSTNAME",
+              id: "Fields.FirstName",
             })}
             {...formik.getFieldProps("firstName")}
             type="text"
@@ -246,7 +304,11 @@ const Step2: React.FC<Step2Props> = ({
           {formik.touched.firstName && formik.errors.firstName && (
             <div className="fv-plugins-message-container">
               <div className="fv-help-block">
-                <span role="alert">{formik.errors.firstName}</span>
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: formik.errors.firstName,
+                  }}
+                />
               </div>
             </div>
           )}
@@ -255,33 +317,37 @@ const Step2: React.FC<Step2Props> = ({
         <div className="col-xl-3 mb-6 xl:mb-0">
           <label className="fw-bold mb-3">
             {intl.formatMessage({
-              id: "FIELDS.BETWEENNAME",
+              id: "Fields.BetweenName",
             })}
           </label>
           <input
             placeholder={intl.formatMessage({
-              id: "FIELDS.BETWEENNAME",
+              id: "Fields.BetweenName",
             })}
             {...formik.getFieldProps("betweenName")}
             type="text"
             autoComplete="off"
             className={clsx(
-              "form-control form-control-lg form-control-solid bg-secondary",
-              {
-                "is-invalid":
-                  formik.touched.betweenName && formik.errors.betweenName,
-              },
-              {
-                "is-valid":
-                  formik.touched.betweenName && !formik.errors.betweenName,
-              }
+              "form-control form-control-lg form-control-solid bg-secondary"
+              // {
+              //   "is-invalid":
+              //     formik.touched.betweenName && formik.errors.betweenName,
+              // },
+              // {
+              //   "is-valid":
+              //     formik.touched.betweenName && !formik.errors.betweenName,
+              // }
             )}
             data-kt-translate="sign-up-input-between-name"
           />
           {formik.touched.betweenName && formik.errors.betweenName && (
             <div className="fv-plugins-message-container">
               <div className="fv-help-block">
-                <span role="alert">{formik.errors.betweenName}</span>
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: formik.errors.betweenName,
+                  }}
+                />
               </div>
             </div>
           )}
@@ -290,13 +356,13 @@ const Step2: React.FC<Step2Props> = ({
         <div className="col-xl-5">
           <label className="fw-bold mb-3">
             {intl.formatMessage({
-              id: "FIELDS.LASTNAME",
+              id: "Fields.LastName",
             })}
             <span style={{ color: "red" }}>*</span>
           </label>
           <input
             placeholder={intl.formatMessage({
-              id: "FIELDS.LASTNAME",
+              id: "Fields.LastName",
             })}
             {...formik.getFieldProps("lastName")}
             type="text"
@@ -315,7 +381,11 @@ const Step2: React.FC<Step2Props> = ({
           {formik.touched.lastName && formik.errors.lastName && (
             <div className="fv-plugins-message-container">
               <div className="fv-help-block">
-                <span role="alert">{formik.errors.lastName}</span>
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: formik.errors.lastName,
+                  }}
+                />
               </div>
             </div>
           )}
@@ -326,13 +396,13 @@ const Step2: React.FC<Step2Props> = ({
       <div className="fv-row mb-10">
         <label className="fw-bold mb-3">
           {intl.formatMessage({
-            id: "FIELDS.ACCOUNTNRIBAN",
+            id: "Fields.AccountNrIBAN",
           })}
         </label>
         <span style={{ color: "red" }}>*</span>
         <input
           placeholder={intl.formatMessage({
-            id: "FIELDS.ACCOUNTNRIBAN",
+            id: "Fields.AccountNrIBAN",
           })}
           {...formik.getFieldProps("ibanNumber")}
           type="iban"
@@ -353,7 +423,11 @@ const Step2: React.FC<Step2Props> = ({
         {formik.touched.ibanNumber && formik.errors.ibanNumber && (
           <div className="fv-plugins-message-container">
             <div className="fv-help-block">
-              <span role="alert">{formik.errors.ibanNumber}</span>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: formik.errors.ibanNumber,
+                }}
+              />
             </div>
           </div>
         )}
@@ -363,13 +437,13 @@ const Step2: React.FC<Step2Props> = ({
       <div className="fv-row mb-10">
         <label className="fw-bold mb-3">
           {intl.formatMessage({
-            id: "FIELDS.EMAILADDRESS",
+            id: "Fields.EmailAddress",
           })}
           <span style={{ color: "red" }}>*</span>
         </label>
         <input
           placeholder={intl.formatMessage({
-            id: "FIELDS.EMAILADDRESS",
+            id: "Fields.EmailAddress",
           })}
           {...formik.getFieldProps("emailAddress")}
           type="email"
@@ -390,7 +464,11 @@ const Step2: React.FC<Step2Props> = ({
         {formik.touched.emailAddress && formik.errors.emailAddress && (
           <div className="fv-plugins-message-container">
             <div className="fv-help-block">
-              <span role="alert">{formik.errors.emailAddress}</span>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: formik.errors.emailAddress,
+                }}
+              />
             </div>
           </div>
         )}
@@ -409,7 +487,7 @@ const Step2: React.FC<Step2Props> = ({
           >
             <KTIcon iconName="arrow-left" className="fs-4 me-1" />
             {intl.formatMessage({
-              id: "COMMON.WIZARDSTEPPREVIOUS",
+              id: "Common.WizardStepPrevious",
             })}
           </button>
         </div>
@@ -417,7 +495,7 @@ const Step2: React.FC<Step2Props> = ({
           <button type="submit" className="btn btn-lg btn-primary me-3">
             <span className="indicator-label align-items-center d-flex justify-center">
               {intl.formatMessage({
-                id: "COMMON.WIZARDSTEPNEXT",
+                id: "Common.WizardStepNext",
               })}
               <KTIcon iconName="arrow-right" className="fs-3 ms-2 me-0" />
             </span>
