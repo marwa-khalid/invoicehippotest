@@ -21,11 +21,20 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
+interface StoredValues {
+  firstName?: string;
+  betweenName?: string;
+  lastName?: string;
+  ibanNumber?: string;
+  emailAddress?: string;
+}
+
 const SepaValidation = () => {
   const stepperRef = useRef<HTMLDivElement | null>(null);
   const [stepper, setStepper] = useState<StepperComponent | null>(null);
   const [currentSchema, setCurrentSchema] = useState(createAccountSchemas[0]);
   const [initValues] = useState<ICreateAccount>(inits);
+  const [storedValues, setStoredValues] = useState<StoredValues>({});
   const defaultSepaResult: SepaResult = {
     id: 0,
     taskId: 0,
@@ -65,7 +74,6 @@ const SepaValidation = () => {
   const query = useQuery();
   const odata = query.get("odata");
   const reset_email = localStorage.getItem("reset_email");
-  const [refreshKey, setRefreshKey] = useState(false);
   let num = 1;
   useEffect(() => {
     const checkOdata = async () => {
@@ -308,7 +316,7 @@ const SepaValidation = () => {
               sepaResponse={sepaResponse}
               prevStep={prevStep}
               nextStep={nextStep}
-              setRefreshKey={setRefreshKey}
+              setStoredValues={setStoredValues}
             />
           </div>
 
@@ -317,43 +325,9 @@ const SepaValidation = () => {
               sepaResponse={sepaResponse}
               prevStep={prevStep}
               nextStep={nextStep}
-              refreshKey={refreshKey}
+              storedValues={storedValues}
             />
           </div>
-
-          {/* <div className="d-flex flex-stack">
-            <div className="mr-2">
-              <button
-                onClick={prevStep}
-                type="button"
-                className="btn btn-lg btn-light-primary me-3"
-                data-kt-stepper-action="previous"
-              >
-                <KTIcon iconName="arrow-left" className="fs-4 me-1" />
-                {intl.formatMessage({
-                  id: "COMMON.WIZARDSTEPPREVIOUS",
-                })}
-              </button>
-            </div>
-
-            <div>
-              <button
-                onClick={nextStep}
-                className="btn btn-lg btn-primary me-3"
-              >
-                <span className="indicator-label align-items-center d-flex justify-center">
-                  {stepper?.currentStepIndex !== stepper?.totalStepsNumber
-                    ? intl.formatMessage({
-                        id: "COMMON.WIZARDSTEPNEXT",
-                      })
-                    : intl.formatMessage({
-                        id: "LOGINANDREGISTRATION.SEPABTNVERIFYONEXISTING",
-                      })}
-                  <KTIcon iconName="arrow-right" className="fs-3 ms-2 me-0" />
-                </span>
-              </button>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

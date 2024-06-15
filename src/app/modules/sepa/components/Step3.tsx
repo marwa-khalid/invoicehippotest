@@ -9,12 +9,6 @@ import { handleToast } from "../../auth/core/_toast";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 
-interface Step3Props {
-  sepaResponse: SepaResult;
-  prevStep: () => void;
-  nextStep: () => void;
-  refreshKey: Boolean;
-}
 interface StoredValues {
   firstName?: string;
   betweenName?: string;
@@ -22,34 +16,43 @@ interface StoredValues {
   ibanNumber?: string;
   emailAddress?: string;
 }
+interface Step3Props {
+  sepaResponse: SepaResult;
+  prevStep: () => void;
+  nextStep: () => void;
+  storedValues: StoredValues;
+}
 
 const Step3: React.FC<Step3Props> = ({
   sepaResponse,
   nextStep,
   prevStep,
-  refreshKey,
+  storedValues,
 }) => {
   const intl = useIntl();
   const navigate = useNavigate();
-  // const storedValuesString = localStorage.getItem("sepaValues");
-  // const test = localStorage.getItem("sepaValues");
-  // const storedValuess = JSON.parse(test);
-  const [storedValues, setStoredValues] = useState<StoredValues>({});
+  // const [storedValues, setStoredValues] = useState<StoredValues>({});
   const [isModalOpen, setModalOpen] = useState(false);
   const [isConsentGiven, setConsentGiven] = useState(false);
 
-  useEffect(() => {
-    const getValues = () => {
-      const storedValuesString = localStorage.getItem("sepaValues");
-      const test = localStorage.getItem("sepaValues");
-      const storedValues = storedValuesString
-        ? JSON.parse(storedValuesString)
-        : {};
-      console.log(test);
-      setStoredValues(storedValues);
-    };
-    getValues();
-  }, []);
+  // useEffect(() => {
+  //   const getValues = () => {
+  //     console.log("Attempting to get values from localStorage");
+  //     const storedValuesString = localStorage.getItem("sepaValues");
+  //     const test = localStorage.getItem("sepaValues");
+  //     const storedValues = storedValuesString
+  //       ? JSON.parse(storedValuesString)
+  //       : {};
+  //     console.log(test);
+  //     setStoredValues(storedValues);
+  //   };
+  //   getValues();
+  //   const handleStorageChange = () => {
+  //     getValues();
+  //   };
+
+  //   window.addEventListener("storage", handleStorageChange);
+  // }, []);
 
   const openModal = () => {
     setModalOpen(true);

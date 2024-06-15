@@ -12,14 +12,14 @@ interface Step2Props {
   sepaResponse: SepaResult;
   prevStep: () => void;
   nextStep: () => void;
-  setRefreshKey: (key: boolean) => void;
+  setStoredValues: (value: any) => void;
 }
 
 const Step2: React.FC<Step2Props> = ({
   sepaResponse,
   nextStep,
   prevStep,
-  setRefreshKey,
+  setStoredValues,
 }) => {
   const intl = useIntl();
   // const validationSchema = Yup.object().shape({
@@ -111,10 +111,8 @@ const Step2: React.FC<Step2Props> = ({
     enableReinitialize: true,
 
     onSubmit: (values) => {
-      localStorage.setItem("sepaValues", JSON.stringify(values));
-      const test = localStorage.getItem("sepaValues");
-      console.log(test);
-      setRefreshKey(true);
+      // localStorage.setItem("sepaValues", JSON.stringify(values));
+      setStoredValues(values);
       nextStep();
       // handle form submission
     },
