@@ -186,7 +186,7 @@ const Step3: React.FC<Step3Props> = ({
           companyName={sepaResponse.companyName}
         />
       )}
-      {/* {sepaResponse.isBusiness && ( */}
+      {sepaResponse.isBusiness && (
         <>
           <div className="text-start  mb-2">
             {/* begin::Title */}
@@ -257,7 +257,7 @@ const Step3: React.FC<Step3Props> = ({
             ></Link>
           </label>
         </>
-      {/* )} */}
+      )}
 
       {/* end::Login options */}
       <div className="d-flex flex-stack mt-11">
