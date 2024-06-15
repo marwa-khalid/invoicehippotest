@@ -1,11 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { FC, createContext, useContext, useState } from 'react';
-import { WithChildren } from '../helpers'; // Import your type for WithChildren
+import React, { FC, createContext, useContext, useState } from "react";
+import { WithChildren } from "../helpers"; // Import your type for WithChildren
 
-const I18N_CONFIG_KEY = import.meta.env.VITE_APP_I18N_CONFIG_KEY || 'i18nConfig';
+const I18N_CONFIG_KEY =
+  import.meta.env.VITE_APP_I18N_CONFIG_KEY || "i18nConfig";
 
 // Define the possible languages
-type Language = 'de' | 'en' | 'nl' | 'es' | 'fr' | 'ja' | 'zh';
+type Language = "de" | "en" | "nl" | "es" | "fr" | "ja" | "zh";
 
 type I18nContextProps = {
   selectedLang: Language;
@@ -14,7 +15,7 @@ type I18nContextProps = {
 
 // Initial state for the context
 const initialState: I18nContextProps = {
-  selectedLang: 'nl',
+  selectedLang: "nl",
   setLanguage: () => {}, // Placeholder function, will be overridden in the provider
 };
 
@@ -64,13 +65,8 @@ const MetronicI18nProvider: FC<WithChildren> = ({ children }) => {
   // Provide the current language and the function to update it
   const value = { selectedLang, setLanguage };
 
-  return (
-    <I18nContext.Provider value={value}>
-      {children}
-    </I18nContext.Provider>
-  );
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 };
 
 export { MetronicI18nProvider, useLang, useSetLang };
 export default Language;
-
