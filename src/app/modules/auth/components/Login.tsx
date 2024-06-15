@@ -28,16 +28,40 @@ const Login: FC = () => {
           .formatMessage({ id: "Common.InvalidFormat" })
           .replace("{0}", intl.formatMessage({ id: "Fields.EmailAddress" }))
       )
-      .min(3, "Minimum 3 symbols")
-      .max(50, "Maximum 50 symbols")
+      .min(
+        3,
+        intl
+          .formatMessage({ id: "Common.ValidationMin" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.Password" }))
+          .replace("{1}", `3`)
+      )
+      .max(
+        50,
+        intl
+          .formatMessage({ id: "Common.ValidationMax" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.Password" }))
+          .replace("{1}", `50`)
+      )
       .required(
         intl
           .formatMessage({ id: "Common.RequiredFieldHint2" })
           .replace("{0}", intl.formatMessage({ id: "Fields.EmailAddress" }))
       ),
     password: Yup.string()
-      .min(3, "Minimum 3 symbols")
-      .max(50, "Maximum 50 symbols")
+      .min(
+        3,
+        intl
+          .formatMessage({ id: "Common.ValidationMin" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.Password" }))
+          .replace("{1}", `3`)
+      )
+      .max(
+        50,
+        intl
+          .formatMessage({ id: "Common.ValidationMax" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.Password" }))
+          .replace("{1}", `50`)
+      )
       .required(
         intl
           .formatMessage({ id: "Common.RequiredFieldHint2" })
