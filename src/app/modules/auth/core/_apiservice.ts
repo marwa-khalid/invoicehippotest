@@ -1,19 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { getAuth } from "./AuthHelpers";
 import { toast } from "react-toastify";
-// async function apiRequest<T>(
-//   url: string,
-//   config: AxiosRequestConfig,
-//   useToken: boolean
-// ): Promise<T> {
-//   if (useToken) {
-//     const auth = getAuth();
-//     const headers = { Authorization: "Bearer " + auth?.result.token };
-//     config.headers = { ...headers, ...config.headers };
-//   }
-//   const response = await axios(url, config);
-//   return response.data;
-// }
 
 async function apiRequest<T>(
   url: string,
