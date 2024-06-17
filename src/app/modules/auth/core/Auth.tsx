@@ -50,6 +50,8 @@ const AuthProvider: FC<WithChildren> = ({ children }) => {
           setCurrentUser(data);
           console.log("hello");
           toast.success("Ingelogd succesvol");
+        } else {
+          console.log(data);
         }
       }
     } catch (error) {

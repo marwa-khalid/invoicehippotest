@@ -1,18 +1,47 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { getAuth } from "./AuthHelpers";
+import { toast } from "react-toastify";
+// async function apiRequest<T>(
+//   url: string,
+//   config: AxiosRequestConfig,
+//   useToken: boolean
+// ): Promise<T> {
+//   if (useToken) {
+//     const auth = getAuth();
+//     const headers = { Authorization: "Bearer " + auth?.result.token };
+//     config.headers = { ...headers, ...config.headers };
+//   }
+//   const response = await axios(url, config);
+//   return response.data;
+// }
 
 async function apiRequest<T>(
   url: string,
   config: AxiosRequestConfig,
   useToken: boolean
 ): Promise<T> {
-  if (useToken) {
-    const auth = getAuth();
-    const headers = { Authorization: "Bearer " + auth?.result.token };
-    config.headers = { ...headers, ...config.headers };
+  try {
+    if (useToken) {
+      const auth = getAuth();
+      const headers = { Authorization: "Bearer " + auth?.result.token };
+      config.headers = { ...headers, ...config.headers };
+    }
+
+    const response = await axios(url, config);
+    return response.data;
+  } catch (error: any) {
+    // Check for network error or no response received from the server
+    if (!error.response) {
+      // It's a network error
+      toast.error("Netwerk fout. Controleer uw internet verbinding.");
+    } else {
+      // Handle other errors (optional)
+      toast.error(
+        `Error: ${error.response.status} ${error.response.statusText}`
+      );
+    }
+    throw error; // Rethrow the error if further handling is needed
   }
-  const response = await axios(url, config);
-  return response.data;
 }
 
 export async function getRequest<T>(
