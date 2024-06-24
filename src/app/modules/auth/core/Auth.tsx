@@ -49,9 +49,7 @@ const AuthProvider: FC<WithChildren> = ({ children }) => {
         if (data) {
           setCurrentUser(data);
           console.log("hello");
-          toast.success("Ingelogd succesvol");
-        } else {
-          console.log(data);
+          toast.success("Logged in successfully");
         }
       }
     } catch (error) {
@@ -78,7 +76,7 @@ const AuthProvider: FC<WithChildren> = ({ children }) => {
   const logout = () => {
     saveAuth(undefined);
     setCurrentUser(undefined);
-    toast.error("Uitgelogd");
+    toast.error("Logged out");
   };
 
   return (
@@ -100,7 +98,7 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
         if (!currentUser) {
           const data = await getProfileInfo();
           if (data) {
-            console.log(data);
+            console.log("hello");
             setCurrentUser(data);
           }
         }

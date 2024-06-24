@@ -115,10 +115,7 @@ export function HeaderWrapper() {
                 <Header />
               </div>
             )}
-           
                 <Navbar />
-          
-        
         </div>
       </div>
     </div>
