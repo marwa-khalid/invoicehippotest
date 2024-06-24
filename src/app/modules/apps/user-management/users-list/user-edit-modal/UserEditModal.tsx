@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { UserEditModalHeader } from "./UserEditModalHeader";
 import { UserEditModalFormWrapper } from "./UserEditModalFormWrapper";
-
+import { UserEditModalFooter } from "./UserEditModalFooter";
 const UserEditModal = () => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -28,12 +28,14 @@ const UserEditModal = () => {
             <div className="modal-body p-10">
               <div
                 className="form-wrapper"
-                style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}
+                style={{ maxHeight: "calc(100vh - 300px)", overflowY: "auto" }}
               >
                 <UserEditModalFormWrapper />
               </div>
             </div>
+           
             {/* end::Modal body */}
+             <UserEditModalFooter/>
           </div>
           {/* end::Modal content */}
         </div>

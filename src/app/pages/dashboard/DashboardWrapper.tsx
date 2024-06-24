@@ -24,11 +24,10 @@ import { Content } from "../../../_metronic/layout/components/content";
 
 const DashboardPage: FC = () => (
   <>
-    <ToolbarWrapper />
+    {/* <ToolbarWrapper /> */}
     <Content>
       {/* begin::Row */}
-      <div className="row g-4 g-xl-10  mb-xl-10 rounded "
-      >
+      <div className="row g-4 g-xl-10  mb-xl-10 rounded-2xl">
         {/* begin::Col */}
         <div className="col-md-6 col-lg-6 col-xl-6  mb-md-5 mb-xl-10">
           <CardsWidget20
@@ -123,8 +122,8 @@ const DashboardWrapper: FC = () => {
   return (
     <div
       className={clsx("main rounded", config.app?.sidebar?.default?.class, {
-        "bg-white": config.layoutType === "light-sidebar",
         "bg-dark": config.layoutType === "dark-sidebar",
+        "bg-white": config.layoutType === "light-sidebar",
       })}
       style={{ maxHeight: "calc(100vh - 120px)", overflowY: "auto" }}
     >

@@ -9,15 +9,46 @@ type Props = {
   user: any; // Adjust the type according to your user model
 };
 
-const formSchema = Yup.object().shape({
-  title: Yup.string().required("Title is required"),
-  value: Yup.string().required("Value is required"),
-  documentGroup: Yup.string().required("Document Group is required"),
-  ledgerAccount: Yup.string().required("Ledger Account is required"),
-});
-
 const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
   const intl = useIntl();
+
+  const formSchema = Yup.object().shape({
+    title: Yup.string()
+      .min(
+        3,
+        intl
+          .formatMessage({ id: "Common.ValidationMin" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+          .replace("{1}", `3`)
+      )
+      .max(
+        50,
+        intl
+          .formatMessage({ id: "Common.ValidationMax" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+          .replace("{1}", `50`)
+      )
+      .required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+      ),
+    value: Yup.string().required(
+      intl
+        .formatMessage({ id: "Common.RequiredFieldHint2" })
+        .replace("{0}", intl.formatMessage({ id: "Fields.Value" }))
+    ),
+    documentGroup: Yup.string().required(
+      intl
+        .formatMessage({ id: "Common.RequiredFieldHint2" })
+        .replace("{0}", intl.formatMessage({ id: "Fields.VatAreaUsageType" }))
+    ),
+    ledgerAccount: Yup.string().required(
+      intl
+        .formatMessage({ id: "Common.RequiredFieldHint2" })
+        .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
+    ),
+  });
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -83,7 +114,10 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
             { "me-3": !formik.values.exclusiveOfVAT }
           )}
         >
-          <label className="required fw-bold fs-6 mb-2">Title</label>
+          <label className="required fw-bold fs-6 mb-2">
+            {" "}
+            {intl.formatMessage({ id: "Fields.Title" })}
+          </label>
           <input
             type="text"
             {...formik.getFieldProps("title")}
@@ -97,7 +131,12 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
           {formik.touched.title && formik.errors.title && (
             <div className="fv-plugins-message-container">
               <div className="fv-help-block">
-                <span role="alert">{formik.errors.title}</span>
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: formik.errors.title,
+                  }}
+                  role="alert"
+                />
               </div>
             </div>
           )}
@@ -106,7 +145,10 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
         {/* Value Field */}
         {!formik.values.exclusiveOfVAT && (
           <div className="fv-row flex-grow-1">
-            <label className="required fw-bold fs-6 mb-2">Value</label>
+            <label className="required fw-bold fs-6 mb-2">
+              {" "}
+              {intl.formatMessage({ id: "Fields.Value" })}
+            </label>
             <div className="input-group">
               <span className="input-group-text">
                 <i className="fa fa-percent"></i>
@@ -125,7 +167,12 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
             {formik.touched.value && formik.errors.value && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.value}</span>
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: formik.errors.value,
+                    }}
+                    role="alert"
+                  />
                 </div>
               </div>
             )}
@@ -160,7 +207,14 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
         </select>
         {formik.touched.documentGroup && formik.errors.documentGroup && (
           <div className="fv-plugins-message-container">
-            <span role="alert">{formik.errors.documentGroup}</span>
+            <div className="fv-help-block">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: formik.errors.documentGroup,
+                }}
+                role="alert"
+              />
+            </div>
           </div>
         )}
       </div>
@@ -195,7 +249,14 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
           </select>
           {formik.touched.ledgerAccount && formik.errors.ledgerAccount && (
             <div className="fv-plugins-message-container">
-              <span role="alert">{formik.errors.ledgerAccount}</span>
+              <div className="fv-help-block">
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: formik.errors.ledgerAccount,
+                  }}
+                  role="alert"
+                />
+              </div>
             </div>
           )}
         </div>
@@ -283,7 +344,7 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
       {/* end::Description */}
 
       {/* begin::Actions */}
-      <div className="text-end">
+      {/* <div className="text-end">
         <button
           type="reset"
           onClick={() => formik.resetForm()}
@@ -313,7 +374,7 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
             </span>
           )}
         </button>
-      </div>
+      </div> */}
       {/* end::Actions */}
     </form>
   );

@@ -39,7 +39,7 @@ const Navbar = () => {
         <div className="app-navbar-item d-lg-none ms-2 me-n3" title="Search">
           <div className={clsx(btnClass, largeBtnClass)}>
             <div
-              className={clsx("app-navbar-item align-items-stretch", itemClass)}
+              className={clsx("app-navbar-item", itemClass)}
             >
               <Search />
             </div>

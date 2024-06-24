@@ -7,9 +7,9 @@ const UserEditModalHeader = () => {
   const intl = useIntl();
 
   return (
-    <div className="modal-header d-flex justify-content-between align-items-center">
+    <div className="modal-header d-flex justify-content-between align-items-center bg-primary ">
       {/* begin::Modal title */}
-      <h2 className="fw-bolder mb-0">
+      <h2 className="fw-bolder mb-0 text-white">
         {intl.formatMessage({ id: "Fields.ModalNewTitleVatType" })}
       </h2>
       {/* end::Modal title */}
@@ -21,7 +21,7 @@ const UserEditModalHeader = () => {
         onClick={() => setItemIdForUpdate(undefined)}
         style={{ cursor: "pointer" }}
       >
-        <KTIcon iconName="cross" className="fs-1" />
+        <KTIcon iconName="cross" className="fs-1 text-white" />
       </div>
       {/* end::Close */}
     </div>

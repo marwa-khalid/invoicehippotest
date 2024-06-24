@@ -45,11 +45,13 @@ const MasterLayout = () => {
           >
             <Sidebar />
             <div
-              style={{ maxHeight: "100vh - 200px)", overflowY: "auto" }}
               className="app-main flex-column flex-row-fluid"
               id="kt_app_main"
             >
-              <div className="d-flex flex-column flex-column-fluid">
+              <div
+                className="d-flex flex-column flex-column-fluid"
+                // style={{ maxHeight: "100vh - 50px)" }}
+              >
                 <Outlet />
               </div>
             </div>
