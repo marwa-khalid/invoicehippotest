@@ -150,7 +150,7 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
               {intl.formatMessage({ id: "Fields.Value" })}
             </label>
             <div className="input-group">
-              <span className="input-group-text">
+              <span className="input-group-text me-1">
                 <i className="fa fa-percent"></i>
               </span>
               <input
