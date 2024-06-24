@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { login } from "../core/_requests";
 import { useAuth } from "../core/Auth";
-import { Languages } from "../../../../_metronic/partials/layout/header-menus/Languages";
+import { LanguagesAuth } from "../../../../_metronic/partials/layout/header-menus/LanguagesAuth";
 import "react-toastify/dist/ReactToastify.css";
 import { FC } from "react";
 import { useIntl } from "react-intl";
@@ -238,8 +238,8 @@ const Login: FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="p-5 mt-auto">
-        <Languages />
+      <div className="mt-auto">
+        <LanguagesAuth />
       </div>
     </div>
   );

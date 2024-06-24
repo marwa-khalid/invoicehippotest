@@ -34,12 +34,19 @@ const AuthLayout = () => {
 
       {/* begin::Aside */}
       <div
+        className="d-none d-lg-flex flex-lg-row-fluid w-50 bgi-size-cover  order-1 order-lg-2 bgi-position-y-center bgi-position-x-start bgi-no-repeat"
+        style={{
+          backgroundImage: `url(${toAbsoluteUrl("media/auth/bg11.png")})`,
+        }}
+      ></div>
+
+      {/* <div
         className=" d-none d-lg-flex flex-lg-row-fluid bgi-size-cover bgi-no-repeat order-1 order-lg-2 "
         style={{
           backgroundImage: `url(${toAbsoluteUrl("media/auth/bg11.png")})`,
           width: "50%",
         }}
-      ></div>
+      ></div> */}
       {/* end::Aside */}
     </div>
   );

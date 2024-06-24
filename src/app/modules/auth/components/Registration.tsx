@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { PasswordMeterComponent } from "../../../../_metronic/assets/ts/components";
 import { useAuth } from "../core/Auth";
 import { useIntl } from "react-intl";
-import { Languages } from "../../../../_metronic/partials/layout/header-menus/Languages";
+import { LanguagesAuth } from "../../../../_metronic/partials/layout/header-menus/LanguagesAuth";
 
 const initialValues = {
   firstname: "",
@@ -353,7 +353,9 @@ export function Registration() {
         )}
       </form>
 
-      <Languages />
+      <div className="">
+        <LanguagesAuth />
+      </div>
     </div>
   );
 }

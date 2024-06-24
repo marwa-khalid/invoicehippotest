@@ -122,17 +122,7 @@ const HeaderUserMenu: FC = () => {
 
       <div className="separator my-2"></div>
 
-      <div className="text-muted d-flex px-5 align-items-center justify-content-between">
-        {/* Paragraph with some right margin */}
-        <p className="menu-link px-5 mb-0" style={{ marginRight: "20px" }}>
-          {" "}
-          {/* mb-0 removes any default margin-bottom */}
-          {intl.formatMessage({ id: "Fields.LanguagePreferenceType" })}
-        </p>
-
-        {/* Languages component */}
-        <Languages />
-      </div>
+      <Languages />
 
       <div className="menu-item px-5 my-1">
         <Link to="/crafted/account/settings" className="menu-link px-5">
