@@ -125,7 +125,11 @@ const DashboardWrapper: FC = () => {
         "bg-dark": config.layoutType === "dark-sidebar",
         "bg-white": config.layoutType === "light-sidebar",
       })}
-      style={{ maxHeight: "calc(100vh - 120px)", overflowY: "auto" }}
+      style={{
+        maxHeight: "calc(100vh - 120px)",
+        overflowY: "auto",
+        overflowX: "hidden",
+      }}
     >
       <PageTitle breadcrumbs={[]}>
         {intl.formatMessage({ id: "Menu.Dashboard" })}
