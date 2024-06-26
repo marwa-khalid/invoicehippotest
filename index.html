@@ -6,11 +6,7 @@
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Metronic React Demo 1" />
     <meta name="icon" />
-    <style>
-      .splash-screen {
-        border: 1px solid #ccc;
-      }
-    </style>
+
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"
@@ -48,6 +44,13 @@
 
     <!--begin::Loading markup-->
     <div id="splash-screen" class="splash-screen">
+      <iframe
+        src="/Animation-v2.html"
+        frameborder="0"
+        allowfullscreen
+        width="300"
+        height="300"
+      ></iframe>
       <!-- <img
         src="/media/logos/invoicehippo_art01.svg"
         width="200"
@@ -66,32 +69,9 @@
         <span class="loader"></span>
         <span class="loading-text">Loading...</span>
       </div> -->
-
-      <iframe
-        src="/Animation-v2.html"
-        width="300"
-        height="300"
-        frameborder="0"
-      ></iframe>
     </div>
     <!--end::Loading markup-->
 
-    <div id="root-modals"></div>
-    <!-- <script type="module">
-      // Function to fetch and insert animation from animation.html
-      async function loadAnimation() {
-        try {
-          const response = await fetch("Animation-v2.html"); // Fetch animation HTML file
-          const animationHtml = await response.text(); // Get animation HTML content as text
-          document.getElementById("splash-screen").innerHTML = animationHtml; // Insert animation HTML into container
-        } catch (error) {
-          console.error("Error loading animation:", error);
-        }
-      }
-
-      // Call loadAnimation function when the page loads
-      window.onload = loadAnimation;
-    </script> -->
     <script type="module" src="/src/main.tsx"></script>
     <!-- <script>
       $("body").css("overflow", "hidden");

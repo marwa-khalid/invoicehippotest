@@ -68,11 +68,4 @@ const deleteSelectedUsers = (userIds: Array<ID>): Promise<void> => {
   return axios.all(requests).then(() => {});
 };
 
-export {
-  deleteUser,
-  deleteSelectedUsers,
-  getUserById,
-  createUser,
-  updateUser,
-  getUsers,
-};
+export { deleteUser, deleteSelectedUsers, getUserById, createUser, updateUser,getUsers };

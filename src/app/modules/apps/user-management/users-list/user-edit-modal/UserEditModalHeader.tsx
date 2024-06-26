@@ -1,9 +1,9 @@
 import { KTIcon } from "../../../../../../_metronic/helpers";
-// import { useListView } from "../core/ListViewProvider";
+import { useListView } from "../core/ListViewProvider";
 import { useIntl } from "react-intl";
 
 const UserEditModalHeader = () => {
-  // const { setItemIdForUpdate } = useListView();
+  const { setItemIdForUpdate } = useListView();
   const intl = useIntl();
 
   return (
@@ -18,7 +18,7 @@ const UserEditModalHeader = () => {
       <div
         className="btn btn-icon btn-sm btn-active-icon-primary"
         data-kt-users-modal-action="close"
-        // onClick={() => setItemIdForUpdate(undefined)}
+        onClick={() => setItemIdForUpdate(undefined)}
         style={{ cursor: "pointer" }}
       >
         <KTIcon iconName="cross" className="fs-1 text-white" />
