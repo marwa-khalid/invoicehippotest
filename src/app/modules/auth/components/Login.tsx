@@ -104,8 +104,8 @@ const Login: FC = () => {
           className="theme-dark-show h-200px"
         />
       </a>
-      <div className=" ">
-        <div className="">
+      <div className="p-5 ">
+        <div className="mb-5">
           <span className="text-gray-500 fw-bold fs-5 me-2">
             {intl.formatMessage({ id: "LoginAndRegistration.SubTitleLogin" })}
           </span>
@@ -117,7 +117,7 @@ const Login: FC = () => {
         </div>
       </div>
 
-      <div className="text-start mb-5 mt-20">
+      <div className="text-start mb-5 mt-lg-auto mt-15">
         <h1 className="text-gray-900 mb-3 fs-3x">
           {intl.formatMessage({ id: "LoginAndRegistration.TitleLogin" })}
         </h1>
@@ -238,7 +238,7 @@ const Login: FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="mt-10">
+      <div className="mt-auto">
         <LanguagesAuth />
       </div>
     </div>
