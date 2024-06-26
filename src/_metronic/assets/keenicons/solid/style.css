@@ -10,9 +10,9 @@
   font-display: block;
 }
 
-body {
+/* body {
   overflow: hidden;
-}
+} */
 
 .ki-solid {
   /* use !important to prevent issues with browser extensions that change fonts */
