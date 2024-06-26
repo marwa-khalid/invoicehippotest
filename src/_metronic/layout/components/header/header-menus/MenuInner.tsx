@@ -203,6 +203,11 @@ export function MenuInner() {
             title="Ledger Account"
             hasBullet={true}
           />
+          <MenuItem
+            to="/apps/chat/drawer-chat"
+            title="Drawer Chart"
+            hasBullet={true}
+          />
         </MenuInnerWithSub>
         <MenuItem
           icon="abstract-28"

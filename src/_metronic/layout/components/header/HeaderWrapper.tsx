@@ -19,7 +19,14 @@ export function HeaderWrapper() {
   return (
     <div
       id="kt_app_header"
-      className="app-header"
+      className={clsx(
+        "app-header d-flex flex-column flex-stack h-md-80px h-sm-100px ",
+        config.app?.header?.default?.containerClass,
+        {
+          "bg-dark": config.layoutType === "dark-sidebar",
+          "bg-light": config.layoutType === "light-sidebar",
+        }
+      )}
       data-kt-sticky="true"
       data-kt-sticky-activate="{default: true, lg: true}"
       data-kt-sticky-name="app-header-minimize"
@@ -29,7 +36,7 @@ export function HeaderWrapper() {
       <div
         id="kt_app_header_container"
         className={clsx(
-          "main mx-2",
+          "d-flex flex-stack flex-grow-1 mx-2",
           classes.headerContainer.join(" "),
           config.app?.header?.default?.containerClass,
           {
@@ -95,6 +102,7 @@ export function HeaderWrapper() {
             </Link>
           </div>
         )}
+
         <div
           id="kt_app_header_wrapper"
           className="d-flex align-items-stretch justify-content-between flex-lg-grow-1 mt-6 mt-lg-9"

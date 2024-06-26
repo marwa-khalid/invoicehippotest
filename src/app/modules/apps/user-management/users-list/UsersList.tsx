@@ -7,14 +7,15 @@ import { UserEditModal } from "./user-edit-modal/UserEditModal";
 import { KTCard } from "../../../../../_metronic/helpers";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
-
+import { useState } from "react";
 const UsersList = () => {
   const { itemIdForUpdate } = useListView();
+  const [searchTerm, setSearchTerm] = useState("");
   return (
     <>
       <KTCard>
-        <UsersListHeader />
-        <UsersTable />
+        <UsersListHeader setSearchTerm={setSearchTerm} />
+        <UsersTable searchTerm={searchTerm} />
       </KTCard>
       {itemIdForUpdate !== undefined && <UserEditModal />}
     </>
@@ -27,9 +28,9 @@ const UsersListWrapper = () => (
       <ListViewProvider>
         <ToolbarWrapper />
         <Content>
-          <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}>
-            <UsersList />
-          </div>
+          {/* <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}> */}
+          <UsersList />
+          {/* </div> */}
         </Content>
       </ListViewProvider>
     </QueryResponseProvider>

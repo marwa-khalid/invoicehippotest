@@ -24,7 +24,7 @@ import { Content } from "../../../_metronic/layout/components/content";
 
 const DashboardPage: FC = () => (
   <>
-    {/* <ToolbarWrapper /> */}
+    <ToolbarWrapper />
     <Content>
       {/* begin::Row */}
       <div className="row g-4 g-xl-10  mb-xl-10 rounded-2xl">
@@ -121,15 +121,15 @@ const DashboardWrapper: FC = () => {
 
   return (
     <div
-      className={clsx("main rounded", config.app?.sidebar?.default?.class, {
+      className={clsx("main rounded mt-7 me-lg-10 border", config.app?.sidebar?.default?.class, {
         "bg-dark": config.layoutType === "dark-sidebar",
         "bg-white": config.layoutType === "light-sidebar",
       })}
-      style={{
-        maxHeight: "calc(100vh - 120px)",
-        overflowY: "auto",
-        overflowX: "hidden",
-      }}
+      // style={{
+      //   maxHeight: "calc(100vh - 120px)",
+      //   // overflowY: "auto",
+      //   // overflowX: "hidden",
+      // }}
     >
       <PageTitle breadcrumbs={[]}>
         {intl.formatMessage({ id: "Menu.Dashboard" })}

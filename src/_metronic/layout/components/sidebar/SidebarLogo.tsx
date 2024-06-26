@@ -91,11 +91,11 @@ const SidebarLogo = (props: PropsType) => {
           </>
         )}
 
-        {/* <img
+        <img
           alt="Logo"
           src={toAbsoluteUrl("media/logos/invoicehippo_art01.svg")}
           className="h-150px w-200 app-sidebar-logo-minimize me-200px"
-        /> */}
+        />
       </Link>
     </div>
   );

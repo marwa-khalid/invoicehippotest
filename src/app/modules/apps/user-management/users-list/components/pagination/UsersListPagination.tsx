@@ -1,156 +1,187 @@
+import React, { useMemo, useState } from "react";
+import clsx from "clsx";
+import { useIntl } from "react-intl";
+import Select from "react-select";
 
-import clsx from 'clsx'
-import {useQueryResponseLoading, useQueryResponsePagination} from '../../core/QueryResponseProvider'
-import {useQueryRequest} from '../../core/QueryRequestProvider'
-import {PaginationState} from '../../../../../../../_metronic/helpers'
-import {useMemo} from 'react'
-
-const mappedLabel = (label: string): string => {
-  if (label === '&laquo; Previous') {
-    return 'Previous'
-  }
-
-  if (label === 'Next &raquo;') {
-    return 'Next'
-  }
-
-  return label
+interface UsersListPaginationProps {
+  totalPages: number;
+  pageIndex: number;
+  onPageChange: (page: number) => void;
 }
 
-const UsersListPagination = () => {
-  const pagination = useQueryResponsePagination()
-  const isLoading = useQueryResponseLoading()
-  const {updateState} = useQueryRequest()
-  const updatePage = (page: number | undefined | null) => {
-    if (!page || isLoading || pagination.page === page) {
-      return
+const UsersListPagination = ({
+  totalPages,
+  pageIndex,
+  onPageChange,
+}: UsersListPaginationProps) => {
+  const intl = useIntl();
+  const [selectedPage, setSelectedPage] = useState<string>(
+    pageIndex.toString()
+  );
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages && page !== pageIndex) {
+      onPageChange(page);
     }
+  };
 
-    updateState({page, items_per_page: pagination.items_per_page || 10})
-  }
-
-  const PAGINATION_PAGES_COUNT = 5
-  const sliceLinks = (pagination?: PaginationState) => {
-    if (!pagination?.links?.length) {
-      return []
+  const handleFirstPage = () => {
+    if (pageIndex !== 1) {
+      onPageChange(1);
     }
+  };
 
-    const scopedLinks = [...pagination.links]
-
-    let pageLinks: Array<{
-      label: string
-      active: boolean
-      url: string | null
-      page: number | null
-    }> = []
-    const previousLink: {label: string; active: boolean; url: string | null; page: number | null} =
-      scopedLinks.shift()!
-    const nextLink: {label: string; active: boolean; url: string | null; page: number | null} =
-      scopedLinks.pop()!
-
-    const halfOfPagesCount = Math.floor(PAGINATION_PAGES_COUNT / 2)
-
-    pageLinks.push(previousLink)
-
-    if (
-      pagination.page <= Math.round(PAGINATION_PAGES_COUNT / 2) ||
-      scopedLinks.length <= PAGINATION_PAGES_COUNT
-    ) {
-      pageLinks = [...pageLinks, ...scopedLinks.slice(0, PAGINATION_PAGES_COUNT)]
+  const handlePreviousPage = () => {
+    if (pageIndex > 1) {
+      onPageChange(pageIndex - 1);
     }
+  };
 
-    if (
-      pagination.page > scopedLinks.length - halfOfPagesCount &&
-      scopedLinks.length > PAGINATION_PAGES_COUNT
-    ) {
-      pageLinks = [
-        ...pageLinks,
-        ...scopedLinks.slice(scopedLinks.length - PAGINATION_PAGES_COUNT, scopedLinks.length),
-      ]
+  const handleNextPage = () => {
+    if (pageIndex < totalPages) {
+      onPageChange(pageIndex + 1);
     }
+  };
 
-    if (
-      !(
-        pagination.page <= Math.round(PAGINATION_PAGES_COUNT / 2) ||
-        scopedLinks.length <= PAGINATION_PAGES_COUNT
-      ) &&
-      !(pagination.page > scopedLinks.length - halfOfPagesCount)
-    ) {
-      pageLinks = [
-        ...pageLinks,
-        ...scopedLinks.slice(
-          pagination.page - 1 - halfOfPagesCount,
-          pagination.page + halfOfPagesCount
-        ),
-      ]
+  const handleLastPage = () => {
+    if (pageIndex !== totalPages) {
+      onPageChange(totalPages);
     }
+  };
 
-    pageLinks.push(nextLink)
+  const paginationLinks = useMemo(() => {
+    const links = [];
+    for (let i = 1; i <= totalPages; i++) {
+      links.push({
+        label: i.toString(),
+        active: i === pageIndex,
+        page: i,
+      });
+    }
+    return links;
+  }, [totalPages, pageIndex]);
 
-    return pageLinks
-  }
+  const handlePageDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedPage(event.target.value);
+    const pageNumber = parseInt(event.target.value, 10);
+    if (!isNaN(pageNumber) && pageNumber !== pageIndex) {
+      onPageChange(pageNumber);
+    }
+  };
 
-  const paginationLinks = useMemo(() => sliceLinks(pagination), [pagination])
-
+  const pageOptions = useMemo(() => {
+    const options = [];
+    for (let i = 1; i <= totalPages; i++) {
+      options.push(
+        <option key={i} value={i} className="m-0 text-primary">
+          {i}
+        </option>
+      );
+    }
+    return options;
+  }, [totalPages]);
   return (
-    <div className='row'>
-      <div className='col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'></div>
-      <div className='col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'>
-        <div id='kt_table_users_paginate'>
-          <ul className='pagination'>
-            <li
-              className={clsx('page-item', {
-                disabled: isLoading || pagination.page === 1,
-              })}
-            >
-              <a onClick={() => updatePage(1)} style={{cursor: 'pointer'}} className='page-link'>
-                First
+    <div className="row mt-10">
+      <div className="col-sm-12 col-md-6 d-flex align-items-center text-grey-800 justify-content-start">
+        <p className="content-fit m-0">
+          Showing Page {pageIndex} of {totalPages}
+        </p>
+        <select
+          className="form-select form-select-sm ms-2 w-auto bg-light-primary text-primary rounded-0"
+          value={selectedPage}
+          onChange={handlePageDropdownChange}
+        >
+          {pageOptions}
+        </select>
+      </div>
+      <div className="col-sm-12 col-md-6 d-flex align-items-center justify-content-center justify-content-md-end">
+        <div id="kt_table_users_paginate">
+          <ul className="pagination">
+            {/* First Page Button */}
+            <li className={clsx("page-item", { disabled: pageIndex === 1 })}>
+              <a
+                href="#"
+                className="page-link"
+                onClick={handleFirstPage}
+                style={{ cursor: "pointer" }}
+              >
+                <i className="bi bi-chevron-double-left"></i>
               </a>
             </li>
-            {paginationLinks
-              ?.map((link) => {
-                return {...link, label: mappedLabel(link.label)}
-              })
-              .map((link) => (
-                <li
-                  key={link.label}
-                  className={clsx('page-item', {
-                    active: pagination.page === link.page,
-                    disabled: isLoading,
-                    previous: link.label === 'Previous',
-                    next: link.label === 'Next',
-                  })}
-                >
-                  <a
-                    className={clsx('page-link', {
-                      'page-text': link.label === 'Previous' || link.label === 'Next',
-                      'me-5': link.label === 'Previous',
-                    })}
-                    onClick={() => updatePage(link.page)}
-                    style={{cursor: 'pointer'}}
-                  >
-                    {mappedLabel(link.label)}
-                  </a>
-                </li>
-              ))}
+
+            {/* Previous Button */}
             <li
-              className={clsx('page-item', {
-                disabled: isLoading || pagination.page === (pagination.links?.length || 3) - 2,
+              className={clsx("page-item previous", {
+                disabled: pageIndex === 1,
               })}
             >
               <a
-                onClick={() => updatePage((pagination.links?.length || 3) - 2)}
-                style={{cursor: 'pointer'}}
-                className='page-link'
+                href="#"
+                className="page-link"
+                onClick={handlePreviousPage}
+                style={{ cursor: "pointer" }}
               >
-                Last
+                <i className="previous"></i>
+              </a>
+            </li>
+
+            {/* Page Number Links */}
+            {paginationLinks.map((link) => (
+              <li
+                key={link.label}
+                className={clsx("page-item", {
+                  active: link.active,
+                })}
+              >
+                <a
+                  href="#"
+                  className="page-link"
+                  onClick={() => handlePageChange(link.page)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+
+            {/* Next Button */}
+            <li
+              className={clsx("page-item next", {
+                disabled: pageIndex === totalPages,
+              })}
+            >
+              <a
+                href="#"
+                className="page-link"
+                onClick={handleNextPage}
+                style={{ cursor: "pointer" }}
+              >
+                <i className="next"></i>
+              </a>
+            </li>
+
+            {/* Last Page Button */}
+            <li
+              className={clsx("page-item", {
+                disabled: pageIndex === totalPages,
+              })}
+            >
+              <a
+                href="#"
+                className="page-link"
+                onClick={handleLastPage}
+                style={{ cursor: "pointer" }}
+              >
+                <i className="bi bi-chevron-double-right"></i>
               </a>
             </li>
           </ul>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export {UsersListPagination}
+export { UsersListPagination };

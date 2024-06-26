@@ -24,6 +24,10 @@ const MasterLayout = () => {
   return (
     <PageDataProvider>
       <div
+        style={{
+          maxHeight: "100vh",
+          overflowY: "auto",
+        }}
         className={clsx(
           "main p-5 d-flex flex-column flex-root app-root",
           config.app?.sidebar?.default?.class,
@@ -42,6 +46,7 @@ const MasterLayout = () => {
           <div
             className="app-wrapper flex-column flex-row-fluid"
             id="kt_app_wrapper"
+            style={{ overflowY: "auto" }}
           >
             <Sidebar />
             <div
@@ -50,7 +55,10 @@ const MasterLayout = () => {
             >
               <div
                 className="d-flex flex-column flex-column-fluid"
-                // style={{ maxHeight: "100vh - 50px)" }}
+                // style={{
+                //   maxHeight: "100%", // Allow content to expand within the app-main
+                //   overflowY: "auto", // Enable scrolling for the content area
+                // }}
               >
                 <Outlet />
               </div>

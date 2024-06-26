@@ -118,7 +118,6 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
         if (diff > 0) {
           requestUser();
         } else {
-          toast.error("Session has expired. Please log in again.");
           localStorage.removeItem("currentUser");
           setShowSplashScreen(false);
         }
