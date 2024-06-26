@@ -6,6 +6,11 @@
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Metronic React Demo 1" />
     <meta name="icon" />
+    <style>
+      .splash-screen {
+        border: 1px solid #ccc;
+      }
+    </style>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"
@@ -22,7 +27,7 @@
   <body id="kt_body" class="page-loading" style="overflow: hidden">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <!--begin::Theme mode setup on page load-->
-    <script>
+    <!-- <script>
       let themeMode = "system";
 
       if (localStorage.getItem("kt_theme_mode_value")) {
@@ -36,14 +41,14 @@
       }
 
       document.documentElement.setAttribute("data-bs-theme", themeMode);
-    </script>
+    </script> -->
     <!--end::Theme mode setup on page load-->
 
     <div id="root"></div>
 
     <!--begin::Loading markup-->
     <div id="splash-screen" class="splash-screen">
-      <img
+      <!-- <img
         src="/media/logos/invoicehippo_art01.svg"
         width="200"
         height="200"
@@ -60,7 +65,14 @@
       <div class="loader-wrapper">
         <span class="loader"></span>
         <span class="loading-text">Loading...</span>
-      </div>
+      </div> -->
+
+      <iframe
+        src="/Animation-v2.html"
+        width="300"
+        height="300"
+        frameborder="0"
+      ></iframe>
     </div>
     <!--end::Loading markup-->
 

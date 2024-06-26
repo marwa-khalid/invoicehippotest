@@ -11,7 +11,7 @@ import {
   stringifyRequestQuery,
   WithChildren,
 } from '../../../../../../_metronic/helpers'
-import {getVatTypes} from './_requests'
+import {getUsers} from './_requests'
 import {User} from './_models'
 import {useQueryRequest} from './QueryRequestProvider'
 
@@ -34,7 +34,7 @@ const QueryResponseProvider: FC<WithChildren> = ({children}) => {
   } = useQuery(
     `${QUERIES.USERS_LIST}-${query}`,
     () => {
-      return getVatTypes();
+      return getUsers(query);
     },
     {cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false}
   )

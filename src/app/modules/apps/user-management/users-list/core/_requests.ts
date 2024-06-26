@@ -28,6 +28,12 @@ export function getVatTypes(searchTerm: string, pageIndex:number) {
   );
 }
 
+const getUsers = (query: string): Promise<UsersQueryResponse> => {
+  return axios
+    .get(`${GET_USERS_URL}?${query}`)
+    .then((d: AxiosResponse<UsersQueryResponse>) => d.data);
+};
+
 const getUserById = (id: ID): Promise<User | undefined> => {
   return axios
     .get(`${USER_URL}/${id}`)
@@ -62,4 +68,11 @@ const deleteSelectedUsers = (userIds: Array<ID>): Promise<void> => {
   return axios.all(requests).then(() => {});
 };
 
-export { deleteUser, deleteSelectedUsers, getUserById, createUser, updateUser };
+export {
+  deleteUser,
+  deleteSelectedUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  getUsers,
+};

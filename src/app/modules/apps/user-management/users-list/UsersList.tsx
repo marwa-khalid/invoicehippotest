@@ -29,7 +29,7 @@ const UsersListWrapper = () => (
         <ToolbarWrapper />
         <Content>
           {/* <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}> */}
-          <UsersList />
+            <UsersList />
           {/* </div> */}
         </Content>
       </ListViewProvider>
