@@ -1943,7 +1943,7 @@
   "LoginAndRegistration.Password": "password",
   "LoginAndRegistration.RememberMe": "remember me",
   "LoginAndRegistration.LoginButtonText": "Login",
-  "LoginAndRegistration.ForgotPassword": "Forgot Password?",
+  "LoginAndRegistration.ForgotPassword": "Forgot Password ?",
   "LoginAndRegistration.SubTitleReset": "allready have an account?",
   "LoginAndRegistration.SubTitleLinkReset": "login here",
   "LoginAndRegistration.ResetTitle": "Reset Password",
