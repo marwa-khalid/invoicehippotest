@@ -99,7 +99,7 @@ const Login = () => {
           <img
             alt="Logo"
             src="media/logos/invoicehippo_art01.png"
-            className="theme-dark-show h-25px"
+            className="theme-dark-show h-100px"
           />
         </a>
         {/* Aside */}
@@ -107,7 +107,7 @@ const Login = () => {
           {/* Wrapper */}
           <div className="d-flex justify-content-between flex-column-fluid flex-column w-100 mw-450px">
             {/* Header */}
-            <div className="d-flex flex-stack py-2">
+            <div className="d-flex flex-lg-stack flex-sm-center py-2">
               <div className="me-2"></div>
               <div className="m-0">
                 <span className="text-gray-500 fw-bold fs-5 me-2">
