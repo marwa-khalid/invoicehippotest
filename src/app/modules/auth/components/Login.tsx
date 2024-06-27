@@ -93,8 +93,8 @@ const Login = () => {
         <a href="index.html" className="d-block d-lg-none mx-auto py-20">
           <img
             alt="Logo"
-            src="media/logos/invoicehippo_art01.png"
-            className="theme-light-show h-25px bg-size-cover"
+            src="media/logos/logooo.png"
+            className="theme-light-show h-100px"
           />
           <img
             alt="Logo"
