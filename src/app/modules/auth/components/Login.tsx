@@ -93,13 +93,13 @@ const Login = () => {
         <a href="index.html" className="d-block d-lg-none mx-auto py-20">
           <img
             alt="Logo"
-            src="media/logos/logooo.png"
-            className="theme-light-show h-100px"
+            src="media/logos/logo.png"
+            className="theme-light-show h-200px"
           />
           <img
             alt="Logo"
-            src="media/logos/invoicehippo_art01.png"
-            className="theme-dark-show h-100px"
+            src="media/logos/logo.png"
+            className="theme-dark-show h-200px"
           />
         </a>
         {/* Aside */}
