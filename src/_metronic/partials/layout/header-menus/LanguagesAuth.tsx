@@ -119,7 +119,7 @@ const LanguagesAuth: FC = () => {
 
       {menuOpen && (
         <div
-          className="menu-column menu-rounded menu-gray-800 bg-white fw-semibold py-4 position-absolute w-200px bottom-100"
+          className="menu-column menu-rounded menu-gray-800 bg-white fw-semibold py-4 position-absolute w-200px bottom-100 shadow-2xl"
           data-kt-menu="true"
           id="kt_auth_lang_menu"
           data-kt-menu-flip="top"

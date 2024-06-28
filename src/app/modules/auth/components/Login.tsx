@@ -90,7 +90,7 @@ const Login = () => {
     <div className="d-flex flex-column flex-root" id="kt_app_root">
       <div className="d-flex flex-column flex-lg-row flex-column-fluid">
         {/* Logo for mobile view */}
-        <a href="index.html" className="d-block d-lg-none mx-auto py-20">
+        <a href="#" className="d-block d-lg-none mx-auto py-20">
           <img
             alt="Logo"
             src="media/logos/logo.png"
@@ -224,7 +224,10 @@ const Login = () => {
                         </span>
                       )}
                       {loading && (
-                        <span className="indicator-progress">
+                        <span
+                          className="indicator-progress"
+                          style={{ display: "block" }}
+                        >
                           {intl.formatMessage({ id: "Common.Busy" })}...
                           <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                         </span>

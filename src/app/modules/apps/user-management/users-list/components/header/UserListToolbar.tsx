@@ -3,7 +3,11 @@ import { useListView } from "../../core/ListViewProvider";
 import { UsersListFilter } from "./UsersListFilter";
 import { useIntl } from "react-intl";
 
-const UsersListToolbar = () => {
+interface ToolbarProps {
+  currentRows: number;
+}
+
+const UsersListToolbar = ({ currentRows }: ToolbarProps) => {
   const { setItemIdForUpdate } = useListView();
   const openAddUserModal = () => {
     setItemIdForUpdate(null);
@@ -11,22 +15,22 @@ const UsersListToolbar = () => {
   const intl = useIntl();
   return (
     <div
-      className="d-flex justify-content-end"
+      className="d-flex justify-content-between align-items-center"
       data-kt-user-table-toolbar="base"
     >
-      <UsersListFilter />
-
+      {/* <UsersListFilter /> */}
+      <h3>{currentRows} Items Found</h3>
       {/* begin::Export */}
-      <button type="button" className="btn btn-light-primary me-3">
+      {/* <button type="button" className="btn btn-light-primary me-3">
         <KTIcon iconName="exit-up" className="fs-2" />
         Export
-      </button>
+      </button> */}
       {/* end::Export */}
 
       {/* begin::Add user */}
       <button
         type="button"
-        className="btn btn-primary"
+        className="btn btn-primary mb-3"
         onClick={openAddUserModal}
       >
         <KTIcon iconName="plus" className="fs-2" />

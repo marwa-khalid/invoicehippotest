@@ -197,7 +197,7 @@ export function MenuInner() {
           menuPlacement="right-start"
           menuTrigger={`{default:'click', lg: 'hover'}`}
         >
-          <MenuItem to="/admin/vattype" title="Vat Types" hasBullet={true} />
+          <MenuItem to="/admin/vattype" title="Tax Types" hasBullet={true} />
           <MenuItem
             to="/admin/ledgeraccount"
             title="Ledger Account"

@@ -6,8 +6,8 @@ import { useLayout } from "../../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
 const usersBreadcrumbs: Array<PageLink> = [
   {
-    title: "User Management",
-    path: "/apps/user-management/users",
+    title: "Tax types",
+    path: "/admin/vattype",
     isSeparator: false,
     isActive: false,
   },
@@ -37,7 +37,7 @@ const UsersPage = () => {
                   "main rounded",
                   config.app?.sidebar?.default?.class,
                   {
-                    "bg-white": config.layoutType === "light-sidebar",
+                    "bg-light": config.layoutType === "light-sidebar",
                     "bg-dark": config.layoutType === "dark-sidebar",
                   }
                 )}
@@ -48,7 +48,7 @@ const UsersPage = () => {
           }
         />
       </Route>
-      <Route index element={<Navigate to="/apps/user-management/users" />} />
+      <Route index element={<Navigate to="/admin/vattype" />} />
     </Routes>
   );
 };

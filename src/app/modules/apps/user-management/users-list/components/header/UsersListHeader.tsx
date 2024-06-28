@@ -3,85 +3,38 @@ import { useListView } from "../../core/ListViewProvider";
 import { UsersListToolbar } from "./UserListToolbar";
 import { UsersListGrouping } from "./UsersListGrouping";
 import { UsersListSearchComponent } from "./UsersListSearchComponent";
-
+import UserListHeaderTabs from "./UserListHeaderTabs";
+import { KTCardBody } from "../../../../../../../_metronic/helpers";
 interface UsersListSearchComponentProps {
   setSearchTerm: (term: string) => void;
+  setVatAreaUsageTypeFilter: (type: number) => void;
 }
 
-const UsersListHeader = ({ setSearchTerm }: UsersListSearchComponentProps) => {
+const UsersListHeader = ({
+  setSearchTerm,
+  setVatAreaUsageTypeFilter,
+}: UsersListSearchComponentProps) => {
   const { selected } = useListView();
-
-  // State to manage the active tab
-  const [activeTab, setActiveTab] = useState("tab1");
-
   return (
-    <div className="card-header border-0 pt-6">
-      <UsersListSearchComponent setSearchTerm={setSearchTerm} />
-      {/* begin::Card toolbar */}
-      <div className="card-toolbar">
-        {/* begin::Group actions */}
-        {selected.length > 0 ? <UsersListGrouping /> : <UsersListToolbar />}
-        {/* end::Group actions */}
-      </div>
-      {/* end::Card toolbar */}
+    <KTCardBody className="card mb-5 mb-xl-10 pb-0">
+      <div className="card-body pt-9 pb-0">
+        {/* Full-width search and button */}
+        <UsersListSearchComponent setSearchTerm={setSearchTerm} />
 
-      {/* begin::Tabs */}
-      <div className="tabs-container">
-        <div className="tabs">
-          <button
-            className={`tab ${activeTab === "tab1" ? "active" : ""}`}
-            onClick={() => setActiveTab("tab1")}
-          >
-            Tab 1
-          </button>
-          <button
-            className={`tab ${activeTab === "tab2" ? "active" : ""}`}
-            onClick={() => setActiveTab("tab2")}
-          >
-            Tab 2
-          </button>
+        {/* Tabs Section */}
+        <div className="mt-4">
+          <UserListHeaderTabs
+            setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
+          />
         </div>
-        <div className="tab-content">
-          {activeTab === "tab1" && <div>Content for Tab 1</div>}
-          {activeTab === "tab2" && <div>Content for Tab 2</div>}
-        </div>
+
+        {/* Card toolbar */}
+        {/* <div className="card-toolbar">
+        {selected.length > 0 ? <UsersListGrouping /> : <UsersListToolbar />}
+      </div> */}
       </div>
-      {/* end::Tabs */}
-    </div>
+    </KTCardBody>
   );
 };
 
 export { UsersListHeader };
-
-// CSS for the tabs
-const styles = `
-  .tabs-container {
-    margin-top: 10px; /* Adjust as needed */
-  }
-  .tabs {
-    display: flex;
-    justify-content: space-around;
-  }
-  .tab {
-    padding: 10px 20px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-bottom: none;
-    background: #f9f9f9;
-  }
-  .tab.active {
-    background: #fff;
-    border-bottom: 1px solid #fff;
-  }
-  .tab-content {
-    padding: 10px;
-    border: 1px solid #ccc;
-    background: #fff;
-  }
-`;
-
-// Add styles to the document head (for demonstration purposes)
-const styleSheet = document.createElement("style");
-styleSheet.type = "text/css";
-styleSheet.innerText = styles;
-document.head.appendChild(styleSheet);

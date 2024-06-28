@@ -51,14 +51,14 @@ const SidebarLogo = (props: PropsType) => {
   }, [toggleRef, props.sidebarRef]);
 
   return (
-    <div className="app-sidebar-logo p-12" id="kt_app_sidebar_logo">
+    <div className="app-sidebar-logo ms-9" id="kt_app_sidebar_logo">
       {(appSidebarDefaultMinimizeDesktopEnabled ||
         appSidebarDefaultCollapseDesktopEnabled) && (
         <div
           ref={toggleRef}
           id="kt_app_sidebar_toggle"
           className={clsx(
-            "btn btn-icon btn-shadow btn-active-color-primary h-30px w-30px position-absolute top-50 start-5   translate-middle rotate",
+            "btn btn-md btn-icon bg-body btn-color-gray-500 btn-active-color-primary w-30px p-2 h-30px ms-n2 d-none d-lg-flex ",
             { active: appSidebarDefaultMinimizeDefault }
           )}
           data-kt-toggle="true"
@@ -66,10 +66,16 @@ const SidebarLogo = (props: PropsType) => {
           data-kt-toggle-target="body"
           data-kt-toggle-name={`app-sidebar-${toggleType}`}
         >
-          <KTIcon iconName="abstract-14" className="fs-1" />
+          <i className="ki-outline ki-abstract-14 fs-3 mt-1"></i>{" "}
         </div>
+        //   <KTIcon iconName="ki-abstract-14" className="ki-outline" />
+        //   {/* <i
+        //     className="ki-outline ki-
+        //                     abstract-14                        "
+        //   ></i> */}
+        // </div>
       )}
-      <Link to="/dashboard" className="ms-10">
+      <Link to="/dashboard" className="">
         {config.layoutType === "dark-sidebar" ? (
           <img
             alt="Logo"

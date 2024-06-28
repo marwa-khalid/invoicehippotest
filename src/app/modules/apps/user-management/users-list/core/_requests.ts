@@ -14,7 +14,11 @@ import { VatTypesModel, VatTypeByIdModel } from "./_models";
 //     .then((d: AxiosResponse<UsersQueryResponse>) => d.data);
 // };
 
-export function getVatTypes(searchTerm: string, pageIndex:number) {
+export function getVatTypes(
+  searchTerm: string,
+  pageIndex: number,
+  vatAreaUsageTypeFilter: number
+) {
   return postRequest<VatTypesModel>(
     SEARCH_VAT_TYPES,
     {
@@ -22,7 +26,7 @@ export function getVatTypes(searchTerm: string, pageIndex:number) {
       pageIndex: pageIndex,
       searchTerm: searchTerm,
       templateIdFilter: 0,
-      vatAreaUsageTypeFilter: 0,
+      vatAreaUsageTypeFilter: vatAreaUsageTypeFilter,
     },
     true
   );
@@ -68,4 +72,11 @@ const deleteSelectedUsers = (userIds: Array<ID>): Promise<void> => {
   return axios.all(requests).then(() => {});
 };
 
-export { deleteUser, deleteSelectedUsers, getUserById, createUser, updateUser,getUsers };
+export {
+  deleteUser,
+  deleteSelectedUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  getUsers,
+};

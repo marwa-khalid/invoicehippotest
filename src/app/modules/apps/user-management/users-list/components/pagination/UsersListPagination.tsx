@@ -7,12 +7,14 @@ interface UsersListPaginationProps {
   totalPages: number;
   pageIndex: number;
   onPageChange: (page: number) => void;
+  totalItems: number;
 }
 
 const UsersListPagination = ({
   totalPages,
   pageIndex,
   onPageChange,
+  totalItems,
 }: UsersListPaginationProps) => {
   const intl = useIntl();
   const [selectedPage, setSelectedPage] = useState<string>(
@@ -85,18 +87,6 @@ const UsersListPagination = ({
   return (
     <div className="row mt-10">
       <div className="col-sm-12 col-md-6 d-flex align-items-center text-grey-800 justify-content-start">
-        <p className="content-fit m-0">
-          Showing Page {pageIndex} of {totalPages}
-        </p>
-        <select
-          className="form-select form-select-sm ms-2 w-auto bg-light-primary text-primary rounded-0"
-          value={selectedPage}
-          onChange={handlePageDropdownChange}
-        >
-          {pageOptions}
-        </select>
-      </div>
-      <div className="col-sm-12 col-md-6 d-flex align-items-center justify-content-center justify-content-md-end">
         <div id="kt_table_users_paginate">
           <ul className="pagination">
             {/* First Page Button */}
@@ -179,6 +169,23 @@ const UsersListPagination = ({
             </li>
           </ul>
         </div>
+      </div>
+      <div className="col-sm-12 col-md-6 d-flex align-items-center justify-content-center justify-content-md-end">
+        <span className="content-fit m-0 text-muted fs-xs">
+          {intl.formatMessage({ id: "Fields.SearchFooterPageTitle" })}{" "}
+          {pageIndex}{" "}
+          {intl.formatMessage({ id: "Fields.SearchFooterPageOfTitle" })}{" "}
+          {totalPages} |{" "}
+          {intl.formatMessage({ id: "Fields.SearchFooterTotalItemsTitle" })}:{" "}
+          {totalItems}
+        </span>
+        <select
+          className="form-select form-select-sm ms-2 w-auto bg-light-primary text-primary rounded-0"
+          value={selectedPage}
+          onChange={handlePageDropdownChange}
+        >
+          {pageOptions}
+        </select>
       </div>
     </div>
   );

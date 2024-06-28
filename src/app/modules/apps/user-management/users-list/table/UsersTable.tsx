@@ -6,11 +6,20 @@ import { UsersListPagination } from "../components/pagination/UsersListPaginatio
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
-const UsersTable = ({ searchTerm }: { searchTerm: string }) => {
+
+interface UsersTableComponentProps {
+  searchTerm: string;
+  vatAreaUsageTypeFilter: number;
+  setCurrentRows: (type: number) => void;
+}
+const UsersTable = ({
+  searchTerm,
+  vatAreaUsageTypeFilter,
+  setCurrentRows,
+}: UsersTableComponentProps) => {
   const [vatTypesList, setVatTypesList] = useState<any>([]);
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [totalPages, setTotalPages] = useState<number>(0);
   const [pageIndex, setPageIndex] = useState<number>(1);
 
   const handlePageChange = (page: number) => {
@@ -21,10 +30,15 @@ const UsersTable = ({ searchTerm }: { searchTerm: string }) => {
     const fetchVatTypes = async () => {
       setIsLoading(true);
       try {
-        const response = await getVatTypes(searchTerm, pageIndex);
-        setVatTypesList(response.result);
-        setTotalPages(response.totalPages);
+        const response = await getVatTypes(
+          searchTerm,
+          pageIndex,
+          vatAreaUsageTypeFilter
+        );
+        setVatTypesList(response);
         setPageIndex(response.pageIndex);
+        setCurrentRows(response.currentRows);
+        // setTotalItems(response.result);
       } catch (error) {
         console.error("Error fetching VAT types:", error);
       } finally {
@@ -33,13 +47,25 @@ const UsersTable = ({ searchTerm }: { searchTerm: string }) => {
     };
 
     fetchVatTypes();
-  }, [searchTerm, pageIndex]);
+  }, [searchTerm, pageIndex, vatAreaUsageTypeFilter]);
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
-      <i className="bi bi-unlock-fill text-success"></i>
+      <button className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-4">
+        <i className="ki-duotone ki-lock text-success fs-2">
+          <span className="path1"></span>
+          <span className="path2"></span>
+          <span className="path3"></span>
+        </i>
+      </button>
     ) : (
-      <i className="bi bi-lock-fill text-danger"></i>
+      <button className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-4">
+        <i className="ki-duotone ki-lock text-danger fs-2">
+          <span className="path1"></span>
+          <span className="path2"></span>
+          <span className="path3"></span>
+        </i>
+      </button>
     );
   };
 
@@ -48,9 +74,9 @@ const UsersTable = ({ searchTerm }: { searchTerm: string }) => {
       <div className="row row-cols-1 row-cols-md-1 g-4">
         {isLoading && <UsersListLoading />}
         {!isLoading &&
-          vatTypesList.map((vatType: VatTypesResult) => (
+          vatTypesList?.result?.map((vatType: VatTypesResult) => (
             <div className="col" key={vatType.id}>
-              <div className="card h-100 shadow-sm py-6">
+              <div className="card h-100 py-6 ">
                 <div className="card-body">
                   {/* First Row: Checkbox, Divider, Value */}
                   <div className="d-flex align-items-center justify-content-between mb-3">
@@ -63,33 +89,50 @@ const UsersTable = ({ searchTerm }: { searchTerm: string }) => {
                       />
                       {renderLockIcon(vatType.useInLists)}
                       <span className="mx-2 text-muted">|</span>
-                      <span className="fw-bold">{vatType.value}%</span>
+                      <strong>{vatType.value}%</strong>
                     </div>
-                    <div className="align-items-center">
-                      <i className="bi bi-pencil-fill text-warning me-4"></i>
-
-                      <i className="bi bi-trash-fill text-danger"></i>
+                    <div className="align-items-center my-lg-0 my-1 necessary-icons">
+                      <button className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-4">
+                        <i className="ki-duotone ki-pencil fs-2 text-warning">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
+                        </i>
+                      </button>
+                      <button className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                        <i className="ki-duotone ki-trash text-danger fs-2">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
+                          <span className="path3"></span>
+                          <span className="path4"></span>
+                          <span className="path5"></span>
+                        </i>
+                      </button>
                     </div>
                   </div>
-                  {/* Horizontal Line */}
-                  <hr />
+                  {/* separator Line */}
+                  <div className="separator separator-solid mb-3"></div>
                   {/* Verkoopfacturen Text */}
-                  <p className="text-muted mb-3">Verkoopfacturen</p>
+                  <div className="mb-4 text-muted">
+                    <small className="text-muted">verkoopfacturen</small>
+                  </div>
+
                   {/* Small Image and Ledger Account + Title */}
-                  <div className="d-flex align-items-start">
-                    <img
-                      src={toAbsoluteUrl("media/auth/ok-dark.png")}
-                      alt="Small Image"
-                      className="me-3"
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                    <div>
-                      <p className="mb-0 mt-1">
+                  <div className="d-flex align-items-center flex-wrap">
+                    <i className="ki-duotone ki-file-added fs-3x text-black ">
+                      <span className="path1"></span>
+                      <span className="path2"></span>
+                      <span className="path3"></span>
+                      <span className="path4"></span>
+                      <span className="path5"></span>
+                    </i>
+
+                    <div className="d-flex flex-column mx-6">
+                      <span className="fs-sm text-muted">
                         {intl.formatMessage({ id: "Fields.LedgerAccount" })}
-                      </p>
-                      <p className="fw-bold mb-0 text-primary">
+                      </span>
+                      <span className="text-primary fw-bolder">
                         {vatType.title}
-                      </p>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -98,9 +141,10 @@ const UsersTable = ({ searchTerm }: { searchTerm: string }) => {
           ))}
       </div>
       <UsersListPagination
-        totalPages={totalPages}
+        totalPages={vatTypesList.totalPages}
         pageIndex={pageIndex}
         onPageChange={handlePageChange}
+        totalItems={vatTypesList.totalRows}
       />
     </KTCardBody>
   );

@@ -8,15 +8,27 @@ import { KTCard } from "../../../../../_metronic/helpers";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
+import { UsersListToolbar } from "./components/header/UserListToolbar";
 const UsersList = () => {
   const { itemIdForUpdate } = useListView();
   const [searchTerm, setSearchTerm] = useState("");
+  const [vatAreaUsageTypeFilter, setVatAreaUsageTypeFilter] = useState(1);
+  const [currentRows, setCurrentRows] = useState(0);
   return (
     <>
-      <KTCard>
-        <UsersListHeader setSearchTerm={setSearchTerm} />
-        <UsersTable searchTerm={searchTerm} />
-      </KTCard>
+      <UsersListHeader
+        setSearchTerm={setSearchTerm}
+        setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
+      />
+
+      <UsersListToolbar currentRows={currentRows} />
+
+      <UsersTable
+        searchTerm={searchTerm}
+        vatAreaUsageTypeFilter={vatAreaUsageTypeFilter}
+        setCurrentRows={setCurrentRows}
+      />
+
       {itemIdForUpdate !== undefined && <UserEditModal />}
     </>
   );
@@ -29,7 +41,7 @@ const UsersListWrapper = () => (
         <ToolbarWrapper />
         <Content>
           {/* <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}> */}
-            <UsersList />
+          <UsersList />
           {/* </div> */}
         </Content>
       </ListViewProvider>
