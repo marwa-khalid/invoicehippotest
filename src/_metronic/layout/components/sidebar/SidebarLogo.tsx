@@ -58,7 +58,7 @@ const SidebarLogo = (props: PropsType) => {
           ref={toggleRef}
           id="kt_app_sidebar_toggle"
           className={clsx(
-            "btn btn-md btn-icon bg-body btn-color-gray-500 btn-active-color-primary w-30px p-2 h-30px ms-n2 d-none d-lg-flex ",
+            "btn btn-md btn-icon btn-active-color-primary w-30px h-30px ms-n2 d-none d-lg-flex",
             { active: appSidebarDefaultMinimizeDefault }
           )}
           data-kt-toggle="true"
@@ -66,7 +66,13 @@ const SidebarLogo = (props: PropsType) => {
           data-kt-toggle-target="body"
           data-kt-toggle-name={`app-sidebar-${toggleType}`}
         >
-          <i className="ki-outline ki-abstract-14 fs-3 mt-1"></i>{" "}
+          <i className="ki-duotone ki-menu fs-2x ">
+            <span className="path1"></span>
+            <span className="path2"></span>
+            <span className="path3"></span>
+            <span className="path4"></span>
+          </i>
+          {/* <i className="ki-outline ki-abstract-14 fs-3 mt-1"></i>{" "} */}
         </div>
         //   <KTIcon iconName="ki-abstract-14" className="ki-outline" />
         //   {/* <i

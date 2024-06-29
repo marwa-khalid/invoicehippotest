@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
-
+import Select from "react-select";
 type Props = {
   isUserLoading: boolean;
   user: any; // Adjust the type according to your user model
@@ -185,10 +185,12 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
         <label className="required fw-bold fs-6 mb-2">
           {intl.formatMessage({ id: "Fields.VatAreaUsageType" })}
         </label>
-        <select
+        <Select
           {...formik.getFieldProps("documentGroup")}
+          placeholder="Select a document group"
+          classNamePrefix="react-select"
           className={clsx(
-            "form-control form-control-solid",
+            "react-select-styled border",
             {
               "is-invalid":
                 formik.touched.documentGroup && formik.errors.documentGroup,
@@ -198,13 +200,12 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
                 formik.touched.documentGroup && !formik.errors.documentGroup,
             }
           )}
-          disabled={formik.isSubmitting || isUserLoading}
-        >
-          <option value="">Select a group</option>
-          {/* Add your document group options here */}
-          <option value="Group1">Group 1</option>
-          <option value="Group2">Group 2</option>
-        </select>
+          // disabled={formik.isSubmitting || isUserLoading}
+          options={[
+            { value: "Invoices", label: "Invoices" },
+            { value: "Receipts", label: "Receipts" },
+          ]}
+        />
         {formik.touched.documentGroup && formik.errors.documentGroup && (
           <div className="fv-plugins-message-container">
             <div className="fv-help-block">
@@ -227,10 +228,14 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
           <label className="required fw-bold fs-6 mb-2">
             {intl.formatMessage({ id: "Fields.LedgerAccount" })}
           </label>
-          <select
+
+          <Select
             {...formik.getFieldProps("ledgerAccount")}
+            placeholder="Select a ledger account"
+            classNamePrefix="react-select"
             className={clsx(
-              "form-control form-control-solid",
+              "react-select-styled border",
+
               {
                 "is-invalid":
                   formik.touched.ledgerAccount && formik.errors.ledgerAccount,
@@ -240,13 +245,121 @@ const UserEditModalForm: FC<Props> = ({ isUserLoading, user }) => {
                   formik.touched.ledgerAccount && !formik.errors.ledgerAccount,
               }
             )}
-            disabled={formik.isSubmitting || isUserLoading}
-          >
-            <option value="">Select an account</option>
-            {/* Add your ledger account options here */}
-            <option value="Account1">Account 1</option>
-            <option value="Account2">Account 2</option>
-          </select>
+            // disabled={formik.isSubmitting || isUserLoading}
+            options={[
+              {
+                value: "100001 - account test",
+                label: "100001 - account test",
+              },
+              {
+                value: "1600 - BTW Verkoop 21%",
+                label: "1600 - BTW Verkoop 21%",
+              },
+              {
+                value: "1601 - BTW Verkoop 9%",
+                label: "1601 - BTW Verkoop 9%",
+              },
+              {
+                value: "1610 - BTW Inkoop 21%",
+                label: "1610 - BTW Inkoop 21%",
+              },
+              {
+                value: "1611 - BTW Inkoop 9%",
+                label: "1611 - BTW Inkoop 9%",
+              },
+              {
+                value: "1620 - BTW Verkoop Prive",
+                label: "1620 - BTW Verkoop Prive",
+              },
+              {
+                value: "1625 - BTW Verkoop 0%",
+                label: "1625 - BTW Verkoop 0%",
+              },
+
+              { value: "1626 - BTW Inkoop 0%", label: "1626 - BTW Inkoop 0%" },
+              {
+                value: "1627 - BTW Verkoop Vrijgesteld",
+                label: "1627 - BTW Verkoop Vrijgesteld",
+              },
+              {
+                value: "1640 - BTW Verkoop Verlegd",
+                label: "1640 - BTW Verkoop Verlegd",
+              },
+              {
+                value: "1641 - BTW Inkoop Verlegd",
+                label: "1641 - BTW Inkoop Verlegd",
+              },
+              {
+                value: "1642 - BTW Inkoop Verlegd - Voorbelasting",
+                label: "1642 - BTW Inkoop Verlegd - Voorbelasting",
+              },
+              {
+                value: "1643 - BTW Inkoop Verlegd 9%",
+                label: "1643 - BTW Inkoop Verlegd 9%",
+              },
+              {
+                value: "1644 - BTW Inkoop Verlegd  9%- Voorbelasting",
+                label: "1644 - BTW Inkoop Verlegd  9%- Voorbelasting",
+              },
+              {
+                value: "1650 - BTW Verkoop binnen EU",
+                label: "1650 - BTW Verkoop binnen EU",
+              },
+              {
+                value: "1651 - BTW Inkoop binnen EU",
+                label: "1651 - BTW Inkoop binnen EU",
+              },
+              {
+                value: "1652 - BTW Inkoop binnen EU - Voorbelasting",
+                label: "1652 - BTW Inkoop binnen EU - Voorbelasting",
+              },
+              {
+                value: "1657 - BTW Installatie binnen EU",
+                label: "1657 - BTW Installatie binnen EU",
+              },
+              {
+                value: "1660 - BTW Verkoop buiten EU",
+                label: "1660 - BTW Verkoop buiten EU",
+              },
+              {
+                value: "1661 - BTW Inkoop buiten EU",
+                label: "1661 - BTW Inkoop buiten EU",
+              },
+              {
+                value: "1662 - BTW Inkoop buiten EU - Voorbelasting",
+                label: "1662 - BTW Inkoop buiten EU - Voorbelasting",
+              },
+              {
+                value: "1690 - BTW Afdrachten-/Teruggaven",
+                label: "1690 - BTW Afdrachten-/Teruggaven",
+              },
+              {
+                value: "1695 - BTW Suppleties",
+                label: "1695 - BTW Suppleties",
+              },
+              {
+                value: "1700 - Afdrachten Loonheffing",
+                label: "1700 - Afdrachten Loonheffing",
+              },
+              {
+                value: "1710 - Afdrachten Bedrijfsvereniging",
+                label: "1710 - Afdrachten Bedrijfsvereniging",
+              },
+              {
+                value: "1720 - Afdrachten Bedrijfsfonds",
+                label: "1720 - Afdrachten Bedrijfsfonds",
+              },
+              {
+                value: "1780 - Afdrachten Pensioen",
+                label: "1780 - Afdrachten Pensioen",
+              },
+              {
+                value: "1800 - Afdrachten Venootschapsbelasting",
+                label: "1800 - Afdrachten Venootschapsbelasting",
+              },
+            ]}
+          />
+
           {formik.touched.ledgerAccount && formik.errors.ledgerAccount && (
             <div className="fv-plugins-message-container">
               <div className="fv-help-block">

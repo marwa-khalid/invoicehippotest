@@ -92,14 +92,14 @@ const UsersTable = ({
                       <strong>{vatType.value}%</strong>
                     </div>
                     <div className="align-items-center my-lg-0 my-1 necessary-icons">
-                      <button className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-4">
-                        <i className="ki-duotone ki-pencil fs-2 text-warning">
+                      <button className="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-4">
+                        <i className="ki-duotone ki-pencil fs-2 ">
                           <span className="path1"></span>
                           <span className="path2"></span>
                         </i>
                       </button>
-                      <button className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
-                        <i className="ki-duotone ki-trash text-danger fs-2">
+                      <button className="btn btn-icon btn-bg-light btn-active-color-danger  btn-sm">
+                        <i className="ki-duotone ki-trash fs-2">
                           <span className="path1"></span>
                           <span className="path2"></span>
                           <span className="path3"></span>
