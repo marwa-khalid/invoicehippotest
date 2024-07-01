@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_APP_THEME_API_URL;
 const USER_URL = `${API_URL}/user`;
 const GET_USERS_URL = `${API_URL}/users/query`;
 import { getRequest, postRequest } from "../../../../auth/core/_apiservice";
-import { SEARCH_VAT_TYPES, GET_VAT_BY_ID } from "./constants";
+import { SEARCH_VAT_TYPES, GET_VAT_BY_ID, POST_VAT_TYPES } from "./constants";
 import { VatTypesModel, VatTypeByIdModel } from "./_models";
 // export function getUsers(query: string): Promise<UsersQueryResponse> => {
 //   return axios
@@ -27,6 +27,34 @@ export function getVatTypes(
       searchTerm: searchTerm,
       templateIdFilter: 0,
       vatAreaUsageTypeFilter: vatAreaUsageTypeFilter,
+    },
+    true
+  );
+}
+
+export function postVatType(
+  id: number,
+  ledgerAccountId: number,
+  title: string,
+  value: number,
+  vatAreaUsageType: number,
+  isAlwaysExBtw: boolean,
+  useInLists: boolean,
+  isNoneVatType: boolean
+) {
+  return postRequest<VatTypesModel>(
+    POST_VAT_TYPES,
+    {
+      id: id,
+      ledgerAccountId: ledgerAccountId,
+      templateId: 0,
+      title: title,
+      value: value,
+      vatAreaUsageType: vatAreaUsageType,
+      isAlwaysExBtw: isAlwaysExBtw,
+      showOnDocuments: false,
+      useInLists: useInLists,
+      isNoneVatType: isNoneVatType,
     },
     true
   );

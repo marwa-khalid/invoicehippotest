@@ -99,7 +99,24 @@ const UsersTable = ({
                 <div className="card-body">
                   {/* First Row: Checkbox, Divider, Value */}
                   <div className="d-flex align-items-center justify-content-between mb-3">
-                    <div className="d-flex align-items-center gap-3">
+                    <div
+                      className="d-flex align-items-center gap-3 cursor-pointer title-clickable"
+                      onClick={() => {
+                        openEditModal(
+                          vatType.id,
+                          vatType.ledgerAccountDisplayName
+                        );
+                      }}
+                      style={{
+                        transition: "color 0.3s", // Smooth transition effect
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "blue";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = "black";
+                      }}
+                    >
                       <input
                         type="checkbox"
                         style={{ display: "none" }}

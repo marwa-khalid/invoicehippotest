@@ -158,9 +158,13 @@ const SidebarMenuMain = () => {
         fontIcon="bi-chat-left"
         icon="message-text-2"
       >
-        <SidebarMenuItem to="/vattype" title="Tax Types" hasBullet={true} />
         <SidebarMenuItem
-          to="/ledgeraccount"
+          to="/admin/vattype"
+          title="Tax Types"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to="/admin/ledgeraccount"
           title="Ledger Accounts"
           hasBullet={true}
         />
@@ -194,24 +198,7 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         />
       </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub
-        to="/"
-        title="Admin"
-        fontIcon="bi-chat-left"
-        icon="message-text-2"
-      >
-        <SidebarMenuItem
-          to="/admin/vattype"
-          title="Vat Types"
-          hasBullet={true}
-        />
 
-        <SidebarMenuItem
-          to="/admin/ledgeraccounts"
-          title="Ledger Accounts"
-          hasBullet={true}
-        />
-      </SidebarMenuItemWithSub>
       <SidebarMenuItem
         to="/apps/user-management/users"
         icon="abstract-28"

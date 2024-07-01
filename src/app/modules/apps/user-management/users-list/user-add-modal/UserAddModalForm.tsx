@@ -4,9 +4,15 @@ import { useFormik } from "formik";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
+import { postVatType } from "../core/_requests";
 type Props = {
   isUserLoading: boolean;
   user: any; // Adjust the type according to your user model
+};
+
+type OptionType = {
+  value: string;
+  label: string;
 };
 
 const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
@@ -51,8 +57,9 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
   });
   const formik = useFormik({
     initialValues: {
+      id: 0,
       title: "",
-      value: "",
+      value: 0,
       documentGroup: "",
       ledgerAccount: "",
       excludeTax: false,
@@ -64,20 +71,33 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       try {
-        // Here, replace the console.log with your actual submit logic
-        console.log(values);
-      } catch (ex) {
-        console.error(ex);
+        const mappedDocumentGroup = values.documentGroup === "1" ? 1 : 2;
+        const response = await postVatType(
+          values.id,
+          0,
+          values.title,
+          values.value,
+          mappedDocumentGroup,
+          values.alwaysExclusiveOfVAT,
+          values.showInLists,
+          values.showTax
+        );
+
+        console.log("Post successful:", response);
+      } catch (error) {
+        console.error("Post failed:", error);
       } finally {
         setSubmitting(false);
       }
     },
   });
 
+  console.log(formik.values);
+
   return (
     <form
       id="kt_modal_add_user_form"
-      className="form"
+      className="form p-2"
       onSubmit={formik.handleSubmit}
       noValidate
     >
@@ -187,11 +207,28 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
           {intl.formatMessage({ id: "Fields.VatAreaUsageType" })}
         </label>
         <Select
-          {...formik.getFieldProps("documentGroup")}
-          placeholder="Select a document group"
-          classNamePrefix="react-select"
+          name="documentGroup"
+          value={
+            formik.values.documentGroup
+              ? {
+                  value: formik.values.documentGroup,
+                  label:
+                    formik.values.documentGroup === "1"
+                      ? "Invoices"
+                      : "Receipts",
+                }
+              : null
+          }
+          onChange={(option: OptionType | null) =>
+            formik.setFieldValue("documentGroup", option?.value)
+          }
+          onBlur={() => formik.setFieldTouched("documentGroup", true)}
+          placeholder={intl.formatMessage({
+            id: "Fields.SelectOptionDefaultVatAreaUsageType",
+          })}
+          // classNamePrefix="react-select"
           className={clsx(
-            "react-select-styled border",
+            "react-select-styled",
             {
               "is-invalid":
                 formik.touched.documentGroup && formik.errors.documentGroup,
@@ -201,12 +238,15 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
                 formik.touched.documentGroup && !formik.errors.documentGroup,
             }
           )}
-          // disabled={formik.isSubmitting || isUserLoading}
+          classNames={{
+            control: () => "border-secondary",
+          }}
           options={[
-            { value: "Invoices", label: "Invoices" },
-            { value: "Receipts", label: "Receipts" },
+            { value: "1", label: "Invoices" },
+            { value: "2", label: "Receipts" },
           ]}
         />
+
         {formik.touched.documentGroup && formik.errors.documentGroup && (
           <div className="fv-plugins-message-container">
             <div className="fv-help-block">
@@ -231,12 +271,28 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
           </label>
 
           <Select
-            {...formik.getFieldProps("ledgerAccount")}
-            placeholder="Select a ledger account"
-            classNamePrefix="react-select"
+            name="ledgerAccount"
+            placeholder={intl.formatMessage({
+              id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
+            })}
+            value={
+              formik.values.ledgerAccount
+                ? {
+                    value: formik.values.ledgerAccount,
+                    label: formik.values.ledgerAccount,
+                  }
+                : null
+            }
+            onChange={(option: OptionType | null) => {
+              formik.setFieldValue("ledgerAccount", option?.value || "");
+            }}
+            onBlur={() => formik.setFieldTouched("ledgerAccount", true)}
+            // classNamePrefix="react-select-styled"
+            classNames={{
+              control: () => "border-secondary",
+            }}
             className={clsx(
-              "react-select-styled border",
-
+              "react-select-styled",
               {
                 "is-invalid":
                   formik.touched.ledgerAccount && formik.errors.ledgerAccount,

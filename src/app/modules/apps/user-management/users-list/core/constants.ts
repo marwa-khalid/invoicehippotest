@@ -1,6 +1,7 @@
 const API_URL_V1 = "https://api.invoicehippo.nl/api/v1";
 
 export const SEARCH_VAT_TYPES = `${API_URL_V1}/admin/vat-type/search`;
+export const POST_VAT_TYPES = `${API_URL_V1}/admin/vat-type`;
 export const GET_VAT_BY_ID = `${API_URL_V1}/admin/vat-type`;
 export const REQUEST_PASSWORD_URL = `${API_URL_V1}/profile/password/reset/request`;
 export const GET_PROFILE_INFO = `${API_URL_V1}/profile/info`;

@@ -1,7 +1,7 @@
-import { Route, Routes, Outlet, Navigate } from "react-router-dom";
-import { PageLink, PageTitle } from "../../../../_metronic/layout/core";
-import { VatTypesListWrapper } from "./users-list/VatTypesList";
-import UsersPage from "../../../modules/apps/user-management/UsersPage";
+// import { Route, Routes, Outlet, Navigate } from "react-router-dom";
+// import { PageLink, PageTitle } from "../../../../_metronic/layout/core";
+// import { VatTypesListWrapper } from "./users-list/VatTypesList";
+// import UsersPage from "../../../modules/apps/user-management/UsersPage";
 // const vatTypesBreadcrumbs: Array<PageLink> = [
 //   {
 //     title: "Vat Types",
@@ -17,28 +17,26 @@ import UsersPage from "../../../modules/apps/user-management/UsersPage";
 //   },
 // ];
 
-const VatTypes = () => {
-  return (
-    // <Routes>
-    //   <Route element={<Outlet />}>
-    //     <Route
-    //       path="vattype"
-    //       element={
-    //         <>
-    //           <PageTitle breadcrumbs={vatTypesBreadcrumbs}>
-    //             Types list
-    //           </PageTitle>
-    //           <VatTypesListWrapper />
-    //         </>
-    //       }
-    //     />
-    //   </Route>
-    //   <Route index element={<Navigate to="/admin/vattype" />} />
-    // </Routes>
-    <>
-      <UsersPage />
-    </>
-  );
-};
+// const VatTypes = () => {
+//   return (
+//     <Routes>
+//       <Route element={<Outlet />}>
+//         <Route
+//           path="vattype"
+//           element={
+//             <>
+//               <PageTitle breadcrumbs={vatTypesBreadcrumbs}>Vat Types</PageTitle>
+//               <VatTypesListWrapper />
+//             </>
+//           }
+//         />
+//       </Route>
+//       <Route index element={<Navigate to="/admin/vattype" />} />
+//     </Routes>
+//     // <>
+//     //   <UsersPage />
+//     // </>
+//   );
+// };
 
-export default VatTypes;
+// export default VatTypes;
