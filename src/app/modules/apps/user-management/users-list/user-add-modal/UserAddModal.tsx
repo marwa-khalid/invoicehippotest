@@ -1,18 +1,8 @@
-import { useEffect, useState } from "react";
-import { UserEditModalHeader } from "./UserEditModalHeader";
-import { UserEditModalFormWrapper } from "./UserEditModalFormWrapper";
-import { UserEditModalFooter } from "./UserEditModalFooter";
-import { VatTypeByIdResult } from "../core/_models";
-interface ComponentProps {
-  ledgerAccountDisplayName: string;
-  editModalId: number;
-  setEditModalOpen: (type: boolean) => void;
-}
-const UserEditModal = ({
-  editModalId,
-  ledgerAccountDisplayName,
-  setEditModalOpen,
-}: ComponentProps) => {
+import { useEffect } from "react";
+import { UserAddModalHeader } from "./UserAddModalHeader";
+import { UserAddModalFormWrapper } from "./UserAddModalFormWrapper";
+import { UserAddModalFooter } from "./UserAddModalFooter";
+const UserAddModal = () => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -33,22 +23,19 @@ const UserEditModal = ({
         <div className="modal-dialog modal-dialog-centered mw-650px">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <UserEditModalHeader setEditModalOpen={setEditModalOpen} />
+            <UserAddModalHeader />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div
                 className="form-wrapper"
                 style={{ maxHeight: "calc(100vh - 300px)", overflowY: "auto" }}
               >
-                <UserEditModalFormWrapper
-                  editModalId={editModalId}
-                  ledgerAccountDisplayName={ledgerAccountDisplayName}
-                />
+                <UserAddModalFormWrapper />
               </div>
             </div>
-
+           
             {/* end::Modal body */}
-            <UserEditModalFooter setEditModalOpen={setEditModalOpen} />
+             <UserAddModalFooter/>
           </div>
           {/* end::Modal content */}
         </div>
@@ -61,4 +48,4 @@ const UserEditModal = ({
   );
 };
 
-export { UserEditModal };
+export { UserAddModal };

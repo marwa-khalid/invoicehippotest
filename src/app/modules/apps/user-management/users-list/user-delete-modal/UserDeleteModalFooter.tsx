@@ -2,24 +2,25 @@ import { FC } from "react";
 import { useIntl } from "react-intl";
 import { useFormikContext } from "formik";
 import { useListView } from "../core/ListViewProvider";
+
 interface ComponentProps {
-  setEditModalOpen: (type: boolean) => void;
+  setDeleteModalOpen: (type: boolean) => void;
+  deleteModalId: number;
 }
-const UserEditModalFooter = ({ setEditModalOpen }: ComponentProps) => {
+
+const UserDeleteModalFooter = ({
+  deleteModalId,
+  setDeleteModalOpen,
+}: ComponentProps) => {
   // For localization support
   const intl = useIntl();
-
-  //   // Accessing Formik's context
-  //   const { submitForm, isSubmitting, isValid, touched, resetForm } =
-  //     useFormikContext<any>();
-
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
       <div className="d-flex">
         {/* Cancel Button */}
         <button
           type="reset"
-          onClick={() => setEditModalOpen(false)}
+          onClick={() => setDeleteModalOpen(false)}
           className="btn btn-light me-3"
           //   disabled={isSubmitting}
         >
@@ -29,12 +30,12 @@ const UserEditModalFooter = ({ setEditModalOpen }: ComponentProps) => {
         {/* Save Button */}
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-danger"
           //   onClick={submitForm}
           //   disabled={!isValid || isSubmitting || !touched}
         >
           <span className="indicator-label">
-            {intl.formatMessage({ id: "Fields.ActionSave" })}
+            {intl.formatMessage({ id: "Fields.ActionDelete" })}
           </span>
           {/* {isSubmitting && ( */}
           <span className="indicator-progress">
@@ -48,4 +49,4 @@ const UserEditModalFooter = ({ setEditModalOpen }: ComponentProps) => {
   );
 };
 
-export { UserEditModalFooter };
+export { UserDeleteModalFooter };

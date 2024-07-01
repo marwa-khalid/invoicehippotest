@@ -45,8 +45,8 @@ const getUserById = (id: ID): Promise<User | undefined> => {
     .then((response: Response<User>) => response.data);
 };
 
-export function getVatById(id: number) {
-  return getRequest<VatTypeByIdModel>(`${GET_VAT_BY_ID}/${id}`, true);
+export function getVatById(editModalId: number) {
+  return getRequest<VatTypeByIdModel>(`${GET_VAT_BY_ID}/${editModalId}`, true);
 }
 
 const createUser = (user: User): Promise<User | undefined> => {

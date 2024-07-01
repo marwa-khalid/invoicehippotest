@@ -6,16 +6,26 @@ import { UsersListPagination } from "../components/pagination/UsersListPaginatio
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
-
+import { UserEditModal } from "../user-edit-modal/UserEditModal";
 interface UsersTableComponentProps {
   searchTerm: string;
   vatAreaUsageTypeFilter: number;
   setCurrentRows: (type: number) => void;
+  setEditModalOpen: (type: boolean) => void;
+  setEditModalId: (type: number) => void;
+  setLedgerAccountDisplayName: (type: string) => void;
+  setVatTitle: (type: string) => void;
+  setDeleteModalOpen: (type: boolean) => void;
 }
 const UsersTable = ({
   searchTerm,
   vatAreaUsageTypeFilter,
   setCurrentRows,
+  setEditModalOpen,
+  setEditModalId,
+  setLedgerAccountDisplayName,
+  setVatTitle,
+  setDeleteModalOpen,
 }: UsersTableComponentProps) => {
   const [vatTypesList, setVatTypesList] = useState<any>([]);
   const intl = useIntl();
@@ -68,7 +78,16 @@ const UsersTable = ({
       </button>
     );
   };
+  const openEditModal = (id: number, ledgerName: string) => {
+    setEditModalId(id);
+    setEditModalOpen(true);
+    setLedgerAccountDisplayName(ledgerName);
+  };
 
+  const openDeleteModal = (vatTitle: string) => {
+    setDeleteModalOpen(true);
+    setVatTitle(vatTitle);
+  };
   return (
     <KTCardBody className="py-4">
       <div className="row row-cols-1 row-cols-md-1 g-4">
@@ -92,13 +111,26 @@ const UsersTable = ({
                       <strong>{vatType.value}%</strong>
                     </div>
                     <div className="align-items-center my-lg-0 my-1 necessary-icons">
-                      <button className="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-4">
+                      <button
+                        className="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-4"
+                        onClick={() => {
+                          openEditModal(
+                            vatType.id,
+                            vatType.ledgerAccountDisplayName
+                          );
+                        }}
+                      >
                         <i className="ki-duotone ki-pencil fs-2 ">
                           <span className="path1"></span>
                           <span className="path2"></span>
                         </i>
                       </button>
-                      <button className="btn btn-icon btn-bg-light btn-active-color-danger  btn-sm">
+                      <button
+                        className="btn btn-icon btn-bg-light btn-active-color-danger btn-sm"
+                        onClick={() => {
+                          openDeleteModal(vatType.title);
+                        }}
+                      >
                         <i className="ki-duotone ki-trash fs-2">
                           <span className="path1"></span>
                           <span className="path2"></span>

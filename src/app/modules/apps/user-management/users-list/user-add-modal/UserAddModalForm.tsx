@@ -1,23 +1,15 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
-// import { VatTypeByIdResult } from "../core/_models";
-import { VatTypeByIdModel } from "../core/_models";
-
 type Props = {
   isUserLoading: boolean;
-  user: VatTypeByIdModel;
-  ledgerAccountDisplayName: string;
+  user: any; // Adjust the type according to your user model
 };
 
-const UserEditModalForm: FC<Props> = ({
-  isUserLoading,
-  user,
-  ledgerAccountDisplayName,
-}) => {
+const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
   const intl = useIntl();
 
   const formSchema = Yup.object().shape({
@@ -41,7 +33,7 @@ const UserEditModalForm: FC<Props> = ({
           .formatMessage({ id: "Common.RequiredFieldHint2" })
           .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
       ),
-    value: Yup.number().required(
+    value: Yup.string().required(
       intl
         .formatMessage({ id: "Common.RequiredFieldHint2" })
         .replace("{0}", intl.formatMessage({ id: "Fields.Value" }))
@@ -57,41 +49,22 @@ const UserEditModalForm: FC<Props> = ({
         .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
     ),
   });
-
-  useEffect(() => {
-    if (user) {
-      formik.setValues({
-        title: user.result.title || "",
-        excludeTax: false,
-        value: user.result.value || 0,
-        documentGroup:
-          user.result.vatAreaUsageType === 1 ? "Invoices" : "Receipts",
-        ledgerAccount: ledgerAccountDisplayName,
-        alwaysExclusiveOfVAT: user.result.isAlwaysExBtw || false,
-        showInLists: true,
-        showTax: user.result.isNoneVatType || false,
-      });
-    }
-  }, [user]);
-  console.log(user);
-  console.log(user?.result?.title);
   const formik = useFormik({
     initialValues: {
-      title: user?.result?.title || "",
+      title: "",
+      value: "",
+      documentGroup: "",
+      ledgerAccount: "",
       excludeTax: false,
-      value: user?.result?.value || 0,
-      documentGroup:
-        user?.result?.vatAreaUsageType === 1 ? "Invoices" : "Receipts",
-      ledgerAccount: ledgerAccountDisplayName || "",
-      alwaysExclusiveOfVAT: user?.result?.isAlwaysExBtw || false,
-      showInLists: true,
-      showTax: user?.result?.isNoneVatType || false,
+      alwaysExclusiveOfVAT: false,
+      showInLists: false,
+      showTax: false,
     },
     validationSchema: formSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       try {
-        // Replace with your actual submit logic
+        // Here, replace the console.log with your actual submit logic
         console.log(values);
       } catch (ex) {
         console.error(ex);
@@ -100,10 +73,6 @@ const UserEditModalForm: FC<Props> = ({
       }
     },
   });
-
-  const handleSelectChange = (name: string, value: any) => {
-    formik.setFieldValue(name, value.value);
-  };
 
   return (
     <form
@@ -122,7 +91,6 @@ const UserEditModalForm: FC<Props> = ({
             className="form-check-input"
             type="checkbox"
             id="vatSwitch"
-            checked={formik.values.excludeTax}
             {...formik.getFieldProps("excludeTax")}
             disabled={formik.isSubmitting || isUserLoading}
           />
@@ -148,6 +116,7 @@ const UserEditModalForm: FC<Props> = ({
           )}
         >
           <label className="required fw-bold fs-6 mb-2">
+            {" "}
             {intl.formatMessage({ id: "Fields.Title" })}
           </label>
           <input
@@ -178,6 +147,7 @@ const UserEditModalForm: FC<Props> = ({
         {!formik.values.excludeTax && (
           <div className="fv-row flex-grow-1">
             <label className="required fw-bold fs-6 mb-2">
+              {" "}
               {intl.formatMessage({ id: "Fields.Value" })}
             </label>
             <div className="input-group">
@@ -217,12 +187,7 @@ const UserEditModalForm: FC<Props> = ({
           {intl.formatMessage({ id: "Fields.VatAreaUsageType" })}
         </label>
         <Select
-          name="documentGroup"
-          value={{
-            value: formik.values.documentGroup,
-            label: formik.values.documentGroup,
-          }}
-          onChange={(option) => handleSelectChange("documentGroup", option)}
+          {...formik.getFieldProps("documentGroup")}
           placeholder="Select a document group"
           classNamePrefix="react-select"
           className={clsx(
@@ -236,11 +201,11 @@ const UserEditModalForm: FC<Props> = ({
                 formik.touched.documentGroup && !formik.errors.documentGroup,
             }
           )}
+          // disabled={formik.isSubmitting || isUserLoading}
           options={[
             { value: "Invoices", label: "Invoices" },
             { value: "Receipts", label: "Receipts" },
           ]}
-          isDisabled={true}
         />
         {formik.touched.documentGroup && formik.errors.documentGroup && (
           <div className="fv-plugins-message-container">
@@ -258,6 +223,7 @@ const UserEditModalForm: FC<Props> = ({
       {/* end::Input group */}
 
       {/* begin::Input group */}
+
       {!formik.values.excludeTax && (
         <div className="fv-row mb-7">
           <label className="required fw-bold fs-6 mb-2">
@@ -265,16 +231,12 @@ const UserEditModalForm: FC<Props> = ({
           </label>
 
           <Select
-            name="ledgerAccount"
-            value={{
-              value: formik.values.ledgerAccount,
-              label: ledgerAccountDisplayName,
-            }}
-            onChange={(option) => handleSelectChange("ledgerAccount", option)}
+            {...formik.getFieldProps("ledgerAccount")}
             placeholder="Select a ledger account"
             classNamePrefix="react-select"
             className={clsx(
               "react-select-styled border",
+
               {
                 "is-invalid":
                   formik.touched.ledgerAccount && formik.errors.ledgerAccount,
@@ -284,6 +246,7 @@ const UserEditModalForm: FC<Props> = ({
                   formik.touched.ledgerAccount && !formik.errors.ledgerAccount,
               }
             )}
+            // disabled={formik.isSubmitting || isUserLoading}
             options={[
               {
                 value: "100001 - account test",
@@ -396,8 +359,8 @@ const UserEditModalForm: FC<Props> = ({
                 label: "1800 - Afdrachten Venootschapsbelasting",
               },
             ]}
-            isDisabled={formik.isSubmitting || isUserLoading}
           />
+
           {formik.touched.ledgerAccount && formik.errors.ledgerAccount && (
             <div className="fv-plugins-message-container">
               <div className="fv-help-block">
@@ -484,13 +447,51 @@ const UserEditModalForm: FC<Props> = ({
           </div>
         </div>
       )}
+      {/* end::Input group */}
+
+      {/* begin::Description */}
       {!formik.values.excludeTax && (
         <div className="text-muted mb-7">
           {intl.formatMessage({ id: "Fields.ShowOnDocumentInfo" })}
         </div>
       )}
+      {/* end::Description */}
+
+      {/* begin::Actions */}
+      {/* <div className="text-end">
+        <button
+          type="reset"
+          onClick={() => formik.resetForm()}
+          className="btn btn-light me-3"
+          disabled={formik.isSubmitting || isUserLoading}
+        >
+          {intl.formatMessage({ id: "Fields.ActionCancel" })}
+        </button>
+
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={
+            isUserLoading ||
+            formik.isSubmitting ||
+            !formik.isValid ||
+            !formik.touched
+          }
+        >
+          <span className="indicator-label">
+            {intl.formatMessage({ id: "Fields.ActionSave" })}
+          </span>
+          {(formik.isSubmitting || isUserLoading) && (
+            <span className="indicator-progress">
+              {intl.formatMessage({ id: "Common.Busy" })}...{" "}
+              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+          )}
+        </button>
+      </div> */}
+      {/* end::Actions */}
     </form>
   );
 };
 
-export { UserEditModalForm };
+export { UserAddModalForm };

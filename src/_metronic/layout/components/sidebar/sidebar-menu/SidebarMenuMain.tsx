@@ -148,6 +148,26 @@ const SidebarMenuMain = () => {
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
+            Admin
+          </span>
+        </div>
+      </div>
+      <SidebarMenuItemWithSub
+        to="/admin"
+        title="Admin"
+        fontIcon="bi-chat-left"
+        icon="message-text-2"
+      >
+        <SidebarMenuItem to="/vattype" title="Tax Types" hasBullet={true} />
+        <SidebarMenuItem
+          to="/ledgeraccount"
+          title="Ledger Accounts"
+          hasBullet={true}
+        />
+      </SidebarMenuItemWithSub>
+      <div className="menu-item">
+        <div className="menu-content pt-8 pb-2">
+          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
             Apps
           </span>
         </div>
@@ -175,7 +195,7 @@ const SidebarMenuMain = () => {
         />
       </SidebarMenuItemWithSub>
       <SidebarMenuItemWithSub
-        to="/admin"
+        to="/"
         title="Admin"
         fontIcon="bi-chat-left"
         icon="message-text-2"

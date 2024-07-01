@@ -2,11 +2,7 @@ import { KTIcon } from "../../../../../../_metronic/helpers";
 import { useListView } from "../core/ListViewProvider";
 import { useIntl } from "react-intl";
 
-interface ComponentProps {
-  setEditModalOpen: (type: boolean) => void;
-}
-
-const UserEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
+const UserAddModalHeader = () => {
   const { setItemIdForUpdate } = useListView();
   const intl = useIntl();
 
@@ -14,7 +10,7 @@ const UserEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
     <div className="modal-header d-flex justify-content-between align-items-center bg-primary ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {intl.formatMessage({ id: "Fields.ModalEditTitleVatType" })}
+        {intl.formatMessage({ id: "Fields.ModalNewTitleVatType" })}
       </h2>
       {/* end::Modal title */}
 
@@ -22,7 +18,7 @@ const UserEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
       <div
         className="btn btn-icon btn-sm btn-active-icon-primary"
         data-kt-users-modal-action="close"
-        onClick={() => setEditModalOpen(false)}
+        onClick={() => setItemIdForUpdate(undefined)}
         style={{ cursor: "pointer" }}
       >
         <KTIcon iconName="cross" className="fs-1 text-white" />
@@ -32,4 +28,4 @@ const UserEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
   );
 };
 
-export { UserEditModalHeader };
+export { UserAddModalHeader };

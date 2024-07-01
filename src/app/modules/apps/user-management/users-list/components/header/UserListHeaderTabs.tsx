@@ -24,7 +24,7 @@ const UsersListHeaderTabs = ({
     <div className="d-flex overflow-auto h-55px tax-types-tabs">
       <ul className="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
         {tabContent.map((tab, index) => (
-          <li className="nav-item fs-xl fw-bold " key={index}>
+          <li className="nav-item fs-xl fw-bold cursor-pointer " key={index}>
             <a
               className={`nav-link ${
                 activeTab === index ? "active text-primary" : ""

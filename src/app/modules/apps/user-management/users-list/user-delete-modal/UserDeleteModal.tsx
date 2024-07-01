@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { UserEditModalHeader } from "./UserEditModalHeader";
-import { UserEditModalFormWrapper } from "./UserEditModalFormWrapper";
-import { UserEditModalFooter } from "./UserEditModalFooter";
+import { UserDeleteModalHeader } from "./UserDeleteModalHeader";
+import { UserDeleteModalFooter } from "./UserDeleteModalFooter";
 import { VatTypeByIdResult } from "../core/_models";
+import { useIntl } from "react-intl";
 interface ComponentProps {
-  ledgerAccountDisplayName: string;
-  editModalId: number;
-  setEditModalOpen: (type: boolean) => void;
+  vatTitle: string;
+  deleteModalId: number;
+  setDeleteModalOpen: (type: boolean) => void;
 }
-const UserEditModal = ({
-  editModalId,
-  ledgerAccountDisplayName,
-  setEditModalOpen,
+const UserDeleteModal = ({
+  deleteModalId,
+  vatTitle,
+  setDeleteModalOpen,
 }: ComponentProps) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -19,6 +19,7 @@ const UserEditModal = ({
       document.body.classList.remove("modal-open");
     };
   }, []);
+  const intl = useIntl();
 
   return (
     <>
@@ -30,25 +31,26 @@ const UserEditModal = ({
         aria-modal="true"
       >
         {/* begin::Modal dialog */}
-        <div className="modal-dialog modal-dialog-centered mw-650px">
+        <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <UserEditModalHeader setEditModalOpen={setEditModalOpen} />
+            <UserDeleteModalHeader setDeleteModalOpen={setDeleteModalOpen} />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
-              <div
-                className="form-wrapper"
-                style={{ maxHeight: "calc(100vh - 300px)", overflowY: "auto" }}
-              >
-                <UserEditModalFormWrapper
-                  editModalId={editModalId}
-                  ledgerAccountDisplayName={ledgerAccountDisplayName}
-                />
+              <div className="form-wrapper">
+                {intl
+                  .formatMessage({
+                    id: "Fields.ModalDeleteDescriptionVatType",
+                  })
+                  .replace("{0}", vatTitle)}
               </div>
             </div>
 
             {/* end::Modal body */}
-            <UserEditModalFooter setEditModalOpen={setEditModalOpen} />
+            <UserDeleteModalFooter
+              deleteModalId={deleteModalId}
+              setDeleteModalOpen={setDeleteModalOpen}
+            />
           </div>
           {/* end::Modal content */}
         </div>
@@ -61,4 +63,4 @@ const UserEditModal = ({
   );
 };
 
-export { UserEditModal };
+export { UserDeleteModal };

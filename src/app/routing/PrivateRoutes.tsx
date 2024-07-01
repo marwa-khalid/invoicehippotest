@@ -74,7 +74,6 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-
         <Route
           path="admin/*"
           element={
@@ -83,6 +82,15 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
+
+        {/* <Route
+          path="admin/*"
+          element={
+            <SuspensedView>
+              <VatTypesPage />
+            </SuspensedView>
+          }
+        /> */}
 
         {/* <Route
           path="/admin/*"
