@@ -2,18 +2,30 @@ import { FC } from "react";
 import { useIntl } from "react-intl";
 import { useFormikContext } from "formik";
 import { useListView } from "../core/ListViewProvider";
+import { deleteVatType } from "../core/_requests";
 
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   deleteModalId: number;
+  setRefresh: (type: boolean) => void;
 }
 
 const UserDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
+  setRefresh,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
+  console.log(deleteModalId);
+
+  const deleteVat = async () => {
+    const response = await deleteVatType(deleteModalId);
+    if (response.result) {
+      setDeleteModalOpen(false);
+      setRefresh(true);
+    }
+  };
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
       <div className="d-flex">
@@ -31,7 +43,7 @@ const UserDeleteModalFooter = ({
         <button
           type="submit"
           className="btn btn-danger"
-          //   onClick={submitForm}
+          onClick={deleteVat}
           //   disabled={!isValid || isSubmitting || !touched}
         >
           <span className="indicator-label">

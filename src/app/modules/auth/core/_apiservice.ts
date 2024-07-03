@@ -61,3 +61,19 @@ export async function postRequest<T>(
     useToken
   );
 }
+
+export async function deleteRequest<T>(
+  url: string,
+  data: any,
+  useToken: boolean
+): Promise<T> {
+  //add POST mehtod string in here
+  return apiRequest(
+    url,
+    {
+      method: "DELETE",
+      data: data,
+    },
+    useToken
+  );
+}

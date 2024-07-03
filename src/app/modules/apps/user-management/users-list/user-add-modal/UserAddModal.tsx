@@ -1,7 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { UserAddModalHeader } from "./UserAddModalHeader";
 import { UserAddModalFormWrapper } from "./UserAddModalFormWrapper";
 import { UserAddModalFooter } from "./UserAddModalFooter";
+import { getLedgerAccount } from "../core/_requests";
+import { LedgerForVatResult } from "../core/_models";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { useIntl } from "react-intl";
+import { postVatType } from "../core/_requests";
+import { useListView } from "../core/ListViewProvider";
 const UserAddModal = () => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -9,6 +16,107 @@ const UserAddModal = () => {
       document.body.classList.remove("modal-open");
     };
   }, []);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { setItemIdForUpdate } = useListView();
+  const [ledgerAccounts, setLedgerAccounts] = useState<
+    { value: number; label: string }[]
+  >([]);
+  const intl = useIntl();
+
+  useEffect(() => {
+    const fetchLedgerAccounts = async () => {
+      try {
+        const response = await getLedgerAccount();
+        const options = response.result.map((account: LedgerForVatResult) => ({
+          value: account.id,
+          label: account.title,
+        }));
+        setLedgerAccounts(options);
+      } catch (error) {
+        console.error("Error fetching ledger accounts:", error);
+      }
+    };
+
+    fetchLedgerAccounts();
+  }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      id: 0,
+      title: "",
+      value: 0,
+      documentGroup: "",
+      ledgerAccountId: 0,
+      isNoneVatType: false,
+      alwaysExclusiveOfVAT: false,
+      showInLists: false,
+      showOnDocuments: false,
+    },
+    validationSchema: Yup.object().shape({
+      title: Yup.string()
+        .min(
+          3,
+          intl
+            .formatMessage({ id: "Common.ValidationMin" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{1}", `3`)
+        )
+        .max(
+          50,
+          intl
+            .formatMessage({ id: "Common.ValidationMax" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{1}", `50`)
+        )
+        .required(
+          intl
+            .formatMessage({ id: "Common.RequiredFieldHint2" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+        ),
+      value: Yup.number().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.Value" }))
+      ),
+      documentGroup: Yup.string().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.VatAreaUsageType" }))
+      ),
+      ledgerAccountId: Yup.number().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
+      ),
+    }),
+    onSubmit: async (values, { setSubmitting }) => {
+      setIsSubmitting(true);
+      try {
+        const mappedDocumentGroup = values.documentGroup === "1" ? 1 : 2;
+        const response = await postVatType(
+          values.id,
+          values.ledgerAccountId,
+          values.title,
+          values.value,
+          mappedDocumentGroup,
+          values.alwaysExclusiveOfVAT,
+          values.showInLists,
+          values.showOnDocuments,
+          values.isNoneVatType
+        );
+
+        console.log("Post successful:", response);
+        formik.resetForm();
+        setItemIdForUpdate(undefined);
+      } catch (error) {
+        console.error("Post failed:", error);
+      } finally {
+        setIsSubmitting(false);
+        setSubmitting(false);
+      }
+    },
+  });
 
   return (
     <>
@@ -19,31 +127,26 @@ const UserAddModal = () => {
         tabIndex={-1}
         aria-modal="true"
       >
-        {/* begin::Modal dialog */}
         <div className="modal-dialog modal-dialog-centered mw-650px">
-          {/* begin::Modal content */}
           <div className="modal-content">
             <UserAddModalHeader />
-            {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div
                 className="form-wrapper"
                 style={{ maxHeight: "calc(100vh - 300px)", overflowY: "auto" }}
               >
-                <UserAddModalFormWrapper />
+                <UserAddModalFormWrapper
+                  formik={formik}
+                  isSubmitting={isSubmitting}
+                  ledgerAccounts={ledgerAccounts}
+                />
               </div>
             </div>
-           
-            {/* end::Modal body */}
-             <UserAddModalFooter/>
+            <UserAddModalFooter formik={formik} isSubmitting={isSubmitting} />
           </div>
-          {/* end::Modal content */}
         </div>
-        {/* end::Modal dialog */}
       </div>
-      {/* begin::Modal Backdrop */}
       <div className="modal-backdrop fade show"></div>
-      {/* end::Modal Backdrop */}
     </>
   );
 };

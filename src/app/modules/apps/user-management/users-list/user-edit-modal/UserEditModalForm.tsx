@@ -62,14 +62,14 @@ const UserEditModalForm: FC<Props> = ({
     if (user) {
       formik.setValues({
         title: user.result.title || "",
-        excludeTax: false,
+        excludeTax: user.result.isNoneVatType || false,
         value: user.result.value || 0,
         documentGroup:
           user.result.vatAreaUsageType === 1 ? "Invoices" : "Receipts",
         ledgerAccount: ledgerAccountDisplayName,
         alwaysExclusiveOfVAT: user.result.isAlwaysExBtw || false,
-        showInLists: true,
-        showTax: user.result.isNoneVatType || false,
+        useInLists: user.result.useInLists || false,
+        showOnDocuments: user.result.showOnDocuments || false,
       });
     }
   }, [user]);
@@ -78,14 +78,14 @@ const UserEditModalForm: FC<Props> = ({
   const formik = useFormik({
     initialValues: {
       title: user?.result?.title || "",
-      excludeTax: false,
+      excludeTax: user?.result?.isNoneVatType || false,
       value: user?.result?.value || 0,
       documentGroup:
         user?.result?.vatAreaUsageType === 1 ? "Invoices" : "Receipts",
       ledgerAccount: ledgerAccountDisplayName || "",
       alwaysExclusiveOfVAT: user?.result?.isAlwaysExBtw || false,
-      showInLists: true,
-      showTax: user?.result?.isNoneVatType || false,
+      useInLists: user?.result?.useInLists || false,
+      showOnDocuments: user?.result?.showOnDocuments || false,
     },
     validationSchema: formSchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -447,13 +447,14 @@ const UserEditModalForm: FC<Props> = ({
           <input
             className="form-check-input"
             type="checkbox"
-            id="showInListsSwitch"
-            {...formik.getFieldProps("showInLists")}
+            id="useInListsSwitch"
+            checked={formik.values.useInLists}
+            {...formik.getFieldProps("useInLists")}
             disabled={formik.isSubmitting || isUserLoading}
           />
           <label
             className="form-check-label"
-            htmlFor="showInListsSwitch"
+            htmlFor="useInListsSwitch"
           ></label>
         </div>
       </div>
@@ -476,11 +477,15 @@ const UserEditModalForm: FC<Props> = ({
             <input
               className="form-check-input"
               type="checkbox"
-              id="showTaxSwitch"
-              {...formik.getFieldProps("showTax")}
+              id="showOnDocumentsSwitch"
+              checked={formik.values.showOnDocuments}
+              {...formik.getFieldProps("showOnDocuments")}
               disabled={formik.isSubmitting || isUserLoading}
             />
-            <label className="form-check-label" htmlFor="showTaxSwitch"></label>
+            <label
+              className="form-check-label"
+              htmlFor="showOnDocumentsSwitch"
+            ></label>
           </div>
         </div>
       )}

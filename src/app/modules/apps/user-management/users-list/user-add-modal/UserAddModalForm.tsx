@@ -1,13 +1,32 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
-import { postVatType } from "../core/_requests";
+import { postVatType, getLedgerAccount } from "../core/_requests";
+import { LedgerForVatResult } from "../core/_models";
+import { FormikProps } from "formik";
+import { VatTypesResult } from "../core/_models";
+
+interface FormValues {
+  id: number;
+  title: string;
+  value: number;
+  documentGroup: string;
+  ledgerAccountId: number;
+  isNoneVatType: boolean;
+  alwaysExclusiveOfVAT: boolean;
+  showInLists: boolean;
+  showOnDocuments: boolean;
+}
+
 type Props = {
   isUserLoading: boolean;
   user: any; // Adjust the type according to your user model
+  formik: FormikProps<FormValues>;
+  isSubmitting: boolean;
+  ledgerAccounts: { value: number; label: string }[];
 };
 
 type OptionType = {
@@ -15,84 +34,94 @@ type OptionType = {
   label: string;
 };
 
-const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
+const UserAddModalForm: FC<Props> = ({
+  isUserLoading,
+  user,
+  formik,
+  isSubmitting,
+  ledgerAccounts,
+}) => {
   const intl = useIntl();
 
-  const formSchema = Yup.object().shape({
-    title: Yup.string()
-      .min(
-        3,
-        intl
-          .formatMessage({ id: "Common.ValidationMin" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
-          .replace("{1}", `3`)
-      )
-      .max(
-        50,
-        intl
-          .formatMessage({ id: "Common.ValidationMax" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
-          .replace("{1}", `50`)
-      )
-      .required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
-      ),
-    value: Yup.string().required(
-      intl
-        .formatMessage({ id: "Common.RequiredFieldHint2" })
-        .replace("{0}", intl.formatMessage({ id: "Fields.Value" }))
-    ),
-    documentGroup: Yup.string().required(
-      intl
-        .formatMessage({ id: "Common.RequiredFieldHint2" })
-        .replace("{0}", intl.formatMessage({ id: "Fields.VatAreaUsageType" }))
-    ),
-    ledgerAccount: Yup.string().required(
-      intl
-        .formatMessage({ id: "Common.RequiredFieldHint2" })
-        .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
-    ),
-  });
-  const formik = useFormik({
-    initialValues: {
-      id: 0,
-      title: "",
-      value: 0,
-      documentGroup: "",
-      ledgerAccount: "",
-      excludeTax: false,
-      alwaysExclusiveOfVAT: false,
-      showInLists: false,
-      showTax: false,
-    },
-    validationSchema: formSchema,
-    onSubmit: async (values, { setSubmitting }) => {
-      setSubmitting(true);
-      try {
-        const mappedDocumentGroup = values.documentGroup === "1" ? 1 : 2;
-        const response = await postVatType(
-          values.id,
-          0,
-          values.title,
-          values.value,
-          mappedDocumentGroup,
-          values.alwaysExclusiveOfVAT,
-          values.showInLists,
-          values.showTax
-        );
 
-        console.log("Post successful:", response);
-      } catch (error) {
-        console.error("Post failed:", error);
-      } finally {
-        setSubmitting(false);
-      }
-    },
-  });
+  // const formSchema = Yup.object().shape({
+  //   title: Yup.string()
+  //     .min(
+  //       3,
+  //       intl
+  //         .formatMessage({ id: "Common.ValidationMin" })
+  //         .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+  //         .replace("{1}", `3`)
+  //     )
+  //     .max(
+  //       50,
+  //       intl
+  //         .formatMessage({ id: "Common.ValidationMax" })
+  //         .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+  //         .replace("{1}", `50`)
+  //     )
+  //     .required(
+  //       intl
+  //         .formatMessage({ id: "Common.RequiredFieldHint2" })
+  //         .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+  //     ),
+  //   value: Yup.string().required(
+  //     intl
+  //       .formatMessage({ id: "Common.RequiredFieldHint2" })
+  //       .replace("{0}", intl.formatMessage({ id: "Fields.Value" }))
+  //   ),
+  //   documentGroup: Yup.string().required(
+  //     intl
+  //       .formatMessage({ id: "Common.RequiredFieldHint2" })
+  //       .replace("{0}", intl.formatMessage({ id: "Fields.VatAreaUsageType" }))
+  //   ),
+  //   ledgerAccount: Yup.string().required(
+  //     intl
+  //       .formatMessage({ id: "Common.RequiredFieldHint2" })
+  //       .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
+  //   ),
+  // });
+  // const formik = useFormik({
+  //   initialValues: {
+  //     id: 0,
+  //     title: "",
+  //     value: 0,
+  //     documentGroup: "",
+  //     ledgerAccountId: 0,
+  //     isNoneVatType: false,
+  //     alwaysExclusiveOfVAT: false,
+  //     showInLists: false,
+  //     showOnDocuments: false,
+  //   },
+  //   validationSchema: formSchema,
+  //   onSubmit: async (values, { setSubmitting }) => {
+  //     setIsSubmitting(true);
+  //     setSubmitting(true);
+  //     try {
+  //       const mappedDocumentGroup = values.documentGroup === "1" ? 1 : 2;
+  //       const response = await postVatType(
+  //         values.id,
+  //         values.ledgerAccountId,
+  //         values.title,
+  //         values.value,
+  //         mappedDocumentGroup,
+  //         values.alwaysExclusiveOfVAT,
+  //         values.showInLists,
+  //         values.showOnDocuments,
+  //         values.isNoneVatType
+  //       );
 
-  console.log(formik.values);
+  //       console.log("Post successful:", response);
+  //     } catch (error) {
+  //       console.error("Post failed:", error);
+  //     } finally {
+  //       setIsSubmitting(false);
+  //       setSubmitting(false);
+  //     }
+  //   },
+  // });
+
+  // console.log(formik.values);
 
   return (
     <form
@@ -111,8 +140,8 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
             className="form-check-input"
             type="checkbox"
             id="vatSwitch"
-            {...formik.getFieldProps("excludeTax")}
-            disabled={formik.isSubmitting || isUserLoading}
+            {...formik.getFieldProps("isNoneVatType")}
+            disabled={isSubmitting || isUserLoading}
           />
           <label className="form-check-label" htmlFor="vatSwitch"></label>
         </div>
@@ -131,8 +160,8 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
         <div
           className={clsx(
             "fv-row flex-grow-1",
-            { "flex-grow-1 col-12": formik.values.excludeTax },
-            { "me-3": !formik.values.excludeTax }
+            { "flex-grow-1 col-12": formik.values.isNoneVatType },
+            { "me-3": !formik.values.isNoneVatType }
           )}
         >
           <label className="required fw-bold fs-6 mb-2">
@@ -147,7 +176,7 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
               { "is-invalid": formik.touched.title && formik.errors.title },
               { "is-valid": formik.touched.title && !formik.errors.title }
             )}
-            disabled={formik.isSubmitting || isUserLoading}
+            disabled={isSubmitting || isUserLoading}
           />
           {formik.touched.title && formik.errors.title && (
             <div className="fv-plugins-message-container">
@@ -164,7 +193,7 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
         </div>
 
         {/* Value Field */}
-        {!formik.values.excludeTax && (
+        {!formik.values.isNoneVatType && (
           <div className="fv-row flex-grow-1">
             <label className="required fw-bold fs-6 mb-2">
               {" "}
@@ -182,7 +211,7 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
                   { "is-invalid": formik.touched.value && formik.errors.value },
                   { "is-valid": formik.touched.value && !formik.errors.value }
                 )}
-                disabled={formik.isSubmitting || isUserLoading}
+                disabled={isSubmitting || isUserLoading}
               />
             </div>
             {formik.touched.value && formik.errors.value && (
@@ -264,7 +293,7 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
 
       {/* begin::Input group */}
 
-      {!formik.values.excludeTax && (
+      {!formik.values.isNoneVatType && (
         <div className="fv-row mb-7">
           <label className="required fw-bold fs-6 mb-2">
             {intl.formatMessage({ id: "Fields.LedgerAccount" })}
@@ -276,17 +305,25 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
               id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
             })}
             value={
-              formik.values.ledgerAccount
-                ? {
-                    value: formik.values.ledgerAccount,
-                    label: formik.values.ledgerAccount,
-                  }
-                : null
+              ledgerAccounts.find(
+                (option: any) => option.value === formik.values.ledgerAccountId
+              ) || null
             }
-            onChange={(option: OptionType | null) => {
-              formik.setFieldValue("ledgerAccount", option?.value || "");
+            // value={
+            //   formik.values.ledgerAccount
+            //     ? {
+            //         value: formik.values.ledgerAccount,
+            //         label: formik.values.ledgerAccount,
+            //       }
+            //     : null
+            // }
+            onChange={(option: { value: number; label: string } | null) => {
+              formik.setFieldValue("ledgerAccountId", option?.value || "");
             }}
-            onBlur={() => formik.setFieldTouched("ledgerAccount", true)}
+            // onChange={(option: OptionType | null) => {
+            //   formik.setFieldValue("ledgerAccount", option?.value || "");
+            // }}
+            onBlur={() => formik.setFieldTouched("ledgerAccountId", true)}
             // classNamePrefix="react-select-styled"
             classNames={{
               control: () => "border-secondary",
@@ -295,134 +332,137 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
               "react-select-styled",
               {
                 "is-invalid":
-                  formik.touched.ledgerAccount && formik.errors.ledgerAccount,
+                  formik.touched.ledgerAccountId &&
+                  formik.errors.ledgerAccountId,
               },
               {
                 "is-valid":
-                  formik.touched.ledgerAccount && !formik.errors.ledgerAccount,
+                  formik.touched.ledgerAccountId &&
+                  !formik.errors.ledgerAccountId,
               }
             )}
             // disabled={formik.isSubmitting || isUserLoading}
-            options={[
-              {
-                value: "100001 - account test",
-                label: "100001 - account test",
-              },
-              {
-                value: "1600 - BTW Verkoop 21%",
-                label: "1600 - BTW Verkoop 21%",
-              },
-              {
-                value: "1601 - BTW Verkoop 9%",
-                label: "1601 - BTW Verkoop 9%",
-              },
-              {
-                value: "1610 - BTW Inkoop 21%",
-                label: "1610 - BTW Inkoop 21%",
-              },
-              {
-                value: "1611 - BTW Inkoop 9%",
-                label: "1611 - BTW Inkoop 9%",
-              },
-              {
-                value: "1620 - BTW Verkoop Prive",
-                label: "1620 - BTW Verkoop Prive",
-              },
-              {
-                value: "1625 - BTW Verkoop 0%",
-                label: "1625 - BTW Verkoop 0%",
-              },
+            // options={[
+            //   {
+            //     value: "100001 - account test",
+            //     label: "100001 - account test",
+            //   },
+            //   {
+            //     value: "1600 - BTW Verkoop 21%",
+            //     label: "1600 - BTW Verkoop 21%",
+            //   },
+            //   {
+            //     value: "1601 - BTW Verkoop 9%",
+            //     label: "1601 - BTW Verkoop 9%",
+            //   },
+            //   {
+            //     value: "1610 - BTW Inkoop 21%",
+            //     label: "1610 - BTW Inkoop 21%",
+            //   },
+            //   {
+            //     value: "1611 - BTW Inkoop 9%",
+            //     label: "1611 - BTW Inkoop 9%",
+            //   },
+            //   {
+            //     value: "1620 - BTW Verkoop Prive",
+            //     label: "1620 - BTW Verkoop Prive",
+            //   },
+            //   {
+            //     value: "1625 - BTW Verkoop 0%",
+            //     label: "1625 - BTW Verkoop 0%",
+            //   },
 
-              { value: "1626 - BTW Inkoop 0%", label: "1626 - BTW Inkoop 0%" },
-              {
-                value: "1627 - BTW Verkoop Vrijgesteld",
-                label: "1627 - BTW Verkoop Vrijgesteld",
-              },
-              {
-                value: "1640 - BTW Verkoop Verlegd",
-                label: "1640 - BTW Verkoop Verlegd",
-              },
-              {
-                value: "1641 - BTW Inkoop Verlegd",
-                label: "1641 - BTW Inkoop Verlegd",
-              },
-              {
-                value: "1642 - BTW Inkoop Verlegd - Voorbelasting",
-                label: "1642 - BTW Inkoop Verlegd - Voorbelasting",
-              },
-              {
-                value: "1643 - BTW Inkoop Verlegd 9%",
-                label: "1643 - BTW Inkoop Verlegd 9%",
-              },
-              {
-                value: "1644 - BTW Inkoop Verlegd  9%- Voorbelasting",
-                label: "1644 - BTW Inkoop Verlegd  9%- Voorbelasting",
-              },
-              {
-                value: "1650 - BTW Verkoop binnen EU",
-                label: "1650 - BTW Verkoop binnen EU",
-              },
-              {
-                value: "1651 - BTW Inkoop binnen EU",
-                label: "1651 - BTW Inkoop binnen EU",
-              },
-              {
-                value: "1652 - BTW Inkoop binnen EU - Voorbelasting",
-                label: "1652 - BTW Inkoop binnen EU - Voorbelasting",
-              },
-              {
-                value: "1657 - BTW Installatie binnen EU",
-                label: "1657 - BTW Installatie binnen EU",
-              },
-              {
-                value: "1660 - BTW Verkoop buiten EU",
-                label: "1660 - BTW Verkoop buiten EU",
-              },
-              {
-                value: "1661 - BTW Inkoop buiten EU",
-                label: "1661 - BTW Inkoop buiten EU",
-              },
-              {
-                value: "1662 - BTW Inkoop buiten EU - Voorbelasting",
-                label: "1662 - BTW Inkoop buiten EU - Voorbelasting",
-              },
-              {
-                value: "1690 - BTW Afdrachten-/Teruggaven",
-                label: "1690 - BTW Afdrachten-/Teruggaven",
-              },
-              {
-                value: "1695 - BTW Suppleties",
-                label: "1695 - BTW Suppleties",
-              },
-              {
-                value: "1700 - Afdrachten Loonheffing",
-                label: "1700 - Afdrachten Loonheffing",
-              },
-              {
-                value: "1710 - Afdrachten Bedrijfsvereniging",
-                label: "1710 - Afdrachten Bedrijfsvereniging",
-              },
-              {
-                value: "1720 - Afdrachten Bedrijfsfonds",
-                label: "1720 - Afdrachten Bedrijfsfonds",
-              },
-              {
-                value: "1780 - Afdrachten Pensioen",
-                label: "1780 - Afdrachten Pensioen",
-              },
-              {
-                value: "1800 - Afdrachten Venootschapsbelasting",
-                label: "1800 - Afdrachten Venootschapsbelasting",
-              },
-            ]}
+            //   { value: "1626 - BTW Inkoop 0%", label: "1626 - BTW Inkoop 0%" },
+            //   {
+            //     value: "1627 - BTW Verkoop Vrijgesteld",
+            //     label: "1627 - BTW Verkoop Vrijgesteld",
+            //   },
+            //   {
+            //     value: "1640 - BTW Verkoop Verlegd",
+            //     label: "1640 - BTW Verkoop Verlegd",
+            //   },
+            //   {
+            //     value: "1641 - BTW Inkoop Verlegd",
+            //     label: "1641 - BTW Inkoop Verlegd",
+            //   },
+            //   {
+            //     value: "1642 - BTW Inkoop Verlegd - Voorbelasting",
+            //     label: "1642 - BTW Inkoop Verlegd - Voorbelasting",
+            //   },
+            //   {
+            //     value: "1643 - BTW Inkoop Verlegd 9%",
+            //     label: "1643 - BTW Inkoop Verlegd 9%",
+            //   },
+            //   {
+            //     value: "1644 - BTW Inkoop Verlegd  9%- Voorbelasting",
+            //     label: "1644 - BTW Inkoop Verlegd  9%- Voorbelasting",
+            //   },
+            //   {
+            //     value: "1650 - BTW Verkoop binnen EU",
+            //     label: "1650 - BTW Verkoop binnen EU",
+            //   },
+            //   {
+            //     value: "1651 - BTW Inkoop binnen EU",
+            //     label: "1651 - BTW Inkoop binnen EU",
+            //   },
+            //   {
+            //     value: "1652 - BTW Inkoop binnen EU - Voorbelasting",
+            //     label: "1652 - BTW Inkoop binnen EU - Voorbelasting",
+            //   },
+            //   {
+            //     value: "1657 - BTW Installatie binnen EU",
+            //     label: "1657 - BTW Installatie binnen EU",
+            //   },
+            //   {
+            //     value: "1660 - BTW Verkoop buiten EU",
+            //     label: "1660 - BTW Verkoop buiten EU",
+            //   },
+            //   {
+            //     value: "1661 - BTW Inkoop buiten EU",
+            //     label: "1661 - BTW Inkoop buiten EU",
+            //   },
+            //   {
+            //     value: "1662 - BTW Inkoop buiten EU - Voorbelasting",
+            //     label: "1662 - BTW Inkoop buiten EU - Voorbelasting",
+            //   },
+            //   {
+            //     value: "1690 - BTW Afdrachten-/Teruggaven",
+            //     label: "1690 - BTW Afdrachten-/Teruggaven",
+            //   },
+            //   {
+            //     value: "1695 - BTW Suppleties",
+            //     label: "1695 - BTW Suppleties",
+            //   },
+            //   {
+            //     value: "1700 - Afdrachten Loonheffing",
+            //     label: "1700 - Afdrachten Loonheffing",
+            //   },
+            //   {
+            //     value: "1710 - Afdrachten Bedrijfsvereniging",
+            //     label: "1710 - Afdrachten Bedrijfsvereniging",
+            //   },
+            //   {
+            //     value: "1720 - Afdrachten Bedrijfsfonds",
+            //     label: "1720 - Afdrachten Bedrijfsfonds",
+            //   },
+            //   {
+            //     value: "1780 - Afdrachten Pensioen",
+            //     label: "1780 - Afdrachten Pensioen",
+            //   },
+            //   {
+            //     value: "1800 - Afdrachten Venootschapsbelasting",
+            //     label: "1800 - Afdrachten Venootschapsbelasting",
+            //   },
+            // ]}
+            options={ledgerAccounts}
           />
 
-          {formik.touched.ledgerAccount && formik.errors.ledgerAccount && (
+          {formik.touched.ledgerAccountId && formik.errors.ledgerAccountId && (
             <div className="fv-plugins-message-container">
               <div className="fv-help-block">
                 <span
                   dangerouslySetInnerHTML={{
-                    __html: formik.errors.ledgerAccount,
+                    __html: formik.errors.ledgerAccountId,
                   }}
                   role="alert"
                 />
@@ -434,7 +474,7 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
       {/* end::Input group */}
 
       {/* begin::Input group */}
-      {!formik.values.excludeTax && (
+      {!formik.values.isNoneVatType && (
         <div className="fv-row mb-7">
           <label className="d-block fw-bold fs-6 mb-2">
             {intl.formatMessage({ id: "Fields.IsAlwaysExBtw" })}
@@ -445,7 +485,7 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
               type="checkbox"
               id="alwaysExclusiveOfVATSwtich"
               {...formik.getFieldProps("alwaysExclusiveOfVAT")}
-              disabled={formik.isSubmitting || isUserLoading}
+              disabled={isSubmitting || isUserLoading}
             />
             <label
               className="form-check-label"
@@ -468,7 +508,7 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
             type="checkbox"
             id="showInListsSwitch"
             {...formik.getFieldProps("showInLists")}
-            disabled={formik.isSubmitting || isUserLoading}
+            disabled={isSubmitting || isUserLoading}
           />
           <label
             className="form-check-label"
@@ -485,7 +525,7 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
       {/* end::Description */}
 
       {/* begin::Input group */}
-      {!formik.values.excludeTax && (
+      {!formik.values.isNoneVatType && (
         <div className="fv-row mb-7">
           <label className="d-block fw-bold fs-6 mb-2">
             {" "}
@@ -495,18 +535,21 @@ const UserAddModalForm: FC<Props> = ({ isUserLoading, user }) => {
             <input
               className="form-check-input"
               type="checkbox"
-              id="showTaxSwitch"
-              {...formik.getFieldProps("showTax")}
-              disabled={formik.isSubmitting || isUserLoading}
+              id="showOnDocumentsSwitch"
+              {...formik.getFieldProps("showOnDocuments")}
+              disabled={isSubmitting || isUserLoading}
             />
-            <label className="form-check-label" htmlFor="showTaxSwitch"></label>
+            <label
+              className="form-check-label"
+              htmlFor="showOnDocumentsSwitch"
+            ></label>
           </div>
         </div>
       )}
       {/* end::Input group */}
 
       {/* begin::Description */}
-      {!formik.values.excludeTax && (
+      {!formik.values.isNoneVatType && (
         <div className="text-muted mb-7">
           {intl.formatMessage({ id: "Fields.ShowOnDocumentInfo" })}
         </div>

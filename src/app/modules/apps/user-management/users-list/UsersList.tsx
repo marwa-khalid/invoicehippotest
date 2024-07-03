@@ -22,6 +22,7 @@ const UsersList = () => {
   const [ledgerAccountDisplayName, setLedgerAccountDisplayName] =
     useState<string>("");
   const [vatTitle, setVatTitle] = useState<string>("");
+  const [refresh, setRefresh] = useState(false);
   return (
     <>
       <UsersListHeader
@@ -40,6 +41,7 @@ const UsersList = () => {
         setEditModalId={setEditModalId}
         setLedgerAccountDisplayName={setLedgerAccountDisplayName}
         setVatTitle={setVatTitle}
+        refresh={refresh}
       />
 
       {itemIdForUpdate !== undefined && <UserAddModal />}
@@ -55,6 +57,7 @@ const UsersList = () => {
           deleteModalId={editModalId}
           vatTitle={vatTitle}
           setDeleteModalOpen={setDeleteModalOpen}
+          setRefresh={setRefresh}
         />
       )}
     </>

@@ -7,11 +7,13 @@ interface ComponentProps {
   vatTitle: string;
   deleteModalId: number;
   setDeleteModalOpen: (type: boolean) => void;
+  setRefresh: (type: boolean) => void;
 }
 const UserDeleteModal = ({
   deleteModalId,
   vatTitle,
   setDeleteModalOpen,
+  setRefresh,
 }: ComponentProps) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -50,6 +52,7 @@ const UserDeleteModal = ({
             <UserDeleteModalFooter
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
+              setRefresh={setRefresh}
             />
           </div>
           {/* end::Modal content */}

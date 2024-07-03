@@ -47,6 +47,65 @@ export interface VatTypeByIdResult {
   isNoneVatType: boolean;
 }
 
+export interface LedgerForVatResult {
+  id: number;
+  title: string;
+  isDisabledForManualInput: boolean;
+  hasDefaultVat: boolean;
+
+  // Nested object for default VAT details
+  defaultVat: {
+    id: number;
+    title: string;
+    value: number;
+    hideOnDocuments: boolean;
+    isAlwaysExBtw: boolean;
+    isDefault: boolean;
+
+    // Nested object within defaultVat for VAT area usage type
+    vatAreaUsageType: {
+      value: number;
+      name: string;
+      description: string;
+    };
+
+    isDisabledForManualInput: boolean;
+  };
+
+  // Ledger and type details
+  ledgerType: {
+    value: number;
+    name: string;
+    description: string;
+  };
+
+  ledgerSubType: {
+    value: number;
+    name: string;
+    description: string;
+  };
+
+  // Bearing type details
+  bearingType: {
+    value: number;
+    name: string;
+    description: string;
+  };
+
+  // VAT report reference types
+  vatReportReferenceType1: {
+    value: number;
+    name: string;
+    description: string;
+  };
+
+  vatReportReferenceType2: {
+    value: number;
+    name: string;
+    description: string;
+  };
+}
+
 export type User = {
   id?: ID;
   name?: string;
@@ -76,3 +135,4 @@ export const initialUser: User = {
 
 export type VatTypesModel = ApiResponse<VatTypesResult>;
 export type VatTypeByIdModel = ApiResponse<VatTypeByIdResult>;
+export type LedgerForVatModel = ApiResponse<LedgerForVatResult>;

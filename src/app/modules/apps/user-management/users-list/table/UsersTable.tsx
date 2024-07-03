@@ -16,6 +16,7 @@ interface UsersTableComponentProps {
   setLedgerAccountDisplayName: (type: string) => void;
   setVatTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
+  refresh: boolean;
 }
 const UsersTable = ({
   searchTerm,
@@ -26,6 +27,7 @@ const UsersTable = ({
   setLedgerAccountDisplayName,
   setVatTitle,
   setDeleteModalOpen,
+  refresh,
 }: UsersTableComponentProps) => {
   const [vatTypesList, setVatTypesList] = useState<any>([]);
   const intl = useIntl();
@@ -57,7 +59,7 @@ const UsersTable = ({
     };
 
     fetchVatTypes();
-  }, [searchTerm, pageIndex, vatAreaUsageTypeFilter]);
+  }, [searchTerm, pageIndex, vatAreaUsageTypeFilter, refresh]);
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
@@ -84,7 +86,8 @@ const UsersTable = ({
     setLedgerAccountDisplayName(ledgerName);
   };
 
-  const openDeleteModal = (vatTitle: string) => {
+  const openDeleteModal = (id: number, vatTitle: string) => {
+    setEditModalId(id);
     setDeleteModalOpen(true);
     setVatTitle(vatTitle);
   };
@@ -125,11 +128,11 @@ const UsersTable = ({
                       />
                       {renderLockIcon(vatType.useInLists)}
                       <span className="mx-2 text-muted">|</span>
-                      <strong>{vatType.value}%</strong>
+                      <strong>{vatType.title}</strong>
                     </div>
                     <div className="align-items-center my-lg-0 my-1 necessary-icons">
                       <button
-                        className="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-4"
+                        className="btn btn-icon btn-bg-light btn-color-warning btn-sm me-4"
                         onClick={() => {
                           openEditModal(
                             vatType.id,
@@ -143,9 +146,9 @@ const UsersTable = ({
                         </i>
                       </button>
                       <button
-                        className="btn btn-icon btn-bg-light btn-active-color-danger btn-sm"
+                        className="btn btn-icon btn-bg-light btn-color-danger btn-sm"
                         onClick={() => {
-                          openDeleteModal(vatType.title);
+                          openDeleteModal(vatType.id, vatType.title);
                         }}
                       >
                         <i className="ki-duotone ki-trash fs-2">
@@ -167,7 +170,7 @@ const UsersTable = ({
 
                   {/* Small Image and Ledger Account + Title */}
                   <div className="d-flex align-items-center flex-wrap">
-                    <i className="ki-duotone ki-file-added fs-3x text-black ">
+                    <i className="ki-duotone ki-file-added fs-3x text-warning ">
                       <span className="path1"></span>
                       <span className="path2"></span>
                       <span className="path3"></span>
@@ -180,7 +183,7 @@ const UsersTable = ({
                         {intl.formatMessage({ id: "Fields.LedgerAccount" })}
                       </span>
                       <span className="text-primary fw-bolder">
-                        {vatType.title}
+                        {vatType.ledgerAccountDisplayName}
                       </span>
                     </div>
                   </div>
