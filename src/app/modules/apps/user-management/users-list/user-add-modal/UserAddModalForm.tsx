@@ -8,6 +8,7 @@ import { postVatType, getLedgerAccount } from "../core/_requests";
 import { LedgerForVatResult } from "../core/_models";
 import { FormikProps } from "formik";
 import { VatTypesResult } from "../core/_models";
+import enums from "../../../../../../invoicehippo.enums.json";
 
 interface FormValues {
   id: number;
@@ -21,6 +22,8 @@ interface FormValues {
   showOnDocuments: boolean;
 }
 
+console.log(enums.VatAreaUsageTypes);
+
 type Props = {
   isUserLoading: boolean;
   user: any; // Adjust the type according to your user model
@@ -29,8 +32,8 @@ type Props = {
   ledgerAccounts: { value: number; label: string }[];
 };
 
-type OptionType = {
-  value: string;
+type VatAreaUsageTypeOption = {
+  value: number;
   label: string;
 };
 
@@ -42,7 +45,6 @@ const UserAddModalForm: FC<Props> = ({
   ledgerAccounts,
 }) => {
   const intl = useIntl();
-
 
   // const formSchema = Yup.object().shape({
   //   title: Yup.string()
@@ -237,25 +239,14 @@ const UserAddModalForm: FC<Props> = ({
         </label>
         <Select
           name="documentGroup"
-          value={
-            formik.values.documentGroup
-              ? {
-                  value: formik.values.documentGroup,
-                  label:
-                    formik.values.documentGroup === "1"
-                      ? "Invoices"
-                      : "Receipts",
-                }
-              : null
-          }
-          onChange={(option: OptionType | null) =>
+          // value={formik.values.documentGroup}
+          onChange={(option: VatAreaUsageTypeOption | null) =>
             formik.setFieldValue("documentGroup", option?.value)
           }
           onBlur={() => formik.setFieldTouched("documentGroup", true)}
           placeholder={intl.formatMessage({
             id: "Fields.SelectOptionDefaultVatAreaUsageType",
           })}
-          // classNamePrefix="react-select"
           className={clsx(
             "react-select-styled",
             {
@@ -270,10 +261,11 @@ const UserAddModalForm: FC<Props> = ({
           classNames={{
             control: () => "border-secondary",
           }}
-          options={[
-            { value: "1", label: "Invoices" },
-            { value: "2", label: "Receipts" },
-          ]}
+          // Directly map the JSON data to the options prop
+          options={enums.VatAreaUsageTypes.map((item) => ({
+            value: item.Value,
+            label: item.Title,
+          }))}
         />
 
         {formik.touched.documentGroup && formik.errors.documentGroup && (

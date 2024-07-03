@@ -16,12 +16,14 @@ const UserAddModal = () => {
       document.body.classList.remove("modal-open");
     };
   }, []);
+  interface ledgerAccount {
+    value: number;
+    label: string;
+  }
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { setItemIdForUpdate } = useListView();
-  const [ledgerAccounts, setLedgerAccounts] = useState<
-    { value: number; label: string }[]
-  >([]);
+  const [ledgerAccounts, setLedgerAccounts] = useState<ledgerAccount | any>();
   const intl = useIntl();
 
   useEffect(() => {

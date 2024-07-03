@@ -48,6 +48,7 @@ export interface VatTypeByIdResult {
 }
 
 export interface LedgerForVatResult {
+  map(arg0: (account: any) => { value: any; label: any; }): unknown;
   id: number;
   title: string;
   isDisabledForManualInput: boolean;
