@@ -8,29 +8,34 @@ interface UsersListSearchComponentProps {
 const UsersListHeaderTabs = ({
   setVatAreaUsageTypeFilter,
 }: UsersListSearchComponentProps) => {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(1);
   const intl = useIntl();
 
   const tabContent = [
     {
+      value: 1,
       title: intl.formatMessage({ id: "Fields.VatTabSaleCategories" }),
     },
     {
+      value: 2,
       title: intl.formatMessage({ id: "Fields.VatTabCostCategories" }),
     },
   ];
-
+  console.log(activeTab);
   return (
     <div className="d-flex overflow-auto h-55px tax-types-tabs">
       <ul className="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
         {tabContent.map((tab, index) => (
-          <li className="nav-item fs-xl fw-bold cursor-pointer " key={index}>
+          <li
+            className="nav-item fs-xl fw-bold cursor-pointer "
+            key={tab.value}
+          >
             <a
               className={`nav-link ${
                 activeTab === index ? "active text-primary" : ""
               }`}
               onClick={() => {
-                setVatAreaUsageTypeFilter(index);
+                setVatAreaUsageTypeFilter(tab.value);
                 setActiveTab(index);
               }}
             >

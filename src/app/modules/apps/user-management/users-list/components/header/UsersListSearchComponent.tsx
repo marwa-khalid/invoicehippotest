@@ -4,6 +4,7 @@ import {
   KTIcon,
 } from "../../../../../../../_metronic/helpers";
 import { useQueryRequest } from "../../core/QueryRequestProvider";
+import { useIntl } from "react-intl";
 
 interface UsersListSearchComponentProps {
   setSearchTerm: (term: string) => void;
@@ -14,6 +15,7 @@ const UsersListSearchComponent = ({
 }: UsersListSearchComponentProps) => {
   const { updateState } = useQueryRequest();
   const [localSearchTerm, setLocalSearchTerm] = useState<string>("");
+  const intl = useIntl();
 
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
@@ -42,12 +44,20 @@ const UsersListSearchComponent = ({
           value={localSearchTerm}
           onChange={(e) => setLocalSearchTerm(e.target.value)}
         />
-        <button className="btn btn-primary" onClick={handleSearchClick}>
-          Search
-        </button>
-        <button className="btn btn-secondary" onClick={handleResetClick}>
-          Reset
-        </button>
+        <div className="btn-group">
+          <button
+            className="btn btn-primary d-inline-flex align-items-center"
+            onClick={handleSearchClick}
+          >
+            <i className="la la-search fs-2"></i>
+            <span className="ms-1">
+              {intl.formatMessage({ id: "Fields.SearchBtn" })}
+            </span>
+          </button>
+          <button className="btn btn-secondary btn-icon" onClick={handleResetClick}>
+            <i className="la la-remove"></i>
+          </button>
+        </div>
       </div>
     </div>
   );

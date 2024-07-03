@@ -63,19 +63,19 @@ const UsersTable = ({
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
-      <button className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-4">
-        <i className="ki-duotone ki-lock text-success fs-2">
-          <span className="path1"></span>
+      <button className="btn btn-icon btn-light btn-sm me-4">
+        <i className="ki-solid ki-lock text-success fs-2">
+          {/* <span className="path1"></span>
           <span className="path2"></span>
-          <span className="path3"></span>
+          <span className="path3"></span> */}
         </i>
       </button>
     ) : (
-      <button className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-4">
-        <i className="ki-duotone ki-lock text-danger fs-2">
-          <span className="path1"></span>
+      <button className="btn btn-icon btn-light btn-sm me-4">
+        <i className="ki-solid ki-lock fs-2 text-danger">
+          {/* <span className="path1"></span>
           <span className="path2"></span>
-          <span className="path3"></span>
+          <span className="path3"></span> */}
         </i>
       </button>
     );
@@ -110,15 +110,15 @@ const UsersTable = ({
                           vatType.ledgerAccountDisplayName
                         );
                       }}
-                      style={{
-                        transition: "color 0.3s", // Smooth transition effect
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.color = "blue";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.color = "black";
-                      }}
+                      // style={{
+                      //   transition: "color 0.3s", // Smooth transition effect
+                      // }}
+                      // onMouseEnter={(e) => {
+                      //   e.currentTarget.style.color = "blue";
+                      // }}
+                      // onMouseLeave={(e) => {
+                      //   e.currentTarget.style.color = "black";
+                      // }}
                     >
                       <input
                         type="checkbox"
@@ -132,7 +132,7 @@ const UsersTable = ({
                     </div>
                     <div className="align-items-center my-lg-0 my-1 necessary-icons">
                       <button
-                        className="btn btn-icon btn-bg-light btn-color-warning btn-sm me-4"
+                        className="btn btn-icon btn-warning btn-sm me-4"
                         onClick={() => {
                           openEditModal(
                             vatType.id,
@@ -140,53 +140,61 @@ const UsersTable = ({
                           );
                         }}
                       >
-                        <i className="ki-duotone ki-pencil fs-2 ">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
+                        <i className="ki-solid ki-pencil fs-2 ">
+                          {/* <span className="path1"></span>
+                          <span className="path2"></span> */}
                         </i>
                       </button>
                       <button
-                        className="btn btn-icon btn-bg-light btn-color-danger btn-sm"
+                        className="btn btn-icon btn-danger btn-sm"
                         onClick={() => {
                           openDeleteModal(vatType.id, vatType.title);
                         }}
                       >
-                        <i className="ki-duotone ki-trash fs-2">
-                          <span className="path1"></span>
+                        <i className="ki-solid ki-trash fs-2 ">
+                          {/* <span className="path1"></span>
                           <span className="path2"></span>
                           <span className="path3"></span>
                           <span className="path4"></span>
-                          <span className="path5"></span>
+                          <span className="path5"></span> */}
                         </i>
                       </button>
                     </div>
                   </div>
                   {/* separator Line */}
-                  <div className="separator separator-solid mb-3"></div>
+                  {vatType.ledgerAccountDisplayName && (
+                    <div className="separator separator-solid mb-3"></div>
+                  )}
                   {/* Verkoopfacturen Text */}
-                  <div className="mb-4 text-muted">
-                    <small className="text-muted">verkoopfacturen</small>
-                  </div>
+                  {vatType.ledgerAccountDisplayName && (
+                    <div className="mb-4 text-muted">
+                      <small className="text-muted">
+                        {vatType.vatAreaUsageType.description}
+                      </small>
+                    </div>
+                  )}
 
                   {/* Small Image and Ledger Account + Title */}
-                  <div className="d-flex align-items-center flex-wrap">
-                    <i className="ki-duotone ki-file-added fs-3x text-warning ">
-                      <span className="path1"></span>
-                      <span className="path2"></span>
-                      <span className="path3"></span>
-                      <span className="path4"></span>
-                      <span className="path5"></span>
-                    </i>
+                  {vatType.ledgerAccountDisplayName && (
+                    <div className="d-flex align-items-center flex-wrap">
+                      <i className="ki-duotone ki-file-added fs-3x text-warning ">
+                        <span className="path1"></span>
+                        <span className="path2"></span>
+                        <span className="path3"></span>
+                        <span className="path4"></span>
+                        <span className="path5"></span>
+                      </i>
 
-                    <div className="d-flex flex-column mx-6">
-                      <span className="fs-sm text-muted">
-                        {intl.formatMessage({ id: "Fields.LedgerAccount" })}
-                      </span>
-                      <span className="text-primary fw-bolder">
-                        {vatType.ledgerAccountDisplayName}
-                      </span>
+                      <div className="d-flex flex-column mx-6">
+                        <span className="fs-sm text-muted">
+                          {intl.formatMessage({ id: "Fields.LedgerAccount" })}
+                        </span>
+                        <span className="text-primary fw-bolder">
+                          {vatType.ledgerAccountDisplayName}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
