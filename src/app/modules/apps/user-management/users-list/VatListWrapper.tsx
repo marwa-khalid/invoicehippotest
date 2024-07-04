@@ -4,7 +4,6 @@ import { QueryResponseProvider } from "./core/QueryResponseProvider";
 import { VatListHeader } from "./components/header/VatListHeader";
 import { VatTypesList } from "./table/VatTypesList";
 import { UserAddModal } from "./user-add-modal/UserAddModal";
-import { KTCard } from "../../../../../_metronic/helpers";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
@@ -19,8 +18,6 @@ const VatListInnerWrapper = () => {
   const [editModalId, setEditModalId] = useState<number>(0);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [ledgerAccountDisplayName, setLedgerAccountDisplayName] =
-    useState<string>("");
   const [vatTitle, setVatTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
   return (
@@ -39,16 +36,17 @@ const VatListInnerWrapper = () => {
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setEditModalId={setEditModalId}
-        setLedgerAccountDisplayName={setLedgerAccountDisplayName}
         setVatTitle={setVatTitle}
         refresh={refresh}
       />
 
-      {itemIdForUpdate !== undefined && <UserAddModal />}
+      {itemIdForUpdate !== undefined && (
+        <UserAddModal setRefresh={setRefresh} />
+      )}
       {editModalOpen && (
         <VatEditModal
           editModalId={editModalId}
-          ledgerAccountDisplayName={ledgerAccountDisplayName}
+          setRefresh={setRefresh}
           setEditModalOpen={setEditModalOpen}
         />
       )}

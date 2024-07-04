@@ -9,7 +9,10 @@ import { useFormik } from "formik";
 import { useIntl } from "react-intl";
 import { postVatType } from "../core/_requests";
 import { useListView } from "../core/ListViewProvider";
-const UserAddModal = () => {
+interface Props {
+  setRefresh: (type: boolean) => void;
+}
+const UserAddModal = ({ setRefresh }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -111,6 +114,7 @@ const UserAddModal = () => {
         console.log("Post successful:", response);
         formik.resetForm();
         setItemIdForUpdate(undefined);
+        setRefresh(true);
       } catch (error) {
         console.error("Post failed:", error);
       } finally {

@@ -5,31 +5,31 @@ import { isNotEmpty, QUERIES } from "../../../../../../_metronic/helpers";
 import { useListView } from "../core/ListViewProvider";
 import { getUserById } from "../core/_requests";
 import { getVatById } from "../core/_requests";
+import { FormikProps } from "formik";
+import { VatTypeByIdModel } from "../core/_models";
+interface FormValues {
+  id: number;
+  title: string;
+  value: number;
+  documentGroup: number;
+  ledgerAccountId: number;
+  isNoneVatType: boolean;
+  alwaysExclusiveOfVAT: boolean;
+  showInLists: boolean;
+  showOnDocuments: boolean;
+}
+
 interface ComponentProps {
-  editModalId: number;
-  ledgerAccountDisplayName: string;
+  formik: FormikProps<FormValues>;
+  ledgerAccounts: { value: number; label: string }[];
 }
 const VatEditModalFormWrapper = ({
-  editModalId,
-  ledgerAccountDisplayName,
+  formik,
+  ledgerAccounts,
 }: ComponentProps) => {
   const { itemIdForUpdate, setItemIdForUpdate } = useListView();
   const enabledQuery: boolean = isNotEmpty(itemIdForUpdate);
-  const [vatTypeDetails, setVatTypeDetails] = useState<any>(null);
-  useEffect(() => {
-    const getVatTypeDetails = async () => {
-      try {
-        const response = await getVatById(editModalId);
-        setVatTypeDetails(response);
 
-        // setTotalItems(response.result);
-      } catch (error) {
-        console.error("Error fetching VAT types:", error);
-      } finally {
-      }
-    };
-    getVatTypeDetails();
-  }, []);
   const {
     isLoading,
     data: user,
@@ -62,8 +62,8 @@ const VatEditModalFormWrapper = ({
   return (
     <VatEditModalForm
       isUserLoading={isLoading}
-      user={vatTypeDetails}
-      ledgerAccountDisplayName={ledgerAccountDisplayName}
+      formik={formik}
+      ledgerAccounts={ledgerAccounts}
     />
   );
   // }

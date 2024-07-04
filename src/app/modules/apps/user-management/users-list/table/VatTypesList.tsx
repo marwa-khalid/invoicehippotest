@@ -13,7 +13,6 @@ interface UsersTableComponentProps {
   setCurrentRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
-  setLedgerAccountDisplayName: (type: string) => void;
   setVatTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
@@ -24,7 +23,6 @@ const VatTypesList = ({
   setCurrentRows,
   setEditModalOpen,
   setEditModalId,
-  setLedgerAccountDisplayName,
   setVatTitle,
   setDeleteModalOpen,
   refresh,
@@ -61,6 +59,8 @@ const VatTypesList = ({
     fetchVatTypes();
   }, [searchTerm, pageIndex, vatAreaUsageTypeFilter, refresh]);
 
+  useEffect(() => {});
+
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
       <button className="btn btn-icon btn-light btn-sm me-4">
@@ -80,10 +80,9 @@ const VatTypesList = ({
       </button>
     );
   };
-  const openEditModal = (id: number, ledgerName: string) => {
+  const openEditModal = (id: number) => {
     setEditModalId(id);
     setEditModalOpen(true);
-    setLedgerAccountDisplayName(ledgerName);
   };
 
   const openDeleteModal = (id: number, vatTitle: string) => {
@@ -105,10 +104,7 @@ const VatTypesList = ({
                     <div
                       className="d-flex align-items-center gap-3 cursor-pointer title-clickable"
                       onClick={() => {
-                        openEditModal(
-                          vatType.id,
-                          vatType.ledgerAccountDisplayName
-                        );
+                        openEditModal(vatType.id);
                       }}
                       // style={{
                       //   transition: "color 0.3s", // Smooth transition effect
@@ -134,10 +130,7 @@ const VatTypesList = ({
                       <button
                         className="btn btn-icon btn-warning btn-sm me-4"
                         onClick={() => {
-                          openEditModal(
-                            vatType.id,
-                            vatType.ledgerAccountDisplayName
-                          );
+                          openEditModal(vatType.id);
                         }}
                       >
                         <i className="ki-solid ki-pencil fs-2 ">

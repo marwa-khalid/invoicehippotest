@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useIntl } from "react-intl";
 import { useFormikContext } from "formik";
 import { useListView } from "../core/ListViewProvider";
@@ -17,13 +17,15 @@ const UserDeleteModalFooter = ({
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
-  console.log(deleteModalId);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const deleteVat = async () => {
+    setIsSubmitting(true);
     const response = await deleteVatType(deleteModalId);
     if (response.result) {
       setDeleteModalOpen(false);
       setRefresh(true);
+      setIsSubmitting(false);
     }
   };
   return (
@@ -46,15 +48,13 @@ const UserDeleteModalFooter = ({
           onClick={deleteVat}
           //   disabled={!isValid || isSubmitting || !touched}
         >
-          <span className="indicator-label">
-            {intl.formatMessage({ id: "Fields.ActionDelete" })}
-          </span>
-          {/* {isSubmitting && ( */}
-          <span className="indicator-progress">
-            {intl.formatMessage({ id: "Common.Busy" })}...{" "}
-            <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-          </span>
-          {/* )} */}
+          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionSave" })}
+          {isSubmitting && (
+            <span className="indicator-progress" style={{ display: "block" }}>
+              {intl.formatMessage({ id: "Common.Busy" })}
+              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+          )}
         </button>
       </div>
     </div>
