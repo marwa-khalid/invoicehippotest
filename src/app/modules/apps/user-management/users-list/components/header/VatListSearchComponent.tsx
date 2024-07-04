@@ -38,7 +38,7 @@ const VatListSearchComponent = ({ setSearchTerm }: ComponentProps) => {
           type="text"
           data-kt-user-table-filter="search"
           className="form-control form-control-solid w-100 ps-14 rounded-lg me-6"
-          placeholder="Search Tax Type"
+          placeholder={intl.formatMessage({ id: "Fields.SearchTerm" })}
           value={localSearchTerm}
           onChange={(e) => setLocalSearchTerm(e.target.value)}
         />

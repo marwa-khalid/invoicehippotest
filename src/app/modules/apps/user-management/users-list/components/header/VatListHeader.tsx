@@ -8,11 +8,13 @@ import { KTCardBody } from "../../../../../../../_metronic/helpers";
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
   setVatAreaUsageTypeFilter: (type: number) => void;
+  onTabChange: () => void;
 }
 
 const VatListHeader = ({
   setSearchTerm,
   setVatAreaUsageTypeFilter,
+  onTabChange,
 }: ComponentProps) => {
   const { selected } = useListView();
   return (
@@ -25,6 +27,7 @@ const VatListHeader = ({
         <div className="mt-4">
           <UserListHeaderTabs
             setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
+            onTabChange={onTabChange}
           />
         </div>
 

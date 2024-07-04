@@ -6,6 +6,7 @@ import { VatListPagination } from "../components/pagination/VatListPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
+import { KTSVG } from "../../../../../../_metronic/helpers";
 // import { VatEditModal } from "../user-edit-modal/VatEditModal";
 interface UsersTableComponentProps {
   searchTerm: string;
@@ -16,6 +17,9 @@ interface UsersTableComponentProps {
   setVatTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
+  onTabChange: () => void;
+  setPageIndex: (type: number) => void;
+  pageIndex: number;
 }
 const VatTypesList = ({
   searchTerm,
@@ -26,11 +30,13 @@ const VatTypesList = ({
   setVatTitle,
   setDeleteModalOpen,
   refresh,
+  setPageIndex,
+  pageIndex,
 }: UsersTableComponentProps) => {
   const [vatTypesList, setVatTypesList] = useState<any>([]);
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [pageIndex, setPageIndex] = useState<number>(1);
+  // const [pageIndex, setPageIndex] = useState<number>(1);
 
   const handlePageChange = (page: number) => {
     setPageIndex(page);
@@ -63,21 +69,15 @@ const VatTypesList = ({
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
-      <button className="btn btn-icon btn-light btn-sm me-4">
-        <i className="ki-solid ki-lock text-success fs-2">
-          {/* <span className="path1"></span>
-          <span className="path2"></span>
-          <span className="path3"></span> */}
-        </i>
-      </button>
+      <KTSVG
+        path="media/icons/duotune/arrows/arr020.svg"
+        className="svg-icon-success svg-icon-2x"
+      />
     ) : (
-      <button className="btn btn-icon btn-light btn-sm me-4">
-        <i className="ki-solid ki-lock fs-2 text-danger">
-          {/* <span className="path1"></span>
-          <span className="path2"></span>
-          <span className="path3"></span> */}
-        </i>
-      </button>
+      <KTSVG
+        path="media/icons/duotune/arrows/arr020.svg"
+        className="svg-icon-danger svg-icon-2x"
+      />
     );
   };
   const openEditModal = (id: number) => {
@@ -128,23 +128,23 @@ const VatTypesList = ({
                     </div>
                     <div className="align-items-center my-lg-0 my-1 necessary-icons">
                       <button
-                        className="btn btn-icon btn-warning btn-sm me-4"
+                        className="btn btn-icon btn-light btn-sm me-4"
                         onClick={() => {
                           openEditModal(vatType.id);
                         }}
                       >
-                        <i className="ki-solid ki-pencil fs-2 ">
+                        <i className="ki-solid ki-pencil text-warning fs-2 ">
                           {/* <span className="path1"></span>
                           <span className="path2"></span> */}
                         </i>
                       </button>
                       <button
-                        className="btn btn-icon btn-danger btn-sm"
+                        className="btn btn-icon btn-light btn-sm"
                         onClick={() => {
                           openDeleteModal(vatType.id, vatType.title);
                         }}
                       >
-                        <i className="ki-solid ki-trash fs-2 ">
+                        <i className="ki-solid ki-trash text-danger fs-2 ">
                           {/* <span className="path1"></span>
                           <span className="path2"></span>
                           <span className="path3"></span>

@@ -4,33 +4,34 @@ import { VatListWrapper } from "./users-list/VatListWrapper";
 import clsx from "clsx";
 import { useLayout } from "../../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
-const usersBreadcrumbs: Array<PageLink> = [
-  {
-    title: "Tax types",
-    path: "/admin/vattype",
-    isSeparator: false,
-    isActive: false,
-  },
-  {
-    title: "",
-    path: "",
-    isSeparator: true,
-    isActive: false,
-  },
-];
 
-const UsersPage = () => {
-  const intl = useIntl();
+const VatTypesPage = () => {
   const { config } = useLayout();
+  const intl = useIntl();
+  const vatTypesBreadcrumbs: Array<PageLink> = [
+    {
+      title: intl.formatMessage({ id: "Menu.Settings" }),
+      path: "/admin/vattype",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "",
+      path: "",
+      isSeparator: true,
+      isActive: false,
+    },
+  ];
+
   return (
     <Routes>
       <Route element={<Outlet />}>
         <Route
-          path="users"
+          path="vattype"
           element={
             <>
-              <PageTitle breadcrumbs={usersBreadcrumbs}>
-                {intl.formatMessage({ id: "Settings.ManageTaxTypes" })}
+              <PageTitle breadcrumbs={vatTypesBreadcrumbs}>
+                {intl.formatMessage({ id: "Fields.SearchPanelTitleVatType" })}
               </PageTitle>
               <div
                 className={clsx(
@@ -53,4 +54,4 @@ const UsersPage = () => {
   );
 };
 
-export default UsersPage;
+export default VatTypesPage;

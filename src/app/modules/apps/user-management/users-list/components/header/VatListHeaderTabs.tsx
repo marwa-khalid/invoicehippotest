@@ -3,10 +3,14 @@ import React, { useState } from "react";
 import { useIntl } from "react-intl";
 interface ComponentProps {
   setVatAreaUsageTypeFilter: (type: number) => void;
+  onTabChange: () => void;
 }
 
-const VatListHeaderTabs = ({ setVatAreaUsageTypeFilter }: ComponentProps) => {
-  const [activeTab, setActiveTab] = useState(1);
+const VatListHeaderTabs = ({
+  setVatAreaUsageTypeFilter,
+  onTabChange,
+}: ComponentProps) => {
+  const [activeTab, setActiveTab] = useState(0);
   const intl = useIntl();
 
   const tabContent = [
@@ -19,7 +23,6 @@ const VatListHeaderTabs = ({ setVatAreaUsageTypeFilter }: ComponentProps) => {
       title: intl.formatMessage({ id: "Fields.VatTabCostCategories" }),
     },
   ];
-  console.log(activeTab);
   return (
     <div className="d-flex overflow-auto h-55px tax-types-tabs">
       <ul className="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
@@ -35,6 +38,8 @@ const VatListHeaderTabs = ({ setVatAreaUsageTypeFilter }: ComponentProps) => {
               onClick={() => {
                 setVatAreaUsageTypeFilter(tab.value);
                 setActiveTab(index);
+
+                onTabChange(); // Notify parent component about tab change
               }}
             >
               {tab.title}

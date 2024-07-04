@@ -20,11 +20,17 @@ const VatListInnerWrapper = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [vatTitle, setVatTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
+
+  const [pageIndex, setPageIndex] = useState<number>(1);
+  const onTabChange = () => {
+    setPageIndex(1);
+  };
   return (
     <>
       <VatListHeader
         setSearchTerm={setSearchTerm}
         setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
+        onTabChange={onTabChange}
       />
 
       <VatListToolbar currentRows={currentRows} />
@@ -38,6 +44,9 @@ const VatListInnerWrapper = () => {
         setEditModalId={setEditModalId}
         setVatTitle={setVatTitle}
         refresh={refresh}
+        onTabChange={onTabChange}
+        pageIndex={pageIndex}
+        setPageIndex={setPageIndex}
       />
 
       {itemIdForUpdate !== undefined && (

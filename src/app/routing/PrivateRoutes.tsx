@@ -14,10 +14,10 @@ const PrivateRoutes = () => {
   const WidgetsPage = lazy(() => import("../modules/widgets/WidgetsPage"));
   const ChatPage = lazy(() => import("../modules/apps/chat/ChatPage"));
   const VatTypesPage = lazy(
-    () => import("../modules/apps/user-management/UsersPage")
+    () => import("../modules/apps/user-management/VatTypesPage")
   );
   const UsersPage = lazy(
-    () => import("../modules/apps/user-management/UsersPage")
+    () => import("../modules/apps/user-management/VatTypesPage")
   );
   return (
     <Routes>
@@ -95,14 +95,14 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         /> */}
-        <Route
+        {/* <Route
           path="apps/user-management/*"
           element={
             <SuspensedView>
               <UsersPage />
             </SuspensedView>
           }
-        />
+        /> */}
         {/* Page Not Found */}
         <Route path="*" element={<Navigate to="/error/404" />} />
       </Route>

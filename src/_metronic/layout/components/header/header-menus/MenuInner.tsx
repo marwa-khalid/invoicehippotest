@@ -159,13 +159,17 @@ export function MenuInner() {
       </MenuInnerWithSub>
 
       <MenuInnerWithSub
-        title="Admin"
+        title="Settings"
         to="/admin"
         menuPlacement="bottom-start"
         menuTrigger="click"
       >
-        <MenuItem to="/vattype" title="Tax Types" hasBullet={true} />
-        <MenuItem to="/ledgeraccount" title="Ledger Account" hasBullet={true} />
+        <MenuItem to="/admin/vattype" title="Tax Types" hasBullet={true} />
+        <MenuItem
+          to="/admin/ledgeraccount"
+          title="Ledger Account"
+          hasBullet={true}
+        />
       </MenuInnerWithSub>
 
       <MenuInnerWithSub
