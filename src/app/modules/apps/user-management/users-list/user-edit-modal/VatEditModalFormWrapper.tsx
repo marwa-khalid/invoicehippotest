@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { UserEditModalForm } from "./UserEditModalForm";
+import { VatEditModalForm } from "./VatEditModalForm";
 import { isNotEmpty, QUERIES } from "../../../../../../_metronic/helpers";
 import { useListView } from "../core/ListViewProvider";
 import { getUserById } from "../core/_requests";
@@ -9,7 +9,7 @@ interface ComponentProps {
   editModalId: number;
   ledgerAccountDisplayName: string;
 }
-const UserEditModalFormWrapper = ({
+const VatEditModalFormWrapper = ({
   editModalId,
   ledgerAccountDisplayName,
 }: ComponentProps) => {
@@ -60,7 +60,7 @@ const UserEditModalFormWrapper = ({
 
   // if (!isLoading && !error && user) {
   return (
-    <UserEditModalForm
+    <VatEditModalForm
       isUserLoading={isLoading}
       user={vatTypeDetails}
       ledgerAccountDisplayName={ledgerAccountDisplayName}
@@ -71,4 +71,4 @@ const UserEditModalFormWrapper = ({
   return null;
 };
 
-export { UserEditModalFormWrapper };
+export { VatEditModalFormWrapper };

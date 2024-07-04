@@ -6,7 +6,7 @@ interface ComponentProps {
   setEditModalOpen: (type: boolean) => void;
 }
 
-const UserEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
+const VatEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
   const { setItemIdForUpdate } = useListView();
   const intl = useIntl();
 
@@ -32,4 +32,4 @@ const UserEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
   );
 };
 
-export { UserEditModalHeader };
+export { VatEditModalHeader };

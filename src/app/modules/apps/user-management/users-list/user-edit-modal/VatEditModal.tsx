@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { UserEditModalHeader } from "./UserEditModalHeader";
-import { UserEditModalFormWrapper } from "./UserEditModalFormWrapper";
-import { UserEditModalFooter } from "./UserEditModalFooter";
+import { VatEditModalHeader } from "./VatEditModalHeader";
+import { VatEditModalFormWrapper } from "./VatEditModalFormWrapper";
+import { UserEditModalFooter } from "./VatEditModalFooter";
 import { VatTypeByIdResult } from "../core/_models";
 interface ComponentProps {
   ledgerAccountDisplayName: string;
   editModalId: number;
   setEditModalOpen: (type: boolean) => void;
 }
-const UserEditModal = ({
+const VatEditModal = ({
   editModalId,
   ledgerAccountDisplayName,
   setEditModalOpen,
@@ -33,14 +33,14 @@ const UserEditModal = ({
         <div className="modal-dialog modal-dialog-centered mw-650px">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <UserEditModalHeader setEditModalOpen={setEditModalOpen} />
+            <VatEditModalHeader setEditModalOpen={setEditModalOpen} />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div
                 className="form-wrapper"
                 style={{ maxHeight: "calc(100vh - 300px)", overflowY: "auto" }}
               >
-                <UserEditModalFormWrapper
+                <VatEditModalFormWrapper
                   editModalId={editModalId}
                   ledgerAccountDisplayName={ledgerAccountDisplayName}
                 />
@@ -61,4 +61,4 @@ const UserEditModal = ({
   );
 };
 
-export { UserEditModal };
+export { VatEditModal };

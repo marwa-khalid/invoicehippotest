@@ -13,7 +13,7 @@ const ToolbarClassic = () => {
 
   return (
     <div className='d-flex align-items-center gap-2 gap-lg-3'>
-      <div className='m-0'>
+      {/* <div className='m-0'>
         <a
           href='#'
           className={clsx('btn btn-sm btn-flex fw-bold', daterangepickerButtonClass)}
@@ -34,7 +34,7 @@ const ToolbarClassic = () => {
         )}
       >
         <KTIcon iconName='calendar-8' className='fs-1 ms-2 me-0' />
-      </div>
+      </div> */}
 
       {/* <a href='#' className='btn btn-sm btn-flex btn-light fw-bold'>
         Filter

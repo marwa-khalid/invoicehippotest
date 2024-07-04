@@ -1,6 +1,6 @@
 import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../../_metronic/layout/core";
-import { UsersListWrapper } from "./users-list/UsersList";
+import { VatListWrapper } from "./users-list/VatListWrapper";
 import clsx from "clsx";
 import { useLayout } from "../../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
@@ -42,7 +42,7 @@ const UsersPage = () => {
                   }
                 )}
               >
-                <UsersListWrapper />
+                <VatListWrapper />
               </div>
             </>
           }

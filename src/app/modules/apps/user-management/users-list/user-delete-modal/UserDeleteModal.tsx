@@ -40,11 +40,21 @@ const UserDeleteModal = ({
             {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div className="form-wrapper">
-                {intl
-                  .formatMessage({
-                    id: "Fields.ModalDeleteDescriptionVatType",
-                  })
-                  .replace("{0}", vatTitle)}
+                {
+                  intl
+                    .formatMessage({
+                      id: "Fields.ModalDeleteDescriptionVatType",
+                    })
+                    .split("{0}")[0]
+                }
+                <strong>{vatTitle}</strong>
+                {
+                  intl
+                    .formatMessage({
+                      id: "Fields.ModalDeleteDescriptionVatType",
+                    })
+                    .split("{0}")[1]
+                }
               </div>
             </div>
 

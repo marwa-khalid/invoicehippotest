@@ -1,17 +1,17 @@
 import { ListViewProvider, useListView } from "./core/ListViewProvider";
 import { QueryRequestProvider } from "./core/QueryRequestProvider";
 import { QueryResponseProvider } from "./core/QueryResponseProvider";
-import { UsersListHeader } from "./components/header/UsersListHeader";
-import { UsersTable } from "./table/UsersTable";
+import { VatListHeader } from "./components/header/VatListHeader";
+import { VatTypesList } from "./table/VatTypesList";
 import { UserAddModal } from "./user-add-modal/UserAddModal";
 import { KTCard } from "../../../../../_metronic/helpers";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
-import { UsersListToolbar } from "./components/header/UserListToolbar";
-import { UserEditModal } from "./user-edit-modal/UserEditModal";
+import { VatListToolbar } from "./components/header/VatListToolbar";
+import { VatEditModal } from "./user-edit-modal/VatEditModal";
 import { UserDeleteModal } from "./user-delete-modal/UserDeleteModal";
-const UsersList = () => {
+const VatListInnerWrapper = () => {
   const { itemIdForUpdate } = useListView();
   const [searchTerm, setSearchTerm] = useState("");
   const [vatAreaUsageTypeFilter, setVatAreaUsageTypeFilter] = useState(1);
@@ -25,14 +25,14 @@ const UsersList = () => {
   const [refresh, setRefresh] = useState(false);
   return (
     <>
-      <UsersListHeader
+      <VatListHeader
         setSearchTerm={setSearchTerm}
         setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
       />
 
-      <UsersListToolbar currentRows={currentRows} />
+      <VatListToolbar currentRows={currentRows} />
 
-      <UsersTable
+      <VatTypesList
         searchTerm={searchTerm}
         vatAreaUsageTypeFilter={vatAreaUsageTypeFilter}
         setCurrentRows={setCurrentRows}
@@ -46,7 +46,7 @@ const UsersList = () => {
 
       {itemIdForUpdate !== undefined && <UserAddModal />}
       {editModalOpen && (
-        <UserEditModal
+        <VatEditModal
           editModalId={editModalId}
           ledgerAccountDisplayName={ledgerAccountDisplayName}
           setEditModalOpen={setEditModalOpen}
@@ -64,14 +64,14 @@ const UsersList = () => {
   );
 };
 
-const UsersListWrapper = () => (
+const VatListWrapper = () => (
   <QueryRequestProvider>
     <QueryResponseProvider>
       <ListViewProvider>
         <ToolbarWrapper />
         <Content>
           {/* <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}> */}
-          <UsersList />
+          <VatListInnerWrapper />
           {/* </div> */}
         </Content>
       </ListViewProvider>
@@ -79,4 +79,4 @@ const UsersListWrapper = () => (
   </QueryRequestProvider>
 );
 
-export { UsersListWrapper };
+export { VatListWrapper };

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getVatTypes } from "../core/_requests";
 import { VatTypesResult } from "../core/_models";
-import { UsersListLoading } from "../components/loading/UsersListLoading";
-import { UsersListPagination } from "../components/pagination/UsersListPagination";
+import { VatListLoading } from "../components/loading/VatListLoading";
+import { VatListPagination } from "../components/pagination/VatListPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
-import { UserEditModal } from "../user-edit-modal/UserEditModal";
+// import { VatEditModal } from "../user-edit-modal/VatEditModal";
 interface UsersTableComponentProps {
   searchTerm: string;
   vatAreaUsageTypeFilter: number;
@@ -18,7 +18,7 @@ interface UsersTableComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
 }
-const UsersTable = ({
+const VatTypesList = ({
   searchTerm,
   vatAreaUsageTypeFilter,
   setCurrentRows,
@@ -94,7 +94,7 @@ const UsersTable = ({
   return (
     <KTCardBody className="py-4">
       <div className="row row-cols-1 row-cols-md-1 g-4">
-        {isLoading && <UsersListLoading />}
+        {isLoading && <VatListLoading />}
         {!isLoading &&
           vatTypesList?.result?.map((vatType: VatTypesResult) => (
             <div className="col" key={vatType.id}>
@@ -199,8 +199,18 @@ const UsersTable = ({
               </div>
             </div>
           ))}
+
+        {vatTypesList?.result?.length == 0 && (
+          <div className="text-center">
+            <img
+              alt=""
+              src={toAbsoluteUrl("media/logos/searchnotfound.png")}
+              className="h-300px w-350px"
+            />
+          </div>
+        )}
       </div>
-      <UsersListPagination
+      <VatListPagination
         totalPages={vatTypesList.totalPages}
         pageIndex={pageIndex}
         onPageChange={handlePageChange}
@@ -210,4 +220,4 @@ const UsersTable = ({
   );
 };
 
-export { UsersTable };
+export { VatTypesList };

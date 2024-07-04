@@ -297,15 +297,15 @@ const UserAddModalForm: FC<Props> = ({
               id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
             })}
             value={
-              ledgerAccounts.find(
+              ledgerAccounts?.find(
                 (option: any) => option.value === formik.values.ledgerAccountId
               ) || null
             }
             // value={
-            //   formik.values.ledgerAccount
+            //   formik.values.ledgerAccountId
             //     ? {
-            //         value: formik.values.ledgerAccount,
-            //         label: formik.values.ledgerAccount,
+            //         value: formik.values.ledgerAccountId,
+            //         label: formik.values.ledgerAccountId,
             //       }
             //     : null
             // }

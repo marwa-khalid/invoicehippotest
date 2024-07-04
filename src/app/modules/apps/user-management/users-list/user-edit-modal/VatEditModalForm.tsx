@@ -13,7 +13,7 @@ type Props = {
   ledgerAccountDisplayName: string;
 };
 
-const UserEditModalForm: FC<Props> = ({
+const VatEditModalForm: FC<Props> = ({
   isUserLoading,
   user,
   ledgerAccountDisplayName,
@@ -498,4 +498,4 @@ const UserEditModalForm: FC<Props> = ({
   );
 };
 
-export { UserEditModalForm };
+export { VatEditModalForm };

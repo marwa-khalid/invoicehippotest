@@ -1,25 +1,25 @@
 import { useState } from "react";
 import { useListView } from "../../core/ListViewProvider";
-import { UsersListToolbar } from "./UserListToolbar";
-import { UsersListGrouping } from "./UsersListGrouping";
-import { UsersListSearchComponent } from "./UsersListSearchComponent";
-import UserListHeaderTabs from "./UserListHeaderTabs";
+import { VatListToolbar } from "./VatListToolbar";
+// import { VatListGrouping } from "./VatListGrouping";
+import { VatListSearchComponent } from "./VatListSearchComponent";
+import UserListHeaderTabs from "./VatListHeaderTabs";
 import { KTCardBody } from "../../../../../../../_metronic/helpers";
-interface UsersListSearchComponentProps {
+interface ComponentProps {
   setSearchTerm: (term: string) => void;
   setVatAreaUsageTypeFilter: (type: number) => void;
 }
 
-const UsersListHeader = ({
+const VatListHeader = ({
   setSearchTerm,
   setVatAreaUsageTypeFilter,
-}: UsersListSearchComponentProps) => {
+}: ComponentProps) => {
   const { selected } = useListView();
   return (
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
       <div className="card-body pt-9 pb-0">
         {/* Full-width search and button */}
-        <UsersListSearchComponent setSearchTerm={setSearchTerm} />
+        <VatListSearchComponent setSearchTerm={setSearchTerm} />
 
         {/* Tabs Section */}
         <div className="mt-4">
@@ -30,11 +30,11 @@ const UsersListHeader = ({
 
         {/* Card toolbar */}
         {/* <div className="card-toolbar">
-        {selected.length > 0 ? <UsersListGrouping /> : <UsersListToolbar />}
+        {selected.length > 0 ? <VatListGrouping /> : <VatListToolbar />}
       </div> */}
       </div>
     </KTCardBody>
   );
 };
 
-export { UsersListHeader };
+export { VatListHeader };

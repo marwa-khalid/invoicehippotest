@@ -6,13 +6,11 @@ import {
 import { useQueryRequest } from "../../core/QueryRequestProvider";
 import { useIntl } from "react-intl";
 
-interface UsersListSearchComponentProps {
+interface ComponentProps {
   setSearchTerm: (term: string) => void;
 }
 
-const UsersListSearchComponent = ({
-  setSearchTerm,
-}: UsersListSearchComponentProps) => {
+const VatListSearchComponent = ({ setSearchTerm }: ComponentProps) => {
   const { updateState } = useQueryRequest();
   const [localSearchTerm, setLocalSearchTerm] = useState<string>("");
   const intl = useIntl();
@@ -54,7 +52,10 @@ const UsersListSearchComponent = ({
               {intl.formatMessage({ id: "Fields.SearchBtn" })}
             </span>
           </button>
-          <button className="btn btn-secondary btn-icon" onClick={handleResetClick}>
+          <button
+            className="btn btn-secondary btn-icon"
+            onClick={handleResetClick}
+          >
             <i className="la la-remove"></i>
           </button>
         </div>
@@ -63,4 +64,4 @@ const UsersListSearchComponent = ({
   );
 };
 
-export { UsersListSearchComponent };
+export { VatListSearchComponent };

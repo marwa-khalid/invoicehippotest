@@ -1,13 +1,11 @@
 // src/components/Tabs.js
 import React, { useState } from "react";
 import { useIntl } from "react-intl";
-interface UsersListSearchComponentProps {
+interface ComponentProps {
   setVatAreaUsageTypeFilter: (type: number) => void;
 }
 
-const UsersListHeaderTabs = ({
-  setVatAreaUsageTypeFilter,
-}: UsersListSearchComponentProps) => {
+const VatListHeaderTabs = ({ setVatAreaUsageTypeFilter }: ComponentProps) => {
   const [activeTab, setActiveTab] = useState(1);
   const intl = useIntl();
 
@@ -48,4 +46,4 @@ const UsersListHeaderTabs = ({
   );
 };
 
-export default UsersListHeaderTabs;
+export default VatListHeaderTabs;
