@@ -34,20 +34,20 @@ const ToolbarClassic = () => {
         )}
       >
         <KTIcon iconName='calendar-8' className='fs-1 ms-2 me-0' />
-      </div> */}
+      </div> 
 
-      {/* <a href='#' className='btn btn-sm btn-flex btn-light fw-bold'>
+      <a href='#' className='btn btn-sm btn-flex btn-light fw-bold'>
         Filter
-      </a> */}
+      </a>
 
-      {/* <a
+      <a
         href='#'
         onClick={() => setShowCreateAppModal(true)}
         className='btn btn-sm fw-bold btn-primary'
       >
         Create
-      </a> */}
-      <CreateAppModal show={showCreateAppModal} handleClose={() => setShowCreateAppModal(false)} />
+      </a>
+      <CreateAppModal show={showCreateAppModal} handleClose={() => setShowCreateAppModal(false)} /> */}
     </div>
   )
 }

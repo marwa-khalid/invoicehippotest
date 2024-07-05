@@ -8,6 +8,7 @@ interface VatListPaginationProps {
   pageIndex: number;
   onPageChange: (page: number) => void;
   totalItems: number;
+  filterType: number;
 }
 
 const VatListPagination = ({
@@ -15,9 +16,18 @@ const VatListPagination = ({
   pageIndex,
   onPageChange,
   totalItems,
+  filterType,
 }: VatListPaginationProps) => {
   const intl = useIntl();
   const [selectedPage, setSelectedPage] = useState<number>(pageIndex);
+  useEffect(() => {
+    const storedPage = localStorage.getItem(`${filterType}_selectedPage`);
+    if (storedPage) {
+      setSelectedPage(parseInt(storedPage, 10));
+    } else {
+      setSelectedPage(pageIndex); // Fallback to current page index if not stored
+    }
+  }, [filterType, pageIndex]);
 
   useEffect(() => {
     setSelectedPage(pageIndex);
@@ -185,7 +195,7 @@ const VatListPagination = ({
         <Select
           className="react-select-styled ms-3"
           options={pageOptions} // The options array created dynamically
-          value={pageOptions.find(
+          value={pageOptions?.find(
             (option) => option.value === selectedPage.toString()
           )} // Set the currently selected option
           onChange={handlePageDropdownChange} // Updated onChange handler

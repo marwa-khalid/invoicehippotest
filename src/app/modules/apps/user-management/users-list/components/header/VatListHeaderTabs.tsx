@@ -3,13 +3,9 @@ import React, { useState } from "react";
 import { useIntl } from "react-intl";
 interface ComponentProps {
   setVatAreaUsageTypeFilter: (type: number) => void;
-  onTabChange: () => void;
 }
 
-const VatListHeaderTabs = ({
-  setVatAreaUsageTypeFilter,
-  onTabChange,
-}: ComponentProps) => {
+const VatListHeaderTabs = ({ setVatAreaUsageTypeFilter }: ComponentProps) => {
   const [activeTab, setActiveTab] = useState(0);
   const intl = useIntl();
 
@@ -38,8 +34,6 @@ const VatListHeaderTabs = ({
               onClick={() => {
                 setVatAreaUsageTypeFilter(tab.value);
                 setActiveTab(index);
-
-                onTabChange(); // Notify parent component about tab change
               }}
             >
               {tab.title}

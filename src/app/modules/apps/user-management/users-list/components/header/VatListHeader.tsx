@@ -8,28 +8,29 @@ import { KTCardBody } from "../../../../../../../_metronic/helpers";
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
   setVatAreaUsageTypeFilter: (type: number) => void;
-  onTabChange: () => void;
 }
 
 const VatListHeader = ({
   setSearchTerm,
   setVatAreaUsageTypeFilter,
-  onTabChange,
 }: ComponentProps) => {
   const { selected } = useListView();
   return (
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
       <div className="card-body pt-9 pb-0">
         {/* Full-width search and button */}
-        <VatListSearchComponent setSearchTerm={setSearchTerm} />
+        <VatListSearchComponent
+          setSearchTerm={setSearchTerm}
+          setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
+        />
 
         {/* Tabs Section */}
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <UserListHeaderTabs
-            setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
+            
             onTabChange={onTabChange}
           />
-        </div>
+        </div> */}
 
         {/* Card toolbar */}
         {/* <div className="card-toolbar">

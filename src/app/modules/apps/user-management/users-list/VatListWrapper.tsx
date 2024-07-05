@@ -6,7 +6,7 @@ import { VatTypesList } from "./table/VatTypesList";
 import { UserAddModal } from "./user-add-modal/UserAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { VatListToolbar } from "./components/header/VatListToolbar";
 import { VatEditModal } from "./user-edit-modal/VatEditModal";
 import { UserDeleteModal } from "./user-delete-modal/UserDeleteModal";
@@ -22,15 +22,15 @@ const VatListInnerWrapper = () => {
   const [refresh, setRefresh] = useState(false);
 
   const [pageIndex, setPageIndex] = useState<number>(1);
-  const onTabChange = () => {
-    setPageIndex(1);
-  };
+  useEffect(() => {
+    localStorage.getItem("filter")
+    && setVatAreaUsageTypeFilter(parseInt(localStorage.getItem("filter")!));
+  }, []);
   return (
     <>
       <VatListHeader
         setSearchTerm={setSearchTerm}
         setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
-        onTabChange={onTabChange}
       />
 
       <VatListToolbar currentRows={currentRows} />
@@ -44,9 +44,9 @@ const VatListInnerWrapper = () => {
         setEditModalId={setEditModalId}
         setVatTitle={setVatTitle}
         refresh={refresh}
-        onTabChange={onTabChange}
         pageIndex={pageIndex}
         setPageIndex={setPageIndex}
+        filterType={vatAreaUsageTypeFilter}
       />
 
       {itemIdForUpdate !== undefined && (

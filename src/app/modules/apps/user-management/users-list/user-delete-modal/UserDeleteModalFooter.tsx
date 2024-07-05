@@ -48,7 +48,7 @@ const UserDeleteModalFooter = ({
           onClick={deleteVat}
           //   disabled={!isValid || isSubmitting || !touched}
         >
-          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionSave" })}
+          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionDelete" })}
           {isSubmitting && (
             <span className="indicator-progress" style={{ display: "block" }}>
               {intl.formatMessage({ id: "Common.Busy" })}

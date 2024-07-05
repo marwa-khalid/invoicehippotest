@@ -7,6 +7,7 @@ import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
+import { Filter } from "../components/header/Filter";
 // import { VatEditModal } from "../user-edit-modal/VatEditModal";
 interface UsersTableComponentProps {
   searchTerm: string;
@@ -17,9 +18,9 @@ interface UsersTableComponentProps {
   setVatTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
-  onTabChange: () => void;
   setPageIndex: (type: number) => void;
   pageIndex: number;
+  filterType: number;
 }
 const VatTypesList = ({
   searchTerm,
@@ -32,6 +33,7 @@ const VatTypesList = ({
   refresh,
   setPageIndex,
   pageIndex,
+  filterType,
 }: UsersTableComponentProps) => {
   const [vatTypesList, setVatTypesList] = useState<any>([]);
   const intl = useIntl();
@@ -70,12 +72,12 @@ const VatTypesList = ({
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
       <KTSVG
-        path="media/icons/duotune/arrows/arr020.svg"
+        path="media/icons/duotune/general/gen037.svg"
         className="svg-icon-success svg-icon-2x"
       />
     ) : (
       <KTSVG
-        path="media/icons/duotune/arrows/arr020.svg"
+        path="media/icons/duotune/general/gen037.svg"
         className="svg-icon-danger svg-icon-2x"
       />
     );
@@ -206,8 +208,10 @@ const VatTypesList = ({
       <VatListPagination
         totalPages={vatTypesList.totalPages}
         pageIndex={pageIndex}
+        // setPageIndex={setPageIndex}
         onPageChange={handlePageChange}
         totalItems={vatTypesList.totalRows}
+        filterType={filterType}
       />
     </KTCardBody>
   );
