@@ -8,40 +8,79 @@ import { useIntl } from "react-intl";
 import { Filter } from "./Filter";
 import clsx from "clsx";
 import { useLayout } from "../../../../../../../_metronic/layout/core";
+import enums from "../../../../../../../invoicehippo.enums.json";
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
   setVatAreaUsageTypeFilter: (type: number) => void;
+  setIsFilterApplied: (type: boolean) => void;
+  isFilterApplied: boolean;
+  searchTerm: string;
+  vatAreaUsageTypeFilter: number;
 }
 
 const VatListSearchComponent = ({
   setSearchTerm,
   setVatAreaUsageTypeFilter,
+  isFilterApplied,
+  setIsFilterApplied,
+  searchTerm,
+  vatAreaUsageTypeFilter,
 }: ComponentProps) => {
   const { updateState } = useQueryRequest();
-  const [localSearchTerm, setLocalSearchTerm] = useState<string>("");
+  const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const intl = useIntl();
-  const [isFilterApplied, setIsFilterApplied] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<any>(null);
-  useEffect(() => {
-    localStorage.getItem("filter") && setIsFilterApplied(true);
-  }, []);
+  const [selectedOption, setSelectedOption] = useState<any>(
+    enums.VatAreaUsageTypes.find(
+      (item) => item.Value === vatAreaUsageTypeFilter
+    )?.Title || ""
+  );
 
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
       // Update the query state and parent search term when search button is clicked
       updateState({ search: localSearchTerm, ...initialQueryState });
       setSearchTerm(localSearchTerm);
+
+      let storedPaginationString = localStorage.getItem("pagination");
+
+      // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
+      let pagination = storedPaginationString
+        ? JSON.parse(storedPaginationString)
+        : {
+            "vat-module": {
+              pageIndex: 1,
+              filters: { searchTerm: localSearchTerm, documentGroup: 1 },
+            },
+            "ledger-module": { pageIndex: 1, filters: { sasearchTerm: "" } },
+            "invoice-module": {
+              pageIndex: 1,
+              filters: { sasearchTerm: "" },
+            },
+            "invoice-picker-module": {
+              pageIndex: 1,
+              filters: { sasearchTerm: "" },
+            },
+          };
+
+      // Update the filter in the vat-module
+      pagination["vat-module"].filters.searchTerm = localSearchTerm;
+
+      // Convert the updated object back to a JSON string
+      const updatedPaginationString = JSON.stringify(pagination);
+
+      // Store the updated JSON string in local storage
+      localStorage.setItem("pagination", updatedPaginationString);
     }
   };
   const handleResetClick = () => {
     setLocalSearchTerm("");
+    console.log("sup");
     updateState({ search: "", ...initialQueryState }); // Reset the search state
     setSearchTerm(""); // Reset the parent search term
     setIsFilterApplied(false);
     resetFilter();
   };
   const { config } = useLayout();
-  const [filterModalOpen, setFilterModalOpen] = useState(false);
   const daterangepickerButtonClass = config.app?.toolbar?.fixed?.desktop
     ? "btn-light"
     : "bg-body btn-color-gray-700 btn-active-color-primary";
@@ -52,8 +91,32 @@ const VatListSearchComponent = ({
 
   const resetFilter = () => {
     // Function to reset the Filter component
-    setVatAreaUsageTypeFilter(0);
+
     setSelectedOption(null);
+    setLocalSearchTerm("");
+    updateState({ search: "", ...initialQueryState }); // Reset the search state
+    setSearchTerm(""); // Reset the parent search term
+    setIsFilterApplied(false);
+    localStorage.setItem(
+      "pagination",
+      JSON.stringify({
+        ...JSON.parse(localStorage.getItem("pagination") || "{}"),
+        "vat-module": {
+          ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+            "vat-module"
+          ],
+          filters: {
+            ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+              "vat-module"
+            ]?.filters,
+            searchTerm: "",
+            documentGroup: 0,
+          },
+        },
+      })
+    );
+    setVatAreaUsageTypeFilter(0);
+
     // Reset the filter to its default state
   };
 
@@ -70,6 +133,11 @@ const VatListSearchComponent = ({
           placeholder={intl.formatMessage({ id: "Fields.SearchTerm" })}
           value={localSearchTerm}
           onChange={(e) => setLocalSearchTerm(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearchClick();
+            }
+          }}
         />
         <div className="btn-group  gap-2">
           <button

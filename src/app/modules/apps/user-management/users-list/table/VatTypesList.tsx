@@ -20,7 +20,6 @@ interface UsersTableComponentProps {
   refresh: boolean;
   setPageIndex: (type: number) => void;
   pageIndex: number;
-  filterType: number;
 }
 const VatTypesList = ({
   searchTerm,
@@ -33,39 +32,42 @@ const VatTypesList = ({
   refresh,
   setPageIndex,
   pageIndex,
-  filterType,
 }: UsersTableComponentProps) => {
   const [vatTypesList, setVatTypesList] = useState<any>([]);
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // const [pageIndex, setPageIndex] = useState<number>(1);
 
+  const fetchVatTypes = async () => {
+    setIsLoading(true);
+    console.log("hello g");
+    try {
+      const response = await getVatTypes(
+        searchTerm,
+        pageIndex,
+        vatAreaUsageTypeFilter
+      );
+      console.log(pageIndex);
+      setVatTypesList(response);
+      setPageIndex(response.pageIndex);
+      setCurrentRows(response.currentRows);
+      // setTotalItems(response.result);
+    } catch (error) {
+      console.error("Error fetching VAT types:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const handlePageChange = (page: number) => {
+    console.log(page);
+    console.log("hi");
     setPageIndex(page);
+    fetchVatTypes();
   };
 
   useEffect(() => {
-    const fetchVatTypes = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getVatTypes(
-          searchTerm,
-          pageIndex,
-          vatAreaUsageTypeFilter
-        );
-        setVatTypesList(response);
-        setPageIndex(response.pageIndex);
-        setCurrentRows(response.currentRows);
-        // setTotalItems(response.result);
-      } catch (error) {
-        console.error("Error fetching VAT types:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchVatTypes();
-  }, [searchTerm, pageIndex, vatAreaUsageTypeFilter, refresh]);
+  }, [searchTerm, vatAreaUsageTypeFilter, pageIndex, refresh]);
 
   useEffect(() => {});
 
@@ -95,8 +97,8 @@ const VatTypesList = ({
   return (
     <KTCardBody className="py-4">
       <div className="row row-cols-1 row-cols-md-1 g-4">
-        {isLoading && <VatListLoading />}
-        {!isLoading &&
+        {
+          // !isLoading &&
           vatTypesList?.result?.map((vatType: VatTypesResult) => (
             <div className="col" key={vatType.id}>
               <div className="card h-100 py-6 ">
@@ -193,26 +195,36 @@ const VatTypesList = ({
                 </div>
               </div>
             </div>
-          ))}
+          ))
+        }
 
         {vatTypesList?.result?.length == 0 && (
           <div className="text-center">
             <img
               alt=""
               src={toAbsoluteUrl("media/logos/searchnotfound.png")}
-              className="h-300px w-350px"
+              className="h-350px w-450px"
             />
+            <h3>
+              {intl.formatMessage({
+                id: "Fields.SearchNoItemsAvailableDefault",
+              })}
+            </h3>
           </div>
         )}
+        {/* {isLoading && <VatListLoading />} */}
       </div>
-      <VatListPagination
-        totalPages={vatTypesList.totalPages}
-        pageIndex={pageIndex}
-        // setPageIndex={setPageIndex}
-        onPageChange={handlePageChange}
-        totalItems={vatTypesList.totalRows}
-        filterType={filterType}
-      />
+
+      {vatTypesList?.result?.length > 0 && (
+        <VatListPagination
+          totalPages={vatTypesList.totalPages}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+          onPageChange={handlePageChange}
+          totalItems={vatTypesList.totalRows}
+          filterType={vatAreaUsageTypeFilter}
+        />
+      )}
     </KTCardBody>
   );
 };

@@ -145,10 +145,10 @@ const VatEditModalForm: FC<Props> = ({
         <label className="required fw-bold fs-6 mb-2">
           {intl.formatMessage({ id: "Fields.VatAreaUsageType" })}
         </label>
- 
+
         <Select
           name="documentGroup"
-          value={formik.values.documentGroup}
+          // value={formik.values.documentGroup}
           placeholder={
             enums.VatAreaUsageTypes.find(
               (option: any) => option.Value === formik.values.documentGroup

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
@@ -9,6 +9,7 @@ interface VatListPaginationProps {
   onPageChange: (page: number) => void;
   totalItems: number;
   filterType: number;
+  setPageIndex: (page: number) => void;
 }
 
 const VatListPagination = ({
@@ -17,48 +18,81 @@ const VatListPagination = ({
   onPageChange,
   totalItems,
   filterType,
+  setPageIndex,
 }: VatListPaginationProps) => {
+  const [state, setState] = useState(pageIndex);
   const intl = useIntl();
-  const [selectedPage, setSelectedPage] = useState<number>(pageIndex);
-  useEffect(() => {
-    const storedPage = localStorage.getItem(`${filterType}_selectedPage`);
-    if (storedPage) {
-      setSelectedPage(parseInt(storedPage, 10));
-    } else {
-      setSelectedPage(pageIndex); // Fallback to current page index if not stored
-    }
-  }, [filterType, pageIndex]);
+
+  // const [testState, settestState] = useState<number>({
+  //   filterType: 1,
+  //   pageIndex: 1,
+  // });
 
   useEffect(() => {
-    setSelectedPage(pageIndex);
-  }, [pageIndex]);
+    console.log(state);
+    let storedPaginationString = localStorage.getItem("pagination");
 
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages && page !== pageIndex) {
-      onPageChange(page);
-    }
+    // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
+    let pagination = storedPaginationString
+      ? JSON.parse(storedPaginationString)
+      : {
+          "vat-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "", documentGroup: filterType },
+          },
+          "ledger-module": { pageIndex: 1, filters: { sasearchTerm: "" } },
+          "invoice-module": {
+            pageIndex: 1,
+            filters: { sasearchTerm: "" },
+          },
+          "invoice-picker-module": {
+            pageIndex: 1,
+            filters: { sasearchTerm: "" },
+          },
+        };
+
+    // Update the filter in the vat-module
+    pagination["vat-module"].pageIndex = state;
+    console.log(pagination["vat-module"].pageIndex);
+
+    // Convert the updated object back to a JSON string
+    const updatedPaginationString = JSON.stringify(pagination);
+
+    // Store the updated JSON string in local storage
+    localStorage.setItem("pagination", updatedPaginationString);
+  }, [state]);
+  console.log(pageIndex);
+  const handlePageChange = (newPageIndex: number) => {
+    console.log(newPageIndex);
+    setState(newPageIndex);
+    console.log(state);
+    onPageChange(newPageIndex);
   };
 
   const handleFirstPage = () => {
-    if (pageIndex !== 1) {
+    if (state !== 1) {
+      setState(1);
       onPageChange(1);
     }
   };
 
   const handlePreviousPage = () => {
-    if (pageIndex > 1) {
-      onPageChange(pageIndex - 1);
+    if (state > 1) {
+      setState(state - 1);
+      onPageChange(state - 1);
     }
   };
 
   const handleNextPage = () => {
-    if (pageIndex < totalPages) {
-      onPageChange(pageIndex + 1);
+    if (state < totalPages) {
+      setState(state + 1);
+      onPageChange(state + 1);
     }
   };
 
   const handleLastPage = () => {
-    if (pageIndex !== totalPages) {
+    if (state !== totalPages) {
+      setState(totalPages);
       onPageChange(totalPages);
     }
   };
@@ -68,28 +102,22 @@ const VatListPagination = ({
     for (let i = 1; i <= totalPages; i++) {
       links.push({
         label: i.toString(),
-        active: i === pageIndex,
+        active: i === state,
         page: i,
       });
     }
     return links;
-  }, [totalPages, pageIndex]);
+  }, [totalPages, state]);
 
   const handlePageDropdownChange = (selectedOption: any) => {
     if (!selectedOption) return;
 
-    // Log the selected value
-    console.log(selectedOption.value);
-
-    // Convert the value to a number
     const pageNumber = parseInt(selectedOption.value, 10);
 
-    // Update the selected page state
-    setSelectedPage(pageNumber);
+    setState(pageNumber);
 
-    // Check if it's a valid number and different from the current pageIndex
-    if (!isNaN(pageNumber) && pageNumber !== pageIndex) {
-      onPageChange(pageNumber); // Call the onPageChange function with the new page number
+    if (!isNaN(pageNumber) && pageNumber !== state) {
+      onPageChange(pageNumber);
     }
   };
 
@@ -106,8 +134,7 @@ const VatListPagination = ({
       <div className="col-sm-12 col-md-6 d-flex align-items-center text-grey-800 justify-content-start">
         <div id="kt_table_users_paginate">
           <ul className="pagination">
-            {/* First Page Button */}
-            <li className={clsx("page-item", { disabled: pageIndex === 1 })}>
+            <li className={clsx("page-item", { disabled: state === 1 })}>
               <button
                 className="page-link"
                 onClick={handleFirstPage}
@@ -116,11 +143,9 @@ const VatListPagination = ({
                 <i className="bi bi-chevron-double-left"></i>
               </button>
             </li>
-
-            {/* Previous Button */}
             <li
               className={clsx("page-item previous", {
-                disabled: pageIndex === 1,
+                disabled: state === 1,
               })}
             >
               <button
@@ -131,14 +156,10 @@ const VatListPagination = ({
                 <i className="previous"></i>
               </button>
             </li>
-
-            {/* Page Number Links */}
             {paginationLinks.map((link) => (
               <li
                 key={link.label}
-                className={clsx("page-item", {
-                  active: link.active,
-                })}
+                className={clsx("page-item", { active: link.active })}
               >
                 <button
                   className="page-link"
@@ -149,11 +170,9 @@ const VatListPagination = ({
                 </button>
               </li>
             ))}
-
-            {/* Next Button */}
             <li
               className={clsx("page-item next", {
-                disabled: pageIndex === totalPages,
+                disabled: state === totalPages,
               })}
             >
               <button
@@ -164,11 +183,9 @@ const VatListPagination = ({
                 <i className="next"></i>
               </button>
             </li>
-
-            {/* Last Page Button */}
             <li
               className={clsx("page-item", {
-                disabled: pageIndex === totalPages,
+                disabled: state === totalPages,
               })}
             >
               <button
@@ -184,21 +201,19 @@ const VatListPagination = ({
       </div>
       <div className="col-sm-12 col-md-6 d-flex align-items-center justify-content-center justify-content-md-end">
         <span className="content-fit m-0 text-muted fs-xs">
-          {intl.formatMessage({ id: "Fields.SearchFooterPageTitle" })}{" "}
-          {pageIndex}{" "}
+          {intl.formatMessage({ id: "Fields.SearchFooterPageTitle" })} {state}{" "}
           {intl.formatMessage({ id: "Fields.SearchFooterPageOfTitle" })}{" "}
           {totalPages} |{" "}
           {intl.formatMessage({ id: "Fields.SearchFooterTotalItemsTitle" })}:{" "}
           {totalItems}
         </span>
-
         <Select
           className="react-select-styled ms-3"
-          options={pageOptions} // The options array created dynamically
-          value={pageOptions?.find(
-            (option) => option.value === selectedPage.toString()
-          )} // Set the currently selected option
-          onChange={handlePageDropdownChange} // Updated onChange handler
+          options={pageOptions}
+          value={pageOptions.find(
+            (option) => option.value === state.toString()
+          )}
+          onChange={handlePageDropdownChange}
           menuPlacement="top"
         />
       </div>

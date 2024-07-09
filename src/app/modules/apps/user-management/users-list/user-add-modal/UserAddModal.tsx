@@ -9,6 +9,7 @@ import { useFormik } from "formik";
 import { useIntl } from "react-intl";
 import { postVatType } from "../core/_requests";
 import { useListView } from "../core/ListViewProvider";
+import { toast } from "react-toastify";
 interface Props {
   setRefresh: (type: boolean) => void;
 }
@@ -115,6 +116,7 @@ const UserAddModal = ({ setRefresh }: Props) => {
         formik.resetForm();
         setItemIdForUpdate(undefined);
         setRefresh(true);
+        toast.success(intl.formatMessage({ id: "System.NewSuccessVatType" }));
       } catch (error) {
         console.error("Post failed:", error);
       } finally {

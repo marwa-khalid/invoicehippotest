@@ -3,17 +3,20 @@ import { useIntl } from "react-intl";
 import { useFormikContext } from "formik";
 import { useListView } from "../core/ListViewProvider";
 import { deleteVatType } from "../core/_requests";
+import { toast } from "react-toastify";
 
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   deleteModalId: number;
   setRefresh: (type: boolean) => void;
+  vatTitle: string;
 }
 
 const UserDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
+  vatTitle,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
@@ -26,6 +29,11 @@ const UserDeleteModalFooter = ({
       setDeleteModalOpen(false);
       setRefresh(true);
       setIsSubmitting(false);
+      toast.success(
+        intl
+          .formatMessage({ id: "System.DeleteSuccessVatType" })
+          .replace("{0}", vatTitle)
+      );
     }
   };
   return (

@@ -10,27 +10,62 @@ import { useEffect, useState } from "react";
 import { VatListToolbar } from "./components/header/VatListToolbar";
 import { VatEditModal } from "./user-edit-modal/VatEditModal";
 import { UserDeleteModal } from "./user-delete-modal/UserDeleteModal";
+
+const getPaginationValues = () => {
+  const storedPaginationString = localStorage.getItem("pagination")!;
+  if (storedPaginationString) {
+    const pagination = JSON.parse(storedPaginationString);
+
+    const currentFilter = pagination["vat-module"].filters.documentGroup || 0;
+
+    const currentPage = pagination["vat-module"].pageIndex || 1;
+    const searchTerm = pagination["vat-module"].filters.searchTerm || "";
+    console.log(currentPage, currentFilter);
+    return {
+      filter: currentFilter,
+      pageIndex: currentPage,
+      searchTerm: searchTerm,
+    };
+  }
+  return { filter: 1, pageIndex: 1, searchTerm: "" };
+};
 const VatListInnerWrapper = () => {
   const { itemIdForUpdate } = useListView();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [vatAreaUsageTypeFilter, setVatAreaUsageTypeFilter] = useState(1);
+  const [isFilterApplied, setIsFilterApplied] = useState(false);
+  const { filter, pageIndex, searchTerm } = getPaginationValues();
+
+  const [vatAreaUsageTypeFilter, setVatAreaUsageTypeFilter] =
+    useState<number>(filter);
+  const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
+  const [searchTermState, setSearchTermState] = useState(searchTerm);
+  useEffect(() => {
+    if (filter !== 0) {
+      setIsFilterApplied(true);
+    }
+  }, [filter]);
+  console.log(isFilterApplied);
+
+  console.log(pageIndex);
+  console.log(pageIndexState);
+  console.log(vatAreaUsageTypeFilter);
+  console.log(searchTerm);
+
   const [currentRows, setCurrentRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [vatTitle, setVatTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
-
-  const [pageIndex, setPageIndex] = useState<number>(1);
-  useEffect(() => {
-    localStorage.getItem("filter")
-    && setVatAreaUsageTypeFilter(parseInt(localStorage.getItem("filter")!));
-  }, []);
+  console.log(pageIndex);
   return (
     <>
       <VatListHeader
-        setSearchTerm={setSearchTerm}
+        setSearchTerm={setSearchTermState}
+        searchTerm={searchTerm}
         setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
+        vatAreaUsageTypeFilter={vatAreaUsageTypeFilter}
+        setIsFilterApplied={setIsFilterApplied}
+        isFilterApplied={isFilterApplied}
       />
 
       <VatListToolbar currentRows={currentRows} />
@@ -45,8 +80,7 @@ const VatListInnerWrapper = () => {
         setVatTitle={setVatTitle}
         refresh={refresh}
         pageIndex={pageIndex}
-        setPageIndex={setPageIndex}
-        filterType={vatAreaUsageTypeFilter}
+        setPageIndex={setPageIndexState}
       />
 
       {itemIdForUpdate !== undefined && (

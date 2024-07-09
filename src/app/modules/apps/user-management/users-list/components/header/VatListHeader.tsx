@@ -5,23 +5,37 @@ import { VatListToolbar } from "./VatListToolbar";
 import { VatListSearchComponent } from "./VatListSearchComponent";
 import UserListHeaderTabs from "./VatListHeaderTabs";
 import { KTCardBody } from "../../../../../../../_metronic/helpers";
+import { Search } from "../../../../../../../_metronic/partials";
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
   setVatAreaUsageTypeFilter: (type: number) => void;
+  setIsFilterApplied: (type: boolean) => void;
+  isFilterApplied: boolean;
+  searchTerm: string;
+  vatAreaUsageTypeFilter: number;
 }
 
 const VatListHeader = ({
   setSearchTerm,
   setVatAreaUsageTypeFilter,
+  setIsFilterApplied,
+  searchTerm,
+  isFilterApplied,
+  vatAreaUsageTypeFilter,
 }: ComponentProps) => {
   const { selected } = useListView();
+  console.log(searchTerm);
   return (
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
       <div className="card-body pt-9 pb-0">
         {/* Full-width search and button */}
         <VatListSearchComponent
           setSearchTerm={setSearchTerm}
+          searchTerm={searchTerm}
           setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
+          setIsFilterApplied={setIsFilterApplied}
+          isFilterApplied={isFilterApplied}
+          vatAreaUsageTypeFilter={vatAreaUsageTypeFilter}
         />
 
         {/* Tabs Section */}

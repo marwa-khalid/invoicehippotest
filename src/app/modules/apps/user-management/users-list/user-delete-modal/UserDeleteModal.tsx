@@ -63,6 +63,7 @@ const UserDeleteModal = ({
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
+              vatTitle={vatTitle}
             />
           </div>
           {/* end::Modal content */}

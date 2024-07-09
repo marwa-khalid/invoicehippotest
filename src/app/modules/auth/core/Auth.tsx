@@ -48,8 +48,6 @@ const AuthProvider: FC<WithChildren> = ({ children }) => {
         const data = await getProfileInfo();
         if (data) {
           setCurrentUser(data);
-          console.log("hello");
-          toast.success("succesvol ingelogd");
         }
       }
     } catch (error) {
@@ -63,6 +61,7 @@ const AuthProvider: FC<WithChildren> = ({ children }) => {
       //Check if the token has expired
       if (auth.isValid && auth.result.tokenIsValid) {
         console.log("Token is valid");
+    
         requestUser();
         // handleToast(auth);
       } else {
@@ -76,7 +75,6 @@ const AuthProvider: FC<WithChildren> = ({ children }) => {
   const logout = () => {
     saveAuth(undefined);
     setCurrentUser(undefined);
-    toast.error("Uitgelogd");
   };
 
   return (
@@ -112,6 +110,7 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
     if (auth && auth.result.token) {
       // Check if the token has expired
       if (auth.result.tokenIsValid) {
+        
         const expirationDate = new Date(auth.result.expirationDateUtc);
         const currentDate = new Date();
         const diff = expirationDate.getTime() - currentDate.getTime();

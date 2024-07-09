@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useIntl } from "react-intl";
 import Select from "react-select";
-
+import enums from "../../../../../../../invoicehippo.enums.json";
 interface ComponentProps {
   setVatAreaUsageTypeFilter: (type: number) => void;
   onFilterApply: (isApplied: boolean) => void;
@@ -18,23 +18,43 @@ export function Filter({
   const intl = useIntl();
 
   // Define options for the Select component
-  const options = [
-    {
-      value: 1,
-      label: intl.formatMessage({ id: "Fields.VatTabSaleCategories" }),
-    },
-    {
-      value: 2,
-      label: intl.formatMessage({ id: "Fields.VatTabCostCategories" }),
-    },
-  ];
-
   // State to manage the selected option locally
 
   // Handle change in selection
   const handleChange = (option: any) => {
     setSelectedOption(option);
-    localStorage.setItem("filter", option.value); // Update state with selected option object
+
+    // Retrieve the stored JSON string from local storage, if it exists
+    let storedPaginationString = localStorage.getItem("pagination");
+
+    // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
+    let pagination = storedPaginationString
+      ? JSON.parse(storedPaginationString)
+      : {
+          "vat-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "", documentGroup: 1 },
+          },
+          "ledger-module": { pageIndex: 1, filters: { sasearchTerm: "" } },
+          "invoice-module": {
+            pageIndex: 1,
+            filters: { sasearchTerm: "" },
+          },
+          "invoice-picker-module": {
+            pageIndex: 1,
+            filters: { sasearchTerm: "" },
+          },
+        };
+
+    // Update the filter in the vat-module
+    pagination["vat-module"].filters.documentGroup = option.value;
+    pagination["vat-module"].pageIndex = 1;
+
+    // Convert the updated object back to a JSON string
+    const updatedPaginationString = JSON.stringify(pagination);
+
+    // Store the updated JSON string in local storage
+    localStorage.setItem("pagination", updatedPaginationString);
   };
 
   // Apply the selected filter when the Apply button is clicked
@@ -50,9 +70,27 @@ export function Filter({
   const handleReset = () => {
     setSelectedOption(null);
     localStorage.removeItem("filter");
-    onFilterApply(false); // Clear the selected option
+    onFilterApply(false);
+    localStorage.setItem(
+      "pagination",
+      JSON.stringify({
+        ...JSON.parse(localStorage.getItem("pagination") || "{}"),
+        "vat-module": {
+          ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+            "vat-module"
+          ],
+          filters: {
+            ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+              "vat-module"
+            ]?.filters,
+            documentGroup: 0,
+          },
+        },
+      })
+    );
+    setVatAreaUsageTypeFilter(0); // Clear the selected option
   };
-
+  console.log(localStorage.getItem("filter"));
   console.log(selectedOption);
 
   return (
@@ -74,11 +112,20 @@ export function Filter({
 
           <Select
             className="react-select-styled"
-            placeholder="Select option"
+            placeholder={
+              selectedOption
+                ? selectedOption
+                : intl.formatMessage({
+                    id: "Fields.SelectOptionDefaultVatAreaUsageType",
+                  })
+            }
             menuPlacement="bottom"
-            value={selectedOption} // Set the current selected value
+            value={selectedOption || ""} // Set the current selected value
             onChange={handleChange} // Handle change in selection
-            options={options} // Options for the select component
+            options={enums.VatAreaUsageTypes.map((item) => ({
+              value: item.Value,
+              label: item.Title,
+            }))} // Options for the select component
             closeMenuOnSelect={false}
             data-kt-menu-dismiss="false"
           />
