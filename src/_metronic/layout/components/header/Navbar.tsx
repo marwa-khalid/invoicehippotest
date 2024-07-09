@@ -35,7 +35,7 @@ const Navbar = () => {
         <Search />
       </div> */}
 
-      {config.app?.header?.default?.menu?.display && (
+      {/* {config.app?.header?.default?.menu?.display && (
         <div className="app-navbar-item d-lg-none ms-2 me-n3" title="Search">
           <div className={clsx(btnClass, largeBtnClass)}>
             <div
@@ -45,7 +45,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       <div className={clsx("app-navbar-item", itemClass)}>
         <div
