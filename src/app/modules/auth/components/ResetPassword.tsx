@@ -83,7 +83,7 @@ export function ResetPassword() {
   useEffect(() => {
     const checkUUID = async () => {
       const response = await checkUUIDValidity(uuid);
-      console.log(response);
+
 
       if (response.hasErrors) {
         navigate("/");
@@ -99,7 +99,6 @@ export function ResetPassword() {
     };
     checkUUID();
   }, []);
-  console.log(uuid);
   const formik = useFormik({
     initialValues,
     validationSchema: resetSchema,

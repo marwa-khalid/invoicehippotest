@@ -60,8 +60,8 @@ const AuthProvider: FC<WithChildren> = ({ children }) => {
       authHelper.setAuth(auth);
       //Check if the token has expired
       if (auth.isValid && auth.result.tokenIsValid) {
-        console.log("Token is valid");
-    
+        // console.log("Token is valid");
+
         requestUser();
         // handleToast(auth);
       } else {
@@ -96,7 +96,6 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
         if (!currentUser) {
           const data = await getProfileInfo();
           if (data) {
-            console.log("hello");
             setCurrentUser(data);
           }
         }
@@ -110,7 +109,6 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
     if (auth && auth.result.token) {
       // Check if the token has expired
       if (auth.result.tokenIsValid) {
-        
         const expirationDate = new Date(auth.result.expirationDateUtc);
         const currentDate = new Date();
         const diff = expirationDate.getTime() - currentDate.getTime();
@@ -121,7 +119,7 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
           setShowSplashScreen(false);
         }
       } else {
-        console.log("Token has expired. Please log in again.");
+        // console.log("Token has expired. Please log in again.");
 
         setShowSplashScreen(false);
       }

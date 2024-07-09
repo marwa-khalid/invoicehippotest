@@ -56,8 +56,6 @@ const VatEditModal = ({
       try {
         const response = await getVatById(editModalId);
         setVatTypeDetails(response);
-        console.log(response);
-
         // setTotalItems(response.result);
       } catch (error) {
         console.error("Error fetching VAT types:", error);
@@ -151,7 +149,6 @@ const VatEditModal = ({
           values.isNoneVatType
         );
 
-        console.log("Post successful:", response);
         setRefresh(true);
         formik.resetForm();
         setEditModalOpen(false);
@@ -163,7 +160,7 @@ const VatEditModal = ({
       }
     },
   });
-  console.log(formik.values);
+  
 
   return (
     <>

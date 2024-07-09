@@ -29,7 +29,6 @@ const VatListPagination = ({
   // });
 
   useEffect(() => {
-    console.log(state);
     let storedPaginationString = localStorage.getItem("pagination");
 
     // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
@@ -53,7 +52,7 @@ const VatListPagination = ({
 
     // Update the filter in the vat-module
     pagination["vat-module"].pageIndex = state;
-    console.log(pagination["vat-module"].pageIndex);
+   
 
     // Convert the updated object back to a JSON string
     const updatedPaginationString = JSON.stringify(pagination);
@@ -61,11 +60,11 @@ const VatListPagination = ({
     // Store the updated JSON string in local storage
     localStorage.setItem("pagination", updatedPaginationString);
   }, [state]);
-  console.log(pageIndex);
+
   const handlePageChange = (newPageIndex: number) => {
-    console.log(newPageIndex);
+  
     setState(newPageIndex);
-    console.log(state);
+ 
     onPageChange(newPageIndex);
   };
 

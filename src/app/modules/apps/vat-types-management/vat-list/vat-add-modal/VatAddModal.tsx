@@ -112,7 +112,7 @@ const VatAddModal = ({ setRefresh }: Props) => {
           values.isNoneVatType
         );
 
-        console.log("Post successful:", response);
+        
         formik.resetForm();
         setItemIdForUpdate(undefined);
         setRefresh(true);

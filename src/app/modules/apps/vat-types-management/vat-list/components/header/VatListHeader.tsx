@@ -24,7 +24,6 @@ const VatListHeader = ({
   vatAreaUsageTypeFilter,
 }: ComponentProps) => {
   const { selected } = useListView();
-  console.log(searchTerm);
   return (
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
       <div className="card-body pt-9 pb-0">

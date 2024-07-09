@@ -22,8 +22,6 @@ interface FormValues {
   showOnDocuments: boolean;
 }
 
-console.log(enums.VatAreaUsageTypes);
-
 type Props = {
   isUserLoading: boolean;
   user: any; // Adjust the type according to your user model

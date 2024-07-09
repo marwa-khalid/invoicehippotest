@@ -40,14 +40,14 @@ const VatTypesList = ({
 
   const fetchVatTypes = async () => {
     setIsLoading(true);
-    console.log("hello g");
+   
     try {
       const response = await getVatTypes(
         searchTerm,
         pageIndex,
         vatAreaUsageTypeFilter
       );
-      console.log(pageIndex);
+ 
       setVatTypesList(response);
       setPageIndex(response.pageIndex);
       setCurrentRows(response.currentRows);
@@ -59,8 +59,7 @@ const VatTypesList = ({
     }
   };
   const handlePageChange = (page: number) => {
-    console.log(page);
-    console.log("hi");
+    
     setPageIndex(page);
     fetchVatTypes();
   };

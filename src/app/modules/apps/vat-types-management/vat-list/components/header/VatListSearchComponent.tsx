@@ -74,7 +74,6 @@ const VatListSearchComponent = ({
   };
   const handleResetClick = () => {
     setLocalSearchTerm("");
-    console.log("sup");
     updateState({ search: "", ...initialQueryState }); // Reset the search state
     setSearchTerm(""); // Reset the parent search term
     setIsFilterApplied(false);

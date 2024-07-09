@@ -20,7 +20,7 @@ const getPaginationValues = () => {
 
     const currentPage = pagination["vat-module"].pageIndex || 1;
     const searchTerm = pagination["vat-module"].filters.searchTerm || "";
-    console.log(currentPage, currentFilter);
+ 
     return {
       filter: currentFilter,
       pageIndex: currentPage,
@@ -43,12 +43,7 @@ const VatListInnerWrapper = () => {
       setIsFilterApplied(true);
     }
   }, [filter]);
-  console.log(isFilterApplied);
 
-  console.log(pageIndex);
-  console.log(pageIndexState);
-  console.log(vatAreaUsageTypeFilter);
-  console.log(searchTerm);
 
   const [currentRows, setCurrentRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
@@ -56,7 +51,7 @@ const VatListInnerWrapper = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [vatTitle, setVatTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
-  console.log(pageIndex);
+
   return (
     <>
       <VatListHeader

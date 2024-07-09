@@ -49,7 +49,6 @@ const Sidebar = () => {
 };
 
 const updateDOM = (config: ILayout) => {
-  console.log(config);
   if (
     config.layoutType === "dark-sidebar" ||
     config.layoutType === "light-sidebar"

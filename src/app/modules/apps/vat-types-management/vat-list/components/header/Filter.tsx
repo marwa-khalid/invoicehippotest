@@ -90,8 +90,6 @@ export function Filter({
     );
     setVatAreaUsageTypeFilter(0); // Clear the selected option
   };
-  console.log(localStorage.getItem("filter"));
-  console.log(selectedOption);
 
   return (
     <div
