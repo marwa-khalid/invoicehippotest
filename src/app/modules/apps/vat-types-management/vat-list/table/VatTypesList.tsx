@@ -40,14 +40,14 @@ const VatTypesList = ({
 
   const fetchVatTypes = async () => {
     setIsLoading(true);
-   
+
     try {
       const response = await getVatTypes(
         searchTerm,
         pageIndex,
         vatAreaUsageTypeFilter
       );
- 
+
       setVatTypesList(response);
       setPageIndex(response.pageIndex);
       setCurrentRows(response.currentRows);
@@ -59,7 +59,6 @@ const VatTypesList = ({
     }
   };
   const handlePageChange = (page: number) => {
-    
     setPageIndex(page);
     fetchVatTypes();
   };
@@ -158,17 +157,16 @@ const VatTypesList = ({
                     </div>
                   </div>
                   {/* separator Line */}
-                  {vatType.ledgerAccountDisplayName && (
-                    <div className="separator separator-solid mb-3"></div>
-                  )}
+
+                  <div className="separator separator-solid mb-3"></div>
+
                   {/* Verkoopfacturen Text */}
-                  {vatType.ledgerAccountDisplayName && (
-                    <div className="mb-4 text-muted">
-                      <small className="text-muted">
-                        {vatType.vatAreaUsageType.description}
-                      </small>
-                    </div>
-                  )}
+
+                  <div className="mb-4 text-muted">
+                    <small className="text-muted">
+                      {vatType.vatAreaUsageType.description}
+                    </small>
+                  </div>
 
                   {/* Small Image and Ledger Account + Title */}
                   {vatType.ledgerAccountDisplayName && (
