@@ -6,7 +6,7 @@ interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
 }
 
-const UserDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
+const VatDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
   const { setItemIdForUpdate } = useListView();
   const intl = useIntl();
 
@@ -32,4 +32,4 @@ const UserDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
   );
 };
 
-export { UserDeleteModalHeader };
+export { VatDeleteModalHeader };

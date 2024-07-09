@@ -37,7 +37,7 @@ type VatAreaUsageTypeOption = {
   label: string;
 };
 
-const UserAddModalForm: FC<Props> = ({
+const VatAddModalForm: FC<Props> = ({
   isUserLoading,
   user,
   formik,
@@ -45,85 +45,6 @@ const UserAddModalForm: FC<Props> = ({
   ledgerAccounts,
 }) => {
   const intl = useIntl();
-
-  // const formSchema = Yup.object().shape({
-  //   title: Yup.string()
-  //     .min(
-  //       3,
-  //       intl
-  //         .formatMessage({ id: "Common.ValidationMin" })
-  //         .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
-  //         .replace("{1}", `3`)
-  //     )
-  //     .max(
-  //       50,
-  //       intl
-  //         .formatMessage({ id: "Common.ValidationMax" })
-  //         .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
-  //         .replace("{1}", `50`)
-  //     )
-  //     .required(
-  //       intl
-  //         .formatMessage({ id: "Common.RequiredFieldHint2" })
-  //         .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
-  //     ),
-  //   value: Yup.string().required(
-  //     intl
-  //       .formatMessage({ id: "Common.RequiredFieldHint2" })
-  //       .replace("{0}", intl.formatMessage({ id: "Fields.Value" }))
-  //   ),
-  //   documentGroup: Yup.string().required(
-  //     intl
-  //       .formatMessage({ id: "Common.RequiredFieldHint2" })
-  //       .replace("{0}", intl.formatMessage({ id: "Fields.VatAreaUsageType" }))
-  //   ),
-  //   ledgerAccount: Yup.string().required(
-  //     intl
-  //       .formatMessage({ id: "Common.RequiredFieldHint2" })
-  //       .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
-  //   ),
-  // });
-  // const formik = useFormik({
-  //   initialValues: {
-  //     id: 0,
-  //     title: "",
-  //     value: 0,
-  //     documentGroup: "",
-  //     ledgerAccountId: 0,
-  //     isNoneVatType: false,
-  //     alwaysExclusiveOfVAT: false,
-  //     showInLists: false,
-  //     showOnDocuments: false,
-  //   },
-  //   validationSchema: formSchema,
-  //   onSubmit: async (values, { setSubmitting }) => {
-  //     setIsSubmitting(true);
-  //     setSubmitting(true);
-  //     try {
-  //       const mappedDocumentGroup = values.documentGroup === "1" ? 1 : 2;
-  //       const response = await postVatType(
-  //         values.id,
-  //         values.ledgerAccountId,
-  //         values.title,
-  //         values.value,
-  //         mappedDocumentGroup,
-  //         values.alwaysExclusiveOfVAT,
-  //         values.showInLists,
-  //         values.showOnDocuments,
-  //         values.isNoneVatType
-  //       );
-
-  //       console.log("Post successful:", response);
-  //     } catch (error) {
-  //       console.error("Post failed:", error);
-  //     } finally {
-  //       setIsSubmitting(false);
-  //       setSubmitting(false);
-  //     }
-  //   },
-  // });
-
-  // console.log(formik.values);
 
   return (
     <form
@@ -434,42 +355,8 @@ const UserAddModalForm: FC<Props> = ({
         </div>
       )}
       {/* end::Description */}
-
-      {/* begin::Actions */}
-      {/* <div className="text-end">
-        <button
-          type="reset"
-          onClick={() => formik.resetForm()}
-          className="btn btn-light me-3"
-          disabled={formik.isSubmitting || isUserLoading}
-        >
-          {intl.formatMessage({ id: "Fields.ActionCancel" })}
-        </button>
-
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={
-            isUserLoading ||
-            formik.isSubmitting ||
-            !formik.isValid ||
-            !formik.touched
-          }
-        >
-          <span className="indicator-label">
-            {intl.formatMessage({ id: "Fields.ActionSave" })}
-          </span>
-          {(formik.isSubmitting || isUserLoading) && (
-            <span className="indicator-progress">
-              {intl.formatMessage({ id: "Common.Busy" })}...{" "}
-              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-          )}
-        </button>
-      </div> */}
-      {/* end::Actions */}
     </form>
   );
 };
 
-export { UserAddModalForm };
+export { VatAddModalForm };

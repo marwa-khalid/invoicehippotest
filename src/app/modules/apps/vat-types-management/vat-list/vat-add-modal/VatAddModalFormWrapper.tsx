@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { UserAddModalForm } from "./UserAddModalForm";
+import { VatAddModalForm } from "./VatAddModalForm";
 import { isNotEmpty, QUERIES } from "../../../../../../_metronic/helpers";
 import { useListView } from "../core/ListViewProvider";
 import { getUserById } from "../core/_requests";
@@ -24,7 +24,7 @@ type Props = {
   ledgerAccounts: { value: number; label: string }[];
 };
 
-const UserAddModalFormWrapper = ({
+const VatAddModalFormWrapper = ({
   formik,
   isSubmitting,
   ledgerAccounts,
@@ -52,7 +52,7 @@ const UserAddModalFormWrapper = ({
 
   if (!itemIdForUpdate) {
     return (
-      <UserAddModalForm
+      <VatAddModalForm
         isUserLoading={isLoading}
         user={{ id: undefined }}
         formik={formik}
@@ -64,7 +64,7 @@ const UserAddModalFormWrapper = ({
 
   if (!isLoading && !error && user) {
     return (
-      <UserAddModalForm
+      <VatAddModalForm
         isUserLoading={isLoading}
         user={user}
         formik={formik}
@@ -77,4 +77,4 @@ const UserAddModalFormWrapper = ({
   return null;
 };
 
-export { UserAddModalFormWrapper };
+export { VatAddModalFormWrapper };

@@ -14,11 +14,11 @@ const PrivateRoutes = () => {
   const WidgetsPage = lazy(() => import("../modules/widgets/WidgetsPage"));
   const ChatPage = lazy(() => import("../modules/apps/chat/ChatPage"));
   const VatTypesPage = lazy(
-    () => import("../modules/apps/user-management/VatTypesPage")
+    () => import("../modules/apps/vat-types-management/VatTypesPage")
   );
-  const UsersPage = lazy(
-    () => import("../modules/apps/user-management/VatTypesPage")
-  );
+  // const UsersPage = lazy(
+  //   () => import("../modules/apps/user-management/VatTypesPage")
+  // );
   return (
     <Routes>
       <Route element={<MasterLayout />}>

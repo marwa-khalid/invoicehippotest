@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { UserDeleteModalHeader } from "./UserDeleteModalHeader";
-import { UserDeleteModalFooter } from "./UserDeleteModalFooter";
+import { VatDeleteModalHeader } from "./VatDeleteModalHeader";
+import { VatDeleteModalFooter } from "./VatDeleteModalFooter";
 import { VatTypeByIdResult } from "../core/_models";
 import { useIntl } from "react-intl";
 interface ComponentProps {
@@ -9,7 +9,7 @@ interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
 }
-const UserDeleteModal = ({
+const VatDeleteModal = ({
   deleteModalId,
   vatTitle,
   setDeleteModalOpen,
@@ -36,7 +36,7 @@ const UserDeleteModal = ({
         <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <UserDeleteModalHeader setDeleteModalOpen={setDeleteModalOpen} />
+            <VatDeleteModalHeader setDeleteModalOpen={setDeleteModalOpen} />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div className="form-wrapper">
@@ -59,7 +59,7 @@ const UserDeleteModal = ({
             </div>
 
             {/* end::Modal body */}
-            <UserDeleteModalFooter
+            <VatDeleteModalFooter
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
@@ -77,4 +77,4 @@ const UserDeleteModal = ({
   );
 };
 
-export { UserDeleteModal };
+export { VatDeleteModal };

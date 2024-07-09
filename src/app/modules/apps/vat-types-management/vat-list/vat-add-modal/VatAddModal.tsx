@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { UserAddModalHeader } from "./UserAddModalHeader";
-import { UserAddModalFormWrapper } from "./UserAddModalFormWrapper";
-import { UserAddModalFooter } from "./UserAddModalFooter";
+import { VatAddModalHeader } from "./VatAddModalHeader";
+import { VatAddModalFormWrapper } from "./VatAddModalFormWrapper";
+import { VatAddModalFooter } from "./VatAddModalFooter";
 import { getLedgerAccount } from "../core/_requests";
 import { LedgerForVatResult } from "../core/_models";
 import * as Yup from "yup";
@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 interface Props {
   setRefresh: (type: boolean) => void;
 }
-const UserAddModal = ({ setRefresh }: Props) => {
+const VatAddModal = ({ setRefresh }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -137,20 +137,20 @@ const UserAddModal = ({ setRefresh }: Props) => {
       >
         <div className="modal-dialog modal-dialog-centered mw-650px">
           <div className="modal-content">
-            <UserAddModalHeader />
+            <VatAddModalHeader />
             <div className="modal-body p-10">
               <div
                 className="form-wrapper"
                 style={{ maxHeight: "calc(100vh - 300px)", overflowY: "auto" }}
               >
-                <UserAddModalFormWrapper
+                <VatAddModalFormWrapper
                   formik={formik}
                   isSubmitting={isSubmitting}
                   ledgerAccounts={ledgerAccounts}
                 />
               </div>
             </div>
-            <UserAddModalFooter formik={formik} isSubmitting={isSubmitting} />
+            <VatAddModalFooter formik={formik} isSubmitting={isSubmitting} />
           </div>
         </div>
       </div>
@@ -159,4 +159,4 @@ const UserAddModal = ({ setRefresh }: Props) => {
   );
 };
 
-export { UserAddModal };
+export { VatAddModal };

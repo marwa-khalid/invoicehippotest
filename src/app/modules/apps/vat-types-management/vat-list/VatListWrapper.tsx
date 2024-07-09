@@ -3,13 +3,13 @@ import { QueryRequestProvider } from "./core/QueryRequestProvider";
 import { QueryResponseProvider } from "./core/QueryResponseProvider";
 import { VatListHeader } from "./components/header/VatListHeader";
 import { VatTypesList } from "./table/VatTypesList";
-import { UserAddModal } from "./user-add-modal/UserAddModal";
+import { VatAddModal } from "./vat-add-modal/VatAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useEffect, useState } from "react";
 import { VatListToolbar } from "./components/header/VatListToolbar";
-import { VatEditModal } from "./user-edit-modal/VatEditModal";
-import { UserDeleteModal } from "./user-delete-modal/UserDeleteModal";
+import { VatEditModal } from "./vat-edit-modal/VatEditModal";
+import { VatDeleteModal } from "./vat-delete-modal/VatDeleteModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -83,9 +83,7 @@ const VatListInnerWrapper = () => {
         setPageIndex={setPageIndexState}
       />
 
-      {itemIdForUpdate !== undefined && (
-        <UserAddModal setRefresh={setRefresh} />
-      )}
+      {itemIdForUpdate !== undefined && <VatAddModal setRefresh={setRefresh} />}
       {editModalOpen && (
         <VatEditModal
           editModalId={editModalId}
@@ -94,7 +92,7 @@ const VatListInnerWrapper = () => {
         />
       )}
       {deleteModalOpen && (
-        <UserDeleteModal
+        <VatDeleteModal
           deleteModalId={editModalId}
           vatTitle={vatTitle}
           setDeleteModalOpen={setDeleteModalOpen}

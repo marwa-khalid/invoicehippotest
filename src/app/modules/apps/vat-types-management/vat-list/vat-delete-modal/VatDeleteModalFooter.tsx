@@ -12,7 +12,7 @@ interface ComponentProps {
   vatTitle: string;
 }
 
-const UserDeleteModalFooter = ({
+const VatDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
@@ -69,4 +69,4 @@ const UserDeleteModalFooter = ({
   );
 };
 
-export { UserDeleteModalFooter };
+export { VatDeleteModalFooter };

@@ -20,7 +20,7 @@ interface FormValues {
   showOnDocuments: boolean;
 }
 
-const UserAddModalFooter: FC<Props> = ({ formik, isSubmitting }) => {
+const VatAddModalFooter: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
   const { setItemIdForUpdate } = useListView();
 
@@ -51,4 +51,4 @@ const UserAddModalFooter: FC<Props> = ({ formik, isSubmitting }) => {
   );
 };
 
-export { UserAddModalFooter };
+export { VatAddModalFooter };

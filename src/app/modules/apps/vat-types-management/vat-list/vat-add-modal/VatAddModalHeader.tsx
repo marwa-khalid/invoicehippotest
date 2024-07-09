@@ -2,7 +2,7 @@ import { KTIcon } from "../../../../../../_metronic/helpers";
 import { useListView } from "../core/ListViewProvider";
 import { useIntl } from "react-intl";
 
-const UserAddModalHeader = () => {
+const VatAddModalHeader = () => {
   const { setItemIdForUpdate } = useListView();
   const intl = useIntl();
 
@@ -28,4 +28,4 @@ const UserAddModalHeader = () => {
   );
 };
 
-export { UserAddModalHeader };
+export { VatAddModalHeader };

@@ -1,6 +1,6 @@
 import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../../_metronic/layout/core";
-import { VatListWrapper } from "./users-list/VatListWrapper";
+import { VatListWrapper } from "./vat-list/VatListWrapper";
 import clsx from "clsx";
 import { useLayout } from "../../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
