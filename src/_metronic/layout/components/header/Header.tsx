@@ -26,7 +26,7 @@ const Header: FC = () => {
       id="kt_app_header_menu"
       data-kt-menu="true"
     >
-      <div className="position-relative">
+      {/* <div className="position-relative">
         <i className="ki-outline ki-magnifier search-icon fs-1 text-gray-500 position-absolute top-50 start-0 ms-3 translate-middle-y"></i>
         <input
           type="text"
@@ -36,7 +36,7 @@ const Header: FC = () => {
           placeholder={intl.formatMessage({ id: "Fields.SearchBtn" })}
           data-kt-search-element="input"
         />
-      </div>
+      </div> */}
     </div>
   );
 };
