@@ -17,17 +17,18 @@ const getPaginationValues = () => {
     const pagination = JSON.parse(storedPaginationString);
 
     const currentFilter = pagination["vat-module"].filters.documentGroup || 0;
+   
 
     const currentPage = pagination["vat-module"].pageIndex || 1;
     const searchTerm = pagination["vat-module"].filters.searchTerm || "";
- 
+
     return {
       filter: currentFilter,
       pageIndex: currentPage,
       searchTerm: searchTerm,
     };
   }
-  return { filter: 1, pageIndex: 1, searchTerm: "" };
+  return { filter: 0, pageIndex: 1, searchTerm: "" };
 };
 const VatListInnerWrapper = () => {
   const { itemIdForUpdate } = useListView();
@@ -43,7 +44,6 @@ const VatListInnerWrapper = () => {
       setIsFilterApplied(true);
     }
   }, [filter]);
-
 
   const [currentRows, setCurrentRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);

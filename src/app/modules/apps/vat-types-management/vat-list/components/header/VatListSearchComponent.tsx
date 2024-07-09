@@ -49,7 +49,7 @@ const VatListSearchComponent = ({
         : {
             "vat-module": {
               pageIndex: 1,
-              filters: { searchTerm: localSearchTerm, documentGroup: 1 },
+              filters: { searchTerm: localSearchTerm, documentGroup: 0},
             },
             "ledger-module": { pageIndex: 1, filters: { sasearchTerm: "" } },
             "invoice-module": {

@@ -33,7 +33,7 @@ export function Filter({
       : {
           "vat-module": {
             pageIndex: 1,
-            filters: { searchTerm: "", documentGroup: 1 },
+            filters: { searchTerm: "", documentGroup: 0 },
           },
           "ledger-module": { pageIndex: 1, filters: { sasearchTerm: "" } },
           "invoice-module": {
