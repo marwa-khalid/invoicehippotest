@@ -20,6 +20,8 @@ interface UsersTableComponentProps {
   refresh: boolean;
   setPageIndex: (type: number) => void;
   pageIndex: number;
+  editModalOpen: boolean;
+  deleteModalOpen: boolean;
 }
 const VatTypesList = ({
   searchTerm,
@@ -32,6 +34,8 @@ const VatTypesList = ({
   refresh,
   setPageIndex,
   pageIndex,
+  editModalOpen,
+  deleteModalOpen,
 }: UsersTableComponentProps) => {
   const [vatTypesList, setVatTypesList] = useState<any>([]);
   const intl = useIntl();
@@ -65,9 +69,11 @@ const VatTypesList = ({
 
   useEffect(() => {
     fetchVatTypes();
-  }, [searchTerm, vatAreaUsageTypeFilter, pageIndex, refresh]);
+  }, [searchTerm, vatAreaUsageTypeFilter, pageIndex]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    fetchVatTypes();
+  }, [editModalOpen, deleteModalOpen, refresh]);
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
@@ -209,7 +215,7 @@ const VatTypesList = ({
             </h3>
           </div>
         )}
-        {/* {isLoading && <VatListLoading />} */}
+        {isLoading && <VatListLoading />}
       </div>
 
       {vatTypesList?.result?.length > 0 && (

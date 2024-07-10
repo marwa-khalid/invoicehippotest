@@ -148,10 +148,11 @@ const VatEditModal = ({
           values.showOnDocuments,
           values.isNoneVatType
         );
-
-        setRefresh(true);
-        formik.resetForm();
-        setEditModalOpen(false);
+        if (response) {
+          setRefresh(true);
+          formik.resetForm();
+          setEditModalOpen(false);
+        }
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
@@ -160,7 +161,6 @@ const VatEditModal = ({
       }
     },
   });
-  
 
   return (
     <>

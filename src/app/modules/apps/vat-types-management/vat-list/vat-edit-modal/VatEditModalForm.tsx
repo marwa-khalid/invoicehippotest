@@ -249,6 +249,7 @@ const VatEditModalForm: FC<Props> = ({
               className="form-check-input"
               type="checkbox"
               id="alwaysExclusiveOfVATSwtich"
+              checked={formik.values.alwaysExclusiveOfVAT}
               {...formik.getFieldProps("alwaysExclusiveOfVAT")}
               disabled={formik.isSubmitting || isUserLoading}
             />

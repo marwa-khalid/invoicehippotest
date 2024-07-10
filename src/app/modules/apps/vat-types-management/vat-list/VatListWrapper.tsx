@@ -17,7 +17,6 @@ const getPaginationValues = () => {
     const pagination = JSON.parse(storedPaginationString);
 
     const currentFilter = pagination["vat-module"].filters.documentGroup || 0;
-   
 
     const currentPage = pagination["vat-module"].pageIndex || 1;
     const searchTerm = pagination["vat-module"].filters.searchTerm || "";
@@ -76,6 +75,8 @@ const VatListInnerWrapper = () => {
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
+        editModalOpen={editModalOpen}
+        deleteModalOpen={deleteModalOpen}
       />
 
       {itemIdForUpdate !== undefined && <VatAddModal setRefresh={setRefresh} />}

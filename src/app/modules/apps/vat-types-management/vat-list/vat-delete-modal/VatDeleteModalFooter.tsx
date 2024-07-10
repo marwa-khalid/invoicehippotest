@@ -25,15 +25,11 @@ const VatDeleteModalFooter = ({
   const deleteVat = async () => {
     setIsSubmitting(true);
     const response = await deleteVatType(deleteModalId);
-    if (response.result) {
-      setDeleteModalOpen(false);
+    if (response.isValid) {
       setRefresh(true);
+      setDeleteModalOpen(false);
       setIsSubmitting(false);
-      toast.success(
-        intl
-          .formatMessage({ id: "System.DeleteSuccessVatType" })
-          .replace("{0}", vatTitle)
-      );
+      toast.success(response?.messages?.map((msg) => msg.message));
     }
   };
   return (
