@@ -213,7 +213,7 @@ const VatTypesList = ({
 
                     {vatType.vatReportReferenceType1 != null &&
                       vatType.vatReportReferenceType1.value != 0 && (
-                        <div className="d-flex align-items-center flex-wrap mb-6">
+                        <div className="d-flex align-items-center flex-wrap">
                           <i className="ki-duotone ki-document  fs-3x text-info">
                             <span className="path1"></span>
                             <span className="path2"></span>
