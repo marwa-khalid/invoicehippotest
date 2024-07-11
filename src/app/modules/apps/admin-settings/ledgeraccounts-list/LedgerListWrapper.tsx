@@ -80,7 +80,6 @@ const LedgerListInnerWrapper = () => {
             }
             groupedItems.get(key)?.push(item);
           });
-          console.log(groupedItems);
 
           return groupedItems;
         };
