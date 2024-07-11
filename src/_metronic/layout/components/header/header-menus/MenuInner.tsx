@@ -167,7 +167,7 @@ export function MenuInner() {
         <MenuItem to="/admin/vattype" title="Tax Types" hasBullet={true} />
         <MenuItem
           to="/admin/ledgeraccount"
-          title="Ledger Account"
+          title="Ledger Accounts"
           hasBullet={true}
         />
       </MenuInnerWithSub>

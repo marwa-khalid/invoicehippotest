@@ -20,7 +20,7 @@ export function HeaderWrapper() {
     <div
       id="kt_app_header"
       className={clsx(
-        "app-header d-flex flex-column flex-stack",
+        "app-header",
         config.app?.header?.default?.containerClass,
         {
           "bg-dark": config.layoutType === "dark-sidebar",
@@ -36,7 +36,7 @@ export function HeaderWrapper() {
       <div
         id="kt_app_header_container"
         className={clsx(
-          "d-flex flex-stack flex-grow-1 mx-2",
+          "app-container",
           classes.headerContainer.join(" "),
           config.app?.header?.default?.containerClass,
           {

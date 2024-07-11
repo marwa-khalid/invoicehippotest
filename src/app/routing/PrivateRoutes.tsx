@@ -13,12 +13,10 @@ const PrivateRoutes = () => {
   const AccountPage = lazy(() => import("../modules/accounts/AccountPage"));
   const WidgetsPage = lazy(() => import("../modules/widgets/WidgetsPage"));
   const ChatPage = lazy(() => import("../modules/apps/chat/ChatPage"));
-  const VatTypesPage = lazy(
-    () => import("../modules/apps/vat-types-management/VatTypesPage")
+  const SettingsPage = lazy(
+    () => import("../modules/apps/admin-settings/SettingsPage")
   );
-  // const UsersPage = lazy(
-  //   () => import("../modules/apps/user-management/VatTypesPage")
-  // );
+
   return (
     <Routes>
       <Route element={<MasterLayout />}>
@@ -27,6 +25,7 @@ const PrivateRoutes = () => {
 
         {/* Pages */}
         <Route path="dashboard" element={<DashboardWrapper />} />
+
         <Route path="builder" element={<BuilderPageWrapper />} />
         <Route path="menu-test" element={<MenuTestPage />} />
         {/* Lazy Modules */}
@@ -74,28 +73,10 @@ const PrivateRoutes = () => {
           path="admin/*"
           element={
             <SuspensedView>
-              <VatTypesPage />
+              <SettingsPage />
             </SuspensedView>
           }
         />
-
-        {/* <Route
-          path="admin/*"
-          element={
-            <SuspensedView>
-              <VatTypesPage />
-            </SuspensedView>
-          }
-        /> */}
-
-        {/* <Route
-          path="/admin/*"
-          element={
-            <SuspensedView>
-              <VatTypes />
-            </SuspensedView>
-          }
-        /> */}
         {/* <Route
           path="apps/user-management/*"
           element={

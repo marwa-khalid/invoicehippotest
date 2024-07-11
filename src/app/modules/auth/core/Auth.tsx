@@ -109,6 +109,7 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
     if (auth && auth.result.token) {
       // Check if the token has expired
       if (auth.result.tokenIsValid) {
+        console.log(auth.result.token);
         const expirationDate = new Date(auth.result.expirationDateUtc);
         const currentDate = new Date();
         const diff = expirationDate.getTime() - currentDate.getTime();
