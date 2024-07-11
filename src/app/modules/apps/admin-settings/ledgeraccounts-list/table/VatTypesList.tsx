@@ -44,11 +44,11 @@ const VatTypesList = ({
   deleteModalOpen,
 }: UsersTableComponentProps) => {
   const [ledgerAccounts, setLedgerAccounts] = useState<any>([]);
-  
+
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // const [pageIndex, setPageIndex] = useState<number>(1);
- 
+
   const fetchVatTypes = async () => {
     setIsLoading(true);
 
@@ -81,10 +81,15 @@ const VatTypesList = ({
   }, [editModalOpen, deleteModalOpen, refresh]);
 
   const renderLockIcon = (isChecked: boolean) => {
-    return (
+    return isChecked ? (
       <KTSVG
         path="media/icons/duotune/general/gen051.svg"
         className="svg-icon-danger svg-icon-2x"
+      />
+    ) : (
+      <KTSVG
+        path="media/icons/duotune/general/gen051.svg"
+        className="svg-icon-success svg-icon-2x"
       />
     );
   };
@@ -124,13 +129,12 @@ const VatTypesList = ({
                       //   e.currentTarget.style.color = "black";
                       // }}
                     >
-                      {console.log(vatType.allowManualBookings)!}
-                      {vatType.defaultTax && vatType.allowManualBookings && (
-                        <>
-                          {renderLockIcon(vatType.allowManualBookings)}
-                          <span className="mx-2 text-muted">|</span>
-                        </>
-                      )}
+                      {/* {vatType.defaultTax && vatType.allowManualBookings && ( */}
+                      <>
+                        {renderLockIcon(vatType.allowManualBookings)}
+                        <span className="mx-2 text-muted">|</span>
+                      </>
+                      {/* )} */}
                       <strong>{vatType.displayName}</strong>
                     </div>
                     <div className="align-items-center my-lg-0 my-1 necessary-icons">
