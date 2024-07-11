@@ -119,22 +119,11 @@ const VatTypesList = ({
                       onClick={() => {
                         openEditModal(vatType.id);
                       }}
-                      // style={{
-                      //   transition: "color 0.3s", // Smooth transition effect
-                      // }}
-                      // onMouseEnter={(e) => {
-                      //   e.currentTarget.style.color = "blue";
-                      // }}
-                      // onMouseLeave={(e) => {
-                      //   e.currentTarget.style.color = "black";
-                      // }}
                     >
-                      {/* {vatType.defaultTax && vatType.allowManualBookings && ( */}
                       <>
                         {renderLockIcon(vatType.allowManualBookings)}
                         <span className="mx-2 text-muted">|</span>
                       </>
-                      {/* )} */}
                       <strong>{vatType.displayName}</strong>
                     </div>
                     <div className="align-items-center my-lg-0 my-1 necessary-icons">
@@ -151,9 +140,20 @@ const VatTypesList = ({
                           </i>
                         </button>
                       )}
+
+                      {vatType.actions.canShowMutationsOverview && (
+                        <button className="btn btn-icon btn-light btn-sm me-4">
+                          <i className="ki-duotone ki-book text-info fs-2">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                            <span className="path3"></span>
+                            <span className="path4"></span>
+                          </i>
+                        </button>
+                      )}
                       {vatType.actions.canDelete && (
                         <button
-                          className="btn btn-icon btn-light btn-sm me-4"
+                          className="btn btn-icon btn-light btn-sm"
                           onClick={() => {
                             openDeleteModal(vatType.id, vatType.displayName);
                           }}
@@ -164,16 +164,6 @@ const VatTypesList = ({
                           <span className="path3"></span>
                           <span className="path4"></span>
                           <span className="path5"></span> */}
-                          </i>
-                        </button>
-                      )}
-                      {vatType.actions.canShowMutationsOverview && (
-                        <button className="btn btn-icon btn-light btn-sm">
-                          <i className="ki-duotone ki-book text-info fs-2">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                            <span className="path3"></span>
-                            <span className="path4"></span>
                           </i>
                         </button>
                       )}
@@ -198,28 +188,67 @@ const VatTypesList = ({
                       </li>
                     </ul>
                   </div>
+                  <div className="d-flex flex-row flex-wrap fs-8">
+                    {/* Small Image and Ledger Account + Title */}
+                    {vatType.defaultTax && (
+                      <div className="d-flex align-items-center flex-wrap">
+                        <i className="ki-duotone ki-file-added fs-3x text-warning ">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
+                          <span className="path3"></span>
+                          <span className="path4"></span>
+                          <span className="path5"></span>
+                        </i>
 
-                  {/* Small Image and Ledger Account + Title */}
-                  {vatType.defaultTax && (
-                    <div className="d-flex align-items-center flex-wrap">
-                      <i className="ki-duotone ki-file-added fs-3x text-warning ">
-                        <span className="path1"></span>
-                        <span className="path2"></span>
-                        <span className="path3"></span>
-                        <span className="path4"></span>
-                        <span className="path5"></span>
-                      </i>
-
-                      <div className="d-flex flex-column mx-6">
-                        <span className="fs-sm text-muted">
-                          {intl.formatMessage({ id: "Fields.DefaultTax" })}
-                        </span>
-                        <span className="text-primary fw-bolder">
-                          {vatType.defaultTax}
-                        </span>
+                        <div className="d-flex flex-column mx-6">
+                          <span className="fs-sm text-muted">
+                            {intl.formatMessage({ id: "Fields.DefaultTax" })}
+                          </span>
+                          <span className="text-primary fw-bolder">
+                            {vatType.defaultTax}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+
+                    {vatType.vatReportReferenceType1 != null &&
+                      vatType.vatReportReferenceType1.value != 0 && (
+                        <div className="d-flex align-items-center flex-wrap mb-6">
+                          <i className="ki-duotone ki-document  fs-3x text-info">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+
+                          <div className="d-flex flex-column mx-6">
+                            <span className="text-muted">
+                              BTW Rapportage Rubriek 1
+                            </span>
+                            <span className="text-primary fw-bolder">
+                              {vatType.vatReportReferenceType1.description}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                    {vatType.vatReportReferenceType2 != null &&
+                      vatType.vatReportReferenceType2.value != 0 && (
+                        <div className="d-flex align-items-center flex-wrap">
+                          <i className="ki-duotone ki-document fs-3x text-info">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+
+                          <div className="d-flex flex-column mx-6">
+                            <span className="text-muted">
+                              BTW Rapportage Rubriek 2
+                            </span>
+                            <span className="text-primary fw-bolder">
+                              {vatType.vatReportReferenceType2.description}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                  </div>
                 </div>
               </div>
             </div>
