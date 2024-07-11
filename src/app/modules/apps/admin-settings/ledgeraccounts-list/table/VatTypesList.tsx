@@ -84,12 +84,12 @@ const VatTypesList = ({
     return isChecked ? (
       <KTSVG
         path="media/icons/duotune/general/gen051.svg"
-        className="svg-icon-danger svg-icon-2x"
+        className="svg-icon-success svg-icon-2x"
       />
     ) : (
       <KTSVG
         path="media/icons/duotune/general/gen051.svg"
-        className="svg-icon-success svg-icon-2x"
+        className="svg-icon-danger svg-icon-2x"
       />
     );
   };
