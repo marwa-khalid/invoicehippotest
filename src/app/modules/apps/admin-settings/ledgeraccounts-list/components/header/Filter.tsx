@@ -76,21 +76,19 @@ export function Filter({
   // Reset the selection
   const handleReset = () => {
     setSelectedOption(null);
-    localStorage.removeItem("filter");
     onFilterApply(false);
     localStorage.setItem(
       "pagination",
       JSON.stringify({
         ...JSON.parse(localStorage.getItem("pagination") || "{}"),
-        "vat-module": {
+        "ledger-module": {
           ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-            "vat-module"
+            "ledger-module"
           ],
           filters: {
             ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-              "vat-module"
+              "ledger-module" 
             ]?.filters,
-            documentGroup: 0,
           },
         },
       })
@@ -100,11 +98,13 @@ export function Filter({
 
   return (
     <div
-      className="menu menu-sub menu-sub-dropdown w-250px w-md-300px"
+      className="menu menu-sub menu-sub-dropdown w-full w-md-auto "
       data-kt-menu="true"
     >
       <div className="px-7 py-5">
-        <div className="fs-5 text-gray-900 fw-bolder">Filter Options</div>
+        <div className="fs-5 text-gray-900 fw-bolder">
+          {intl.formatMessage({ id: "Fields.SearchFilterPopUpTitle" })}
+        </div>
       </div>
 
       <div className="separator border-gray-200"></div>
@@ -112,7 +112,10 @@ export function Filter({
       <div className="px-7 py-5">
         <div className="mb-10">
           <label className="form-label fw-bold">
-            {intl.formatMessage({ id: "Fields.VatAreaUsageType" })}:
+            {intl.formatMessage({
+              id: "Fields.SelectOptionDefaultLedgerAccountType",
+            })}
+            :
           </label>
 
           <Select
@@ -137,7 +140,10 @@ export function Filter({
         </div>
         <div className="mb-10">
           <label className="form-label fw-bold">
-            {intl.formatMessage({ id: "Fields.VatAreaUsageType" })}:
+            {intl.formatMessage({
+              id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
+            })}
+            :
           </label>
 
           <Select
@@ -165,7 +171,7 @@ export function Filter({
             onClick={handleReset} // Reset selection on click
             data-kt-menu-dismiss="true"
           >
-            Reset
+            {intl.formatMessage({ id: "Fields.SearchResetBtn" })}
           </button>
 
           <button
@@ -174,7 +180,7 @@ export function Filter({
             onClick={handleApply} // Apply filter on click
             data-kt-menu-dismiss="true"
           >
-            Apply
+            {intl.formatMessage({ id: "Fields.SearchApplyBtn" })}
           </button>
         </div>
       </div>

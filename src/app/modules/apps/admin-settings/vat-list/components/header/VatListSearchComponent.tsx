@@ -159,7 +159,7 @@ const VatListSearchComponent = ({
                 daterangepickerButtonClass,
                 { "bg-warning": isFilterApplied }
               )}
-              data-kt-menu-trigger="click"
+              data-kt-menu-trigger="hover"
               data-kt-menu-placement="bottom-end"
             >
               <i

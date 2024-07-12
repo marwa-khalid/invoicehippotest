@@ -188,7 +188,7 @@ const VatTypesList = ({
                       </li>
                     </ul>
                   </div>
-                  <div className="d-flex flex-row flex-wrap fs-8">
+                  <div className="d-flex flex-row flex-wrap fs-8 gap-4">
                     {/* Small Image and Ledger Account + Title */}
                     {vatType.defaultTax && (
                       <div className="d-flex align-items-center flex-wrap">
@@ -211,6 +211,10 @@ const VatTypesList = ({
                       </div>
                     )}
 
+                    {vatType.defaultTax && (
+                      <span className="ms-2 h-37px bg-gray-400 w-1px me-6 "></span>
+                    )}
+
                     {vatType.vatReportReferenceType1 != null &&
                       vatType.vatReportReferenceType1.value != 0 && (
                         <div className="d-flex align-items-center flex-wrap">
@@ -221,13 +225,19 @@ const VatTypesList = ({
 
                           <div className="d-flex flex-column mx-6">
                             <span className="text-muted">
-                              BTW Rapportage Rubriek 1
+                              {intl.formatMessage({
+                                id: "Fields.VatReportingCategorie1",
+                              })}
                             </span>
                             <span className="text-primary fw-bolder">
                               {vatType.vatReportReferenceType1.description}
                             </span>
                           </div>
                         </div>
+                      )}
+                    {vatType.vatReportReferenceType1 != null &&
+                      vatType.vatReportReferenceType1.value != 0 && (
+                        <span className="ms-2 h-37px bg-gray-400 w-1px  me-6"></span>
                       )}
 
                     {vatType.vatReportReferenceType2 != null &&
@@ -240,7 +250,9 @@ const VatTypesList = ({
 
                           <div className="d-flex flex-column mx-6">
                             <span className="text-muted">
-                              BTW Rapportage Rubriek 2
+                              {intl.formatMessage({
+                                id: "Fields.VatReportingCategorie2",
+                              })}
                             </span>
                             <span className="text-primary fw-bolder">
                               {vatType.vatReportReferenceType2.description}

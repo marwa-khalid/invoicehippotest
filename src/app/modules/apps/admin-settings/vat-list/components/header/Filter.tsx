@@ -97,7 +97,10 @@ export function Filter({
       data-kt-menu="true"
     >
       <div className="px-7 py-5">
-        <div className="fs-5 text-gray-900 fw-bolder">Filter Options</div>
+        <div className="fs-5 text-gray-900 fw-bolder">
+          {" "}
+          {intl.formatMessage({ id: "Fields.SearchFilterPopUpTitle" })}
+        </div>
       </div>
 
       <div className="separator border-gray-200"></div>
@@ -136,7 +139,7 @@ export function Filter({
             onClick={handleReset} // Reset selection on click
             data-kt-menu-dismiss="true"
           >
-            Reset
+            {intl.formatMessage({ id: "Fields.SearchResetBtn" })}
           </button>
 
           <button
@@ -145,7 +148,7 @@ export function Filter({
             onClick={handleApply} // Apply filter on click
             data-kt-menu-dismiss="true"
           >
-            Apply
+            {intl.formatMessage({ id: "Fields.SearchApplyBtn" })}
           </button>
         </div>
       </div>
