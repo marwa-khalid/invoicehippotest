@@ -7,28 +7,26 @@ import UserListHeaderTabs from "./VatListHeaderTabs";
 import { KTCardBody } from "../../../../../../../_metronic/helpers";
 import { Search } from "../../../../../../../_metronic/partials";
 
-interface GroupedOption {
-  label: string;
-  options: { value: number; label: string }[];
-}
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
-  setVatAreaUsageTypeFilter: (type: number) => void;
+  setLedgerTypeFilter: (type: number) => void;
+  setBearingTypeFilter: (type: number) => void;
   setIsFilterApplied: (type: boolean) => void;
   isFilterApplied: boolean;
   searchTerm: string;
-  vatAreaUsageTypeFilter: number;
-  ledgerAccountsForFilter: GroupedOption[];
+  ledgerTypeFilter: number;
+  bearingTypeFilter: number;
 }
 
 const VatListHeader = ({
   setSearchTerm,
-  setVatAreaUsageTypeFilter,
+  setLedgerTypeFilter,
   setIsFilterApplied,
   searchTerm,
   isFilterApplied,
-  vatAreaUsageTypeFilter,
-  ledgerAccountsForFilter,
+  ledgerTypeFilter,
+  setBearingTypeFilter,
+  bearingTypeFilter,
 }: ComponentProps) => {
   const { selected } = useListView();
   return (
@@ -38,11 +36,12 @@ const VatListHeader = ({
         <VatListSearchComponent
           setSearchTerm={setSearchTerm}
           searchTerm={searchTerm}
-          setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
+          setLedgerTypeFilter={setLedgerTypeFilter}
           setIsFilterApplied={setIsFilterApplied}
+          setBearingTypeFilter={setBearingTypeFilter}
+          bearingTypeFilter={bearingTypeFilter}
           isFilterApplied={isFilterApplied}
-          vatAreaUsageTypeFilter={vatAreaUsageTypeFilter}
-          ledgerAccountsForFilter={ledgerAccountsForFilter}
+          ledgerTypeFilter={ledgerTypeFilter}
         />
 
         {/* Tabs Section */}

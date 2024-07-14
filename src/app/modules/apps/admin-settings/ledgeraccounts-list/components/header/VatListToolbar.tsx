@@ -4,10 +4,10 @@ import { useListView } from "../../core/ListViewProvider";
 import { useIntl } from "react-intl";
 
 interface ToolbarProps {
-  currentRows: number;
+  totalRows: number;
 }
 
-const VatListToolbar = ({ currentRows }: ToolbarProps) => {
+const VatListToolbar = ({ totalRows }: ToolbarProps) => {
   const { setItemIdForUpdate } = useListView();
   const openAddUserModal = () => {
     setItemIdForUpdate(null);
@@ -19,11 +19,11 @@ const VatListToolbar = ({ currentRows }: ToolbarProps) => {
       data-kt-user-table-toolbar="base"
     >
       {/* <VatListFilter /> */}
-      <h3>
+      <h5 className="ms-5 text-muted">
         {intl
           .formatMessage({ id: "Fields.SearchResultHeaderCount" })
-          .replace("{0}", currentRows.toString())}
-      </h3>
+          .replace("{0}", totalRows.toString())}
+      </h5>
 
       {/* begin::Export */}
       {/* <button type="button" className="btn btn-light-primary me-3">

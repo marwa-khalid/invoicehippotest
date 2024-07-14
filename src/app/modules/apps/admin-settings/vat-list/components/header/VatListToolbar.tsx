@@ -4,10 +4,10 @@ import { useListView } from "../../core/ListViewProvider";
 import { useIntl } from "react-intl";
 
 interface ToolbarProps {
-  currentRows: number;
+  totalRows: number;
 }
 
-const VatListToolbar = ({ currentRows }: ToolbarProps) => {
+const VatListToolbar = ({ totalRows }: ToolbarProps) => {
   const { setItemIdForUpdate } = useListView();
   const openAddUserModal = () => {
     setItemIdForUpdate(null);
@@ -22,7 +22,7 @@ const VatListToolbar = ({ currentRows }: ToolbarProps) => {
       <h3>
         {intl
           .formatMessage({ id: "Fields.SearchResultHeaderCount" })
-          .replace("{0}", currentRows.toString())}
+          .replace("{0}", totalRows.toString())}
       </h3>
 
       {/* begin::Export */}

@@ -12,7 +12,7 @@ import { Filter } from "../components/header/Filter";
 interface UsersTableComponentProps {
   searchTerm: string;
   vatAreaUsageTypeFilter: number;
-  setCurrentRows: (type: number) => void;
+  setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
   setVatTitle: (type: string) => void;
@@ -26,7 +26,7 @@ interface UsersTableComponentProps {
 const VatTypesList = ({
   searchTerm,
   vatAreaUsageTypeFilter,
-  setCurrentRows,
+  setTotalRows,
   setEditModalOpen,
   setEditModalId,
   setVatTitle,
@@ -54,7 +54,7 @@ const VatTypesList = ({
 
       setVatTypesList(response);
       setPageIndex(response.pageIndex);
-      setCurrentRows(response.currentRows);
+      setTotalRows(response.totalRows);
       // setTotalItems(response.result);
     } catch (error) {
       console.error("Error fetching VAT types:", error);

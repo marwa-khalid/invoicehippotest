@@ -10,38 +10,41 @@ import { Filter } from "./Filter";
 import clsx from "clsx";
 import { useLayout } from "../../../../../../../_metronic/layout/core";
 import enums from "../../../../../../../invoicehippo.enums.json";
-interface GroupedOption {
-  label: string;
-  options: { value: number; label: string }[];
-}
 
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
-  setVatAreaUsageTypeFilter: (type: number) => void;
-  setIsFilterApplied: (type: boolean) => void;
-  isFilterApplied: boolean;
   searchTerm: string;
-  vatAreaUsageTypeFilter: number;
-  ledgerAccountsForFilter: GroupedOption[];
+  setLedgerTypeFilter: (type: number) => void;
+  setIsFilterApplied: (type: boolean) => void;
+  setBearingTypeFilter: (type: number) => void;
+  bearingTypeFilter: number;
+  isFilterApplied: boolean;
+
+  ledgerTypeFilter: number;
 }
 
 const VatListSearchComponent = ({
   setSearchTerm,
-  setVatAreaUsageTypeFilter,
-  isFilterApplied,
-  setIsFilterApplied,
   searchTerm,
-  vatAreaUsageTypeFilter,
-  ledgerAccountsForFilter,
+  setLedgerTypeFilter,
+  setIsFilterApplied,
+  setBearingTypeFilter,
+  bearingTypeFilter,
+  isFilterApplied,
+  ledgerTypeFilter,
 }: ComponentProps) => {
   const { updateState } = useQueryRequest();
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const intl = useIntl();
-  const [selectedOption, setSelectedOption] = useState<any>(
-    enums.VatAreaUsageTypes.find(
-      (item) => item.Value === vatAreaUsageTypeFilter
-    )?.Title || ""
+  const [selectedLedgerTypeOption, setSelectedLedgerTypeOption] = useState<any>(
+    enums.LedgerTypes.find((item) => item.Value === ledgerTypeFilter)?.Title ||
+      ""
   );
+  const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
+    useState<any>(
+      enums.LedgerTypes.find((item) => item.Value === bearingTypeFilter)
+        ?.Title || ""
+    );
 
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
@@ -59,14 +62,21 @@ const VatListSearchComponent = ({
               pageIndex: 1,
               filters: { searchTerm: localSearchTerm, documentGroup: 0 },
             },
-            "ledger-module": { pageIndex: 1, filters: { sasearchTerm: "" } },
+            "ledger-module": {
+              pageIndex: 1,
+              filters: {
+                searchTerm: "",
+                ledgerTypeFilter: 0,
+                bearingTypeFilter: 0,
+              },
+            },
             "invoice-module": {
               pageIndex: 1,
-              filters: { sasearchTerm: "" },
+              filters: { searchTerm: "" },
             },
             "invoice-picker-module": {
               pageIndex: 1,
-              filters: { sasearchTerm: "" },
+              filters: { searchTerm: "" },
             },
           };
 
@@ -99,7 +109,8 @@ const VatListSearchComponent = ({
   const resetFilter = () => {
     // Function to reset the Filter component
 
-    setSelectedOption(null);
+    setSelectedLedgerTypeOption(null);
+    setSelectedBearingTypeOption(null);
     setLocalSearchTerm("");
     updateState({ search: "", ...initialQueryState }); // Reset the search state
     setSearchTerm(""); // Reset the parent search term
@@ -117,12 +128,14 @@ const VatListSearchComponent = ({
               "ledger-module"
             ]?.filters,
             searchTerm: "",
-            documentGroup: 0,
+            ledgerTypeFilter: 0,
+            bearingTypeFilter: 0,
           },
         },
       })
     );
-    setVatAreaUsageTypeFilter(0);
+    setLedgerTypeFilter(0);
+    setBearingTypeFilter(0);
 
     // Reset the filter to its default state
   };
@@ -177,11 +190,13 @@ const VatListSearchComponent = ({
               />
             </a>
             <Filter
-              setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
+              setLedgerTypeFilter={setLedgerTypeFilter}
+              setBearingTypeFilter={setBearingTypeFilter}
               onFilterApply={handleFilterApply}
-              selectedOption={selectedOption}
-              setSelectedOption={setSelectedOption}
-              ledgerAccountsForFilter={ledgerAccountsForFilter}
+              selectedLedgerTypeOption={selectedLedgerTypeOption}
+              selectedBearingTypeOption={selectedBearingTypeOption}
+              setSelectedBearingTypeOption={setSelectedBearingTypeOption}
+              setSelectedLedgerTypeOption={setSelectedLedgerTypeOption}
             />
           </div>
           {/* {filterModalOpen && <Filter />} */}

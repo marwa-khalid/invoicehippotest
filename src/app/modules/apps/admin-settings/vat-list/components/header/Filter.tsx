@@ -35,14 +35,17 @@ export function Filter({
             pageIndex: 1,
             filters: { searchTerm: "", documentGroup: 0 },
           },
-          "ledger-module": { pageIndex: 1, filters: { sasearchTerm: "" } },
+          "ledger-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "", ledgerTypeFilter: 0 },
+          },
           "invoice-module": {
             pageIndex: 1,
-            filters: { sasearchTerm: "" },
+            filters: { searchTerm: "" },
           },
           "invoice-picker-module": {
             pageIndex: 1,
-            filters: { sasearchTerm: "" },
+            filters: { searchTerm: "" },
           },
         };
 
@@ -99,7 +102,7 @@ export function Filter({
       <div className="px-7 py-5">
         <div className="fs-5 text-gray-900 fw-bolder">
           {" "}
-          {intl.formatMessage({ id: "Fields.SearchFilterPopUpTitle" })}
+          {intl.formatMessage({ id: "Fields.FilterPopUpTitle" })}
         </div>
       </div>
 

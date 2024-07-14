@@ -8,7 +8,8 @@ interface VatListPaginationProps {
   pageIndex: number;
   onPageChange: (page: number) => void;
   totalItems: number;
-  filterType: number;
+  filterType1: number;
+  filterType2: number;
   setPageIndex: (page: number) => void;
 }
 
@@ -17,7 +18,8 @@ const VatListPagination = ({
   pageIndex,
   onPageChange,
   totalItems,
-  filterType,
+  filterType1,
+  filterType2,
   setPageIndex,
 }: VatListPaginationProps) => {
   const [state, setState] = useState(pageIndex);
@@ -37,16 +39,23 @@ const VatListPagination = ({
       : {
           "vat-module": {
             pageIndex: 1,
-            filters: { searchTerm: "", documentGroup: filterType },
+            filters: { searchTerm: "", documentGroup: 0 },
           },
-          "ledger-module": { pageIndex: 1, filters: { sasearchTerm: "" } },
+          "ledger-module": {
+            pageIndex: 1,
+            filters: {
+              searchTerm: "",
+              ledgerTypeFilter: filterType1,
+              bearingTypeFilter: filterType2,
+            },
+          },
           "invoice-module": {
             pageIndex: 1,
-            filters: { sasearchTerm: "" },
+            filters: { searchTerm: "" },
           },
           "invoice-picker-module": {
             pageIndex: 1,
-            filters: { sasearchTerm: "" },
+            filters: { searchTerm: "" },
           },
         };
 
@@ -62,7 +71,6 @@ const VatListPagination = ({
 
   const handlePageChange = (newPageIndex: number) => {
     setState(newPageIndex);
-
     onPageChange(newPageIndex);
   };
 

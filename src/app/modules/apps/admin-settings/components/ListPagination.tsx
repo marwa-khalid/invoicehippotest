@@ -39,20 +39,22 @@ const ListPagination = ({
             pageIndex: 1,
             filters: { searchTerm: "", documentGroup: filterType },
           },
-          "ledger-module": { pageIndex: 1, filters: { sasearchTerm: "" } },
+          "ledger-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "", ledgerTypeFilter: 0 },
+          },
           "invoice-module": {
             pageIndex: 1,
-            filters: { sasearchTerm: "" },
+            filters: { searchTerm: "" },
           },
           "invoice-picker-module": {
             pageIndex: 1,
-            filters: { sasearchTerm: "" },
+            filters: { searchTerm: "" },
           },
         };
 
     // Update the filter in the vat-module
     pagination["vat-module"].pageIndex = state;
-   
 
     // Convert the updated object back to a JSON string
     const updatedPaginationString = JSON.stringify(pagination);
@@ -62,9 +64,8 @@ const ListPagination = ({
   }, [state]);
 
   const handlePageChange = (newPageIndex: number) => {
-  
     setState(newPageIndex);
- 
+
     onPageChange(newPageIndex);
   };
 

@@ -17,8 +17,9 @@ import { Filter } from "../components/header/Filter";
 // import { VatEditModal } from "../user-edit-modal/VatEditModal";
 interface UsersTableComponentProps {
   searchTerm: string;
-  vatAreaUsageTypeFilter: number;
-  setCurrentRows: (type: number) => void;
+  ledgerTypeFilter: number;
+  bearingTypeFilter: number;
+  setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
   setVatTitle: (type: string) => void;
@@ -31,8 +32,8 @@ interface UsersTableComponentProps {
 }
 const VatTypesList = ({
   searchTerm,
-  vatAreaUsageTypeFilter,
-  setCurrentRows,
+  ledgerTypeFilter,
+  setTotalRows,
   setEditModalOpen,
   setEditModalId,
   setVatTitle,
@@ -41,6 +42,7 @@ const VatTypesList = ({
   setPageIndex,
   pageIndex,
   editModalOpen,
+  bearingTypeFilter,
   deleteModalOpen,
 }: UsersTableComponentProps) => {
   const [ledgerAccounts, setLedgerAccounts] = useState<any>([]);
@@ -53,13 +55,18 @@ const VatTypesList = ({
     setIsLoading(true);
 
     try {
-      const response = await getLedgerAccounts(searchTerm, pageIndex);
+      const response = await getLedgerAccounts(
+        searchTerm,
+        ledgerTypeFilter,
+        bearingTypeFilter,
+        pageIndex
+      );
 
       // vatAreaUsageTypeFilter
 
       setLedgerAccounts(response);
       setPageIndex(response.pageIndex);
-      setCurrentRows(response.currentRows);
+      setTotalRows(response.totalRows);
       // setTotalItems(response.result);
     } catch (error) {
       console.error("Error fetching VAT types:", error);
@@ -74,7 +81,7 @@ const VatTypesList = ({
 
   useEffect(() => {
     fetchVatTypes();
-  }, [searchTerm, vatAreaUsageTypeFilter, pageIndex]);
+  }, [searchTerm, ledgerTypeFilter, bearingTypeFilter, pageIndex]);
 
   useEffect(() => {
     fetchVatTypes();
@@ -211,9 +218,11 @@ const VatTypesList = ({
                       </div>
                     )}
 
-                    {vatType.defaultTax && (
-                      <span className="ms-2 h-37px bg-gray-400 w-1px me-6 "></span>
-                    )}
+                    {vatType.defaultTax &&
+                      vatType.vatReportReferenceType1 != null &&
+                      vatType.vatReportReferenceType1.value != 0 && (
+                        <span className="ms-2 h-37px bg-gray-400 w-1px me-6 "></span>
+                      )}
 
                     {vatType.vatReportReferenceType1 != null &&
                       vatType.vatReportReferenceType1.value != 0 && (
@@ -235,9 +244,9 @@ const VatTypesList = ({
                           </div>
                         </div>
                       )}
-                    {vatType.vatReportReferenceType1 != null &&
-                      vatType.vatReportReferenceType1.value != 0 && (
-                        <span className="ms-2 h-37px bg-gray-400 w-1px  me-6"></span>
+                    {vatType.vatReportReferenceType2 != null &&
+                      vatType.vatReportReferenceType2.value != 0 && (
+                        <span className="ms-2 h-37px bg-gray-400 w-1px me-6"></span>
                       )}
 
                     {vatType.vatReportReferenceType2 != null &&
@@ -291,7 +300,8 @@ const VatTypesList = ({
           setPageIndex={setPageIndex}
           onPageChange={handlePageChange}
           totalItems={ledgerAccounts.totalRows}
-          filterType={vatAreaUsageTypeFilter}
+          filterType1={ledgerTypeFilter}
+          filterType2={bearingTypeFilter}
         />
       )}
     </KTCardBody>

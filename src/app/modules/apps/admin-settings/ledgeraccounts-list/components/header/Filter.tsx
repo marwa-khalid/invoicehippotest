@@ -1,81 +1,184 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import Select from "react-select";
 import enums from "../../../../../../../invoicehippo.enums.json";
 
 interface GroupedOption {
-  label: string;
+  label: any;
   options: { value: number; label: string }[];
 }
 interface ComponentProps {
-  setVatAreaUsageTypeFilter: (type: number) => void;
+  setLedgerTypeFilter: (type: number) => void;
+  setBearingTypeFilter: (type: number) => void;
   onFilterApply: (isApplied: boolean) => void;
-  setSelectedOption: (type: any) => void;
-  selectedOption: any;
-  ledgerAccountsForFilter: GroupedOption[];
+  setSelectedLedgerTypeOption: (type: any) => void;
+  setSelectedBearingTypeOption: (type: any) => void;
+  selectedLedgerTypeOption: any;
+  selectedBearingTypeOption: any;
 }
 
 export function Filter({
-  setVatAreaUsageTypeFilter,
+  setLedgerTypeFilter,
+  setBearingTypeFilter,
   onFilterApply,
-  setSelectedOption,
-  selectedOption,
-  ledgerAccountsForFilter,
+  setSelectedLedgerTypeOption,
+  setSelectedBearingTypeOption,
+  selectedLedgerTypeOption,
+  selectedBearingTypeOption,
 }: ComponentProps) {
   const intl = useIntl();
+  const [bearingGroups, setBearingGroups] = useState<GroupedOption[]>([]);
+  const [filteredBearingGroups, setFilteredBearingGroups] = useState<
+    GroupedOption[]
+  >([]);
 
-  // Define options for the Select component
-  // State to manage the selected option locally
+  useEffect(() => {
+    const toTitleCase = (str: string) => {
+      return str.replace(/\w\S*/g, (txt) => {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    };
 
-  // Handle change in selection
-  const handleChange = (option: any) => {
-    setSelectedOption(option);
+    const transformBearingTypes = () => {
+      const groupMap: { [key: string]: GroupedOption } = {};
 
-    // Retrieve the stored JSON string from local storage, if it exists
-    let storedPaginationString = localStorage.getItem("pagination");
+      enums.BearingTypes.forEach((item: any) => {
+        const group = toTitleCase(item.Group);
+        const subGroup = toTitleCase(item.SubGroup);
+        const groupKey = `${group} - ${subGroup}`;
 
-    // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
-    let pagination = storedPaginationString
+        if (!groupMap[groupKey]) {
+          groupMap[groupKey] = {
+            label: (
+              <div>
+                {group} - <small>{subGroup}</small>
+              </div>
+            ) as any,
+            options: [],
+          };
+        }
+
+        groupMap[groupKey].options.push({
+          value: item.Value,
+          label: item.Title,
+        });
+      });
+
+      const sortedGroups = Object.values(groupMap).sort((a, b) => {
+        const aLabel = (a.label as any).props.children[0];
+        const bLabel = (b.label as any).props.children[0];
+        return aLabel.localeCompare(bLabel);
+      });
+
+      setBearingGroups(sortedGroups);
+    };
+
+    transformBearingTypes();
+  }, []);
+
+  useEffect(() => {
+    if (selectedLedgerTypeOption) {
+      console.log(selectedLedgerTypeOption);
+      const selectedType =
+        selectedLedgerTypeOption.label || selectedLedgerTypeOption;
+      const filteredGroups = bearingGroups
+        .filter((group) => group.label.props.children[0].includes(selectedType))
+        .map((group) => ({
+          ...group,
+          label: (
+            <div>
+              {selectedLedgerTypeOption.label || selectedLedgerTypeOption} -{" "}
+              <small>{group.label.props.children[2]}</small>
+            </div>
+          ),
+        }));
+      setFilteredBearingGroups(filteredGroups);
+    } else {
+      setFilteredBearingGroups(bearingGroups);
+    }
+  }, [selectedLedgerTypeOption, bearingGroups]);
+
+  const handleLedgerTypeChange = (option: any) => {
+    setSelectedLedgerTypeOption(option);
+
+    const storedPaginationString = localStorage.getItem("pagination");
+    const pagination = storedPaginationString
       ? JSON.parse(storedPaginationString)
       : {
           "vat-module": {
             pageIndex: 1,
             filters: { searchTerm: "", documentGroup: 0 },
           },
-          "ledger-module": { pageIndex: 1, filters: { sasearchTerm: "" } },
+          "ledger-module": {
+            pageIndex: 1,
+            filters: {
+              searchTerm: "",
+              ledgerTypeFilter: 0,
+              bearingTypeFilter: 0,
+            },
+          },
           "invoice-module": {
             pageIndex: 1,
-            filters: { sasearchTerm: "" },
+            filters: { searchTerm: "" },
           },
           "invoice-picker-module": {
             pageIndex: 1,
-            filters: { sasearchTerm: "" },
+            filters: { searchTerm: "" },
           },
         };
 
-    // Update the filter in the vat-module
-    pagination["ledger-module"].filters.documentGroup = option.value;
+    pagination["ledger-module"].filters.ledgerTypeFilter = option.value;
     pagination["ledger-module"].pageIndex = 1;
-
-    // Convert the updated object back to a JSON string
-    const updatedPaginationString = JSON.stringify(pagination);
-
-    // Store the updated JSON string in local storage
-    localStorage.setItem("pagination", updatedPaginationString);
+    localStorage.setItem("pagination", JSON.stringify(pagination));
   };
 
-  // Apply the selected filter when the Apply button is clicked
+  const handleBearingTypeChange = (option: any) => {
+    setSelectedBearingTypeOption(option);
+
+    const storedPaginationString = localStorage.getItem("pagination");
+    const pagination = storedPaginationString
+      ? JSON.parse(storedPaginationString)
+      : {
+          "vat-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "", documentGroup: 0 },
+          },
+          "ledger-module": {
+            pageIndex: 1,
+            filters: {
+              searchTerm: "",
+              ledgerTypeFilter: 0,
+              bearingTypeFilter: 0,
+            },
+          },
+          "invoice-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
+          "invoice-picker-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
+        };
+
+    pagination["ledger-module"].filters.bearingTypeFilter = option.value;
+    pagination["ledger-module"].pageIndex = 1;
+    localStorage.setItem("pagination", JSON.stringify(pagination));
+  };
+
   const handleApply = () => {
-    if (selectedOption) {
-      const value = selectedOption.value;
-      setVatAreaUsageTypeFilter(value);
-      onFilterApply(true);
+    if (selectedLedgerTypeOption) {
+      setLedgerTypeFilter(selectedLedgerTypeOption.value);
     }
+    if (selectedBearingTypeOption) {
+      setBearingTypeFilter(selectedBearingTypeOption.value);
+    }
+    onFilterApply(true);
   };
 
-  // Reset the selection
   const handleReset = () => {
-    setSelectedOption(null);
+    setSelectedLedgerTypeOption(null);
+    setSelectedBearingTypeOption(null);
     onFilterApply(false);
     localStorage.setItem(
       "pagination",
@@ -87,23 +190,26 @@ export function Filter({
           ],
           filters: {
             ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-              "ledger-module" 
+              "ledger-module"
             ]?.filters,
+            ledgerTypeFilter: 0,
+            bearingTypeFilter: 0,
           },
         },
       })
     );
-    setVatAreaUsageTypeFilter(0); // Clear the selected option
+    setLedgerTypeFilter(0);
+    setBearingTypeFilter(0);
   };
 
   return (
     <div
-      className="menu menu-sub menu-sub-dropdown w-full w-md-auto "
+      className="menu menu-sub menu-sub-dropdown w-full w-md-auto"
       data-kt-menu="true"
     >
       <div className="px-7 py-5">
         <div className="fs-5 text-gray-900 fw-bolder">
-          {intl.formatMessage({ id: "Fields.SearchFilterPopUpTitle" })}
+          {intl.formatMessage({ id: "Fields.FilterPopUpTitle" })}
         </div>
       </div>
 
@@ -117,23 +223,23 @@ export function Filter({
             })}
             :
           </label>
-
           <Select
             className="react-select-styled"
             placeholder={
-              selectedOption
-                ? selectedOption
+              selectedLedgerTypeOption
+                ? selectedLedgerTypeOption
                 : intl.formatMessage({
                     id: "Fields.SelectOptionDefaultLedgerAccountType",
                   })
             }
             menuPlacement="bottom"
-            value={selectedOption || ""} // Set the current selected value
-            onChange={handleChange} // Handle change in selection
-            options={enums.LedgerTypes.map((item) => ({
+            value={selectedLedgerTypeOption || null}
+            onChange={handleLedgerTypeChange}
+            options={enums.LedgerTypes.map((item: any) => ({
               value: item.Value,
               label: item.Title,
-            }))} // Options for the select component
+            }))}
+            isClearable
             closeMenuOnSelect={false}
             data-kt-menu-dismiss="false"
           />
@@ -149,17 +255,18 @@ export function Filter({
           <Select
             className="react-select-styled"
             placeholder={
-              selectedOption
-                ? selectedOption
+              selectedBearingTypeOption
+                ? selectedBearingTypeOption
                 : intl.formatMessage({
                     id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
                   })
             }
             menuPlacement="bottom"
-            // value={selectedOption || ""} // Set the current selected value
-            onChange={handleChange} // Handle change in selection
-            options={ledgerAccountsForFilter} // Options for the select component
+            value={selectedBearingTypeOption || null}
+            onChange={handleBearingTypeChange}
+            options={filteredBearingGroups}
             closeMenuOnSelect={false}
+            isClearable
             data-kt-menu-dismiss="false"
           />
         </div>
@@ -168,19 +275,19 @@ export function Filter({
           <button
             type="reset"
             className="btn btn-sm btn-light btn-active-light-primary me-2"
-            onClick={handleReset} // Reset selection on click
+            onClick={handleReset}
             data-kt-menu-dismiss="true"
           >
-            {intl.formatMessage({ id: "Fields.SearchResetBtn" })}
+            {intl.formatMessage({ id: "Fields.FilterResetBtn" })}
           </button>
 
           <button
             type="submit"
             className="btn btn-sm btn-primary"
-            onClick={handleApply} // Apply filter on click
+            onClick={handleApply}
             data-kt-menu-dismiss="true"
           >
-            {intl.formatMessage({ id: "Fields.SearchApplyBtn" })}
+            {intl.formatMessage({ id: "Fields.FilterApplyBtn" })}
           </button>
         </div>
       </div>

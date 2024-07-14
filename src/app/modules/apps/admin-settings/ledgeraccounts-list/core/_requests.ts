@@ -28,17 +28,23 @@ const API_URL = import.meta.env.VITE_APP_THEME_API_URL;
 const USER_URL = `${API_URL}/user`;
 const GET_USERS_URL = `${API_URL}/users/query`;
 
-export function getLedgerAccounts(searchTerm: string, pageIndex: number) {
+export function getLedgerAccounts(
+  searchTerm: string,
+  ledgerTypeFilter: number,
+  bearingTypeFilter: number,
+  pageIndex: number
+) {
   // pageIndex: number,
   // vatAreaUsageTypeFilter: number
+  console.log(ledgerTypeFilter);
   return postRequest<LedgerAccountsModel>(
     SEARCH_LEDGER_ACCOUNTS,
     {
       pageMax: 25,
       pageIndex: pageIndex,
       searchTerm: searchTerm,
-      ledgerTypeFilter: 0,
-      bearingTypeFilter: 0,
+      ledgerTypeFilter: ledgerTypeFilter,
+      bearingTypeFilter: bearingTypeFilter,
     },
     true
   );

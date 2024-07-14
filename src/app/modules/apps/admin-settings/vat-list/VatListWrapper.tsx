@@ -44,7 +44,7 @@ const VatListInnerWrapper = () => {
     }
   }, [filter]);
 
-  const [currentRows, setCurrentRows] = useState(0);
+  const [totalRows, setTotalRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
@@ -62,12 +62,12 @@ const VatListInnerWrapper = () => {
         isFilterApplied={isFilterApplied}
       />
 
-      <VatListToolbar currentRows={currentRows} />
+      <VatListToolbar totalRows={totalRows} />
 
       <VatTypesList
         searchTerm={searchTerm}
         vatAreaUsageTypeFilter={vatAreaUsageTypeFilter}
-        setCurrentRows={setCurrentRows}
+        setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setEditModalId={setEditModalId}
