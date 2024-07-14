@@ -32,7 +32,7 @@ export function getVatTypes(
   return postRequest<VatTypesModel>(
     SEARCH_VAT_TYPES,
     {
-      pageMax: 0,
+      pageMax: 25,
       pageIndex: pageIndex,
       searchTerm: searchTerm,
       templateIdFilter: 0,
