@@ -40,12 +40,12 @@ const VatListSearchComponent = ({
     enums.LedgerTypes.find((item) => item.Value === ledgerTypeFilter)?.Title ||
       ""
   );
+
   const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
     useState<any>(
-      enums.LedgerTypes.find((item) => item.Value === bearingTypeFilter)
+      enums.BearingTypes.find((item) => item.Value === bearingTypeFilter)
         ?.Title || ""
     );
-
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
       // Update the query state and parent search term when search button is clicked

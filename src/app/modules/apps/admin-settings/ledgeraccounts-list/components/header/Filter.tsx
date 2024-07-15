@@ -78,7 +78,6 @@ export function Filter({
 
   useEffect(() => {
     if (selectedLedgerTypeOption) {
-      console.log(selectedLedgerTypeOption);
       const selectedType =
         selectedLedgerTypeOption.label || selectedLedgerTypeOption;
       const filteredGroups = bearingGroups
@@ -251,7 +250,7 @@ export function Filter({
             })}
             :
           </label>
-
+        
           <Select
             className="react-select-styled"
             placeholder={

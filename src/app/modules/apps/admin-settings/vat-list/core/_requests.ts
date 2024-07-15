@@ -33,7 +33,7 @@ export function getVatTypes(
     SEARCH_VAT_TYPES,
     {
       pageMax: 25,
-      pageIndex: pageIndex,
+      pageIndex: searchTerm ? 1 : pageIndex,
       searchTerm: searchTerm,
       templateIdFilter: 0,
       vatAreaUsageTypeFilter: vatAreaUsageTypeFilter,

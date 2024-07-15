@@ -34,14 +34,11 @@ export function getLedgerAccounts(
   bearingTypeFilter: number,
   pageIndex: number
 ) {
-  // pageIndex: number,
-  // vatAreaUsageTypeFilter: number
-  console.log(ledgerTypeFilter);
   return postRequest<LedgerAccountsModel>(
     SEARCH_LEDGER_ACCOUNTS,
     {
       pageMax: 25,
-      pageIndex: pageIndex,
+      pageIndex: searchTerm ? 1 : pageIndex,
       searchTerm: searchTerm,
       ledgerTypeFilter: ledgerTypeFilter,
       bearingTypeFilter: bearingTypeFilter,
