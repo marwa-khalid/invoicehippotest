@@ -15,7 +15,7 @@ import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
 import { Filter } from "../components/header/Filter";
 // import { VatEditModal } from "../user-edit-modal/VatEditModal";
-interface UsersTableComponentProps {
+interface ComponentProps {
   searchTerm: string;
   ledgerTypeFilter: number;
   bearingTypeFilter: number;
@@ -30,7 +30,7 @@ interface UsersTableComponentProps {
   editModalOpen: boolean;
   deleteModalOpen: boolean;
 }
-const VatTypesList = ({
+const LedgerAccountsList = ({
   searchTerm,
   ledgerTypeFilter,
   setTotalRows,
@@ -44,7 +44,7 @@ const VatTypesList = ({
   editModalOpen,
   bearingTypeFilter,
   deleteModalOpen,
-}: UsersTableComponentProps) => {
+}: ComponentProps) => {
   const [ledgerAccounts, setLedgerAccounts] = useState<any>([]);
 
   const intl = useIntl();
@@ -308,4 +308,4 @@ const VatTypesList = ({
   );
 };
 
-export { VatTypesList };
+export { LedgerAccountsList };

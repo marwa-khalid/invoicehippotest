@@ -11,13 +11,17 @@ type Props = {
 interface FormValues {
   id: number;
   title: string;
-  value: number;
-  documentGroup: string;
-  ledgerAccountId: number;
-  isNoneVatType: boolean;
-  alwaysExclusiveOfVAT: boolean;
-  showInLists: boolean;
-  showOnDocuments: boolean;
+  code: string;
+  defaultTaxTypeId: number;
+  bearingType: number;
+  reportReferenceType1: number;
+  reportReferenceType2LegderAccountId: number;
+  disableManualInput: boolean;
+  taxDeductibleSettings: {
+    isNotFullyTaxDeductible: boolean;
+    taxDeductiblePercentage: number;
+    deductiblePrivateLedgerAccountId: number;
+  };
 }
 
 const VatAddModalFooter: FC<Props> = ({ formik, isSubmitting }) => {

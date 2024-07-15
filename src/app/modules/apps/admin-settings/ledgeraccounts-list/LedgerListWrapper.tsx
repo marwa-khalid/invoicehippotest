@@ -2,8 +2,8 @@ import { ListViewProvider, useListView } from "./core/ListViewProvider";
 import { QueryRequestProvider } from "./core/QueryRequestProvider";
 import { QueryResponseProvider } from "./core/QueryResponseProvider";
 import { VatListHeader } from "./components/header/VatListHeader";
-import { VatTypesList } from "./table/VatTypesList";
-import { VatAddModal } from "./vat-add-modal/VatAddModal";
+import { LedgerAccountsList } from "./table/LedgerAccountsList";
+import { VatAddModal } from "./ledger-add-modal/VatAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useEffect, useState } from "react";
@@ -72,7 +72,7 @@ const LedgerListInnerWrapper = () => {
 
       <VatListToolbar totalRows={totalRows} />
 
-      <VatTypesList
+      <LedgerAccountsList
         searchTerm={searchTerm}
         ledgerTypeFilter={ledgerTypeFilter}
         bearingTypeFilter={bearingTypeFilter}

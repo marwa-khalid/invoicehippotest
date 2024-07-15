@@ -10,7 +10,7 @@ const VatAddModalHeader = () => {
     <div className="modal-header d-flex justify-content-between align-items-center bg-primary ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {intl.formatMessage({ id: "Fields.ModalNewTitleVatType" })}
+        {intl.formatMessage({ id: "Fields.ModalNewTitleLedgerAccount" })}
       </h2>
       {/* end::Modal title */}
 

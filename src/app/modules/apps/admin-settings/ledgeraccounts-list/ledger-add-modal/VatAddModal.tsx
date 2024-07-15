@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { VatAddModalHeader } from "./VatAddModalHeader";
 import { VatAddModalFormWrapper } from "./VatAddModalFormWrapper";
 import { VatAddModalFooter } from "./VatAddModalFooter";
-import { getLedgerAccount } from "../core/_requests";
-import { LedgerForVatResult } from "../core/_models";
+import { getVatTypesForLedger } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { postVatType } from "../core/_requests";
 import { useListView } from "../core/ListViewProvider";
 import { toast } from "react-toastify";
 interface Props {
@@ -20,44 +18,58 @@ const VatAddModal = ({ setRefresh }: Props) => {
       document.body.classList.remove("modal-open");
     };
   }, []);
-  interface ledgerAccount {
+  interface vatType {
     value: number;
     label: string;
   }
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { setItemIdForUpdate } = useListView();
-  const [ledgerAccounts, setLedgerAccounts] = useState<ledgerAccount | any>();
+  const [vatTypes, setVatTypes] = useState<vatType | any>();
   const intl = useIntl();
-
   useEffect(() => {
-    const fetchLedgerAccounts = async () => {
+    const fetchVatTypes = async () => {
       try {
-        const response = await getLedgerAccount();
-        const options = response.result.map((account: LedgerForVatResult) => ({
-          value: account.id,
-          label: account.title,
-        }));
-        setLedgerAccounts(options);
+        const response = await getVatTypesForLedger();
+        const options = [
+          {
+            label: response.result.listForSalesGroupTitle,
+            options: response.result.listForSales.map((item) => ({
+              value: item.id,
+              label: item.title,
+            })),
+          },
+          {
+            label: response.result.listForCostsGroupTitle,
+            options: response.result.listForCosts.map((item) => ({
+              value: item.id,
+              label: item.title,
+            })),
+          },
+        ];
+        setVatTypes(options);
       } catch (error) {
         console.error("Error fetching ledger accounts:", error);
       }
     };
 
-    fetchLedgerAccounts();
+    fetchVatTypes();
   }, []);
-
   const formik = useFormik({
     initialValues: {
       id: 0,
       title: "",
-      value: 0,
-      documentGroup: "",
-      ledgerAccountId: 0,
-      isNoneVatType: false,
-      alwaysExclusiveOfVAT: false,
-      showInLists: false,
-      showOnDocuments: false,
+      code: "",
+      defaultTaxTypeId: 0,
+      bearingType: 0,
+      reportReferenceType1: 0,
+      reportReferenceType2LegderAccountId: 0,
+      disableManualInput: true,
+      taxDeductibleSettings: {
+        isNotFullyTaxDeductible: true,
+        taxDeductiblePercentage: 0,
+        deductiblePrivateLedgerAccountId: 0,
+      },
     },
     validationSchema: Yup.object().shape({
       title: Yup.string()
@@ -99,20 +111,19 @@ const VatAddModal = ({ setRefresh }: Props) => {
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const mappedDocumentGroup = values.documentGroup === "1" ? 1 : 2;
-        const response = await postVatType(
-          values.id,
-          values.ledgerAccountId,
-          values.title,
-          values.value,
-          mappedDocumentGroup,
-          values.alwaysExclusiveOfVAT,
-          values.showInLists,
-          values.showOnDocuments,
-          values.isNoneVatType
-        );
+        // const mappedDocumentGroup = values.documentGroup === "1" ? 1 : 2;
+        // const response = await postVatType(
+        //   values.id,
+        //   values.ledgerAccountId,
+        //   values.title,
+        //   values.value,
+        //   mappedDocumentGroup,
+        //   values.alwaysExclusiveOfVAT,
+        //   values.showInLists,
+        //   values.showOnDocuments,
+        //   values.isNoneVatType
+        // );
 
-        
         formik.resetForm();
         setItemIdForUpdate(undefined);
         setRefresh(true);
@@ -130,25 +141,23 @@ const VatAddModal = ({ setRefresh }: Props) => {
     <>
       <div
         className="modal fade show d-block"
-        id="kt_modal_add_user"
-        role="dialog"
         tabIndex={-1}
+        role="dialog"
+        id="kt_modal_1"
         aria-modal="true"
       >
-        <div className="modal-dialog modal-dialog-centered mw-650px">
+        <div className="modal-dialog mw-650px">
           <div className="modal-content">
             <VatAddModalHeader />
-            <div className="modal-body p-10">
-              <div
-                className="form-wrapper"
-                style={{ maxHeight: "calc(100vh - 300px)", overflowY: "auto" }}
-              >
-                <VatAddModalFormWrapper
-                  formik={formik}
-                  isSubmitting={isSubmitting}
-                  ledgerAccounts={ledgerAccounts}
-                />
-              </div>
+            <div
+              className="modal-body p-10"
+              style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
+            >
+              <VatAddModalFormWrapper
+                formik={formik}
+                isSubmitting={isSubmitting}
+                vatTypes={vatTypes}
+              />
             </div>
             <VatAddModalFooter formik={formik} isSubmitting={isSubmitting} />
           </div>

@@ -9,26 +9,26 @@ import { VatTypesResult } from "../core/_models";
 interface FormValues {
   id: number;
   title: string;
-  value: number;
-  documentGroup: string;
-  ledgerAccountId: number;
-  isNoneVatType: boolean;
-  alwaysExclusiveOfVAT: boolean;
-  showInLists: boolean;
-  showOnDocuments: boolean;
+  code: string;
+  defaultTaxTypeId: number;
+  bearingType: number;
+  reportReferenceType1: number;
+  reportReferenceType2LegderAccountId: number;
+  disableManualInput: boolean;
+  taxDeductibleSettings: {
+    isNotFullyTaxDeductible: boolean;
+    taxDeductiblePercentage: number;
+    deductiblePrivateLedgerAccountId: number;
+  };
 }
 
 type Props = {
   formik: FormikProps<FormValues>;
   isSubmitting: boolean;
-  ledgerAccounts: { value: number; label: string }[];
+  vatTypes: { value: number; label: string }[];
 };
 
-const VatAddModalFormWrapper = ({
-  formik,
-  isSubmitting,
-  ledgerAccounts,
-}: Props) => {
+const VatAddModalFormWrapper = ({ formik, isSubmitting, vatTypes }: Props) => {
   const { itemIdForUpdate, setItemIdForUpdate } = useListView();
   const enabledQuery: boolean = isNotEmpty(itemIdForUpdate);
   const {
@@ -57,7 +57,7 @@ const VatAddModalFormWrapper = ({
         user={{ id: undefined }}
         formik={formik}
         isSubmitting={isSubmitting}
-        ledgerAccounts={ledgerAccounts}
+        vatTypes={vatTypes}
       />
     );
   }
@@ -69,7 +69,7 @@ const VatAddModalFormWrapper = ({
         user={user}
         formik={formik}
         isSubmitting={isSubmitting}
-        ledgerAccounts={ledgerAccounts}
+        vatTypes={vatTypes}
       />
     );
   }

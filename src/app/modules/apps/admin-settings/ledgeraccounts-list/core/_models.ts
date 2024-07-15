@@ -185,6 +185,28 @@ export interface LedgerForVatResult {
   };
 }
 
+interface VatListItem {
+  id: number;
+  title: string;
+  value: number;
+  hideOnDocuments: boolean;
+  isAlwaysExBtw: boolean;
+  isDefault: boolean;
+  vatAreaUsageType: {
+    value: number;
+    name: string;
+    description: string;
+  };
+  isDisabledForManualInput: boolean;
+}
+
+export interface VatTypesForLedgerResult {
+  listForSalesGroupTitle: string;
+  listForSales: VatListItem[];
+  listForCostsGroupTitle: string;
+  listForCosts: VatListItem[];
+}
+
 export type User = {
   id?: ID;
   name?: string;
@@ -217,6 +239,7 @@ export type LedgerAccountsForFilterModel =
   ApiResponse<LedgerAccountsForFilterResult>;
 export type VatTypeByIdModel = ApiResponse<VatTypeByIdResult>;
 export type LedgerForVatModel = ApiResponse<LedgerForVatResult>;
+export type VatTypesForLedgerModel = ApiResponse<VatTypesForLedgerResult>;
 
 //extra properties remove afterwards
 export interface VatTypesResult {

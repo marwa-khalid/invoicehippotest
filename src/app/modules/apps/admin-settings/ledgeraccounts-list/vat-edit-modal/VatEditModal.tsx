@@ -3,7 +3,7 @@ import { VatEditModalHeader } from "./VatEditModalHeader";
 import { VatEditModalFormWrapper } from "./VatEditModalFormWrapper";
 import { UserEditModalFooter } from "./VatEditModalFooter";
 import { LedgerForVatResult } from "../core/_models";
-import { getLedgerAccount, getVatById } from "../core/_requests";
+import {  getVatById } from "../core/_requests";
 import { useIntl } from "react-intl";
 import { useFormik } from "formik";
 import { postVatType } from "../core/_requests";
@@ -34,22 +34,22 @@ const VatEditModal = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [ledgerAccounts, setLedgerAccounts] = useState<ledgerAccount | any>();
   const [vatTypeDetails, setVatTypeDetails] = useState<any>(null);
-  useEffect(() => {
-    const fetchLedgerAccounts = async () => {
-      try {
-        const response = await getLedgerAccount();
-        const options = response.result.map((account: LedgerForVatResult) => ({
-          value: account.id,
-          label: account.title,
-        }));
-        setLedgerAccounts(options);
-      } catch (error) {
-        console.error("Error fetching ledger accounts:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchLedgerAccounts = async () => {
+  //     try {
+  //       const response = await getLedgerAccount();
+  //       const options = response.result.map((account: LedgerForVatResult) => ({
+  //         value: account.id,
+  //         label: account.title,
+  //       }));
+  //       setLedgerAccounts(options);
+  //     } catch (error) {
+  //       console.error("Error fetching ledger accounts:", error);
+  //     }
+  //   };
 
-    fetchLedgerAccounts();
-  }, []);
+  //   fetchLedgerAccounts();
+  // }, []);
 
   useEffect(() => {
     const getVatTypeDetails = async () => {
