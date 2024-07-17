@@ -250,7 +250,7 @@ export function Filter({
             })}
             :
           </label>
-        
+
           <Select
             className="react-select-styled"
             placeholder={

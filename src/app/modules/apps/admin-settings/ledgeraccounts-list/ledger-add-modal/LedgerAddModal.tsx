@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
-import { VatAddModalHeader } from "./VatAddModalHeader";
-import { VatAddModalFooter } from "./VatAddModalFooter";
+import { LedgerAddModalHeader } from "./LedgerAddModalHeader";
+import { LedgerAddModalFooter } from "./LedgerAddModalFooter";
 import { getVatTypesForLedger, postLedgerAccount } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { useListView } from "../core/ListViewProvider";
-import { toast } from "react-toastify";
-import { VatAddModalForm } from "./VatAddModalForm";
+import { LedgerAddModalForm } from "./LedgerAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
 }
-const VatAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const LedgerAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -35,9 +33,7 @@ const VatAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       try {
         const response = await getVatTypesForLedger();
         let options = [];
-        console.log(selectedBearingTypeOption);
         if (selectedBearingTypeOption.IsAccountTypeOmzet) {
-          console.log("working");
           options = [
             {
               label: response.result.listForSalesGroupTitle,
@@ -48,7 +44,6 @@ const VatAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
             },
           ];
         } else if (selectedBearingTypeOption.IsAccountTypeCost) {
-          console.log("working");
           options = [
             {
               label: response.result.listForCostsGroupTitle,
@@ -59,7 +54,6 @@ const VatAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
             },
           ];
         } else {
-          console.log("working");
           options = [
             {
               label: response.result.listForSalesGroupTitle,
@@ -210,12 +204,12 @@ const VatAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <VatAddModalHeader setAddModalOpen={setAddModalOpen} />
+            <LedgerAddModalHeader setAddModalOpen={setAddModalOpen} />
             <div
               className="modal-body p-10"
               style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
             >
-              <VatAddModalForm
+              <LedgerAddModalForm
                 formik={formik}
                 setSelectedBearingTypeOption={setSelectedBearingTypeOption}
                 selectedBearingTypeOption={selectedBearingTypeOption}
@@ -225,7 +219,7 @@ const VatAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
                 reportReferenceType1={reportReferenceType1}
               />
             </div>
-            <VatAddModalFooter
+            <LedgerAddModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setAddModalOpen={setAddModalOpen}
@@ -238,4 +232,4 @@ const VatAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   );
 };
 
-export { VatAddModal };
+export { LedgerAddModal };

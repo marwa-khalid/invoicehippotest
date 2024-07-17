@@ -109,7 +109,6 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
     if (auth && auth.result.token) {
       // Check if the token has expired
       if (auth.result.tokenIsValid) {
-        console.log(auth.result.token);
         const expirationDate = new Date(auth.result.expirationDateUtc);
         const currentDate = new Date();
         const diff = expirationDate.getTime() - currentDate.getTime();
@@ -120,8 +119,6 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
           setShowSplashScreen(false);
         }
       } else {
-        // console.log("Token has expired. Please log in again.");
-
         setShowSplashScreen(false);
       }
     } else {

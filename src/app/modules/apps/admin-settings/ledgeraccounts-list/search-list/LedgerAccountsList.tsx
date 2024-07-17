@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
   getLedgerAccounts,
-  getLedgerAccountsForFilter,
 } from "../core/_requests";
 import {
   LedgerAccountsResult,
-  LedgerAccountsForFilterModel,
 } from "../core/_models";
 import { ListLoading } from "../../components/ListLoading";
 import { VatListPagination } from "../components/pagination/VatListPagination";
@@ -13,8 +11,6 @@ import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
-import { Filter } from "../components/header/Filter";
-// import { VatEditModal } from "../user-edit-modal/VatEditModal";
 interface ComponentProps {
   searchTerm: string;
   ledgerTypeFilter: number;

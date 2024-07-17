@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
-import { useListView } from "../core/ListViewProvider";
 
 type Props = {
   formik: FormikProps<FormValues>;
@@ -25,13 +24,12 @@ interface FormValues {
   };
 }
 
-const VatAddModalFooter: FC<Props> = ({
+const LedgerAddModalFooter: FC<Props> = ({
   formik,
   isSubmitting,
   setAddModalOpen,
 }) => {
   const intl = useIntl();
-  const { setItemIdForUpdate } = useListView();
 
   return (
     <div className="modal-footer flex-end">
@@ -60,4 +58,4 @@ const VatAddModalFooter: FC<Props> = ({
   );
 };
 
-export { VatAddModalFooter };
+export { LedgerAddModalFooter };

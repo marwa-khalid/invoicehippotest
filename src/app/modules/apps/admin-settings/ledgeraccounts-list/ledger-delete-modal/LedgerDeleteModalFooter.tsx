@@ -1,9 +1,6 @@
 import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { useFormikContext } from "formik";
-import { useListView } from "../core/ListViewProvider";
 import { deleteLedgerAccount } from "../core/_requests";
-import { toast } from "react-toastify";
 import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
@@ -12,7 +9,7 @@ interface ComponentProps {
   setRefresh: (type: boolean) => void;
 }
 
-const VatDeleteModalFooter = ({
+const LedgerDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
@@ -63,4 +60,4 @@ const VatDeleteModalFooter = ({
   );
 };
 
-export { VatDeleteModalFooter };
+export { LedgerDeleteModalFooter };

@@ -1,15 +1,12 @@
-import { ListViewProvider, useListView } from "./core/ListViewProvider";
-import { QueryRequestProvider } from "./core/QueryRequestProvider";
-import { QueryResponseProvider } from "./core/QueryResponseProvider";
-import { VatListHeader } from "./components/header/VatListHeader";
-import { LedgerAccountsList } from "./table/LedgerAccountsList";
-import { VatAddModal } from "./ledger-add-modal/VatAddModal";
+import { LedgerListHeader } from "./components/header/LedgerListHeader";
+import { LedgerAccountsList } from "./search-list/LedgerAccountsList";
+import { LedgerAddModal } from "./ledger-add-modal/LedgerAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useEffect, useState } from "react";
-import { VatListToolbar } from "./components/header/VatListToolbar";
+import { LedgerListToolbar } from "./components/header/LedgerListToolbar";
 import { VatEditModal } from "./vat-edit-modal/VatEditModal";
-import { VatDeleteModal } from "./vat-delete-modal/VatDeleteModal";
+import { LedgerDeleteModal } from "./ledger-delete-modal/LedgerDeleteModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -34,7 +31,6 @@ const getPaginationValues = () => {
   return { mainfilter: 0, subTypeFilter: 0, pageIndex: 1, searchTerm: "" };
 };
 const LedgerListInnerWrapper = () => {
-  const { itemIdForUpdate } = useListView();
   const [isFilterApplied, setIsFilterApplied] = useState(false);
   const { mainfilter, subTypeFilter, pageIndex, searchTerm } =
     getPaginationValues();
@@ -60,7 +56,7 @@ const LedgerListInnerWrapper = () => {
 
   return (
     <>
-      <VatListHeader
+      <LedgerListHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
         setLedgerTypeFilter={setLedgerTypeFilter}
@@ -71,7 +67,10 @@ const LedgerListInnerWrapper = () => {
         isFilterApplied={isFilterApplied}
       />
 
-      <VatListToolbar totalRows={totalRows} setAddModalOpen={setAddModalOpen} />
+      <LedgerListToolbar
+        totalRows={totalRows}
+        setAddModalOpen={setAddModalOpen}
+      />
 
       <LedgerAccountsList
         searchTerm={searchTerm}
@@ -90,7 +89,7 @@ const LedgerListInnerWrapper = () => {
       />
 
       {addModalOpen && (
-        <VatAddModal
+        <LedgerAddModal
           setRefresh={setRefresh}
           setAddModalOpen={setAddModalOpen}
         />
@@ -103,7 +102,7 @@ const LedgerListInnerWrapper = () => {
         />
       )}
       {deleteModalOpen && (
-        <VatDeleteModal
+        <LedgerDeleteModal
           deleteModalId={editModalId}
           ledgerAccountTitle={ledgerAccountTitle}
           setDeleteModalOpen={setDeleteModalOpen}
@@ -115,16 +114,12 @@ const LedgerListInnerWrapper = () => {
 };
 
 const LedgerListWrapper = () => (
-  <QueryRequestProvider>
-    <QueryResponseProvider>
-      <ToolbarWrapper />
-      <Content>
-        {/* <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}> */}
-        <LedgerListInnerWrapper />
-        {/* </div> */}
-      </Content>
-    </QueryResponseProvider>
-  </QueryRequestProvider>
+  <>
+    <ToolbarWrapper />
+    <Content>
+      <LedgerListInnerWrapper />
+    </Content>
+  </>
 );
 
 export { LedgerListWrapper };

@@ -1,17 +1,10 @@
 import { FC, useEffect, useState } from "react";
-import * as Yup from "yup";
-import { useFormik } from "formik";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
 import { getPrivateLedgerAccounts, getReportingq5b } from "../core/_requests";
-import {
-  BalanceItem,
-  LedgerForVatResult,
-  PrivateLedgersModel,
-} from "../core/_models";
+import { BalanceItem } from "../core/_models";
 import { FormikProps } from "formik";
-import { VatTypesResult } from "../core/_models";
 import enums from "../../../../../../invoicehippo.enums.json";
 
 interface FormValues {
@@ -57,7 +50,7 @@ interface SelectorOption {
   label: string;
 }
 
-const VatAddModalForm = ({
+const LedgerAddModalForm = ({
   formik,
   isSubmitting,
   vatTypes,
@@ -77,7 +70,6 @@ const VatAddModalForm = ({
   useEffect(() => {
     const getLedgerforPrivate = async () => {
       const response = await getPrivateLedgerAccounts();
-      console.log(response.result);
       setPrivateLedgers(
         response.result.map((item: BalanceItem) => ({
           value: item.id,
@@ -142,8 +134,6 @@ const VatAddModalForm = ({
       try {
         const response = await getReportingq5b();
 
-        console.log(selectedBearingTypeOption);
-
         const options = response.result.map((item) => ({
           value: item.id,
           label: item.title,
@@ -198,7 +188,6 @@ const VatAddModalForm = ({
                 })
           }
         />
-        {console.log(selectedBearingTypeOption)!}
       </div>
       {/* end::Input group */}
       {/* begin::Input group */}
@@ -549,7 +538,6 @@ const VatAddModalForm = ({
                   id: "Fields.SelectOptionDefaultLedgerAccount",
                 })}
               />
-              {console.log(privateLedgers)!}
             </div>
           </div>
         </div>
@@ -559,4 +547,4 @@ const VatAddModalForm = ({
   );
 };
 
-export { VatAddModalForm };
+export { LedgerAddModalForm };

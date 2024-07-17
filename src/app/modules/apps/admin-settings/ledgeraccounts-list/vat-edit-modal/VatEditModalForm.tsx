@@ -1,6 +1,4 @@
-import { FC, useEffect } from "react";
-import * as Yup from "yup";
-import { useFormik } from "formik";
+import { FC } from "react";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
@@ -8,7 +6,6 @@ import { FormikProps } from "formik";
 import enums from "../../../../../../invoicehippo.enums.json";
 
 // import { VatTypeByIdResult } from "../core/_models";
-import { VatTypeByIdModel } from "../core/_models";
 interface FormValues {
   id: number;
   title: string;
@@ -22,13 +19,11 @@ interface FormValues {
 }
 
 type Props = {
-  isUserLoading: boolean;
   formik: FormikProps<FormValues>;
   ledgerAccounts: { value: number; label: string }[];
 };
 
 const VatEditModalForm: FC<Props> = ({
-  isUserLoading,
   formik,
   ledgerAccounts,
 }) => {
@@ -53,7 +48,7 @@ const VatEditModalForm: FC<Props> = ({
             id="vatSwitch"
             checked={formik.values.isNoneVatType}
             {...formik.getFieldProps("isNoneVatType")}
-            disabled={formik.isSubmitting || isUserLoading}
+            disabled={formik.isSubmitting }
           />
           <label className="form-check-label" htmlFor="vatSwitch"></label>
         </div>
@@ -87,7 +82,7 @@ const VatEditModalForm: FC<Props> = ({
               { "is-invalid": formik.touched.title && formik.errors.title },
               { "is-valid": formik.touched.title && !formik.errors.title }
             )}
-            disabled={formik.isSubmitting || isUserLoading}
+            disabled={formik.isSubmitting }
           />
           {formik.touched.title && formik.errors.title && (
             <div className="fv-plugins-message-container">
@@ -121,7 +116,7 @@ const VatEditModalForm: FC<Props> = ({
                   { "is-invalid": formik.touched.value && formik.errors.value },
                   { "is-valid": formik.touched.value && !formik.errors.value }
                 )}
-                disabled={formik.isSubmitting || isUserLoading}
+                disabled={formik.isSubmitting }
               />
             </div>
             {formik.touched.value && formik.errors.value && (
@@ -251,7 +246,7 @@ const VatEditModalForm: FC<Props> = ({
               id="alwaysExclusiveOfVATSwtich"
               checked={formik.values.alwaysExclusiveOfVAT}
               {...formik.getFieldProps("alwaysExclusiveOfVAT")}
-              disabled={formik.isSubmitting || isUserLoading}
+              disabled={formik.isSubmitting }
             />
             <label
               className="form-check-label"
@@ -275,7 +270,7 @@ const VatEditModalForm: FC<Props> = ({
             id="showInListsSwitch"
             checked={formik.values.showInLists}
             {...formik.getFieldProps("showInLists")}
-            disabled={formik.isSubmitting || isUserLoading}
+            disabled={formik.isSubmitting }
           />
           <label
             className="form-check-label"
@@ -305,7 +300,7 @@ const VatEditModalForm: FC<Props> = ({
               id="showOnDocumentsSwitch"
               checked={formik.values.showOnDocuments}
               {...formik.getFieldProps("showOnDocuments")}
-              disabled={formik.isSubmitting || isUserLoading}
+              disabled={formik.isSubmitting }
             />
             <label
               className="form-check-label"

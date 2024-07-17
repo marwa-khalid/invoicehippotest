@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { VatDeleteModalHeader } from "./VatDeleteModalHeader";
-import { VatDeleteModalFooter } from "./VatDeleteModalFooter";
-import { VatTypeByIdResult } from "../core/_models";
+import { LedgerDeleteModalHeader } from "./LedgerDeleteModalHeader";
+import { LedgerDeleteModalFooter } from "./LedgerDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
   ledgerAccountTitle: string;
@@ -9,7 +8,7 @@ interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
 }
-const VatDeleteModal = ({
+const LedgerDeleteModal = ({
   deleteModalId,
   ledgerAccountTitle,
   setDeleteModalOpen,
@@ -36,7 +35,7 @@ const VatDeleteModal = ({
         <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <VatDeleteModalHeader setDeleteModalOpen={setDeleteModalOpen} />
+            <LedgerDeleteModalHeader setDeleteModalOpen={setDeleteModalOpen} />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div className="form-wrapper">
@@ -59,7 +58,7 @@ const VatDeleteModal = ({
             </div>
 
             {/* end::Modal body */}
-            <VatDeleteModalFooter
+            <LedgerDeleteModalFooter
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
@@ -76,4 +75,4 @@ const VatDeleteModal = ({
   );
 };
 
-export { VatDeleteModal };
+export { LedgerDeleteModal };

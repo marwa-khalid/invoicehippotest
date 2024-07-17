@@ -1,11 +1,10 @@
 import { KTIcon } from "../../../../../../_metronic/helpers";
-import { useListView } from "../core/ListViewProvider";
 import { useIntl } from "react-intl";
 
 interface ComponentProps {
   setAddModalOpen: (type: boolean) => void;
 }
-const VatAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
+const LedgerAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
   const intl = useIntl();
 
   return (
@@ -30,4 +29,4 @@ const VatAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
   );
 };
 
-export { VatAddModalHeader };
+export { LedgerAddModalHeader };

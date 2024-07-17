@@ -1,6 +1,4 @@
 import { KTIcon } from "../../../../../../../_metronic/helpers";
-import { useListView } from "../../core/ListViewProvider";
-// import { VatListFilter } from "./VatListFilter";
 import { useIntl } from "react-intl";
 
 interface ToolbarProps {
@@ -8,8 +6,7 @@ interface ToolbarProps {
   setAddModalOpen: (type: boolean) => void;
 }
 
-const VatListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
-  const { setItemIdForUpdate } = useListView();
+const LedgerListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
   const openAddUserModal = () => {
     setAddModalOpen(true);
   };
@@ -26,13 +23,6 @@ const VatListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
           .replace("{0}", totalRows.toString())}
       </h5>
 
-      {/* begin::Export */}
-      {/* <button type="button" className="btn btn-light-primary me-3">
-        <KTIcon iconName="exit-up" className="fs-2" />
-        Export
-      </button> */}
-      {/* end::Export */}
-
       {/* begin::Add user */}
       <button
         type="button"
@@ -47,4 +37,4 @@ const VatListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
   );
 };
 
-export { VatListToolbar };
+export { LedgerListToolbar };

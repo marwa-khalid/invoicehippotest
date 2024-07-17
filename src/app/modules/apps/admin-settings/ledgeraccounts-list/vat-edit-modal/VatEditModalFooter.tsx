@@ -1,7 +1,6 @@
-import { FC } from "react";
+
 import { useIntl } from "react-intl";
-import { useFormikContext } from "formik";
-import { useListView } from "../core/ListViewProvider";
+
 import { FormikProps } from "formik";
 
 interface FormValues {

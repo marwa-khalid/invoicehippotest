@@ -1,5 +1,5 @@
 import { KTIcon } from "../../../../../../_metronic/helpers";
-import { useListView } from "../core/ListViewProvider";
+
 import { useIntl } from "react-intl";
 
 interface ComponentProps {
@@ -7,7 +7,7 @@ interface ComponentProps {
 }
 
 const VatEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
-  const { setItemIdForUpdate } = useListView();
+
   const intl = useIntl();
 
   return (

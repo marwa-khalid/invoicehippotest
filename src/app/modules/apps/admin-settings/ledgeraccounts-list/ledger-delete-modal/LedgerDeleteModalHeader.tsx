@@ -1,12 +1,11 @@
 import { KTIcon } from "../../../../../../_metronic/helpers";
-import { useListView } from "../core/ListViewProvider";
 import { useIntl } from "react-intl";
 
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
 }
 
-const VatDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
+const LedgerDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
   const intl = useIntl();
 
   return (
@@ -31,4 +30,4 @@ const VatDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
   );
 };
 
-export { VatDeleteModalHeader };
+export { LedgerDeleteModalHeader };

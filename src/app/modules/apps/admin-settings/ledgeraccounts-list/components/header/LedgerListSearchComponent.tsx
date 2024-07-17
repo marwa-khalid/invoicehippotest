@@ -3,7 +3,6 @@ import {
   initialQueryState,
   KTIcon,
 } from "../../../../../../../_metronic/helpers";
-import { useQueryRequest } from "../../core/QueryRequestProvider";
 import { useIntl } from "react-intl";
 import { Filter } from "./Filter";
 
@@ -23,7 +22,7 @@ interface ComponentProps {
   ledgerTypeFilter: number;
 }
 
-const VatListSearchComponent = ({
+const LedgerListSearchComponent = ({
   setSearchTerm,
   searchTerm,
   setLedgerTypeFilter,
@@ -33,7 +32,6 @@ const VatListSearchComponent = ({
   isFilterApplied,
   ledgerTypeFilter,
 }: ComponentProps) => {
-  const { updateState } = useQueryRequest();
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const intl = useIntl();
   const [selectedLedgerTypeOption, setSelectedLedgerTypeOption] = useState<any>(
@@ -49,7 +47,7 @@ const VatListSearchComponent = ({
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
       // Update the query state and parent search term when search button is clicked
-      updateState({ search: localSearchTerm, ...initialQueryState });
+
       setSearchTerm(localSearchTerm);
 
       let storedPaginationString = localStorage.getItem("pagination");
@@ -92,7 +90,7 @@ const VatListSearchComponent = ({
   };
   const handleResetClick = () => {
     setLocalSearchTerm("");
-    updateState({ search: "", ...initialQueryState }); // Reset the search state
+
     setSearchTerm(""); // Reset the parent search term
     setIsFilterApplied(false);
     resetFilter();
@@ -112,7 +110,7 @@ const VatListSearchComponent = ({
     setSelectedLedgerTypeOption(null);
     setSelectedBearingTypeOption(null);
     setLocalSearchTerm("");
-    updateState({ search: "", ...initialQueryState }); // Reset the search state
+
     setSearchTerm(""); // Reset the parent search term
     setIsFilterApplied(false);
     localStorage.setItem(
@@ -212,4 +210,4 @@ const VatListSearchComponent = ({
   );
 };
 
-export { VatListSearchComponent };
+export { LedgerListSearchComponent };
