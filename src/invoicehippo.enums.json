@@ -2641,6 +2641,11 @@
   ],
   "BearingTypes": [
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Afschrijvingen",
       "Symbol": null,
       "HasSymbol": false,
@@ -2652,6 +2657,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Overige Waardeveranderingen",
       "Symbol": null,
       "HasSymbol": false,
@@ -2663,6 +2673,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Kostprijs van de omzet",
       "Symbol": null,
       "HasSymbol": false,
@@ -2674,6 +2689,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": true,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Omzet",
       "Symbol": null,
       "HasSymbol": false,
@@ -2685,6 +2705,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": true,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Overige bedrijfsopbrengsten",
       "Symbol": null,
       "HasSymbol": false,
@@ -2696,6 +2721,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Buitengewone baten",
       "Symbol": null,
       "HasSymbol": false,
@@ -2707,6 +2737,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Buitengewone lasten",
       "Symbol": null,
       "HasSymbol": false,
@@ -2718,6 +2753,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Resultaat boekjaar",
       "Symbol": null,
       "HasSymbol": false,
@@ -2729,6 +2769,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Belastingen",
       "Symbol": null,
       "HasSymbol": false,
@@ -2740,6 +2785,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Opties, Aandelen, Obligaties",
       "Symbol": null,
       "HasSymbol": false,
@@ -2751,6 +2801,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Agioreserve",
       "Symbol": null,
       "HasSymbol": false,
@@ -2762,6 +2817,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Geplaatst kapitaal",
       "Symbol": null,
       "HasSymbol": false,
@@ -2773,6 +2833,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Kapitaal firmant",
       "Symbol": null,
       "HasSymbol": false,
@@ -2784,6 +2849,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Overige reserves",
       "Symbol": null,
       "HasSymbol": false,
@@ -2795,6 +2865,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Wettelijke reserve",
       "Symbol": null,
       "HasSymbol": false,
@@ -2806,6 +2881,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": true,
       "Title": "Prive",
       "Symbol": null,
       "HasSymbol": false,
@@ -2817,6 +2897,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Deelnemingen",
       "Symbol": null,
       "HasSymbol": false,
@@ -2828,6 +2913,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Overige vorderingen",
       "Symbol": null,
       "HasSymbol": false,
@@ -2839,6 +2929,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Goodwill",
       "Symbol": null,
       "HasSymbol": false,
@@ -2850,6 +2945,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": true,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Belastingen en sociale premies",
       "Symbol": null,
       "HasSymbol": false,
@@ -2861,6 +2961,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": true,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Belastingen",
       "Symbol": null,
       "HasSymbol": false,
@@ -2872,6 +2977,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Crediteuren",
       "Symbol": null,
       "HasSymbol": false,
@@ -2883,6 +2993,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Overige schulden en overlopende passiva",
       "Symbol": null,
       "HasSymbol": false,
@@ -2894,6 +3009,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Financieringen",
       "Symbol": null,
       "HasSymbol": false,
@@ -2905,6 +3025,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Hypothecaire leningen",
       "Symbol": null,
       "HasSymbol": false,
@@ -2916,6 +3041,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Leningen",
       "Symbol": null,
       "HasSymbol": false,
@@ -2927,6 +3057,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "G-Rekening",
       "Symbol": null,
       "HasSymbol": false,
@@ -2938,6 +3073,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Kas",
       "Symbol": null,
       "HasSymbol": false,
@@ -2949,6 +3089,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Kruisposten",
       "Symbol": null,
       "HasSymbol": false,
@@ -2960,6 +3105,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Bankrekening-courant",
       "Symbol": null,
       "HasSymbol": false,
@@ -2971,6 +3121,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Bedrijfsgebrouwen en Bedrijfsterreinen",
       "Symbol": null,
       "HasSymbol": false,
@@ -2982,6 +3137,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Inventaris",
       "Symbol": null,
       "HasSymbol": false,
@@ -2993,6 +3153,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Machines en installaties",
       "Symbol": null,
       "HasSymbol": false,
@@ -3004,6 +3169,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Vervoermiddelen",
       "Symbol": null,
       "HasSymbol": false,
@@ -3015,6 +3185,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Computers en ICT",
       "Symbol": null,
       "HasSymbol": false,
@@ -3026,6 +3201,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Algemene kosten",
       "Symbol": null,
       "HasSymbol": false,
@@ -3037,6 +3217,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "AutoKosten",
       "Symbol": null,
       "HasSymbol": false,
@@ -3048,6 +3233,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Exploitatie- en machinekosten",
       "Symbol": null,
       "HasSymbol": false,
@@ -3059,6 +3249,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Huisvestingskosten",
       "Symbol": null,
       "HasSymbol": false,
@@ -3070,6 +3265,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Kantoorkosten",
       "Symbol": null,
       "HasSymbol": false,
@@ -3081,6 +3281,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Verkoopkosten",
       "Symbol": null,
       "HasSymbol": false,
@@ -3092,6 +3297,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Lonen en salarissen",
       "Symbol": null,
       "HasSymbol": false,
@@ -3103,6 +3313,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Overige personeelskosten",
       "Symbol": null,
       "HasSymbol": false,
@@ -3114,6 +3329,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Sociale lasten en pensioenpremies",
       "Symbol": null,
       "HasSymbol": false,
@@ -3125,6 +3345,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Rentebaten",
       "Symbol": null,
       "HasSymbol": false,
@@ -3136,6 +3361,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Rentelasten",
       "Symbol": null,
       "HasSymbol": false,
@@ -3147,6 +3377,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "HandelsVoorraad",
       "Symbol": null,
       "HasSymbol": false,
@@ -3158,6 +3393,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Ontvangst",
       "Symbol": null,
       "HasSymbol": false,
@@ -3169,6 +3409,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Overige voorzieningen",
       "Symbol": null,
       "HasSymbol": false,
@@ -3180,6 +3425,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Pensioenvoorziening",
       "Symbol": null,
       "HasSymbol": false,
@@ -3191,6 +3441,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Debiteuren",
       "Symbol": null,
       "HasSymbol": false,
@@ -3202,6 +3457,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Overige vorderingen en overlopende activa",
       "Symbol": null,
       "HasSymbol": false,
@@ -3213,6 +3473,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": false,
+      "IsAccountTypeResult": false,
+      "IsAccountTypePrive": false,
       "Title": "Rekening-courant",
       "Symbol": null,
       "HasSymbol": false,
@@ -3224,6 +3489,11 @@
       "HasGroup": true
     },
     {
+      "IsAccountTypeOmzet": false,
+      "IsAccountTypeBtw": false,
+      "IsAccountTypeCost": true,
+      "IsAccountTypeResult": true,
+      "IsAccountTypePrive": false,
       "Title": "Dividend opbrengst van effecten",
       "Symbol": null,
       "HasSymbol": false,

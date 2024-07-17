@@ -22,13 +22,31 @@ interface FormValues {
   };
 }
 
+interface GroupedOption {
+  label: any;
+  options: { value: number; label: string }[];
+  IsAccountTypeOmzet: boolean;
+  IsAccountTypeBtw: boolean;
+  IsAccountTypeCost: boolean;
+  IsAccountTypeResult: boolean;
+  IsAccountTypePrive: boolean;
+}
+
 type Props = {
   formik: FormikProps<FormValues>;
   isSubmitting: boolean;
   vatTypes: { value: number; label: string }[];
+  setSelectedBearingTypeOption: (value: any) => void;
+  selectedBearingTypeOption: any;
 };
 
-const VatAddModalFormWrapper = ({ formik, isSubmitting, vatTypes }: Props) => {
+const VatAddModalFormWrapper = ({
+  formik,
+  isSubmitting,
+  vatTypes,
+  selectedBearingTypeOption,
+  setSelectedBearingTypeOption,
+}: Props) => {
   const { itemIdForUpdate, setItemIdForUpdate } = useListView();
   const enabledQuery: boolean = isNotEmpty(itemIdForUpdate);
   const {
@@ -58,6 +76,8 @@ const VatAddModalFormWrapper = ({ formik, isSubmitting, vatTypes }: Props) => {
         formik={formik}
         isSubmitting={isSubmitting}
         vatTypes={vatTypes}
+        selectedBearingTypeOption={selectedBearingTypeOption}
+        setSelectedBearingTypeOption={setSelectedBearingTypeOption}
       />
     );
   }
@@ -70,6 +90,8 @@ const VatAddModalFormWrapper = ({ formik, isSubmitting, vatTypes }: Props) => {
         formik={formik}
         isSubmitting={isSubmitting}
         vatTypes={vatTypes}
+        selectedBearingTypeOption={selectedBearingTypeOption}
+        setSelectedBearingTypeOption={setSelectedBearingTypeOption}
       />
     );
   }

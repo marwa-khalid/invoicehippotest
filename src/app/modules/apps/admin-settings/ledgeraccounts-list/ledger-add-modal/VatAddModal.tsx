@@ -23,30 +23,70 @@ const VatAddModal = ({ setRefresh }: Props) => {
     label: string;
   }
 
+  interface GroupedOption {
+    label: any;
+    options: { value: number; label: string }[];
+    IsAccountTypeOmzet: boolean;
+    IsAccountTypeBtw: boolean;
+    IsAccountTypeCost: boolean;
+    IsAccountTypeResult: boolean;
+    IsAccountTypePrive: boolean;
+  }
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { setItemIdForUpdate } = useListView();
   const [vatTypes, setVatTypes] = useState<vatType | any>();
   const intl = useIntl();
+  const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
+    useState<any>();
   useEffect(() => {
     const fetchVatTypes = async () => {
       try {
         const response = await getVatTypesForLedger();
-        const options = [
-          {
-            label: response.result.listForSalesGroupTitle,
-            options: response.result.listForSales.map((item) => ({
-              value: item.id,
-              label: item.title,
-            })),
-          },
-          {
-            label: response.result.listForCostsGroupTitle,
-            options: response.result.listForCosts.map((item) => ({
-              value: item.id,
-              label: item.title,
-            })),
-          },
-        ];
+        let options = [];
+        console.log(selectedBearingTypeOption);
+        if (selectedBearingTypeOption.IsAccountTypeOmzet) {
+          console.log("working");
+          options = [
+            {
+              label: response.result.listForSalesGroupTitle,
+              options: response.result.listForSales.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+          ];
+        } else if (selectedBearingTypeOption.IsAccountTypeCost) {
+          console.log("working");
+          options = [
+            {
+              label: response.result.listForCostsGroupTitle,
+              options: response.result.listForCosts.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+          ];
+        } else {
+          console.log("working");
+          options = [
+            {
+              label: response.result.listForSalesGroupTitle,
+              options: response.result.listForSales.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+            {
+              label: response.result.listForCostsGroupTitle,
+              options: response.result.listForCosts.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+          ];
+        }
+
         setVatTypes(options);
       } catch (error) {
         console.error("Error fetching ledger accounts:", error);
@@ -54,7 +94,9 @@ const VatAddModal = ({ setRefresh }: Props) => {
     };
 
     fetchVatTypes();
-  }, []);
+  }, [selectedBearingTypeOption]);
+
+  
   const formik = useFormik({
     initialValues: {
       id: 0,
@@ -146,7 +188,7 @@ const VatAddModal = ({ setRefresh }: Props) => {
         id="kt_modal_1"
         aria-modal="true"
       >
-        <div className="modal-dialog mw-650px">
+        <div className="modal-dialog mw-800px">
           <div className="modal-content">
             <VatAddModalHeader />
             <div
@@ -155,6 +197,8 @@ const VatAddModal = ({ setRefresh }: Props) => {
             >
               <VatAddModalFormWrapper
                 formik={formik}
+                setSelectedBearingTypeOption={setSelectedBearingTypeOption}
+                selectedBearingTypeOption={selectedBearingTypeOption}
                 isSubmitting={isSubmitting}
                 vatTypes={vatTypes}
               />

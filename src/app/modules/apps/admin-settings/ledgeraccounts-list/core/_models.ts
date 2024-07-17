@@ -240,6 +240,7 @@ export type LedgerAccountsForFilterModel =
 export type VatTypeByIdModel = ApiResponse<VatTypeByIdResult>;
 export type LedgerForVatModel = ApiResponse<LedgerForVatResult>;
 export type VatTypesForLedgerModel = ApiResponse<VatTypesForLedgerResult>;
+export type PrivateLedgersModel = ApiResponse<BalanceItem[]>;
 
 //extra properties remove afterwards
 export interface VatTypesResult {

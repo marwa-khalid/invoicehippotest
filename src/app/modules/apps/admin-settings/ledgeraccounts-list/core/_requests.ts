@@ -1,6 +1,12 @@
 import axios, { AxiosResponse } from "axios";
 import { ID, Response } from "../../../../../../_metronic/helpers";
-import { User, UsersQueryResponse, VatTypesForLedgerModel } from "./_models";
+import {
+  BalanceItem,
+  PrivateLedgersModel,
+  User,
+  UsersQueryResponse,
+  VatTypesForLedgerModel,
+} from "./_models";
 
 import {
   getRequest,
@@ -13,6 +19,8 @@ import {
   GET_VAT_BY_ID,
   POST_VAT_TYPES,
   GET_VAT_FOR_LEDGER,
+  GET_PRIVATE_LEDGDER,
+  GET_LEDGDER_FOR_REPORTING,
 } from "./constants";
 import {
   LedgerAccountsModel,
@@ -49,6 +57,14 @@ export function getLedgerAccounts(
 
 export function getLedgerAccountsForFilter() {
   return getRequest<LedgerAccountsForFilterModel>(GET_LEDGDER_FOR_FILTER, true);
+}
+
+export function getPrivateLedgerAccounts() {
+  return getRequest<PrivateLedgersModel>(GET_PRIVATE_LEDGDER, true);
+}
+
+export function getReportingq5b() {
+  return getRequest<PrivateLedgersModel>(GET_LEDGDER_FOR_REPORTING, true);
 }
 
 export function getVatTypesForLedger() {
@@ -88,8 +104,6 @@ export function postVatType(
 export function getVatById(editModalId: number) {
   return getRequest<VatTypeByIdModel>(`${GET_VAT_BY_ID}/${editModalId}`, true);
 }
-
-
 
 export function deleteVatType(id: number) {
   return deleteRequest<DeleteResult>(POST_VAT_TYPES, [id], true);
