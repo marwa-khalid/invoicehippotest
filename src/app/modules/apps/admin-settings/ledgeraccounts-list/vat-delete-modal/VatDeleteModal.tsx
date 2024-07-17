@@ -4,14 +4,14 @@ import { VatDeleteModalFooter } from "./VatDeleteModalFooter";
 import { VatTypeByIdResult } from "../core/_models";
 import { useIntl } from "react-intl";
 interface ComponentProps {
-  vatTitle: string;
+  ledgerAccountTitle: string;
   deleteModalId: number;
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
 }
 const VatDeleteModal = ({
   deleteModalId,
-  vatTitle,
+  ledgerAccountTitle,
   setDeleteModalOpen,
   setRefresh,
 }: ComponentProps) => {
@@ -43,15 +43,15 @@ const VatDeleteModal = ({
                 {
                   intl
                     .formatMessage({
-                      id: "Fields.ModalDeleteDescriptionVatType",
+                      id: "Fields.ModalDeleteDescriptionLedgerAccount",
                     })
                     .split("{0}")[0]
                 }
-                <strong>{vatTitle}</strong>
+                <strong>{ledgerAccountTitle}</strong>
                 {
                   intl
                     .formatMessage({
-                      id: "Fields.ModalDeleteDescriptionVatType",
+                      id: "Fields.ModalDeleteDescriptionLedgerAccount",
                     })
                     .split("{0}")[1]
                 }
@@ -63,7 +63,6 @@ const VatDeleteModal = ({
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
-              vatTitle={vatTitle}
             />
           </div>
           {/* end::Modal content */}

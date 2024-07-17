@@ -17,7 +17,7 @@ import {
   SEARCH_LEDGER_ACCOUNTS,
   GET_LEDGDER_FOR_FILTER,
   GET_VAT_BY_ID,
-  POST_VAT_TYPES,
+  POST_LEDGER_ACCOUNT,
   GET_VAT_FOR_LEDGER,
   GET_PRIVATE_LEDGDER,
   GET_LEDGDER_FOR_REPORTING,
@@ -31,7 +31,7 @@ import {
 
 //extra imports remove afterwards
 import { VatTypesModel } from "../../vat-list/core/_models";
-interface DeleteResult extends Partial<VatTypesModel> {}
+interface DeleteResult extends Partial<LedgerAccountsModel> {}
 const API_URL = import.meta.env.VITE_APP_THEME_API_URL;
 const USER_URL = `${API_URL}/user`;
 const GET_USERS_URL = `${API_URL}/users/query`;
@@ -71,31 +71,38 @@ export function getVatTypesForLedger() {
   return getRequest<VatTypesForLedgerModel>(GET_VAT_FOR_LEDGER, true);
 }
 
-export function postVatType(
+export function postLedgerAccount(
   id: number,
-  ledgerAccountId: number,
-
   title: string,
-  value: number,
-  vatAreaUsageType: number,
-  isAlwaysExBtw: boolean,
-  useInLists: boolean,
-  showOnDocuments: boolean,
-  isNoneVatType: boolean
+  code: string,
+  defaultTaxTypeId: number,
+  bearingType: number,
+  reportReferenceType1: number,
+  reportReferenceType2LegderAccountId: number,
+  disableManualInput: boolean,
+  taxDeductibleSettings: {
+    isNotFullyTaxDeductible: boolean;
+    taxDeductiblePercentage: number;
+    deductiblePrivateLedgerAccountId: number;
+  }
 ) {
-  return postRequest<VatTypesModel>(
-    POST_VAT_TYPES,
+  return postRequest<LedgerAccountsModel>(
+    POST_LEDGER_ACCOUNT,
     {
       id: id,
-      ledgerAccountId: ledgerAccountId,
-      templateId: 0,
       title: title,
-      value: value,
-      vatAreaUsageType: vatAreaUsageType,
-      isAlwaysExBtw: isAlwaysExBtw,
-      showOnDocuments: showOnDocuments,
-      useInLists: useInLists,
-      isNoneVatType: isNoneVatType,
+      code: code,
+      defaultTaxTypeId: defaultTaxTypeId,
+      bearingType: bearingType,
+      reportReferenceType1: reportReferenceType1,
+      reportReferenceType2LegderAccountId: reportReferenceType2LegderAccountId,
+      disableManualInput: disableManualInput,
+      taxDeductibleSettings: {
+        isNotFullyTaxDeductible: taxDeductibleSettings.isNotFullyTaxDeductible,
+        taxDeductiblePercentage: taxDeductibleSettings.taxDeductiblePercentage,
+        deductiblePrivateLedgerAccountId:
+          taxDeductibleSettings.deductiblePrivateLedgerAccountId,
+      },
     },
     true
   );
@@ -105,8 +112,8 @@ export function getVatById(editModalId: number) {
   return getRequest<VatTypeByIdModel>(`${GET_VAT_BY_ID}/${editModalId}`, true);
 }
 
-export function deleteVatType(id: number) {
-  return deleteRequest<DeleteResult>(POST_VAT_TYPES, [id], true);
+export function deleteLedgerAccount(id: number) {
+  return deleteRequest<DeleteResult>(POST_LEDGER_ACCOUNT, [id], true);
 }
 
 const getUsers = (query: string): Promise<UsersQueryResponse> => {

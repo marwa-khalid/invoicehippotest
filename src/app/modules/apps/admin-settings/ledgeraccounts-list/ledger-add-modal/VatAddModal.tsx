@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { VatAddModalHeader } from "./VatAddModalHeader";
 import { VatAddModalFooter } from "./VatAddModalFooter";
-import { getVatTypesForLedger } from "../core/_requests";
+import { getVatTypesForLedger, postLedgerAccount } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
 import { useListView } from "../core/ListViewProvider";
 import { toast } from "react-toastify";
 import { VatAddModalForm } from "./VatAddModalForm";
+import { handleToast } from "../../../../auth/core/_toast";
 interface Props {
   setRefresh: (type: boolean) => void;
+  setAddModalOpen: (type: boolean) => void;
 }
-const VatAddModal = ({ setRefresh }: Props) => {
+const VatAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -23,18 +25,7 @@ const VatAddModal = ({ setRefresh }: Props) => {
     label: string;
   }
 
-  interface GroupedOption {
-    label: any;
-    options: { value: number; label: string }[];
-    IsAccountTypeOmzet: boolean;
-    IsAccountTypeBtw: boolean;
-    IsAccountTypeCost: boolean;
-    IsAccountTypeResult: boolean;
-    IsAccountTypePrive: boolean;
-  }
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { setItemIdForUpdate } = useListView();
   const [vatTypes, setVatTypes] = useState<vatType | any>();
   const intl = useIntl();
   const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
@@ -181,23 +172,24 @@ const VatAddModal = ({ setRefresh }: Props) => {
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
-      console.log(values);
       try {
-        // const response = {
-        //   values.id,
-        //   values.title,
-        //   values.code,
-        //   values.defaultTaxTypeId,
-        //   values.bearingType,
-        //   values.reportReferenceType1,
-        //   values.reportReferenceType2LegderAccountId,
-        //   values.disableManualInput,
-        //   values.taxDeductibleSettings
-        // };
-        // formik.resetForm();
-        // setItemIdForUpdate(undefined);
-        // setRefresh(true);
-        // toast.success(intl.formatMessage({ id: "System.NewSuccessVatType" }));
+        const response = await postLedgerAccount(
+          values.id,
+          values.title,
+          values.code,
+          values.defaultTaxTypeId,
+          values.bearingType,
+          values.reportReferenceType1,
+          values.reportReferenceType2LegderAccountId,
+          values.disableManualInput,
+          values.taxDeductibleSettings
+        );
+        if (response.isValid) {
+          formik.resetForm();
+          setAddModalOpen(false);
+          setRefresh(true);
+        }
+        handleToast(response);
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
@@ -218,7 +210,7 @@ const VatAddModal = ({ setRefresh }: Props) => {
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <VatAddModalHeader />
+            <VatAddModalHeader setAddModalOpen={setAddModalOpen} />
             <div
               className="modal-body p-10"
               style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
@@ -233,7 +225,11 @@ const VatAddModal = ({ setRefresh }: Props) => {
                 reportReferenceType1={reportReferenceType1}
               />
             </div>
-            <VatAddModalFooter formik={formik} isSubmitting={isSubmitting} />
+            <VatAddModalFooter
+              formik={formik}
+              isSubmitting={isSubmitting}
+              setAddModalOpen={setAddModalOpen}
+            />
           </div>
         </div>
       </div>

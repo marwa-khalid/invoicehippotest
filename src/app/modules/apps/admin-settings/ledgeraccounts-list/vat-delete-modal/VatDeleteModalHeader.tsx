@@ -7,14 +7,13 @@ interface ComponentProps {
 }
 
 const VatDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
-  const { setItemIdForUpdate } = useListView();
   const intl = useIntl();
 
   return (
     <div className="modal-header d-flex justify-content-between align-items-center bg-danger ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {intl.formatMessage({ id: "Fields.ModalDeleteTitleVatType" })}
+        {intl.formatMessage({ id: "Fields.ModalDeleteTitleLedgerAccount" })}
       </h2>
       {/* end::Modal title */}
 

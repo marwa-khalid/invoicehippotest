@@ -2,8 +2,10 @@ import { KTIcon } from "../../../../../../_metronic/helpers";
 import { useListView } from "../core/ListViewProvider";
 import { useIntl } from "react-intl";
 
-const VatAddModalHeader = () => {
-  const { setItemIdForUpdate } = useListView();
+interface ComponentProps {
+  setAddModalOpen: (type: boolean) => void;
+}
+const VatAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
   const intl = useIntl();
 
   return (
@@ -18,7 +20,7 @@ const VatAddModalHeader = () => {
       <div
         className="btn btn-icon btn-sm btn-active-icon-primary"
         data-kt-users-modal-action="close"
-        onClick={() => setItemIdForUpdate(undefined)}
+        onClick={() => setAddModalOpen(false)}
         style={{ cursor: "pointer" }}
       >
         <KTIcon iconName="cross" className="fs-1 text-white" />

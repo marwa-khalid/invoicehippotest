@@ -53,8 +53,9 @@ const LedgerListInnerWrapper = () => {
   const [totalRows, setTotalRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+  const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [vatTitle, setVatTitle] = useState<string>("");
+  const [ledgerAccountTitle, setLedgerAccountTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
 
   return (
@@ -70,7 +71,7 @@ const LedgerListInnerWrapper = () => {
         isFilterApplied={isFilterApplied}
       />
 
-      <VatListToolbar totalRows={totalRows} />
+      <VatListToolbar totalRows={totalRows} setAddModalOpen={setAddModalOpen} />
 
       <LedgerAccountsList
         searchTerm={searchTerm}
@@ -80,7 +81,7 @@ const LedgerListInnerWrapper = () => {
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setEditModalId={setEditModalId}
-        setVatTitle={setVatTitle}
+        setLedgerAccountTitle={setLedgerAccountTitle}
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
@@ -88,7 +89,12 @@ const LedgerListInnerWrapper = () => {
         deleteModalOpen={deleteModalOpen}
       />
 
-      {itemIdForUpdate !== undefined && <VatAddModal setRefresh={setRefresh} />}
+      {addModalOpen && (
+        <VatAddModal
+          setRefresh={setRefresh}
+          setAddModalOpen={setAddModalOpen}
+        />
+      )}
       {editModalOpen && (
         <VatEditModal
           editModalId={editModalId}
@@ -99,7 +105,7 @@ const LedgerListInnerWrapper = () => {
       {deleteModalOpen && (
         <VatDeleteModal
           deleteModalId={editModalId}
-          vatTitle={vatTitle}
+          ledgerAccountTitle={ledgerAccountTitle}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
         />
@@ -111,14 +117,12 @@ const LedgerListInnerWrapper = () => {
 const LedgerListWrapper = () => (
   <QueryRequestProvider>
     <QueryResponseProvider>
-      <ListViewProvider>
-        <ToolbarWrapper />
-        <Content>
-          {/* <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}> */}
-          <LedgerListInnerWrapper />
-          {/* </div> */}
-        </Content>
-      </ListViewProvider>
+      <ToolbarWrapper />
+      <Content>
+        {/* <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}> */}
+        <LedgerListInnerWrapper />
+        {/* </div> */}
+      </Content>
     </QueryResponseProvider>
   </QueryRequestProvider>
 );

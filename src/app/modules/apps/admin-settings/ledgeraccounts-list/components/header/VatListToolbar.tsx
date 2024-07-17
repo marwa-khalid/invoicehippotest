@@ -5,12 +5,13 @@ import { useIntl } from "react-intl";
 
 interface ToolbarProps {
   totalRows: number;
+  setAddModalOpen: (type: boolean) => void;
 }
 
-const VatListToolbar = ({ totalRows }: ToolbarProps) => {
+const VatListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
   const { setItemIdForUpdate } = useListView();
   const openAddUserModal = () => {
-    setItemIdForUpdate(null);
+    setAddModalOpen(true);
   };
   const intl = useIntl();
   return (

@@ -6,6 +6,7 @@ import { useListView } from "../core/ListViewProvider";
 type Props = {
   formik: FormikProps<FormValues>;
   isSubmitting: boolean;
+  setAddModalOpen: (type: boolean) => void;
 };
 
 interface FormValues {
@@ -24,7 +25,11 @@ interface FormValues {
   };
 }
 
-const VatAddModalFooter: FC<Props> = ({ formik, isSubmitting }) => {
+const VatAddModalFooter: FC<Props> = ({
+  formik,
+  isSubmitting,
+  setAddModalOpen,
+}) => {
   const intl = useIntl();
   const { setItemIdForUpdate } = useListView();
 
@@ -33,7 +38,7 @@ const VatAddModalFooter: FC<Props> = ({ formik, isSubmitting }) => {
       <button
         type="button"
         className="btn btn-light me-3"
-        onClick={() => setItemIdForUpdate(undefined)}
+        onClick={() => setAddModalOpen(false)}
       >
         {intl.formatMessage({ id: "Fields.ActionCancel" })}
       </button>

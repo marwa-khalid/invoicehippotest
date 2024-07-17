@@ -22,7 +22,7 @@ interface ComponentProps {
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
-  setVatTitle: (type: string) => void;
+  setLedgerAccountTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
   setPageIndex: (type: number) => void;
@@ -36,7 +36,7 @@ const LedgerAccountsList = ({
   setTotalRows,
   setEditModalOpen,
   setEditModalId,
-  setVatTitle,
+  setLedgerAccountTitle,
   setDeleteModalOpen,
   refresh,
   setPageIndex,
@@ -105,10 +105,10 @@ const LedgerAccountsList = ({
     setEditModalOpen(true);
   };
 
-  const openDeleteModal = (id: number, vatTitle: string) => {
+  const openDeleteModal = (id: number, ledgerTitle: string) => {
     setEditModalId(id);
     setDeleteModalOpen(true);
-    setVatTitle(vatTitle);
+    setLedgerAccountTitle(ledgerTitle);
   };
   return (
     <KTCardBody className="py-4">

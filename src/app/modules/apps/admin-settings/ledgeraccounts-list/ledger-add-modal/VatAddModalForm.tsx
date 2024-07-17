@@ -4,11 +4,7 @@ import { useFormik } from "formik";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
-import {
-  getPrivateLedgerAccounts,
-  getReportingq5b,
-  postVatType,
-} from "../core/_requests";
+import { getPrivateLedgerAccounts, getReportingq5b } from "../core/_requests";
 import {
   BalanceItem,
   LedgerForVatResult,
@@ -161,6 +157,23 @@ const VatAddModalForm = ({
     getLedgerForReporting();
   }, []);
 
+  useEffect(() => {
+    if (!selectedBearingTypeOption?.IsAccountTypeBtw) {
+      formik.setFieldValue("taxDeductibleSettings", {
+        isNotFullyTaxDeductible: false,
+        taxDeductiblePercentage: 0,
+        deductiblePrivateLedgerAccountId: 0,
+      });
+    }
+  }, [selectedBearingTypeOption]);
+
+  useEffect(() => {
+    if (!selectedBearingTypeOption?.IsAccountTypeCost) {
+      formik.setFieldValue("reportReferenceType1", 0);
+      formik.setFieldValue("reportReferenceType2LegderAccountId", 0);
+    }
+  }, [selectedBearingTypeOption]);
+
   return (
     <form className="form p-3" onSubmit={formik.handleSubmit} noValidate>
       {/* begin::Input group */}
@@ -197,14 +210,21 @@ const VatAddModalForm = ({
             {intl.formatMessage({ id: "Fields.Code" })}
           </label>
           <div className="input-group">
-            <span className="input-group-text border-end-0">
-              <i className="fa fa-c"></i>
+            <span className="input-group-text me-1">
+              <i className="ki-duotone ki-text-number text-dark fs-1">
+                <span className="path1"></span>
+                <span className="path2"></span>
+                <span className="path3"></span>
+                <span className="path4"></span>
+                <span className="path5"></span>
+                <span className="path6"></span>
+              </i>
             </span>
             <input
               type="text"
               {...formik.getFieldProps("code")}
               className={clsx(
-                "form-control border-end-0 border-top-0",
+                "form-control form-control-solid",
                 { "is-invalid": formik.touched.code && formik.errors.code },
                 { "is-valid": formik.touched.code && !formik.errors.code }
               )}
@@ -237,7 +257,7 @@ const VatAddModalForm = ({
             type="text"
             {...formik.getFieldProps("title")}
             className={clsx(
-              "form-control border-end-0 border-top-0 border-start-0",
+              "form-control form-control-solid",
               { "is-invalid": formik.touched.title && formik.errors.title },
               { "is-valid": formik.touched.title && !formik.errors.title }
             )}
@@ -326,41 +346,7 @@ const VatAddModalForm = ({
         </div>
       </div>
       {selectedBearingTypeOption?.IsAccountTypeBtw && (
-        <div className="form-group mb-8">
-          <label className="d-block fw-bold fs-6 mb-2">
-            {intl.formatMessage({ id: "Fields.VatReportReferenceType" })}
-          </label>
-          <Select
-            className="react-select-styled"
-            options={enums.VatReportReferenceTypes.map((item: any) => ({
-              value: item.Value,
-              label: item.Title,
-            }))}
-            onChange={setReportReferenceType1}
-            // {...formik.getFieldProps("reportReferenceType1")}
-            placeholder={intl.formatMessage({
-              id: "Fields.SelectOptionDefaultVatReportCategory",
-            })}
-          />
-        </div>
-      )}
-
-      {pattern.test(reportReferenceType1?.label) && (
         <>
-          <div className="form-group">
-            <label className="d-block fw-bold fs-6 mb-2">
-              {intl.formatMessage({
-                id: "Fields.VatReportReferenceTypeInputTaxGHeadingCategory",
-              })}
-            </label>
-            <Select
-              className="react-select-styled"
-              options={reportingLedgers}
-              placeholder={intl.formatMessage({
-                id: "Fields.SelectOptionDefaultLedgerAccountType",
-              })}
-            />
-          </div>
           <div
             className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0 "
             role="alert"
@@ -383,8 +369,56 @@ const VatAddModalForm = ({
               </p>
             </div>
           </div>
+
+          <div className="form-group mb-8">
+            <label className="d-block fw-bold fs-6 mb-2">
+              {intl.formatMessage({ id: "Fields.VatReportReferenceType" })}
+            </label>
+            <Select
+              className="react-select-styled"
+              options={enums.VatReportReferenceTypes.map((item: any) => ({
+                value: item.Value,
+                label: item.Title,
+              }))}
+              onChange={(selectedOption) => {
+                formik.setFieldValue(
+                  "reportReferenceType1",
+                  selectedOption?.value
+                );
+
+                setReportReferenceType1(selectedOption);
+              }}
+              placeholder={intl.formatMessage({
+                id: "Fields.SelectOptionDefaultVatReportCategory",
+              })}
+            />
+          </div>
         </>
       )}
+
+      {selectedBearingTypeOption?.IsAccountTypeBtw &&
+        pattern.test(reportReferenceType1?.label) && (
+          <div className="form-group">
+            <label className="d-block fw-bold fs-6 mb-2">
+              {intl.formatMessage({
+                id: "Fields.VatReportReferenceTypeInputTaxGHeadingCategory",
+              })}
+            </label>
+            <Select
+              className="react-select-styled"
+              options={reportingLedgers}
+              placeholder={intl.formatMessage({
+                id: "Fields.SelectOptionDefaultLedgerAccountType",
+              })}
+              onChange={(selectedOption) => {
+                formik.setFieldValue(
+                  "reportReferenceType2LegderAccountId",
+                  selectedOption?.value
+                );
+              }}
+            />
+          </div>
+        )}
       {selectedBearingTypeOption?.IsAccountTypeCost && (
         <div className="form-group">
           <div className="row">
@@ -472,8 +506,14 @@ const VatAddModalForm = ({
                   disabled={
                     !formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
                   }
-                  value={
-                    formik.values.taxDeductibleSettings.taxDeductiblePercentage
+                  // value={
+                  //   formik.values.taxDeductibleSettings.taxDeductiblePercentage
+                  // }
+                  onChange={(e) =>
+                    formik.setFieldValue(
+                      "taxDeductibleSettings.taxDeductiblePercentage",
+                      e.target.value
+                    )
                   }
                 />
 
@@ -490,7 +530,12 @@ const VatAddModalForm = ({
               </label>
               <Select
                 className="react-select-styled"
-                {...formik.getFieldProps("deductiblePrivateLedgerAccountId")}
+                onChange={(selectedOption) => {
+                  formik.setFieldValue(
+                    "taxDeductibleSettings.deductiblePrivateLedgerAccountId",
+                    selectedOption?.value
+                  );
+                }}
                 isDisabled={
                   !formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
                 }

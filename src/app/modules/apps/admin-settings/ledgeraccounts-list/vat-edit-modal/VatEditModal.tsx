@@ -3,10 +3,10 @@ import { VatEditModalHeader } from "./VatEditModalHeader";
 import { VatEditModalFormWrapper } from "./VatEditModalFormWrapper";
 import { UserEditModalFooter } from "./VatEditModalFooter";
 import { LedgerForVatResult } from "../core/_models";
-import {  getVatById } from "../core/_requests";
+import { getVatById } from "../core/_requests";
 import { useIntl } from "react-intl";
 import { useFormik } from "formik";
-import { postVatType } from "../core/_requests";
+// import { postVatType } from "../core/_requests";
 
 import * as Yup from "yup";
 interface ComponentProps {
@@ -137,22 +137,22 @@ const VatEditModal = ({
       setSubmitting(true);
       setIsSubmitting(true);
       try {
-        const response = await postVatType(
-          values.id,
-          values.ledgerAccountId,
-          values.title,
-          values.value,
-          values.documentGroup,
-          values.alwaysExclusiveOfVAT,
-          values.showInLists,
-          values.showOnDocuments,
-          values.isNoneVatType
-        );
-        if (response) {
-          setRefresh(true);
-          formik.resetForm();
-          setEditModalOpen(false);
-        }
+        // const response = await postVatType(
+        //   values.id,
+        //   values.ledgerAccountId,
+        //   values.title,
+        //   values.value,
+        //   values.documentGroup,
+        //   values.alwaysExclusiveOfVAT,
+        //   values.showInLists,
+        //   values.showOnDocuments,
+        //   values.isNoneVatType
+        // );
+        // if (response) {
+        //   setRefresh(true);
+        //   formik.resetForm();
+        //   setEditModalOpen(false);
+        // }
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
