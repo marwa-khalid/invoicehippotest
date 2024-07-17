@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { VatAddModalHeader } from "./VatAddModalHeader";
-import { VatAddModalFormWrapper } from "./VatAddModalFormWrapper";
 import { VatAddModalFooter } from "./VatAddModalFooter";
 import { getVatTypesForLedger } from "../core/_requests";
 import * as Yup from "yup";
@@ -8,6 +7,7 @@ import { useFormik } from "formik";
 import { useIntl } from "react-intl";
 import { useListView } from "../core/ListViewProvider";
 import { toast } from "react-toastify";
+import { VatAddModalForm } from "./VatAddModalForm";
 interface Props {
   setRefresh: (type: boolean) => void;
 }
@@ -96,7 +96,8 @@ const VatAddModal = ({ setRefresh }: Props) => {
     fetchVatTypes();
   }, [selectedBearingTypeOption]);
 
-  
+  const [reportReferenceType1, setReportReferenceType1] = useState();
+
   const formik = useFormik({
     initialValues: {
       id: 0,
@@ -134,42 +135,69 @@ const VatAddModal = ({ setRefresh }: Props) => {
             .formatMessage({ id: "Common.RequiredFieldHint2" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
         ),
-      value: Yup.number().required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.Value" }))
-      ),
-      documentGroup: Yup.string().required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.VatAreaUsageType" }))
-      ),
-      ledgerAccountId: Yup.number().required(
+      code: Yup.string()
+        .min(
+          3,
+          intl
+            .formatMessage({ id: "Common.ValidationMin" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
+            .replace("{1}", `3`)
+        )
+        .max(
+          50,
+          intl
+            .formatMessage({ id: "Common.ValidationMax" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
+            .replace("{1}", `50`)
+        )
+        .required(
+          intl
+            .formatMessage({ id: "Common.RequiredFieldHint2" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
+        ),
+
+      bearingType: Yup.number().required(
         intl
           .formatMessage({ id: "Common.RequiredFieldHint2" })
           .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
       ),
+
+      // "taxDeductibleSettings.isNotFullyTaxDeductible": Yup.boolean().required(
+      //   intl.formatMessage({ id: "Common.RequiredFieldHint2" }).replace(
+      //     "{0}",
+      //     intl.formatMessage({
+      //       id: "Fields.IsNotFullyTaxDeductible",
+      //     })
+      //   )
+      // ),
+      // "taxDeductibleSettings.taxDeductiblePercentage": Yup.number().required(
+      //   intl.formatMessage({ id: "Common.RequiredFieldHint2" }).replace(
+      //     "{0}",
+      //     intl.formatMessage({
+      //       id: "Fields.TaxDeductiblePercentage",
+      //     })
+      //   )
+      // ),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
+      console.log(values);
       try {
-        // const mappedDocumentGroup = values.documentGroup === "1" ? 1 : 2;
-        // const response = await postVatType(
+        // const response = {
         //   values.id,
-        //   values.ledgerAccountId,
         //   values.title,
-        //   values.value,
-        //   mappedDocumentGroup,
-        //   values.alwaysExclusiveOfVAT,
-        //   values.showInLists,
-        //   values.showOnDocuments,
-        //   values.isNoneVatType
-        // );
-
-        formik.resetForm();
-        setItemIdForUpdate(undefined);
-        setRefresh(true);
-        toast.success(intl.formatMessage({ id: "System.NewSuccessVatType" }));
+        //   values.code,
+        //   values.defaultTaxTypeId,
+        //   values.bearingType,
+        //   values.reportReferenceType1,
+        //   values.reportReferenceType2LegderAccountId,
+        //   values.disableManualInput,
+        //   values.taxDeductibleSettings
+        // };
+        // formik.resetForm();
+        // setItemIdForUpdate(undefined);
+        // setRefresh(true);
+        // toast.success(intl.formatMessage({ id: "System.NewSuccessVatType" }));
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
@@ -195,12 +223,14 @@ const VatAddModal = ({ setRefresh }: Props) => {
               className="modal-body p-10"
               style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
             >
-              <VatAddModalFormWrapper
+              <VatAddModalForm
                 formik={formik}
                 setSelectedBearingTypeOption={setSelectedBearingTypeOption}
                 selectedBearingTypeOption={selectedBearingTypeOption}
                 isSubmitting={isSubmitting}
                 vatTypes={vatTypes}
+                setReportReferenceType1={setReportReferenceType1}
+                reportReferenceType1={reportReferenceType1}
               />
             </div>
             <VatAddModalFooter formik={formik} isSubmitting={isSubmitting} />

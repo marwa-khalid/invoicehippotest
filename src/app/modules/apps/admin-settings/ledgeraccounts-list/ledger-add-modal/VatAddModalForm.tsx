@@ -47,13 +47,13 @@ interface GroupedOption {
 }
 
 type Props = {
-  isUserLoading: boolean;
-  user: any; // Adjust the type according to your user model
   formik: FormikProps<FormValues>;
   isSubmitting: boolean;
   vatTypes: { value: number; label: string }[];
   setSelectedBearingTypeOption: (option: any) => void;
   selectedBearingTypeOption: any;
+  setReportReferenceType1: (type: any) => void;
+  reportReferenceType1: any;
 };
 
 interface SelectorOption {
@@ -61,21 +61,23 @@ interface SelectorOption {
   label: string;
 }
 
-const VatAddModalForm: FC<Props> = ({
-  isUserLoading,
-  user,
+const VatAddModalForm = ({
   formik,
   isSubmitting,
   vatTypes,
   setSelectedBearingTypeOption,
   selectedBearingTypeOption,
-}) => {
+  setReportReferenceType1,
+  reportReferenceType1,
+}: Props) => {
   const intl = useIntl();
   const [bearingGroups, setBearingGroups] = useState<GroupedOption[]>([]);
   const [privateLedgers, setPrivateLedgers] = useState<SelectorOption[]>([]);
   const [reportingLedgers, setReportingLedgers] = useState<SelectorOption[]>(
     []
   );
+  const pattern = /NL\/(2A|4A|4B)/;
+
   useEffect(() => {
     const getLedgerforPrivate = async () => {
       const response = await getPrivateLedgerAccounts();
@@ -167,10 +169,14 @@ const VatAddModalForm: FC<Props> = ({
           {intl.formatMessage({ id: "Fields.BearingType" })}
         </label>
         <Select
-          className="react-select-styled react-select-transparent border-bottom z-index-999"
+          className="react-select-styled react-select-transparent border-bottom"
           options={bearingGroups}
           value={selectedBearingTypeOption || null}
-          onChange={setSelectedBearingTypeOption}
+          onChange={(selectedOption) => {
+            formik.setFieldValue("bearingType", selectedOption?.value);
+
+            setSelectedBearingTypeOption(selectedOption);
+          }}
           placeholder={
             selectedBearingTypeOption
               ? selectedBearingTypeOption.label
@@ -182,7 +188,6 @@ const VatAddModalForm: FC<Props> = ({
         {console.log(selectedBearingTypeOption)!}
       </div>
       {/* end::Input group */}
-
       {/* begin::Input group */}
       <div className="row d-flex mb-7">
         {/* code Field */}
@@ -203,7 +208,7 @@ const VatAddModalForm: FC<Props> = ({
                 { "is-invalid": formik.touched.code && formik.errors.code },
                 { "is-valid": formik.touched.code && !formik.errors.code }
               )}
-              disabled={isSubmitting || isUserLoading}
+              disabled={isSubmitting}
               placeholder={intl.formatMessage({ id: "Fields.Code" })}
             />
           </div>
@@ -236,7 +241,7 @@ const VatAddModalForm: FC<Props> = ({
               { "is-invalid": formik.touched.title && formik.errors.title },
               { "is-valid": formik.touched.title && !formik.errors.title }
             )}
-            disabled={isSubmitting || isUserLoading}
+            disabled={isSubmitting}
             placeholder={intl.formatMessage({ id: "Fields.Title" })}
           />
 
@@ -261,9 +266,10 @@ const VatAddModalForm: FC<Props> = ({
             {intl.formatMessage({ id: "Fields.DefaultTax" })}
           </label>
           <Select
-            name="defaultTaxTypeId"
-            // value={formik.values.documentGroup}
-
+            // {...formik.getFieldProps("defaultTaxTypeId")}
+            onChange={(selectedOption) =>
+              formik.setFieldValue("defaultTaxTypeId", selectedOption?.value)
+            }
             onBlur={() => formik.setFieldTouched("defaultTaxTypeId", true)}
             placeholder={intl.formatMessage({
               id: "Fields.SelectOptionNoVatType",
@@ -310,7 +316,7 @@ const VatAddModalForm: FC<Props> = ({
               type="checkbox"
               id="disableManualInputSwitch"
               {...formik.getFieldProps("disableManualInput")}
-              disabled={isSubmitting || isUserLoading}
+              disabled={isSubmitting}
             />
             <label
               className="form-check-label"
@@ -330,27 +336,54 @@ const VatAddModalForm: FC<Props> = ({
               value: item.Value,
               label: item.Title,
             }))}
+            onChange={setReportReferenceType1}
+            // {...formik.getFieldProps("reportReferenceType1")}
             placeholder={intl.formatMessage({
               id: "Fields.SelectOptionDefaultVatReportCategory",
             })}
           />
         </div>
       )}
-      {selectedBearingTypeOption?.IsAccountTypeBtw && (
-        <div className="form-group">
-          <label className="d-block fw-bold fs-6 mb-2">
-            {intl.formatMessage({
-              id: "Fields.VatReportReferenceTypeInputTaxGHeadingCategory",
-            })}
-          </label>
-          <Select
-            className="react-select-styled"
-            options={reportingLedgers}
-            placeholder={intl.formatMessage({
-              id: "Fields.SelectOptionDefaultLedgerAccountType",
-            })}
-          />
-        </div>
+
+      {pattern.test(reportReferenceType1?.label) && (
+        <>
+          <div className="form-group">
+            <label className="d-block fw-bold fs-6 mb-2">
+              {intl.formatMessage({
+                id: "Fields.VatReportReferenceTypeInputTaxGHeadingCategory",
+              })}
+            </label>
+            <Select
+              className="react-select-styled"
+              options={reportingLedgers}
+              placeholder={intl.formatMessage({
+                id: "Fields.SelectOptionDefaultLedgerAccountType",
+              })}
+            />
+          </div>
+          <div
+            className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0 "
+            role="alert"
+          >
+            <div className="alert-icon col-1">
+              <i className="ki-duotone ki-information-4 fs-3x text-center me- text-primary">
+                <span className="path1"></span>
+                <span className="path2"></span>
+                <span className="path3"></span>
+              </i>
+            </div>
+            <div className="alert-text  col-11">
+              <h4 className="alert-heading">
+                {intl.formatMessage({ id: "Fields.TaxDeductibleSettings" })}
+              </h4>
+              <p>
+                {intl.formatMessage({
+                  id: "Fields.TaxDeductibleSettingsInfo",
+                })}
+              </p>
+            </div>
+          </div>
+        </>
       )}
       {selectedBearingTypeOption?.IsAccountTypeCost && (
         <div className="form-group">
@@ -401,7 +434,7 @@ const VatAddModalForm: FC<Props> = ({
                       e.target.checked
                     )
                   }
-                  disabled={isSubmitting || isUserLoading}
+                  disabled={isSubmitting}
                 />
               </div>
             </div>

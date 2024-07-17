@@ -41,7 +41,7 @@ const VatAddModalFooter: FC<Props> = ({ formik, isSubmitting }) => {
         type="submit"
         className="btn btn-primary"
         onClick={() => formik.handleSubmit()}
-        disabled={isSubmitting}
+        disabled={isSubmitting || !formik.isValid}
       >
         {!isSubmitting && intl.formatMessage({ id: "Fields.ActionSave" })}
         {isSubmitting && (
