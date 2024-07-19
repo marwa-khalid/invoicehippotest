@@ -116,6 +116,7 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
           requestUser();
         } else {
           localStorage.removeItem("currentUser");
+          localStorage.removeItem("pagination");
           setShowSplashScreen(false);
         }
       } else {
