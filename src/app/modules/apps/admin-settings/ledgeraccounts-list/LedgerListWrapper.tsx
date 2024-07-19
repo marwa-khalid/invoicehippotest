@@ -5,7 +5,7 @@ import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolb
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useEffect, useState } from "react";
 import { LedgerListToolbar } from "./components/header/LedgerListToolbar";
-import { VatEditModal } from "./vat-edit-modal/VatEditModal";
+import { LedgerEditModal } from "./ledger-edit-modal/LedgerEditModal";
 import { LedgerDeleteModal } from "./ledger-delete-modal/LedgerDeleteModal";
 
 const getPaginationValues = () => {
@@ -95,7 +95,7 @@ const LedgerListInnerWrapper = () => {
         />
       )}
       {editModalOpen && (
-        <VatEditModal
+        <LedgerEditModal
           editModalId={editModalId}
           setRefresh={setRefresh}
           setEditModalOpen={setEditModalOpen}

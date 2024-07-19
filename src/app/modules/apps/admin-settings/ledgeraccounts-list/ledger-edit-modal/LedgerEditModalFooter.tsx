@@ -1,4 +1,3 @@
-
 import { useIntl } from "react-intl";
 
 import { FormikProps } from "formik";
@@ -6,20 +5,25 @@ import { FormikProps } from "formik";
 interface FormValues {
   id: number;
   title: string;
-  value: number;
-  documentGroup: string;
-  ledgerAccountId: number;
-  isNoneVatType: boolean;
-  alwaysExclusiveOfVAT: boolean;
-  showInLists: boolean;
-  showOnDocuments: boolean;
+  code: string;
+  defaultTaxTypeId: number;
+  bearingType: number;
+  reportReferenceType1: number;
+  reportReferenceType2LegderAccountId: number;
+  disableManualInput: boolean;
+  taxDeductibleSettings: {
+    isNotFullyTaxDeductible: boolean;
+    taxDeductiblePercentage: number;
+    deductiblePrivateLedgerAccountId: number;
+  };
 }
+
 interface ComponentProps {
   setEditModalOpen: (type: boolean) => void;
   formik: FormikProps<FormValues>;
   isSubmitting: boolean;
 }
-const UserEditModalFooter = ({
+const LedgerEditModalFooter = ({
   setEditModalOpen,
   formik,
   isSubmitting,
@@ -49,7 +53,7 @@ const UserEditModalFooter = ({
           type="submit"
           className="btn btn-primary"
           onClick={() => formik.handleSubmit()}
-          disabled={isSubmitting}
+          disabled={isSubmitting || !formik.isValid}
           //   onClick={submitForm}
           //   disabled={!formik.isValid || isSubmitting || !touched}
         >
@@ -66,4 +70,4 @@ const UserEditModalFooter = ({
   );
 };
 
-export { UserEditModalFooter };
+export { LedgerEditModalFooter };

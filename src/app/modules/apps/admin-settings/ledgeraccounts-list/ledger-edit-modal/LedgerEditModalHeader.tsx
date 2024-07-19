@@ -6,8 +6,7 @@ interface ComponentProps {
   setEditModalOpen: (type: boolean) => void;
 }
 
-const VatEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
-
+const LedgerEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
   const intl = useIntl();
 
   return (
@@ -32,4 +31,4 @@ const VatEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
   );
 };
 
-export { VatEditModalHeader };
+export { LedgerEditModalHeader };

@@ -2,10 +2,14 @@ import { FC, useEffect, useState } from "react";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
-import { getPrivateLedgerAccounts, getReportingq5b } from "../core/_requests";
-import { BalanceItem } from "../core/_models";
 import { FormikProps } from "formik";
 import enums from "../../../../../../invoicehippo.enums.json";
+import {
+  getPrivateLedgerAccounts,
+  getReportingq5b,
+  getVatTypesForLedger,
+} from "../core/_requests";
+import { BalanceItem } from "../core/_models";
 
 interface FormValues {
   id: number;
@@ -22,6 +26,7 @@ interface FormValues {
     deductiblePrivateLedgerAccountId: number;
   };
 }
+
 interface GroupedOption {
   label: any;
   options: {
@@ -38,7 +43,6 @@ interface GroupedOption {
 type Props = {
   formik: FormikProps<FormValues>;
   isSubmitting: boolean;
-  vatTypes: { value: number; label: string }[];
   setSelectedBearingTypeOption: (option: any) => void;
   selectedBearingTypeOption: any;
   setReportReferenceType1: (type: any) => void;
@@ -50,23 +54,23 @@ interface SelectorOption {
   label: string;
 }
 
-const LedgerAddModalForm = ({
+const LedgerEditModalForm: FC<Props> = ({
   formik,
-  isSubmitting,
-  vatTypes,
   setSelectedBearingTypeOption,
-  selectedBearingTypeOption,
+  isSubmitting,
   setReportReferenceType1,
   reportReferenceType1,
-}: Props) => {
+}) => {
   const intl = useIntl();
   const [bearingGroups, setBearingGroups] = useState<GroupedOption[]>([]);
   const [privateLedgers, setPrivateLedgers] = useState<SelectorOption[]>([]);
   const [reportingLedgers, setReportingLedgers] = useState<SelectorOption[]>(
     []
   );
+  const [vatTypes, setVatTypes] = useState<SelectorOption | any>();
   const pattern = /NL\/(2A|4A|4B)/;
 
+  console.log(formik.values);
   useEffect(() => {
     const getLedgerforPrivate = async () => {
       const response = await getPrivateLedgerAccounts();
@@ -81,25 +85,78 @@ const LedgerAddModalForm = ({
   }, []);
 
   useEffect(() => {
-    const toTitleCase = (str: string) => {
-      return str.replace(/\w\S*/g, (txt) => {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-      });
+    const fetchVatTypes = async () => {
+      try {
+        const response = await getVatTypesForLedger();
+        let options = [];
+        if (
+          enums.BearingTypes.find((item) => {
+            return item.Value === formik.values.bearingType;
+          })?.IsAccountTypeOmzet
+        ) {
+          options = [
+            {
+              label: response.result.listForSalesGroupTitle,
+              options: response.result.listForSales.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+          ];
+        } else if (
+          enums.BearingTypes.find((item) => {
+            return item.Value === formik.values.bearingType;
+          })?.IsAccountTypeCost
+        ) {
+          options = [
+            {
+              label: response.result.listForCostsGroupTitle,
+              options: response.result.listForCosts.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+          ];
+        } else {
+          options = [
+            {
+              label: response.result.listForSalesGroupTitle,
+              options: response.result.listForSales.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+            {
+              label: response.result.listForCostsGroupTitle,
+              options: response.result.listForCosts.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+          ];
+        }
+
+        setVatTypes(options);
+      } catch (error) {
+        console.error("Error fetching ledger accounts:", error);
+      }
     };
 
+    fetchVatTypes();
+  }, [formik.values.bearingType]);
+
+  useEffect(() => {
     const transformBearingTypes = () => {
       const groupMap: { [key: string]: GroupedOption } = {};
 
       enums.BearingTypes.forEach((item: any) => {
-        const group = toTitleCase(item.Group);
-        const subGroup = toTitleCase(item.SubGroup);
-        const groupKey = `${group} - ${subGroup}`;
+        const groupKey = `${item.Group} - ${item.SubGroup}`;
 
         if (!groupMap[groupKey]) {
           groupMap[groupKey] = {
             label: (
               <div>
-                {group} - <small>{subGroup}</small>
+                {item.Group} - <small>{item.SubGroup}</small>
               </div>
             ) as any,
             options: [],
@@ -133,7 +190,6 @@ const LedgerAddModalForm = ({
     const getLedgerForReporting = async () => {
       try {
         const response = await getReportingq5b();
-
         const options = response.result.map((item) => ({
           value: item.id,
           label: item.title,
@@ -148,21 +204,29 @@ const LedgerAddModalForm = ({
   }, []);
 
   useEffect(() => {
-    if (selectedBearingTypeOption?.IsAccountTypeBtw) {
+    if (
+      enums.BearingTypes.find((item) => {
+        return item.Value === formik.values.bearingType;
+      })?.IsAccountTypeBtw
+    ) {
       formik.setFieldValue("taxDeductibleSettings", {
         isNotFullyTaxDeductible: false,
         taxDeductiblePercentage: 0,
         deductiblePrivateLedgerAccountId: 0,
       });
     }
-  }, [selectedBearingTypeOption]);
+  }, [formik.values.bearingType]);
 
   useEffect(() => {
-    if (selectedBearingTypeOption?.IsAccountTypeCost) {
+    if (
+      enums.BearingTypes.find((item) => {
+        return item.Value === formik.values.bearingType;
+      })?.IsAccountTypeCost
+    ) {
       formik.setFieldValue("reportReferenceType1", 0);
       formik.setFieldValue("reportReferenceType2LegderAccountId", 0);
     }
-  }, [selectedBearingTypeOption]);
+  }, [formik.values.bearingType]);
 
   useEffect(() => {
     if (!formik.values.taxDeductibleSettings.isNotFullyTaxDeductible) {
@@ -181,21 +245,20 @@ const LedgerAddModalForm = ({
         <label className="required fw-bold fs-6 mb-2">
           {intl.formatMessage({ id: "Fields.BearingType" })}
         </label>
+        {console.log(formik.values)!}
         <Select
           className="react-select-styled react-select-transparent border-bottom"
           options={bearingGroups}
-          value={selectedBearingTypeOption || null}
-          onChange={(selectedOption) => {
-            formik.setFieldValue("bearingType", selectedOption?.value);
-
-            setSelectedBearingTypeOption(selectedOption);
+          onChange={(selectedOption: any) => {
+            formik.setFieldValue("bearingType", selectedOption?.value!);
           }}
           placeholder={
-            selectedBearingTypeOption
-              ? selectedBearingTypeOption.label
-              : intl.formatMessage({
-                  id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
-                })
+            enums.BearingTypes.find(
+              (item) => item.Value === formik.values.bearingType
+            )?.Title ||
+            intl.formatMessage({
+              id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
+            })
           }
         />
       </div>
@@ -284,15 +347,34 @@ const LedgerAddModalForm = ({
           <label className=" fw-bold fs-6 mb-2">
             {intl.formatMessage({ id: "Fields.DefaultTax" })}
           </label>
+          {console.log(formik.values)!}
+          {
+            console.log(
+              vatTypes?.map((item: any) =>
+                item.options.find(
+                  (option: any) =>
+                    option.value === formik.values.defaultTaxTypeId
+                )
+              )
+            )!
+          }
           <Select
-            // {...formik.getFieldProps("defaultTaxTypeId")}
-            onChange={(selectedOption) =>
-              formik.setFieldValue("defaultTaxTypeId", selectedOption?.value)
-            }
+            onChange={(selectedOption: any) => {
+              formik.setFieldValue("defaultTaxTypeId", selectedOption?.value);
+            }}
             onBlur={() => formik.setFieldTouched("defaultTaxTypeId", true)}
-            placeholder={intl.formatMessage({
-              id: "Fields.SelectOptionNoVatType",
-            })}
+            placeholder={
+              vatTypes?.map(
+                (item: any) =>
+                  item.options.find(
+                    (option: any) =>
+                      option.value === formik.values.defaultTaxTypeId
+                  )?.label
+              ) ||
+              intl.formatMessage({
+                id: "Fields.SelectOptionNoVatType",
+              })
+            }
             className={clsx(
               "react-select-styled",
               {
@@ -306,7 +388,7 @@ const LedgerAddModalForm = ({
                   !formik.errors.defaultTaxTypeId,
               }
             )}
-            isDisabled={!selectedBearingTypeOption}
+            isDisabled={!formik.values.bearingType}
             options={vatTypes}
           />
 
@@ -334,6 +416,7 @@ const LedgerAddModalForm = ({
               className="form-check-input h-30px w-50px"
               type="checkbox"
               id="disableManualInputSwitch"
+              checked={formik.values.disableManualInput}
               {...formik.getFieldProps("disableManualInput")}
               disabled={isSubmitting}
             />
@@ -344,7 +427,10 @@ const LedgerAddModalForm = ({
           </div>
         </div>
       </div>
-      {selectedBearingTypeOption?.IsAccountTypeBtw && (
+
+      {enums.BearingTypes.find((item) => {
+        return item.Value === formik.values.bearingType;
+      })?.IsAccountTypeBtw && (
         <>
           <div
             className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0 "
@@ -387,16 +473,27 @@ const LedgerAddModalForm = ({
 
                 setReportReferenceType1(selectedOption);
               }}
-              placeholder={intl.formatMessage({
-                id: "Fields.SelectOptionDefaultVatReportCategory",
-              })}
+              placeholder={
+                enums.VatReportReferenceTypes.find((item) => {
+                  return item.Value === formik.values.reportReferenceType1;
+                })?.Title ||
+                intl.formatMessage({
+                  id: "Fields.SelectOptionDefaultVatReportCategory",
+                })
+              }
             />
           </div>
         </>
       )}
 
-      {selectedBearingTypeOption?.IsAccountTypeBtw &&
-        pattern.test(reportReferenceType1?.label) && (
+      {enums.BearingTypes.find((item) => {
+        return item.Value === formik.values.bearingType;
+      })?.IsAccountTypeBtw &&
+        pattern.test(
+          enums.VatReportReferenceTypes.find((item) => {
+            return item.Value === formik.values.reportReferenceType1;
+          })!?.Title
+        ) && (
           <div className="form-group">
             <label className="d-block fw-bold fs-6 mb-2">
               {intl.formatMessage({
@@ -406,9 +503,17 @@ const LedgerAddModalForm = ({
             <Select
               className="react-select-styled"
               options={reportingLedgers}
-              placeholder={intl.formatMessage({
-                id: "Fields.SelectOptionDefaultLedgerAccountType",
-              })}
+              placeholder={
+                reportingLedgers.find((item) => {
+                  return (
+                    item.value ===
+                    formik.values.reportReferenceType2LegderAccountId
+                  );
+                })?.label ||
+                intl.formatMessage({
+                  id: "Fields.SelectOptionDefaultLedgerAccountType",
+                })
+              }
               onChange={(selectedOption) => {
                 formik.setFieldValue(
                   "reportReferenceType2LegderAccountId",
@@ -418,7 +523,10 @@ const LedgerAddModalForm = ({
             />
           </div>
         )}
-      {selectedBearingTypeOption?.IsAccountTypeCost && (
+
+      {enums.BearingTypes.find((item) => {
+        return item.Value === formik.values.bearingType;
+      })?.IsAccountTypeCost && (
         <div className="form-group">
           <div className="row">
             <div className="col-md-12">
@@ -461,6 +569,9 @@ const LedgerAddModalForm = ({
                   {...formik.getFieldProps(
                     formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
                   )}
+                  checked={
+                    formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
+                  }
                   onChange={(e) =>
                     formik.setFieldValue(
                       "taxDeductibleSettings.isNotFullyTaxDeductible",
@@ -529,15 +640,6 @@ const LedgerAddModalForm = ({
               </label>
               <Select
                 className="react-select-styled"
-                onChange={(selectedOption) => {
-                  formik.setFieldValue(
-                    "taxDeductibleSettings.deductiblePrivateLedgerAccountId",
-                    selectedOption?.value
-                  );
-                }}
-                isDisabled={
-                  !formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
-                }
                 value={
                   formik.values.taxDeductibleSettings
                     .deductiblePrivateLedgerAccountId === 0
@@ -549,6 +651,15 @@ const LedgerAddModalForm = ({
                             .deductiblePrivateLedgerAccountId
                       ) || null
                 }
+                onChange={(selectedOption) => {
+                  formik.setFieldValue(
+                    "taxDeductibleSettings.deductiblePrivateLedgerAccountId",
+                    selectedOption?.value
+                  );
+                }}
+                isDisabled={
+                  !formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
+                }
                 options={privateLedgers}
                 menuPlacement="top"
                 placeholder={intl.formatMessage({
@@ -559,9 +670,8 @@ const LedgerAddModalForm = ({
           </div>
         </div>
       )}
-      {/* end::Input group */}
     </form>
   );
 };
 
-export { LedgerAddModalForm };
+export default LedgerEditModalForm;

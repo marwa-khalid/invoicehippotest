@@ -112,17 +112,21 @@ export interface LedgerAccountsForFilterResult {
   resultItems: BalanceItem[];
 }
 
-export interface VatTypeByIdResult {
+export interface LedgerAccountByIdResult {
   id: number;
-  ledgerAccountId: number;
   templateId: number;
   title: string;
-  value: number;
-  vatAreaUsageType: number;
-  isAlwaysExBtw: boolean;
-  showOnDocuments: boolean;
-  useInLists: boolean;
-  isNoneVatType: boolean;
+  code: string;
+  defaultTaxTypeId: number;
+  bearingType: number;
+  reportReferenceType1: number;
+  reportReferenceType2LegderAccountId: number;
+  disableManualInput: boolean;
+  taxDeductibleSettings: {
+    isNotFullyTaxDeductible: boolean;
+    taxDeductiblePercentage: number;
+    deductiblePrivateLedgerAccountId: number;
+  };
 }
 
 export interface LedgerForVatResult {
@@ -237,7 +241,7 @@ export const initialUser: User = {
 export type LedgerAccountsModel = ApiResponse<LedgerAccountsResult>;
 export type LedgerAccountsForFilterModel =
   ApiResponse<LedgerAccountsForFilterResult>;
-export type VatTypeByIdModel = ApiResponse<VatTypeByIdResult>;
+export type LedgerAccountByIdModel = ApiResponse<LedgerAccountByIdResult>;
 export type LedgerForVatModel = ApiResponse<LedgerForVatResult>;
 export type VatTypesForLedgerModel = ApiResponse<VatTypesForLedgerResult>;
 export type PrivateLedgersModel = ApiResponse<BalanceItem[]>;

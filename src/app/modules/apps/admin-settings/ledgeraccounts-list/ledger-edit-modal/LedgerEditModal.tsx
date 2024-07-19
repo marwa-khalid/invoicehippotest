@@ -1,85 +1,39 @@
 import { useEffect, useState } from "react";
-import { LedgerAddModalHeader } from "./LedgerAddModalHeader";
-import { LedgerAddModalFooter } from "./LedgerAddModalFooter";
-import { getVatTypesForLedger, postLedgerAccount } from "../core/_requests";
+import { LedgerEditModalHeader } from "./LedgerEditModalHeader";
+import { LedgerEditModalFooter } from "./LedgerEditModalFooter";
+import { getLedgerById, postLedgerAccount } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { LedgerAddModalForm } from "./LedgerAddModalForm";
+import LedgerEditModalForm from "./LedgerEditModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 interface Props {
   setRefresh: (type: boolean) => void;
-  setAddModalOpen: (type: boolean) => void;
+  setEditModalOpen: (type: boolean) => void;
+  editModalId: number;
 }
-const LedgerAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const LedgerEditModal = ({
+  setRefresh,
+  setEditModalOpen,
+  editModalId,
+}: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
       document.body.classList.remove("modal-open");
     };
   }, []);
+
   interface vatType {
     value: number;
     label: string;
   }
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [vatTypes, setVatTypes] = useState<vatType | any>();
+
   const intl = useIntl();
   const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
     useState<any>();
-  useEffect(() => {
-    const fetchVatTypes = async () => {
-      try {
-        const response = await getVatTypesForLedger();
-        let options = [];
-        if (selectedBearingTypeOption.IsAccountTypeOmzet) {
-          options = [
-            {
-              label: response.result.listForSalesGroupTitle,
-              options: response.result.listForSales.map((item) => ({
-                value: item.id,
-                label: item.title,
-              })),
-            },
-          ];
-        } else if (selectedBearingTypeOption.IsAccountTypeCost) {
-          options = [
-            {
-              label: response.result.listForCostsGroupTitle,
-              options: response.result.listForCosts.map((item) => ({
-                value: item.id,
-                label: item.title,
-              })),
-            },
-          ];
-        } else {
-          options = [
-            {
-              label: response.result.listForSalesGroupTitle,
-              options: response.result.listForSales.map((item) => ({
-                value: item.id,
-                label: item.title,
-              })),
-            },
-            {
-              label: response.result.listForCostsGroupTitle,
-              options: response.result.listForCosts.map((item) => ({
-                value: item.id,
-                label: item.title,
-              })),
-            },
-          ];
-        }
-
-        setVatTypes(options);
-      } catch (error) {
-        console.error("Error fetching ledger accounts:", error);
-      }
-    };
-
-    fetchVatTypes();
-  }, [selectedBearingTypeOption]);
 
   const [reportReferenceType1, setReportReferenceType1] = useState();
 
@@ -94,7 +48,7 @@ const LedgerAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       reportReferenceType2LegderAccountId: 0,
       disableManualInput: true,
       taxDeductibleSettings: {
-        isNotFullyTaxDeductible: true,
+        isNotFullyTaxDeductible: false,
         taxDeductiblePercentage: 0,
         deductiblePrivateLedgerAccountId: 0,
       },
@@ -122,7 +76,7 @@ const LedgerAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         ),
       code: Yup.string()
         .min(
-          3,
+          2,
           intl
             .formatMessage({ id: "Common.ValidationMin" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
@@ -146,23 +100,6 @@ const LedgerAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
           .formatMessage({ id: "Common.RequiredFieldHint2" })
           .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
       ),
-
-      // "taxDeductibleSettings.isNotFullyTaxDeductible": Yup.boolean().required(
-      //   intl.formatMessage({ id: "Common.RequiredFieldHint2" }).replace(
-      //     "{0}",
-      //     intl.formatMessage({
-      //       id: "Fields.IsNotFullyTaxDeductible",
-      //     })
-      //   )
-      // ),
-      // "taxDeductibleSettings.taxDeductiblePercentage": Yup.number().required(
-      //   intl.formatMessage({ id: "Common.RequiredFieldHint2" }).replace(
-      //     "{0}",
-      //     intl.formatMessage({
-      //       id: "Fields.TaxDeductiblePercentage",
-      //     })
-      //   )
-      // ),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
@@ -180,18 +117,43 @@ const LedgerAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         );
         if (response.isValid) {
           formik.resetForm();
-          setAddModalOpen(false);
+          setEditModalOpen(false);
           setRefresh(true);
         }
         handleToast(response);
       } catch (error) {
-        console.error("Post failed:", error);
+        console.error("Put failed:", error);
       } finally {
         setIsSubmitting(false);
         setSubmitting(false);
       }
     },
   });
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const response = await getLedgerById(editModalId);
+
+        formik.setValues({
+          id: response.result.id,
+          title: response.result.title,
+          code: response.result.code,
+          defaultTaxTypeId: response.result.defaultTaxTypeId,
+          bearingType: response.result.bearingType,
+          reportReferenceType1: response.result.reportReferenceType1,
+          reportReferenceType2LegderAccountId:
+            response.result.reportReferenceType2LegderAccountId,
+          disableManualInput: response.result.disableManualInput,
+          taxDeductibleSettings: response.result.taxDeductibleSettings,
+        });
+      } catch (error) {
+        console.error("Error fetching initial data:", error);
+      }
+    };
+
+    fetchInitialData();
+  }, [editModalId]);
 
   return (
     <>
@@ -204,25 +166,24 @@ const LedgerAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <LedgerAddModalHeader setAddModalOpen={setAddModalOpen} />
+            <LedgerEditModalHeader setEditModalOpen={setEditModalOpen} />
             <div
               className="modal-body p-10"
               style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
             >
-              <LedgerAddModalForm
+              <LedgerEditModalForm
                 formik={formik}
                 setSelectedBearingTypeOption={setSelectedBearingTypeOption}
                 selectedBearingTypeOption={selectedBearingTypeOption}
                 isSubmitting={isSubmitting}
-                vatTypes={vatTypes}
                 setReportReferenceType1={setReportReferenceType1}
                 reportReferenceType1={reportReferenceType1}
               />
             </div>
-            <LedgerAddModalFooter
+            <LedgerEditModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
-              setAddModalOpen={setAddModalOpen}
+              setEditModalOpen={setEditModalOpen}
             />
           </div>
         </div>
@@ -232,4 +193,4 @@ const LedgerAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   );
 };
 
-export { LedgerAddModal };
+export { LedgerEditModal };
