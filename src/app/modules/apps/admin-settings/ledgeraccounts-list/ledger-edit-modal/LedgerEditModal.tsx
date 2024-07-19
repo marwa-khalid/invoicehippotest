@@ -100,6 +100,7 @@ const LedgerEditModal = ({
           .formatMessage({ id: "Common.RequiredFieldHint2" })
           .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
       ),
+      
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);

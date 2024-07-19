@@ -238,6 +238,22 @@ const LedgerEditModalForm: FC<Props> = ({
     }
   }, [formik.values.taxDeductibleSettings.isNotFullyTaxDeductible]);
 
+  const handlePercentageChange = (e: any) => {
+    let value = e.target.value;
+    // Remove any non-numeric characters
+    value = value.replace(/[^0-9]/g, "");
+    // Ensure the value is within the range
+    if (
+      /^\d*$/.test(value) &&
+      (value === "" || (Number(value) >= 0 && Number(value) <= 100))
+    ) {
+      formik.setFieldValue(
+        "taxDeductibleSettings.taxDeductiblePercentage",
+        value
+      );
+    }
+  };
+
   return (
     <form className="form p-3" onSubmit={formik.handleSubmit} noValidate>
       {/* begin::Input group */}
@@ -284,6 +300,7 @@ const LedgerEditModalForm: FC<Props> = ({
             </span>
             <input
               type="text"
+              readOnly
               {...formik.getFieldProps("code")}
               className={clsx(
                 "form-control form-control-solid",
@@ -364,13 +381,14 @@ const LedgerEditModalForm: FC<Props> = ({
             }}
             onBlur={() => formik.setFieldTouched("defaultTaxTypeId", true)}
             placeholder={
-              vatTypes?.map(
-                (item: any) =>
-                  item.options.find(
-                    (option: any) =>
-                      option.value === formik.values.defaultTaxTypeId
-                  )?.label
-              ) ||
+              (formik.values.defaultTaxTypeId &&
+                vatTypes?.map(
+                  (item: any) =>
+                    item.options.find(
+                      (option: any) =>
+                        option.value === formik.values.defaultTaxTypeId
+                    )?.label
+                )) ||
               intl.formatMessage({
                 id: "Fields.SelectOptionNoVatType",
               })
@@ -591,6 +609,8 @@ const LedgerEditModalForm: FC<Props> = ({
               <div className="input-group">
                 <input
                   type="number"
+                  min={0}
+                  max={100}
                   className={clsx(
                     "form-control form-control-solid",
                     {
@@ -609,22 +629,13 @@ const LedgerEditModalForm: FC<Props> = ({
                     }
                   )}
                   id="taxDeductiblePercentage"
-                  maxLength={2}
-                  min={0}
-                  max={99}
-                  step={1}
                   disabled={
                     !formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
                   }
                   value={
                     formik.values.taxDeductibleSettings.taxDeductiblePercentage
                   }
-                  onChange={(e) =>
-                    formik.setFieldValue(
-                      "taxDeductibleSettings.taxDeductiblePercentage",
-                      e.target.value
-                    )
-                  }
+                  onChange={handlePercentageChange}
                 />
 
                 <span className="input-group-text ms-1">%</span>

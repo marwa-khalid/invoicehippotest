@@ -1,22 +1,41 @@
+import React from "react";
 import { useIntl } from "react-intl";
+
 const ListLoading = () => {
   const intl = useIntl();
-  const styles = {
-    borderRadius: "0.475rem",
-    boxShadow: "0 0 50px 0 rgb(82 63 105 / 15%)",
-    backgroundColor: "#fff",
-    color: "#7e8299",
-    fontWeight: "500",
-    margin: "0",
-    width: "auto",
-    padding: "1rem 2rem",
-    top: "calc(50% - 2rem)",
-    left: "calc(50% - 4rem)",
+  const overlayStyles = {
+    // Ensure it is above other elements
   };
 
+  const contentStyles = {};
+
   return (
-    <div style={{ ...styles, position: "absolute", textAlign: "center" }}>
-      {intl.formatMessage({ id: "Common.Busy" })}...
+    <div
+      style={{
+        position: "fixed",
+        top: "0",
+        left: "0",
+        width: "100%",
+        height: "100%",
+        // backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: "9999", // Ensure it is above other elements
+        flexDirection: "column",
+        color: "#fff",
+      }}
+    >
+      <iframe
+        src="/Animation-v2.html"
+        allowTransparency
+        width="200"
+        height="200"
+        style={{ border: "none" }}
+      ></iframe>
+      <div style={{ marginTop: "1rem" }}>
+        {intl.formatMessage({ id: "Common.Busy" })}...
+      </div>
     </div>
   );
 };
