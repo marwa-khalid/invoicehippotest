@@ -31,6 +31,12 @@ export function Filter({
   const [filteredBearingGroups, setFilteredBearingGroups] = useState<
     GroupedOption[]
   >([]);
+  const [tempLedgerTypeOption, setTempLedgerTypeOption] = useState<any>(
+    selectedLedgerTypeOption
+  );
+  const [tempBearingTypeOption, setTempBearingTypeOption] = useState<any>(
+    selectedBearingTypeOption
+  );
 
   useEffect(() => {
     const toTitleCase = (str: string) => {
@@ -77,16 +83,15 @@ export function Filter({
   }, []);
 
   useEffect(() => {
-    if (selectedLedgerTypeOption) {
-      const selectedType =
-        selectedLedgerTypeOption.label || selectedLedgerTypeOption;
+    if (tempLedgerTypeOption) {
+      const selectedType = tempLedgerTypeOption.label || tempLedgerTypeOption;
       const filteredGroups = bearingGroups
         .filter((group) => group.label.props.children[0].includes(selectedType))
         .map((group) => ({
           ...group,
           label: (
             <div>
-              {selectedLedgerTypeOption.label || selectedLedgerTypeOption} -{" "}
+              {tempLedgerTypeOption.label || tempLedgerTypeOption} -{" "}
               <small>{group.label.props.children[2]}</small>
             </div>
           ),
@@ -95,44 +100,23 @@ export function Filter({
     } else {
       setFilteredBearingGroups(bearingGroups);
     }
-  }, [selectedLedgerTypeOption, bearingGroups]);
+  }, [tempLedgerTypeOption, bearingGroups]);
 
   const handleLedgerTypeChange = (option: any) => {
-    setSelectedLedgerTypeOption(option);
-
-    const storedPaginationString = localStorage.getItem("pagination");
-    const pagination = storedPaginationString
-      ? JSON.parse(storedPaginationString)
-      : {
-          "vat-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "", documentGroup: 0 },
-          },
-          "ledger-module": {
-            pageIndex: 1,
-            filters: {
-              searchTerm: "",
-              ledgerTypeFilter: 0,
-              bearingTypeFilter: 0,
-            },
-          },
-          "invoice-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "invoice-picker-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-        };
-
-    pagination["ledger-module"].filters.ledgerTypeFilter = option.value;
-    pagination["ledger-module"].pageIndex = 1;
-    localStorage.setItem("pagination", JSON.stringify(pagination));
+    setTempLedgerTypeOption(option);
   };
 
   const handleBearingTypeChange = (option: any) => {
-    setSelectedBearingTypeOption(option);
+    setTempBearingTypeOption(option);
+  };
+
+  const handleApply = () => {
+    setSelectedLedgerTypeOption(tempLedgerTypeOption);
+    setSelectedBearingTypeOption(tempBearingTypeOption);
+    setLedgerTypeFilter(tempLedgerTypeOption ? tempLedgerTypeOption.value : 0);
+    setBearingTypeFilter(
+      tempBearingTypeOption ? tempBearingTypeOption.value : 0
+    );
 
     const storedPaginationString = localStorage.getItem("pagination");
     const pagination = storedPaginationString
@@ -160,22 +144,20 @@ export function Filter({
           },
         };
 
-    pagination["ledger-module"].filters.bearingTypeFilter = option.value;
+    pagination["ledger-module"].filters.ledgerTypeFilter = tempLedgerTypeOption
+      ? tempLedgerTypeOption.value
+      : 0;
+    pagination["ledger-module"].filters.bearingTypeFilter =
+      tempBearingTypeOption ? tempBearingTypeOption.value : 0;
     pagination["ledger-module"].pageIndex = 1;
     localStorage.setItem("pagination", JSON.stringify(pagination));
-  };
 
-  const handleApply = () => {
-    if (selectedLedgerTypeOption) {
-      setLedgerTypeFilter(selectedLedgerTypeOption.value);
-    }
-    if (selectedBearingTypeOption) {
-      setBearingTypeFilter(selectedBearingTypeOption.value);
-    }
     onFilterApply(true);
   };
 
   const handleReset = () => {
+    setTempLedgerTypeOption(null);
+    setTempBearingTypeOption(null);
     setSelectedLedgerTypeOption(null);
     setSelectedBearingTypeOption(null);
     onFilterApply(false);
@@ -225,14 +207,14 @@ export function Filter({
           <Select
             className="react-select-styled"
             placeholder={
-              selectedLedgerTypeOption
-                ? selectedLedgerTypeOption
+              tempLedgerTypeOption
+                ? tempLedgerTypeOption.label
                 : intl.formatMessage({
                     id: "Fields.SelectOptionDefaultLedgerAccountType",
                   })
             }
             menuPlacement="bottom"
-            value={selectedLedgerTypeOption || null}
+            value={tempLedgerTypeOption || null}
             onChange={handleLedgerTypeChange}
             options={enums.LedgerTypes.map((item: any) => ({
               value: item.Value,
@@ -254,14 +236,14 @@ export function Filter({
           <Select
             className="react-select-styled"
             placeholder={
-              selectedBearingTypeOption
-                ? selectedBearingTypeOption
+              tempBearingTypeOption
+                ? tempBearingTypeOption.label
                 : intl.formatMessage({
                     id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
                   })
             }
             menuPlacement="bottom"
-            value={selectedBearingTypeOption || null}
+            value={tempBearingTypeOption || null}
             onChange={handleBearingTypeChange}
             options={filteredBearingGroups}
             closeMenuOnSelect={false}

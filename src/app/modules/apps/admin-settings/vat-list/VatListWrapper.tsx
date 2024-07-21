@@ -2,7 +2,7 @@ import { ListViewProvider, useListView } from "./core/ListViewProvider";
 import { QueryRequestProvider } from "./core/QueryRequestProvider";
 import { QueryResponseProvider } from "./core/QueryResponseProvider";
 import { VatListHeader } from "./components/header/VatListHeader";
-import { VatTypesList } from "./table/VatTypesList";
+import { VatTypesList } from "./list/VatTypesList";
 import { VatAddModal } from "./vat-add-modal/VatAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";

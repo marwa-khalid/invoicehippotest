@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useIntl } from "react-intl";
 import Select from "react-select";
 import enums from "../../../../../../../invoicehippo.enums.json";
+
 interface ComponentProps {
   setVatAreaUsageTypeFilter: (type: number) => void;
   onFilterApply: (isApplied: boolean) => void;
@@ -17,62 +18,65 @@ export function Filter({
 }: ComponentProps) {
   const intl = useIntl();
 
-  // Define options for the Select component
   // State to manage the selected option locally
+  const [tempSelectedOption, setTempSelectedOption] =
+    useState<any>(selectedOption);
 
   // Handle change in selection
   const handleChange = (option: any) => {
-    setSelectedOption(option);
-
-    // Retrieve the stored JSON string from local storage, if it exists
-    let storedPaginationString = localStorage.getItem("pagination");
-
-    // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
-    let pagination = storedPaginationString
-      ? JSON.parse(storedPaginationString)
-      : {
-          "vat-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "", documentGroup: 0 },
-          },
-          "ledger-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "", ledgerTypeFilter: 0 },
-          },
-          "invoice-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "invoice-picker-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-        };
-
-    // Update the filter in the vat-module
-    pagination["vat-module"].filters.documentGroup = option.value;
-    pagination["vat-module"].pageIndex = 1;
-
-    // Convert the updated object back to a JSON string
-    const updatedPaginationString = JSON.stringify(pagination);
-
-    // Store the updated JSON string in local storage
-    localStorage.setItem("pagination", updatedPaginationString);
+    setTempSelectedOption(option);
   };
 
   // Apply the selected filter when the Apply button is clicked
   const handleApply = () => {
-    if (selectedOption) {
-      const value = selectedOption.value;
+    if (tempSelectedOption) {
+      const value = tempSelectedOption.value;
+      setSelectedOption(tempSelectedOption);
       setVatAreaUsageTypeFilter(value);
+
+      // Retrieve the stored JSON string from local storage, if it exists
+      let storedPaginationString = localStorage.getItem("pagination");
+
+      // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
+      let pagination = storedPaginationString
+        ? JSON.parse(storedPaginationString)
+        : {
+            "vat-module": {
+              pageIndex: 1,
+              filters: { searchTerm: "", documentGroup: 0 },
+            },
+            "ledger-module": {
+              pageIndex: 1,
+              filters: { searchTerm: "", ledgerTypeFilter: 0 },
+            },
+            "invoice-module": {
+              pageIndex: 1,
+              filters: { searchTerm: "" },
+            },
+            "invoice-picker-module": {
+              pageIndex: 1,
+              filters: { searchTerm: "" },
+            },
+          };
+
+      // Update the filter in the vat-module
+      pagination["vat-module"].filters.documentGroup = value;
+      pagination["vat-module"].pageIndex = 1;
+
+      // Convert the updated object back to a JSON string
+      const updatedPaginationString = JSON.stringify(pagination);
+
+      // Store the updated JSON string in local storage
+      localStorage.setItem("pagination", updatedPaginationString);
+
       onFilterApply(true);
     }
   };
 
   // Reset the selection
   const handleReset = () => {
+    setTempSelectedOption(null);
     setSelectedOption(null);
-    localStorage.removeItem("filter");
     onFilterApply(false);
     localStorage.setItem(
       "pagination",
@@ -117,20 +121,21 @@ export function Filter({
           <Select
             className="react-select-styled"
             placeholder={
-              selectedOption
-                ? selectedOption
+              tempSelectedOption
+                ? tempSelectedOption.label
                 : intl.formatMessage({
                     id: "Fields.SelectOptionDefaultVatAreaUsageType",
                   })
             }
             menuPlacement="bottom"
-            value={selectedOption || ""} // Set the current selected value
+            value={tempSelectedOption || ""} // Set the current selected value
             onChange={handleChange} // Handle change in selection
             options={enums.VatAreaUsageTypes.map((item) => ({
               value: item.Value,
               label: item.Title,
             }))} // Options for the select component
             closeMenuOnSelect={false}
+            isClearable
             data-kt-menu-dismiss="false"
           />
         </div>

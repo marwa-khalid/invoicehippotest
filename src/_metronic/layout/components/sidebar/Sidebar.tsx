@@ -33,7 +33,7 @@ const Sidebar = () => {
             }
           )}
           style={{
-            padding: "10px",
+            padding: "5px",
             backgroundColor: "transparent",
           }}
 

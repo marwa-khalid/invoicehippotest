@@ -1810,6 +1810,8 @@
   "Fields.FilterApplyBtn": "apply",
   "Fields.FilterResetBtn": "reset",
   "Fields.FilterPopUpTitle": "Filter Options",
+  "Fields.TaxReportingSettings": "Tax return settings",
+  "Fields.TaxReportingSettingsInfo": "Here you can indicate which declaration section should be linked to the general ledger account. This way we can automate the tax return report for you.",
   "Menu.HeaderStart": "Start",
   "Menu.HeaderStartSubTitle": "dashboard \u0026 inbox\u003cbr /\u003e\u0026nbsp;",
   "Menu.Dashboard": "Dashboard",

@@ -174,6 +174,22 @@ const LedgerAddModalForm = ({
     }
   }, [formik.values.taxDeductibleSettings.isNotFullyTaxDeductible]);
 
+  const handlePercentageChange = (e: any) => {
+    let value = e.target.value;
+    // Remove any non-numeric characters
+    value = value.replace(/[^0-9]/g, "");
+    // Ensure the value is within the range
+    if (
+      /^\d*$/.test(value) &&
+      (value === "" || (Number(value) >= 0 && Number(value) <= 100))
+    ) {
+      formik.setFieldValue(
+        "taxDeductibleSettings.taxDeductiblePercentage",
+        value
+      );
+    }
+  };
+
   return (
     <form className="form p-3" onSubmit={formik.handleSubmit} noValidate>
       {/* begin::Input group */}
@@ -203,7 +219,7 @@ const LedgerAddModalForm = ({
       {/* begin::Input group */}
       <div className="row d-flex mb-7">
         {/* code Field */}
-        <div className={clsx("fv-row  flex-grow-1 col-5")}>
+        <div className="fv-row  flex-grow-1 col-5">
           <label className="required fw-bold fs-6 mb-2">
             {" "}
             {intl.formatMessage({ id: "Fields.Code" })}
@@ -359,11 +375,11 @@ const LedgerAddModalForm = ({
             </div>
             <div className="alert-text  col-11">
               <h4 className="alert-heading">
-                {intl.formatMessage({ id: "Fields.TaxDeductibleSettings" })}
+                {intl.formatMessage({ id: "Fields.TaxReportingSettings" })}
               </h4>
               <p>
                 {intl.formatMessage({
-                  id: "Fields.TaxDeductibleSettingsInfo",
+                  id: "Fields.TaxReportingSettingsInfo",
                 })}
               </p>
             </div>
@@ -498,22 +514,15 @@ const LedgerAddModalForm = ({
                     }
                   )}
                   id="taxDeductiblePercentage"
-                  maxLength={2}
                   min={0}
                   max={99}
-                  step={1}
                   disabled={
                     !formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
                   }
                   value={
                     formik.values.taxDeductibleSettings.taxDeductiblePercentage
                   }
-                  onChange={(e) =>
-                    formik.setFieldValue(
-                      "taxDeductibleSettings.taxDeductiblePercentage",
-                      e.target.value
-                    )
-                  }
+                  onChange={handlePercentageChange}
                 />
 
                 <span className="input-group-text ms-1">%</span>

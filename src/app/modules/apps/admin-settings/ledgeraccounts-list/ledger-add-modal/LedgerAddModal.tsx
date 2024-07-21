@@ -122,7 +122,7 @@ const LedgerAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         ),
       code: Yup.string()
         .min(
-          3,
+          2,
           intl
             .formatMessage({ id: "Common.ValidationMin" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))

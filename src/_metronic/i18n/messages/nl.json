@@ -1810,6 +1810,8 @@
   "Fields.FilterApplyBtn": "toepassen",
   "Fields.FilterResetBtn": "herstel",
   "Fields.FilterPopUpTitle": "Filter Opties",
+  "Fields.TaxReportingSettings": "BTW aangifte instellingen",
+  "Fields.TaxReportingSettingsInfo": "Hier kun je aangeven welke aangifte rubriek gekoppeld moet worden aan de grootboekrekening. Op deze manier kunnen wij het aangifte report voor jou automatiseren.",
   "Menu.HeaderStart": "Start",
   "Menu.HeaderStartSubTitle": "dashboard \u0026 inbox\u003cbr /\u003e\u0026nbsp;",
   "Menu.Dashboard": "Dashboard",

@@ -58,7 +58,7 @@ const SidebarLogo = (props: PropsType) => {
           ref={toggleRef}
           id="kt_app_sidebar_toggle"
           className={clsx(
-            "btn btn-md btn-icon btn-active-color-primary w-30px h-30px ms-n2 d-none d-lg-flex",
+            "btn btn-md btn-icon btn-active-color-primary w-30px h-30px ms-n3 d-none d-lg-flex",
             { active: appSidebarDefaultMinimizeDefault }
           )}
           data-kt-toggle="true"
@@ -66,7 +66,7 @@ const SidebarLogo = (props: PropsType) => {
           data-kt-toggle-target="body"
           data-kt-toggle-name={`app-sidebar-${toggleType}`}
         >
-          <i className="ki-duotone ki-menu fs-2x ">
+          <i className="ki-duotone ki-menu fs-3x">
             <span className="path1"></span>
             <span className="path2"></span>
             <span className="path3"></span>
@@ -81,32 +81,32 @@ const SidebarLogo = (props: PropsType) => {
         //   ></i> */}
         // </div>
       )}
-      <Link to="/dashboard" className="">
+      <Link to="/dashboard" className="ms-n4">
         {config.layoutType === "dark-sidebar" ? (
           <img
             alt="Logo"
-            src={toAbsoluteUrl("media/logos/invoicehippo_art01.svg")}
-            className="h-25px app-sidebar-logo-default"
+            src={toAbsoluteUrl("media/logos/invoicehippo_one_line_art01.svg")}
+            className="h-250px app-sidebar-logo-default "
           />
         ) : (
           <>
             <img
               alt="Logo"
-              src={toAbsoluteUrl("media/logos/invoicehippo_art01.svg")}
-              className="h-150px w-200 app-sidebar-logo-default theme-light-show"
+              src={toAbsoluteUrl("media/logos/invoicehippo_one_line_art01.svg")}
+              className="h-250px app-sidebar-logo-default theme-light-show"
             />
             <img
               alt="Logo"
-              src={toAbsoluteUrl("media/logos/invoicehippo_art01.svg")}
-              className="h-150px w-200 app-sidebar-logo-default theme-dark-show"
+              src={toAbsoluteUrl("media/logos/invoicehippo_one_line_art01.svg")}
+              className="h-250px  app-sidebar-logo-default theme-dark-show"
             />
           </>
         )}
 
         <img
           alt="Logo"
-          src={toAbsoluteUrl("media/logos/invoicehippo_art01.svg")}
-          className="h-150px w-200 app-sidebar-logo-minimize me-200px"
+          src={toAbsoluteUrl("media/logos/invoicehippo_one_line_art01.svg")}
+          className="h-250px w-auto app-sidebar-logo-minimize me-200px"
         />
       </Link>
     </div>

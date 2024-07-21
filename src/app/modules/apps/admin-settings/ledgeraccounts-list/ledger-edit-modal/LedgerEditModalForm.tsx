@@ -255,13 +255,18 @@ const LedgerEditModalForm: FC<Props> = ({
   };
 
   return (
-    <form className="form p-3" onSubmit={formik.handleSubmit} noValidate>
+    <form
+      className="form p-3"
+      style={{ zIndex: "9999" }}
+      onSubmit={formik.handleSubmit}
+      noValidate
+    >
       {/* begin::Input group */}
       <div className="fv-row mb-7">
         <label className="required fw-bold fs-6 mb-2">
           {intl.formatMessage({ id: "Fields.BearingType" })}
         </label>
-        {console.log(formik.values)!}
+
         <Select
           className="react-select-styled react-select-transparent border-bottom"
           options={bearingGroups}
@@ -282,7 +287,7 @@ const LedgerEditModalForm: FC<Props> = ({
       {/* begin::Input group */}
       <div className="row d-flex mb-7">
         {/* code Field */}
-        <div className={clsx("fv-row  flex-grow-1 col-5")}>
+        <div className="fv-row flex-grow-1 col-5">
           <label className="required fw-bold fs-6 mb-2">
             {" "}
             {intl.formatMessage({ id: "Fields.Code" })}
@@ -463,11 +468,11 @@ const LedgerEditModalForm: FC<Props> = ({
             </div>
             <div className="alert-text  col-11">
               <h4 className="alert-heading">
-                {intl.formatMessage({ id: "Fields.TaxDeductibleSettings" })}
+                {intl.formatMessage({ id: "Fields.TaxReportingSettings" })}
               </h4>
               <p>
                 {intl.formatMessage({
-                  id: "Fields.TaxDeductibleSettingsInfo",
+                  id: "Fields.TaxReportingSettingsInfo",
                 })}
               </p>
             </div>
