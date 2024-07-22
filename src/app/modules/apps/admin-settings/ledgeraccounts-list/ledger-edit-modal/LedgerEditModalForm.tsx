@@ -69,8 +69,6 @@ const LedgerEditModalForm: FC<Props> = ({
   );
   const [vatTypes, setVatTypes] = useState<SelectorOption | any>();
   const pattern = /NL\/(2A|4A|4B)/;
-
-  console.log(formik.values);
   useEffect(() => {
     const getLedgerforPrivate = async () => {
       const response = await getPrivateLedgerAccounts();
@@ -287,7 +285,6 @@ const LedgerEditModalForm: FC<Props> = ({
           })}
           isClearable
         />
-        {console.log(formik.values.bearingType)!}
       </div>
       {/* end::Input group */}
       {/* begin::Input group */}
@@ -513,8 +510,6 @@ const LedgerEditModalForm: FC<Props> = ({
         </>
       )}
 
-      {console.log(formik.values.reportReferenceType1)!}
-
       {enums.BearingTypes.find((item) => {
         return item.Value === formik.values.bearingType;
       })?.IsAccountTypeBtw &&
@@ -555,8 +550,6 @@ const LedgerEditModalForm: FC<Props> = ({
             />
           </div>
         )}
-
-      {console.log(formik.values.reportReferenceType2LegderAccountId)!}
 
       {enums.BearingTypes.find((item) => {
         return item.Value === formik.values.bearingType;
