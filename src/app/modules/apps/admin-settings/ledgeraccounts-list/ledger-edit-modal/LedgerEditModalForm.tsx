@@ -273,15 +273,21 @@ const LedgerEditModalForm: FC<Props> = ({
           onChange={(selectedOption: any) => {
             formik.setFieldValue("bearingType", selectedOption?.value!);
           }}
-          placeholder={
-            enums.BearingTypes.find(
-              (item) => item.Value === formik.values.bearingType
-            )?.Title ||
-            intl.formatMessage({
-              id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
-            })
+          value={
+            formik.values.bearingType === 0
+              ? null
+              : bearingGroups.map((item: any) =>
+                  item.options.find(
+                    (option: any) => option.value === formik.values.bearingType
+                  )
+                ) || null
           }
+          placeholder={intl.formatMessage({
+            id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
+          })}
+          isClearable
         />
+        {console.log(formik.values.bearingType)!}
       </div>
       {/* end::Input group */}
       {/* begin::Input group */}
@@ -369,35 +375,26 @@ const LedgerEditModalForm: FC<Props> = ({
           <label className=" fw-bold fs-6 mb-2">
             {intl.formatMessage({ id: "Fields.DefaultTax" })}
           </label>
-          {console.log(formik.values)!}
-          {
-            console.log(
-              vatTypes?.map((item: any) =>
-                item.options.find(
-                  (option: any) =>
-                    option.value === formik.values.defaultTaxTypeId
-                )
-              )
-            )!
-          }
+
           <Select
             onChange={(selectedOption: any) => {
               formik.setFieldValue("defaultTaxTypeId", selectedOption?.value);
             }}
-            onBlur={() => formik.setFieldTouched("defaultTaxTypeId", true)}
-            placeholder={
-              (formik.values.defaultTaxTypeId &&
-                vatTypes?.map(
-                  (item: any) =>
+            value={
+              formik.values.defaultTaxTypeId === 0
+                ? null
+                : vatTypes?.map((item: any) =>
                     item.options.find(
                       (option: any) =>
                         option.value === formik.values.defaultTaxTypeId
-                    )?.label
-                )) ||
-              intl.formatMessage({
-                id: "Fields.SelectOptionNoVatType",
-              })
+                    )
+                  ) || null
             }
+            onBlur={() => formik.setFieldTouched("defaultTaxTypeId", true)}
+            placeholder={intl.formatMessage({
+              id: "Fields.SelectOptionNoVatType",
+            })}
+            isClearable
             className={clsx(
               "react-select-styled",
               {
@@ -488,6 +485,17 @@ const LedgerEditModalForm: FC<Props> = ({
                 value: item.Value,
                 label: item.Title,
               }))}
+              value={
+                formik.values.reportReferenceType1 === 0
+                  ? null
+                  : enums.VatReportReferenceTypes.filter(
+                      (item) =>
+                        item.Value === formik.values.reportReferenceType1
+                    ).map((item) => ({
+                      value: item.Value,
+                      label: item.Title,
+                    }))[0] || null
+              }
               onChange={(selectedOption) => {
                 formik.setFieldValue(
                   "reportReferenceType1",
@@ -496,18 +504,16 @@ const LedgerEditModalForm: FC<Props> = ({
 
                 setReportReferenceType1(selectedOption);
               }}
-              placeholder={
-                enums.VatReportReferenceTypes.find((item) => {
-                  return item.Value === formik.values.reportReferenceType1;
-                })?.Title ||
-                intl.formatMessage({
-                  id: "Fields.SelectOptionDefaultVatReportCategory",
-                })
-              }
+              placeholder={intl.formatMessage({
+                id: "Fields.SelectOptionDefaultVatReportCategory",
+              })}
+              isClearable
             />
           </div>
         </>
       )}
+
+      {console.log(formik.values.reportReferenceType1)!}
 
       {enums.BearingTypes.find((item) => {
         return item.Value === formik.values.bearingType;
@@ -526,26 +532,31 @@ const LedgerEditModalForm: FC<Props> = ({
             <Select
               className="react-select-styled"
               options={reportingLedgers}
-              placeholder={
-                reportingLedgers.find((item) => {
-                  return (
-                    item.value ===
-                    formik.values.reportReferenceType2LegderAccountId
-                  );
-                })?.label ||
-                intl.formatMessage({
-                  id: "Fields.SelectOptionDefaultLedgerAccountType",
-                })
+              value={
+                formik.values.reportReferenceType2LegderAccountId === 0
+                  ? null
+                  : reportingLedgers.find((item) => {
+                      return (
+                        item.value ===
+                        formik.values.reportReferenceType2LegderAccountId
+                      );
+                    }) || null
               }
+              placeholder={intl.formatMessage({
+                id: "Fields.SelectOptionDefaultLedgerAccountType",
+              })}
               onChange={(selectedOption) => {
                 formik.setFieldValue(
                   "reportReferenceType2LegderAccountId",
                   selectedOption?.value
                 );
               }}
+              isClearable
             />
           </div>
         )}
+
+      {console.log(formik.values.reportReferenceType2LegderAccountId)!}
 
       {enums.BearingTypes.find((item) => {
         return item.Value === formik.values.bearingType;
@@ -681,6 +692,7 @@ const LedgerEditModalForm: FC<Props> = ({
                 placeholder={intl.formatMessage({
                   id: "Fields.SelectOptionDefaultLedgerAccount",
                 })}
+                isClearable
               />
             </div>
           </div>

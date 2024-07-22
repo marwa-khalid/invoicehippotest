@@ -213,6 +213,7 @@ const LedgerAddModalForm = ({
                   id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
                 })
           }
+          isClearable
         />
       </div>
       {/* end::Input group */}
@@ -324,6 +325,7 @@ const LedgerAddModalForm = ({
             )}
             isDisabled={!selectedBearingTypeOption}
             options={vatTypes}
+            isClearable
           />
 
           {formik.touched.defaultTaxTypeId &&
@@ -406,6 +408,7 @@ const LedgerAddModalForm = ({
               placeholder={intl.formatMessage({
                 id: "Fields.SelectOptionDefaultVatReportCategory",
               })}
+              isClearable
             />
           </div>
         </>
@@ -431,9 +434,11 @@ const LedgerAddModalForm = ({
                   selectedOption?.value
                 );
               }}
+              isClearable
             />
           </div>
         )}
+
       {selectedBearingTypeOption?.IsAccountTypeCost && (
         <div className="form-group">
           <div className="row">
@@ -563,6 +568,7 @@ const LedgerAddModalForm = ({
                 placeholder={intl.formatMessage({
                   id: "Fields.SelectOptionDefaultLedgerAccount",
                 })}
+                isClearable
               />
             </div>
           </div>
