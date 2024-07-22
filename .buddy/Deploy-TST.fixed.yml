@@ -16,7 +16,6 @@
     shell: "BASH"
   - action: "Transfer to hps-ams-web02"
     type: "UPCLOUD"
-    disabled: true
     input_type: "BUILD_ARTIFACTS"
     local_path: "/dist"
     login: "buddy automation"
