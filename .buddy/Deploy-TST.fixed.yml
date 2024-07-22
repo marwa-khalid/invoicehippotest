@@ -18,7 +18,7 @@
     type: "UPCLOUD"
     input_type: "BUILD_ARTIFACTS"
     local_path: "/dist"
-    remote_path: "$"
+    remote_path: "$/Production/Portal-V3"
     login: "buddy automation"
     password: "secure!hQGgs+Mm57T2wQvftIaTQEVs0HsSoKX0N67aVrUM3Vc=.83cG7QAFAoJMN5yppr+o/w=="
     host: "94.237.45.208"
