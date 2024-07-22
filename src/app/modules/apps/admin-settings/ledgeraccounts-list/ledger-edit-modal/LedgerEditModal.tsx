@@ -23,12 +23,6 @@ const LedgerEditModal = ({
       document.body.classList.remove("modal-open");
     };
   }, []);
-
-  interface vatType {
-    value: number;
-    label: string;
-  }
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const intl = useIntl();
@@ -100,7 +94,6 @@ const LedgerEditModal = ({
           .formatMessage({ id: "Common.RequiredFieldHint2" })
           .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
       ),
-      
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
