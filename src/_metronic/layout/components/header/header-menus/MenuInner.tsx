@@ -170,6 +170,11 @@ export function MenuInner() {
           title="Ledger Accounts"
           hasBullet={true}
         />
+        <MenuItem
+          to="/admin/financialaccount"
+          title="Financial Accounts"
+          hasBullet={true}
+        />
       </MenuInnerWithSub>
 
       <MenuInnerWithSub

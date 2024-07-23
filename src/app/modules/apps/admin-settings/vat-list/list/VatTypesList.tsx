@@ -77,15 +77,31 @@ const VatTypesList = ({
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
-      <KTSVG
-        path="media/icons/duotune/general/gen037.svg"
-        className="svg-icon-success svg-icon-2x"
-      />
+      <button
+        className="btn btn-sm btn-icon"
+        type="button"
+        data-bs-placement="top"
+        data-bs-toggle="tooltip"
+        title="actief"
+      >
+        <KTSVG
+          path="media/icons/duotune/general/gen037.svg"
+          className="svg-icon-success svg-icon-2x"
+        />
+      </button>
     ) : (
-      <KTSVG
-        path="media/icons/duotune/general/gen037.svg"
-        className="svg-icon-danger svg-icon-2x"
-      />
+      <button
+        className="btn btn-sm btn-icon"
+        type="button"
+        data-bs-placement="top"
+        data-bs-toggle="tooltip"
+        title="inactief"
+      >
+        <KTSVG
+          path="media/icons/duotune/general/gen037.svg"
+          className="svg-icon-danger svg-icon-2x"
+        />
+      </button>
     );
   };
   const openEditModal = (id: number) => {

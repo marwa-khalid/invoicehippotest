@@ -168,6 +168,11 @@ const SidebarMenuMain = () => {
           title="Ledger Accounts"
           hasBullet={true}
         />
+        <SidebarMenuItem
+          to="/admin/financialaccount"
+          title="Financial Accounts"
+          hasBullet={true}
+        />
       </SidebarMenuItemWithSub>
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">

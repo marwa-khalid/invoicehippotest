@@ -22,7 +22,7 @@ interface ComponentProps {
   editModalOpen: boolean;
   deleteModalOpen: boolean;
 }
-const LedgerAccountsList = ({
+const FinancialAccountsList = ({
   searchTerm,
   ledgerTypeFilter,
   setTotalRows,
@@ -81,31 +81,15 @@ const LedgerAccountsList = ({
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
-      <button
-        className="btn btn-sm btn-icon "
-        type="button"
-        data-bs-placement="top"
-        data-bs-toggle="tooltip"
-        title="open voor handmatige boekingen"
-      >
-        <KTSVG
-          path="media/icons/duotune/general/gen051.svg"
-          className="svg-icon-success svg-icon-2x"
-        />
-      </button>
+      <KTSVG
+        path="media/icons/duotune/general/gen051.svg"
+        className="svg-icon-success svg-icon-2x"
+      />
     ) : (
-      <button
-        className="btn btn-sm btn-icon"
-        type="button"
-        data-bs-placement="top"
-        data-bs-toggle="tooltip"
-        title="gesloten voor handmatige boekingen"
-      >
-        <KTSVG
-          path="media/icons/duotune/general/gen051.svg"
-          className="svg-icon-danger svg-icon-2x"
-        />
-      </button>
+      <KTSVG
+        path="media/icons/duotune/general/gen051.svg"
+        className="svg-icon-danger svg-icon-2x"
+      />
     );
   };
   const openEditModal = (id: number) => {
@@ -173,13 +157,7 @@ const LedgerAccountsList = ({
                             openDeleteModal(vatType.id, vatType.displayName);
                           }}
                         >
-                          <i className="ki-solid ki-trash text-danger fs-2">
-                            {/* <span className="path1"></span>
-                          <span className="path2"></span>
-                          <span className="path3"></span>
-                          <span className="path4"></span>
-                          <span className="path5"></span> */}
-                          </i>
+                          <i className="ki-solid ki-trash text-danger fs-2"></i>
                         </button>
                       )}
                     </div>
@@ -316,4 +294,4 @@ const LedgerAccountsList = ({
   );
 };
 
-export { LedgerAccountsList };
+export { FinancialAccountsList };
