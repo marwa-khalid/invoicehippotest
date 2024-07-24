@@ -226,7 +226,7 @@ const LedgerAddModalForm = ({
             {intl.formatMessage({ id: "Fields.Code" })}
           </label>
           <div className="input-group">
-            <span className="input-group-text me-1">
+            <span className="input-group-text  me-1" id="basic-addon1">
               <i className="ki-duotone ki-text-number text-dark fs-1">
                 <span className="path1"></span>
                 <span className="path2"></span>
@@ -240,12 +240,14 @@ const LedgerAddModalForm = ({
               type="text"
               {...formik.getFieldProps("code")}
               className={clsx(
-                "form-control form-control-solid",
-                { "is-invalid": formik.touched.code && formik.errors.code },
-                { "is-valid": formik.touched.code && !formik.errors.code }
+                "form-control form-control-solid"
+                // { "is-invalid": formik.touched.code && formik.errors.code },
+                // { "is-valid": formik.touched.code && !formik.errors.code }
               )}
               disabled={isSubmitting}
               placeholder={intl.formatMessage({ id: "Fields.Code" })}
+              aria-label="Code"
+              aria-describedby="basic-addon1"
             />
           </div>
 
@@ -273,9 +275,9 @@ const LedgerAddModalForm = ({
             type="text"
             {...formik.getFieldProps("title")}
             className={clsx(
-              "form-control form-control-solid",
-              { "is-invalid": formik.touched.title && formik.errors.title },
-              { "is-valid": formik.touched.title && !formik.errors.title }
+              "form-control form-control-solid"
+              // { "is-invalid": formik.touched.title && formik.errors.title },
+              // { "is-valid": formik.touched.title && !formik.errors.title }
             )}
             disabled={isSubmitting}
             placeholder={intl.formatMessage({ id: "Fields.Title" })}
