@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getFinancialAccounts } from "../core/_requests";
-import { LedgerAccountsResult } from "../core/_models";
+import { FinancialAccountsResult } from "../core/_models";
 import { ListLoading } from "../../components/ListLoading";
 import { VatListPagination } from "../components/pagination/FinancialListPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
-
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
@@ -103,159 +102,133 @@ const FinancialAccountsList = ({
       <div className="row row-cols-1 row-cols-md-1 g-4">
         {
           // !isLoading &&
-          financialAccounts?.result?.map((vatType: LedgerAccountsResult) => (
-            <div className="col" key={vatType.id}>
-              <div className="card h-100 py-6 ">
-                <div className="card-body">
-                  {/* First Row: Checkbox, Divider, Value */}
-                  <div className="d-flex align-items-center justify-content-between mb-3">
-                    <div
-                      className="d-flex align-items-center gap-3 cursor-pointer title-clickable"
-                      onClick={() => {
-                        openEditModal(vatType.id);
-                      }}
-                    >
-                      <>
-                        {renderLockIcon(vatType.allowManualBookings)}
-                        <span className="mx-2 text-muted">|</span>
-                      </>
-                      <strong>{vatType.displayName}</strong>
-                    </div>
-                    <div className="align-items-center my-lg-0 my-1 necessary-icons">
-                      {vatType.actions.canEdit && (
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => {
-                            openEditModal(vatType.id);
-                          }}
-                        >
-                          <i className="ki-solid ki-pencil text-warning fs-2 ">
-                            {/* <span className="path1"></span>
-                          <span className="path2"></span> */}
-                          </i>
-                        </button>
-                      )}
+          financialAccounts?.result?.map(
+            (financialAccount: FinancialAccountsResult) => (
+              <div className="col" key={financialAccount.id}>
+                <div className="card h-100 py-6 ">
+                  <div className="card-body">
+                    {/* First Row: Checkbox, Divider, Value */}
+                    <div className="d-flex align-items-center justify-content-between mb-3">
+                      <div
+                        className="d-flex align-items-center gap-3 cursor-pointer title-clickable"
+                        onClick={() => {
+                          openEditModal(financialAccount.id);
+                        }}
+                      >
+                        {/* <>
+                          {renderLockIcon(financialAccount.)}
+                          <span className="mx-2 text-muted">|</span>
+                        </> */}
+                        <strong>{financialAccount.accountName}</strong>
+                      </div>
+                      <div className="align-items-center my-lg-0 my-1 necessary-icons">
+                        {financialAccount.actions.canEdit && (
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            onClick={() => {
+                              openEditModal(financialAccount.id);
+                            }}
+                          >
+                            <i className="ki-solid ki-pencil text-warning fs-2 " />
+                          </button>
+                        )}
 
-                      {vatType.actions.canShowMutationsOverview && (
-                        <button className="btn btn-icon btn-light btn-sm me-4">
-                          <i className="ki-duotone ki-book text-info fs-2">
+                        {financialAccount.actions.canExtendAutomation && (
+                          <button className="btn btn-icon btn-light btn-sm me-4">
+                            <i className="ki-duotone ki-book text-info fs-2">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                              <span className="path3"></span>
+                              <span className="path4"></span>
+                            </i>
+                          </button>
+                        )}
+                        {financialAccount.actions.canRevokeAutomation && (
+                          <button className="btn btn-icon btn-light btn-sm me-4">
+                            <i className="ki-duotone ki-book text-info fs-2">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                              <span className="path3"></span>
+                              <span className="path4"></span>
+                            </i>
+                          </button>
+                        )}
+                        {financialAccount.actions.canDelete && (
+                          <button
+                            className="btn btn-icon btn-light btn-sm"
+                            onClick={() => {
+                              openDeleteModal(
+                                financialAccount.id,
+                                financialAccount.accountName
+                              );
+                            }}
+                          >
+                            <i className="ki-solid ki-trash text-danger fs-2"></i>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    {/* separator Line */}
+
+                    <div className="separator separator-solid mb-3"></div>
+
+                    {/* Verkoopfacturen Text */}
+
+                    <div className="mb-4 text-muted">
+                      <ul className="breadcrumb breadcrumb-black breadcrumb-dot">
+                        <li className="breadcrumb-item">
+                          <small>
+                            {" "}
+                            {financialAccount.accountType.description.toLowerCase()}
+                          </small>
+                        </li>
+                        {financialAccount.bankAccountCompanyType
+                          .description && (
+                          <li className="breadcrumb-item">
+                            <small>
+                              {financialAccount.bankAccountCompanyType.description.toLowerCase()}
+                            </small>
+                          </li>
+                        )}
+                        {financialAccount.accountNumber && (
+                          <li className="breadcrumb-item">
+                            <small>
+                              {financialAccount.accountNumber.toUpperCase()}
+                            </small>
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                    <div className="d-flex flex-row flex-wrap fs-8 gap-4">
+                      {/* Small Image and Ledger Account + Title */}
+                      {financialAccount.ledgerAccountId && (
+                        <div className="d-flex align-items-center flex-wrap">
+                          <i className="ki-duotone ki-file-added fs-3x text-warning ">
                             <span className="path1"></span>
                             <span className="path2"></span>
                             <span className="path3"></span>
                             <span className="path4"></span>
+                            <span className="path5"></span>
                           </i>
-                        </button>
-                      )}
-                      {vatType.actions.canDelete && (
-                        <button
-                          className="btn btn-icon btn-light btn-sm"
-                          onClick={() => {
-                            openDeleteModal(vatType.id, vatType.displayName);
-                          }}
-                        >
-                          <i className="ki-solid ki-trash text-danger fs-2"></i>
-                        </button>
+
+                          <div className="d-flex flex-column mx-6">
+                            <span className="fs-sm text-muted">
+                              {intl.formatMessage({
+                                id: "Fields.LedgerAccount",
+                              })}
+                            </span>
+                            <span className="text-primary fw-bolder">
+                              {financialAccount.ledgerAccountDisplayName}
+                            </span>
+                          </div>
+                        </div>
                       )}
                     </div>
                   </div>
-                  {/* separator Line */}
-
-                  <div className="separator separator-solid mb-3"></div>
-
-                  {/* Verkoopfacturen Text */}
-
-                  <div className="mb-4 text-muted">
-                    <ul className="breadcrumb breadcrumb-black breadcrumb-dot">
-                      <li className="breadcrumb-item">
-                        <small> {vatType.ledgerType.description}</small>
-                      </li>
-                      <li className="breadcrumb-item">
-                        <small>{vatType.ledgerSubType.description}</small>
-                      </li>
-                      <li className="breadcrumb-item">
-                        <small>{vatType.bearingType.description}</small>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="d-flex flex-row flex-wrap fs-8 gap-4">
-                    {/* Small Image and Ledger Account + Title */}
-                    {vatType.defaultTax && (
-                      <div className="d-flex align-items-center flex-wrap">
-                        <i className="ki-duotone ki-file-added fs-3x text-warning ">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                          <span className="path3"></span>
-                          <span className="path4"></span>
-                          <span className="path5"></span>
-                        </i>
-
-                        <div className="d-flex flex-column mx-6">
-                          <span className="fs-sm text-muted">
-                            {intl.formatMessage({ id: "Fields.DefaultTax" })}
-                          </span>
-                          <span className="text-primary fw-bolder">
-                            {vatType.defaultTax}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-
-                    {vatType.defaultTax &&
-                      vatType.vatReportReferenceType1 != null &&
-                      vatType.vatReportReferenceType1.value != 0 && (
-                        <span className="ms-2 h-37px bg-gray-400 w-1px me-6 "></span>
-                      )}
-
-                    {vatType.vatReportReferenceType1 != null &&
-                      vatType.vatReportReferenceType1.value != 0 && (
-                        <div className="d-flex align-items-center flex-wrap">
-                          <i className="ki-duotone ki-document  fs-3x text-info">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-
-                          <div className="d-flex flex-column mx-6">
-                            <span className="text-muted">
-                              {intl.formatMessage({
-                                id: "Fields.VatReportingCategorie1",
-                              })}
-                            </span>
-                            <span className="text-primary fw-bolder">
-                              {vatType.vatReportReferenceType1.description}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    {vatType.vatReportReferenceType2 != null &&
-                      vatType.vatReportReferenceType2.value != 0 && (
-                        <span className="ms-2 h-37px bg-gray-400 w-1px me-6"></span>
-                      )}
-
-                    {vatType.vatReportReferenceType2 != null &&
-                      vatType.vatReportReferenceType2.value != 0 && (
-                        <div className="d-flex align-items-center flex-wrap">
-                          <i className="ki-duotone ki-document fs-3x text-info">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-
-                          <div className="d-flex flex-column mx-6">
-                            <span className="text-muted">
-                              {intl.formatMessage({
-                                id: "Fields.VatReportingCategorie2",
-                              })}
-                            </span>
-                            <span className="text-primary fw-bolder">
-                              {vatType.vatReportReferenceType2.description}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            )
+          )
         }
 
         {financialAccounts?.result?.length == 0 && (

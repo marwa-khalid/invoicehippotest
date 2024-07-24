@@ -43,14 +43,10 @@ const VatListPagination = ({
             pageIndex: 1,
             filters: { searchTerm: "", ledgerTypeFilter: 0 },
           },
-          "invoice-module": {
+          "financial-module": {
             pageIndex: 1,
             filters: { searchTerm: "" },
-          },
-          "invoice-picker-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
+          }
         };
 
     // Update the filter in the vat-module

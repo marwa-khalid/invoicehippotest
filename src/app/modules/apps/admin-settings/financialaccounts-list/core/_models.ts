@@ -41,7 +41,7 @@ interface Actions {
   canExtendAutomation: boolean;
 }
 
-interface FinancialAccountsResult {
+export interface FinancialAccountsResult {
   id: number;
   accountName: string;
   accountNumber: string;

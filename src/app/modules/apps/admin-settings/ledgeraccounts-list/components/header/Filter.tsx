@@ -134,11 +134,7 @@ export function Filter({
               bearingTypeFilter: 0,
             },
           },
-          "invoice-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "invoice-picker-module": {
+          "financial-module": {
             pageIndex: 1,
             filters: { searchTerm: "" },
           },

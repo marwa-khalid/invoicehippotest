@@ -49,11 +49,7 @@ const LedgerListPagination = ({
               bearingTypeFilter: filterType2,
             },
           },
-          "invoice-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "invoice-picker-module": {
+          "financial-module": {
             pageIndex: 1,
             filters: { searchTerm: "" },
           },

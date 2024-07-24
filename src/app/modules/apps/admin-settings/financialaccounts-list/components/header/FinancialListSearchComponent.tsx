@@ -103,7 +103,7 @@ const FinancialListSearchComponent = ({
               {intl.formatMessage({ id: "Fields.SearchBtn" })}
             </span>
           </button>
-          <div className="m-0">
+          {/* <div className="m-0">
             <a
               href="#"
               className={clsx(
@@ -115,8 +115,8 @@ const FinancialListSearchComponent = ({
             >
               <i className="ki-solid ki-filter fs-3 me-1" />
             </a>
-          </div>
-          {/* {filterModalOpen && <Filter />} */}
+          </div> */}
+         
           <button
             className="btn btn-secondary btn-icon"
             onClick={handleResetClick}
