@@ -312,6 +312,7 @@ const LedgerAddModalForm = ({
             placeholder={intl.formatMessage({
               id: "Fields.SelectOptionNoVatType",
             })}
+            menuPlacement="top"
             className={clsx(
               "react-select-styled",
               {

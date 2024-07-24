@@ -13,7 +13,13 @@ const VatTypesPage = () => {
   const settingsBreadcrumbs: Array<PageLink> = [
     {
       title: intl.formatMessage({ id: "Menu.Dashboard" }),
-      path: "/",
+      path: "/dashboard",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "",
+      path: "",
       isSeparator: true,
       isActive: false,
     },
