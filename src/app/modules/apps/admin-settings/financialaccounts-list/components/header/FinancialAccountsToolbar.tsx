@@ -6,7 +6,10 @@ interface ToolbarProps {
   setAddModalOpen: (type: boolean) => void;
 }
 
-const LedgerListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
+const FinancialAccountsToolbar = ({
+  totalRows,
+  setAddModalOpen,
+}: ToolbarProps) => {
   const openAddUserModal = () => {
     setAddModalOpen(true);
   };
@@ -37,4 +40,4 @@ const LedgerListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
   );
 };
 
-export { LedgerListToolbar };
+export { FinancialAccountsToolbar };

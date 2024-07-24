@@ -7,7 +7,8 @@ import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
-import { Filter } from "../components/header/Filter";
+import { Tooltip, Box } from "@chakra-ui/react";
+
 // import { VatEditModal } from "../user-edit-modal/VatEditModal";
 interface UsersTableComponentProps {
   searchTerm: string;
@@ -77,31 +78,33 @@ const VatTypesList = ({
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
-      <button
-        className="btn btn-sm btn-icon"
-        type="button"
-        data-bs-placement="top"
-        data-bs-toggle="tooltip"
-        title="actief"
+      <Tooltip
+        label="actief"
+        fontSize="sm"
+        className="bg-gray-800 text-white p-2 rounded "
+        placement="top"
       >
-        <KTSVG
-          path="media/icons/duotune/general/gen037.svg"
-          className="svg-icon-success svg-icon-2x"
-        />
-      </button>
+        <span>
+          <KTSVG
+            path="media/icons/duotune/general/gen037.svg"
+            className="svg-icon-success svg-icon-2x"
+          />
+        </span>
+      </Tooltip>
     ) : (
-      <button
-        className="btn btn-sm btn-icon"
-        type="button"
-        data-bs-placement="top"
-        data-bs-toggle="tooltip"
-        title="inactief"
+      <Tooltip
+        label="inactief"
+        fontSize="sm"
+        className="bg-gray-800 text-white p-2 rounded "
+        placement="top"
       >
-        <KTSVG
-          path="media/icons/duotune/general/gen037.svg"
-          className="svg-icon-danger svg-icon-2x"
-        />
-      </button>
+        <span>
+          <KTSVG
+            path="media/icons/duotune/general/gen037.svg"
+            className="svg-icon-danger svg-icon-2x"
+          />
+        </span>
+      </Tooltip>
     );
   };
   const openEditModal = (id: number) => {

@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { getLedgerAccounts } from "../core/_requests";
+import { getFinancialAccounts } from "../core/_requests";
 import { LedgerAccountsResult } from "../core/_models";
 import { ListLoading } from "../../components/ListLoading";
-import { VatListPagination } from "../components/pagination/VatListPagination";
+import { VatListPagination } from "../components/pagination/FinancialListPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
+
 interface ComponentProps {
   searchTerm: string;
-  ledgerTypeFilter: number;
-  bearingTypeFilter: number;
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
@@ -24,7 +23,6 @@ interface ComponentProps {
 }
 const FinancialAccountsList = ({
   searchTerm,
-  ledgerTypeFilter,
   setTotalRows,
   setEditModalOpen,
   setEditModalId,
@@ -34,29 +32,27 @@ const FinancialAccountsList = ({
   setPageIndex,
   pageIndex,
   editModalOpen,
-  bearingTypeFilter,
   deleteModalOpen,
 }: ComponentProps) => {
-  const [ledgerAccounts, setLedgerAccounts] = useState<any>([]);
+  const [financialAccounts, setFinancialAccounts] = useState<any>([]);
 
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // const [pageIndex, setPageIndex] = useState<number>(1);
 
-  const fetchVatTypes = async () => {
+  const fetchFinancialAccounts = async () => {
     setIsLoading(true);
 
     try {
-      const response = await getLedgerAccounts(
+      const response = await getFinancialAccounts(
         searchTerm,
-        ledgerTypeFilter,
-        bearingTypeFilter,
+
         pageIndex
       );
 
       // vatAreaUsageTypeFilter
 
-      setLedgerAccounts(response);
+      setFinancialAccounts(response);
       setPageIndex(response.pageIndex);
       setTotalRows(response.totalRows);
       // setTotalItems(response.result);
@@ -68,15 +64,15 @@ const FinancialAccountsList = ({
   };
   const handlePageChange = (page: number) => {
     setPageIndex(page);
-    fetchVatTypes();
+    fetchFinancialAccounts();
   };
 
   useEffect(() => {
-    fetchVatTypes();
-  }, [searchTerm, ledgerTypeFilter, bearingTypeFilter, pageIndex]);
+    fetchFinancialAccounts();
+  }, [searchTerm, pageIndex]);
 
   useEffect(() => {
-    fetchVatTypes();
+    fetchFinancialAccounts();
   }, [editModalOpen, deleteModalOpen, refresh]);
 
   const renderLockIcon = (isChecked: boolean) => {
@@ -107,7 +103,7 @@ const FinancialAccountsList = ({
       <div className="row row-cols-1 row-cols-md-1 g-4">
         {
           // !isLoading &&
-          ledgerAccounts?.result?.map((vatType: LedgerAccountsResult) => (
+          financialAccounts?.result?.map((vatType: LedgerAccountsResult) => (
             <div className="col" key={vatType.id}>
               <div className="card h-100 py-6 ">
                 <div className="card-body">
@@ -262,7 +258,7 @@ const FinancialAccountsList = ({
           ))
         }
 
-        {ledgerAccounts?.result?.length == 0 && (
+        {financialAccounts?.result?.length == 0 && (
           <div className="text-center">
             <img
               alt=""
@@ -279,15 +275,13 @@ const FinancialAccountsList = ({
         {isLoading && <ListLoading />}
       </div>
 
-      {ledgerAccounts?.result?.length > 0 && (
+      {financialAccounts?.result?.length > 0 && (
         <VatListPagination
-          totalPages={ledgerAccounts.totalPages}
+          totalPages={financialAccounts.totalPages}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
           onPageChange={handlePageChange}
-          totalItems={ledgerAccounts.totalRows}
-          filterType1={ledgerTypeFilter}
-          filterType2={bearingTypeFilter}
+          totalItems={financialAccounts.totalRows}
         />
       )}
     </KTCardBody>

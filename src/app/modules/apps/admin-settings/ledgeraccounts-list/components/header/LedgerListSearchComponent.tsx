@@ -58,7 +58,7 @@ const LedgerListSearchComponent = ({
         : {
             "vat-module": {
               pageIndex: 1,
-              filters: { searchTerm: localSearchTerm, documentGroup: 0 },
+              filters: { searchTerm: "", documentGroup: 0 },
             },
             "ledger-module": {
               pageIndex: 1,
@@ -68,11 +68,7 @@ const LedgerListSearchComponent = ({
                 bearingTypeFilter: 0,
               },
             },
-            "invoice-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "invoice-picker-module": {
+            "financial-module": {
               pageIndex: 1,
               filters: { searchTerm: "" },
             },

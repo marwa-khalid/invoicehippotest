@@ -3,8 +3,8 @@ import { FinancialAccountsList } from "./search-list/FinancialAccountsList";
 import { FinancialAddModal } from "./financial-add-modal/FinancialAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
-import { useEffect, useState } from "react";
-import { LedgerListToolbar } from "./components/header/LedgerListToolbar";
+import { useState } from "react";
+import { FinancialAccountsToolbar } from "./components/header/FinancialAccountsToolbar";
 import { FinancialEditModal } from "./financial-edit-modal/FinancialEditModal";
 import { FinancialDeleteModal } from "./financial-delete-modal/FinancialDeleteModal";
 
@@ -13,38 +13,20 @@ const getPaginationValues = () => {
   if (storedPaginationString) {
     const pagination = JSON.parse(storedPaginationString);
 
-    const currentMainFilter =
-      pagination["ledger-module"].filters.ledgerTypeFilter || 0;
-    const currentSubTypeFilter =
-      pagination["ledger-module"].filters.bearingTypeFilter || 0;
-
-    const currentPage = pagination["ledger-module"].pageIndex || 1;
-    const searchTerm = pagination["ledger-module"].filters.searchTerm || "";
+    const currentPage = pagination["financial-module"].pageIndex || 1;
+    const searchTerm = pagination["financial-module"].filters.searchTerm || "";
 
     return {
-      mainfilter: currentMainFilter,
-      subTypeFilter: currentSubTypeFilter,
       pageIndex: currentPage,
       searchTerm: searchTerm,
     };
   }
-  return { mainfilter: 0, subTypeFilter: 0, pageIndex: 1, searchTerm: "" };
+  return { pageIndex: 1, searchTerm: "" };
 };
 const FinancialListInnerWrapper = () => {
-  const [isFilterApplied, setIsFilterApplied] = useState(false);
-  const { mainfilter, subTypeFilter, pageIndex, searchTerm } =
-    getPaginationValues();
-
-  const [ledgerTypeFilter, setLedgerTypeFilter] = useState<number>(mainfilter);
-  const [bearingTypeFilter, setBearingTypeFilter] =
-    useState<number>(subTypeFilter);
+  const { pageIndex, searchTerm } = getPaginationValues();
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
   const [searchTermState, setSearchTermState] = useState(searchTerm);
-  useEffect(() => {
-    if (mainfilter !== 0) {
-      setIsFilterApplied(true);
-    }
-  }, [mainfilter]);
 
   const [totalRows, setTotalRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
@@ -59,23 +41,15 @@ const FinancialListInnerWrapper = () => {
       <FinancialListHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
-        setLedgerTypeFilter={setLedgerTypeFilter}
-        ledgerTypeFilter={ledgerTypeFilter}
-        setBearingTypeFilter={setBearingTypeFilter}
-        bearingTypeFilter={bearingTypeFilter}
-        setIsFilterApplied={setIsFilterApplied}
-        isFilterApplied={isFilterApplied}
       />
 
-      <LedgerListToolbar
+      <FinancialAccountsToolbar
         totalRows={totalRows}
         setAddModalOpen={setAddModalOpen}
       />
 
       <FinancialAccountsList
         searchTerm={searchTerm}
-        ledgerTypeFilter={ledgerTypeFilter}
-        bearingTypeFilter={bearingTypeFilter}
         setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}

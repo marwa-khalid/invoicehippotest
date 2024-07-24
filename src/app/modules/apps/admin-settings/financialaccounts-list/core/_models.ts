@@ -15,6 +15,46 @@ interface ApiResponse<T> {
   textInfo: any;
 }
 
+interface AccountType {
+  value: number;
+  name: string;
+  description: string;
+}
+
+interface BankAccountCompanyType {
+  value: number;
+  name: string;
+  description: string;
+}
+
+interface BankConnectInfo {
+  isConnected: boolean;
+  isActive: boolean;
+  accessExpirationDate: string;
+  lastSyncRequestDate: string;
+}
+
+interface Actions {
+  canEdit: boolean;
+  canDelete: boolean;
+  canRevokeAutomation: boolean;
+  canExtendAutomation: boolean;
+}
+
+interface FinancialAccountsResult {
+  id: number;
+  accountName: string;
+  accountNumber: string;
+  ledgerAccountDisplayName: string;
+  ledgerAccountId: number;
+  accountType: AccountType;
+  bankAccountCompanyType: BankAccountCompanyType;
+  bankConnectInfo: BankConnectInfo;
+  actions: Actions;
+}
+
+export type FinancialAccountsModel = ApiResponse<FinancialAccountsResult>;
+
 export interface LedgerAccountsResult {
   id: number;
   defaultTax: string;
@@ -210,33 +250,6 @@ export interface VatTypesForLedgerResult {
   listForCostsGroupTitle: string;
   listForCosts: VatListItem[];
 }
-
-export type User = {
-  id?: ID;
-  name?: string;
-  avatar?: string;
-  email?: string;
-  position?: string;
-  role?: string;
-  last_login?: string;
-  two_steps?: boolean;
-  joined_day?: string;
-  online?: boolean;
-  initials?: {
-    label: string;
-    state: string;
-  };
-};
-
-export type UsersQueryResponse = Response<Array<User>>;
-
-export const initialUser: User = {
-  avatar: "avatars/300-6.jpg",
-  position: "Art Director",
-  role: "Administrator",
-  name: "",
-  email: "",
-};
 
 export type LedgerAccountsModel = ApiResponse<LedgerAccountsResult>;
 export type LedgerAccountsForFilterModel =

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { getLedgerAccounts } from "../core/_requests";
 import { LedgerAccountsResult } from "../core/_models";
 import { ListLoading } from "../../components/ListLoading";
-import { VatListPagination } from "../components/pagination/VatListPagination";
+import { LedgerListPagination } from "../components/pagination/LedgerListPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
+import { Tooltip, Box } from "@chakra-ui/react";
 interface ComponentProps {
   searchTerm: string;
   ledgerTypeFilter: number;
@@ -81,31 +82,33 @@ const LedgerAccountsList = ({
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
-      <button
-        className="btn btn-sm btn-icon "
-        type="button"
-        data-bs-placement="top"
-        data-bs-toggle="tooltip"
-        title="open voor handmatige boekingen"
+      <Tooltip
+        label="open voor handmatige boekingen"
+        fontSize="sm"
+        className="ms-20 bg-gray-800 text-white p-2 rounded "
+        placement="top"
       >
-        <KTSVG
-          path="media/icons/duotune/general/gen051.svg"
-          className="svg-icon-success svg-icon-2x"
-        />
-      </button>
+        <span>
+          <KTSVG
+            path="media/icons/duotune/general/gen051.svg"
+            className="svg-icon-success svg-icon-2x"
+          />
+        </span>
+      </Tooltip>
     ) : (
-      <button
-        className="btn btn-sm btn-icon"
-        type="button"
-        data-bs-placement="top"
-        data-bs-toggle="tooltip"
-        title="gesloten voor handmatige boekingen"
+      <Tooltip
+        label="gesloten voor handmatige boekingen"
+        fontSize="sm"
+        className="ms-20 bg-gray-800 text-white p-2 rounded "
+        placement="top"
       >
-        <KTSVG
-          path="media/icons/duotune/general/gen051.svg"
-          className="svg-icon-danger svg-icon-2x"
-        />
-      </button>
+        <span>
+          <KTSVG
+            path="media/icons/duotune/general/gen051.svg"
+            className="svg-icon-danger svg-icon-2x"
+          />
+        </span>
+      </Tooltip>
     );
   };
   const openEditModal = (id: number) => {
@@ -302,7 +305,7 @@ const LedgerAccountsList = ({
       </div>
 
       {ledgerAccounts?.result?.length > 0 && (
-        <VatListPagination
+        <LedgerListPagination
           totalPages={ledgerAccounts.totalPages}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}

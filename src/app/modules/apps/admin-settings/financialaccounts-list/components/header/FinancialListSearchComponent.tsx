@@ -12,37 +12,15 @@ import enums from "../../../../../../../invoicehippo.enums.json";
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
   searchTerm: string;
-  setLedgerTypeFilter: (type: number) => void;
-  setIsFilterApplied: (type: boolean) => void;
-  setBearingTypeFilter: (type: number) => void;
-  bearingTypeFilter: number;
-  isFilterApplied: boolean;
-
-  ledgerTypeFilter: number;
 }
 
 const FinancialListSearchComponent = ({
   setSearchTerm,
   searchTerm,
-  setLedgerTypeFilter,
-  setIsFilterApplied,
-  setBearingTypeFilter,
-  bearingTypeFilter,
-  isFilterApplied,
-  ledgerTypeFilter,
 }: ComponentProps) => {
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const intl = useIntl();
-  const [selectedLedgerTypeOption, setSelectedLedgerTypeOption] = useState<any>(
-    enums.LedgerTypes.find((item) => item.Value === ledgerTypeFilter)?.Title ||
-      ""
-  );
 
-  const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
-    useState<any>(
-      enums.BearingTypes.find((item) => item.Value === bearingTypeFilter)
-        ?.Title || ""
-    );
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
       // Update the query state and parent search term when search button is clicked
@@ -57,7 +35,7 @@ const FinancialListSearchComponent = ({
         : {
             "vat-module": {
               pageIndex: 1,
-              filters: { searchTerm: localSearchTerm, documentGroup: 0 },
+              filters: { searchTerm: "", documentGroup: 0 },
             },
             "ledger-module": {
               pageIndex: 1,
@@ -67,18 +45,14 @@ const FinancialListSearchComponent = ({
                 bearingTypeFilter: 0,
               },
             },
-            "invoice-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "invoice-picker-module": {
+            "financial-module": {
               pageIndex: 1,
               filters: { searchTerm: "" },
             },
           };
 
-      // Update the filter in the vat-module
-      pagination["ledger-module"].filters.searchTerm = localSearchTerm;
+      // Update the filter in the financial-module
+      pagination["financial-module"].filters.searchTerm = localSearchTerm;
 
       // Convert the updated object back to a JSON string
       const updatedPaginationString = JSON.stringify(pagination);
@@ -91,51 +65,11 @@ const FinancialListSearchComponent = ({
     setLocalSearchTerm("");
 
     setSearchTerm(""); // Reset the parent search term
-    setIsFilterApplied(false);
-    resetFilter();
   };
   const { config } = useLayout();
   const daterangepickerButtonClass = config.app?.toolbar?.fixed?.desktop
     ? "btn-light"
     : "bg-body btn-color-gray-700 btn-active-color-primary";
-
-  const handleFilterApply = (isApplied: boolean) => {
-    setIsFilterApplied(isApplied); // Update the filter applied state
-  };
-
-  const resetFilter = () => {
-    // Function to reset the Filter component
-
-    setSelectedLedgerTypeOption(null);
-    setSelectedBearingTypeOption(null);
-    setLocalSearchTerm("");
-
-    setSearchTerm(""); // Reset the parent search term
-    setIsFilterApplied(false);
-    localStorage.setItem(
-      "pagination",
-      JSON.stringify({
-        ...JSON.parse(localStorage.getItem("pagination") || "{}"),
-        "ledger-module": {
-          ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-            "ledger-module"
-          ],
-          filters: {
-            ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-              "ledger-module"
-            ]?.filters,
-            searchTerm: "",
-            ledgerTypeFilter: 0,
-            bearingTypeFilter: 0,
-          },
-        },
-      })
-    );
-    setLedgerTypeFilter(0);
-    setBearingTypeFilter(0);
-
-    // Reset the filter to its default state
-  };
 
   return (
     <div className="w-full mb-10">
@@ -174,17 +108,12 @@ const FinancialListSearchComponent = ({
               href="#"
               className={clsx(
                 "btn btn-secondary btn-icon bg-secondary fw-bold rounded-0",
-                daterangepickerButtonClass,
-                { "bg-warning": isFilterApplied }
+                daterangepickerButtonClass
               )}
               data-kt-menu-trigger="hover"
               data-kt-menu-placement="bottom-end"
             >
-              <i
-                className={`ki-solid ki-filter fs-3 me-1  ${
-                  isFilterApplied ? "text-white" : "text-muted"
-                }`}
-              />
+              <i className="ki-solid ki-filter fs-3 me-1" />
             </a>
           </div>
           {/* {filterModalOpen && <Filter />} */}

@@ -5,15 +5,22 @@ import { LedgerListWrapper } from "./ledgeraccounts-list/LedgerListWrapper";
 import clsx from "clsx";
 import { useLayout } from "../../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
+import { FinancialListWrapper } from "./financialaccounts-list/FinancialListWrapper";
 
 const VatTypesPage = () => {
   const { config } = useLayout();
   const intl = useIntl();
-  const vatTypesBreadcrumbs: Array<PageLink> = [
+  const settingsBreadcrumbs: Array<PageLink> = [
     {
       title: intl.formatMessage({ id: "Menu.Settings" }),
       path: "/admin/vattype",
       isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "",
+      path: "",
+      isSeparator: true,
       isActive: false,
     },
     {
@@ -31,7 +38,7 @@ const VatTypesPage = () => {
           path="vattype"
           element={
             <>
-              <PageTitle breadcrumbs={vatTypesBreadcrumbs}>
+              <PageTitle breadcrumbs={settingsBreadcrumbs}>
                 {intl.formatMessage({ id: "Fields.SearchPanelTitleVatType" })}
               </PageTitle>
               <div
@@ -54,7 +61,7 @@ const VatTypesPage = () => {
           path="ledgeraccount"
           element={
             <>
-              <PageTitle breadcrumbs={vatTypesBreadcrumbs}>
+              <PageTitle breadcrumbs={settingsBreadcrumbs}>
                 {intl.formatMessage({
                   id: "Fields.SearchPanelTitleLedgerAccount",
                 })}
@@ -70,6 +77,30 @@ const VatTypesPage = () => {
                 )}
               >
                 <LedgerListWrapper />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="financialaccount"
+          element={
+            <>
+              <PageTitle breadcrumbs={settingsBreadcrumbs}>
+                {intl.formatMessage({
+                  id: "Fields.SearchPanelTitleFinancialAccount",
+                })}
+              </PageTitle>
+              <div
+                className={clsx(
+                  "main rounded",
+                  config.app?.sidebar?.default?.class,
+                  {
+                    "bg-light": config.layoutType === "light-sidebar",
+                    "bg-dark": config.layoutType === "dark-sidebar",
+                  }
+                )}
+              >
+                <FinancialListWrapper />
               </div>
             </>
           }

@@ -8,8 +8,6 @@ interface VatListPaginationProps {
   pageIndex: number;
   onPageChange: (page: number) => void;
   totalItems: number;
-  filterType1: number;
-  filterType2: number;
   setPageIndex: (page: number) => void;
 }
 
@@ -18,17 +16,10 @@ const VatListPagination = ({
   pageIndex,
   onPageChange,
   totalItems,
-  filterType1,
-  filterType2,
   setPageIndex,
 }: VatListPaginationProps) => {
   const [state, setState] = useState(pageIndex);
   const intl = useIntl();
-
-  // const [testState, settestState] = useState<number>({
-  //   filterType: 1,
-  //   pageIndex: 1,
-  // });
 
   useEffect(() => {
     let storedPaginationString = localStorage.getItem("pagination");
@@ -45,22 +36,18 @@ const VatListPagination = ({
             pageIndex: 1,
             filters: {
               searchTerm: "",
-              ledgerTypeFilter: filterType1,
-              bearingTypeFilter: filterType2,
+              ledgerTypeFilter: 0,
+              bearingTypeFilter: 0,
             },
           },
-          "invoice-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "invoice-picker-module": {
+          "financial-module": {
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
         };
 
-    // Update the filter in the vat-module
-    pagination["ledger-module"].pageIndex = state;
+    // Update the page in the financial-module
+    pagination["financial-module"].pageIndex = state;
 
     // Convert the updated object back to a JSON string
     const updatedPaginationString = JSON.stringify(pagination);
