@@ -163,7 +163,7 @@ const LedgerEditModal = ({
             <LedgerEditModalHeader setEditModalOpen={setEditModalOpen} />
             <div
               className="modal-body p-10"
-              style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
+              // style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
             >
               <LedgerEditModalForm
                 formik={formik}

@@ -311,7 +311,7 @@ const LedgerEditModalForm: FC<Props> = ({
               readOnly
               {...formik.getFieldProps("code")}
               className={clsx(
-                "form-control form-control-solid",
+                "form-control form-control-solid ",
                 { "is-invalid": formik.touched.code && formik.errors.code },
                 { "is-valid": formik.touched.code && !formik.errors.code }
               )}
@@ -387,6 +387,7 @@ const LedgerEditModalForm: FC<Props> = ({
                     )
                   ) || null
             }
+            menuPlacement="top"
             onBlur={() => formik.setFieldTouched("defaultTaxTypeId", true)}
             placeholder={intl.formatMessage({
               id: "Fields.SelectOptionNoVatType",
@@ -449,6 +450,7 @@ const LedgerEditModalForm: FC<Props> = ({
         return item.Value === formik.values.bearingType;
       })?.IsAccountTypeBtw && (
         <>
+          <div className="separator mb-6"></div>
           <div
             className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0 "
             role="alert"
@@ -554,142 +556,151 @@ const LedgerEditModalForm: FC<Props> = ({
       {enums.BearingTypes.find((item) => {
         return item.Value === formik.values.bearingType;
       })?.IsAccountTypeCost && (
-        <div className="form-group">
-          <div className="row">
-            <div className="col-md-12">
-              <div
-                className="row alert alert-custom alert-default bg-secondary  align-items-center"
-                role="alert"
-              >
-                <div className="alert-icon col-1">
-                  <i className="ki-duotone ki-information-4 fs-3x text-center me- text-primary">
-                    <span className="path1"></span>
-                    <span className="path2"></span>
-                    <span className="path3"></span>
-                  </i>
-                </div>
-                <div className="alert-text  col-11">
-                  <h4 className="alert-heading">
-                    {intl.formatMessage({ id: "Fields.TaxDeductibleSettings" })}
-                  </h4>
-                  <p>
-                    {intl.formatMessage({
-                      id: "Fields.TaxDeductibleSettingsInfo",
-                    })}
-                  </p>
+        <>
+          <div className="separator mb-6"></div>
+          <div className="form-group">
+            <div className="row">
+              <div className="col-md-12">
+                <div
+                  className="row alert alert-custom alert-default bg-secondary  align-items-center"
+                  role="alert"
+                >
+                  <div className="alert-icon col-1">
+                    <i className="ki-duotone ki-information-4 fs-3x text-center me- text-primary">
+                      <span className="path1"></span>
+                      <span className="path2"></span>
+                      <span className="path3"></span>
+                    </i>
+                  </div>
+                  <div className="alert-text  col-11">
+                    <h4 className="alert-heading">
+                      {intl.formatMessage({
+                        id: "Fields.TaxDeductibleSettings",
+                      })}
+                    </h4>
+                    <p>
+                      {intl.formatMessage({
+                        id: "Fields.TaxDeductibleSettingsInfo",
+                      })}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="row">
-            <div className="fv-row col-3 flex-grow-1">
-              <label className="required fw-bold fs-6 mb-4">
-                {" "}
-                {intl.formatMessage({ id: "Fields.IsNotFullyTaxDeductible" })}
-              </label>
-              <div className="form-check form-switch">
-                <input
-                  className="form-check-input h-30px w-50px"
-                  type="checkbox"
-                  id="IsNotFullyTaxDeductibleSwitch"
-                  {...formik.getFieldProps(
-                    formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
-                  )}
-                  checked={
-                    formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
-                  }
-                  onChange={(e) =>
-                    formik.setFieldValue(
-                      "taxDeductibleSettings.isNotFullyTaxDeductible",
-                      e.target.checked
-                    )
-                  }
-                  disabled={isSubmitting}
-                />
-              </div>
-            </div>
-
-            <div className="fv-row col-3 flex-grow-1">
-              <label className="required fw-bold fs-6 mb-2">
-                {" "}
-                {intl.formatMessage({ id: "Fields.TaxDeductiblePercentage" })}
-              </label>
-              <div className="input-group">
-                <input
-                  type="number"
-                  min={0}
-                  max={100}
-                  className={clsx(
-                    "form-control form-control-solid",
-                    {
-                      "is-invalid":
-                        formik.touched.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible &&
-                        formik.errors.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible,
-                    },
-                    {
-                      "is-valid":
-                        formik.touched.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible &&
-                        !formik.errors.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible,
+            <div className="row">
+              <div className="fv-row col-3 flex-grow-1">
+                <label className="required fw-bold fs-6 mb-4">
+                  {" "}
+                  {intl.formatMessage({ id: "Fields.IsNotFullyTaxDeductible" })}
+                </label>
+                <div className="form-check form-switch">
+                  <input
+                    className="form-check-input h-30px w-50px"
+                    type="checkbox"
+                    id="IsNotFullyTaxDeductibleSwitch"
+                    {...formik.getFieldProps(
+                      formik.values.taxDeductibleSettings
+                        .isNotFullyTaxDeductible
+                    )}
+                    checked={
+                      formik.values.taxDeductibleSettings
+                        .isNotFullyTaxDeductible
                     }
-                  )}
-                  id="taxDeductiblePercentage"
-                  disabled={
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        "taxDeductibleSettings.isNotFullyTaxDeductible",
+                        e.target.checked
+                      )
+                    }
+                    disabled={isSubmitting}
+                  />
+                </div>
+              </div>
+
+              <div className="fv-row col-3 flex-grow-1">
+                <label className="required fw-bold fs-6 mb-2">
+                  {" "}
+                  {intl.formatMessage({ id: "Fields.TaxDeductiblePercentage" })}
+                </label>
+                <div className="input-group">
+                  <input
+                    type="number"
+                    min={0}
+                    max={100}
+                    className={clsx(
+                      "form-control form-control-solid",
+                      {
+                        "is-invalid":
+                          formik.touched.taxDeductibleSettings
+                            ?.isNotFullyTaxDeductible &&
+                          formik.errors.taxDeductibleSettings
+                            ?.isNotFullyTaxDeductible,
+                      },
+                      {
+                        "is-valid":
+                          formik.touched.taxDeductibleSettings
+                            ?.isNotFullyTaxDeductible &&
+                          !formik.errors.taxDeductibleSettings
+                            ?.isNotFullyTaxDeductible,
+                      }
+                    )}
+                    id="taxDeductiblePercentage"
+                    disabled={
+                      !formik.values.taxDeductibleSettings
+                        .isNotFullyTaxDeductible
+                    }
+                    value={
+                      formik.values.taxDeductibleSettings
+                        .taxDeductiblePercentage
+                    }
+                    onChange={handlePercentageChange}
+                  />
+
+                  <span className="input-group-text ms-1">%</span>
+                </div>
+              </div>
+
+              <div className="fv-row col-5 flex-grow-1">
+                <label className="fw-bold fs-6 mb-2">
+                  {" "}
+                  {intl.formatMessage({
+                    id: "Fields.DeductiblePrivateLedgerAccountId",
+                  })}
+                </label>
+                <Select
+                  className="react-select-styled"
+                  value={
+                    formik.values.taxDeductibleSettings
+                      .deductiblePrivateLedgerAccountId === 0
+                      ? null
+                      : privateLedgers.find(
+                          (item) =>
+                            item.value ===
+                            formik.values.taxDeductibleSettings
+                              .deductiblePrivateLedgerAccountId
+                        ) || null
+                  }
+                  onChange={(selectedOption) => {
+                    formik.setFieldValue(
+                      "taxDeductibleSettings.deductiblePrivateLedgerAccountId",
+                      selectedOption?.value
+                    );
+                  }}
+                  isDisabled={
                     !formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
                   }
-                  value={
-                    formik.values.taxDeductibleSettings.taxDeductiblePercentage
-                  }
-                  onChange={handlePercentageChange}
+                  options={privateLedgers}
+                  menuPlacement="top"
+                  placeholder={intl.formatMessage({
+                    id: "Fields.SelectOptionDefaultLedgerAccount",
+                  })}
+                  isClearable
                 />
-
-                <span className="input-group-text ms-1">%</span>
               </div>
             </div>
-
-            <div className="fv-row col-5 flex-grow-1">
-              <label className="fw-bold fs-6 mb-2">
-                {" "}
-                {intl.formatMessage({
-                  id: "Fields.DeductiblePrivateLedgerAccountId",
-                })}
-              </label>
-              <Select
-                className="react-select-styled"
-                value={
-                  formik.values.taxDeductibleSettings
-                    .deductiblePrivateLedgerAccountId === 0
-                    ? null
-                    : privateLedgers.find(
-                        (item) =>
-                          item.value ===
-                          formik.values.taxDeductibleSettings
-                            .deductiblePrivateLedgerAccountId
-                      ) || null
-                }
-                onChange={(selectedOption) => {
-                  formik.setFieldValue(
-                    "taxDeductibleSettings.deductiblePrivateLedgerAccountId",
-                    selectedOption?.value
-                  );
-                }}
-                isDisabled={
-                  !formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
-                }
-                options={privateLedgers}
-                menuPlacement="top"
-                placeholder={intl.formatMessage({
-                  id: "Fields.SelectOptionDefaultLedgerAccount",
-                })}
-                isClearable
-              />
-            </div>
           </div>
-        </div>
+        </>
       )}
     </form>
   );

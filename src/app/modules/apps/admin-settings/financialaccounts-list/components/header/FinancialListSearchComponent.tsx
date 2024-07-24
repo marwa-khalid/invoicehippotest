@@ -1,13 +1,7 @@
-import React, { useEffect, useState } from "react";
-import {
-  initialQueryState,
-  KTIcon,
-} from "../../../../../../../_metronic/helpers";
+import { useState } from "react";
+import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-
-import clsx from "clsx";
 import { useLayout } from "../../../../../../../_metronic/layout/core";
-import enums from "../../../../../../../invoicehippo.enums.json";
 
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
@@ -63,13 +57,9 @@ const FinancialListSearchComponent = ({
   };
   const handleResetClick = () => {
     setLocalSearchTerm("");
-
-    setSearchTerm(""); // Reset the parent search term
+    setSearchTerm("");
   };
   const { config } = useLayout();
-  const daterangepickerButtonClass = config.app?.toolbar?.fixed?.desktop
-    ? "btn-light"
-    : "bg-body btn-color-gray-700 btn-active-color-primary";
 
   return (
     <div className="w-full mb-10">
@@ -103,20 +93,7 @@ const FinancialListSearchComponent = ({
               {intl.formatMessage({ id: "Fields.SearchBtn" })}
             </span>
           </button>
-          {/* <div className="m-0">
-            <a
-              href="#"
-              className={clsx(
-                "btn btn-secondary btn-icon bg-secondary fw-bold rounded-0",
-                daterangepickerButtonClass
-              )}
-              data-kt-menu-trigger="hover"
-              data-kt-menu-placement="bottom-end"
-            >
-              <i className="ki-solid ki-filter fs-3 me-1" />
-            </a>
-          </div> */}
-         
+
           <button
             className="btn btn-secondary btn-icon"
             onClick={handleResetClick}
