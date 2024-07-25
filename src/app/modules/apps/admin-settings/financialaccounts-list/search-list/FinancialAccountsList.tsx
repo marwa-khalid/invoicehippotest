@@ -43,18 +43,11 @@ const FinancialAccountsList = ({
     setIsLoading(true);
 
     try {
-      const response = await getFinancialAccounts(
-        searchTerm,
-
-        pageIndex
-      );
-
-      // vatAreaUsageTypeFilter
+      const response = await getFinancialAccounts(searchTerm, pageIndex);
 
       setFinancialAccounts(response);
       setPageIndex(response.pageIndex);
       setTotalRows(response.totalRows);
-      // setTotalItems(response.result);
     } catch (error) {
       console.error("Error fetching VAT types:", error);
     } finally {
@@ -74,18 +67,8 @@ const FinancialAccountsList = ({
     fetchFinancialAccounts();
   }, [editModalOpen, deleteModalOpen, refresh]);
 
-  const renderLockIcon = (isChecked: boolean) => {
-    return isChecked ? (
-      <KTSVG
-        path="media/icons/duotune/general/gen051.svg"
-        className="svg-icon-success svg-icon-2x"
-      />
-    ) : (
-      <KTSVG
-        path="media/icons/duotune/general/gen051.svg"
-        className="svg-icon-danger svg-icon-2x"
-      />
-    );
+  const renderWifiIcon = () => {
+    return <i className="fas fa-wifi text-primary fs-2" />;
   };
   const openEditModal = (id: number) => {
     setEditModalId(id);
@@ -96,6 +79,54 @@ const FinancialAccountsList = ({
     setEditModalId(id);
     setDeleteModalOpen(true);
     setLedgerAccountTitle(ledgerTitle);
+  };
+
+  const formatExpirationDate = (dateStr: string): string => {
+    const date = new Date(dateStr);
+
+    const days = [
+      "Zondag",
+      "Maandag",
+      "Dinsdag",
+      "Woensdag",
+      "Donderdag",
+      "Vrijdag",
+      "Zaterdag",
+    ];
+    const months = [
+      "Januari",
+      "Februari",
+      "Maart",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Augustus",
+      "September",
+      "Oktober",
+      "November",
+      "December",
+    ];
+
+    const dayName = days[date.getDay()];
+    const day = date.getDate();
+    const monthName = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${dayName} ${day} ${monthName} ${year}`;
+  };
+  const formatRequestDate = (dateTimeStr: any) => {
+    const date = new Date(dateTimeStr);
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = date.getFullYear();
+
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
   };
   return (
     <KTCardBody className="py-4">
@@ -115,10 +146,9 @@ const FinancialAccountsList = ({
                           openEditModal(financialAccount.id);
                         }}
                       >
-                        {/* <>
-                          {renderLockIcon(financialAccount.)}
-                          <span className="mx-2 text-muted">|</span>
-                        </> */}
+                        {financialAccount.bankConnectInfo.isConnected &&
+                          renderWifiIcon()}
+
                         <strong>{financialAccount.accountName}</strong>
                       </div>
                       <div className="align-items-center my-lg-0 my-1 necessary-icons">
@@ -145,12 +175,7 @@ const FinancialAccountsList = ({
                         )}
                         {financialAccount.actions.canRevokeAutomation && (
                           <button className="btn btn-icon btn-light btn-sm me-4">
-                            <i className="ki-duotone ki-book text-info fs-2">
-                              <span className="path1"></span>
-                              <span className="path2"></span>
-                              <span className="path3"></span>
-                              <span className="path4"></span>
-                            </i>
+                            <i className="fas fa-wifi text-primary fs-3" />
                           </button>
                         )}
                         {financialAccount.actions.canDelete && (
@@ -171,8 +196,6 @@ const FinancialAccountsList = ({
                     {/* separator Line */}
 
                     <div className="separator separator-solid mb-3"></div>
-
-                    {/* Verkoopfacturen Text */}
 
                     <div className="mb-4 text-muted">
                       <ul className="breadcrumb breadcrumb-black breadcrumb-dot">
@@ -222,6 +245,47 @@ const FinancialAccountsList = ({
                             </span>
                           </div>
                         </div>
+                      )}
+                      {financialAccount.bankConnectInfo.isConnected && (
+                        <>
+                          <span className="h-37px bg-gray-400 w-1px me-3"></span>
+                          <div className="d-flex align-items-center flex-wrap">
+                            <i className="ki-duotone ki-calendar fs-3x text-gray-600">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            <div className="d-flex flex-column mx-6">
+                              <span className="fs-sm text-muted">
+                                bank autorisatie verloopt op
+                              </span>
+                              <span className="text-primary fw-bolder">
+                                {formatExpirationDate(
+                                  financialAccount.bankConnectInfo
+                                    .accessExpirtationDate
+                                )}
+                              </span>
+                            </div>
+                            {console.log(financialAccount.bankConnectInfo)!}
+                          </div>
+                          <span className=" h-37px bg-gray-400 w-1px me-3 "></span>
+                          <div className="d-flex align-items-center flex-wrap">
+                            <i className="ki-duotone ki-calendar fs-3x text-gray-600">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            <div className="d-flex flex-column mx-6">
+                              <span className="fs-sm text-muted">
+                                laatste synchronisatie was op
+                              </span>
+                              <span className="text-primary fw-bolder">
+                                {formatRequestDate(
+                                  financialAccount.bankConnectInfo
+                                    .lastSyncRequestDate
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                        </>
                       )}
                     </div>
                   </div>

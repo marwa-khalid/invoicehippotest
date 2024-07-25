@@ -30,7 +30,7 @@ interface BankAccountCompanyType {
 interface BankConnectInfo {
   isConnected: boolean;
   isActive: boolean;
-  accessExpirationDate: string;
+  accessExpirtationDate: string;
   lastSyncRequestDate: string;
 }
 

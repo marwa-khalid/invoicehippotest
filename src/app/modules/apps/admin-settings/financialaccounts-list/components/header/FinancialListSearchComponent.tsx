@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-import { useLayout } from "../../../../../../../_metronic/layout/core";
 
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
@@ -58,8 +57,24 @@ const FinancialListSearchComponent = ({
   const handleResetClick = () => {
     setLocalSearchTerm("");
     setSearchTerm("");
+    localStorage.setItem(
+      "pagination",
+      JSON.stringify({
+        ...JSON.parse(localStorage.getItem("pagination") || "{}"),
+        "financial-module": {
+          ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+            "financial-module"
+          ],
+          filters: {
+            ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+              "financial-module"
+            ]?.filters,
+            searchTerm: "",
+          },
+        },
+      })
+    );
   };
-  const { config } = useLayout();
 
   return (
     <div className="w-full mb-10">
