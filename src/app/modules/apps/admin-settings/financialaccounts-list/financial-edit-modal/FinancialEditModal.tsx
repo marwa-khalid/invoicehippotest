@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FinancialEditModalHeader } from "./FinancialEditModalHeader";
 import { FinancialEditModalFooter } from "./FinancialEditModalFooter";
-import { getLedgerById, postLedgerAccount } from "../core/_requests";
+import { getFinancialAccountById, postLedgerAccount } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
@@ -34,17 +34,21 @@ const FinancialEditModal = ({
   const formik = useFormik({
     initialValues: {
       id: 0,
-      title: "",
-      code: "",
-      defaultTaxTypeId: 0,
-      bearingType: 0,
-      reportReferenceType1: 0,
-      reportReferenceType2LegderAccountId: 0,
-      disableManualInput: true,
-      taxDeductibleSettings: {
-        isNotFullyTaxDeductible: false,
-        taxDeductiblePercentage: 0,
-        deductiblePrivateLedgerAccountId: 0,
+      accountName: "",
+      accountNumber: "",
+      ledgerAccountId: 0,
+      bankConnectMinImportDate: "",
+      accountType: 0,
+      autoCreateLedgerAccount: false,
+      bankAccountCompanyType: 0,
+      afterSaveModel: {
+        ledgerAccountDisplayName: "",
+      },
+      bankConnectInfo: {
+        isConnected: true,
+        isActive: true,
+        accessExpirtationDate: "",
+        lastSyncRequestDate: "",
       },
     },
     validationSchema: Yup.object().shape({
@@ -98,23 +102,23 @@ const FinancialEditModal = ({
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postLedgerAccount(
-          values.id,
-          values.title,
-          values.code,
-          values.defaultTaxTypeId,
-          values.bearingType,
-          values.reportReferenceType1,
-          values.reportReferenceType2LegderAccountId,
-          values.disableManualInput,
-          values.taxDeductibleSettings
-        );
-        if (response.isValid) {
-          formik.resetForm();
-          setEditModalOpen(false);
-          setRefresh(true);
-        }
-        handleToast(response);
+        // const response = await postLedgerAccount(
+        //   values.id,
+        //   values.title,
+        //   values.code,
+        //   values.defaultTaxTypeId,
+        //   values.bearingType,
+        //   values.reportReferenceType1,
+        //   values.reportReferenceType2LegderAccountId,
+        //   values.disableManualInput,
+        //   values.taxDeductibleSettings
+        // );
+        // if (response.isValid) {
+        //   formik.resetForm();
+        //   setEditModalOpen(false);
+        //   setRefresh(true);
+        // }
+        // handleToast(response);
       } catch (error) {
         console.error("Put failed:", error);
       } finally {
@@ -127,19 +131,19 @@ const FinancialEditModal = ({
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const response = await getLedgerById(editModalId);
+        const response = await getFinancialAccountById(editModalId);
 
         formik.setValues({
           id: response.result.id,
-          title: response.result.title,
-          code: response.result.code,
-          defaultTaxTypeId: response.result.defaultTaxTypeId,
-          bearingType: response.result.bearingType,
-          reportReferenceType1: response.result.reportReferenceType1,
-          reportReferenceType2LegderAccountId:
-            response.result.reportReferenceType2LegderAccountId,
-          disableManualInput: response.result.disableManualInput,
-          taxDeductibleSettings: response.result.taxDeductibleSettings,
+          accountName: response.result.accountName,
+          accountNumber: response.result.accountNumber,
+          ledgerAccountId: response.result.ledgerAccountId,
+          bankConnectMinImportDate: response.result.bankConnectMinImportDate,
+          accountType: response.result.accountType,
+          autoCreateLedgerAccount: response.result.autoCreateLedgerAccount,
+          bankAccountCompanyType: response.result.bankAccountCompanyType,
+          afterSaveModel: response.result.afterSaveModel,
+          bankConnectInfo: response.result.bankConnectInfo,
         });
       } catch (error) {
         console.error("Error fetching initial data:", error);
@@ -161,10 +165,7 @@ const FinancialEditModal = ({
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
             <FinancialEditModalHeader setEditModalOpen={setEditModalOpen} />
-            <div
-              className="modal-body p-10"
-              style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
-            >
+            <div className="modal-body p-10">
               <FinancialEditModalForm
                 formik={formik}
                 setSelectedBearingTypeOption={setSelectedBearingTypeOption}

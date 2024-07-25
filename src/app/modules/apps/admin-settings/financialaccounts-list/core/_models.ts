@@ -1,5 +1,3 @@
-import { ID, Response } from "../../../../../../_metronic/helpers";
-
 interface ApiResponse<T> {
   pageIndex: number;
   totalRows: number;
@@ -53,7 +51,22 @@ export interface FinancialAccountsResult {
   actions: Actions;
 }
 
+interface FinancialAccountByIdResult {
+  id: number;
+  accountName: string;
+  accountNumber: string;
+  ledgerAccountId: number;
+  bankConnectMinImportDate: string;
+  accountType: number;
+  autoCreateLedgerAccount: boolean;
+  bankAccountCompanyType: number;
+  afterSaveModel: {
+    ledgerAccountDisplayName: string;
+  };
+  bankConnectInfo: BankConnectInfo;
+}
 export type FinancialAccountsModel = ApiResponse<FinancialAccountsResult>;
+export type FinancialAccountByIdModel = ApiResponse<FinancialAccountByIdResult>;
 
 export interface LedgerAccountsResult {
   id: number;

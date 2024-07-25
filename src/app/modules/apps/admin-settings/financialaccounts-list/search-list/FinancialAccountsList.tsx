@@ -250,7 +250,7 @@ const FinancialAccountsList = ({
                         <>
                           <span className="h-37px bg-gray-400 w-1px me-3"></span>
                           <div className="d-flex align-items-center flex-wrap">
-                            <i className="ki-duotone ki-calendar fs-3x text-gray-600">
+                            <i className="ki-duotone ki-calendar fs-3x text-primary">
                               <span className="path1"></span>
                               <span className="path2"></span>
                             </i>
@@ -269,7 +269,7 @@ const FinancialAccountsList = ({
                           </div>
                           <span className=" h-37px bg-gray-400 w-1px me-3 "></span>
                           <div className="d-flex align-items-center flex-wrap">
-                            <i className="ki-duotone ki-calendar fs-3x text-gray-600">
+                            <i className="ki-duotone ki-calendar fs-3x text-primary">
                               <span className="path1"></span>
                               <span className="path2"></span>
                             </i>

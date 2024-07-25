@@ -4,20 +4,23 @@ import { FormikProps } from "formik";
 
 interface FormValues {
   id: number;
-  title: string;
-  code: string;
-  defaultTaxTypeId: number;
-  bearingType: number;
-  reportReferenceType1: number;
-  reportReferenceType2LegderAccountId: number;
-  disableManualInput: boolean;
-  taxDeductibleSettings: {
-    isNotFullyTaxDeductible: boolean;
-    taxDeductiblePercentage: number;
-    deductiblePrivateLedgerAccountId: number;
+  accountName: string;
+  accountNumber: string;
+  ledgerAccountId: number;
+  bankConnectMinImportDate: string;
+  accountType: number;
+  autoCreateLedgerAccount: boolean;
+  bankAccountCompanyType: number;
+  afterSaveModel: {
+    ledgerAccountDisplayName: string;
+  };
+  bankConnectInfo: {
+    isConnected: boolean;
+    isActive: boolean;
+    accessExpirtationDate: string;
+    lastSyncRequestDate: string;
   };
 }
-
 interface ComponentProps {
   setEditModalOpen: (type: boolean) => void;
   formik: FormikProps<FormValues>;
@@ -31,10 +34,6 @@ const FinancialEditModalFooter = ({
   // For localization support
   const intl = useIntl();
 
-  //   // Accessing Formik's context
-  //   const { submitForm, isSubmitting, isValid, touched, resetForm } =
-  //     useFormikContext<any>();
-
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
       <div className="d-flex">
@@ -45,7 +44,7 @@ const FinancialEditModalFooter = ({
           className="btn btn-light me-3"
           //   disabled={isSubmitting}
         >
-          {intl.formatMessage({ id: "Fields.ActionCancel" })}
+          {intl.formatMessage({ id: "Fields.ActionClose" })}
         </button>
 
         {/* Save Button */}
@@ -54,8 +53,6 @@ const FinancialEditModalFooter = ({
           className="btn btn-primary"
           onClick={() => formik.handleSubmit()}
           disabled={isSubmitting || !formik.isValid}
-          //   onClick={submitForm}
-          //   disabled={!formik.isValid || isSubmitting || !touched}
         >
           {!isSubmitting && intl.formatMessage({ id: "Fields.ActionSave" })}
           {isSubmitting && (

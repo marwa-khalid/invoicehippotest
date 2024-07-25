@@ -1,6 +1,6 @@
 import {
   FinancialAccountsModel,
-  LedgerAccountByIdModel,
+  FinancialAccountByIdModel,
   PrivateLedgersModel,
   VatTypesForLedgerModel,
 } from "./_models";
@@ -17,7 +17,7 @@ import {
   GET_VAT_FOR_LEDGER,
   GET_PRIVATE_LEDGDER,
   GET_LEDGDER_FOR_REPORTING,
-  GET_LEDGER_BY_ID,
+  GET_FINANCIALACCOUNT_BY_ID,
 } from "./constants";
 import { LedgerAccountsModel, LedgerAccountsForFilterModel } from "./_models";
 
@@ -31,6 +31,13 @@ export function getFinancialAccounts(searchTerm: string, pageIndex: number) {
       pageIndex: searchTerm ? 1 : pageIndex,
       searchTerm: searchTerm,
     },
+    true
+  );
+}
+
+export function getFinancialAccountById(editModalId: number) {
+  return getRequest<FinancialAccountByIdModel>(
+    `${GET_FINANCIALACCOUNT_BY_ID}/${editModalId}`,
     true
   );
 }
@@ -84,13 +91,6 @@ export function postLedgerAccount(
           taxDeductibleSettings.deductiblePrivateLedgerAccountId,
       },
     },
-    true
-  );
-}
-
-export function getLedgerById(editModalId: number) {
-  return getRequest<LedgerAccountByIdModel>(
-    `${GET_LEDGER_BY_ID}/${editModalId}`,
     true
   );
 }

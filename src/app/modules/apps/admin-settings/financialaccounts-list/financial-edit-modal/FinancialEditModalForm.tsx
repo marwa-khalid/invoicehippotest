@@ -13,17 +13,21 @@ import { BalanceItem } from "../core/_models";
 
 interface FormValues {
   id: number;
-  title: string;
-  code: string;
-  defaultTaxTypeId: number;
-  bearingType: number;
-  reportReferenceType1: number;
-  reportReferenceType2LegderAccountId: number;
-  disableManualInput: boolean;
-  taxDeductibleSettings: {
-    isNotFullyTaxDeductible: boolean;
-    taxDeductiblePercentage: number;
-    deductiblePrivateLedgerAccountId: number;
+  accountName: string;
+  accountNumber: string;
+  ledgerAccountId: number;
+  bankConnectMinImportDate: string;
+  accountType: number;
+  autoCreateLedgerAccount: boolean;
+  bankAccountCompanyType: number;
+  afterSaveModel: {
+    ledgerAccountDisplayName: string;
+  };
+  bankConnectInfo: {
+    isConnected: boolean;
+    isActive: boolean;
+    accessExpirtationDate: string;
+    lastSyncRequestDate: string;
   };
 }
 
@@ -82,66 +86,66 @@ const FinancialEditModalForm: FC<Props> = ({
     getLedgerforPrivate();
   }, []);
 
-  useEffect(() => {
-    const fetchVatTypes = async () => {
-      try {
-        const response = await getVatTypesForLedger();
-        let options = [];
-        if (
-          enums.BearingTypes.find((item) => {
-            return item.Value === formik.values.bearingType;
-          })?.IsAccountTypeOmzet
-        ) {
-          options = [
-            {
-              label: response.result.listForSalesGroupTitle,
-              options: response.result.listForSales.map((item) => ({
-                value: item.id,
-                label: item.title,
-              })),
-            },
-          ];
-        } else if (
-          enums.BearingTypes.find((item) => {
-            return item.Value === formik.values.bearingType;
-          })?.IsAccountTypeCost
-        ) {
-          options = [
-            {
-              label: response.result.listForCostsGroupTitle,
-              options: response.result.listForCosts.map((item) => ({
-                value: item.id,
-                label: item.title,
-              })),
-            },
-          ];
-        } else {
-          options = [
-            {
-              label: response.result.listForSalesGroupTitle,
-              options: response.result.listForSales.map((item) => ({
-                value: item.id,
-                label: item.title,
-              })),
-            },
-            {
-              label: response.result.listForCostsGroupTitle,
-              options: response.result.listForCosts.map((item) => ({
-                value: item.id,
-                label: item.title,
-              })),
-            },
-          ];
-        }
+  // useEffect(() => {
+  //   const fetchVatTypes = async () => {
+  //     try {
+  //       const response = await getVatTypesForLedger();
+  //       let options = [];
+  //       if (
+  //         enums.BearingTypes.find((item) => {
+  //           return item.Value === formik.values.bearingType;
+  //         })?.IsAccountTypeOmzet
+  //       ) {
+  //         options = [
+  //           {
+  //             label: response.result.listForSalesGroupTitle,
+  //             options: response.result.listForSales.map((item) => ({
+  //               value: item.id,
+  //               label: item.title,
+  //             })),
+  //           },
+  //         ];
+  //       } else if (
+  //         enums.BearingTypes.find((item) => {
+  //           return item.Value === formik.values.bearingType;
+  //         })?.IsAccountTypeCost
+  //       ) {
+  //         options = [
+  //           {
+  //             label: response.result.listForCostsGroupTitle,
+  //             options: response.result.listForCosts.map((item) => ({
+  //               value: item.id,
+  //               label: item.title,
+  //             })),
+  //           },
+  //         ];
+  //       } else {
+  //         options = [
+  //           {
+  //             label: response.result.listForSalesGroupTitle,
+  //             options: response.result.listForSales.map((item) => ({
+  //               value: item.id,
+  //               label: item.title,
+  //             })),
+  //           },
+  //           {
+  //             label: response.result.listForCostsGroupTitle,
+  //             options: response.result.listForCosts.map((item) => ({
+  //               value: item.id,
+  //               label: item.title,
+  //             })),
+  //           },
+  //         ];
+  //       }
 
-        setVatTypes(options);
-      } catch (error) {
-        console.error("Error fetching ledger accounts:", error);
-      }
-    };
+  //       setVatTypes(options);
+  //     } catch (error) {
+  //       console.error("Error fetching ledger accounts:", error);
+  //     }
+  //   };
 
-    fetchVatTypes();
-  }, [formik.values.bearingType]);
+  //   fetchVatTypes();
+  // }, [formik.values.bearingType]);
 
   useEffect(() => {
     const transformBearingTypes = () => {
@@ -201,40 +205,40 @@ const FinancialEditModalForm: FC<Props> = ({
     getLedgerForReporting();
   }, []);
 
-  useEffect(() => {
-    if (
-      enums.BearingTypes.find((item) => {
-        return item.Value === formik.values.bearingType;
-      })?.IsAccountTypeBtw
-    ) {
-      formik.setFieldValue("taxDeductibleSettings", {
-        isNotFullyTaxDeductible: false,
-        taxDeductiblePercentage: 0,
-        deductiblePrivateLedgerAccountId: 0,
-      });
-    }
-  }, [formik.values.bearingType]);
+  // useEffect(() => {
+  //   if (
+  //     enums.BearingTypes.find((item) => {
+  //       return item.Value === formik.values.bearingType;
+  //     })?.IsAccountTypeBtw
+  //   ) {
+  //     formik.setFieldValue("taxDeductibleSettings", {
+  //       isNotFullyTaxDeductible: false,
+  //       taxDeductiblePercentage: 0,
+  //       deductiblePrivateLedgerAccountId: 0,
+  //     });
+  //   }
+  // }, [formik.values.bearingType]);
 
-  useEffect(() => {
-    if (
-      enums.BearingTypes.find((item) => {
-        return item.Value === formik.values.bearingType;
-      })?.IsAccountTypeCost
-    ) {
-      formik.setFieldValue("reportReferenceType1", 0);
-      formik.setFieldValue("reportReferenceType2LegderAccountId", 0);
-    }
-  }, [formik.values.bearingType]);
+  // useEffect(() => {
+  //   if (
+  //     enums.BearingTypes.find((item) => {
+  //       return item.Value === formik.values.bearingType;
+  //     })?.IsAccountTypeCost
+  //   ) {
+  //     formik.setFieldValue("reportReferenceType1", 0);
+  //     formik.setFieldValue("reportReferenceType2LegderAccountId", 0);
+  //   }
+  // }, [formik.values.bearingType]);
 
-  useEffect(() => {
-    if (!formik.values.taxDeductibleSettings.isNotFullyTaxDeductible) {
-      formik.setFieldValue("taxDeductibleSettings", {
-        isNotFullyTaxDeductible: false,
-        taxDeductiblePercentage: 0,
-        deductiblePrivateLedgerAccountId: 0,
-      });
-    }
-  }, [formik.values.taxDeductibleSettings.isNotFullyTaxDeductible]);
+  // useEffect(() => {
+  //   if (!formik.values.taxDeductibleSettings.isNotFullyTaxDeductible) {
+  //     formik.setFieldValue("taxDeductibleSettings", {
+  //       isNotFullyTaxDeductible: false,
+  //       taxDeductiblePercentage: 0,
+  //       deductiblePrivateLedgerAccountId: 0,
+  //     });
+  //   }
+  // }, [formik.values.taxDeductibleSettings.isNotFullyTaxDeductible]);
 
   const handlePercentageChange = (e: any) => {
     let value = e.target.value;
@@ -260,104 +264,56 @@ const FinancialEditModalForm: FC<Props> = ({
       noValidate
     >
       {/* begin::Input group */}
-      <div className="fv-row mb-7">
-        <label className="required fw-bold fs-6 mb-2">
-          {intl.formatMessage({ id: "Fields.BearingType" })}
-        </label>
-
-        <Select
-          className="react-select-styled react-select-transparent border-bottom"
-          options={bearingGroups}
-          onChange={(selectedOption: any) => {
-            formik.setFieldValue("bearingType", selectedOption?.value!);
-          }}
-          value={
-            formik.values.bearingType === 0
-              ? null
-              : bearingGroups.map((item: any) =>
-                  item.options.find(
-                    (option: any) => option.value === formik.values.bearingType
-                  )
-                ) || null
-          }
-          placeholder={intl.formatMessage({
-            id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
-          })}
-          isClearable
-        />
-      </div>
-      {/* end::Input group */}
-      {/* begin::Input group */}
       <div className="row d-flex mb-7">
-        {/* code Field */}
+        {/* account type Field */}
         <div className="fv-row flex-grow-1 col-5">
           <label className="required fw-bold fs-6 mb-2">
             {" "}
-            {intl.formatMessage({ id: "Fields.Code" })}
+            {intl.formatMessage({ id: "Fields.AccountType" })}
           </label>
-          <div className="input-group">
-            <span className="input-group-text me-1">
-              <i className="ki-duotone ki-text-number text-dark fs-1">
-                <span className="path1"></span>
-                <span className="path2"></span>
-                <span className="path3"></span>
-                <span className="path4"></span>
-                <span className="path5"></span>
-                <span className="path6"></span>
-              </i>
-            </span>
-            <input
-              type="text"
-              readOnly
-              {...formik.getFieldProps("code")}
-              className={clsx(
-                "form-control form-control-solid",
-                { "is-invalid": formik.touched.code && formik.errors.code },
-                { "is-valid": formik.touched.code && !formik.errors.code }
-              )}
-              disabled={isSubmitting}
-              placeholder={intl.formatMessage({ id: "Fields.Code" })}
-            />
-          </div>
 
-          {formik.touched.code && formik.errors.code && (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: formik.errors.code,
-                  }}
-                  role="alert"
-                />
-              </div>
-            </div>
-          )}
+          <Select
+            {...formik.getFieldProps("accountType")}
+            placeholder={
+              enums.AccountTypes?.find(
+                (item: any) => item.Value === formik.values.accountType
+              )?.Title
+            }
+            className="react-select-styled"
+            isDisabled
+          />
         </div>
 
-        {/* title Field */}
+        {/* account name Field */}
         <div className="fv-row col-7 flex-grow-1">
           <label className="required fw-bold fs-6 mb-2">
             {" "}
-            {intl.formatMessage({ id: "Fields.Title" })}
+            {intl.formatMessage({ id: "Fields.AccountName" })}
           </label>
           <input
             type="text"
-            {...formik.getFieldProps("title")}
+            {...formik.getFieldProps("accountName")}
             className={clsx(
               "form-control form-control-solid",
-              { "is-invalid": formik.touched.title && formik.errors.title },
-              { "is-valid": formik.touched.title && !formik.errors.title }
+              {
+                "is-invalid":
+                  formik.touched.accountName && formik.errors.accountName,
+              },
+              {
+                "is-valid":
+                  formik.touched.accountName && !formik.errors.accountName,
+              }
             )}
             disabled={isSubmitting}
-            placeholder={intl.formatMessage({ id: "Fields.Title" })}
+            placeholder={intl.formatMessage({ id: "Fields.AccountName" })}
           />
 
-          {formik.touched.title && formik.errors.title && (
+          {formik.touched.accountName && formik.errors.accountName && (
             <div className="fv-plugins-message-container">
               <div className="fv-help-block">
                 <span
                   dangerouslySetInnerHTML={{
-                    __html: formik.errors.title,
+                    __html: formik.errors.accountName,
                   }}
                   role="alert"
                 />
@@ -366,330 +322,109 @@ const FinancialEditModalForm: FC<Props> = ({
           )}
         </div>
       </div>
-      {/* begin::Input group */}
-      <div className="row">
-        <div className="fv-row mb-7 col-5">
-          <label className=" fw-bold fs-6 mb-2">
-            {intl.formatMessage({ id: "Fields.DefaultTax" })}
-          </label>
-
-          <Select
-            onChange={(selectedOption: any) => {
-              formik.setFieldValue("defaultTaxTypeId", selectedOption?.value);
-            }}
-            value={
-              formik.values.defaultTaxTypeId === 0
-                ? null
-                : vatTypes?.map((item: any) =>
-                    item.options.find(
-                      (option: any) =>
-                        option.value === formik.values.defaultTaxTypeId
-                    )
-                  ) || null
-            }
-            onBlur={() => formik.setFieldTouched("defaultTaxTypeId", true)}
-            placeholder={intl.formatMessage({
-              id: "Fields.SelectOptionNoVatType",
-            })}
-            isClearable
-            className={clsx(
-              "react-select-styled",
+      {formik.values.bankAccountCompanyType != 0 && (
+        <>
+          {/* begin::Input group */}
+          <div className="row">
+            <div className="fv-row mb-7 col-5">
+              <label className=" fw-bold fs-6 mb-2">
+                {intl.formatMessage({ id: "Fields.BankAccountCompanyType" })}
+              </label>
               {
-                "is-invalid":
-                  formik.touched.defaultTaxTypeId &&
-                  formik.errors.defaultTaxTypeId,
-              },
-              {
-                "is-valid":
-                  formik.touched.defaultTaxTypeId &&
-                  !formik.errors.defaultTaxTypeId,
+                console.log(
+                  enums.BankAccountCompanyTypes.find(
+                    (item: any) =>
+                      item.Value === formik.values.bankAccountCompanyType
+                  )
+                )!
               }
-            )}
-            isDisabled={!formik.values.bearingType}
-            options={vatTypes}
-          />
-
-          {formik.touched.defaultTaxTypeId &&
-            formik.errors.defaultTaxTypeId && (
+              <Select
+                className="react-select-styled react-select-transparent"
+                value={
+                  formik.values.bankAccountCompanyType === 0
+                    ? null
+                    : enums.BankAccountCompanyTypes.find(
+                        (item: any) =>
+                          item.Value === formik.values.bankAccountCompanyType
+                      ) || null
+                }
+                onBlur={() =>
+                  formik.setFieldTouched("bankAccountCompanyType", true)
+                }
+                placeholder={intl.formatMessage({
+                  id: "Fields.SelectOptionDefaultBankAccountCompanyType",
+                })}
+                isClearable
+                options={enums.BankAccountCompanyTypes.map((item: any) => ({
+                  value: item.Value,
+                  label: item.Title,
+                }))}
+                onChange={(selectedOption: any) => {
+                  formik.setFieldValue(
+                    "bankAccountCompanyType",
+                    selectedOption?.value
+                  );
+                }}
+              />
+              {
+                console.log(
+                  enums.BankAccountCompanyTypes.find(
+                    (item: any) =>
+                      item.Value === formik.values.bankAccountCompanyType
+                  )
+                )!
+              }
+              {formik.touched.bankAccountCompanyType &&
+                formik.errors.bankAccountCompanyType && (
+                  <div className="fv-plugins-message-container">
+                    <div className="fv-help-block">
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: formik.errors.bankAccountCompanyType,
+                        }}
+                        role="alert"
+                      />
+                    </div>
+                  </div>
+                )}
+            </div>
+            <div className="fv-row mb-7 col-7">
+              <label className="d-block fw-bold fs-6 mb-2">
+                {intl.formatMessage({ id: "Fields.AccountNumber" })}
+              </label>
+              <input
+                className={clsx(
+                  "form-control form-control-solid",
+                  {
+                    "is-invalid":
+                      formik.touched.accountNumber &&
+                      formik.errors.accountNumber,
+                  },
+                  {
+                    "is-valid":
+                      formik.touched.accountNumber &&
+                      !formik.errors.accountNumber,
+                  }
+                )}
+                type="text"
+                {...formik.getFieldProps("accountNumber")}
+                disabled={isSubmitting}
+              />
+            </div>
+            {formik.touched.accountNumber && formik.errors.accountNumber && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
                   <span
                     dangerouslySetInnerHTML={{
-                      __html: formik.errors.defaultTaxTypeId,
+                      __html: formik.errors.accountNumber,
                     }}
                     role="alert"
                   />
                 </div>
               </div>
             )}
-        </div>
-        <div className="fv-row mb-7 col-7">
-          <label className="d-block fw-bold fs-6 mb-2">
-            {" "}
-            {intl.formatMessage({ id: "Fields.DisableManualInput" })}
-          </label>
-          <div className="form-check form-switch mt-4">
-            <input
-              className="form-check-input h-30px w-50px"
-              type="checkbox"
-              id="disableManualInputSwitch"
-              checked={formik.values.disableManualInput}
-              {...formik.getFieldProps("disableManualInput")}
-              disabled={isSubmitting}
-            />
-            <label
-              className="form-check-label"
-              htmlFor="disableManualInputSwitch"
-            ></label>
-          </div>
-        </div>
-      </div>
-
-      {enums.BearingTypes.find((item) => {
-        return item.Value === formik.values.bearingType;
-      })?.IsAccountTypeBtw && (
-        <>
-          <div
-            className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0 "
-            role="alert"
-          >
-            <div className="alert-icon col-1">
-              <i className="ki-duotone ki-information-4 fs-3x text-center me- text-primary">
-                <span className="path1"></span>
-                <span className="path2"></span>
-                <span className="path3"></span>
-              </i>
-            </div>
-            <div className="alert-text  col-11">
-              <h4 className="alert-heading">
-                {intl.formatMessage({ id: "Fields.TaxReportingSettings" })}
-              </h4>
-              <p>
-                {intl.formatMessage({
-                  id: "Fields.TaxReportingSettingsInfo",
-                })}
-              </p>
-            </div>
-          </div>
-
-          <div className="form-group mb-8">
-            <label className="d-block fw-bold fs-6 mb-2">
-              {intl.formatMessage({ id: "Fields.VatReportReferenceType" })}
-            </label>
-            <Select
-              className="react-select-styled"
-              options={enums.VatReportReferenceTypes.map((item: any) => ({
-                value: item.Value,
-                label: item.Title,
-              }))}
-              value={
-                formik.values.reportReferenceType1 === 0
-                  ? null
-                  : enums.VatReportReferenceTypes.filter(
-                      (item) =>
-                        item.Value === formik.values.reportReferenceType1
-                    ).map((item) => ({
-                      value: item.Value,
-                      label: item.Title,
-                    }))[0] || null
-              }
-              onChange={(selectedOption) => {
-                formik.setFieldValue(
-                  "reportReferenceType1",
-                  selectedOption?.value
-                );
-
-                setReportReferenceType1(selectedOption);
-              }}
-              placeholder={intl.formatMessage({
-                id: "Fields.SelectOptionDefaultVatReportCategory",
-              })}
-              isClearable
-            />
           </div>
         </>
-      )}
-
-      {enums.BearingTypes.find((item) => {
-        return item.Value === formik.values.bearingType;
-      })?.IsAccountTypeBtw &&
-        pattern.test(
-          enums.VatReportReferenceTypes.find((item) => {
-            return item.Value === formik.values.reportReferenceType1;
-          })!?.Title
-        ) && (
-          <div className="form-group">
-            <label className="d-block fw-bold fs-6 mb-2">
-              {intl.formatMessage({
-                id: "Fields.VatReportReferenceTypeInputTaxGHeadingCategory",
-              })}
-            </label>
-            <Select
-              className="react-select-styled"
-              options={reportingLedgers}
-              value={
-                formik.values.reportReferenceType2LegderAccountId === 0
-                  ? null
-                  : reportingLedgers.find((item) => {
-                      return (
-                        item.value ===
-                        formik.values.reportReferenceType2LegderAccountId
-                      );
-                    }) || null
-              }
-              placeholder={intl.formatMessage({
-                id: "Fields.SelectOptionDefaultLedgerAccountType",
-              })}
-              onChange={(selectedOption) => {
-                formik.setFieldValue(
-                  "reportReferenceType2LegderAccountId",
-                  selectedOption?.value
-                );
-              }}
-              isClearable
-            />
-          </div>
-        )}
-
-      {enums.BearingTypes.find((item) => {
-        return item.Value === formik.values.bearingType;
-      })?.IsAccountTypeCost && (
-        <div className="form-group">
-          <div className="row">
-            <div className="col-md-12">
-              <div
-                className="row alert alert-custom alert-default bg-secondary  align-items-center"
-                role="alert"
-              >
-                <div className="alert-icon col-1">
-                  <i className="ki-duotone ki-information-4 fs-3x text-center me- text-primary">
-                    <span className="path1"></span>
-                    <span className="path2"></span>
-                    <span className="path3"></span>
-                  </i>
-                </div>
-                <div className="alert-text  col-11">
-                  <h4 className="alert-heading">
-                    {intl.formatMessage({ id: "Fields.TaxDeductibleSettings" })}
-                  </h4>
-                  <p>
-                    {intl.formatMessage({
-                      id: "Fields.TaxDeductibleSettingsInfo",
-                    })}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="fv-row col-3 flex-grow-1">
-              <label className="required fw-bold fs-6 mb-4">
-                {" "}
-                {intl.formatMessage({ id: "Fields.IsNotFullyTaxDeductible" })}
-              </label>
-              <div className="form-check form-switch">
-                <input
-                  className="form-check-input h-30px w-50px"
-                  type="checkbox"
-                  id="IsNotFullyTaxDeductibleSwitch"
-                  {...formik.getFieldProps(
-                    formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
-                  )}
-                  checked={
-                    formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
-                  }
-                  onChange={(e) =>
-                    formik.setFieldValue(
-                      "taxDeductibleSettings.isNotFullyTaxDeductible",
-                      e.target.checked
-                    )
-                  }
-                  disabled={isSubmitting}
-                />
-              </div>
-            </div>
-
-            <div className="fv-row col-3 flex-grow-1">
-              <label className="required fw-bold fs-6 mb-2">
-                {" "}
-                {intl.formatMessage({ id: "Fields.TaxDeductiblePercentage" })}
-              </label>
-              <div className="input-group">
-                <input
-                  type="number"
-                  min={0}
-                  max={100}
-                  className={clsx(
-                    "form-control form-control-solid",
-                    {
-                      "is-invalid":
-                        formik.touched.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible &&
-                        formik.errors.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible,
-                    },
-                    {
-                      "is-valid":
-                        formik.touched.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible &&
-                        !formik.errors.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible,
-                    }
-                  )}
-                  id="taxDeductiblePercentage"
-                  disabled={
-                    !formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
-                  }
-                  value={
-                    formik.values.taxDeductibleSettings.taxDeductiblePercentage
-                  }
-                  onChange={handlePercentageChange}
-                />
-
-                <span className="input-group-text ms-1">%</span>
-              </div>
-            </div>
-
-            <div className="fv-row col-5 flex-grow-1">
-              <label className="fw-bold fs-6 mb-2">
-                {" "}
-                {intl.formatMessage({
-                  id: "Fields.DeductiblePrivateLedgerAccountId",
-                })}
-              </label>
-              <Select
-                className="react-select-styled"
-                value={
-                  formik.values.taxDeductibleSettings
-                    .deductiblePrivateLedgerAccountId === 0
-                    ? null
-                    : privateLedgers.find(
-                        (item) =>
-                          item.value ===
-                          formik.values.taxDeductibleSettings
-                            .deductiblePrivateLedgerAccountId
-                      ) || null
-                }
-                onChange={(selectedOption) => {
-                  formik.setFieldValue(
-                    "taxDeductibleSettings.deductiblePrivateLedgerAccountId",
-                    selectedOption?.value
-                  );
-                }}
-                isDisabled={
-                  !formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
-                }
-                options={privateLedgers}
-                menuPlacement="top"
-                placeholder={intl.formatMessage({
-                  id: "Fields.SelectOptionDefaultLedgerAccount",
-                })}
-                isClearable
-              />
-            </div>
-          </div>
-        </div>
       )}
     </form>
   );
