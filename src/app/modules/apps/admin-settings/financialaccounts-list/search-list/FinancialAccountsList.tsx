@@ -68,7 +68,7 @@ const FinancialAccountsList = ({
   }, [editModalOpen, deleteModalOpen, refresh]);
 
   const renderWifiIcon = () => {
-    return <i className="fas fa-wifi text-primary fs-2" />;
+    return <i className="fas fa-wifi text-success fs-2" />;
   };
   const openEditModal = (id: number) => {
     setEditModalId(id);
@@ -256,7 +256,9 @@ const FinancialAccountsList = ({
                             </i>
                             <div className="d-flex flex-column mx-6">
                               <span className="fs-sm text-muted">
-                                bank autorisatie verloopt op
+                                {intl.formatMessage({
+                                  id: "Fields.ConnectedAccountsExpiresLabel",
+                                })}
                               </span>
                               <span className="text-primary fw-bolder">
                                 {formatExpirationDate(
@@ -275,7 +277,9 @@ const FinancialAccountsList = ({
                             </i>
                             <div className="d-flex flex-column mx-6">
                               <span className="fs-sm text-muted">
-                                laatste synchronisatie was op
+                                {intl.formatMessage({
+                                  id: "Fields.ConnectedAccountsLatestSyncRunLabel",
+                                })}
                               </span>
                               <span className="text-primary fw-bolder">
                                 {formatRequestDate(

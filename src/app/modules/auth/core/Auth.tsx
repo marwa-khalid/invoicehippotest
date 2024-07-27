@@ -108,7 +108,7 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
 
     if (auth && auth.result.token) {
       // Check if the token has expired
-      localStorage.removeItem("pagination");
+      // localStorage.removeItem("pagination");
       if (auth.result.tokenIsValid) {
         const expirationDate = new Date(auth.result.expirationDateUtc);
         const currentDate = new Date();

@@ -338,15 +338,23 @@ const FinancialEditModalForm: FC<Props> = ({
                   )
                 )!
               }
+              {
+                console.log(
+                  enums.BankAccountCompanyTypes.find((item: any) => {
+                    item.Value === formik.values.bankAccountCompanyType;
+                  })
+                )!
+              }
               <Select
                 className="react-select-styled react-select-transparent"
                 value={
                   formik.values.bankAccountCompanyType === 0
                     ? null
-                    : enums.BankAccountCompanyTypes.find(
-                        (item: any) =>
+                    : enums.BankAccountCompanyTypes.filter((item: any) => {
+                        return (
                           item.Value === formik.values.bankAccountCompanyType
-                      ) || null
+                        );
+                      }) || null
                 }
                 onBlur={() =>
                   formik.setFieldTouched("bankAccountCompanyType", true)
