@@ -6,8 +6,7 @@ import { FormikProps } from "formik";
 import enums from "../../../../../../invoicehippo.enums.json";
 import {
   getPrivateLedgerAccounts,
-  getReportingq5b,
-  getVatTypesForLedger,
+  getLedgerForFinancial,
 } from "../core/_requests";
 import { BalanceItem } from "../core/_models";
 
@@ -68,9 +67,7 @@ const FinancialEditModalForm: FC<Props> = ({
   const intl = useIntl();
   const [bearingGroups, setBearingGroups] = useState<GroupedOption[]>([]);
   const [privateLedgers, setPrivateLedgers] = useState<SelectorOption[]>([]);
-  const [reportingLedgers, setReportingLedgers] = useState<SelectorOption[]>(
-    []
-  );
+  const [ledgerAccounts, setLedgerAccounts] = useState<SelectorOption[]>([]);
   const [vatTypes, setVatTypes] = useState<SelectorOption | any>();
   const pattern = /NL\/(2A|4A|4B)/;
   useEffect(() => {
@@ -189,21 +186,22 @@ const FinancialEditModalForm: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    const getLedgerForReporting = async () => {
+    const getLedgerAccounts = async () => {
       try {
-        const response = await getReportingq5b();
+        const response = await getLedgerForFinancial(formik.values.id);
         const options = response.result.map((item) => ({
           value: item.id,
           label: item.title,
         }));
-        setReportingLedgers(options);
+        setLedgerAccounts(options);
       } catch (error) {
         console.error("Error fetching ledger accounts:", error);
       }
     };
-
-    getLedgerForReporting();
-  }, []);
+    if (formik.values.id !== 0) {
+      getLedgerAccounts();
+    }
+  }, [formik.values.id]);
 
   // useEffect(() => {
   //   if (
@@ -322,39 +320,44 @@ const FinancialEditModalForm: FC<Props> = ({
           )}
         </div>
       </div>
+      {formik.values.accountType === 64 && (
+        <div className="row ">
+          <div className="fv-row mb-7">
+            <label className="required fw-bold fs-6 mb-2">
+              {intl.formatMessage({ id: "Fields.PayPalAccountNumber" })}
+            </label>
+            <input
+              type="text"
+              {...formik.getFieldProps("accountNumber")}
+              className="form-control form-control-solid"
+              readOnly
+            />
+          </div>
+        </div>
+      )}
       {formik.values.bankAccountCompanyType != 0 && (
         <>
           {/* begin::Input group */}
           <div className="row">
             <div className="fv-row mb-7 col-5">
-              <label className=" fw-bold fs-6 mb-2">
-                {intl.formatMessage({ id: "Fields.BankAccountCompanyType" })}
+              <label className="required fw-bold fs-6 mb-2">
+                {intl.formatMessage({
+                  id: "Fields.BankAccountCompanyType",
+                })}
               </label>
-              {
-                console.log(
-                  enums.BankAccountCompanyTypes.find(
-                    (item: any) =>
-                      item.Value === formik.values.bankAccountCompanyType
-                  )
-                )!
-              }
-              {
-                console.log(
-                  enums.BankAccountCompanyTypes.find((item: any) => {
-                    item.Value === formik.values.bankAccountCompanyType;
-                  })
-                )!
-              }
+
               <Select
                 className="react-select-styled react-select-transparent"
                 value={
                   formik.values.bankAccountCompanyType === 0
                     ? null
-                    : enums.BankAccountCompanyTypes.filter((item: any) => {
-                        return (
-                          item.Value === formik.values.bankAccountCompanyType
-                        );
-                      }) || null
+                    : enums.BankAccountCompanyTypes.map((item: any) => ({
+                        value: item.Value,
+                        label: item.Title,
+                      })).find(
+                        (option) =>
+                          option.value === formik.values.bankAccountCompanyType
+                      ) || null
                 }
                 onBlur={() =>
                   formik.setFieldTouched("bankAccountCompanyType", true)
@@ -370,18 +373,11 @@ const FinancialEditModalForm: FC<Props> = ({
                 onChange={(selectedOption: any) => {
                   formik.setFieldValue(
                     "bankAccountCompanyType",
-                    selectedOption?.value
+                    selectedOption ? selectedOption.value : null
                   );
                 }}
               />
-              {
-                console.log(
-                  enums.BankAccountCompanyTypes.find(
-                    (item: any) =>
-                      item.Value === formik.values.bankAccountCompanyType
-                  )
-                )!
-              }
+
               {formik.touched.bankAccountCompanyType &&
                 formik.errors.bankAccountCompanyType && (
                   <div className="fv-plugins-message-container">
@@ -397,7 +393,7 @@ const FinancialEditModalForm: FC<Props> = ({
                 )}
             </div>
             <div className="fv-row mb-7 col-7">
-              <label className="d-block fw-bold fs-6 mb-2">
+              <label className="required d-block fw-bold fs-6 mb-2">
                 {intl.formatMessage({ id: "Fields.AccountNumber" })}
               </label>
               <input
@@ -434,6 +430,48 @@ const FinancialEditModalForm: FC<Props> = ({
           </div>
         </>
       )}
+
+      <div className="row">
+        <label className="required fw-bold fs-6 mb-2">
+          {intl.formatMessage({ id: "Fields.LedgerAccount" })}
+        </label>
+
+        <Select
+          className="react-select-styled react-select-transparent"
+          value={
+            formik.values.ledgerAccountId === 0
+              ? null
+              : ledgerAccounts.find(
+                  (option) => option.value === formik.values.ledgerAccountId
+                ) || null
+          }
+          onBlur={() => formik.setFieldTouched("ledgerAccountId", true)}
+          placeholder={intl.formatMessage({
+            id: "Fields.SelectOptionDefaultLedgerAccount",
+          })}
+          isClearable
+          options={ledgerAccounts}
+          onChange={(selectedOption: any) => {
+            formik.setFieldValue(
+              "ledgerAccountId",
+              selectedOption ? selectedOption.value : null
+            );
+          }}
+        />
+
+        {formik.touched.ledgerAccountId && formik.errors.ledgerAccountId && (
+          <div className="fv-plugins-message-container">
+            <div className="fv-help-block">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: formik.errors.ledgerAccountId,
+                }}
+                role="alert"
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </form>
   );
 };

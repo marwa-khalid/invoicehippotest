@@ -132,7 +132,7 @@ const FinancialEditModal = ({
     const fetchInitialData = async () => {
       try {
         const response = await getFinancialAccountById(editModalId);
-
+        console.log(response.result);
         formik.setValues({
           id: response.result.id,
           accountName: response.result.accountName,

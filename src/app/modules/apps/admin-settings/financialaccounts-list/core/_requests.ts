@@ -16,7 +16,7 @@ import {
   POST_LEDGER_ACCOUNT,
   GET_VAT_FOR_LEDGER,
   GET_PRIVATE_LEDGDER,
-  GET_LEDGDER_FOR_REPORTING,
+  GET_LEDGDER_FOR_FINANCIAL,
   GET_FINANCIALACCOUNT_BY_ID,
 } from "./constants";
 import { LedgerAccountsModel, LedgerAccountsForFilterModel } from "./_models";
@@ -42,16 +42,21 @@ export function getFinancialAccountById(editModalId: number) {
   );
 }
 
+export function getLedgerForFinancial(id: number) {
+  return getRequest<PrivateLedgersModel>(
+    `${GET_LEDGDER_FOR_FINANCIAL}/${id}`,
+    true
+  );
+}
+
+//extraaaaaa
+
 export function getLedgerAccountsForFilter() {
   return getRequest<LedgerAccountsForFilterModel>(GET_LEDGDER_FOR_FILTER, true);
 }
 
 export function getPrivateLedgerAccounts() {
   return getRequest<PrivateLedgersModel>(GET_PRIVATE_LEDGDER, true);
-}
-
-export function getReportingq5b() {
-  return getRequest<PrivateLedgersModel>(GET_LEDGDER_FOR_REPORTING, true);
 }
 
 export function getVatTypesForLedger() {
