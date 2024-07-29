@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { FinancialEditModalHeader } from "./FinancialEditModalHeader";
 import { FinancialEditModalFooter } from "./FinancialEditModalFooter";
-import { getFinancialAccountById, postLedgerAccount } from "../core/_requests";
+import {
+  getFinancialAccountById,
+  postFinancialAccount,
+} from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
@@ -52,48 +55,28 @@ const FinancialEditModal = ({
       },
     },
     validationSchema: Yup.object().shape({
-      title: Yup.string()
+      accountName: Yup.string()
         .min(
           3,
           intl
             .formatMessage({ id: "Common.ValidationMin" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
             .replace("{1}", `3`)
         )
         .max(
           50,
           intl
             .formatMessage({ id: "Common.ValidationMax" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
             .replace("{1}", `50`)
         )
         .required(
           intl
             .formatMessage({ id: "Common.RequiredFieldHint2" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
-        ),
-      code: Yup.string()
-        .min(
-          2,
-          intl
-            .formatMessage({ id: "Common.ValidationMin" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
-            .replace("{1}", `2`)
-        )
-        .max(
-          50,
-          intl
-            .formatMessage({ id: "Common.ValidationMax" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
-            .replace("{1}", `50`)
-        )
-        .required(
-          intl
-            .formatMessage({ id: "Common.RequiredFieldHint2" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
         ),
 
-      bearingType: Yup.number().required(
+      ledgerAccountId: Yup.number().required(
         intl
           .formatMessage({ id: "Common.RequiredFieldHint2" })
           .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
@@ -102,23 +85,25 @@ const FinancialEditModal = ({
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        // const response = await postLedgerAccount(
-        //   values.id,
-        //   values.title,
-        //   values.code,
-        //   values.defaultTaxTypeId,
-        //   values.bearingType,
-        //   values.reportReferenceType1,
-        //   values.reportReferenceType2LegderAccountId,
-        //   values.disableManualInput,
-        //   values.taxDeductibleSettings
-        // );
-        // if (response.isValid) {
-        //   formik.resetForm();
-        //   setEditModalOpen(false);
-        //   setRefresh(true);
-        // }
-        // handleToast(response);
+        const response = await postFinancialAccount(
+          values.id,
+          values.accountName,
+          values.accountNumber,
+          values.ledgerAccountId,
+          values.bankConnectMinImportDate,
+          values.autoCreateLedgerAccount,
+          values.accountType,
+          values.bankAccountCompanyType,
+          values.afterSaveModel,
+          values.bankConnectInfo
+        );
+
+        if (response.isValid) {
+          formik.resetForm();
+          setEditModalOpen(false);
+          setRefresh(true);
+        }
+        handleToast(response);
       } catch (error) {
         console.error("Put failed:", error);
       } finally {
@@ -127,6 +112,7 @@ const FinancialEditModal = ({
       }
     },
   });
+  console.log(formik.values);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -152,6 +138,29 @@ const FinancialEditModal = ({
 
     fetchInitialData();
   }, [editModalId]);
+  // useEffect(() => {
+  //   if (formik.values.bankAccountCompanyType !== 0) {
+  //     formik.setFieldValue(
+  //       "bankAccountCompanyType",
+  //       Yup.string().required(
+  //         intl
+  //           .formatMessage({ id: "Common.RequiredFieldHint2" })
+  //           .replace(
+  //             "{0}",
+  //             intl.formatMessage({ id: "Fields.BankAccountCompanyType" })
+  //           )
+  //       )
+  //     );
+  //     formik.setFieldValue(
+  //       "accountNumber",
+  //       Yup.string().required(
+  //         intl
+  //           .formatMessage({ id: "Common.RequiredFieldHint2" })
+  //           .replace("{0}", intl.formatMessage({ id: "Fields.AccountNumber" }))
+  //       )
+  //     );
+  //   }
+  // }, [formik.values.bankAccountCompanyType, formik.values.accountNumber]);
 
   return (
     <>

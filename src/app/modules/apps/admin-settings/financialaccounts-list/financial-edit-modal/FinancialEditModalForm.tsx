@@ -456,6 +456,10 @@ const FinancialEditModalForm: FC<Props> = ({
               "ledgerAccountId",
               selectedOption ? selectedOption.value : null
             );
+            formik.setFieldValue(
+              "afterSaveModel.ledgerAccountDisplayName",
+              selectedOption?.label
+            );
           }}
         />
 

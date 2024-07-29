@@ -13,7 +13,7 @@ import {
 import {
   SEARCH_FINANCIAL_ACCOUNTS,
   GET_LEDGDER_FOR_FILTER,
-  POST_LEDGER_ACCOUNT,
+  POST_FINANCIAL_ACCOUNT,
   GET_VAT_FOR_LEDGER,
   GET_PRIVATE_LEDGDER,
   GET_LEDGDER_FOR_FINANCIAL,
@@ -49,6 +49,43 @@ export function getLedgerForFinancial(id: number) {
   );
 }
 
+export function postFinancialAccount(
+  id: number,
+  accountName: string,
+  accountNumber: string,
+  ledgerAccountId: number,
+  bankConnectMinImportDate: string,
+  autoCreateLedgerAccount: boolean,
+  accountType: number,
+  bankAccountCompanyType: number,
+  afterSaveModel: {
+    ledgerAccountDisplayName: string;
+  },
+  bankConnectInfo: {
+    isConnected: boolean;
+    isActive: boolean;
+    accessExpirtationDate: string;
+    lastSyncRequestDate: string;
+  }
+) {
+  return postRequest<FinancialAccountsModel>(
+    POST_FINANCIAL_ACCOUNT,
+    {
+      id: id,
+      accountName: accountName,
+      accountNumber: accountNumber,
+      ledgerAccountId: ledgerAccountId,
+      bankConnectMinImportDate: bankConnectMinImportDate,
+      accountType: accountType,
+      autoCreateLedgerAccount: autoCreateLedgerAccount,
+      bankAccountCompanyType: bankAccountCompanyType,
+      afterSaveModel: afterSaveModel,
+      bankConnectInfo: bankConnectInfo,
+    },
+    true
+  );
+}
+
 //extraaaaaa
 
 export function getLedgerAccountsForFilter() {
@@ -63,43 +100,6 @@ export function getVatTypesForLedger() {
   return getRequest<VatTypesForLedgerModel>(GET_VAT_FOR_LEDGER, true);
 }
 
-export function postLedgerAccount(
-  id: number,
-  title: string,
-  code: string,
-  defaultTaxTypeId: number,
-  bearingType: number,
-  reportReferenceType1: number,
-  reportReferenceType2LegderAccountId: number,
-  disableManualInput: boolean,
-  taxDeductibleSettings: {
-    isNotFullyTaxDeductible: boolean;
-    taxDeductiblePercentage: number;
-    deductiblePrivateLedgerAccountId: number;
-  }
-) {
-  return postRequest<LedgerAccountsModel>(
-    POST_LEDGER_ACCOUNT,
-    {
-      id: id,
-      title: title,
-      code: code,
-      defaultTaxTypeId: defaultTaxTypeId,
-      bearingType: bearingType,
-      reportReferenceType1: reportReferenceType1,
-      reportReferenceType2LegderAccountId: reportReferenceType2LegderAccountId,
-      disableManualInput: disableManualInput,
-      taxDeductibleSettings: {
-        isNotFullyTaxDeductible: taxDeductibleSettings.isNotFullyTaxDeductible,
-        taxDeductiblePercentage: taxDeductibleSettings.taxDeductiblePercentage,
-        deductiblePrivateLedgerAccountId:
-          taxDeductibleSettings.deductiblePrivateLedgerAccountId,
-      },
-    },
-    true
-  );
-}
-
 export function deleteLedgerAccount(id: number) {
-  return deleteRequest<DeleteResult>(POST_LEDGER_ACCOUNT, [id], true);
+  return deleteRequest<DeleteResult>(POST_FINANCIAL_ACCOUNT, [id], true);
 }
