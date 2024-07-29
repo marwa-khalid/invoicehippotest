@@ -12,7 +12,7 @@ const FinancialDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
     <div className="modal-header d-flex justify-content-between align-items-center bg-danger ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {intl.formatMessage({ id: "Fields.ModalDeleteTitleLedgerAccount" })}
+        {intl.formatMessage({ id: "Fields.ModalDeleteTitleFinancialAccount" })}
       </h2>
       {/* end::Modal title */}
 

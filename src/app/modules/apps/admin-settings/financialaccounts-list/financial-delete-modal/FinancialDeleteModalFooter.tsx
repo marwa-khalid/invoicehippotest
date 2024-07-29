@@ -37,7 +37,7 @@ const FinancialDeleteModalFooter = ({
           onClick={() => setDeleteModalOpen(false)}
           className="btn btn-light me-3"
         >
-          {intl.formatMessage({ id: "Fields.ActionCancel" })}
+          {intl.formatMessage({ id: "Fields.ActionClose" })}
         </button>
 
         {/* Save Button */}
