@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
-import { getPrivateLedgerAccounts, getReportingq5b } from "../core/_requests";
+import { getPrivateLedgerAccounts } from "../core/_requests";
 import { BalanceItem } from "../core/_models";
 import { FormikProps } from "formik";
 import enums from "../../../../../../invoicehippo.enums.json";
@@ -129,23 +129,23 @@ const FinancialAddModalForm = ({
     transformBearingTypes();
   }, []);
 
-  useEffect(() => {
-    const getLedgerForReporting = async () => {
-      try {
-        const response = await getReportingq5b();
+  // useEffect(() => {
+  //   const getLedgerForReporting = async () => {
+  //     try {
+  //       const response = await getReportingq5b();
 
-        const options = response.result.map((item) => ({
-          value: item.id,
-          label: item.title,
-        }));
-        setReportingLedgers(options);
-      } catch (error) {
-        console.error("Error fetching ledger accounts:", error);
-      }
-    };
+  //       const options = response.result.map((item: any) => ({
+  //         value: item.id,
+  //         label: item.title,
+  //       }));
+  //       setReportingLedgers(options);
+  //     } catch (error) {
+  //       console.error("Error fetching ledger accounts:", error);
+  //     }
+  //   };
 
-    getLedgerForReporting();
-  }, []);
+  //   getLedgerForReporting();
+  // }, []);
 
   useEffect(() => {
     if (selectedBearingTypeOption?.IsAccountTypeBtw) {

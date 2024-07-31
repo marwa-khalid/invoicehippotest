@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FinancialAddModalHeader } from "./FinancialAddModalHeader";
 import { FinancialAddModalFooter } from "./FinancialAddModalFooter";
-import { getVatTypesForLedger, postLedgerAccount } from "../core/_requests";
+import { getVatTypesForLedger } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
@@ -150,23 +150,23 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postLedgerAccount(
-          values.id,
-          values.title,
-          values.code,
-          values.defaultTaxTypeId,
-          values.bearingType,
-          values.reportReferenceType1,
-          values.reportReferenceType2LegderAccountId,
-          values.disableManualInput,
-          values.taxDeductibleSettings
-        );
-        if (response.isValid) {
-          formik.resetForm();
-          setAddModalOpen(false);
-          setRefresh(true);
-        }
-        handleToast(response);
+        // const response = await postLedgerAccount(
+        //   values.id,
+        //   values.title,
+        //   values.code,
+        //   values.defaultTaxTypeId,
+        //   values.bearingType,
+        //   values.reportReferenceType1,
+        //   values.reportReferenceType2LegderAccountId,
+        //   values.disableManualInput,
+        //   values.taxDeductibleSettings
+        // );
+        // if (response.isValid) {
+        //   formik.resetForm();
+        //   setAddModalOpen(false);
+        //   setRefresh(true);
+        // }
+        // handleToast(response);
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
