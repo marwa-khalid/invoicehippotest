@@ -4,29 +4,15 @@ import { FormikProps } from "formik";
 
 interface FormValues {
   id: number;
-  accountName: string;
-  accountNumber: string;
-  ledgerAccountId: number;
-  bankConnectMinImportDate: string;
-  accountType: number;
-  autoCreateLedgerAccount: boolean;
-  bankAccountCompanyType: number;
-  afterSaveModel: {
-    ledgerAccountDisplayName: string;
-  };
-  bankConnectInfo: {
-    isConnected: boolean;
-    isActive: boolean;
-    accessExpirtationDate: string;
-    lastSyncRequestDate: string;
-  };
+  title: string;
+  isDefault: boolean;
 }
 interface ComponentProps {
   setEditModalOpen: (type: boolean) => void;
   formik: FormikProps<FormValues>;
   isSubmitting: boolean;
 }
-const FinancialEditModalFooter = ({
+const UnitTypesEditModalFooter = ({
   setEditModalOpen,
   formik,
   isSubmitting,
@@ -67,4 +53,4 @@ const FinancialEditModalFooter = ({
   );
 };
 
-export { FinancialEditModalFooter };
+export { UnitTypesEditModalFooter };

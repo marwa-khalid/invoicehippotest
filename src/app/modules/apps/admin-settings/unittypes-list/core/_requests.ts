@@ -12,7 +12,7 @@ import {
   deleteRequest,
 } from "../../../../auth/core/_apiservice";
 import {
-  GET_UNIT_TYPES,
+  UNIT_TYPES,
   GET_LEDGDER_FOR_FILTER,
   POST_FINANCIAL_ACCOUNT,
   GET_VAT_FOR_LEDGER,
@@ -22,11 +22,11 @@ import {
 } from "./constants";
 import { LedgerAccountsModel, LedgerAccountsForFilterModel } from "./_models";
 
-interface DeleteResult extends Partial<LedgerAccountsModel> {}
+interface PartialResult extends Partial<UnitTypesModel> {}
 
 export function getUnitTypes(searchTerm: string, pageIndex: number) {
   return postRequest<UnitTypesModel>(
-    GET_UNIT_TYPES,
+    `${UNIT_TYPES}/search`,
     {
       pageMax: 25,
       pageIndex: searchTerm ? 1 : pageIndex,
@@ -36,11 +36,8 @@ export function getUnitTypes(searchTerm: string, pageIndex: number) {
   );
 }
 
-export function getFinancialAccountById(editModalId: number) {
-  return getRequest<FinancialAccountByIdModel>(
-    `${GET_FINANCIALACCOUNT_BY_ID}/${editModalId}`,
-    true
-  );
+export function getUnitTypesById(editModalId: number) {
+  return getRequest<PartialResult>(`${UNIT_TYPES}/${editModalId}`, true);
 }
 
 export function getLedgerForFinancial(id: number) {
@@ -50,57 +47,18 @@ export function getLedgerForFinancial(id: number) {
   );
 }
 
-export function postFinancialAccount(
-  id: number,
-  accountName: string,
-  accountNumber: string,
-  ledgerAccountId: number,
-  bankConnectMinImportDate: string,
-  autoCreateLedgerAccount: boolean,
-  accountType: number,
-  bankAccountCompanyType: number,
-  afterSaveModel: {
-    ledgerAccountDisplayName: string;
-  },
-  bankConnectInfo: {
-    isConnected: boolean;
-    isActive: boolean;
-    accessExpirtationDate: string;
-    lastSyncRequestDate: string;
-  }
-) {
-  return postRequest<FinancialAccountsModel>(
-    POST_FINANCIAL_ACCOUNT,
+export function postUnitType(id: number, title: string, isDefault: boolean) {
+  return postRequest<PartialResult>(
+    UNIT_TYPES,
     {
       id: id,
-      accountName: accountName,
-      accountNumber: accountNumber,
-      ledgerAccountId: ledgerAccountId,
-      bankConnectMinImportDate: bankConnectMinImportDate,
-      accountType: accountType,
-      autoCreateLedgerAccount: autoCreateLedgerAccount,
-      bankAccountCompanyType: bankAccountCompanyType,
-      afterSaveModel: afterSaveModel,
-      bankConnectInfo: bankConnectInfo,
+      title: title,
+      isDefault: isDefault,
     },
     true
   );
 }
 
-//extraaaaaa
-
-export function getLedgerAccountsForFilter() {
-  return getRequest<LedgerAccountsForFilterModel>(GET_LEDGDER_FOR_FILTER, true);
-}
-
-export function getPrivateLedgerAccounts() {
-  return getRequest<PrivateLedgersModel>(GET_PRIVATE_LEDGDER, true);
-}
-
-export function getVatTypesForLedger() {
-  return getRequest<VatTypesForLedgerModel>(GET_VAT_FOR_LEDGER, true);
-}
-
-export function deleteLedgerAccount(id: number) {
-  return deleteRequest<DeleteResult>(POST_FINANCIAL_ACCOUNT, [id], true);
+export function deleteUnitType(id: number) {
+  return deleteRequest<PartialResult>(UNIT_TYPES, [id], true);
 }

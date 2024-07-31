@@ -1,6 +1,6 @@
 const API_URL_V1 = "https://api.invoicehippo.nl/api/v1";
 
-export const GET_UNIT_TYPES = `${API_URL_V1}/admin/unit-type/search`;
+export const UNIT_TYPES = `${API_URL_V1}/admin/unit-type`;
 
 //extraaa
 export const GET_FINANCIALACCOUNT_BY_ID = `${API_URL_V1}/admin/financialaccount`;

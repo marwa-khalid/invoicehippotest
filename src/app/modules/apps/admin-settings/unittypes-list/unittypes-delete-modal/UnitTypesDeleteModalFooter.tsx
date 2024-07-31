@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteLedgerAccount } from "../core/_requests";
+import { deleteUnitType } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
@@ -9,7 +9,7 @@ interface ComponentProps {
   setRefresh: (type: boolean) => void;
 }
 
-const FinancialDeleteModalFooter = ({
+const UnitTypesDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
@@ -18,14 +18,14 @@ const FinancialDeleteModalFooter = ({
   const intl = useIntl();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const deleteVat = async () => {
+  const deleteUnit = async () => {
     setIsSubmitting(true);
-    const response = await deleteLedgerAccount(deleteModalId);
+    const response = await deleteUnitType(deleteModalId);
     if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);
-      setIsSubmitting(false);
     }
+    setIsSubmitting(false);
     handleToast(response);
   };
   return (
@@ -44,7 +44,7 @@ const FinancialDeleteModalFooter = ({
         <button
           type="submit"
           className="btn btn-danger"
-          onClick={deleteVat}
+          onClick={deleteUnit}
           //   disabled={!isValid || isSubmitting || !touched}
         >
           {!isSubmitting && intl.formatMessage({ id: "Fields.ActionDelete" })}
@@ -60,4 +60,4 @@ const FinancialDeleteModalFooter = ({
   );
 };
 
-export { FinancialDeleteModalFooter };
+export { UnitTypesDeleteModalFooter };

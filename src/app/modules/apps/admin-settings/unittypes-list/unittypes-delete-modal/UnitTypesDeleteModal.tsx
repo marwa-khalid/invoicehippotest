@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { FinancialDeleteModalHeader } from "./FinancialDeleteModalHeader";
-import { FinancialDeleteModalFooter } from "./FinancialDeleteModalFooter";
+import { UnitTypesDeleteModalHeader } from "./UnitTypesDeleteModalHeader";
+import { UnitTypesDeleteModalFooter } from "./UnitTypesDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
-  ledgerAccountTitle: string;
+  accountTitle: string;
   deleteModalId: number;
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
 }
-const FinancialDeleteModal = ({
+const UnitTypesDeleteModal = ({
   deleteModalId,
-  ledgerAccountTitle,
+  accountTitle,
   setDeleteModalOpen,
   setRefresh,
 }: ComponentProps) => {
@@ -35,7 +35,7 @@ const FinancialDeleteModal = ({
         <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <FinancialDeleteModalHeader
+            <UnitTypesDeleteModalHeader
               setDeleteModalOpen={setDeleteModalOpen}
             />
             {/* begin::Modal body */}
@@ -44,23 +44,16 @@ const FinancialDeleteModal = ({
                 {
                   intl
                     .formatMessage({
-                      id: "Fields.ModalDeleteDescriptionLedgerAccount",
+                      id: "Fields.ModalDeleteDescriptionUnitType",
                     })
                     .split("{0}")[0]
                 }
-                <strong>{ledgerAccountTitle}</strong>
-                {
-                  intl
-                    .formatMessage({
-                      id: "Fields.ModalDeleteDescriptionLedgerAccount",
-                    })
-                    .split("{0}")[1]
-                }
+                <strong>{accountTitle}</strong>!?
               </div>
             </div>
 
             {/* end::Modal body */}
-            <FinancialDeleteModalFooter
+            <UnitTypesDeleteModalFooter
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
@@ -77,4 +70,4 @@ const FinancialDeleteModal = ({
   );
 };
 
-export { FinancialDeleteModal };
+export { UnitTypesDeleteModal };

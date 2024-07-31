@@ -1,28 +1,26 @@
 import { KTIcon } from "../../../../../../_metronic/helpers";
-
 import { useIntl } from "react-intl";
 
 interface ComponentProps {
-  setEditModalOpen: (type: boolean) => void;
+  setDeleteModalOpen: (type: boolean) => void;
 }
 
-const FinancialEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
+const UnitTypesDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
   const intl = useIntl();
 
   return (
-    <div className="modal-header d-flex justify-content-between align-items-center bg-primary ">
+    <div className="modal-header d-flex justify-content-between align-items-center bg-danger ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {intl.formatMessage({ id: "Fields.ModalEditTitleFinancialAccount" })}
+        {intl.formatMessage({ id: "Fields.ModalDeleteTitleUnitType" })}
       </h2>
-
       {/* end::Modal title */}
 
       {/* begin::Close */}
       <div
         className="btn btn-icon btn-sm btn-active-icon-primary"
         data-kt-users-modal-action="close"
-        onClick={() => setEditModalOpen(false)}
+        onClick={() => setDeleteModalOpen(false)}
         style={{ cursor: "pointer" }}
       >
         <KTIcon iconName="cross" className="fs-1 text-white" />
@@ -32,4 +30,4 @@ const FinancialEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
   );
 };
 
-export { FinancialEditModalHeader };
+export { UnitTypesDeleteModalHeader };

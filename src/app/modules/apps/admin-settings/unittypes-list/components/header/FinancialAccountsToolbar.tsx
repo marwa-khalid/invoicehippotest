@@ -16,7 +16,7 @@ const FinancialAccountsToolbar = ({
   const intl = useIntl();
   return (
     <div
-      className="d-flex justify-content-between align-items-center"
+      className="d-flex justify-content-between align-items-center mb-6"
       data-kt-user-table-toolbar="base"
     >
       <h5 className="ms-5 text-muted">

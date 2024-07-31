@@ -13,7 +13,7 @@ interface ComponentProps {
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
-  setLedgerAccountTitle: (type: string) => void;
+  setAccountTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
   setPageIndex: (type: number) => void;
@@ -27,7 +27,7 @@ const UnitTypesList = ({
   setTotalRows,
   setEditModalOpen,
   setEditModalId,
-  setLedgerAccountTitle,
+  setAccountTitle,
   setDeleteModalOpen,
   refresh,
   setPageIndex,
@@ -66,10 +66,6 @@ const UnitTypesList = ({
     fetchFinancialAccounts();
   }, [editModalOpen, deleteModalOpen, refresh]);
 
-  // const renderWifiIcon = () => {
-  //   return <i className="fas fa-wifi text-success fs-2" />;
-  // };
-
   const openEditModal = (id: number) => {
     setEditModalId(id);
     setEditModalOpen(true);
@@ -78,71 +74,16 @@ const UnitTypesList = ({
   const openDeleteModal = (id: number, ledgerTitle: string) => {
     setEditModalId(id);
     setDeleteModalOpen(true);
-    setLedgerAccountTitle(ledgerTitle);
-  };
-
-  const formatExpirationDate = (dateStr: string): string => {
-    const date = new Date(dateStr);
-    const days = [
-      "Zondag",
-      "Maandag",
-      "Dinsdag",
-      "Woensdag",
-      "Donderdag",
-      "Vrijdag",
-      "Zaterdag",
-    ];
-    const months = [
-      "Januari",
-      "Februari",
-      "Maart",
-      "April",
-      "Mei",
-      "Juni",
-      "Juli",
-      "Augustus",
-      "September",
-      "Oktober",
-      "November",
-      "December",
-    ];
-    const dayName = days[date.getDay()];
-    const day = date.getDate();
-    const monthName = months[date.getMonth()];
-    const year = date.getFullYear();
-
-    return `${dayName} ${day} ${monthName} ${year}`;
-  };
-
-  const formatRequestDate = (dateTimeStr: any) => {
-    const date = new Date(dateTimeStr);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-
-    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+    setAccountTitle(ledgerTitle);
   };
 
   return (
-    <div className="card-body py-3">
+    <div className="card-body py-3 bg-white p-10">
       <div className="table-responsive">
         <table className="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
           <thead>
             <tr className="fw-bold text-muted">
-              <th className="w-25px">
-                <div className="form-check form-check-sm form-check-custom form-check-solid">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value="1"
-                    data-kt-check="true"
-                    data-kt-check-target=".widget-9-check"
-                  />
-                </div>
-              </th>
+              <th>#</th>
               <th>{intl.formatMessage({ id: "Fields.Title" })}</th>
               <th>{intl.formatMessage({ id: "Fields.IsDefault" })}</th>
               <th>{intl.formatMessage({ id: "Fields.ColumnActions" })}</th>
@@ -150,17 +91,9 @@ const UnitTypesList = ({
           </thead>
           <tbody>
             {financialAccounts?.result?.map(
-              (financialAccount: UnitTypesResult) => (
+              (financialAccount: UnitTypesResult, index: number) => (
                 <tr key={financialAccount.id}>
-                  <td>
-                    <div className="form-check form-check-sm form-check-custom form-check-solid">
-                      <input
-                        className="form-check-input widget-9-check"
-                        type="checkbox"
-                        value="1"
-                      />
-                    </div>
-                  </td>
+                  <td>{index + 1}</td>
                   <td>{financialAccount.title}</td>
                   <td className="cursor-pointer">
                     {financialAccount.isDefault ? (

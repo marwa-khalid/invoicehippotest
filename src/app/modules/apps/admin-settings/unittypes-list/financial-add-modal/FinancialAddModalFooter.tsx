@@ -11,17 +11,7 @@ type Props = {
 interface FormValues {
   id: number;
   title: string;
-  code: string;
-  defaultTaxTypeId: number;
-  bearingType: number;
-  reportReferenceType1: number;
-  reportReferenceType2LegderAccountId: number;
-  disableManualInput: boolean;
-  taxDeductibleSettings: {
-    isNotFullyTaxDeductible: boolean;
-    taxDeductiblePercentage: number;
-    deductiblePrivateLedgerAccountId: number;
-  };
+  isDefault: boolean;
 }
 
 const FinancialAddModalFooter: FC<Props> = ({

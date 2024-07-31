@@ -5,8 +5,8 @@ import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolb
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
 import { FinancialAccountsToolbar } from "./components/header/FinancialAccountsToolbar";
-import { FinancialEditModal } from "./financial-edit-modal/FinancialEditModal";
-import { FinancialDeleteModal } from "./financial-delete-modal/FinancialDeleteModal";
+import { UnitTypesEditModal } from "./unittypes-edit-modal/UnitTypesEditModal";
+import { UnitTypesDeleteModal } from "./unittypes-delete-modal/UnitTypesDeleteModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -33,7 +33,7 @@ const UnitTypesListInnerWrapper = () => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [ledgerAccountTitle, setLedgerAccountTitle] = useState<string>("");
+  const [accountTitle, setAccountTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
 
   return (
@@ -54,7 +54,7 @@ const UnitTypesListInnerWrapper = () => {
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setEditModalId={setEditModalId}
-        setLedgerAccountTitle={setLedgerAccountTitle}
+        setAccountTitle={setAccountTitle}
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
@@ -69,16 +69,16 @@ const UnitTypesListInnerWrapper = () => {
         />
       )}
       {editModalOpen && (
-        <FinancialEditModal
+        <UnitTypesEditModal
           editModalId={editModalId}
           setRefresh={setRefresh}
           setEditModalOpen={setEditModalOpen}
         />
       )}
       {deleteModalOpen && (
-        <FinancialDeleteModal
+        <UnitTypesDeleteModal
           deleteModalId={editModalId}
-          ledgerAccountTitle={ledgerAccountTitle}
+          accountTitle={accountTitle}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
         />

@@ -1,34 +1,34 @@
 import { useEffect, useState } from "react";
-import { FinancialAddModalHeader } from "./FinancialAddModalHeader";
-import { FinancialAddModalFooter } from "./FinancialAddModalFooter";
-
+import { UnitTypesEditModalHeader } from "./UnitTypesEditModalHeader";
+import { UnitTypesEditModalFooter } from "./UnitTypesEditModalFooter";
+import { getUnitTypesById, postUnitType } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { FinancialAddModalForm } from "./FinancialAddModalForm";
+import FinancialEditModalForm from "./UnitTypesEditModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
-import { postUnitType } from "../core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
-  setAddModalOpen: (type: boolean) => void;
+  setEditModalOpen: (type: boolean) => void;
+  editModalId: number;
 }
-const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const UnitTypesEditModal = ({
+  setRefresh,
+  setEditModalOpen,
+  editModalId,
+}: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
       document.body.classList.remove("modal-open");
     };
   }, []);
-  interface vatType {
-    value: number;
-    label: string;
-  }
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [vatTypes, setVatTypes] = useState<vatType | any>();
+
   const intl = useIntl();
   const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
     useState<any>();
+
   const [reportReferenceType1, setReportReferenceType1] = useState();
 
   const formik = useFormik({
@@ -67,20 +67,40 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
           values.title,
           values.isDefault
         );
+
         if (response.isValid) {
           formik.resetForm();
-          setAddModalOpen(false);
+          setEditModalOpen(false);
           setRefresh(true);
         }
         handleToast(response);
       } catch (error) {
-        console.error("Post failed:", error);
+        console.error("Put failed:", error);
       } finally {
         setIsSubmitting(false);
         setSubmitting(false);
       }
     },
   });
+  console.log(formik.values);
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const response = await getUnitTypesById(editModalId);
+        console.log(response.result);
+        formik.setValues({
+          id: response.result?.id || 0,
+          title: response.result?.title || "",
+          isDefault: response.result?.isDefault || false,
+        });
+      } catch (error) {
+        console.error("Error fetching initial data:", error);
+      }
+    };
+
+    fetchInitialData();
+  }, [editModalId]);
 
   return (
     <>
@@ -93,20 +113,21 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <FinancialAddModalHeader setAddModalOpen={setAddModalOpen} />
-            <div
-              className="modal-body p-10"
-              style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
-            >
-              <FinancialAddModalForm
+            <UnitTypesEditModalHeader setEditModalOpen={setEditModalOpen} />
+            <div className="modal-body p-10">
+              <FinancialEditModalForm
                 formik={formik}
+                setSelectedBearingTypeOption={setSelectedBearingTypeOption}
+                selectedBearingTypeOption={selectedBearingTypeOption}
                 isSubmitting={isSubmitting}
+                setReportReferenceType1={setReportReferenceType1}
+                reportReferenceType1={reportReferenceType1}
               />
             </div>
-            <FinancialAddModalFooter
+            <UnitTypesEditModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
-              setAddModalOpen={setAddModalOpen}
+              setEditModalOpen={setEditModalOpen}
             />
           </div>
         </div>
@@ -116,4 +137,4 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   );
 };
 
-export { FinancialAddModal };
+export { UnitTypesEditModal };
