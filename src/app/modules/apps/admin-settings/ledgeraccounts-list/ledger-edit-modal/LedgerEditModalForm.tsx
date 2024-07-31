@@ -307,7 +307,7 @@ const LedgerEditModalForm: FC<Props> = ({
               </i>
             </span>
             <input
-              type="text"
+              type="number"
               {...formik.getFieldProps("code")}
               className={clsx(
                 "form-control form-control-solid ",
