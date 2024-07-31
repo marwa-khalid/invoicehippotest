@@ -78,7 +78,7 @@ const UnitTypesList = ({
   };
 
   return (
-    <div className="card-body py-3 bg-white p-10">
+    <div className="card py-3  p-10">
       <div className="table-responsive">
         <table className="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
           <thead>

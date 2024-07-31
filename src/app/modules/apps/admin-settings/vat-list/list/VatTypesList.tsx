@@ -133,15 +133,6 @@ const VatTypesList = ({
                       onClick={() => {
                         openEditModal(vatType.id);
                       }}
-                      // style={{
-                      //   transition: "color 0.3s", // Smooth transition effect
-                      // }}
-                      // onMouseEnter={(e) => {
-                      //   e.currentTarget.style.color = "blue";
-                      // }}
-                      // onMouseLeave={(e) => {
-                      //   e.currentTarget.style.color = "black";
-                      // }}
                     >
                       <input
                         type="checkbox"
