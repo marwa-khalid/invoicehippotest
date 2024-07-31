@@ -72,6 +72,10 @@ const LedgerListSearchComponent = ({
               pageIndex: 1,
               filters: { searchTerm: "" },
             },
+            "unit-types-module": {
+              pageIndex: 1,
+              filters: { searchTerm: "" },
+            },
           };
 
       // Update the filter in the vat-module

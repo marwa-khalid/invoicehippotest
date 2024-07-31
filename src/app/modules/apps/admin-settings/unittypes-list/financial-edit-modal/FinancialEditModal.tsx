@@ -177,7 +177,11 @@ const FinancialEditModal = ({
             <div className="modal-body p-10">
               <FinancialEditModalForm
                 formik={formik}
+                setSelectedBearingTypeOption={setSelectedBearingTypeOption}
+                selectedBearingTypeOption={selectedBearingTypeOption}
                 isSubmitting={isSubmitting}
+                setReportReferenceType1={setReportReferenceType1}
+                reportReferenceType1={reportReferenceType1}
               />
             </div>
             <FinancialEditModalFooter

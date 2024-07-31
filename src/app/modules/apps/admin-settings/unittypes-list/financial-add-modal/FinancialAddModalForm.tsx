@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
+import { getPrivateLedgerAccounts } from "../core/_requests";
 import { BalanceItem } from "../core/_models";
 import { FormikProps } from "formik";
 import enums from "../../../../../../invoicehippo.enums.json";
@@ -60,10 +61,24 @@ const FinancialAddModalForm = ({
 }: Props) => {
   const intl = useIntl();
   const [bearingGroups, setBearingGroups] = useState<GroupedOption[]>([]);
+  const [privateLedgers, setPrivateLedgers] = useState<SelectorOption[]>([]);
   const [reportingLedgers, setReportingLedgers] = useState<SelectorOption[]>(
     []
   );
   const pattern = /NL\/(2A|4A|4B)/;
+
+  useEffect(() => {
+    const getLedgerforPrivate = async () => {
+      const response = await getPrivateLedgerAccounts();
+      setPrivateLedgers(
+        response.result.map((item: BalanceItem) => ({
+          value: item.id,
+          label: item.title,
+        }))
+      );
+    };
+    getLedgerforPrivate();
+  }, []);
 
   useEffect(() => {
     const toTitleCase = (str: string) => {
@@ -113,6 +128,24 @@ const FinancialAddModalForm = ({
 
     transformBearingTypes();
   }, []);
+
+  // useEffect(() => {
+  //   const getLedgerForReporting = async () => {
+  //     try {
+  //       const response = await getReportingq5b();
+
+  //       const options = response.result.map((item: any) => ({
+  //         value: item.id,
+  //         label: item.title,
+  //       }));
+  //       setReportingLedgers(options);
+  //     } catch (error) {
+  //       console.error("Error fetching ledger accounts:", error);
+  //     }
+  //   };
+
+  //   getLedgerForReporting();
+  // }, []);
 
   useEffect(() => {
     if (selectedBearingTypeOption?.IsAccountTypeBtw) {
@@ -508,7 +541,7 @@ const FinancialAddModalForm = ({
                   id: "Fields.DeductiblePrivateLedgerAccountId",
                 })}
               </label>
-              {/* <Select
+              <Select
                 className="react-select-styled"
                 onChange={(selectedOption) => {
                   formik.setFieldValue(
@@ -536,7 +569,7 @@ const FinancialAddModalForm = ({
                   id: "Fields.SelectOptionDefaultLedgerAccount",
                 })}
                 isClearable
-              /> */}
+              />
             </div>
           </div>
         </div>

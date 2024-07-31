@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { useLayout } from "../../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
 import { FinancialListWrapper } from "./financialaccounts-list/FinancialListWrapper";
+import { UnitTypesListWrapper } from "./unittypes-list/UnitTypesListWrapper";
 
 const VatTypesPage = () => {
   const { config } = useLayout();
@@ -107,6 +108,30 @@ const VatTypesPage = () => {
                 )}
               >
                 <FinancialListWrapper />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="unit-types"
+          element={
+            <>
+              <PageTitle breadcrumbs={settingsBreadcrumbs}>
+                {intl.formatMessage({
+                  id: "Fields.SearchPanelTitleUnitType",
+                })}
+              </PageTitle>
+              <div
+                className={clsx(
+                  "main rounded",
+                  config.app?.sidebar?.default?.class,
+                  {
+                    "bg-light": config.layoutType === "light-sidebar",
+                    "bg-dark": config.layoutType === "dark-sidebar",
+                  }
+                )}
+              >
+                <UnitTypesListWrapper />
               </div>
             </>
           }

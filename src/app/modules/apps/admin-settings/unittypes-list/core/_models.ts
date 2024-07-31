@@ -1,5 +1,3 @@
-import { ID, Response } from "../../../../../../_metronic/helpers";
-
 interface ApiResponse<T> {
   pageIndex: number;
   totalRows: number;
@@ -14,6 +12,74 @@ interface ApiResponse<T> {
   isValid: boolean;
   textInfo: any;
 }
+
+export interface UnitTypesResult {
+  id: number;
+  title: string;
+  isDefault: boolean;
+  actions: {
+    canEdit: true;
+    canDelete: true;
+  };
+}
+export type UnitTypesModel = ApiResponse<UnitTypesResult>;
+
+////extraaaaaaaaaaaaaaaaaaaa
+
+interface AccountType {
+  value: number;
+  name: string;
+  description: string;
+}
+
+interface BankAccountCompanyType {
+  value: number;
+  name: string;
+  description: string;
+}
+
+interface BankConnectInfo {
+  isConnected: boolean;
+  isActive: boolean;
+  accessExpirtationDate: string;
+  lastSyncRequestDate: string;
+}
+
+interface Actions {
+  canEdit: boolean;
+  canDelete: boolean;
+  canRevokeAutomation: boolean;
+  canExtendAutomation: boolean;
+}
+
+export interface FinancialAccountsResult {
+  id: number;
+  accountName: string;
+  accountNumber: string;
+  ledgerAccountDisplayName: string;
+  ledgerAccountId: number;
+  accountType: AccountType;
+  bankAccountCompanyType: BankAccountCompanyType;
+  bankConnectInfo: BankConnectInfo;
+  actions: Actions;
+}
+
+interface FinancialAccountByIdResult {
+  id: number;
+  accountName: string;
+  accountNumber: string;
+  ledgerAccountId: number;
+  bankConnectMinImportDate: string;
+  accountType: number;
+  autoCreateLedgerAccount: boolean;
+  bankAccountCompanyType: number;
+  afterSaveModel: {
+    ledgerAccountDisplayName: string;
+  };
+  bankConnectInfo: BankConnectInfo;
+}
+export type FinancialAccountsModel = ApiResponse<FinancialAccountsResult>;
+export type FinancialAccountByIdModel = ApiResponse<FinancialAccountByIdResult>;
 
 export interface LedgerAccountsResult {
   id: number;
@@ -215,5 +281,28 @@ export type LedgerAccountsModel = ApiResponse<LedgerAccountsResult>;
 export type LedgerAccountsForFilterModel =
   ApiResponse<LedgerAccountsForFilterResult>;
 export type LedgerAccountByIdModel = ApiResponse<LedgerAccountByIdResult>;
+export type LedgerForVatModel = ApiResponse<LedgerForVatResult>;
 export type VatTypesForLedgerModel = ApiResponse<VatTypesForLedgerResult>;
 export type PrivateLedgersModel = ApiResponse<BalanceItem[]>;
+
+//extra properties remove afterwards
+export interface VatTypesResult {
+  id: number;
+  title: string;
+  value: number;
+
+  vatAreaUsageType: {
+    value: 0;
+    name: string;
+    description: string;
+  };
+  ledgerAccountDisplayName: string;
+  useInLists: true;
+  isAlwaysExBtw: true;
+  actions: {
+    canEdit: true;
+    canDelete: true;
+  };
+}
+
+export type VatTypesModel = ApiResponse<VatTypesResult>;

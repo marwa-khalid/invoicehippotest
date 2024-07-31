@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FinancialAddModalHeader } from "./FinancialAddModalHeader";
 import { FinancialAddModalFooter } from "./FinancialAddModalFooter";
+import { getVatTypesForLedger } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
@@ -27,58 +28,58 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   const intl = useIntl();
   const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
     useState<any>();
-  // useEffect(() => {
-  //   const fetchVatTypes = async () => {
-  //     try {
-  //       const response = await getVatTypesForLedger();
-  //       let options = [];
-  //       if (selectedBearingTypeOption.IsAccountTypeOmzet) {
-  //         options = [
-  //           {
-  //             label: response.result.listForSalesGroupTitle,
-  //             options: response.result.listForSales.map((item: any) => ({
-  //               value: item.id,
-  //               label: item.title,
-  //             })),
-  //           },
-  //         ];
-  //       } else if (selectedBearingTypeOption.IsAccountTypeCost) {
-  //         options = [
-  //           {
-  //             label: response.result.listForCostsGroupTitle,
-  //             options: response.result.listForCosts.map((item: any) => ({
-  //               value: item.id,
-  //               label: item.title,
-  //             })),
-  //           },
-  //         ];
-  //       } else {
-  //         options = [
-  //           {
-  //             label: response.result.listForSalesGroupTitle,
-  //             options: response.result.listForSales.map((item: any) => ({
-  //               value: item.id,
-  //               label: item.title,
-  //             })),
-  //           },
-  //           {
-  //             label: response.result.listForCostsGroupTitle,
-  //             options: response.result.listForCosts.map((item: any) => ({
-  //               value: item.id,
-  //               label: item.title,
-  //             })),
-  //           },
-  //         ];
-  //       }
+  useEffect(() => {
+    const fetchVatTypes = async () => {
+      try {
+        const response = await getVatTypesForLedger();
+        let options = [];
+        if (selectedBearingTypeOption.IsAccountTypeOmzet) {
+          options = [
+            {
+              label: response.result.listForSalesGroupTitle,
+              options: response.result.listForSales.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+          ];
+        } else if (selectedBearingTypeOption.IsAccountTypeCost) {
+          options = [
+            {
+              label: response.result.listForCostsGroupTitle,
+              options: response.result.listForCosts.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+          ];
+        } else {
+          options = [
+            {
+              label: response.result.listForSalesGroupTitle,
+              options: response.result.listForSales.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+            {
+              label: response.result.listForCostsGroupTitle,
+              options: response.result.listForCosts.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+          ];
+        }
 
-  //       setVatTypes(options);
-  //     } catch (error) {
-  //       console.error("Error fetching ledger accounts:", error);
-  //     }
-  //   };
+        setVatTypes(options);
+      } catch (error) {
+        console.error("Error fetching ledger accounts:", error);
+      }
+    };
 
-  //   fetchVatTypes();
-  // }, [selectedBearingTypeOption]);
+    fetchVatTypes();
+  }, [selectedBearingTypeOption]);
 
   const [reportReferenceType1, setReportReferenceType1] = useState();
 

@@ -138,6 +138,10 @@ export function Filter({
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
+          "unit-types-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
         };
 
     pagination["ledger-module"].filters.ledgerTypeFilter = tempLedgerTypeOption

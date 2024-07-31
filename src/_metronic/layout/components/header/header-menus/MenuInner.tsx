@@ -175,6 +175,7 @@ export function MenuInner() {
           title="Financial Accounts"
           hasBullet={true}
         />
+        <MenuItem to="/admin/unit-types" title="Unit Types" hasBullet={true} />
       </MenuInnerWithSub>
 
       <MenuInnerWithSub

@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteFinancialAccount } from "../core/_requests";
+import { deleteLedgerAccount } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
@@ -20,7 +20,7 @@ const FinancialDeleteModalFooter = ({
 
   const deleteVat = async () => {
     setIsSubmitting(true);
-    const response = await deleteFinancialAccount(deleteModalId);
+    const response = await deleteLedgerAccount(deleteModalId);
     if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);

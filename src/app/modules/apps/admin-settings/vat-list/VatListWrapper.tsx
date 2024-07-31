@@ -18,7 +18,7 @@ const getPaginationValues = () => {
 
     const currentFilter = pagination["vat-module"].filters.documentGroup || 0;
 
-    const currentPage = pagination["vat-module"].pageIndex || 1;
+    const currentPage = pagination["vat-module"]?.pageIndex || 1;
     const searchTerm = pagination["vat-module"].filters.searchTerm || "";
 
     return {

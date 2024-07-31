@@ -1,0 +1,99 @@
+import { FinancialListHeader } from "./components/header/FinancialListHeader";
+import { UnitTypesList } from "./search-list/UnitTypesList";
+import { FinancialAddModal } from "./financial-add-modal/FinancialAddModal";
+import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
+import { Content } from "../../../../../_metronic/layout/components/content";
+import { useState } from "react";
+import { FinancialAccountsToolbar } from "./components/header/FinancialAccountsToolbar";
+import { FinancialEditModal } from "./financial-edit-modal/FinancialEditModal";
+import { FinancialDeleteModal } from "./financial-delete-modal/FinancialDeleteModal";
+
+const getPaginationValues = () => {
+  const storedPaginationString = localStorage.getItem("pagination")!;
+  if (storedPaginationString) {
+    const pagination = JSON.parse(storedPaginationString);
+    console.log(pagination);
+    const currentPage = pagination["unit-types-module"].pageIndex || 1;
+    const searchTerm = pagination["unit-types-module"].filters.searchTerm || "";
+
+    return {
+      pageIndex: currentPage,
+      searchTerm: searchTerm,
+    };
+  }
+  return { pageIndex: 1, searchTerm: "" };
+};
+const UnitTypesListInnerWrapper = () => {
+  const { pageIndex, searchTerm } = getPaginationValues();
+  const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
+  const [searchTermState, setSearchTermState] = useState(searchTerm);
+
+  const [totalRows, setTotalRows] = useState(0);
+  const [editModalId, setEditModalId] = useState<number>(0);
+  const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+  const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [ledgerAccountTitle, setLedgerAccountTitle] = useState<string>("");
+  const [refresh, setRefresh] = useState(false);
+
+  return (
+    <>
+      <FinancialListHeader
+        setSearchTerm={setSearchTermState}
+        searchTerm={searchTerm}
+      />
+
+      <FinancialAccountsToolbar
+        totalRows={totalRows}
+        setAddModalOpen={setAddModalOpen}
+      />
+
+      <UnitTypesList
+        searchTerm={searchTerm}
+        setTotalRows={setTotalRows}
+        setEditModalOpen={setEditModalOpen}
+        setDeleteModalOpen={setDeleteModalOpen}
+        setEditModalId={setEditModalId}
+        setLedgerAccountTitle={setLedgerAccountTitle}
+        refresh={refresh}
+        pageIndex={pageIndex}
+        setPageIndex={setPageIndexState}
+        editModalOpen={editModalOpen}
+        deleteModalOpen={deleteModalOpen}
+      />
+
+      {addModalOpen && (
+        <FinancialAddModal
+          setRefresh={setRefresh}
+          setAddModalOpen={setAddModalOpen}
+        />
+      )}
+      {editModalOpen && (
+        <FinancialEditModal
+          editModalId={editModalId}
+          setRefresh={setRefresh}
+          setEditModalOpen={setEditModalOpen}
+        />
+      )}
+      {deleteModalOpen && (
+        <FinancialDeleteModal
+          deleteModalId={editModalId}
+          ledgerAccountTitle={ledgerAccountTitle}
+          setDeleteModalOpen={setDeleteModalOpen}
+          setRefresh={setRefresh}
+        />
+      )}
+    </>
+  );
+};
+
+const UnitTypesListWrapper = () => (
+  <>
+    <ToolbarWrapper />
+    <Content>
+      <UnitTypesListInnerWrapper />
+    </Content>
+  </>
+);
+
+export { UnitTypesListWrapper };

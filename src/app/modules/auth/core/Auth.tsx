@@ -95,6 +95,7 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
       try {
         if (!currentUser) {
           const data = await getProfileInfo();
+          localStorage.removeItem("pagination");
           if (data) {
             setCurrentUser(data);
           }

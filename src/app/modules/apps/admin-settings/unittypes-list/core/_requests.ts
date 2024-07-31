@@ -1,7 +1,9 @@
 import {
+  UnitTypesModel,
   FinancialAccountsModel,
   FinancialAccountByIdModel,
   PrivateLedgersModel,
+  VatTypesForLedgerModel,
 } from "./_models";
 
 import {
@@ -10,17 +12,21 @@ import {
   deleteRequest,
 } from "../../../../auth/core/_apiservice";
 import {
-  SEARCH_FINANCIAL_ACCOUNTS,
+  GET_UNIT_TYPES,
+  GET_LEDGDER_FOR_FILTER,
   POST_FINANCIAL_ACCOUNT,
+  GET_VAT_FOR_LEDGER,
+  GET_PRIVATE_LEDGDER,
   GET_LEDGDER_FOR_FINANCIAL,
   GET_FINANCIALACCOUNT_BY_ID,
 } from "./constants";
+import { LedgerAccountsModel, LedgerAccountsForFilterModel } from "./_models";
 
-interface DeleteResult extends Partial<FinancialAccountsModel> {}
+interface DeleteResult extends Partial<LedgerAccountsModel> {}
 
-export function getFinancialAccounts(searchTerm: string, pageIndex: number) {
-  return postRequest<FinancialAccountsModel>(
-    SEARCH_FINANCIAL_ACCOUNTS,
+export function getUnitTypes(searchTerm: string, pageIndex: number) {
+  return postRequest<UnitTypesModel>(
+    GET_UNIT_TYPES,
     {
       pageMax: 25,
       pageIndex: searchTerm ? 1 : pageIndex,
@@ -81,6 +87,20 @@ export function postFinancialAccount(
   );
 }
 
-export function deleteFinancialAccount(id: number) {
+//extraaaaaa
+
+export function getLedgerAccountsForFilter() {
+  return getRequest<LedgerAccountsForFilterModel>(GET_LEDGDER_FOR_FILTER, true);
+}
+
+export function getPrivateLedgerAccounts() {
+  return getRequest<PrivateLedgersModel>(GET_PRIVATE_LEDGDER, true);
+}
+
+export function getVatTypesForLedger() {
+  return getRequest<VatTypesForLedgerModel>(GET_VAT_FOR_LEDGER, true);
+}
+
+export function deleteLedgerAccount(id: number) {
   return deleteRequest<DeleteResult>(POST_FINANCIAL_ACCOUNT, [id], true);
 }

@@ -173,6 +173,11 @@ const SidebarMenuMain = () => {
           title="Financial Accounts"
           hasBullet={true}
         />
+        <SidebarMenuItem
+          to="/admin/unit-types"
+          title="Unit Types"
+          hasBullet={true}
+        />
       </SidebarMenuItemWithSub>
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">

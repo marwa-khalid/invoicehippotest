@@ -32,7 +32,7 @@ const FinancialAccountsToolbar = ({
         onClick={openAddFinancialAccountModal}
       >
         <KTIcon iconName="plus" className="fs-2" />
-        {intl.formatMessage({ id: "Fields.ModalNewTitleFinancialAccount" })}
+        {intl.formatMessage({ id: "Fields.ModalNewTitleUnitType" })}
       </button>
       {/* end:: Add financial account */}
     </div>
