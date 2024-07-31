@@ -4,7 +4,7 @@ import { useIntl } from "react-intl";
 interface ComponentProps {
   setAddModalOpen: (type: boolean) => void;
 }
-const FinancialAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
+const UnitTypesAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
   const intl = useIntl();
 
   return (
@@ -29,4 +29,4 @@ const FinancialAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
   );
 };
 
-export { FinancialAddModalHeader };
+export { UnitTypesAddModalHeader };

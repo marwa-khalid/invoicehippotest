@@ -1,35 +1,27 @@
 import { useEffect, useState } from "react";
-import { FinancialAddModalHeader } from "./FinancialAddModalHeader";
-import { FinancialAddModalFooter } from "./FinancialAddModalFooter";
+import { UnitTypesAddModalHeader } from "./UnitTypesAddModalHeader";
+import { UnitTypesAddModalFooter } from "./UnitTypesAddModalFooter";
 
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { FinancialAddModalForm } from "./FinancialAddModalForm";
+import { UnitTypesAddModalForm } from "./UnitTypesAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { postUnitType } from "../core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
 }
-const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const UnitTypesAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
       document.body.classList.remove("modal-open");
     };
   }, []);
-  interface vatType {
-    value: number;
-    label: string;
-  }
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [vatTypes, setVatTypes] = useState<vatType | any>();
   const intl = useIntl();
-  const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
-    useState<any>();
-  const [reportReferenceType1, setReportReferenceType1] = useState();
 
   const formik = useFormik({
     initialValues: {
@@ -93,17 +85,17 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <FinancialAddModalHeader setAddModalOpen={setAddModalOpen} />
+            <UnitTypesAddModalHeader setAddModalOpen={setAddModalOpen} />
             <div
               className="modal-body p-10"
               style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
             >
-              <FinancialAddModalForm
+              <UnitTypesAddModalForm
                 formik={formik}
                 isSubmitting={isSubmitting}
               />
             </div>
-            <FinancialAddModalFooter
+            <UnitTypesAddModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setAddModalOpen={setAddModalOpen}
@@ -116,4 +108,4 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   );
 };
 
-export { FinancialAddModal };
+export { UnitTypesAddModal };

@@ -7,7 +7,7 @@ interface ComponentProps {
   searchTerm: string;
 }
 
-const FinancialListSearchComponent = ({
+const UnitTypesSearchComponent = ({
   setSearchTerm,
   searchTerm,
 }: ComponentProps) => {
@@ -125,4 +125,4 @@ const FinancialListSearchComponent = ({
   );
 };
 
-export { FinancialListSearchComponent };
+export { UnitTypesSearchComponent };

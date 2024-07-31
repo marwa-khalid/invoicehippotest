@@ -13,7 +13,7 @@ type Props = {
   isSubmitting: boolean;
 };
 
-const FinancialAddModalForm = ({ formik, isSubmitting }: Props) => {
+const UnitTypesAddModalForm = ({ formik, isSubmitting }: Props) => {
   const intl = useIntl();
 
   return (
@@ -77,4 +77,4 @@ const FinancialAddModalForm = ({ formik, isSubmitting }: Props) => {
   );
 };
 
-export { FinancialAddModalForm };
+export { UnitTypesAddModalForm };

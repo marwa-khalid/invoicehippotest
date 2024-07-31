@@ -14,7 +14,7 @@ interface FormValues {
   isDefault: boolean;
 }
 
-const FinancialAddModalFooter: FC<Props> = ({
+const UnitTypesAddModalFooter: FC<Props> = ({
   formik,
   isSubmitting,
   setAddModalOpen,
@@ -48,4 +48,4 @@ const FinancialAddModalFooter: FC<Props> = ({
   );
 };
 
-export { FinancialAddModalFooter };
+export { UnitTypesAddModalFooter };

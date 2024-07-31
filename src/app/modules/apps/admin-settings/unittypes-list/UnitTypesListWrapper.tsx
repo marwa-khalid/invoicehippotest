@@ -1,10 +1,10 @@
-import { FinancialListHeader } from "./components/header/FinancialListHeader";
+import { UnitTypesHeader } from "./components/header/UnitTypesHeader";
 import { UnitTypesList } from "./search-list/UnitTypesList";
-import { FinancialAddModal } from "./financial-add-modal/FinancialAddModal";
+import { UnitTypesAddModal } from "./unittypes-add-modal/UnitTypesAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
-import { FinancialAccountsToolbar } from "./components/header/FinancialAccountsToolbar";
+import { UnitTypesToolbar } from "./components/header/UnitTypesToolbar";
 import { UnitTypesEditModal } from "./unittypes-edit-modal/UnitTypesEditModal";
 import { UnitTypesDeleteModal } from "./unittypes-delete-modal/UnitTypesDeleteModal";
 
@@ -12,7 +12,7 @@ const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
   if (storedPaginationString) {
     const pagination = JSON.parse(storedPaginationString);
-    console.log(pagination);
+
     const currentPage = pagination["unit-types-module"].pageIndex || 1;
     const searchTerm = pagination["unit-types-module"].filters.searchTerm || "";
 
@@ -38,12 +38,12 @@ const UnitTypesListInnerWrapper = () => {
 
   return (
     <>
-      <FinancialListHeader
+      <UnitTypesHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
       />
 
-      <FinancialAccountsToolbar
+      <UnitTypesToolbar
         totalRows={totalRows}
         setAddModalOpen={setAddModalOpen}
       />
@@ -63,7 +63,7 @@ const UnitTypesListInnerWrapper = () => {
       />
 
       {addModalOpen && (
-        <FinancialAddModal
+        <UnitTypesAddModal
           setRefresh={setRefresh}
           setAddModalOpen={setAddModalOpen}
         />
