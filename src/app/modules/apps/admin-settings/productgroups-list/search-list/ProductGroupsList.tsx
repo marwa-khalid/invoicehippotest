@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
-import { getUnitTypes } from "../core/_requests";
-import { UnitTypesResult } from "../core/_models";
+import React, { useEffect, useState } from "react";
+import { getProductGroups } from "../core/_requests";
+import { ProductGroupResult } from "../core/_models";
 import { ListLoading } from "../../components/ListLoading";
-import { UnitTypesPagination } from "../components/pagination/UnitTypesPagination";
-import { KTCardBody } from "../../../../../../_metronic/helpers";
+import { ProductGroupPagination } from "../components/pagination/ProductGroupPagination";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
-import { KTSVG } from "../../../../../../_metronic/helpers";
-
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
-  setUnitTypeTitle: (type: string) => void;
+  setProductGroupTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
   setPageIndex: (type: number) => void;
@@ -22,12 +19,12 @@ interface ComponentProps {
   deleteModalOpen: boolean;
 }
 
-const UnitTypesList = ({
+const ProductGroupsList = ({
   searchTerm,
   setTotalRows,
   setEditModalOpen,
   setEditModalId,
-  setUnitTypeTitle,
+  setProductGroupTitle,
   setDeleteModalOpen,
   refresh,
   setPageIndex,
@@ -35,15 +32,15 @@ const UnitTypesList = ({
   editModalOpen,
   deleteModalOpen,
 }: ComponentProps) => {
-  const [unitTypes, setUnitTypes] = useState<any>([]);
+  const [productGroups, setProductGroups] = useState<any>([]);
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const fetchFinancialAccounts = async () => {
+  const fetchProductGroups = async () => {
     setIsLoading(true);
     try {
-      const response = await getUnitTypes(searchTerm, pageIndex);
-      setUnitTypes(response);
+      const response = await getProductGroups(searchTerm, pageIndex);
+      setProductGroups(response);
       setPageIndex(response.pageIndex);
       setTotalRows(response.totalRows);
     } catch (error) {
@@ -55,15 +52,15 @@ const UnitTypesList = ({
 
   const handlePageChange = (page: number) => {
     setPageIndex(page);
-    fetchFinancialAccounts();
+    fetchProductGroups();
   };
 
   useEffect(() => {
-    fetchFinancialAccounts();
+    fetchProductGroups();
   }, [searchTerm, pageIndex]);
 
   useEffect(() => {
-    fetchFinancialAccounts();
+    fetchProductGroups();
   }, [editModalOpen, deleteModalOpen, refresh]);
 
   const openEditModal = (id: number) => {
@@ -71,10 +68,10 @@ const UnitTypesList = ({
     setEditModalOpen(true);
   };
 
-  const openDeleteModal = (id: number, unitTypeTitle: string) => {
+  const openDeleteModal = (id: number, productGroupTitle: string) => {
     setEditModalId(id);
     setDeleteModalOpen(true);
-    setUnitTypeTitle(unitTypeTitle);
+    setProductGroupTitle(productGroupTitle);
   };
 
   return (
@@ -83,47 +80,37 @@ const UnitTypesList = ({
         <table className="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
           <thead>
             <tr className="fw-bold text-muted">
-              <th>#</th>
-              <th>{intl.formatMessage({ id: "Fields.Title" })}</th>
-              <th>{intl.formatMessage({ id: "Fields.IsDefault" })}</th>
-              <th>{intl.formatMessage({ id: "Fields.ColumnActions" })}</th>
+              <th className="text-start">#</th>
+              <th className="text-center">
+                {intl.formatMessage({ id: "Fields.Title" })}
+              </th>
+              <th className="text-end">
+                {intl.formatMessage({ id: "Fields.ColumnActions" })}
+              </th>
             </tr>
           </thead>
           <tbody>
-            {unitTypes?.result?.map(
-              (unitType: UnitTypesResult, index: number) => (
-                <tr key={unitType.id}>
-                  <td>{index + 1}</td>
-                  <td>{unitType.title}</td>
-                  <td className="cursor-pointer">
-                    {unitType.isDefault ? (
-                      <KTSVG
-                        path="media/icons/duotune/general/gen048.svg"
-                        className="svg-icon-muted svg-icon-2hx text-success"
-                      />
-                    ) : (
-                      <KTSVG
-                        path="media/icons/duotune/general/gen050.svg"
-                        className="svg-icon-muted svg-icon-2hx text-danger"
-                      />
-                    )}
-                  </td>
+            {productGroups?.result?.map(
+              (productGroup: ProductGroupResult, index: number) => (
+                <tr key={productGroup.id}>
+                  <td className="text-start">{index + 1}</td>
+                  <td className="text-center">{productGroup.title}</td>
 
-                  <td>
-                    {unitType.actions.canEdit && (
+                  <td className="text-end">
+                    {productGroup.actions.canEdit && (
                       <button
                         className="btn btn-icon btn-light btn-sm me-2"
-                        onClick={() => openEditModal(unitType.id)}
+                        onClick={() => openEditModal(productGroup.id)}
                       >
                         <i className="ki-solid ki-pencil text-warning fs-2" />
                       </button>
                     )}
 
-                    {unitType.actions.canDelete && (
+                    {productGroup.actions.canDelete && (
                       <button
                         className="btn btn-icon btn-light btn-sm"
                         onClick={() =>
-                          openDeleteModal(unitType.id, unitType.title)
+                          openDeleteModal(productGroup.id, productGroup.title)
                         }
                       >
                         <i className="ki-solid ki-trash text-danger fs-2" />
@@ -133,7 +120,7 @@ const UnitTypesList = ({
                 </tr>
               )
             )}
-            {unitTypes?.result?.length == 0 && (
+            {productGroups?.result?.length == 0 && (
               <tr>
                 <td colSpan={7} className="text-center">
                   <img
@@ -159,17 +146,17 @@ const UnitTypesList = ({
           </tbody>
         </table>
       </div>
-      {unitTypes?.result?.length > 0 && (
-        <UnitTypesPagination
-          totalPages={unitTypes.totalPages}
+      {productGroups?.result?.length > 0 && (
+        <ProductGroupPagination
+          totalPages={productGroups.totalPages}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
           onPageChange={handlePageChange}
-          totalItems={unitTypes.totalRows}
+          totalItems={productGroups.totalRows}
         />
       )}
     </div>
   );
 };
 
-export { UnitTypesList };
+export { ProductGroupsList };

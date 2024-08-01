@@ -1,5 +1,3 @@
-import { ID, Response } from "../../../../../../_metronic/helpers";
-
 interface ApiResponse<T> {
   pageIndex: number;
   totalRows: number;

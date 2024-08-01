@@ -1,20 +1,21 @@
-import { UnitTypesHeader } from "./components/header/UnitTypesHeader";
-import { UnitTypesList } from "./search-list/UnitTypesList";
-import { UnitTypesAddModal } from "./unittypes-add-modal/UnitTypesAddModal";
+import { ProductGroupsHeader } from "./components/header/ProductGroupsHeader";
+import { ProductGroupsList } from "./search-list/ProductGroupsList";
+import { ProductGroupsAddModal } from "./productgroups-add-modal/ProductGroupsAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
-import { UnitTypesToolbar } from "./components/header/UnitTypesToolbar";
-import { UnitTypesEditModal } from "./unittypes-edit-modal/UnitTypesEditModal";
-import { UnitTypesDeleteModal } from "./unittypes-delete-modal/UnitTypesDeleteModal";
+import { ProductGroupsToolbar } from "./components/header/ProductGroupsToolbar";
+import { ProductGroupsEditModal } from "./productgroups-edit-modal/ProductGroupsEditModal";
+import { ProductGroupsDeleteModal } from "./productgroups-delete-modal/ProductGroupsDeleteModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
   if (storedPaginationString) {
     const pagination = JSON.parse(storedPaginationString);
 
-    const currentPage = pagination["unit-types-module"].pageIndex || 1;
-    const searchTerm = pagination["unit-types-module"].filters.searchTerm || "";
+    const currentPage = pagination["productgroups-module"].pageIndex || 1;
+    const searchTerm =
+      pagination["productgroups-module"].filters.searchTerm || "";
 
     return {
       pageIndex: currentPage,
@@ -23,7 +24,7 @@ const getPaginationValues = () => {
   }
   return { pageIndex: 1, searchTerm: "" };
 };
-const UnitTypesListInnerWrapper = () => {
+const ProductGroupsInnerWrapper = () => {
   const { pageIndex, searchTerm } = getPaginationValues();
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
   const [searchTermState, setSearchTermState] = useState(searchTerm);
@@ -33,28 +34,28 @@ const UnitTypesListInnerWrapper = () => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [unitTypeTitle, setUnitTypeTitle] = useState<string>("");
+  const [productGroupTitle, setProductGroupTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
 
   return (
     <>
-      <UnitTypesHeader
+      <ProductGroupsHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
       />
 
-      <UnitTypesToolbar
+      <ProductGroupsToolbar
         totalRows={totalRows}
         setAddModalOpen={setAddModalOpen}
       />
 
-      <UnitTypesList
+      <ProductGroupsList
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setEditModalId={setEditModalId}
-        setUnitTypeTitle={setUnitTypeTitle}
+        setProductGroupTitle={setProductGroupTitle}
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
@@ -63,22 +64,22 @@ const UnitTypesListInnerWrapper = () => {
       />
 
       {addModalOpen && (
-        <UnitTypesAddModal
+        <ProductGroupsAddModal
           setRefresh={setRefresh}
           setAddModalOpen={setAddModalOpen}
         />
       )}
       {editModalOpen && (
-        <UnitTypesEditModal
+        <ProductGroupsEditModal
           editModalId={editModalId}
           setRefresh={setRefresh}
           setEditModalOpen={setEditModalOpen}
         />
       )}
       {deleteModalOpen && (
-        <UnitTypesDeleteModal
+        <ProductGroupsDeleteModal
           deleteModalId={editModalId}
-          unitTypeTitle={unitTypeTitle}
+          productGroupTitle={productGroupTitle}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
         />
@@ -87,13 +88,13 @@ const UnitTypesListInnerWrapper = () => {
   );
 };
 
-const UnitTypesListWrapper = () => (
+const ProductGroupsWrapper = () => (
   <>
     <ToolbarWrapper />
     <Content>
-      <UnitTypesListInnerWrapper />
+      <ProductGroupsInnerWrapper />
     </Content>
   </>
 );
 
-export { UnitTypesListWrapper };
+export { ProductGroupsWrapper };

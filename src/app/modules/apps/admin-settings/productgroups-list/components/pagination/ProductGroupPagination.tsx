@@ -3,30 +3,23 @@ import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
 
-interface VatListPaginationProps {
+interface PaginationProps {
   totalPages: number;
   pageIndex: number;
   onPageChange: (page: number) => void;
   totalItems: number;
-  filterType: number;
   setPageIndex: (page: number) => void;
 }
 
-const ListPagination = ({
+const ProductGroupPagination = ({
   totalPages,
   pageIndex,
   onPageChange,
   totalItems,
-  filterType,
   setPageIndex,
-}: VatListPaginationProps) => {
+}: PaginationProps) => {
   const [state, setState] = useState(pageIndex);
   const intl = useIntl();
-
-  // const [testState, settestState] = useState<number>({
-  //   filterType: 1,
-  //   pageIndex: 1,
-  // });
 
   useEffect(() => {
     let storedPaginationString = localStorage.getItem("pagination");
@@ -37,11 +30,15 @@ const ListPagination = ({
       : {
           "vat-module": {
             pageIndex: 1,
-            filters: { searchTerm: "", documentGroup: filterType },
+            filters: { searchTerm: "", documentGroup: 0 },
           },
           "ledger-module": {
             pageIndex: 1,
-            filters: { searchTerm: "", ledgerTypeFilter: 0 },
+            filters: {
+              searchTerm: "",
+              ledgerTypeFilter: 0,
+              bearingTypeFilter: 0,
+            },
           },
           "financial-module": {
             pageIndex: 1,
@@ -57,8 +54,8 @@ const ListPagination = ({
           },
         };
 
-    // Update the filter in the vat-module
-    pagination["vat-module"].pageIndex = state;
+    // Update the page in the product groups module
+    pagination["productgroups-module"].pageIndex = state;
 
     // Convert the updated object back to a JSON string
     const updatedPaginationString = JSON.stringify(pagination);
@@ -69,7 +66,6 @@ const ListPagination = ({
 
   const handlePageChange = (newPageIndex: number) => {
     setState(newPageIndex);
-
     onPageChange(newPageIndex);
   };
 
@@ -102,8 +98,10 @@ const ListPagination = ({
   };
 
   const paginationLinks = useMemo(() => {
+    const start = Math.max(1, Math.min(state - 2, totalPages - 4));
+    const end = Math.min(totalPages, start + 4);
     const links = [];
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = start; i <= end; i++) {
       links.push({
         label: i.toString(),
         active: i === state,
@@ -225,4 +223,4 @@ const ListPagination = ({
   );
 };
 
-export { ListPagination };
+export { ProductGroupPagination };

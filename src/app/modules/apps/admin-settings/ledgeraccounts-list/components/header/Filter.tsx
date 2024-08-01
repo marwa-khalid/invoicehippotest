@@ -142,6 +142,10 @@ export function Filter({
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
+          "productgroups-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
         };
 
     pagination["ledger-module"].filters.ledgerTypeFilter = tempLedgerTypeOption

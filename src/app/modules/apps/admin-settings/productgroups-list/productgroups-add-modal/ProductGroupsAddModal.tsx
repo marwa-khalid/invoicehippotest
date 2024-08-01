@@ -1,37 +1,32 @@
 import { useEffect, useState } from "react";
-import { UnitTypesEditModalHeader } from "./UnitTypesEditModalHeader";
-import { UnitTypesEditModalFooter } from "./UnitTypesEditModalFooter";
-import { getUnitTypesById, postUnitType } from "../core/_requests";
+import { ProductGroupsAddModalHeader } from "./ProductGroupsAddModalHeader";
+import { ProductGroupsAddModalFooter } from "./ProductGroupsAddModalFooter";
+
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import FinancialEditModalForm from "./UnitTypesEditModalForm";
+import { ProductGroupsAddModalForm } from "./ProductGroupsAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
+import { postProductGroup } from "../core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
-  setEditModalOpen: (type: boolean) => void;
-  editModalId: number;
+  setAddModalOpen: (type: boolean) => void;
 }
-const UnitTypesEditModal = ({
-  setRefresh,
-  setEditModalOpen,
-  editModalId,
-}: Props) => {
+const ProductGroupsAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
       document.body.classList.remove("modal-open");
     };
   }, []);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const intl = useIntl();
 
   const formik = useFormik({
     initialValues: {
       id: 0,
       title: "",
-      isDefault: false,
     },
     validationSchema: Yup.object().shape({
       title: Yup.string()
@@ -58,45 +53,21 @@ const UnitTypesEditModal = ({
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postUnitType(
-          values.id,
-          values.title,
-          values.isDefault
-        );
-
+        const response = await postProductGroup(values.id, values.title);
         if (response.isValid) {
           formik.resetForm();
-          setEditModalOpen(false);
+          setAddModalOpen(false);
           setRefresh(true);
         }
         handleToast(response);
       } catch (error) {
-        console.error("Put failed:", error);
+        console.error("Post failed:", error);
       } finally {
         setIsSubmitting(false);
         setSubmitting(false);
       }
     },
   });
-  console.log(formik.values);
-
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      try {
-        const response = await getUnitTypesById(editModalId);
-        console.log(response.result);
-        formik.setValues({
-          id: response.result?.id || 0,
-          title: response.result?.title || "",
-          isDefault: response.result?.isDefault || false,
-        });
-      } catch (error) {
-        console.error("Error fetching initial data:", error);
-      }
-    };
-
-    fetchInitialData();
-  }, [editModalId]);
 
   return (
     <>
@@ -107,19 +78,19 @@ const UnitTypesEditModal = ({
         id="kt_modal_1"
         aria-modal="true"
       >
-        <div className="modal-dialog mw-800px">
+        <div className="modal-dialog mw-500px">
           <div className="modal-content">
-            <UnitTypesEditModalHeader setEditModalOpen={setEditModalOpen} />
+            <ProductGroupsAddModalHeader setAddModalOpen={setAddModalOpen} />
             <div className="modal-body p-10">
-              <FinancialEditModalForm
+              <ProductGroupsAddModalForm
                 formik={formik}
                 isSubmitting={isSubmitting}
               />
             </div>
-            <UnitTypesEditModalFooter
+            <ProductGroupsAddModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
-              setEditModalOpen={setEditModalOpen}
+              setAddModalOpen={setAddModalOpen}
             />
           </div>
         </div>
@@ -129,4 +100,4 @@ const UnitTypesEditModal = ({
   );
 };
 
-export { UnitTypesEditModal };
+export { ProductGroupsAddModal };

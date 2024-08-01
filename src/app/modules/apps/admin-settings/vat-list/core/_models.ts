@@ -29,8 +29,8 @@ export interface VatTypesResult {
   useInLists: true;
   isAlwaysExBtw: true;
   actions: {
-    canEdit: true;
-    canDelete: true;
+    canEdit: boolean;
+    canDelete: boolean;
   };
 }
 
@@ -48,7 +48,7 @@ export interface VatTypeByIdResult {
 }
 
 export interface LedgerForVatResult {
-  map(arg0: (account: any) => { value: any; label: any; }): unknown;
+  map(arg0: (account: any) => { value: any; label: any }): unknown;
   id: number;
   title: string;
   isDisabledForManualInput: boolean;

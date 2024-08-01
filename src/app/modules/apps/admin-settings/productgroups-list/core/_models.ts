@@ -13,13 +13,12 @@ interface ApiResponse<T> {
   textInfo: any;
 }
 
-export interface UnitTypesResult {
+export interface ProductGroupResult {
   id: number;
   title: string;
-  isDefault: boolean;
   actions: {
     canEdit: boolean;
     canDelete: boolean;
   };
 }
-export type UnitTypesModel = ApiResponse<UnitTypesResult>;
+export type ProductGroupModel = ApiResponse<ProductGroupResult>;

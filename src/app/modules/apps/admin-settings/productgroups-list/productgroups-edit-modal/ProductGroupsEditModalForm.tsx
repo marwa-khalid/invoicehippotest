@@ -1,12 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
-
 interface FormValues {
   id: number;
   title: string;
-  isDefault: boolean;
 }
 
 type Props = {
@@ -14,7 +12,11 @@ type Props = {
   isSubmitting: boolean;
 };
 
-const UnitTypesEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
+const ProductGroupsEditModalForm: FC<Props> = ({
+  formik,
+
+  isSubmitting,
+}) => {
   const intl = useIntl();
 
   return (
@@ -27,7 +29,7 @@ const UnitTypesEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
       {/* begin::Input group */}
       <div className="row d-flex mb-7">
         {/* title Field */}
-        <div className="fv-row col-7 flex-grow-1">
+        <div className="fv-row flex-grow-1">
           <label className="required fw-bold fs-6 mb-2">
             {" "}
             {intl.formatMessage({ id: "Fields.Title" })}
@@ -61,29 +63,9 @@ const UnitTypesEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             </div>
           )}
         </div>
-        <div className="fv-row mb-7 col-5">
-          <label className="d-block fw-bold fs-6 mb-2">
-            {" "}
-            {intl.formatMessage({ id: "Fields.IsDefault" })}
-          </label>
-          <div className="form-check form-switch mt-4">
-            <input
-              className="form-check-input h-30px w-50px"
-              type="checkbox"
-              id="isDefaultSwitch"
-              checked={formik.values.isDefault}
-              {...formik.getFieldProps("isDefault")}
-              disabled={isSubmitting}
-            />
-            <label
-              className="form-check-label"
-              htmlFor="isDefaultSwitch"
-            ></label>
-          </div>
-        </div>
       </div>
     </form>
   );
 };
 
-export default UnitTypesEditModalForm;
+export default ProductGroupsEditModalForm;

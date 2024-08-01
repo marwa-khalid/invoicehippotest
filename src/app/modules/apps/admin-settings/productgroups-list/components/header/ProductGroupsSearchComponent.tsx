@@ -7,7 +7,7 @@ interface ComponentProps {
   searchTerm: string;
 }
 
-const UnitTypesSearchComponent = ({
+const ProductGroupsSearchComponent = ({
   setSearchTerm,
   searchTerm,
 }: ComponentProps) => {
@@ -53,7 +53,7 @@ const UnitTypesSearchComponent = ({
           };
 
       // Update the filter in the unittype-module
-      pagination["unit-types-module"].filters.searchTerm = localSearchTerm;
+      pagination["productgroups-module"].filters.searchTerm = localSearchTerm;
 
       // Convert the updated object back to a JSON string
       const updatedPaginationString = JSON.stringify(pagination);
@@ -69,13 +69,13 @@ const UnitTypesSearchComponent = ({
       "pagination",
       JSON.stringify({
         ...JSON.parse(localStorage.getItem("pagination") || "{}"),
-        "unit-types-module": {
+        "productgroups-module": {
           ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-            "unit-types-module"
+            "productgroups-module"
           ],
           filters: {
             ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-              "unit-types-module"
+              "productgroups-module"
             ]?.filters,
             searchTerm: "",
           },
@@ -129,4 +129,4 @@ const UnitTypesSearchComponent = ({
   );
 };
 
-export { UnitTypesSearchComponent };
+export { ProductGroupsSearchComponent };

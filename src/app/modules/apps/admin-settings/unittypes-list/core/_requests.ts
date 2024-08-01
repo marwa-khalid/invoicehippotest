@@ -1,26 +1,11 @@
-import {
-  UnitTypesModel,
-  FinancialAccountsModel,
-  FinancialAccountByIdModel,
-  PrivateLedgersModel,
-  VatTypesForLedgerModel,
-} from "./_models";
+import { UnitTypesModel } from "./_models";
 
 import {
   getRequest,
   postRequest,
   deleteRequest,
 } from "../../../../auth/core/_apiservice";
-import {
-  UNIT_TYPES,
-  GET_LEDGDER_FOR_FILTER,
-  POST_FINANCIAL_ACCOUNT,
-  GET_VAT_FOR_LEDGER,
-  GET_PRIVATE_LEDGDER,
-  GET_LEDGDER_FOR_FINANCIAL,
-  GET_FINANCIALACCOUNT_BY_ID,
-} from "./constants";
-import { LedgerAccountsModel, LedgerAccountsForFilterModel } from "./_models";
+import { UNIT_TYPES, GET_LEDGDER_FOR_FINANCIAL } from "./constants";
 
 interface PartialResult extends Partial<UnitTypesModel> {}
 
@@ -38,13 +23,6 @@ export function getUnitTypes(searchTerm: string, pageIndex: number) {
 
 export function getUnitTypesById(editModalId: number) {
   return getRequest<PartialResult>(`${UNIT_TYPES}/${editModalId}`, true);
-}
-
-export function getLedgerForFinancial(id: number) {
-  return getRequest<PrivateLedgersModel>(
-    `${GET_LEDGDER_FOR_FINANCIAL}/${id}`,
-    true
-  );
 }
 
 export function postUnitType(id: number, title: string, isDefault: boolean) {

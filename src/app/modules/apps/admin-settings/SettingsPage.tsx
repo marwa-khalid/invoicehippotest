@@ -7,6 +7,7 @@ import { useLayout } from "../../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
 import { FinancialListWrapper } from "./financialaccounts-list/FinancialListWrapper";
 import { UnitTypesListWrapper } from "./unittypes-list/UnitTypesListWrapper";
+import { ProductGroupsWrapper } from "./productgroups-list/ProductGroupsWrapper";
 
 const VatTypesPage = () => {
   const { config } = useLayout();
@@ -132,6 +133,30 @@ const VatTypesPage = () => {
                 )}
               >
                 <UnitTypesListWrapper />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="productgroups"
+          element={
+            <>
+              <PageTitle breadcrumbs={settingsBreadcrumbs}>
+                {intl.formatMessage({
+                  id: "Fields.SearchPanelTitleProductGroup",
+                })}
+              </PageTitle>
+              <div
+                className={clsx(
+                  "main rounded",
+                  config.app?.sidebar?.default?.class,
+                  {
+                    "bg-light": config.layoutType === "light-sidebar",
+                    "bg-dark": config.layoutType === "dark-sidebar",
+                  }
+                )}
+              >
+                <ProductGroupsWrapper />
               </div>
             </>
           }

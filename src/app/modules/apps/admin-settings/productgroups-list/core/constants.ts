@@ -1,0 +1,3 @@
+const API_URL_V1 = "https://api.invoicehippo.nl/api/v1";
+
+export const PRODUCT_GROUP = `${API_URL_V1}/product-group`;

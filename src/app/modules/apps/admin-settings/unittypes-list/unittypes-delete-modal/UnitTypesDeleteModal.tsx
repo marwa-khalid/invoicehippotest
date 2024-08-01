@@ -3,14 +3,14 @@ import { UnitTypesDeleteModalHeader } from "./UnitTypesDeleteModalHeader";
 import { UnitTypesDeleteModalFooter } from "./UnitTypesDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
-  accountTitle: string;
+  unitTypeTitle: string;
   deleteModalId: number;
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
 }
 const UnitTypesDeleteModal = ({
   deleteModalId,
-  accountTitle,
+  unitTypeTitle,
   setDeleteModalOpen,
   setRefresh,
 }: ComponentProps) => {
@@ -48,7 +48,7 @@ const UnitTypesDeleteModal = ({
                     })
                     .split("{0}")[0]
                 }
-                <strong>{accountTitle}</strong>!?
+                <strong>{unitTypeTitle}</strong>!?
               </div>
             </div>
 

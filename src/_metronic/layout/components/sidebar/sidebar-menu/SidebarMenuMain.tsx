@@ -178,6 +178,11 @@ const SidebarMenuMain = () => {
           title="Unit Types"
           hasBullet={true}
         />
+        <SidebarMenuItem
+          to="/admin/productgroups"
+          title="Product Groups"
+          hasBullet={true}
+        />
       </SidebarMenuItemWithSub>
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">

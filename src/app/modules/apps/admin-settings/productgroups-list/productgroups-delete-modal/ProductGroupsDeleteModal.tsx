@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { FinancialDeleteModalHeader } from "./FinancialDeleteModalHeader";
-import { FinancialDeleteModalFooter } from "./FinancialDeleteModalFooter";
+import { ProductGroupsDeleteModalHeader } from "./ProductGroupsDeleteModalHeader";
+import { ProductGroupsDeleteModalFooter } from "./ProductGroupsDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
-  ledgerAccountTitle: string;
+  productGroupTitle: string;
   deleteModalId: number;
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
 }
-const FinancialDeleteModal = ({
+const ProductGroupsDeleteModal = ({
   deleteModalId,
-  ledgerAccountTitle,
+  productGroupTitle,
   setDeleteModalOpen,
   setRefresh,
 }: ComponentProps) => {
@@ -35,7 +35,7 @@ const FinancialDeleteModal = ({
         <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <FinancialDeleteModalHeader
+            <ProductGroupsDeleteModalHeader
               setDeleteModalOpen={setDeleteModalOpen}
             />
             {/* begin::Modal body */}
@@ -44,23 +44,16 @@ const FinancialDeleteModal = ({
                 {
                   intl
                     .formatMessage({
-                      id: "Fields.ModalDeleteDescriptionFinancialAccount",
+                      id: "Fields.ModalDeleteDescriptionProductGroup",
                     })
                     .split("{0}")[0]
                 }
-                <strong>{ledgerAccountTitle}</strong>
-                {
-                  intl
-                    .formatMessage({
-                      id: "Fields.ModalDeleteDescriptionFinancialAccount",
-                    })
-                    .split("{0}")[1]
-                }
+                <strong>{productGroupTitle}</strong>!?
               </div>
             </div>
 
             {/* end::Modal body */}
-            <FinancialDeleteModalFooter
+            <ProductGroupsDeleteModalFooter
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
@@ -77,4 +70,4 @@ const FinancialDeleteModal = ({
   );
 };
 
-export { FinancialDeleteModal };
+export { ProductGroupsDeleteModal };

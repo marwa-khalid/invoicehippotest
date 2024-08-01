@@ -48,6 +48,10 @@ const VatListPagination = ({
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
+          "productgroups-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
         };
 
     // Update the page in the financial-module

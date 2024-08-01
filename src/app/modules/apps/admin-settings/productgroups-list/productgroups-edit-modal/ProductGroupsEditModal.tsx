@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { UnitTypesEditModalHeader } from "./UnitTypesEditModalHeader";
-import { UnitTypesEditModalFooter } from "./UnitTypesEditModalFooter";
-import { getUnitTypesById, postUnitType } from "../core/_requests";
+import { ProductGroupsEditModalHeader } from "./ProductGroupsEditModalHeader";
+import { ProductGroupsEditModalFooter } from "./ProductGroupsEditModalFooter";
+import { getProductGroupById, postProductGroup } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import FinancialEditModalForm from "./UnitTypesEditModalForm";
+import FinancialEditModalForm from "./ProductGroupsEditModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 interface Props {
   setRefresh: (type: boolean) => void;
   setEditModalOpen: (type: boolean) => void;
   editModalId: number;
 }
-const UnitTypesEditModal = ({
+const ProductGroupsEditModal = ({
   setRefresh,
   setEditModalOpen,
   editModalId,
@@ -31,7 +31,6 @@ const UnitTypesEditModal = ({
     initialValues: {
       id: 0,
       title: "",
-      isDefault: false,
     },
     validationSchema: Yup.object().shape({
       title: Yup.string()
@@ -58,11 +57,7 @@ const UnitTypesEditModal = ({
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postUnitType(
-          values.id,
-          values.title,
-          values.isDefault
-        );
+        const response = await postProductGroup(values.id, values.title);
 
         if (response.isValid) {
           formik.resetForm();
@@ -83,12 +78,11 @@ const UnitTypesEditModal = ({
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const response = await getUnitTypesById(editModalId);
+        const response = await getProductGroupById(editModalId);
         console.log(response.result);
         formik.setValues({
           id: response.result?.id || 0,
           title: response.result?.title || "",
-          isDefault: response.result?.isDefault || false,
         });
       } catch (error) {
         console.error("Error fetching initial data:", error);
@@ -107,16 +101,16 @@ const UnitTypesEditModal = ({
         id="kt_modal_1"
         aria-modal="true"
       >
-        <div className="modal-dialog mw-800px">
+        <div className="modal-dialog mw-500px">
           <div className="modal-content">
-            <UnitTypesEditModalHeader setEditModalOpen={setEditModalOpen} />
+            <ProductGroupsEditModalHeader setEditModalOpen={setEditModalOpen} />
             <div className="modal-body p-10">
               <FinancialEditModalForm
                 formik={formik}
                 isSubmitting={isSubmitting}
               />
             </div>
-            <UnitTypesEditModalFooter
+            <ProductGroupsEditModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setEditModalOpen={setEditModalOpen}
@@ -129,4 +123,4 @@ const UnitTypesEditModal = ({
   );
 };
 
-export { UnitTypesEditModal };
+export { ProductGroupsEditModal };
