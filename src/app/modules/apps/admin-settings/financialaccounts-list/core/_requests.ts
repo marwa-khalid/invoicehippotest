@@ -49,7 +49,7 @@ export function postFinancialAccount(
   accountName: string,
   accountNumber: string,
   ledgerAccountId: number,
-  bankConnectMinImportDate: string,
+  bankConnectMinImportDate: any,
   autoCreateLedgerAccount: boolean,
   accountType: number,
   bankAccountCompanyType: number,
@@ -59,8 +59,8 @@ export function postFinancialAccount(
   bankConnectInfo: {
     isConnected: boolean;
     isActive: boolean;
-    accessExpirtationDate: string;
-    lastSyncRequestDate: string;
+    accessExpirtationDate: any;
+    lastSyncRequestDate: any;
   }
 ) {
   return postRequest<FinancialAccountsModel>(

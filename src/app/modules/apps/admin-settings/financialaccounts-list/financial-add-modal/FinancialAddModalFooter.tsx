@@ -10,17 +10,21 @@ type Props = {
 
 interface FormValues {
   id: number;
-  title: string;
-  code: string;
-  defaultTaxTypeId: number;
-  bearingType: number;
-  reportReferenceType1: number;
-  reportReferenceType2LegderAccountId: number;
-  disableManualInput: boolean;
-  taxDeductibleSettings: {
-    isNotFullyTaxDeductible: boolean;
-    taxDeductiblePercentage: number;
-    deductiblePrivateLedgerAccountId: number;
+  accountName: string;
+  accountNumber: string;
+  ledgerAccountId: number;
+  bankConnectMinImportDate: any;
+  accountType: number;
+  autoCreateLedgerAccount: boolean;
+  bankAccountCompanyType: number;
+  afterSaveModel: {
+    ledgerAccountDisplayName: string;
+  };
+  bankConnectInfo: {
+    isConnected: boolean;
+    isActive: boolean;
+    accessExpirtationDate: any;
+    lastSyncRequestDate: any;
   };
 }
 

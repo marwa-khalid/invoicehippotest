@@ -4,7 +4,8 @@ import { FinancialAddModalFooter } from "./FinancialAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { FinancialAddModalForm } from "./FinancialAddModalForm";
+import { postFinancialAccount } from "../core/_requests";
+import FinancialAddModalForm from "./FinancialAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 interface Props {
   setRefresh: (type: boolean) => void;
@@ -17,155 +18,79 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       document.body.classList.remove("modal-open");
     };
   }, []);
-  interface vatType {
-    value: number;
-    label: string;
-  }
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [vatTypes, setVatTypes] = useState<vatType | any>();
   const intl = useIntl();
-  const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
-    useState<any>();
-  // useEffect(() => {
-  //   const fetchVatTypes = async () => {
-  //     try {
-  //       const response = await getVatTypesForLedger();
-  //       let options = [];
-  //       if (selectedBearingTypeOption.IsAccountTypeOmzet) {
-  //         options = [
-  //           {
-  //             label: response.result.listForSalesGroupTitle,
-  //             options: response.result.listForSales.map((item: any) => ({
-  //               value: item.id,
-  //               label: item.title,
-  //             })),
-  //           },
-  //         ];
-  //       } else if (selectedBearingTypeOption.IsAccountTypeCost) {
-  //         options = [
-  //           {
-  //             label: response.result.listForCostsGroupTitle,
-  //             options: response.result.listForCosts.map((item: any) => ({
-  //               value: item.id,
-  //               label: item.title,
-  //             })),
-  //           },
-  //         ];
-  //       } else {
-  //         options = [
-  //           {
-  //             label: response.result.listForSalesGroupTitle,
-  //             options: response.result.listForSales.map((item: any) => ({
-  //               value: item.id,
-  //               label: item.title,
-  //             })),
-  //           },
-  //           {
-  //             label: response.result.listForCostsGroupTitle,
-  //             options: response.result.listForCosts.map((item: any) => ({
-  //               value: item.id,
-  //               label: item.title,
-  //             })),
-  //           },
-  //         ];
-  //       }
-
-  //       setVatTypes(options);
-  //     } catch (error) {
-  //       console.error("Error fetching ledger accounts:", error);
-  //     }
-  //   };
-
-  //   fetchVatTypes();
-  // }, [selectedBearingTypeOption]);
-
-  const [reportReferenceType1, setReportReferenceType1] = useState();
 
   const formik = useFormik({
     initialValues: {
       id: 0,
-      title: "",
-      code: "",
-      defaultTaxTypeId: 0,
-      bearingType: 0,
-      reportReferenceType1: 0,
-      reportReferenceType2LegderAccountId: 0,
-      disableManualInput: true,
-      taxDeductibleSettings: {
-        isNotFullyTaxDeductible: true,
-        taxDeductiblePercentage: 0,
-        deductiblePrivateLedgerAccountId: 0,
+      accountName: "",
+      accountNumber: "",
+      ledgerAccountId: 0,
+      bankConnectMinImportDate: null,
+      accountType: 0,
+      autoCreateLedgerAccount: true,
+      bankAccountCompanyType: 0,
+      afterSaveModel: {
+        ledgerAccountDisplayName: "",
+      },
+      bankConnectInfo: {
+        isConnected: false,
+        isActive: false,
+        accessExpirtationDate: null,
+        lastSyncRequestDate: null,
       },
     },
     validationSchema: Yup.object().shape({
-      title: Yup.string()
+      accountType: Yup.number().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.AccountType" }))
+      ),
+      accountName: Yup.string()
         .min(
           3,
           intl
             .formatMessage({ id: "Common.ValidationMin" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
             .replace("{1}", `3`)
         )
         .max(
           50,
           intl
             .formatMessage({ id: "Common.ValidationMax" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
             .replace("{1}", `50`)
         )
         .required(
           intl
             .formatMessage({ id: "Common.RequiredFieldHint2" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
         ),
-      code: Yup.string()
-        .min(
-          2,
-          intl
-            .formatMessage({ id: "Common.ValidationMin" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
-            .replace("{1}", `2`)
-        )
-        .max(
-          50,
-          intl
-            .formatMessage({ id: "Common.ValidationMax" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
-            .replace("{1}", `50`)
-        )
-        .required(
-          intl
-            .formatMessage({ id: "Common.RequiredFieldHint2" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
-        ),
-
-      bearingType: Yup.number().required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
-      ),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        // const response = await postLedgerAccount(
-        //   values.id,
-        //   values.title,
-        //   values.code,
-        //   values.defaultTaxTypeId,
-        //   values.bearingType,
-        //   values.reportReferenceType1,
-        //   values.reportReferenceType2LegderAccountId,
-        //   values.disableManualInput,
-        //   values.taxDeductibleSettings
-        // );
-        // if (response.isValid) {
-        //   formik.resetForm();
-        //   setAddModalOpen(false);
-        //   setRefresh(true);
-        // }
-        // handleToast(response);
+        const response = await postFinancialAccount(
+          values.id,
+          values.accountName,
+          values.accountNumber,
+          values.ledgerAccountId,
+          values.bankConnectMinImportDate,
+          values.autoCreateLedgerAccount,
+          values.accountType,
+          values.bankAccountCompanyType,
+          values.afterSaveModel,
+          values.bankConnectInfo
+        );
+
+        if (response.isValid) {
+          formik.resetForm();
+          setAddModalOpen(false);
+          setRefresh(true);
+        }
+        handleToast(response);
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
@@ -187,18 +112,10 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
             <FinancialAddModalHeader setAddModalOpen={setAddModalOpen} />
-            <div
-              className="modal-body p-10"
-              style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
-            >
+            <div className="modal-body p-10">
               <FinancialAddModalForm
                 formik={formik}
-                setSelectedBearingTypeOption={setSelectedBearingTypeOption}
-                selectedBearingTypeOption={selectedBearingTypeOption}
                 isSubmitting={isSubmitting}
-                vatTypes={vatTypes}
-                setReportReferenceType1={setReportReferenceType1}
-                reportReferenceType1={reportReferenceType1}
               />
             </div>
             <FinancialAddModalFooter

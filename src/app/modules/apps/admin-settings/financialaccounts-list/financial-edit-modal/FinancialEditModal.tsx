@@ -29,10 +29,6 @@ const FinancialEditModal = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const intl = useIntl();
-  const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
-    useState<any>();
-
-  const [reportReferenceType1, setReportReferenceType1] = useState();
 
   const formik = useFormik({
     initialValues: {
@@ -138,29 +134,6 @@ const FinancialEditModal = ({
 
     fetchInitialData();
   }, [editModalId]);
-  // useEffect(() => {
-  //   if (formik.values.bankAccountCompanyType !== 0) {
-  //     formik.setFieldValue(
-  //       "bankAccountCompanyType",
-  //       Yup.string().required(
-  //         intl
-  //           .formatMessage({ id: "Common.RequiredFieldHint2" })
-  //           .replace(
-  //             "{0}",
-  //             intl.formatMessage({ id: "Fields.BankAccountCompanyType" })
-  //           )
-  //       )
-  //     );
-  //     formik.setFieldValue(
-  //       "accountNumber",
-  //       Yup.string().required(
-  //         intl
-  //           .formatMessage({ id: "Common.RequiredFieldHint2" })
-  //           .replace("{0}", intl.formatMessage({ id: "Fields.AccountNumber" }))
-  //       )
-  //     );
-  //   }
-  // }, [formik.values.bankAccountCompanyType, formik.values.accountNumber]);
 
   return (
     <>
