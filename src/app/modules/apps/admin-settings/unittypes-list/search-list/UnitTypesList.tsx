@@ -83,56 +83,73 @@ const UnitTypesList = ({
         <table className="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
           <thead>
             <tr className="fw-bold text-muted">
-              <th>#</th>
+              <th className="w-25px">
+                <div className="form-check form-check-sm form-check-custom form-check-solid">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value="1"
+                    data-kt-check="true"
+                    data-kt-check-target=".widget-9-check"
+                  />
+                </div>
+              </th>
+              <th className="w-25px"></th>
               <th>{intl.formatMessage({ id: "Fields.Title" })}</th>
               <th>{intl.formatMessage({ id: "Fields.IsDefault" })}</th>
-              <th>{intl.formatMessage({ id: "Fields.ColumnActions" })}</th>
             </tr>
           </thead>
           <tbody>
-            {unitTypes?.result?.map(
-              (unitType: UnitTypesResult, index: number) => (
-                <tr key={unitType.id}>
-                  <td>{index + 1}</td>
-                  <td>{unitType.title}</td>
-                  <td className="cursor-pointer">
-                    {unitType.isDefault ? (
-                      <KTSVG
-                        path="media/icons/duotune/general/gen048.svg"
-                        className="svg-icon-muted svg-icon-2hx text-success"
-                      />
-                    ) : (
-                      <KTSVG
-                        path="media/icons/duotune/general/gen050.svg"
-                        className="svg-icon-muted svg-icon-2hx text-danger"
-                      />
-                    )}
-                  </td>
+            {unitTypes?.result?.map((unitType: UnitTypesResult) => (
+              <tr key={unitType.id}>
+                <td>
+                  {" "}
+                  <div className="form-check form-check-sm form-check-custom form-check-solid">
+                    <input
+                      className="form-check-input widget-9-check"
+                      type="checkbox"
+                      value="1"
+                    />
+                  </div>
+                </td>
+                <td className=" text-muted">|</td>
+                <td
+                  className="cursor-pointer fw-bold"
+                  onClick={() => openEditModal(unitType.id)}
+                >
+                  {unitType.title}
+                </td>
+                <td className="cursor-pointer">
+                  {unitType.isDefault ? (
+                    <i className="ki-duotone ki-check text-success fs-2x" />
+                  ) : (
+                    <i className="ki-duotone ki-check text-secondary fs-2x" />
+                  )}
+                </td>
 
-                  <td>
-                    {unitType.actions.canEdit && (
-                      <button
-                        className="btn btn-icon btn-light btn-sm me-2"
-                        onClick={() => openEditModal(unitType.id)}
-                      >
-                        <i className="ki-solid ki-pencil text-warning fs-2" />
-                      </button>
-                    )}
+                <td className="text-end">
+                  {unitType.actions.canEdit && (
+                    <button
+                      className="btn btn-icon btn-light btn-sm me-2"
+                      onClick={() => openEditModal(unitType.id)}
+                    >
+                      <i className="ki-solid ki-pencil text-warning fs-2" />
+                    </button>
+                  )}
 
-                    {unitType.actions.canDelete && (
-                      <button
-                        className="btn btn-icon btn-light btn-sm"
-                        onClick={() =>
-                          openDeleteModal(unitType.id, unitType.title)
-                        }
-                      >
-                        <i className="ki-solid ki-trash text-danger fs-2" />
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              )
-            )}
+                  {unitType.actions.canDelete && (
+                    <button
+                      className="btn btn-icon btn-light btn-sm"
+                      onClick={() =>
+                        openDeleteModal(unitType.id, unitType.title)
+                      }
+                    >
+                      <i className="ki-solid ki-trash text-danger fs-2" />
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
             {unitTypes?.result?.length == 0 && (
               <tr>
                 <td colSpan={7} className="text-center">

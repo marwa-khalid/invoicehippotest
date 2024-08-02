@@ -107,7 +107,7 @@ const UnitTypesEditModal = ({
         id="kt_modal_1"
         aria-modal="true"
       >
-        <div className="modal-dialog mw-800px">
+        <div className="modal-dialog mw-500px">
           <div className="modal-content">
             <UnitTypesEditModalHeader setEditModalOpen={setEditModalOpen} />
             <div className="modal-body p-10">

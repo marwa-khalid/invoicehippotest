@@ -83,7 +83,7 @@ const UnitTypesAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         id="kt_modal_1"
         aria-modal="true"
       >
-        <div className="modal-dialog mw-800px">
+        <div className="modal-dialog mw-500px">
           <div className="modal-content">
             <UnitTypesAddModalHeader setAddModalOpen={setAddModalOpen} />
             <div
