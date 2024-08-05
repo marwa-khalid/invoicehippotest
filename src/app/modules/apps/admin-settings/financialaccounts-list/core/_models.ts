@@ -65,8 +65,6 @@ interface FinancialAccountByIdResult {
   };
   bankConnectInfo: BankConnectInfo;
 }
-export type FinancialAccountsModel = ApiResponse<FinancialAccountsResult>;
-export type FinancialAccountByIdModel = ApiResponse<FinancialAccountByIdResult>;
 
 export interface BalanceItem {
   id: number;
@@ -114,4 +112,16 @@ export interface BalanceItem {
   };
 }
 
+export interface FinancialInstitutionsResult {
+  id: string;
+  name: string;
+  transactionTotalDays: number;
+  logo: string;
+}
+
+export type FinancialAccountsModel = ApiResponse<FinancialAccountsResult>;
+export type FinancialAccountByIdModel = ApiResponse<FinancialAccountByIdResult>;
 export type PrivateLedgersModel = ApiResponse<BalanceItem[]>;
+export type FinancialInstitutionsModel = ApiResponse<
+  FinancialInstitutionsResult[]
+>;

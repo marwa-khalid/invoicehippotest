@@ -37,6 +37,6 @@ export function postUnitType(id: number, title: string, isDefault: boolean) {
   );
 }
 
-export function deleteUnitType(id: number) {
-  return deleteRequest<PartialResult>(UNIT_TYPES, [id], true);
+export function deleteUnitType(ids: number[]) {
+  return deleteRequest<PartialResult>(UNIT_TYPES, ids, true);
 }

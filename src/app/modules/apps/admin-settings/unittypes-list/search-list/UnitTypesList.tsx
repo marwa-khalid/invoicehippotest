@@ -20,6 +20,9 @@ interface ComponentProps {
   pageIndex: number;
   editModalOpen: boolean;
   deleteModalOpen: boolean;
+  setDeleteSelectedButton: (type: boolean) => void;
+  deleteModalId: any;
+  setDeleteModalId: any;
 }
 
 const UnitTypesList = ({
@@ -29,13 +32,18 @@ const UnitTypesList = ({
   setEditModalId,
   setUnitTypeTitle,
   setDeleteModalOpen,
+  setDeleteModalId,
   refresh,
   setPageIndex,
   pageIndex,
   editModalOpen,
   deleteModalOpen,
+  setDeleteSelectedButton,
+  deleteModalId,
 }: ComponentProps) => {
   const [unitTypes, setUnitTypes] = useState<any>([]);
+
+  const [selectAll, setSelectAll] = useState(false);
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -52,11 +60,11 @@ const UnitTypesList = ({
       setIsLoading(false);
     }
   };
-
-  const handlePageChange = (page: number) => {
-    setPageIndex(page);
-    fetchFinancialAccounts();
-  };
+  useEffect(() => {
+    if (deleteModalId.length == 0) {
+      setDeleteSelectedButton(false);
+    }
+  }, [deleteModalId]);
 
   useEffect(() => {
     fetchFinancialAccounts();
@@ -66,19 +74,53 @@ const UnitTypesList = ({
     fetchFinancialAccounts();
   }, [editModalOpen, deleteModalOpen, refresh]);
 
+  const handlePageChange = (page: number) => {
+    setPageIndex(page);
+    fetchFinancialAccounts();
+  };
+
+  const toggleRowSelection = (id: number) => {
+    setDeleteModalId((prevSelected: number[]) => {
+      console.log(prevSelected);
+      const newSelected = [...prevSelected];
+      if (newSelected.includes(id)) {
+        // Remove the ID if it's already selected
+        setDeleteSelectedButton(newSelected.length > 1);
+        return newSelected.filter((itemId) => itemId !== id);
+      } else {
+        // Add the ID if it's not selected
+        const updatedSelected = [...newSelected, id];
+        setDeleteSelectedButton(updatedSelected.length > 0);
+        return updatedSelected;
+      }
+    });
+  };
+
+  const toggleAllRowsSelection = () => {
+    if (selectAll) {
+      setDeleteModalId([]);
+      setDeleteSelectedButton(false);
+    } else {
+      const allIds = unitTypes.result.map((item: UnitTypesResult) => item.id);
+      setDeleteModalId(allIds);
+      setDeleteSelectedButton(true);
+    }
+    setSelectAll(!selectAll);
+  };
+
   const openEditModal = (id: number) => {
     setEditModalId(id);
     setEditModalOpen(true);
   };
 
   const openDeleteModal = (id: number, unitTypeTitle: string) => {
-    setEditModalId(id);
+    setDeleteModalId([id]);
     setDeleteModalOpen(true);
     setUnitTypeTitle(unitTypeTitle);
   };
 
   return (
-    <div className="card py-3  p-10">
+    <div className="card py-3 p-10">
       <div className="table-responsive">
         <table className="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
           <thead>
@@ -88,9 +130,8 @@ const UnitTypesList = ({
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value="1"
-                    data-kt-check="true"
-                    data-kt-check-target=".widget-9-check"
+                    checked={selectAll}
+                    onChange={toggleAllRowsSelection}
                   />
                 </div>
               </th>
@@ -103,16 +144,16 @@ const UnitTypesList = ({
             {unitTypes?.result?.map((unitType: UnitTypesResult) => (
               <tr key={unitType.id}>
                 <td>
-                  {" "}
                   <div className="form-check form-check-sm form-check-custom form-check-solid">
                     <input
-                      className="form-check-input widget-9-check"
+                      className="form-check-input"
                       type="checkbox"
-                      value="1"
+                      checked={deleteModalId?.includes(unitType.id)}
+                      onChange={() => toggleRowSelection(unitType.id)}
                     />
                   </div>
                 </td>
-                <td className=" text-muted">|</td>
+                <td className="text-muted">|</td>
                 <td
                   className="cursor-pointer fw-bold"
                   onClick={() => openEditModal(unitType.id)}
@@ -126,7 +167,6 @@ const UnitTypesList = ({
                     <i className="ki-duotone ki-check text-secondary fs-2x" />
                   )}
                 </td>
-
                 <td className="text-end">
                   {unitType.actions.canEdit && (
                     <button
@@ -136,7 +176,6 @@ const UnitTypesList = ({
                       <i className="ki-solid ki-pencil text-warning fs-2" />
                     </button>
                   )}
-
                   {unitType.actions.canDelete && (
                     <button
                       className="btn btn-icon btn-light btn-sm"
@@ -150,7 +189,7 @@ const UnitTypesList = ({
                 </td>
               </tr>
             ))}
-            {unitTypes?.result?.length == 0 && (
+            {unitTypes?.result?.length === 0 && (
               <tr>
                 <td colSpan={7} className="text-center">
                   <img

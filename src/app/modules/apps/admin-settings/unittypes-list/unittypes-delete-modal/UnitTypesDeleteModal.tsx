@@ -4,14 +4,16 @@ import { UnitTypesDeleteModalFooter } from "./UnitTypesDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
   unitTypeTitle: string;
-  deleteModalId: number;
+  deleteModalId: any;
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
+  setDeleteModalId: (type: number[]) => void;
 }
 const UnitTypesDeleteModal = ({
   deleteModalId,
   unitTypeTitle,
   setDeleteModalOpen,
+  setDeleteModalId,
   setRefresh,
 }: ComponentProps) => {
   useEffect(() => {
@@ -37,6 +39,7 @@ const UnitTypesDeleteModal = ({
           <div className="modal-content">
             <UnitTypesDeleteModalHeader
               setDeleteModalOpen={setDeleteModalOpen}
+              setDeleteModalId={setDeleteModalId}
             />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
@@ -57,6 +60,7 @@ const UnitTypesDeleteModal = ({
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
+              setDeleteModalId={setDeleteModalId}
             />
           </div>
           {/* end::Modal content */}

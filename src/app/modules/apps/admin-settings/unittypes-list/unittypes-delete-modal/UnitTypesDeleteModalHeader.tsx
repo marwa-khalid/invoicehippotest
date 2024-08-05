@@ -3,9 +3,13 @@ import { useIntl } from "react-intl";
 
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
+  setDeleteModalId: (type: number[]) => void;
 }
 
-const UnitTypesDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
+const UnitTypesDeleteModalHeader = ({
+  setDeleteModalOpen,
+  setDeleteModalId,
+}: ComponentProps) => {
   const intl = useIntl();
 
   return (
@@ -20,7 +24,10 @@ const UnitTypesDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
       <div
         className="btn btn-icon btn-sm btn-active-icon-primary"
         data-kt-users-modal-action="close"
-        onClick={() => setDeleteModalOpen(false)}
+        onClick={() => {
+          setDeleteModalOpen(false);
+          setDeleteModalId([]);
+        }}
         style={{ cursor: "pointer" }}
       >
         <KTIcon iconName="cross" className="fs-1 text-white" />

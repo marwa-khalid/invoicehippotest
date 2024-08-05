@@ -17,6 +17,9 @@ interface ComponentProps {
   pageIndex: number;
   editModalOpen: boolean;
   deleteModalOpen: boolean;
+  setDeleteSelectedButton: (type: boolean) => void;
+  deleteModalId: any;
+  setDeleteModalId: any;
 }
 
 const ProductGroupsList = ({
@@ -31,8 +34,12 @@ const ProductGroupsList = ({
   pageIndex,
   editModalOpen,
   deleteModalOpen,
+  setDeleteSelectedButton,
+  deleteModalId,
+  setDeleteModalId,
 }: ComponentProps) => {
   const [productGroups, setProductGroups] = useState<any>([]);
+  const [selectAll, setSelectAll] = useState(false);
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -54,7 +61,11 @@ const ProductGroupsList = ({
     setPageIndex(page);
     fetchProductGroups();
   };
-
+  useEffect(() => {
+    if (deleteModalId.length == 0) {
+      setDeleteSelectedButton(false);
+    }
+  }, [deleteModalId]);
   useEffect(() => {
     fetchProductGroups();
   }, [searchTerm, pageIndex]);
@@ -63,13 +74,47 @@ const ProductGroupsList = ({
     fetchProductGroups();
   }, [editModalOpen, deleteModalOpen, refresh]);
 
+  const toggleRowSelection = (id: number) => {
+    setDeleteModalId((prevSelected: number[]) => {
+      console.log(prevSelected);
+      const newSelected = [...prevSelected];
+      if (newSelected.includes(id)) {
+        // Remove the ID if it's already selected
+        setDeleteSelectedButton(newSelected.length > 1);
+        return newSelected.filter((itemId) => itemId !== id);
+      } else {
+        // Add the ID if it's not selected
+        const updatedSelected = [...newSelected, id];
+        setDeleteSelectedButton(updatedSelected.length > 0);
+        return updatedSelected;
+      }
+    });
+  };
+
+  const toggleAllRowsSelection = () => {
+    if (selectAll) {
+      setDeleteModalId([]);
+      setDeleteSelectedButton(false);
+    } else {
+      const allIds = productGroups.result.map(
+        (item: ProductGroupResult) => item.id
+      );
+      setDeleteModalId(allIds);
+      setDeleteSelectedButton(true);
+    }
+    setSelectAll(!selectAll);
+  };
+
   const openEditModal = (id: number) => {
     setEditModalId(id);
     setEditModalOpen(true);
   };
+  console.log(deleteModalId);
 
   const openDeleteModal = (id: number, productGroupTitle: string) => {
-    setEditModalId(id);
+    console.log(id);
+    console.log(deleteModalId);
+    setDeleteModalId([id]);
     setDeleteModalOpen(true);
     setProductGroupTitle(productGroupTitle);
   };
@@ -80,7 +125,17 @@ const ProductGroupsList = ({
         <table className="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
           <thead>
             <tr className="fw-bold text-muted">
-              <th className="text-start">#</th>
+              <th className="w-25px">
+                <div className="form-check form-check-sm form-check-custom form-check-solid">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={selectAll}
+                    onChange={toggleAllRowsSelection}
+                  />
+                </div>
+              </th>
+              <th className="w-25px"></th>
               <th className="text-center">
                 {intl.formatMessage({ id: "Fields.Title" })}
               </th>
@@ -93,7 +148,17 @@ const ProductGroupsList = ({
             {productGroups?.result?.map(
               (productGroup: ProductGroupResult, index: number) => (
                 <tr key={productGroup.id}>
-                  <td className="text-start">{index + 1}</td>
+                  <td>
+                    <div className="form-check form-check-sm form-check-custom form-check-solid">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        checked={deleteModalId?.includes(productGroup.id)}
+                        onChange={() => toggleRowSelection(productGroup.id)}
+                      />
+                    </div>
+                  </td>
+                  <td className="text-muted">|</td>
                   <td className="text-center">{productGroup.title}</td>
 
                   <td className="text-end">

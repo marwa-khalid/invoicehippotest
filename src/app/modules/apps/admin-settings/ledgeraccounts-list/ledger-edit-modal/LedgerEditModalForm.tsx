@@ -451,17 +451,17 @@ const LedgerEditModalForm: FC<Props> = ({
         <>
           <div className="separator mb-6"></div>
           <div
-            className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0 "
+            className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0"
             role="alert"
           >
-            <div className="alert-icon col-1">
-              <i className="ki-duotone ki-information-4 fs-3x text-center me- text-primary">
+            <div className="alert-icon col-1 me-4">
+              <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
                 <span className="path1"></span>
                 <span className="path2"></span>
                 <span className="path3"></span>
               </i>
             </div>
-            <div className="alert-text  col-11">
+            <div className="alert-text col-10">
               <h4 className="alert-heading">
                 {intl.formatMessage({ id: "Fields.TaxReportingSettings" })}
               </h4>

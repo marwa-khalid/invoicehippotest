@@ -5,6 +5,7 @@ import Select from "react-select";
 import { FormikProps } from "formik";
 import enums from "../../../../../../invoicehippo.enums.json";
 import { getLedgerForFinancial } from "../core/_requests";
+import { KTSVG } from "../../../../../../_metronic/helpers";
 
 interface FormValues {
   id: number;
@@ -38,6 +39,25 @@ interface SelectorOption {
 
 const FinancialAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
+
+  const [ledgerAccounts, setLedgerAccounts] = useState<SelectorOption[]>([]);
+
+  useEffect(() => {
+    const getLedgerAccounts = async () => {
+      try {
+        const response = await getLedgerForFinancial(formik.values.id);
+        const options = response.result.map((item) => ({
+          value: item.id,
+          label: item.title,
+        }));
+        setLedgerAccounts(options);
+      } catch (error) {
+        console.error("Error fetching ledger accounts:", error);
+      }
+    };
+
+    getLedgerAccounts();
+  }, []);
 
   return (
     <form
@@ -244,23 +264,91 @@ const FinancialAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
         </>
       ) : null}
 
-      <div className="row">
-        <label className="required fw-bold fs-6 mb-2">
-          {intl.formatMessage({ id: "Fields.AutoCreateLedgerAccount" })}
-        </label>
+      <div className="accordion accordion-icon-toggle" id="kt_accordion_2">
+        <div className="mb-5">
+          <div
+            className="accordion-header py-3 d-flex"
+            data-bs-toggle="collapse"
+            data-bs-target="#kt_accordion_2_item_1"
+          >
+            <span className="accordion-icon">
+              <KTSVG
+                className="svg-icon svg-icon-4"
+                path="media/icons/duotune/arrows/arr064.svg"
+              />
+            </span>
+            <h3 className="fs-6 text-gray-800 fw-bold mb-0 ms-4">
+              Advanced Settings
+            </h3>
+          </div>
+          <div
+            id="kt_accordion_2_item_1"
+            className="fs-6 collapse p-10 bg-secondary align-items-center alert"
+            data-bs-parent="#kt_accordion_2"
+          >
+            <div className="form-check form-switch my-4 ms-2">
+              <input
+                className="form-check-input h-25px w-45px me-4"
+                type="checkbox"
+                id="automaticLedgerSwitch"
+                checked={formik.values.autoCreateLedgerAccount}
+                {...formik.getFieldProps("autoCreateLedgerAccount")}
+              />
+              <label className="required fw-bold fs-6 mb-2">
+                {intl.formatMessage({ id: "Fields.AutoCreateLedgerAccount" })}
+              </label>
+            </div>
 
-        <div className="form-check form-switch mt-4 ms-4">
-          <input
-            className="form-check-input h-30px w-50px"
-            type="checkbox"
-            id="automaticLedgerSwitch"
-            checked={formik.values.autoCreateLedgerAccount}
-            {...formik.getFieldProps("autoCreateLedgerAccount")}
-          />
-          <label
-            className="form-check-label"
-            htmlFor="automaticLedgerSwitch"
-          ></label>
+            {!formik.values.autoCreateLedgerAccount && (
+              <div className="row">
+                <label className="required fw-bold fs-6 mb-4">
+                  {intl.formatMessage({ id: "Fields.LedgerAccount" })}
+                </label>
+
+                <Select
+                  className="react-select-styled react-select-transparent"
+                  value={
+                    formik.values.ledgerAccountId === 0
+                      ? null
+                      : ledgerAccounts.find(
+                          (option) =>
+                            option.value === formik.values.ledgerAccountId
+                        ) || null
+                  }
+                  onBlur={() => formik.setFieldTouched("ledgerAccountId", true)}
+                  placeholder={intl.formatMessage({
+                    id: "Fields.SelectOptionDefaultLedgerAccount",
+                  })}
+                  isClearable
+                  options={ledgerAccounts}
+                  onChange={(selectedOption: any) => {
+                    formik.setFieldValue(
+                      "ledgerAccountId",
+                      selectedOption ? selectedOption.value : null
+                    );
+                    formik.setFieldValue(
+                      "afterSaveModel.ledgerAccountDisplayName",
+                      selectedOption?.label
+                    );
+                  }}
+                />
+
+                {formik.touched.ledgerAccountId &&
+                  formik.errors.ledgerAccountId && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: formik.errors.ledgerAccountId,
+                          }}
+                          role="alert"
+                        />
+                      </div>
+                    </div>
+                  )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </form>

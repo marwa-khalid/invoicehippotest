@@ -4,14 +4,20 @@ import { useIntl } from "react-intl";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
+  setLinkModalOpen: (type: boolean) => void;
 }
 
 const FinancialAccountsToolbar = ({
   totalRows,
   setAddModalOpen,
+  setLinkModalOpen,
 }: ToolbarProps) => {
   const openAddFinancialAccountModal = () => {
     setAddModalOpen(true);
+  };
+
+  const openLinkBankAccountModal = () => {
+    setLinkModalOpen(true);
   };
   const intl = useIntl();
   return (
@@ -24,16 +30,26 @@ const FinancialAccountsToolbar = ({
           .formatMessage({ id: "Fields.SearchResultHeaderCount" })
           .replace("{0}", totalRows.toString())}
       </h5>
+      <div>
+        {/* begin::Add financial account */}
+        <button
+          type="button"
+          className="btn btn-primary mb-3 me-2"
+          onClick={openLinkBankAccountModal}
+        >
+          <i className="fas fa-wifi fs-3" />
 
-      {/* begin::Add financial account */}
-      <button
-        type="button"
-        className="btn btn-primary mb-3"
-        onClick={openAddFinancialAccountModal}
-      >
-        <KTIcon iconName="plus" className="fs-2" />
-        {intl.formatMessage({ id: "Fields.ModalNewTitleFinancialAccount" })}
-      </button>
+          {intl.formatMessage({ id: "Fields.ActionLinkFinancialAccounts" })}
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary mb-3"
+          onClick={openAddFinancialAccountModal}
+        >
+          <KTIcon iconName="plus" className="fs-1" />
+          {intl.formatMessage({ id: "Fields.ModalNewTitleFinancialAccount" })}
+        </button>
+      </div>
       {/* end:: Add financial account */}
     </div>
   );

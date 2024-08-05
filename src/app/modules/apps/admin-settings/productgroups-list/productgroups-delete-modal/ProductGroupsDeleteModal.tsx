@@ -4,14 +4,16 @@ import { ProductGroupsDeleteModalFooter } from "./ProductGroupsDeleteModalFooter
 import { useIntl } from "react-intl";
 interface ComponentProps {
   productGroupTitle: string;
-  deleteModalId: number;
+  deleteModalId: number[];
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
+  setDeleteModalId: (type: number[]) => void;
 }
 const ProductGroupsDeleteModal = ({
   deleteModalId,
   productGroupTitle,
   setDeleteModalOpen,
+  setDeleteModalId,
   setRefresh,
 }: ComponentProps) => {
   useEffect(() => {
@@ -21,7 +23,7 @@ const ProductGroupsDeleteModal = ({
     };
   }, []);
   const intl = useIntl();
-
+  console.log(deleteModalId);
   return (
     <>
       <div
@@ -37,6 +39,7 @@ const ProductGroupsDeleteModal = ({
           <div className="modal-content">
             <ProductGroupsDeleteModalHeader
               setDeleteModalOpen={setDeleteModalOpen}
+              setDeleteModalId={setDeleteModalId}
             />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
@@ -57,6 +60,7 @@ const ProductGroupsDeleteModal = ({
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
+              setDeleteModalId={setDeleteModalId}
             />
           </div>
           {/* end::Modal content */}

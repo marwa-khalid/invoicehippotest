@@ -5,14 +5,16 @@ import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
-  deleteModalId: number;
+  deleteModalId: number[];
   setRefresh: (type: boolean) => void;
+  setDeleteModalId: (type: number[]) => void;
 }
 
 const ProductGroupsDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
+  setDeleteModalId,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
@@ -20,21 +22,32 @@ const ProductGroupsDeleteModalFooter = ({
 
   const deleteProduct = async () => {
     setIsSubmitting(true);
+
     const response = await deleteProductGroup(deleteModalId);
+    console.log("workin");
     if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);
+      setDeleteModalId([]);
+      setIsSubmitting(false);
     }
+    console.log("workin");
+
     setIsSubmitting(false);
     handleToast(response);
+    console.log("workin");
   };
+  console.log(isSubmitting);
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
       <div className="d-flex">
         {/* Cancel Button */}
         <button
           type="reset"
-          onClick={() => setDeleteModalOpen(false)}
+          onClick={() => {
+            setDeleteModalOpen(false);
+            setDeleteModalId([]);
+          }}
           className="btn btn-light me-3"
         >
           {intl.formatMessage({ id: "Fields.ActionClose" })}
@@ -46,8 +59,9 @@ const ProductGroupsDeleteModalFooter = ({
           className="btn btn-danger"
           onClick={deleteProduct}
         >
-          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionDelete" })}
-          {isSubmitting && (
+          {!isSubmitting ? (
+            intl.formatMessage({ id: "Fields.ActionDelete" })
+          ) : (
             <span className="indicator-progress" style={{ display: "block" }}>
               {intl.formatMessage({ id: "Common.Busy" })}
               <span className="spinner-border spinner-border-sm align-middle ms-2"></span>

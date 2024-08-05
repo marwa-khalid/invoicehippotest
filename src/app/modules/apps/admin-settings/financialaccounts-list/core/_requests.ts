@@ -2,6 +2,8 @@ import {
   FinancialAccountsModel,
   FinancialAccountByIdModel,
   PrivateLedgersModel,
+  FinancialInstitutionsResult,
+  FinancialInstitutionsModel,
 } from "./_models";
 
 import {
@@ -14,6 +16,7 @@ import {
   POST_FINANCIAL_ACCOUNT,
   GET_LEDGDER_FOR_FINANCIAL,
   GET_FINANCIALACCOUNT_BY_ID,
+  GET_FINANCIAL_INSTITUTIONS,
 } from "./constants";
 
 interface DeleteResult extends Partial<FinancialAccountsModel> {}
@@ -83,4 +86,11 @@ export function postFinancialAccount(
 
 export function deleteFinancialAccount(id: number) {
   return deleteRequest<DeleteResult>(POST_FINANCIAL_ACCOUNT, [id], true);
+}
+
+export function getFinancialInstitutions(countryType: number) {
+  return getRequest<FinancialInstitutionsModel>(
+    `${GET_FINANCIAL_INSTITUTIONS}/${countryType}`,
+    true
+  );
 }

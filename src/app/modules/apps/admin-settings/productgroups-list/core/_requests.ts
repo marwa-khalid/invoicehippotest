@@ -36,6 +36,6 @@ export function postProductGroup(id: number, title: string) {
   );
 }
 
-export function deleteProductGroup(id: number) {
-  return deleteRequest<PartialResult>(PRODUCT_GROUP, [id], true);
+export function deleteProductGroup(ids: number[]) {
+  return deleteRequest<PartialResult>(PRODUCT_GROUP, ids, true);
 }

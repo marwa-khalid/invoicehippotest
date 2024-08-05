@@ -5,14 +5,16 @@ import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
-  deleteModalId: number;
+  deleteModalId: number[];
   setRefresh: (type: boolean) => void;
+  setDeleteModalId: (type: number[]) => void;
 }
 
 const UnitTypesDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
+  setDeleteModalId,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
@@ -24,17 +26,23 @@ const UnitTypesDeleteModalFooter = ({
     if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);
+      setDeleteModalId([]);
+      setIsSubmitting(false);
     }
     setIsSubmitting(false);
     handleToast(response);
   };
+
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
       <div className="d-flex">
         {/* Cancel Button */}
         <button
           type="reset"
-          onClick={() => setDeleteModalOpen(false)}
+          onClick={() => {
+            setDeleteModalOpen(false);
+            setDeleteModalId([]);
+          }}
           className="btn btn-light me-3"
         >
           {intl.formatMessage({ id: "Fields.ActionClose" })}

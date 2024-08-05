@@ -4,9 +4,16 @@ import { useIntl } from "react-intl";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
+  deleteSelectedButton: boolean;
+  setDeleteModalOpen: (type: boolean) => void;
 }
 
-const UnitTypesToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
+const UnitTypesToolbar = ({
+  totalRows,
+  setAddModalOpen,
+  deleteSelectedButton,
+  setDeleteModalOpen,
+}: ToolbarProps) => {
   const openAddFinancialAccountModal = () => {
     setAddModalOpen(true);
   };
@@ -21,17 +28,26 @@ const UnitTypesToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
           .formatMessage({ id: "Fields.SearchResultHeaderCount" })
           .replace("{0}", totalRows.toString())}
       </h5>
-
-      {/* begin::Add financial account */}
-      <button
-        type="button"
-        className="btn btn-primary mb-3"
-        onClick={openAddFinancialAccountModal}
-      >
-        <KTIcon iconName="plus" className="fs-2" />
-        {intl.formatMessage({ id: "Fields.ModalNewTitleUnitType" })}
-      </button>
-      {/* end:: Add financial account */}
+      {/* begin::Add unit type  */}
+      {deleteSelectedButton ? (
+        <button
+          type="button"
+          className="btn btn-danger mb-3"
+          onClick={() => setDeleteModalOpen(true)}
+        >
+          Delete Selected Entries
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="btn btn-primary mb-3"
+          onClick={openAddFinancialAccountModal}
+        >
+          <KTIcon iconName="plus" className="fs-2" />
+          {intl.formatMessage({ id: "Fields.ModalNewTitleUnitType" })}
+        </button>
+      )}
+      {/* end:: Add unit type */}
     </div>
   );
 };

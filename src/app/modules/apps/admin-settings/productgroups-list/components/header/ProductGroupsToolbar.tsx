@@ -4,9 +4,16 @@ import { useIntl } from "react-intl";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
+  deleteSelectedButton: boolean;
+  setDeleteModalOpen: (type: boolean) => void;
 }
 
-const ProductGroupsToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
+const ProductGroupsToolbar = ({
+  totalRows,
+  setAddModalOpen,
+  deleteSelectedButton,
+  setDeleteModalOpen,
+}: ToolbarProps) => {
   const openAddFinancialAccountModal = () => {
     setAddModalOpen(true);
   };
@@ -22,16 +29,26 @@ const ProductGroupsToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
           .replace("{0}", totalRows.toString())}
       </h5>
 
-      {/* begin::Add financial account */}
-      <button
-        type="button"
-        className="btn btn-primary mb-3"
-        onClick={openAddFinancialAccountModal}
-      >
-        <KTIcon iconName="plus" className="fs-2" />
-        {intl.formatMessage({ id: "Fields.ModalNewTitleProductGroup" })}
-      </button>
-      {/* end:: Add financial account */}
+      {/* begin::Add product group */}
+      {deleteSelectedButton ? (
+        <button
+          type="button"
+          className="btn btn-danger mb-3"
+          onClick={() => setDeleteModalOpen(true)}
+        >
+          Delete Selected Entries
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="btn btn-primary mb-3"
+          onClick={openAddFinancialAccountModal}
+        >
+          <KTIcon iconName="plus" className="fs-2" />
+          {intl.formatMessage({ id: "Fields.ModalNewTitleProductGroup" })}
+        </button>
+      )}
+      {/* end:: Add product group */}
     </div>
   );
 };

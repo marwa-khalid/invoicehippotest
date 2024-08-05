@@ -30,10 +30,13 @@ const UnitTypesListInnerWrapper = () => {
 
   const [totalRows, setTotalRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
+  const [deleteModalId, setDeleteModalId] = useState<number[]>([]);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [unitTypeTitle, setUnitTypeTitle] = useState<string>("");
+  const [deleteSelectedButton, setDeleteSelectedButton] =
+    useState<boolean>(false);
   const [refresh, setRefresh] = useState(false);
 
   return (
@@ -46,20 +49,25 @@ const UnitTypesListInnerWrapper = () => {
       <UnitTypesToolbar
         totalRows={totalRows}
         setAddModalOpen={setAddModalOpen}
+        deleteSelectedButton={deleteSelectedButton}
+        setDeleteModalOpen={setDeleteModalOpen}
       />
 
       <UnitTypesList
         searchTerm={searchTerm}
+        setDeleteSelectedButton={setDeleteSelectedButton}
         setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setEditModalId={setEditModalId}
+        setDeleteModalId={setDeleteModalId}
         setUnitTypeTitle={setUnitTypeTitle}
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
         editModalOpen={editModalOpen}
         deleteModalOpen={deleteModalOpen}
+        deleteModalId={deleteModalId}
       />
 
       {addModalOpen && (
@@ -77,7 +85,8 @@ const UnitTypesListInnerWrapper = () => {
       )}
       {deleteModalOpen && (
         <UnitTypesDeleteModal
-          deleteModalId={editModalId}
+          deleteModalId={deleteModalId}
+          setDeleteModalId={setDeleteModalId}
           unitTypeTitle={unitTypeTitle}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}

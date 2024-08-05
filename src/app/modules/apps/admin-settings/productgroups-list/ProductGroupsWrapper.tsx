@@ -28,9 +28,11 @@ const ProductGroupsInnerWrapper = () => {
   const { pageIndex, searchTerm } = getPaginationValues();
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
   const [searchTermState, setSearchTermState] = useState(searchTerm);
-
+  const [deleteSelectedButton, setDeleteSelectedButton] =
+    useState<boolean>(false);
   const [totalRows, setTotalRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
+  const [deleteModalId, setDeleteModalId] = useState<number[]>([]);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
@@ -47,6 +49,8 @@ const ProductGroupsInnerWrapper = () => {
       <ProductGroupsToolbar
         totalRows={totalRows}
         setAddModalOpen={setAddModalOpen}
+        deleteSelectedButton={deleteSelectedButton}
+        setDeleteModalOpen={setDeleteModalOpen}
       />
 
       <ProductGroupsList
@@ -61,6 +65,9 @@ const ProductGroupsInnerWrapper = () => {
         setPageIndex={setPageIndexState}
         editModalOpen={editModalOpen}
         deleteModalOpen={deleteModalOpen}
+        deleteModalId={deleteModalId}
+        setDeleteSelectedButton={setDeleteSelectedButton}
+        setDeleteModalId={setDeleteModalId}
       />
 
       {addModalOpen && (
@@ -78,10 +85,11 @@ const ProductGroupsInnerWrapper = () => {
       )}
       {deleteModalOpen && (
         <ProductGroupsDeleteModal
-          deleteModalId={editModalId}
+          deleteModalId={deleteModalId}
           productGroupTitle={productGroupTitle}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
+          setDeleteModalId={setDeleteModalId}
         />
       )}
     </>
