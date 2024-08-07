@@ -31,7 +31,7 @@ const FailurePage = () => {
           <div className="mt-11">
             <button
               type="submit"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/admin/financialaccount")}
               className="btn btn-md btn-primary me-3"
             >
               <span className="indicator-label align-items-center d-flex justify-center">

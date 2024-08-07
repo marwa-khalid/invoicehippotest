@@ -28,7 +28,7 @@ const AppRoutes: FC = () => {
           />
           <Route path="/payment/validate" element={<PaymentFailurePage />} />
           <Route path="/banking/connect" element={<FailurePage />} />
-          <Route path="/banking/connect" element={<SuccessPage />} />
+          <Route path="/banking/connect/success" element={<SuccessPage />} />
 
           {currentUser ? (
             <>
