@@ -7,10 +7,12 @@ import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
+import { Tooltip } from "@chakra-ui/react";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
+  setUnlinkModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
   setLedgerAccountTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
@@ -27,6 +29,7 @@ const FinancialAccountsList = ({
   setEditModalId,
   setLedgerAccountTitle,
   setDeleteModalOpen,
+  setUnlinkModalOpen,
   refresh,
   setPageIndex,
   pageIndex,
@@ -79,6 +82,11 @@ const FinancialAccountsList = ({
     setEditModalId(id);
     setDeleteModalOpen(true);
     setLedgerAccountTitle(ledgerTitle);
+  };
+
+  const openUnlinkModal = (id: number) => {
+    setEditModalId(id);
+    setUnlinkModalOpen(true);
   };
 
   const formatExpirationDate = (dateStr: string): string => {
@@ -146,50 +154,86 @@ const FinancialAccountsList = ({
                           openEditModal(financialAccount.id);
                         }}
                       >
-                        {financialAccount.bankConnectInfo.isConnected &&
+                        {financialAccount.bankConnectInfo.isActive &&
                           renderWifiIcon()}
 
                         <strong>{financialAccount.accountName}</strong>
                       </div>
                       <div className="align-items-center my-lg-0 my-1 necessary-icons">
                         {financialAccount.actions.canEdit && (
-                          <button
-                            className="btn btn-icon btn-light btn-sm me-4"
-                            onClick={() => {
-                              openEditModal(financialAccount.id);
-                            }}
+                          <Tooltip
+                            label={intl.formatMessage({
+                              id: "Fields.ToolTipEdit",
+                            })}
+                            fontSize="sm"
+                            className="bg-gray-800 text-white p-2 rounded "
+                            placement="top"
                           >
-                            <i className="ki-solid ki-pencil text-warning fs-2 " />
-                          </button>
+                            <button
+                              className="btn btn-icon btn-light btn-sm me-4"
+                              onClick={() => {
+                                openEditModal(financialAccount.id);
+                              }}
+                            >
+                              <i className="ki-solid ki-pencil text-warning fs-2 " />
+                            </button>
+                          </Tooltip>
                         )}
 
                         {financialAccount.actions.canExtendAutomation && (
-                          <button className="btn btn-icon btn-light btn-sm me-4">
-                            <i className="ki-duotone ki-book text-info fs-2">
-                              <span className="path1"></span>
-                              <span className="path2"></span>
-                              <span className="path3"></span>
-                              <span className="path4"></span>
-                            </i>
-                          </button>
+                          <Tooltip
+                            label={intl.formatMessage({
+                              id: "Fields.ToolTipReconnect",
+                            })}
+                            fontSize="sm"
+                            className="bg-gray-800 text-white p-2 rounded "
+                            placement="top"
+                          >
+                            <button className="btn btn-icon btn-light btn-sm me-4">
+                              <i className="fas fa-wifi text-primary fs-3" />
+                            </button>
+                          </Tooltip>
                         )}
                         {financialAccount.actions.canRevokeAutomation && (
-                          <button className="btn btn-icon btn-light btn-sm me-4">
-                            <i className="fas fa-wifi text-primary fs-3" />
-                          </button>
+                          <Tooltip
+                            label={intl.formatMessage({
+                              id: "Fields.ToolTipDisonnect",
+                            })}
+                            fontSize="sm"
+                            className="bg-gray-800 text-white p-2 rounded "
+                            placement="top"
+                          >
+                            <button
+                              className="btn btn-icon btn-light btn-sm me-4"
+                              onClick={() => {
+                                openUnlinkModal(financialAccount.id);
+                              }}
+                            >
+                              <i className="fas fa-wifi text-danger fs-3" />
+                            </button>
+                          </Tooltip>
                         )}
                         {financialAccount.actions.canDelete && (
-                          <button
-                            className="btn btn-icon btn-light btn-sm"
-                            onClick={() => {
-                              openDeleteModal(
-                                financialAccount.id,
-                                financialAccount.accountName
-                              );
-                            }}
+                          <Tooltip
+                            label={intl.formatMessage({
+                              id: "Fields.ToolTipDelete",
+                            })}
+                            fontSize="sm"
+                            className="bg-gray-800 text-white p-2 rounded "
+                            placement="top"
                           >
-                            <i className="ki-solid ki-trash text-danger fs-2"></i>
-                          </button>
+                            <button
+                              className="btn btn-icon btn-light btn-sm"
+                              onClick={() => {
+                                openDeleteModal(
+                                  financialAccount.id,
+                                  financialAccount.accountName
+                                );
+                              }}
+                            >
+                              <i className="ki-solid ki-trash text-danger fs-2"></i>
+                            </button>
+                          </Tooltip>
                         )}
                       </div>
                     </div>
@@ -246,7 +290,7 @@ const FinancialAccountsList = ({
                           </div>
                         </div>
                       )}
-                      {financialAccount.bankConnectInfo.isConnected && (
+                      {financialAccount.bankConnectInfo.isActive && (
                         <>
                           <span className="h-37px bg-gray-400 w-1px me-3"></span>
                           <div className="d-flex align-items-center flex-wrap">
@@ -267,7 +311,6 @@ const FinancialAccountsList = ({
                                 )}
                               </span>
                             </div>
-                            {console.log(financialAccount.bankConnectInfo)!}
                           </div>
                           <span className=" h-37px bg-gray-400 w-1px me-3 "></span>
                           <div className="d-flex align-items-center flex-wrap">

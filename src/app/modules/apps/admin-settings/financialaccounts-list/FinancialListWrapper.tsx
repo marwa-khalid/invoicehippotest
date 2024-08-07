@@ -8,6 +8,7 @@ import { FinancialAccountsToolbar } from "./components/header/FinancialAccountsT
 import { FinancialEditModal } from "./financial-edit-modal/FinancialEditModal";
 import { FinancialDeleteModal } from "./financial-delete-modal/FinancialDeleteModal";
 import { BankLinkModal } from "./financial-link-modal/BankLinkModal";
+import { FinancialUnlinkModal } from "./financial-unlink-modal/FinancialUnlinkModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -34,6 +35,7 @@ const FinancialListInnerWrapper = () => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [linkModalOpen, setLinkModalOpen] = useState<boolean>(false);
+  const [unlinkModalOpen, setUnlinkModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [ledgerAccountTitle, setLedgerAccountTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
@@ -54,6 +56,7 @@ const FinancialListInnerWrapper = () => {
         setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
+        setUnlinkModalOpen={setUnlinkModalOpen}
         setEditModalId={setEditModalId}
         setLedgerAccountTitle={setLedgerAccountTitle}
         refresh={refresh}
@@ -72,6 +75,13 @@ const FinancialListInnerWrapper = () => {
         <BankLinkModal
           setRefresh={setRefresh}
           setLinkModalOpen={setLinkModalOpen}
+        />
+      )}
+      {unlinkModalOpen && (
+        <FinancialUnlinkModal
+          deleteModalId={editModalId}
+          setUnlinkModalOpen={setUnlinkModalOpen}
+          setRefresh={setRefresh}
         />
       )}
       {editModalOpen && (

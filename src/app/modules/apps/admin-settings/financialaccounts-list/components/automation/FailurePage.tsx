@@ -13,20 +13,10 @@ const FailurePage = () => {
       <div className="w-50 d-flex flex-row">
         <div className="col-6 ">
           <h2 className=" mb-3 fs-2x fw-bold">Oops!</h2>
-          <p
-            className="fs-lg"
-            // key={Math.random()}
-            // dangerouslySetInnerHTML={{
-            //   __html: intl.formatMessage({
-            //     id: "System.PaymentProcessing_FailedDescription",
-            //   }),
-            // }}
-          >
-            Het koppelen van één of meerdere rekeningen is helaas mislukt. Dit
-            kan komen door dat je de koppeling zelf hebt geannulleerd of vanwege
-            een applicatie fout tijdens het koppelen. In geval van het laatste
-            vragen we je om contact op te nemen met onze support afdeling om je
-            verder te helpen!
+          <p className="fs-lg">
+            {intl.formatMessage({
+              id: "Fields.BankingConnectStatusFaultInfo",
+            })}
           </p>
           <div className="mt-11">
             <button

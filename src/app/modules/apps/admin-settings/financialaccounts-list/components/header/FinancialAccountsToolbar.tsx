@@ -1,6 +1,6 @@
 import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-
+import { Tooltip } from "@chakra-ui/react";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
@@ -32,23 +32,41 @@ const FinancialAccountsToolbar = ({
       </h5>
       <div>
         {/* begin::Add financial account */}
-        <button
-          type="button"
-          className="btn btn-primary mb-3 me-2"
-          onClick={openLinkBankAccountModal}
+        <Tooltip
+          label={intl.formatMessage({
+            id: "Fields.ToolTipConnect",
+          })}
+          fontSize="sm"
+          className="bg-gray-800 text-white p-2 rounded "
+          placement="top"
         >
-          <i className="fas fa-wifi fs-3" />
+          <button
+            type="button"
+            className="btn btn-primary mb-3 me-2"
+            onClick={openLinkBankAccountModal}
+          >
+            <i className="fas fa-wifi fs-3" />
 
-          {intl.formatMessage({ id: "Fields.ActionLinkFinancialAccounts" })}
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary mb-3"
-          onClick={openAddFinancialAccountModal}
+            {intl.formatMessage({ id: "Fields.ActionLinkFinancialAccounts" })}
+          </button>
+        </Tooltip>
+        <Tooltip
+          label={intl.formatMessage({
+            id: "Fields.ToolTipNew",
+          })}
+          fontSize="sm"
+          className="bg-gray-800 text-white p-2 rounded "
+          placement="top"
         >
-          <KTIcon iconName="plus" className="fs-1" />
-          {intl.formatMessage({ id: "Fields.ModalNewTitleFinancialAccount" })}
-        </button>
+          <button
+            type="button"
+            className="btn btn-primary mb-3"
+            onClick={openAddFinancialAccountModal}
+          >
+            <KTIcon iconName="plus" className="fs-1" />
+            {intl.formatMessage({ id: "Fields.ModalNewTitleFinancialAccount" })}
+          </button>
+        </Tooltip>
       </div>
       {/* end:: Add financial account */}
     </div>

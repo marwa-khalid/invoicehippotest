@@ -10,11 +10,7 @@ const SuccessPage = () => {
       <div className="w-75">
         <h2 className=" mb-3 fs-2x fw-bold">Success!</h2>
         <p className="fs-lg">
-          Je hebt met success één of meerdere rekeningen gekoppeld. In het
-          rekeningen overzicht zul je nu zien dat deze rekeningen zijn opgenomen
-          en dat ze automatisch gesynchroniseerd zullen worden. Het
-          synchroniseren kan soms pas de volgende dag data opleveren! Houdt daar
-          a.u.b. rekening mee!
+          {intl.formatMessage({ id: "Fields.BankingConnectStatusSuccessInfo" })}
         </p>
         <div className="mt-11">
           <button

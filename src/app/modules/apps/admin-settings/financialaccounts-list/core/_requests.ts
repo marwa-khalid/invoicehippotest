@@ -19,6 +19,7 @@ import {
   GET_FINANCIALACCOUNT_BY_ID,
   GET_FINANCIAL_INSTITUTIONS,
   POST_ACCOUNT_AUTOMATION,
+  UNLINK_ACCOUNT,
 } from "./constants";
 
 interface DeleteResult extends Partial<FinancialAccountsModel> {}
@@ -116,4 +117,8 @@ export function postAccounAutomation(
     },
     true
   );
+}
+
+export function deleteAutomation(id: number) {
+  return deleteRequest<Boolean>(`${UNLINK_ACCOUNT}/${id}`, [], true);
 }
