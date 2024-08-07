@@ -7,6 +7,8 @@ import { App } from "../App";
 import { SepaValidation } from "../modules/sepa/SepaValidation";
 import { ClientSuccessPage } from "../modules/sepa/components/ClientSuccessPage";
 import { PaymentFailurePage } from "../modules/sepa/components/PaymentFailurePage";
+import { FailurePage } from "../modules/apps/admin-settings/financialaccounts-list/components/automation/FailurePage";
+import { SuccessPage } from "../modules/apps/admin-settings/financialaccounts-list/components/automation/SuccessPage";
 
 const { BASE_URL } = import.meta.env;
 
@@ -25,6 +27,8 @@ const AppRoutes: FC = () => {
             element={<ClientSuccessPage />}
           />
           <Route path="/payment/validate" element={<PaymentFailurePage />} />
+          <Route path="/banking/connect" element={<FailurePage />} />
+          <Route path="/banking/connect" element={<SuccessPage />} />
 
           {currentUser ? (
             <>

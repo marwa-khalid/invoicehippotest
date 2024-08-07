@@ -1,36 +1,17 @@
 import { FC, useEffect, useState } from "react";
-import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
 import { FormikProps } from "formik";
-import enums from "../../../../../../invoicehippo.enums.json";
-import {
-  getFinancialInstitutions,
-  getLedgerForFinancial,
-} from "../core/_requests";
-import {
-  FinancialAccountsModel,
-  FinancialAccountsResult,
-  FinancialInstitutionsResult,
-} from "../core/_models";
+import { getFinancialInstitutions } from "../core/_requests";
+import { FinancialInstitutionsResult } from "../core/_models";
 
 interface FormValues {
-  id: number;
-  accountName: string;
-  accountNumber: string;
-  ledgerAccountId: number;
-  bankConnectMinImportDate: any;
-  accountType: number;
-  autoCreateLedgerAccount: boolean;
-  bankAccountCompanyType: number;
-  afterSaveModel: {
-    ledgerAccountDisplayName: string;
-  };
-  bankConnectInfo: {
-    isConnected: boolean;
-    isActive: boolean;
-    accessExpirtationDate: any;
-    lastSyncRequestDate: any;
+  companyId: number;
+  importDateMarker: string;
+  optionalFinancialInstitutionId: string;
+  redirectCommand: {
+    successUrl: string;
+    oopsUrl: string;
   };
 }
 
@@ -69,9 +50,18 @@ const BankLinkModalForm: FC<Props> = ({ formik, isSubmitting }) => {
         (firstDay.getMonth() + 1)
       ).slice(-2)}-${firstDay.getFullYear()}`;
 
+      // Use current time for the ISO string
+      const isoDateString = new Date(
+        `${firstDay.getFullYear()}-${("0" + (firstDay.getMonth() + 1)).slice(
+          -2
+        )}-${("0" + firstDay.getDate()).slice(
+          -2
+        )}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}Z`
+      ).toISOString();
+
       // Add to options array
       options.push({
-        value: formattedDate,
+        value: isoDateString,
         label: formattedDate,
       });
 
@@ -122,50 +112,30 @@ const BankLinkModalForm: FC<Props> = ({ formik, isSubmitting }) => {
 
       <div className="row d-flex mb-7">
         {/* account type Field */}
-
         <label className="required fw-bold fs-6 mb-2">
           {" "}
           {intl.formatMessage({
             id: "Fields.FinancialBankConnectSelectInstitution",
           })}
         </label>
-
         <Select
           placeholder={intl.formatMessage({
             id: "Fields.FinancialBankConnectSelectInstitution",
           })}
-          className={clsx(
-            "react-select-styled",
-            {
-              "is-invalid":
-                formik.touched.accountType && formik.errors.accountType,
-            },
-            {
-              "is-valid":
-                formik.touched.accountType && !formik.errors.accountType,
-            }
-          )}
+          className="react-select-styled"
           options={financialInstitutions?.map((item: any) => ({
             value: item.id,
             label: item.name,
           }))}
           onChange={(selectedOption) =>
-            formik.setFieldValue("accountType", selectedOption?.value)
+            formik.setFieldValue(
+              "optionalFinancialInstitutionId",
+              selectedOption?.value
+            )
           }
           menuPlacement="top"
+          isClearable
         />
-        {formik.touched.accountType && formik.errors.accountType && (
-          <div className="fv-plugins-message-container">
-            <div className="fv-help-block">
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: formik.errors.accountType,
-                }}
-                role="alert"
-              />
-            </div>
-          </div>
-        )}
       </div>
       <div className="row d-flex mb-7">
         {/* account type Field */}
@@ -181,36 +151,16 @@ const BankLinkModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           placeholder={intl.formatMessage({
             id: "Fields.FinancialBankConnectSelectStartPeriod",
           })}
-          className={clsx(
-            "react-select-styled",
-            {
-              "is-invalid":
-                formik.touched.accountType && formik.errors.accountType,
-            },
-            {
-              "is-valid":
-                formik.touched.accountType && !formik.errors.accountType,
-            }
-          )}
+          className="react-select-styled"
           menuPlacement="top"
           options={options}
-          onChange={(selectedOption) =>
-            formik.setFieldValue("accountType", selectedOption)
+          onChange={(selectedOption: any) =>
+            formik.setFieldValue("importDateMarker", selectedOption?.value)
           }
+          isClearable
         />
-        {formik.touched.accountType && formik.errors.accountType && (
-          <div className="fv-plugins-message-container">
-            <div className="fv-help-block">
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: formik.errors.accountType,
-                }}
-                role="alert"
-              />
-            </div>
-          </div>
-        )}
       </div>
+      {console.log(formik.values)!}
     </form>
   );
 };

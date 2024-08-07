@@ -119,9 +119,14 @@ export interface FinancialInstitutionsResult {
   logo: string;
 }
 
+export interface AccountAutomationResult {
+  requestUrlForConsent: string;
+}
+
 export type FinancialAccountsModel = ApiResponse<FinancialAccountsResult>;
 export type FinancialAccountByIdModel = ApiResponse<FinancialAccountByIdResult>;
 export type PrivateLedgersModel = ApiResponse<BalanceItem[]>;
 export type FinancialInstitutionsModel = ApiResponse<
   FinancialInstitutionsResult[]
 >;
+export type AccountAutomationModel = ApiResponse<AccountAutomationResult>;

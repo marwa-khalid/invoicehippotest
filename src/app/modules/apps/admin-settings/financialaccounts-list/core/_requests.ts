@@ -4,6 +4,7 @@ import {
   PrivateLedgersModel,
   FinancialInstitutionsResult,
   FinancialInstitutionsModel,
+  AccountAutomationModel,
 } from "./_models";
 
 import {
@@ -17,6 +18,7 @@ import {
   GET_LEDGDER_FOR_FINANCIAL,
   GET_FINANCIALACCOUNT_BY_ID,
   GET_FINANCIAL_INSTITUTIONS,
+  POST_ACCOUNT_AUTOMATION,
 } from "./constants";
 
 interface DeleteResult extends Partial<FinancialAccountsModel> {}
@@ -91,6 +93,27 @@ export function deleteFinancialAccount(id: number) {
 export function getFinancialInstitutions(countryType: number) {
   return getRequest<FinancialInstitutionsModel>(
     `${GET_FINANCIAL_INSTITUTIONS}/${countryType}`,
+    true
+  );
+}
+
+export function postAccounAutomation(
+  companyId: number,
+  importDateMarker: string,
+  optionalFinancialInstitutionId: string,
+  redirectCommand: {
+    successUrl: string;
+    oopsUrl: string;
+  }
+) {
+  return postRequest<AccountAutomationModel>(
+    `${POST_ACCOUNT_AUTOMATION}`,
+    {
+      companyId: companyId,
+      importDateMarker: importDateMarker,
+      optionalFinancialInstitutionId: optionalFinancialInstitutionId,
+      redirectCommand: redirectCommand,
+    },
     true
   );
 }

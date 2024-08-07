@@ -9,22 +9,12 @@ type Props = {
 };
 
 interface FormValues {
-  id: number;
-  accountName: string;
-  accountNumber: string;
-  ledgerAccountId: number;
-  bankConnectMinImportDate: any;
-  accountType: number;
-  autoCreateLedgerAccount: boolean;
-  bankAccountCompanyType: number;
-  afterSaveModel: {
-    ledgerAccountDisplayName: string;
-  };
-  bankConnectInfo: {
-    isConnected: boolean;
-    isActive: boolean;
-    accessExpirtationDate: any;
-    lastSyncRequestDate: any;
+  companyId: number;
+  importDateMarker: string;
+  optionalFinancialInstitutionId: string;
+  redirectCommand: {
+    successUrl: string;
+    oopsUrl: string;
   };
 }
 
@@ -48,7 +38,7 @@ const BankLinkModalFooter: FC<Props> = ({
         type="submit"
         className="btn btn-primary"
         onClick={() => formik.handleSubmit()}
-        disabled={isSubmitting || !formik.isValid}
+        disabled={!formik.isValid || isSubmitting}
       >
         {!isSubmitting &&
           intl.formatMessage({ id: "Fields.ActionLinkFinancialAccounts" })}

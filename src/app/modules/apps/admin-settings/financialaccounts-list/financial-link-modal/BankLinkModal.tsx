@@ -4,9 +4,10 @@ import { BankLinkModalFooter } from "./BankLinkModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { postFinancialAccount } from "../core/_requests";
+import { postAccounAutomation, postFinancialAccount } from "../core/_requests";
 import BankLinkModalForm from "./BankLinkModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
+import { useAuth } from "../../../../auth";
 interface Props {
   setRefresh: (type: boolean) => void;
   setLinkModalOpen: (type: boolean) => void;
@@ -21,76 +22,56 @@ const BankLinkModal = ({ setRefresh, setLinkModalOpen }: Props) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const intl = useIntl();
+  const auth = useAuth();
 
   const formik = useFormik({
     initialValues: {
-      id: 0,
-      accountName: "",
-      accountNumber: "",
-      ledgerAccountId: 0,
-      bankConnectMinImportDate: null,
-      accountType: 0,
-      autoCreateLedgerAccount: true,
-      bankAccountCompanyType: 0,
-      afterSaveModel: {
-        ledgerAccountDisplayName: "",
-      },
-      bankConnectInfo: {
-        isConnected: false,
-        isActive: false,
-        accessExpirtationDate: null,
-        lastSyncRequestDate: null,
+      companyId: auth.currentUser?.result.activeCompany.id || 0,
+      importDateMarker: "",
+      optionalFinancialInstitutionId: "",
+      redirectCommand: {
+        successUrl: "http://localhost:5173/banking/connect",
+        oopsUrl: "http://localhost:5173/banking/connect",
       },
     },
+
     validationSchema: Yup.object().shape({
-      accountType: Yup.number().required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.AccountType" }))
+      importDateMarker: Yup.string().required(
+        intl.formatMessage({ id: "Common.RequiredFieldHint2" }).replace(
+          "{0}",
+          intl.formatMessage({
+            id: "Fields.FinancialBankConnectSelectStartPeriod",
+          })
+        )
       ),
-      accountName: Yup.string()
-        .min(
-          3,
-          intl
-            .formatMessage({ id: "Common.ValidationMin" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
-            .replace("{1}", `3`)
+      optionalFinancialInstitutionId: Yup.string().required(
+        intl.formatMessage({ id: "Common.RequiredFieldHint2" }).replace(
+          "{0}",
+          intl.formatMessage({
+            id: "Fields.FinancialBankConnectSelectStartPeriod",
+          })
         )
-        .max(
-          50,
-          intl
-            .formatMessage({ id: "Common.ValidationMax" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
-            .replace("{1}", `50`)
-        )
-        .required(
-          intl
-            .formatMessage({ id: "Common.RequiredFieldHint2" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
-        ),
+      ),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postFinancialAccount(
-          values.id,
-          values.accountName,
-          values.accountNumber,
-          values.ledgerAccountId,
-          values.bankConnectMinImportDate,
-          values.autoCreateLedgerAccount,
-          values.accountType,
-          values.bankAccountCompanyType,
-          values.afterSaveModel,
-          values.bankConnectInfo
+        const response = await postAccounAutomation(
+          values.companyId,
+          values.importDateMarker,
+          values.optionalFinancialInstitutionId,
+          values.redirectCommand
         );
 
         if (response.isValid) {
-          formik.resetForm();
-          setLinkModalOpen(false);
-          setRefresh(true);
+          // formik.resetForm();
+          // setLinkModalOpen(false);
+          // setRefresh(true);
+          console.log(response);
+          window.location.href = response.result.requestUrlForConsent;
         }
         handleToast(response);
+        console.log(response);
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
@@ -99,6 +80,7 @@ const BankLinkModal = ({ setRefresh, setLinkModalOpen }: Props) => {
       }
     },
   });
+  console.log(formik.initialValues);
 
   return (
     <>

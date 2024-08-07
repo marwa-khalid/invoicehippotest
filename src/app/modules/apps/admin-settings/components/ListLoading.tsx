@@ -28,7 +28,6 @@ const ListLoading = () => {
     >
       <iframe
         src="/Animation-v2.html"
-        allowTransparency
         width="200"
         height="200"
         style={{ border: "none" }}
