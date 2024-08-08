@@ -8,7 +8,7 @@ import { useIntl } from "react-intl";
 import { FinancialListWrapper } from "./financialaccounts-list/FinancialListWrapper";
 import { UnitTypesListWrapper } from "./unittypes-list/UnitTypesListWrapper";
 import { ProductGroupsWrapper } from "./productgroups-list/ProductGroupsWrapper";
-import { DiscountMarginsWrapper } from "./productgroups-list copy/DiscountMarginsWrapper";
+import { DiscountMarginsWrapper } from "./discountmargins-list/DiscountMarginsWrapper";
 
 const VatTypesPage = () => {
   const { config } = useLayout();

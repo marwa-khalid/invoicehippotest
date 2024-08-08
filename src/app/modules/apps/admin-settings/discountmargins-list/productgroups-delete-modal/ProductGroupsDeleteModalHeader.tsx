@@ -16,7 +16,7 @@ const ProductGroupsDeleteModalHeader = ({
     <div className="modal-header d-flex justify-content-between align-items-center bg-danger ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {intl.formatMessage({ id: "Fields.ModalDeleteTitleProductGroup" })}
+        {intl.formatMessage({ id: "Fields.ModalDeleteTitleDiscountMargin" })}
       </h2>
       {/* end::Modal title */}
 

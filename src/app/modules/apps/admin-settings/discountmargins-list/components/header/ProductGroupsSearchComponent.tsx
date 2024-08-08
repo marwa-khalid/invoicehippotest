@@ -50,10 +50,14 @@ const ProductGroupsSearchComponent = ({
               pageIndex: 1,
               filters: { searchTerm: "" },
             },
+            "discounts-module": {
+              pageIndex: 1,
+              filters: { searchTerm: "" },
+            },
           };
 
-      // Update the filter in the unittype-module
-      pagination["productgroups-module"].filters.searchTerm = localSearchTerm;
+      // Update the filter in the discounts-module
+      pagination["discounts-module"].filters.searchTerm = localSearchTerm;
 
       // Convert the updated object back to a JSON string
       const updatedPaginationString = JSON.stringify(pagination);
@@ -69,13 +73,13 @@ const ProductGroupsSearchComponent = ({
       "pagination",
       JSON.stringify({
         ...JSON.parse(localStorage.getItem("pagination") || "{}"),
-        "productgroups-module": {
+        "discounts-module": {
           ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-            "productgroups-module"
+            "discounts-module"
           ],
           filters: {
             ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-              "productgroups-module"
+              "discounts-module"
             ]?.filters,
             searchTerm: "",
           },

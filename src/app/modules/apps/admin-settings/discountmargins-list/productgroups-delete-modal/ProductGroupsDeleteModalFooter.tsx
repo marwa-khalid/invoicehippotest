@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteProductGroup } from "../core/_requests";
+import { deleteDiscountMargin } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
@@ -23,21 +23,18 @@ const ProductGroupsDeleteModalFooter = ({
   const deleteProduct = async () => {
     setIsSubmitting(true);
 
-    const response = await deleteProductGroup(deleteModalId);
-    console.log("workin");
+    const response = await deleteDiscountMargin(deleteModalId);
+
     if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);
       setDeleteModalId([]);
       setIsSubmitting(false);
     }
-    console.log("workin");
 
     setIsSubmitting(false);
     handleToast(response);
-    console.log("workin");
   };
-  console.log(isSubmitting);
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
       <div className="d-flex">

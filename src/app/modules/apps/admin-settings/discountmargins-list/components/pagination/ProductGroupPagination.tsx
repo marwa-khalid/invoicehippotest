@@ -52,10 +52,14 @@ const ProductGroupPagination = ({
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
+          "discounts-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
         };
 
-    // Update the page in the product groups module
-    pagination["productgroups-module"].pageIndex = state;
+    // Update the page in the discounts module
+    pagination["discounts-module"].pageIndex = state;
 
     // Convert the updated object back to a JSON string
     const updatedPaginationString = JSON.stringify(pagination);

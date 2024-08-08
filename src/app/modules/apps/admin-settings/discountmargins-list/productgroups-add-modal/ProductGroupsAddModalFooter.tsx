@@ -11,6 +11,8 @@ type Props = {
 interface FormValues {
   id: number;
   title: string;
+  isPercentageMargin: boolean;
+  amount: number;
 }
 
 const ProductGroupsAddModalFooter: FC<Props> = ({

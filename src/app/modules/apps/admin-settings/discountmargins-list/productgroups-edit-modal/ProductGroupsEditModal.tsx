@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { ProductGroupsEditModalHeader } from "./ProductGroupsEditModalHeader";
 import { ProductGroupsEditModalFooter } from "./ProductGroupsEditModalFooter";
-import { getProductGroupById, postProductGroup } from "../core/_requests";
+import { getDiscountMarginById, postDiscountMargin } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
 import FinancialEditModalForm from "./ProductGroupsEditModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
+import { Value } from "sass";
 interface Props {
   setRefresh: (type: boolean) => void;
   setEditModalOpen: (type: boolean) => void;
@@ -31,6 +32,8 @@ const ProductGroupsEditModal = ({
     initialValues: {
       id: 0,
       title: "",
+      isPercentageMargin: false,
+      amount: 0,
     },
     validationSchema: Yup.object().shape({
       title: Yup.string()
@@ -53,11 +56,36 @@ const ProductGroupsEditModal = ({
             .formatMessage({ id: "Common.RequiredFieldHint2" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
         ),
+      amount: Yup.number()
+        .min(
+          0,
+          intl
+            .formatMessage({ id: "Common.ValidationMin" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Amount" }))
+            .replace("{1}", `0`)
+        )
+        .max(
+          100,
+          intl
+            .formatMessage({ id: "Common.ValidationMax" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Amount" }))
+            .replace("{1}", `100`)
+        )
+        .required(
+          intl
+            .formatMessage({ id: "Common.RequiredFieldHint2" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Amount" }))
+        ),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postProductGroup(values.id, values.title);
+        const response = await postDiscountMargin(
+          values.id,
+          values.title,
+          values.isPercentageMargin,
+          values.amount
+        );
 
         if (response.isValid) {
           formik.resetForm();
@@ -78,11 +106,13 @@ const ProductGroupsEditModal = ({
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const response = await getProductGroupById(editModalId);
+        const response = await getDiscountMarginById(editModalId);
         console.log(response.result);
         formik.setValues({
           id: response.result?.id || 0,
           title: response.result?.title || "",
+          amount: response.result?.amount || 0,
+          isPercentageMargin: response.result?.isPercentageMargin || false,
         });
       } catch (error) {
         console.error("Error fetching initial data:", error);

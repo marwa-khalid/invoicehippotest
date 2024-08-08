@@ -52,6 +52,10 @@ const UnitTypesPagination = ({
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
+          "discounts-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
         };
 
     // Update the page in the unit-types-module

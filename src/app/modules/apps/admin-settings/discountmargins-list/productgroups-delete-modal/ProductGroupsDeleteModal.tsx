@@ -47,7 +47,7 @@ const ProductGroupsDeleteModal = ({
                 {
                   intl
                     .formatMessage({
-                      id: "Fields.ModalDeleteDescriptionProductGroup",
+                      id: "Fields.ModalDeleteDescriptionDiscountMargin",
                     })
                     .split("{0}")[0]
                 }

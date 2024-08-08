@@ -1,10 +1,11 @@
 import { useIntl } from "react-intl";
-
 import { FormikProps } from "formik";
 
 interface FormValues {
   id: number;
   title: string;
+  isPercentageMargin: boolean;
+  amount: number;
 }
 interface ComponentProps {
   setEditModalOpen: (type: boolean) => void;

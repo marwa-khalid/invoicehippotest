@@ -5,6 +5,7 @@ import { ListLoading } from "../../components/ListLoading";
 import { ProductGroupPagination } from "../components/pagination/ProductGroupPagination";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
+import { Tooltip } from "@chakra-ui/react";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
@@ -173,23 +174,39 @@ const DiscountMarginsList = ({
 
                   <td className="text-end">
                     {productGroup.actions.canEdit && (
-                      <button
-                        className="btn btn-icon btn-light btn-sm me-2"
-                        onClick={() => openEditModal(productGroup.id)}
+                      <Tooltip
+                        label={intl.formatMessage({ id: "Fields.ToolTipEdit" })}
+                        fontSize="sm"
+                        className="bg-gray-800 text-white p-2 rounded"
+                        placement="top"
                       >
-                        <i className="ki-solid ki-pencil text-warning fs-2" />
-                      </button>
+                        <button
+                          className="btn btn-icon btn-light btn-sm me-2"
+                          onClick={() => openEditModal(productGroup.id)}
+                        >
+                          <i className="ki-solid ki-pencil text-warning fs-2" />
+                        </button>
+                      </Tooltip>
                     )}
 
                     {productGroup.actions.canDelete && (
-                      <button
-                        className="btn btn-icon btn-light btn-sm"
-                        onClick={() =>
-                          openDeleteModal(productGroup.id, productGroup.title)
-                        }
+                      <Tooltip
+                        label={intl.formatMessage({
+                          id: "Fields.ToolTipDelete",
+                        })}
+                        fontSize="sm"
+                        className="bg-gray-800 text-white p-2 rounded"
+                        placement="top"
                       >
-                        <i className="ki-solid ki-trash text-danger fs-2" />
-                      </button>
+                        <button
+                          className="btn btn-icon btn-light btn-sm"
+                          onClick={() =>
+                            openDeleteModal(productGroup.id, productGroup.title)
+                          }
+                        >
+                          <i className="ki-solid ki-trash text-danger fs-2" />
+                        </button>
+                      </Tooltip>
                     )}
                   </td>
                 </tr>

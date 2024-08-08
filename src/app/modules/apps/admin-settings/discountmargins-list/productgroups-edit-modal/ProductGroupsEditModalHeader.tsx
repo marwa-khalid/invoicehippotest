@@ -13,7 +13,7 @@ const ProductGroupsEditModalHeader = ({ setEditModalOpen }: ComponentProps) => {
     <div className="modal-header d-flex justify-content-between align-items-center bg-primary ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {intl.formatMessage({ id: "Fields.ModalEditTitleProductGroup" })}
+        {intl.formatMessage({ id: "Fields.ModalEditTitleDiscountMargin" })}
       </h2>
 
       {/* end::Modal title */}

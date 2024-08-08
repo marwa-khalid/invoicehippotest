@@ -52,6 +52,10 @@ const VatListPagination = ({
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
+          "discounts-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
         };
 
     // Update the page in the financial-module

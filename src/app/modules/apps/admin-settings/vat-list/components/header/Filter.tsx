@@ -61,6 +61,10 @@ export function Filter({
               pageIndex: 1,
               filters: { searchTerm: "" },
             },
+            "discounts-module": {
+              pageIndex: 1,
+              filters: { searchTerm: "" },
+            },
           };
 
       // Update the filter in the vat-module

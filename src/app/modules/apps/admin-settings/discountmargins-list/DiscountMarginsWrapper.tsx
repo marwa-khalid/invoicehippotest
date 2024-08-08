@@ -13,9 +13,8 @@ const getPaginationValues = () => {
   if (storedPaginationString) {
     const pagination = JSON.parse(storedPaginationString);
 
-    const currentPage = pagination["productgroups-module"].pageIndex || 1;
-    const searchTerm =
-      pagination["productgroups-module"].filters.searchTerm || "";
+    const currentPage = pagination["discounts-module"].pageIndex || 1;
+    const searchTerm = pagination["discounts-module"].filters.searchTerm || "";
 
     return {
       pageIndex: currentPage,
