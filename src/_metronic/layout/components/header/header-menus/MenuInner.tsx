@@ -181,6 +181,11 @@ export function MenuInner() {
           title="Product Groups"
           hasBullet={true}
         />
+        <MenuItem
+          to="/admin/discounts"
+          title="Discount Margins"
+          hasBullet={true}
+        />
       </MenuInnerWithSub>
 
       <MenuInnerWithSub

@@ -1,6 +1,6 @@
 import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-
+import { Tooltip } from "@chakra-ui/react";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
@@ -24,14 +24,23 @@ const LedgerListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
       </h5>
 
       {/* begin::Add user */}
-      <button
-        type="button"
-        className="btn btn-primary mb-3"
-        onClick={openAddUserModal}
+      <Tooltip
+        label={intl.formatMessage({
+          id: "Fields.ToolTipNew",
+        })}
+        fontSize="sm"
+        className="bg-gray-800 text-white p-2 rounded "
+        placement="top"
       >
-        <KTIcon iconName="plus" className="fs-2" />
-        {intl.formatMessage({ id: "Fields.ModalNewTitleLedgerAccount" })}
-      </button>
+        <button
+          type="button"
+          className="btn btn-primary mb-3"
+          onClick={openAddUserModal}
+        >
+          <KTIcon iconName="plus" className="fs-2" />
+          {intl.formatMessage({ id: "Fields.ModalNewTitleLedgerAccount" })}
+        </button>
+      </Tooltip>
       {/* end::Add user */}
     </div>
   );

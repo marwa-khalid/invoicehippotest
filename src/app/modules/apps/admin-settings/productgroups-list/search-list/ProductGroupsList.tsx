@@ -5,6 +5,7 @@ import { ListLoading } from "../../components/ListLoading";
 import { ProductGroupPagination } from "../components/pagination/ProductGroupPagination";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
+import { Tooltip } from "@chakra-ui/react";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
@@ -136,12 +137,7 @@ const ProductGroupsList = ({
                 </div>
               </th>
               <th className="w-25px"></th>
-              <th className="text-center">
-                {intl.formatMessage({ id: "Fields.Title" })}
-              </th>
-              <th className="text-end">
-                {intl.formatMessage({ id: "Fields.ColumnActions" })}
-              </th>
+              <th>{intl.formatMessage({ id: "Fields.Title" })}</th>
             </tr>
           </thead>
           <tbody>
@@ -159,27 +155,50 @@ const ProductGroupsList = ({
                     </div>
                   </td>
                   <td className="text-muted">|</td>
-                  <td className="text-center">{productGroup.title}</td>
+                  <td
+                    className="cursor-pointer fw-bold"
+                    onClick={() => openEditModal(productGroup.id)}
+                  >
+                    {productGroup.title}
+                  </td>
 
                   <td className="text-end">
                     {productGroup.actions.canEdit && (
-                      <button
-                        className="btn btn-icon btn-light btn-sm me-2"
-                        onClick={() => openEditModal(productGroup.id)}
+                      <Tooltip
+                        label={intl.formatMessage({
+                          id: "Fields.ToolTipEdit",
+                        })}
+                        fontSize="sm"
+                        className="bg-gray-800 text-white p-2 rounded "
+                        placement="top"
                       >
-                        <i className="ki-solid ki-pencil text-warning fs-2" />
-                      </button>
+                        <button
+                          className="btn btn-icon btn-light btn-sm me-2"
+                          onClick={() => openEditModal(productGroup.id)}
+                        >
+                          <i className="ki-solid ki-pencil text-warning fs-2" />
+                        </button>
+                      </Tooltip>
                     )}
 
                     {productGroup.actions.canDelete && (
-                      <button
-                        className="btn btn-icon btn-light btn-sm"
-                        onClick={() =>
-                          openDeleteModal(productGroup.id, productGroup.title)
-                        }
+                      <Tooltip
+                        label={intl.formatMessage({
+                          id: "Fields.ToolTipDelete",
+                        })}
+                        fontSize="sm"
+                        className="bg-gray-800 text-white p-2 rounded "
+                        placement="top"
                       >
-                        <i className="ki-solid ki-trash text-danger fs-2" />
-                      </button>
+                        <button
+                          className="btn btn-icon btn-light btn-sm"
+                          onClick={() =>
+                            openDeleteModal(productGroup.id, productGroup.title)
+                          }
+                        >
+                          <i className="ki-solid ki-trash text-danger fs-2" />
+                        </button>
+                      </Tooltip>
                     )}
                   </td>
                 </tr>

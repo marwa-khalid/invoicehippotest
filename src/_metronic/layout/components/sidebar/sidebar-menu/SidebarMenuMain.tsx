@@ -183,6 +183,11 @@ const SidebarMenuMain = () => {
           title="Product Groups"
           hasBullet={true}
         />
+        <SidebarMenuItem
+          to="/admin/discounts"
+          title="Discount Margins"
+          hasBullet={true}
+        />
       </SidebarMenuItemWithSub>
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">

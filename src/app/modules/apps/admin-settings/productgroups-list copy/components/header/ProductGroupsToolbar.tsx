@@ -1,6 +1,6 @@
 import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-import { Tooltip } from "@chakra-ui/react";
+
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
@@ -39,23 +39,14 @@ const ProductGroupsToolbar = ({
           Delete Selected Entries
         </button>
       ) : (
-        <Tooltip
-          label={intl.formatMessage({
-            id: "Fields.ToolTipNew",
-          })}
-          fontSize="sm"
-          className="bg-gray-800 text-white p-2 rounded "
-          placement="top"
+        <button
+          type="button"
+          className="btn btn-primary mb-3"
+          onClick={openAddFinancialAccountModal}
         >
-          <button
-            type="button"
-            className="btn btn-primary mb-3"
-            onClick={openAddFinancialAccountModal}
-          >
-            <KTIcon iconName="plus" className="fs-2" />
-            {intl.formatMessage({ id: "Fields.ModalNewTitleProductGroup" })}
-          </button>
-        </Tooltip>
+          <KTIcon iconName="plus" className="fs-2" />
+          {intl.formatMessage({ id: "Fields.ModalNewTitleDiscountMargin" })}
+        </button>
       )}
       {/* end:: Add product group */}
     </div>

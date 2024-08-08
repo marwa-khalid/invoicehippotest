@@ -7,7 +7,7 @@ import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
-import { Tooltip, Box } from "@chakra-ui/react";
+import { Tooltip } from "@chakra-ui/react";
 interface ComponentProps {
   searchTerm: string;
   ledgerTypeFilter: number;
@@ -146,17 +146,26 @@ const LedgerAccountsList = ({
                     </div>
                     <div className="align-items-center my-lg-0 my-1 necessary-icons">
                       {vatType.actions.canEdit && (
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => {
-                            openEditModal(vatType.id);
-                          }}
+                        <Tooltip
+                          label={intl.formatMessage({
+                            id: "Fields.ToolTipEdit",
+                          })}
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded "
+                          placement="top"
                         >
-                          <i className="ki-solid ki-pencil text-warning fs-2 ">
-                            {/* <span className="path1"></span>
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            onClick={() => {
+                              openEditModal(vatType.id);
+                            }}
+                          >
+                            <i className="ki-solid ki-pencil text-warning fs-2 ">
+                              {/* <span className="path1"></span>
                           <span className="path2"></span> */}
-                          </i>
-                        </button>
+                            </i>
+                          </button>
+                        </Tooltip>
                       )}
 
                       {vatType.actions.canShowMutationsOverview && (
@@ -170,20 +179,29 @@ const LedgerAccountsList = ({
                         </button>
                       )}
                       {vatType.actions.canDelete && (
-                        <button
-                          className="btn btn-icon btn-light btn-sm"
-                          onClick={() => {
-                            openDeleteModal(vatType.id, vatType.displayName);
-                          }}
+                        <Tooltip
+                          label={intl.formatMessage({
+                            id: "Fields.ToolTipDelete",
+                          })}
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded "
+                          placement="top"
                         >
-                          <i className="ki-solid ki-trash text-danger fs-2">
-                            {/* <span className="path1"></span>
+                          <button
+                            className="btn btn-icon btn-light btn-sm"
+                            onClick={() => {
+                              openDeleteModal(vatType.id, vatType.displayName);
+                            }}
+                          >
+                            <i className="ki-solid ki-trash text-danger fs-2">
+                              {/* <span className="path1"></span>
                           <span className="path2"></span>
                           <span className="path3"></span>
                           <span className="path4"></span>
                           <span className="path5"></span> */}
-                          </i>
-                        </button>
+                            </i>
+                          </button>
+                        </Tooltip>
                       )}
                     </div>
                   </div>

@@ -8,6 +8,7 @@ import { useIntl } from "react-intl";
 import { FinancialListWrapper } from "./financialaccounts-list/FinancialListWrapper";
 import { UnitTypesListWrapper } from "./unittypes-list/UnitTypesListWrapper";
 import { ProductGroupsWrapper } from "./productgroups-list/ProductGroupsWrapper";
+import { DiscountMarginsWrapper } from "./productgroups-list copy/DiscountMarginsWrapper";
 
 const VatTypesPage = () => {
   const { config } = useLayout();
@@ -157,6 +158,30 @@ const VatTypesPage = () => {
                 )}
               >
                 <ProductGroupsWrapper />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="discounts"
+          element={
+            <>
+              <PageTitle breadcrumbs={settingsBreadcrumbs}>
+                {intl.formatMessage({
+                  id: "Fields.SearchPanelTitleDiscountMargin",
+                })}
+              </PageTitle>
+              <div
+                className={clsx(
+                  "main rounded",
+                  config.app?.sidebar?.default?.class,
+                  {
+                    "bg-light": config.layoutType === "light-sidebar",
+                    "bg-dark": config.layoutType === "dark-sidebar",
+                  }
+                )}
+              >
+                <DiscountMarginsWrapper />
               </div>
             </>
           }
