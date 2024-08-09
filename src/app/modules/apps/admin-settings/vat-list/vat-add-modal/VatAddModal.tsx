@@ -141,7 +141,7 @@ const VatAddModal = ({ setRefresh }: Props) => {
             <div className="modal-body p-10">
               <div
                 className="form-wrapper"
-                style={{ maxHeight: "calc(100vh - 300px)", overflowY: "auto" }}
+               
               >
                 <VatAddModalFormWrapper
                   formik={formik}

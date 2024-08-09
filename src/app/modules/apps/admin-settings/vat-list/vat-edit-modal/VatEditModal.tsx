@@ -178,10 +178,7 @@ const VatEditModal = ({
             <VatEditModalHeader setEditModalOpen={setEditModalOpen} />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
-              <div
-                className="form-wrapper"
-                style={{ maxHeight: "calc(100vh - 300px)", overflowY: "auto" }}
-              >
+              <div className="form-wrapper">
                 <VatEditModalFormWrapper
                   formik={formik}
                   ledgerAccounts={ledgerAccounts}

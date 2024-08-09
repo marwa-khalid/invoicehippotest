@@ -105,9 +105,9 @@ const VatListWrapper = () => (
       <ListViewProvider>
         <ToolbarWrapper />
         <Content>
-          {/* <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}> */}
+       
           <VatListInnerWrapper />
-          {/* </div> */}
+        
         </Content>
       </ListViewProvider>
     </QueryResponseProvider>

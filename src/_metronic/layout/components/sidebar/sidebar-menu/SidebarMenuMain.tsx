@@ -188,6 +188,11 @@ const SidebarMenuMain = () => {
           title="Discount Margins"
           hasBullet={true}
         />
+        <SidebarMenuItem
+          to="/admin/settings/users"
+          title="Users"
+          hasBullet={true}
+        />
       </SidebarMenuItemWithSub>
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">

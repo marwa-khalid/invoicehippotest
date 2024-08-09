@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
-import { UnitTypesAddModalHeader } from "./UnitTypesAddModalHeader";
-import { UnitTypesAddModalFooter } from "./UnitTypesAddModalFooter";
-
+import { FinancialAddModalHeader } from "./FinancialAddModalHeader";
+import { FinancialAddModalFooter } from "./FinancialAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { UnitTypesAddModalForm } from "./UnitTypesAddModalForm";
+import { postFinancialAccount } from "../core/_requests";
+import FinancialAddModalForm from "./FinancialAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
-import { postUnitType } from "../core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
 }
-const UnitTypesAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -26,39 +25,66 @@ const UnitTypesAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   const formik = useFormik({
     initialValues: {
       id: 0,
-      title: "",
-      isDefault: false,
+      accountName: "",
+      accountNumber: "",
+      ledgerAccountId: 0,
+      bankConnectMinImportDate: null,
+      accountType: 0,
+      autoCreateLedgerAccount: true,
+      bankAccountCompanyType: 0,
+      afterSaveModel: {
+        ledgerAccountDisplayName: "",
+      },
+      bankConnectInfo: {
+        isConnected: false,
+        isActive: false,
+        accessExpirtationDate: null,
+        lastSyncRequestDate: null,
+      },
     },
     validationSchema: Yup.object().shape({
-      title: Yup.string()
+      accountType: Yup.number().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.AccountType" }))
+      ),
+      accountName: Yup.string()
         .min(
           3,
           intl
             .formatMessage({ id: "Common.ValidationMin" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
             .replace("{1}", `3`)
         )
         .max(
           50,
           intl
             .formatMessage({ id: "Common.ValidationMax" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
             .replace("{1}", `50`)
         )
         .required(
           intl
             .formatMessage({ id: "Common.RequiredFieldHint2" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
         ),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postUnitType(
+        const response = await postFinancialAccount(
           values.id,
-          values.title,
-          values.isDefault
+          values.accountName,
+          values.accountNumber,
+          values.ledgerAccountId,
+          values.bankConnectMinImportDate,
+          values.autoCreateLedgerAccount,
+          values.accountType,
+          values.bankAccountCompanyType,
+          values.afterSaveModel,
+          values.bankConnectInfo
         );
+
         if (response.isValid) {
           formik.resetForm();
           setAddModalOpen(false);
@@ -83,16 +109,16 @@ const UnitTypesAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         id="kt_modal_1"
         aria-modal="true"
       >
-        <div className="modal-dialog mw-400px">
+        <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <UnitTypesAddModalHeader setAddModalOpen={setAddModalOpen} />
+            <FinancialAddModalHeader setAddModalOpen={setAddModalOpen} />
             <div className="modal-body p-10">
-              <UnitTypesAddModalForm
+              <FinancialAddModalForm
                 formik={formik}
                 isSubmitting={isSubmitting}
               />
             </div>
-            <UnitTypesAddModalFooter
+            <FinancialAddModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setAddModalOpen={setAddModalOpen}
@@ -105,4 +131,4 @@ const UnitTypesAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   );
 };
 
-export { UnitTypesAddModal };
+export { FinancialAddModal };

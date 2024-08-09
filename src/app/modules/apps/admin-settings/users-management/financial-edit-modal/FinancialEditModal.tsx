@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import { UnitTypesEditModalHeader } from "./UnitTypesEditModalHeader";
-import { UnitTypesEditModalFooter } from "./UnitTypesEditModalFooter";
-import { getUnitTypesById, postUnitType } from "../core/_requests";
+import { FinancialEditModalHeader } from "./FinancialEditModalHeader";
+import { FinancialEditModalFooter } from "./FinancialEditModalFooter";
+import {
+  getFinancialAccountById,
+  postFinancialAccount,
+} from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import FinancialEditModalForm from "./UnitTypesEditModalForm";
+import FinancialEditModalForm from "./FinancialEditModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 interface Props {
   setRefresh: (type: boolean) => void;
   setEditModalOpen: (type: boolean) => void;
   editModalId: number;
 }
-const UnitTypesEditModal = ({
+const FinancialEditModal = ({
   setRefresh,
   setEditModalOpen,
   editModalId,
@@ -30,38 +33,65 @@ const UnitTypesEditModal = ({
   const formik = useFormik({
     initialValues: {
       id: 0,
-      title: "",
-      isDefault: false,
+      accountName: "",
+      accountNumber: "",
+      ledgerAccountId: 0,
+      bankConnectMinImportDate: "",
+      accountType: 0,
+      autoCreateLedgerAccount: false,
+      bankAccountCompanyType: 0,
+      afterSaveModel: {
+        ledgerAccountDisplayName: "",
+      },
+      bankConnectInfo: {
+        isConnected: true,
+        isActive: true,
+        accessExpirtationDate: "",
+        lastSyncRequestDate: "",
+      },
     },
     validationSchema: Yup.object().shape({
-      title: Yup.string()
+      accountName: Yup.string()
         .min(
           3,
           intl
             .formatMessage({ id: "Common.ValidationMin" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
             .replace("{1}", `3`)
         )
         .max(
           50,
           intl
             .formatMessage({ id: "Common.ValidationMax" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
             .replace("{1}", `50`)
         )
         .required(
           intl
             .formatMessage({ id: "Common.RequiredFieldHint2" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
         ),
+
+      ledgerAccountId: Yup.number().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
+      ),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postUnitType(
+        const response = await postFinancialAccount(
           values.id,
-          values.title,
-          values.isDefault
+          values.accountName,
+          values.accountNumber,
+          values.ledgerAccountId,
+          values.bankConnectMinImportDate,
+          values.autoCreateLedgerAccount,
+          values.accountType,
+          values.bankAccountCompanyType,
+          values.afterSaveModel,
+          values.bankConnectInfo
         );
 
         if (response.isValid) {
@@ -83,12 +113,19 @@ const UnitTypesEditModal = ({
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const response = await getUnitTypesById(editModalId);
+        const response = await getFinancialAccountById(editModalId);
         console.log(response.result);
         formik.setValues({
-          id: response.result?.id || 0,
-          title: response.result?.title || "",
-          isDefault: response.result?.isDefault || false,
+          id: response.result.id,
+          accountName: response.result.accountName,
+          accountNumber: response.result.accountNumber,
+          ledgerAccountId: response.result.ledgerAccountId,
+          bankConnectMinImportDate: response.result.bankConnectMinImportDate,
+          accountType: response.result.accountType,
+          autoCreateLedgerAccount: response.result.autoCreateLedgerAccount,
+          bankAccountCompanyType: response.result.bankAccountCompanyType,
+          afterSaveModel: response.result.afterSaveModel,
+          bankConnectInfo: response.result.bankConnectInfo,
         });
       } catch (error) {
         console.error("Error fetching initial data:", error);
@@ -107,16 +144,16 @@ const UnitTypesEditModal = ({
         id="kt_modal_1"
         aria-modal="true"
       >
-        <div className="modal-dialog mw-400px">
+        <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <UnitTypesEditModalHeader setEditModalOpen={setEditModalOpen} />
+            <FinancialEditModalHeader setEditModalOpen={setEditModalOpen} />
             <div className="modal-body p-10">
               <FinancialEditModalForm
                 formik={formik}
                 isSubmitting={isSubmitting}
               />
             </div>
-            <UnitTypesEditModalFooter
+            <FinancialEditModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setEditModalOpen={setEditModalOpen}
@@ -129,4 +166,4 @@ const UnitTypesEditModal = ({
   );
 };
 
-export { UnitTypesEditModal };
+export { FinancialEditModal };

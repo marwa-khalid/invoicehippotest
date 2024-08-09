@@ -186,6 +186,11 @@ export function MenuInner() {
           title="Discount Margins"
           hasBullet={true}
         />
+        <MenuItem
+          to="/admin/settings/users"
+          title="Users"
+          hasBullet={true}
+        />
       </MenuInnerWithSub>
 
       <MenuInnerWithSub

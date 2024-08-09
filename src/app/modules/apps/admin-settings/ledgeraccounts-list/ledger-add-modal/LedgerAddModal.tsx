@@ -207,7 +207,7 @@ const LedgerAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
             <LedgerAddModalHeader setAddModalOpen={setAddModalOpen} />
             <div
               className="modal-body"
-              // style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto" }}
+              
             >
               <LedgerAddModalForm
                 formik={formik}

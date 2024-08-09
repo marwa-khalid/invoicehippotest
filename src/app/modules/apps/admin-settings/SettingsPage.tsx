@@ -9,6 +9,7 @@ import { FinancialListWrapper } from "./financialaccounts-list/FinancialListWrap
 import { UnitTypesListWrapper } from "./unittypes-list/UnitTypesListWrapper";
 import { ProductGroupsWrapper } from "./productgroups-list/ProductGroupsWrapper";
 import { DiscountMarginsWrapper } from "./discountmargins-list/DiscountMarginsWrapper";
+import { UsersManagementWrapper } from "./users-management/UsersManagementWrapper";
 
 const VatTypesPage = () => {
   const { config } = useLayout();
@@ -182,6 +183,30 @@ const VatTypesPage = () => {
                 )}
               >
                 <DiscountMarginsWrapper />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="settings/users"
+          element={
+            <>
+              <PageTitle breadcrumbs={settingsBreadcrumbs}>
+                {intl.formatMessage({
+                  id: "Fields.SearchPanelTitleUsers",
+                })}
+              </PageTitle>
+              <div
+                className={clsx(
+                  "main rounded",
+                  config.app?.sidebar?.default?.class,
+                  {
+                    "bg-light": config.layoutType === "light-sidebar",
+                    "bg-dark": config.layoutType === "dark-sidebar",
+                  }
+                )}
+              >
+                <UsersManagementWrapper />
               </div>
             </>
           }
