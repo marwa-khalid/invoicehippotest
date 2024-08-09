@@ -138,8 +138,9 @@ const DiscountMarginsList = ({
               </th>
               <th className="w-25px"></th>
               <th>{intl.formatMessage({ id: "Fields.Title" })}</th>
-              <th>{intl.formatMessage({ id: "Fields.IsPercentageMargin" })}</th>
-              <th>{intl.formatMessage({ id: "Fields.Amount" })}</th>
+              <th className="text-center">
+                {intl.formatMessage({ id: "Fields.IsPercentageMargin" })}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -163,14 +164,13 @@ const DiscountMarginsList = ({
                   >
                     {productGroup.title}
                   </td>
-                  <td className="cursor-pointer">
+                  <td className="cursor-pointer text-center">
                     {productGroup.isPercentageMargin ? (
                       <i className="ki-duotone ki-check text-success fs-2x" />
                     ) : (
                       <i className="ki-duotone ki-check text-secondary fs-2x" />
                     )}
                   </td>
-                  <td>{productGroup.amount}</td>
 
                   <td className="text-end">
                     {productGroup.actions.canEdit && (

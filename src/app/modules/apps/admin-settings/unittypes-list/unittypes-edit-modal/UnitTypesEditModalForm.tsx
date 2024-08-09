@@ -20,11 +20,29 @@ const UnitTypesEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
   return (
     <form className="form p-3" onSubmit={formik.handleSubmit} noValidate>
       {/* begin::Input group */}
-      <div className="row d-flex mb-7">
-        <label className="required fw-bold fs-6 mb-2">
-          {" "}
+
+      <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-7">
+        <label className="required fw-bold fs-6">
           {intl.formatMessage({ id: "Fields.Title" })}
         </label>
+        <div className="form-check form-switch mt-1 d-flex align-items-center">
+          <input
+            className="form-check-input h-20px w-40px"
+            type="checkbox"
+            id="isDefaultSwitch"
+            checked={formik.values.isDefault}
+            {...formik.getFieldProps("isDefault")}
+            disabled={isSubmitting}
+          />
+          <label
+            className="form-check-label ms-4 fs-sm text-muted"
+            htmlFor="isDefaultSwitch"
+          >
+            {intl.formatMessage({ id: "Fields.IsDefault" })}
+          </label>
+        </div>
+      </div>
+      <div className="row">
         <input
           type="text"
           {...formik.getFieldProps("title")}
@@ -53,26 +71,6 @@ const UnitTypesEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             </div>
           </div>
         )}
-      </div>
-      <div className="row ">
-        {/* title Field */}
-
-        <div className="form-check form-switch mt-4">
-          <input
-            className="form-check-input h-25px w-45px"
-            type="checkbox"
-            id="isDefaultSwitch"
-            checked={formik.values.isDefault}
-            {...formik.getFieldProps("isDefault")}
-            disabled={isSubmitting}
-          />
-          <label
-            className="form-check-label ms-4  fw-bold fs-6 text-dark"
-            htmlFor="isDefaultSwitch"
-          >
-            {intl.formatMessage({ id: "Fields.IsDefault" })}
-          </label>
-        </div>
       </div>
     </form>
   );
