@@ -27,6 +27,12 @@ const UnitTypesAddModalForm = ({ formik, isSubmitting }: Props) => {
           {intl.formatMessage({ id: "Fields.Title" })}
         </label>
         <div className="form-check form-switch mt-1">
+          <label
+            className="form-check-label me-4 fs-sm text-muted"
+            htmlFor="isDefaultSwitch"
+          >
+            {intl.formatMessage({ id: "Fields.IsDefault" })}
+          </label>
           <input
             className="form-check-input h-20px w-40px"
             type="checkbox"
@@ -34,12 +40,6 @@ const UnitTypesAddModalForm = ({ formik, isSubmitting }: Props) => {
             {...formik.getFieldProps("isDefault")}
             disabled={isSubmitting}
           />
-          <label
-            className="form-check-label ms-4 fs-sm text-muted"
-            htmlFor="isDefaultSwitch"
-          >
-            {intl.formatMessage({ id: "Fields.IsDefault" })}
-          </label>
         </div>
       </div>
       <div className="row">

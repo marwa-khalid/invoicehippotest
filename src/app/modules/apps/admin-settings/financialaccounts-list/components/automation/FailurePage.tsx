@@ -25,10 +25,10 @@ const FailurePage = () => {
               className="btn btn-md btn-primary me-3"
             >
               <span className="indicator-label align-items-center d-flex justify-center">
-                {/* {intl.formatMessage({
-                  id: "LoginAndRegistration.LoginButtonText",
-                })} */}
-                rekeningen overzicht
+                {intl.formatMessage({
+                  id: "Fields.ActionFinancialAccountsOverview",
+                })}
+
                 <KTIcon iconName="arrow-right" className="fs-3 ms-2 me-0" />
               </span>
             </button>

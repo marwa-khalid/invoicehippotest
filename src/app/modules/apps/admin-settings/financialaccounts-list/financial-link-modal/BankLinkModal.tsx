@@ -30,8 +30,8 @@ const BankLinkModal = ({ setRefresh, setLinkModalOpen }: Props) => {
       importDateMarker: "",
       optionalFinancialInstitutionId: "",
       redirectCommand: {
-        successUrl: "https://dev.invoicehippo.nl/banking/connect/success",
-        oopsUrl: "https://dev.invoicehippo.nl/banking/connect",
+        successUrl: `${window.location.origin}/banking/connect/success`,
+        oopsUrl: `${window.location.origin}/banking/connect`,
       },
     },
 

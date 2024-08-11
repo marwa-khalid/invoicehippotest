@@ -1825,6 +1825,7 @@
   "Fields.ToolTipConnect": "connect",
   "Fields.ToolTipDisonnect": "disconnect",
   "Fields.ToolTipReconnect": "reconnect-/extend",
+  "Fields.ActionFinancialAccountsOverview": "accounts overview",
   "Menu.HeaderStart": "Start",
   "Menu.HeaderStartSubTitle": "dashboard \u0026 inbox\u003cbr /\u003e\u0026nbsp;",
   "Menu.Dashboard": "Dashboard",

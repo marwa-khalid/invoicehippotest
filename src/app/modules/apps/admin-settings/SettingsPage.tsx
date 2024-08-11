@@ -193,7 +193,7 @@ const VatTypesPage = () => {
             <>
               <PageTitle breadcrumbs={settingsBreadcrumbs}>
                 {intl.formatMessage({
-                  id: "Fields.SearchPanelTitleUsers",
+                  id: "Fields.SearchPanelTitleUserProfile",
                 })}
               </PageTitle>
               <div

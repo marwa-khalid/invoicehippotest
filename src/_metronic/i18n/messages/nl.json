@@ -1825,6 +1825,7 @@
   "Fields.ToolTipConnect": "koppelen",
   "Fields.ToolTipDisonnect": "ontkoppelen",
   "Fields.ToolTipReconnect": "koppeling vernieuwen-/verlengen",
+  "Fields.ActionFinancialAccountsOverview": "rekeningen overzicht",
   "Menu.HeaderStart": "Start",
   "Menu.HeaderStartSubTitle": "dashboard \u0026 inbox\u003cbr /\u003e\u0026nbsp;",
   "Menu.Dashboard": "Dashboard",
