@@ -45,8 +45,8 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       },
       requestingUserProfileIda: 0,
       requestingUserPassword: "",
-      sendInvitationForNewUser: false,
-      generatePasswordForNewUser: false,
+      sendInvitationForNewUser: true,
+      generatePasswordForNewUser: true,
       accountantBeconNumber: "",
       accountantNotificationEmailAddress: "",
     },
@@ -127,7 +127,7 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
             <FinancialAddModalHeader setAddModalOpen={setAddModalOpen} />
-            <div className="modal-body p-10">
+            <div className="modal-body px-20 py-10">
               <UserAddModalForm formik={formik} isSubmitting={isSubmitting} />
             </div>
             <FinancialAddModalFooter
