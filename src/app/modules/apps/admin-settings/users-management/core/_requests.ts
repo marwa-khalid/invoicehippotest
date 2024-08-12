@@ -52,38 +52,51 @@ export function getLedgerForFinancial(id: number) {
   );
 }
 
-export function postFinancialAccount(
+export function postUser(
   id: number,
-  accountName: string,
-  accountNumber: string,
-  ledgerAccountId: number,
-  bankConnectMinImportDate: any,
-  autoCreateLedgerAccount: boolean,
-  accountType: number,
-  bankAccountCompanyType: number,
-  afterSaveModel: {
-    ledgerAccountDisplayName: string;
+  genderType: number,
+  userType: number,
+  firstName: string,
+  languageType: number,
+  betweenName: string,
+  lastName: string,
+  loginEmailAddress: string,
+  isActive: boolean,
+  accessibleCompanies: {
+    isDefault: boolean;
+    companyId: number;
+  }[],
+  passwordSet: {
+    password: string;
+    passwordVerification: string;
   },
-  bankConnectInfo: {
-    isConnected: boolean;
-    isActive: boolean;
-    accessExpirtationDate: any;
-    lastSyncRequestDate: any;
-  }
+  requestingUserProfileIda: number,
+  requestingUserPassword: string,
+  sendInvitationForNewUser: boolean,
+  generatePasswordForNewUser: boolean,
+  accountantBeconNumber: string,
+  accountantNotificationEmailAddress: string
 ) {
   return postRequest<FinancialAccountsModel>(
     POST_FINANCIAL_ACCOUNT,
     {
       id: id,
-      accountName: accountName,
-      accountNumber: accountNumber,
-      ledgerAccountId: ledgerAccountId,
-      bankConnectMinImportDate: bankConnectMinImportDate,
-      accountType: accountType,
-      autoCreateLedgerAccount: autoCreateLedgerAccount,
-      bankAccountCompanyType: bankAccountCompanyType,
-      afterSaveModel: afterSaveModel,
-      bankConnectInfo: bankConnectInfo,
+      genderType: genderType,
+      userType: userType,
+      firstName: firstName,
+      languageType: languageType,
+      betweenName: betweenName,
+      lastName: lastName,
+      loginEmailAddress: loginEmailAddress,
+      isActive: isActive,
+      accessibleCompanies: accessibleCompanies,
+      passwordSet: passwordSet,
+      requestingUserProfileIda: requestingUserProfileIda,
+      requestingUserPassword: requestingUserPassword,
+      sendInvitationForNewUser: sendInvitationForNewUser,
+      generatePasswordForNewUser: generatePasswordForNewUser,
+      accountantBeconNumber: accountantBeconNumber,
+      accountantNotificationEmailAddress: accountantNotificationEmailAddress,
     },
     true
   );

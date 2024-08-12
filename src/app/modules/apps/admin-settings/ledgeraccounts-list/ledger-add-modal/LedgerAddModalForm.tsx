@@ -372,7 +372,7 @@ const LedgerAddModalForm = ({
             role="alert"
           >
             <div className="alert-icon col-1">
-              <i className="ki-duotone ki-information-4 fs-3x text-center me- text-primary">
+              <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
                 <span className="path1"></span>
                 <span className="path2"></span>
                 <span className="path3"></span>

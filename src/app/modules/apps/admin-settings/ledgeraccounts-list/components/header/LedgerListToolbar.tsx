@@ -23,7 +23,7 @@ const LedgerListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
           .replace("{0}", totalRows.toString())}
       </h5>
 
-      {/* begin::Add user */}
+      {/* begin::Add ledger account*/}
       <Tooltip
         label={intl.formatMessage({
           id: "Fields.ToolTipNew",
@@ -41,7 +41,7 @@ const LedgerListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
           {intl.formatMessage({ id: "Fields.ModalNewTitleLedgerAccount" })}
         </button>
       </Tooltip>
-      {/* end::Add user */}
+      {/* end::Add ledger account */}
     </div>
   );
 };

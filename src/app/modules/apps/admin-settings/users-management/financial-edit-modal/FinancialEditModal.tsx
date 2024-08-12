@@ -3,7 +3,7 @@ import { FinancialEditModalHeader } from "./FinancialEditModalHeader";
 import { FinancialEditModalFooter } from "./FinancialEditModalFooter";
 import {
   getFinancialAccountById,
-  postFinancialAccount,
+  postUser,
 } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -81,25 +81,25 @@ const FinancialEditModal = ({
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postFinancialAccount(
-          values.id,
-          values.accountName,
-          values.accountNumber,
-          values.ledgerAccountId,
-          values.bankConnectMinImportDate,
-          values.autoCreateLedgerAccount,
-          values.accountType,
-          values.bankAccountCompanyType,
-          values.afterSaveModel,
-          values.bankConnectInfo
-        );
+        // const response = await postUser(
+        //   values.id,
+        //   values.accountName,
+        //   values.accountNumber,
+        //   values.ledgerAccountId,
+        //   values.bankConnectMinImportDate,
+        //   values.autoCreateLedgerAccount,
+        //   values.accountType,
+        //   values.bankAccountCompanyType,
+        //   values.afterSaveModel,
+        //   values.bankConnectInfo
+        // );
 
-        if (response.isValid) {
-          formik.resetForm();
-          setEditModalOpen(false);
-          setRefresh(true);
-        }
-        handleToast(response);
+        // if (response.isValid) {
+        //   formik.resetForm();
+        //   setEditModalOpen(false);
+        //   setRefresh(true);
+        // }
+        // handleToast(response);
       } catch (error) {
         console.error("Put failed:", error);
       } finally {

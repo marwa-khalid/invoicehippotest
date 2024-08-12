@@ -18,21 +18,13 @@ const VatListToolbar = ({ totalRows }: ToolbarProps) => {
       className="d-flex justify-content-between align-items-center"
       data-kt-user-table-toolbar="base"
     >
-      {/* <VatListFilter /> */}
       <h3>
         {intl
           .formatMessage({ id: "Fields.SearchResultHeaderCount" })
           .replace("{0}", totalRows.toString())}
       </h3>
 
-      {/* begin::Export */}
-      {/* <button type="button" className="btn btn-light-primary me-3">
-        <KTIcon iconName="exit-up" className="fs-2" />
-        Export
-      </button> */}
-      {/* end::Export */}
-
-      {/* begin::Add user */}
+      {/* begin::Add vat type */}
       <button
         type="button"
         className="btn btn-primary mb-3"
@@ -41,7 +33,7 @@ const VatListToolbar = ({ totalRows }: ToolbarProps) => {
         <KTIcon iconName="plus" className="fs-2" />
         {intl.formatMessage({ id: "Fields.ModalNewTitleVatType" })}
       </button>
-      {/* end::Add user */}
+      {/* end::Add vat type  */}
     </div>
   );
 };

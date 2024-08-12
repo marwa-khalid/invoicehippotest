@@ -4,8 +4,8 @@ import { FinancialAddModalFooter } from "./FinancialAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { postFinancialAccount } from "../core/_requests";
-import FinancialAddModalForm from "./FinancialAddModalForm";
+import { postUser } from "../core/_requests";
+import { UserAddModalForm } from "./UserAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 interface Props {
   setRefresh: (type: boolean) => void;
@@ -25,22 +25,30 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   const formik = useFormik({
     initialValues: {
       id: 0,
-      accountName: "",
-      accountNumber: "",
-      ledgerAccountId: 0,
-      bankConnectMinImportDate: null,
-      accountType: 0,
-      autoCreateLedgerAccount: true,
-      bankAccountCompanyType: 0,
-      afterSaveModel: {
-        ledgerAccountDisplayName: "",
+      genderType: 0,
+      userType: 0,
+      firstName: "",
+      languageType: 0,
+      betweenName: "",
+      lastName: "",
+      loginEmailAddress: "",
+      isActive: false,
+      accessibleCompanies: [
+        {
+          isDefault: false,
+          companyId: 0,
+        },
+      ],
+      passwordSet: {
+        password: "",
+        passwordVerification: "",
       },
-      bankConnectInfo: {
-        isConnected: false,
-        isActive: false,
-        accessExpirtationDate: null,
-        lastSyncRequestDate: null,
-      },
+      requestingUserProfileIda: 0,
+      requestingUserPassword: "",
+      sendInvitationForNewUser: false,
+      generatePasswordForNewUser: false,
+      accountantBeconNumber: "",
+      accountantNotificationEmailAddress: "",
     },
     validationSchema: Yup.object().shape({
       accountType: Yup.number().required(
@@ -72,17 +80,24 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postFinancialAccount(
+        const response = await postUser(
           values.id,
-          values.accountName,
-          values.accountNumber,
-          values.ledgerAccountId,
-          values.bankConnectMinImportDate,
-          values.autoCreateLedgerAccount,
-          values.accountType,
-          values.bankAccountCompanyType,
-          values.afterSaveModel,
-          values.bankConnectInfo
+          values.genderType,
+          values.userType,
+          values.firstName,
+          values.languageType,
+          values.betweenName,
+          values.lastName,
+          values.loginEmailAddress,
+          values.isActive,
+          values.accessibleCompanies,
+          values.passwordSet,
+          values.requestingUserProfileIda,
+          values.requestingUserPassword,
+          values.sendInvitationForNewUser,
+          values.generatePasswordForNewUser,
+          values.accountantBeconNumber,
+          values.accountantNotificationEmailAddress
         );
 
         if (response.isValid) {
@@ -113,10 +128,7 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
           <div className="modal-content">
             <FinancialAddModalHeader setAddModalOpen={setAddModalOpen} />
             <div className="modal-body p-10">
-              <FinancialAddModalForm
-                formik={formik}
-                isSubmitting={isSubmitting}
-              />
+              <UserAddModalForm formik={formik} isSubmitting={isSubmitting} />
             </div>
             <FinancialAddModalFooter
               formik={formik}

@@ -10,22 +10,28 @@ type Props = {
 
 interface FormValues {
   id: number;
-  accountName: string;
-  accountNumber: string;
-  ledgerAccountId: number;
-  bankConnectMinImportDate: any;
-  accountType: number;
-  autoCreateLedgerAccount: boolean;
-  bankAccountCompanyType: number;
-  afterSaveModel: {
-    ledgerAccountDisplayName: string;
+  genderType: number;
+  userType: number;
+  firstName: string;
+  languageType: number;
+  betweenName: string;
+  lastName: string;
+  loginEmailAddress: string;
+  isActive: boolean;
+  accessibleCompanies: {
+    isDefault: boolean;
+    companyId: number;
+  }[];
+  passwordSet: {
+    password: string;
+    passwordVerification: string;
   };
-  bankConnectInfo: {
-    isConnected: boolean;
-    isActive: boolean;
-    accessExpirtationDate: any;
-    lastSyncRequestDate: any;
-  };
+  requestingUserProfileIda: number;
+  requestingUserPassword: string;
+  sendInvitationForNewUser: boolean;
+  generatePasswordForNewUser: boolean;
+  accountantBeconNumber: string;
+  accountantNotificationEmailAddress: string;
 }
 
 const FinancialAddModalFooter: FC<Props> = ({
