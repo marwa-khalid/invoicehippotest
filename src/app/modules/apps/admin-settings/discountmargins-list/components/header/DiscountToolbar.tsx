@@ -8,7 +8,7 @@ interface ToolbarProps {
   setDeleteModalOpen: (type: boolean) => void;
 }
 
-const ProductGroupsToolbar = ({
+const DiscountToolbar = ({
   totalRows,
   setAddModalOpen,
   deleteSelectedButton,
@@ -62,4 +62,4 @@ const ProductGroupsToolbar = ({
   );
 };
 
-export { ProductGroupsToolbar };
+export { DiscountToolbar };

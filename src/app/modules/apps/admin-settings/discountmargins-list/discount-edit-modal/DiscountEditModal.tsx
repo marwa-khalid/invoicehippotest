@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { ProductGroupsEditModalHeader } from "./ProductGroupsEditModalHeader";
-import { ProductGroupsEditModalFooter } from "./ProductGroupsEditModalFooter";
+import { DiscountEditModalHeader } from "./DiscountEditModalHeader";
+import { DiscountEditModalFooter } from "./DiscountEditModalFooter";
 import { getDiscountMarginById, postDiscountMargin } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import FinancialEditModalForm from "./ProductGroupsEditModalForm";
+import FinancialEditModalForm from "./DiscountEditModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { Value } from "sass";
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
   setEditModalOpen: (type: boolean) => void;
   editModalId: number;
 }
-const ProductGroupsEditModal = ({
+const DiscountEditModal = ({
   setRefresh,
   setEditModalOpen,
   editModalId,
@@ -101,13 +101,12 @@ const ProductGroupsEditModal = ({
       }
     },
   });
-  console.log(formik.values);
 
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
         const response = await getDiscountMarginById(editModalId);
-        console.log(response.result);
+  
         formik.setValues({
           id: response.result?.id || 0,
           title: response.result?.title || "",
@@ -133,14 +132,14 @@ const ProductGroupsEditModal = ({
       >
         <div className="modal-dialog mw-500px">
           <div className="modal-content">
-            <ProductGroupsEditModalHeader setEditModalOpen={setEditModalOpen} />
+            <DiscountEditModalHeader setEditModalOpen={setEditModalOpen} />
             <div className="modal-body p-10">
               <FinancialEditModalForm
                 formik={formik}
                 isSubmitting={isSubmitting}
               />
             </div>
-            <ProductGroupsEditModalFooter
+            <DiscountEditModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setEditModalOpen={setEditModalOpen}
@@ -153,4 +152,4 @@ const ProductGroupsEditModal = ({
   );
 };
 
-export { ProductGroupsEditModal };
+export { DiscountEditModal };

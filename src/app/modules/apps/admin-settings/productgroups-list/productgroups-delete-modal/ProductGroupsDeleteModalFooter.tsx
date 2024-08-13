@@ -24,20 +24,17 @@ const ProductGroupsDeleteModalFooter = ({
     setIsSubmitting(true);
 
     const response = await deleteProductGroup(deleteModalId);
-    console.log("workin");
+  
     if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);
       setDeleteModalId([]);
       setIsSubmitting(false);
     }
-    console.log("workin");
 
     setIsSubmitting(false);
     handleToast(response);
-    console.log("workin");
   };
-  console.log(isSubmitting);
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
       <div className="d-flex">

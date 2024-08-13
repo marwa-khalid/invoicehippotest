@@ -56,6 +56,10 @@ const ProductGroupPagination = ({
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
+          "users-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
         };
 
     // Update the page in the product groups module

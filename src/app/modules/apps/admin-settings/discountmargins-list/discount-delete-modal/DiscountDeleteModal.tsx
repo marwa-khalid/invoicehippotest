@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { ProductGroupsDeleteModalHeader } from "./ProductGroupsDeleteModalHeader";
-import { ProductGroupsDeleteModalFooter } from "./ProductGroupsDeleteModalFooter";
+import { DiscountDeleteModalHeader } from "./DiscountDeleteModalHeader";
+import { DiscountDeleteModalFooter } from "./DiscountDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
-  productGroupTitle: string;
+  discountMarginTitle: string;
   deleteModalId: number[];
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
   setDeleteModalId: (type: number[]) => void;
 }
-const ProductGroupsDeleteModal = ({
+const DiscountDeleteModal = ({
   deleteModalId,
-  productGroupTitle,
+  discountMarginTitle,
   setDeleteModalOpen,
   setDeleteModalId,
   setRefresh,
@@ -23,7 +23,6 @@ const ProductGroupsDeleteModal = ({
     };
   }, []);
   const intl = useIntl();
-  console.log(deleteModalId);
   return (
     <>
       <div
@@ -37,7 +36,7 @@ const ProductGroupsDeleteModal = ({
         <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <ProductGroupsDeleteModalHeader
+            <DiscountDeleteModalHeader
               setDeleteModalOpen={setDeleteModalOpen}
               setDeleteModalId={setDeleteModalId}
             />
@@ -51,12 +50,12 @@ const ProductGroupsDeleteModal = ({
                     })
                     .split("{0}")[0]
                 }
-                <strong>{productGroupTitle}</strong>!?
+                <strong>{discountMarginTitle}</strong>!?
               </div>
             </div>
 
             {/* end::Modal body */}
-            <ProductGroupsDeleteModalFooter
+            <DiscountDeleteModalFooter
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
@@ -74,4 +73,4 @@ const ProductGroupsDeleteModal = ({
   );
 };
 
-export { ProductGroupsDeleteModal };
+export { DiscountDeleteModal };

@@ -14,7 +14,7 @@ const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
   if (storedPaginationString) {
     const pagination = JSON.parse(storedPaginationString);
-    console.log(pagination);
+   
     const currentPage = pagination["financial-module"].pageIndex || 1;
     const searchTerm = pagination["financial-module"].filters.searchTerm || "";
 

@@ -44,7 +44,7 @@ const FinancialDeleteModal = ({
                 {
                   intl
                     .formatMessage({
-                      id: "Fields.ModalDeleteDescriptionFinancialAccount",
+                      id: "Fields.ModalDeleteDescriptionUserProfile",
                     })
                     .split("{0}")[0]
                 }
@@ -52,7 +52,7 @@ const FinancialDeleteModal = ({
                 {
                   intl
                     .formatMessage({
-                      id: "Fields.ModalDeleteDescriptionFinancialAccount",
+                      id: "Fields.ModalDeleteDescriptionUserProfile",
                     })
                     .split("{0}")[1]
                 }

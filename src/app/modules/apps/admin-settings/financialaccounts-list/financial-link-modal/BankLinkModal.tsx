@@ -67,11 +67,9 @@ const BankLinkModal = ({ setRefresh, setLinkModalOpen }: Props) => {
           // formik.resetForm();
           // setLinkModalOpen(false);
           // setRefresh(true);
-          console.log(response);
           window.location.href = response.result.requestUrlForConsent;
         }
         handleToast(response);
-        console.log(response);
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
@@ -80,7 +78,6 @@ const BankLinkModal = ({ setRefresh, setLinkModalOpen }: Props) => {
       }
     },
   });
-  console.log(formik.initialValues);
 
   return (
     <>

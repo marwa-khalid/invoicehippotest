@@ -8,5 +8,6 @@ export const GET_FINANCIAL_INSTITUTIONS = `${API_URL_V1}/admin/financialaccount/
 export const POST_ACCOUNT_AUTOMATION = `${API_URL_V1}/admin/financialaccount/automation/nordigen/consent/request`;
 export const UNLINK_ACCOUNT = `${API_URL_V1}/admin/financialaccount/automation/remove-consent`;
 
-
 export const GET_ALL_USERS = `${API_URL_V1}/admin/user`;
+export const GET_COMPANIES = `${API_URL_V1}/lists/companies/for/users`;
+export const GET_USER_TYPES = `${API_URL_V1}/lists/user-types/for/users`;

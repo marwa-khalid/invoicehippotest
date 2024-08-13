@@ -31,28 +31,8 @@ const Step3: React.FC<Step3Props> = ({
 }) => {
   const intl = useIntl();
   const navigate = useNavigate();
-  // const [storedValues, setStoredValues] = useState<StoredValues>({});
   const [isModalOpen, setModalOpen] = useState(false);
   const [isConsentGiven, setConsentGiven] = useState(false);
-
-  // useEffect(() => {
-  //   const getValues = () => {
-  //     console.log("Attempting to get values from localStorage");
-  //     const storedValuesString = localStorage.getItem("sepaValues");
-  //     const test = localStorage.getItem("sepaValues");
-  //     const storedValues = storedValuesString
-  //       ? JSON.parse(storedValuesString)
-  //       : {};
-  //     console.log(test);
-  //     setStoredValues(storedValues);
-  //   };
-  //   getValues();
-  //   const handleStorageChange = () => {
-  //     getValues();
-  //   };
-
-  //   window.addEventListener("storage", handleStorageChange);
-  // }, []);
 
   const openModal = () => {
     setModalOpen(true);
@@ -67,14 +47,11 @@ const Step3: React.FC<Step3Props> = ({
       isConsentGiven: false,
     },
     onSubmit: async (values) => {
-      console.log(sepaResponse);
-      console.log(storedValues);
       const sepaConfirm = await sepaRegisterConfirm(
         sepaResponse,
         storedValues,
         values.isConsentGiven
       );
-      console.log(sepaConfirm);
       handleToast(sepaConfirm);
       if (sepaConfirm.isValid) {
         if (sepaConfirm.result.paymentRedirectUrl) {

@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
-import { ProductGroupsAddModalHeader } from "./ProductGroupsAddModalHeader";
-import { ProductGroupsAddModalFooter } from "./ProductGroupsAddModalFooter";
-
+import { DiscountAddModalHeader } from "./DiscountAddModalHeader";
+import { DiscountAddModalFooter } from "./DiscountAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { ProductGroupsAddModalForm } from "./ProductGroupsAddModalForm";
+import { DiscountAddModalForm } from "./DiscountAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { postDiscountMargin } from "../core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
 }
-const ProductGroupsAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -108,14 +107,14 @@ const ProductGroupsAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       >
         <div className="modal-dialog mw-500px">
           <div className="modal-content">
-            <ProductGroupsAddModalHeader setAddModalOpen={setAddModalOpen} />
+            <DiscountAddModalHeader setAddModalOpen={setAddModalOpen} />
             <div className="modal-body p-10">
-              <ProductGroupsAddModalForm
+              <DiscountAddModalForm
                 formik={formik}
                 isSubmitting={isSubmitting}
               />
             </div>
-            <ProductGroupsAddModalFooter
+            <DiscountAddModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setAddModalOpen={setAddModalOpen}
@@ -128,4 +127,4 @@ const ProductGroupsAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   );
 };
 
-export { ProductGroupsAddModal };
+export { DiscountAddModal };

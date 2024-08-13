@@ -71,6 +71,10 @@ const VatListSearchComponent = ({
               pageIndex: 1,
               filters: { searchTerm: "" },
             },
+            "users-module": {
+              pageIndex: 1,
+              filters: { searchTerm: "" },
+            },
           };
 
       // Update the filter in the vat-module

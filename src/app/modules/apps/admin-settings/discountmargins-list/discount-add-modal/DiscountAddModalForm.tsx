@@ -14,7 +14,7 @@ type Props = {
   isSubmitting: boolean;
 };
 
-const ProductGroupsAddModalForm = ({ formik, isSubmitting }: Props) => {
+const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
   const intl = useIntl();
 
   return (
@@ -110,4 +110,4 @@ const ProductGroupsAddModalForm = ({ formik, isSubmitting }: Props) => {
   );
 };
 
-export { ProductGroupsAddModalForm };
+export { DiscountAddModalForm };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getDiscountMargins } from "../core/_requests";
 import { DiscountMarginResult, ProductGroupResult } from "../core/_models";
 import { ListLoading } from "../../components/ListLoading";
-import { ProductGroupPagination } from "../components/pagination/ProductGroupPagination";
+import { DiscountPagination } from "../components/pagination/DiscountPagination";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { Tooltip } from "@chakra-ui/react";
@@ -11,7 +11,7 @@ interface ComponentProps {
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
-  setProductGroupTitle: (type: string) => void;
+  setDiscountMarginTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
   setPageIndex: (type: number) => void;
@@ -28,7 +28,7 @@ const DiscountMarginsList = ({
   setTotalRows,
   setEditModalOpen,
   setEditModalId,
-  setProductGroupTitle,
+  setDiscountMarginTitle,
   setDeleteModalOpen,
   refresh,
   setPageIndex,
@@ -39,7 +39,7 @@ const DiscountMarginsList = ({
   deleteModalId,
   setDeleteModalId,
 }: ComponentProps) => {
-  const [productGroups, setProductGroups] = useState<any>([]);
+  const [discountMargins, setDiscountMargins] = useState<any>([]);
   const [selectAll, setSelectAll] = useState(false);
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -48,7 +48,7 @@ const DiscountMarginsList = ({
     setIsLoading(true);
     try {
       const response = await getDiscountMargins(searchTerm, pageIndex);
-      setProductGroups(response);
+      setDiscountMargins(response);
       setPageIndex(response.pageIndex);
       setTotalRows(response.totalRows);
     } catch (error) {
@@ -77,7 +77,7 @@ const DiscountMarginsList = ({
 
   const toggleRowSelection = (id: number) => {
     setDeleteModalId((prevSelected: number[]) => {
-      console.log(prevSelected);
+    
       const newSelected = [...prevSelected];
       if (newSelected.includes(id)) {
         // Remove the ID if it's already selected
@@ -97,7 +97,7 @@ const DiscountMarginsList = ({
       setDeleteModalId([]);
       setDeleteSelectedButton(false);
     } else {
-      const allIds = productGroups.result.map(
+      const allIds = discountMargins.result.map(
         (item: ProductGroupResult) => item.id
       );
       setDeleteModalId(allIds);
@@ -110,14 +110,12 @@ const DiscountMarginsList = ({
     setEditModalId(id);
     setEditModalOpen(true);
   };
-  console.log(deleteModalId);
 
-  const openDeleteModal = (id: number, productGroupTitle: string) => {
-    console.log(id);
-    console.log(deleteModalId);
+  const openDeleteModal = (id: number, discountMarginTitle: string) => {
+ 
     setDeleteModalId([id]);
     setDeleteModalOpen(true);
-    setProductGroupTitle(productGroupTitle);
+    setDiscountMarginTitle(discountMarginTitle);
   };
 
   return (
@@ -144,28 +142,28 @@ const DiscountMarginsList = ({
             </tr>
           </thead>
           <tbody>
-            {productGroups?.result?.map(
-              (productGroup: DiscountMarginResult, index: number) => (
-                <tr key={productGroup.id}>
+            {discountMargins?.result?.map(
+              (discountMargin: DiscountMarginResult, index: number) => (
+                <tr key={discountMargin.id}>
                   <td>
                     <div className="form-check form-check-sm form-check-custom form-check-solid">
                       <input
                         className="form-check-input"
                         type="checkbox"
-                        checked={deleteModalId?.includes(productGroup.id)}
-                        onChange={() => toggleRowSelection(productGroup.id)}
+                        checked={deleteModalId?.includes(discountMargin.id)}
+                        onChange={() => toggleRowSelection(discountMargin.id)}
                       />
                     </div>
                   </td>
                   <td className="text-muted">|</td>
                   <td
                     className="cursor-pointer fw-bold"
-                    onClick={() => openEditModal(productGroup.id)}
+                    onClick={() => openEditModal(discountMargin.id)}
                   >
-                    {productGroup.title}
+                    {discountMargin.title}
                   </td>
                   <td className="cursor-pointer text-center">
-                    {productGroup.isPercentageMargin ? (
+                    {discountMargin.isPercentageMargin ? (
                       <i className="ki-duotone ki-check text-success fs-2x" />
                     ) : (
                       <i className="ki-duotone ki-check text-secondary fs-2x" />
@@ -173,7 +171,7 @@ const DiscountMarginsList = ({
                   </td>
 
                   <td className="text-end">
-                    {productGroup.actions.canEdit && (
+                    {discountMargin.actions.canEdit && (
                       <Tooltip
                         label={intl.formatMessage({ id: "Fields.ToolTipEdit" })}
                         fontSize="sm"
@@ -182,14 +180,14 @@ const DiscountMarginsList = ({
                       >
                         <button
                           className="btn btn-icon btn-light btn-sm me-2"
-                          onClick={() => openEditModal(productGroup.id)}
+                          onClick={() => openEditModal(discountMargin.id)}
                         >
                           <i className="ki-solid ki-pencil text-warning fs-2" />
                         </button>
                       </Tooltip>
                     )}
 
-                    {productGroup.actions.canDelete && (
+                    {discountMargin.actions.canDelete && (
                       <Tooltip
                         label={intl.formatMessage({
                           id: "Fields.ToolTipDelete",
@@ -201,7 +199,10 @@ const DiscountMarginsList = ({
                         <button
                           className="btn btn-icon btn-light btn-sm"
                           onClick={() =>
-                            openDeleteModal(productGroup.id, productGroup.title)
+                            openDeleteModal(
+                              discountMargin.id,
+                              discountMargin.title
+                            )
                           }
                         >
                           <i className="ki-solid ki-trash text-danger fs-2" />
@@ -212,7 +213,7 @@ const DiscountMarginsList = ({
                 </tr>
               )
             )}
-            {productGroups?.result?.length == 0 && (
+            {discountMargins?.result?.length == 0 && (
               <tr>
                 <td colSpan={7} className="text-center">
                   <img
@@ -238,13 +239,13 @@ const DiscountMarginsList = ({
           </tbody>
         </table>
       </div>
-      {productGroups?.result?.length > 0 && (
-        <ProductGroupPagination
-          totalPages={productGroups.totalPages}
+      {discountMargins?.result?.length > 0 && (
+        <DiscountPagination
+          totalPages={discountMargins.totalPages}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
           onPageChange={handlePageChange}
-          totalItems={productGroups.totalRows}
+          totalItems={discountMargins.totalRows}
         />
       )}
     </div>

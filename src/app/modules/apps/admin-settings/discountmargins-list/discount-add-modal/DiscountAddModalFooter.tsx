@@ -15,7 +15,7 @@ interface FormValues {
   amount: number;
 }
 
-const ProductGroupsAddModalFooter: FC<Props> = ({
+const DiscountAddModalFooter: FC<Props> = ({
   formik,
   isSubmitting,
   setAddModalOpen,
@@ -49,4 +49,4 @@ const ProductGroupsAddModalFooter: FC<Props> = ({
   );
 };
 
-export { ProductGroupsAddModalFooter };
+export { DiscountAddModalFooter };

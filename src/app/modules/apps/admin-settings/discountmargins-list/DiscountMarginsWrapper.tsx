@@ -1,12 +1,12 @@
-import { ProductGroupsHeader } from "./components/header/ProductGroupsHeader";
+import { DiscountHeader } from "./components/header/DiscountHeader";
 import { DiscountMarginsList } from "./search-list/DiscountMarginsList";
-import { ProductGroupsAddModal } from "./productgroups-add-modal/ProductGroupsAddModal";
+import { DiscountAddModal } from "./discount-add-modal/DiscountAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
-import { ProductGroupsToolbar } from "./components/header/ProductGroupsToolbar";
-import { ProductGroupsEditModal } from "./productgroups-edit-modal/ProductGroupsEditModal";
-import { ProductGroupsDeleteModal } from "./productgroups-delete-modal/ProductGroupsDeleteModal";
+import { DiscountToolbar } from "./components/header/DiscountToolbar";
+import { DiscountEditModal } from "./discount-edit-modal/DiscountEditModal";
+import { DiscountDeleteModal } from "./discount-delete-modal/DiscountDeleteModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -35,17 +35,17 @@ const DiscountMarginsInnerWrapper = () => {
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [productGroupTitle, setProductGroupTitle] = useState<string>("");
+  const [discountMarginTitle, setDiscountMarginTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
 
   return (
     <>
-      <ProductGroupsHeader
+      <DiscountHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
       />
 
-      <ProductGroupsToolbar
+      <DiscountToolbar
         totalRows={totalRows}
         setAddModalOpen={setAddModalOpen}
         deleteSelectedButton={deleteSelectedButton}
@@ -58,7 +58,7 @@ const DiscountMarginsInnerWrapper = () => {
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setEditModalId={setEditModalId}
-        setProductGroupTitle={setProductGroupTitle}
+        setDiscountMarginTitle={setDiscountMarginTitle}
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
@@ -70,22 +70,22 @@ const DiscountMarginsInnerWrapper = () => {
       />
 
       {addModalOpen && (
-        <ProductGroupsAddModal
+        <DiscountAddModal
           setRefresh={setRefresh}
           setAddModalOpen={setAddModalOpen}
         />
       )}
       {editModalOpen && (
-        <ProductGroupsEditModal
+        <DiscountEditModal
           editModalId={editModalId}
           setRefresh={setRefresh}
           setEditModalOpen={setEditModalOpen}
         />
       )}
       {deleteModalOpen && (
-        <ProductGroupsDeleteModal
+        <DiscountDeleteModal
           deleteModalId={deleteModalId}
-          productGroupTitle={productGroupTitle}
+          discountMarginTitle={discountMarginTitle}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
           setDeleteModalId={setDeleteModalId}

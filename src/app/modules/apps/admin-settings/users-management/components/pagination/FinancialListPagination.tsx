@@ -56,10 +56,14 @@ const VatListPagination = ({
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
+          "users-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
         };
 
-    // Update the page in the financial-module
-    pagination["financial-module"].pageIndex = state;
+    // Update the page in the users-module
+    pagination["users-module"].pageIndex = state;
 
     // Convert the updated object back to a JSON string
     const updatedPaginationString = JSON.stringify(pagination);

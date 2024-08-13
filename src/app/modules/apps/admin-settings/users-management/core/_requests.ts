@@ -6,6 +6,7 @@ import {
   FinancialInstitutionsModel,
   AccountAutomationModel,
   UserModel,
+  CompaniesModel,
 } from "./_models";
 
 import {
@@ -22,6 +23,8 @@ import {
   POST_ACCOUNT_AUTOMATION,
   UNLINK_ACCOUNT,
   GET_ALL_USERS,
+  GET_COMPANIES,
+  GET_USER_TYPES,
 } from "./constants";
 
 interface DeleteResult extends Partial<FinancialAccountsModel> {}
@@ -38,20 +41,13 @@ export function getUsers(searchTerm: string, pageIndex: number) {
   );
 }
 
-export function getFinancialAccountById(editModalId: number) {
-  return getRequest<FinancialAccountByIdModel>(
-    `${GET_FINANCIALACCOUNT_BY_ID}/${editModalId}`,
-    true
-  );
+export function getCompanies() {
+  return getRequest<CompaniesModel>(GET_COMPANIES, true);
 }
 
-export function getLedgerForFinancial(id: number) {
-  return getRequest<PrivateLedgersModel>(
-    `${GET_LEDGDER_FOR_FINANCIAL}/${id}`,
-    true
-  );
+export function getUserTypes() {
+  return getRequest<CompaniesModel>(GET_USER_TYPES, true);
 }
-
 export function postUser(
   id: number,
   genderType: number,
@@ -98,6 +94,22 @@ export function postUser(
       accountantBeconNumber: accountantBeconNumber,
       accountantNotificationEmailAddress: accountantNotificationEmailAddress,
     },
+    true
+  );
+}
+
+//extraaaaaaaaaa
+
+export function getFinancialAccountById(editModalId: number) {
+  return getRequest<FinancialAccountByIdModel>(
+    `${GET_FINANCIALACCOUNT_BY_ID}/${editModalId}`,
+    true
+  );
+}
+
+export function getLedgerForFinancial(id: number) {
+  return getRequest<PrivateLedgersModel>(
+    `${GET_LEDGDER_FOR_FINANCIAL}/${id}`,
     true
   );
 }

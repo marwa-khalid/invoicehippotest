@@ -160,7 +160,6 @@ const BankLinkModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           isClearable
         />
       </div>
-      {console.log(formik.values)!}
     </form>
   );
 };

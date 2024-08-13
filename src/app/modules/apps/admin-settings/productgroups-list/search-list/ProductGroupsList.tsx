@@ -77,7 +77,7 @@ const ProductGroupsList = ({
 
   const toggleRowSelection = (id: number) => {
     setDeleteModalId((prevSelected: number[]) => {
-      console.log(prevSelected);
+     
       const newSelected = [...prevSelected];
       if (newSelected.includes(id)) {
         // Remove the ID if it's already selected
@@ -110,11 +110,9 @@ const ProductGroupsList = ({
     setEditModalId(id);
     setEditModalOpen(true);
   };
-  console.log(deleteModalId);
 
   const openDeleteModal = (id: number, productGroupTitle: string) => {
-    console.log(id);
-    console.log(deleteModalId);
+
     setDeleteModalId([id]);
     setDeleteModalOpen(true);
     setProductGroupTitle(productGroupTitle);

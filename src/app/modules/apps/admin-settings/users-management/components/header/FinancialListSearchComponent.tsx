@@ -55,10 +55,14 @@ const FinancialListSearchComponent = ({
               pageIndex: 1,
               filters: { searchTerm: "" },
             },
+            "users-module": {
+              pageIndex: 1,
+              filters: { searchTerm: "" },
+            },
           };
 
-      // Update the filter in the financial-module
-      pagination["financial-module"].filters.searchTerm = localSearchTerm;
+      // Update the filter in the users-module
+      pagination["users-module"].filters.searchTerm = localSearchTerm;
 
       // Convert the updated object back to a JSON string
       const updatedPaginationString = JSON.stringify(pagination);
@@ -74,13 +78,13 @@ const FinancialListSearchComponent = ({
       "pagination",
       JSON.stringify({
         ...JSON.parse(localStorage.getItem("pagination") || "{}"),
-        "financial-module": {
+        "users-module": {
           ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-            "financial-module"
+            "users-module"
           ],
           filters: {
             ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-              "financial-module"
+              "users-module"
             ]?.filters,
             searchTerm: "",
           },

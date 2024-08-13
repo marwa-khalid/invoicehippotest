@@ -78,13 +78,12 @@ const UnitTypesEditModal = ({
       }
     },
   });
-  console.log(formik.values);
 
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
         const response = await getUnitTypesById(editModalId);
-        console.log(response.result);
+  
         formik.setValues({
           id: response.result?.id || 0,
           title: response.result?.title || "",

@@ -7,7 +7,7 @@ interface ComponentProps {
   searchTerm: string;
 }
 
-const ProductGroupsSearchComponent = ({
+const DiscountSearchComponent = ({
   setSearchTerm,
   searchTerm,
 }: ComponentProps) => {
@@ -51,6 +51,10 @@ const ProductGroupsSearchComponent = ({
               filters: { searchTerm: "" },
             },
             "discounts-module": {
+              pageIndex: 1,
+              filters: { searchTerm: "" },
+            },
+            "users-module": {
               pageIndex: 1,
               filters: { searchTerm: "" },
             },
@@ -133,4 +137,4 @@ const ProductGroupsSearchComponent = ({
   );
 };
 
-export { ProductGroupsSearchComponent };
+export { DiscountSearchComponent };

@@ -1,10 +1,13 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
 import { FormikProps } from "formik";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { Avatar, Box, IconButton, Stack, Input } from "@chakra-ui/react";
+import { getCompanies, getUserTypes } from "../core/_requests";
+import { CompaniesResult } from "../core/_models";
+import enums from "../../../../../../invoicehippo.enums.json";
 interface FormValues {
   id: number;
   genderType: number;
@@ -38,23 +41,33 @@ type Props = {
 
 const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
+  const [companies, setCompanies] = useState<CompaniesResult[]>([]);
+  const [userTypes, setUserTypes] = useState<CompaniesResult[]>([]);
+  useEffect(() => {
+    const fetchAccessibleCompanies = async () => {
+      const response = await getCompanies();
 
-  const blankImg = toAbsoluteUrl("media/svg/avatars/blank.svg");
+      setCompanies(response.result);
+    };
+    fetchAccessibleCompanies();
+  }, []);
 
-  // User type options for react-select
-  const userTypeOptions = [
-    { value: 1, label: "Administrator" },
-    { value: 2, label: "Accountant" },
-  ];
+  useEffect(() => {
+    const fetchUserTypes = async () => {
+      const response = await getUserTypes();
+
+      setUserTypes(response.result);
+    };
+    fetchUserTypes();
+  }, []);
 
   // Gender type options for react-select
-  const genderOptions = [
-    { value: 1, label: "Man" },
-    { value: 2, label: "Vrouw" },
-  ];
-
-  // Accessible companies options for react-select
-  const companyOptions = [{ value: 1, label: "ZTech" }];
+  const genderOptions = enums.GenderTypes.map((genderType) => {
+    return {
+      value: genderType.Value,
+      label: genderType.Title,
+    };
+  });
 
   // Language options for react-select
   const languageOptions = [
@@ -125,31 +138,6 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           </Stack>
         </div>
 
-        {/* User type select */}
-        <div className="fv-row mb-7">
-          <label className="required fw-bold fs-6 mb-2">
-            {intl.formatMessage({ id: "Fields.UserType" })}
-          </label>
-          <Select
-            name="userType"
-            options={userTypeOptions}
-            value={userTypeOptions.find(
-              (option) => option.value === formik.values.userType
-            )}
-            onChange={(option) =>
-              formik.setFieldValue("userType", option?.value)
-            }
-            isDisabled={formik.isSubmitting}
-            className="react-select-styled"
-            isClearable
-          />
-          {formik.touched.userType && formik.errors.userType && (
-            <div className="fv-plugins-message-container">
-              <span role="alert">{formik.errors.userType}</span>
-            </div>
-          )}
-        </div>
-
         {/* Email address */}
         <div className="fv-row mb-7">
           <label className="required fw-bold fs-6 mb-2">
@@ -185,37 +173,38 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
         </div>
 
         {/* Gender type and name fields */}
-        <div className="fv-row mb-7 d-flex justify-content-between">
-          <div className="me-3" style={{ width: "20%" }}>
-            <label className="required fw-bold fs-6 mb-2">
-              {" "}
-              {intl.formatMessage({ id: "Fields.GenderType" })}
-            </label>
-            <Select
-              name="genderType"
-              options={genderOptions}
-              value={genderOptions.find(
-                (option) => option.value === formik.values.genderType
-              )}
-              onChange={(option) =>
-                formik.setFieldValue("genderType", option?.value)
-              }
-              isDisabled={formik.isSubmitting}
-              className="react-select-styled"
-              isClearable
-            />
-            {formik.touched.genderType && formik.errors.genderType && (
-              <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.genderType}</span>
-              </div>
+        <div className="row d-flex mb-7">
+          <label className="required fw-bold fs-6 mb-2">
+            {" "}
+            {intl.formatMessage({ id: "Fields.GenderType" })}
+          </label>
+          <Select
+            name="genderType"
+            options={genderOptions}
+            value={genderOptions.find(
+              (option) => option.value === formik.values.genderType
             )}
-          </div>
-          <div className="me-3" style={{ width: "25%" }}>
+            onChange={(option) =>
+              formik.setFieldValue("genderType", option?.value)
+            }
+            isDisabled={formik.isSubmitting}
+            className="react-select-styled"
+            isClearable
+          />
+          {formik.touched.genderType && formik.errors.genderType && (
+            <div className="fv-plugins-message-container">
+              <span role="alert">{formik.errors.genderType}</span>
+            </div>
+          )}
+        </div>
+        {/* name fields */}
+        <div className="row mb-7 d-flex">
+          <div className="fv-row col-4">
             <label className="required fw-bold fs-6 mb-2">
               {intl.formatMessage({ id: "Fields.FirstName" })}
             </label>
             <input
-              placeholder="First name"
+              placeholder={intl.formatMessage({ id: "Fields.FirstName" })}
               {...formik.getFieldProps("firstName")}
               type="text"
               name="firstName"
@@ -234,15 +223,15 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
               </div>
             )}
           </div>
-          <div className="me-3" style={{ width: "25%" }}>
+          <div className="fv-row col-4">
             <label className="fw-bold fs-6 mb-2">
               {intl.formatMessage({ id: "Fields.BetweenName" })}
             </label>
             <input
-              placeholder="Middle name"
-              {...formik.getFieldProps("middleName")}
+              placeholder={intl.formatMessage({ id: "Fields.BetweenName" })}
+              {...formik.getFieldProps("betweenName")}
               type="text"
-              name="middleName"
+              name="betweenName"
               className={clsx("form-control form-control-solid mb-3 mb-lg-0", {
                 "is-invalid":
                   formik.touched.betweenName && formik.errors.betweenName,
@@ -258,12 +247,12 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
               </div>
             )}
           </div>
-          <div className="me-3" style={{ width: "25%" }}>
+          <div className="fv-row col-4">
             <label className="required fw-bold fs-6 mb-2">
               {intl.formatMessage({ id: "Fields.LastName" })}
             </label>
             <input
-              placeholder="Last name"
+              placeholder={intl.formatMessage({ id: "Fields.LastName" })}
               {...formik.getFieldProps("lastName")}
               type="text"
               name="lastName"
@@ -283,6 +272,59 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           </div>
         </div>
 
+        {/* Language Selection */}
+        <div className="row mb-7 d-flex">
+          <div className="fv-row col-6 ">
+            <label className="required fw-bold fs-6 mb-2">
+              {intl.formatMessage({ id: "Fields.LanguagePreferenceType" })}
+            </label>
+            <Select
+              name="languageType"
+              options={languageOptions}
+              value={languageOptions.find(
+                (option: any) => option.value === formik.values.languageType
+              )}
+              onChange={(option) =>
+                formik.setFieldValue("languageType", option?.value)
+              }
+              isDisabled={formik.isSubmitting}
+              className="react-select-styled"
+              isClearable
+            />
+            {formik.touched.languageType && formik.errors.languageType && (
+              <div className="fv-plugins-message-container">
+                <span role="alert">{formik.errors.languageType}</span>
+              </div>
+            )}
+          </div>
+
+          <div className="fv-row col-6">
+            <label className="required fw-bold fs-6 mb-2">
+              {intl.formatMessage({ id: "Fields.UserType" })}
+            </label>
+            <Select
+              name="userType"
+              options={userTypes.map((userType) => {
+                return {
+                  value: userType.value,
+                  label: userType.title,
+                };
+              })}
+              onChange={(option) =>
+                formik.setFieldValue("userType", option?.value)
+              }
+              isDisabled={formik.isSubmitting}
+              className="react-select-styled"
+              isClearable
+            />
+            {formik.touched.userType && formik.errors.userType && (
+              <div className="fv-plugins-message-container">
+                <span role="alert">{formik.errors.userType}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Accessible Companies */}
         <div className="fv-row mb-7">
           <label className="fw-bold fs-6 mb-2">
@@ -290,12 +332,12 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           </label>
           <Select
             name="accessibleCompanies"
-            options={companyOptions}
-            value={formik.values.accessibleCompanies.map((company) =>
-              companyOptions.find(
-                (option) => option.value === company.companyId
-              )
-            )}
+            options={companies.map((company) => {
+              return {
+                value: company.value,
+                label: company.title,
+              };
+            })}
             onChange={(selectedOptions) =>
               formik.setFieldValue(
                 "accessibleCompanies",
@@ -319,31 +361,6 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
                 <span role="alert">{formik.errors.accessibleCompanies}</span>
               </div>
             )} */}
-        </div>
-
-        {/* Language Selection */}
-        <div className="fv-row mb-7">
-          <label className="required fw-bold fs-6 mb-2">
-            {intl.formatMessage({ id: "Fields.LanguagePreferenceType" })}
-          </label>
-          <Select
-            name="languageType"
-            options={languageOptions}
-            value={languageOptions.find(
-              (option: any) => option.value === formik.values.languageType
-            )}
-            onChange={(option) =>
-              formik.setFieldValue("languageType", option?.value)
-            }
-            isDisabled={formik.isSubmitting}
-            className="react-select-styled"
-            isClearable
-          />
-          {formik.touched.languageType && formik.errors.languageType && (
-            <div className="fv-plugins-message-container">
-              <span role="alert">{formik.errors.languageType}</span>
-            </div>
-          )}
         </div>
 
         <div
@@ -418,6 +435,7 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
               </div>
             )}
         </div>
+
       </form>
     </>
   );

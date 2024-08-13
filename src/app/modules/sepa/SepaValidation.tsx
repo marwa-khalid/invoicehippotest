@@ -78,7 +78,6 @@ const SepaValidation = () => {
   useEffect(() => {
     const checkOdata = async () => {
       const response = await checkSepaOdata(odata);
-      console.log(response.result);
 
       if (response.hasErrors) {
         navigate("/");

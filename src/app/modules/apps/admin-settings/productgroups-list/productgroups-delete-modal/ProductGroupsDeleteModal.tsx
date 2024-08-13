@@ -23,7 +23,6 @@ const ProductGroupsDeleteModal = ({
     };
   }, []);
   const intl = useIntl();
-  console.log(deleteModalId);
   return (
     <>
       <div

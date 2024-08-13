@@ -4,7 +4,7 @@ import { BankLinkModalFooter } from "./BankLinkModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { postAccounAutomation, postFinancialAccount } from "../core/_requests";
+import { postAccounAutomation } from "../core/_requests";
 import BankLinkModalForm from "./BankLinkModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { useAuth } from "../../../../auth";
@@ -67,11 +67,10 @@ const BankLinkModal = ({ setRefresh, setLinkModalOpen }: Props) => {
           // formik.resetForm();
           // setLinkModalOpen(false);
           // setRefresh(true);
-          console.log(response);
+
           window.location.href = response.result.requestUrlForConsent;
         }
         handleToast(response);
-        console.log(response);
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
@@ -80,7 +79,6 @@ const BankLinkModal = ({ setRefresh, setLinkModalOpen }: Props) => {
       }
     },
   });
-  console.log(formik.initialValues);
 
   return (
     <>

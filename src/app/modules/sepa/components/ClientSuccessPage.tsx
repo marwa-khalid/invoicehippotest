@@ -5,10 +5,7 @@ const ClientSuccessPage = () => {
   const intl = useIntl();
   const firstName = localStorage.getItem("firstName") || ""; // Default to empty string if null
   const supportEmail = localStorage.getItem("supportEmail") || ""; // Default to empty string if null
-  console.log(supportEmail);
-  const openInNewTab = (url: any) => {
-    window.open(url, "_blank", "noreferrer");
-  };
+
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-100 max-w-sm mx-auto px-200">
       <div className="w-75">

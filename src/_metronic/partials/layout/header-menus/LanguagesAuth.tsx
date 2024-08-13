@@ -45,7 +45,6 @@ const LanguagesAuth: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    console.log("hello working");
     setMenuOpen(!menuOpen);
   };
 
@@ -77,7 +76,6 @@ const LanguagesAuth: FC = () => {
     //         key={l.lang}
     //         onClick={() => {
     //           debugger;
-    //           console.log("hello")
     //           setLanguage(l.lang)
     //         }}
     //       >

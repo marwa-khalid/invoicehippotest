@@ -41,9 +41,8 @@ export function ForgotPassword() {
       setHasErrors(undefined);
 
       const reset = await requestResetLink(values.email);
-      console.log(reset);
+  
       if (reset.isValid) {
-        console.log("Password");
         setHasErrors(false);
         setLoading(false);
         localStorage.setItem("reset_email", values.email);

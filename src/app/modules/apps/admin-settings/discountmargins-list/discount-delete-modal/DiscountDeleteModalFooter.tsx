@@ -10,7 +10,7 @@ interface ComponentProps {
   setDeleteModalId: (type: number[]) => void;
 }
 
-const ProductGroupsDeleteModalFooter = ({
+const DiscountDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
@@ -70,4 +70,4 @@ const ProductGroupsDeleteModalFooter = ({
   );
 };
 
-export { ProductGroupsDeleteModalFooter };
+export { DiscountDeleteModalFooter };

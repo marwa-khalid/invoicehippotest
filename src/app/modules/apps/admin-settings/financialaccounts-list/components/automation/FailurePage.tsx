@@ -5,7 +5,7 @@ const FailurePage = () => {
   const intl = useIntl();
   const firstName = localStorage.getItem("firstName") || ""; // Default to empty string if null
   const supportEmail = localStorage.getItem("supportEmail") || ""; // Default to empty string if null
-  console.log(supportEmail);
+
   const navigate = useNavigate();
 
   return (

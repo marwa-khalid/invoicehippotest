@@ -12,7 +12,7 @@ interface ComponentProps {
   formik: FormikProps<FormValues>;
   isSubmitting: boolean;
 }
-const ProductGroupsEditModalFooter = ({
+const DiscountEditModalFooter = ({
   setEditModalOpen,
   formik,
   isSubmitting,
@@ -53,4 +53,4 @@ const ProductGroupsEditModalFooter = ({
   );
 };
 
-export { ProductGroupsEditModalFooter };
+export { DiscountEditModalFooter };

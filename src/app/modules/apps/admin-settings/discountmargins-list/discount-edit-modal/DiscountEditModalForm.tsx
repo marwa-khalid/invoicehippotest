@@ -15,7 +15,7 @@ type Props = {
   isSubmitting: boolean;
 };
 
-const ProductGroupsEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
+const DiscountEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
 
   return (
@@ -113,10 +113,9 @@ const ProductGroupsEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             </div>
           )}
         </div>
-        {console.log(formik.values)!}
       </div>
     </form>
   );
 };
 
-export default ProductGroupsEditModalForm;
+export default DiscountEditModalForm;

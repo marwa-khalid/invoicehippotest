@@ -117,7 +117,6 @@ const Step2: React.FC<Step2Props> = ({
       // handle form submission
     },
   });
-  console.log("Current form values:", formik.values);
 
   return (
     <form

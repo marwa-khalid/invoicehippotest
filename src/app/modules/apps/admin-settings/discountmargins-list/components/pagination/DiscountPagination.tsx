@@ -11,7 +11,7 @@ interface PaginationProps {
   setPageIndex: (page: number) => void;
 }
 
-const ProductGroupPagination = ({
+const DiscountPagination = ({
   totalPages,
   pageIndex,
   onPageChange,
@@ -53,6 +53,10 @@ const ProductGroupPagination = ({
             filters: { searchTerm: "" },
           },
           "discounts-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
+          "users-module": {
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
@@ -227,4 +231,4 @@ const ProductGroupPagination = ({
   );
 };
 
-export { ProductGroupPagination };
+export { DiscountPagination };

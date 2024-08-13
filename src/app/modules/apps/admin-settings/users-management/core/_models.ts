@@ -56,7 +56,25 @@ export interface UserResult {
   actions: Actions;
 }
 
+export interface CompaniesResult {
+  title: string;
+  symbol: string;
+  hasSymbol: boolean;
+  value: number;
+  subGroup: string;
+  hasSubGroup: boolean;
+  group: string;
+  extraDescription: string;
+  hasGroup: boolean;
+  isAccountTypeOmzet: boolean;
+  isAccountTypeBtw: boolean;
+  isAccountTypeCost: boolean;
+  isAccountTypeResult: boolean;
+  isAccountTypePrive: boolean;
+}
+
 export type UserModel = ApiResponse<UserResult[]>;
+export type CompaniesModel = ApiResponse<CompaniesResult[]>;
 
 //extraa
 interface AccountType {

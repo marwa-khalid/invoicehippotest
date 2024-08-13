@@ -16,9 +16,6 @@ const FinancialAccountsToolbar = ({
     setAddModalOpen(true);
   };
 
-  const openLinkBankAccountModal = () => {
-    setLinkModalOpen(true);
-  };
   const intl = useIntl();
   return (
     <div
@@ -31,7 +28,7 @@ const FinancialAccountsToolbar = ({
           .replace("{0}", totalRows.toString())}
       </h5>
       <div>
-        {/* begin::Add financial account */}
+        {/* begin::Add user */}
         <Tooltip
           label={intl.formatMessage({
             id: "Fields.ToolTipNew",
@@ -50,7 +47,7 @@ const FinancialAccountsToolbar = ({
           </button>
         </Tooltip>
       </div>
-      {/* end:: Add financial account */}
+      {/* end:: Add user */}
     </div>
   );
 };

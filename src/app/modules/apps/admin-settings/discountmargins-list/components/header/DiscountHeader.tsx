@@ -1,4 +1,4 @@
-import { ProductGroupsSearchComponent } from "./ProductGroupsSearchComponent";
+import { DiscountSearchComponent } from "./DiscountSearchComponent";
 import { KTCardBody } from "../../../../../../../_metronic/helpers";
 
 interface ComponentProps {
@@ -6,12 +6,12 @@ interface ComponentProps {
   searchTerm: string;
 }
 
-const ProductGroupsHeader = ({ setSearchTerm, searchTerm }: ComponentProps) => {
+const DiscountHeader = ({ setSearchTerm, searchTerm }: ComponentProps) => {
   return (
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
       <div className="card-body pt-9 pb-0">
         {/* Full-width search and button */}
-        <ProductGroupsSearchComponent
+        <DiscountSearchComponent
           setSearchTerm={setSearchTerm}
           searchTerm={searchTerm}
         />
@@ -20,4 +20,4 @@ const ProductGroupsHeader = ({ setSearchTerm, searchTerm }: ComponentProps) => {
   );
 };
 
-export { ProductGroupsHeader };
+export { DiscountHeader };
