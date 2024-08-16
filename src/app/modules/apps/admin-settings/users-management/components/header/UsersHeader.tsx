@@ -1,4 +1,4 @@
-import { FinancialListSearchComponent } from "./FinancialListSearchComponent";
+import { UsersSearchComponent } from "./UsersSearchComponent";
 import { KTCardBody } from "../../../../../../../_metronic/helpers";
 
 interface ComponentProps {
@@ -6,12 +6,12 @@ interface ComponentProps {
   searchTerm: string;
 }
 
-const FinancialListHeader = ({ setSearchTerm, searchTerm }: ComponentProps) => {
+const UsersHeader = ({ setSearchTerm, searchTerm }: ComponentProps) => {
   return (
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
       <div className="card-body pt-9 pb-0">
         {/* Full-width search and button */}
-        <FinancialListSearchComponent
+        <UsersSearchComponent
           setSearchTerm={setSearchTerm}
           searchTerm={searchTerm}
         />
@@ -20,4 +20,4 @@ const FinancialListHeader = ({ setSearchTerm, searchTerm }: ComponentProps) => {
   );
 };
 
-export { FinancialListHeader };
+export { UsersHeader };

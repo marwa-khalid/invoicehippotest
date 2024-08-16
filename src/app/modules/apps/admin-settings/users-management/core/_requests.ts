@@ -7,6 +7,8 @@ import {
   AccountAutomationModel,
   UserModel,
   CompaniesModel,
+  LanguagesModel,
+  UserModelById,
 } from "./_models";
 
 import {
@@ -25,6 +27,7 @@ import {
   GET_ALL_USERS,
   GET_COMPANIES,
   GET_USER_TYPES,
+  GET_LANGUAGES,
 } from "./constants";
 
 interface DeleteResult extends Partial<FinancialAccountsModel> {}
@@ -48,6 +51,10 @@ export function getCompanies() {
 export function getUserTypes() {
   return getRequest<CompaniesModel>(GET_USER_TYPES, true);
 }
+
+export function getLanguages() {
+  return getRequest<LanguagesModel>(GET_LANGUAGES, true);
+}
 export function postUser(
   id: number,
   genderType: number,
@@ -66,7 +73,7 @@ export function postUser(
     password: string;
     passwordVerification: string;
   },
-  requestingUserProfileIda: number,
+  requestingUserProfileId: number,
   requestingUserPassword: string,
   sendInvitationForNewUser: boolean,
   generatePasswordForNewUser: boolean,
@@ -74,7 +81,7 @@ export function postUser(
   accountantNotificationEmailAddress: string
 ) {
   return postRequest<FinancialAccountsModel>(
-    POST_FINANCIAL_ACCOUNT,
+    GET_ALL_USERS,
     {
       id: id,
       genderType: genderType,
@@ -87,7 +94,7 @@ export function postUser(
       isActive: isActive,
       accessibleCompanies: accessibleCompanies,
       passwordSet: passwordSet,
-      requestingUserProfileIda: requestingUserProfileIda,
+      requestingUserProfileId: requestingUserProfileId,
       requestingUserPassword: requestingUserPassword,
       sendInvitationForNewUser: sendInvitationForNewUser,
       generatePasswordForNewUser: generatePasswordForNewUser,
@@ -100,11 +107,8 @@ export function postUser(
 
 //extraaaaaaaaaa
 
-export function getFinancialAccountById(editModalId: number) {
-  return getRequest<FinancialAccountByIdModel>(
-    `${GET_FINANCIALACCOUNT_BY_ID}/${editModalId}`,
-    true
-  );
+export function getUserById(editModalId: number) {
+  return getRequest<UserModelById>(`${GET_ALL_USERS}/${editModalId}`, true);
 }
 
 export function getLedgerForFinancial(id: number) {
@@ -115,7 +119,7 @@ export function getLedgerForFinancial(id: number) {
 }
 
 export function deleteFinancialAccount(id: number) {
-  return deleteRequest<DeleteResult>(POST_FINANCIAL_ACCOUNT, [id], true);
+  return deleteRequest<DeleteResult>(GET_ALL_USERS, [id], true);
 }
 
 export function getFinancialInstitutions(countryType: number) {

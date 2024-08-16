@@ -1,32 +1,38 @@
 import { useIntl } from "react-intl";
 
 import { FormikProps } from "formik";
-
 interface FormValues {
   id: number;
-  accountName: string;
-  accountNumber: string;
-  ledgerAccountId: number;
-  bankConnectMinImportDate: string;
-  accountType: number;
-  autoCreateLedgerAccount: boolean;
-  bankAccountCompanyType: number;
-  afterSaveModel: {
-    ledgerAccountDisplayName: string;
+  genderType: number;
+  userType: number;
+  firstName: string;
+  languageType: number;
+  betweenName: string;
+  lastName: string;
+  loginEmailAddress: string;
+  isActive: boolean;
+  accessibleCompanies: {
+    isDefault: boolean;
+    companyId: number;
+  }[];
+  passwordSet: {
+    password: string;
+    passwordVerification: string;
   };
-  bankConnectInfo: {
-    isConnected: boolean;
-    isActive: boolean;
-    accessExpirtationDate: string;
-    lastSyncRequestDate: string;
-  };
+  requestingUserProfileId: number;
+  requestingUserPassword: string;
+  sendInvitationForNewUser: boolean;
+  generatePasswordForNewUser: boolean;
+  accountantBeconNumber: string;
+  accountantNotificationEmailAddress: string;
 }
+
 interface ComponentProps {
   setEditModalOpen: (type: boolean) => void;
   formik: FormikProps<FormValues>;
   isSubmitting: boolean;
 }
-const FinancialEditModalFooter = ({
+const UserEditModalFooter = ({
   setEditModalOpen,
   formik,
   isSubmitting,
@@ -67,4 +73,4 @@ const FinancialEditModalFooter = ({
   );
 };
 
-export { FinancialEditModalFooter };
+export { UserEditModalFooter };

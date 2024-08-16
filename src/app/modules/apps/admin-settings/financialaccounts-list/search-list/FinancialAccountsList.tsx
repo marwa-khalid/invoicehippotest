@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getFinancialAccounts } from "../core/_requests";
 import { FinancialAccountsResult } from "../core/_models";
 import { ListLoading } from "../../components/ListLoading";
-import { VatListPagination } from "../components/pagination/FinancialListPagination";
+import { FinancialListPagination } from "../components/pagination/FinancialListPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
@@ -360,7 +360,7 @@ const FinancialAccountsList = ({
       </div>
 
       {financialAccounts?.result?.length > 0 && (
-        <VatListPagination
+        <FinancialListPagination
           totalPages={financialAccounts.totalPages}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}

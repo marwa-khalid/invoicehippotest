@@ -26,7 +26,7 @@ interface FormValues {
     password: string;
     passwordVerification: string;
   };
-  requestingUserProfileIda: number;
+  requestingUserProfileId: number;
   requestingUserPassword: string;
   sendInvitationForNewUser: boolean;
   generatePasswordForNewUser: boolean;
@@ -34,7 +34,7 @@ interface FormValues {
   accountantNotificationEmailAddress: string;
 }
 
-const FinancialAddModalFooter: FC<Props> = ({
+const UserAddModalFooter: FC<Props> = ({
   formik,
   isSubmitting,
   setAddModalOpen,
@@ -68,4 +68,4 @@ const FinancialAddModalFooter: FC<Props> = ({
   );
 };
 
-export { FinancialAddModalFooter };
+export { UserAddModalFooter };

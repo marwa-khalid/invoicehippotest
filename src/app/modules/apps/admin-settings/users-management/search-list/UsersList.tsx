@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getUsers } from "../core/_requests";
 import { UserResult } from "../core/_models";
 import { ListLoading } from "../../components/ListLoading";
-import { VatListPagination } from "../components/pagination/FinancialListPagination";
+import { UsersPagination } from "../components/pagination/UsersPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
@@ -12,9 +12,8 @@ interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
-  setUnlinkModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
-  setLedgerAccountTitle: (type: string) => void;
+  setUserName: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
   setPageIndex: (type: number) => void;
@@ -27,9 +26,8 @@ const UsersList = ({
   setTotalRows,
   setEditModalOpen,
   setEditModalId,
-  setLedgerAccountTitle,
+  setUserName,
   setDeleteModalOpen,
-  setUnlinkModalOpen,
   refresh,
   setPageIndex,
   pageIndex,
@@ -76,15 +74,10 @@ const UsersList = ({
     setEditModalOpen(true);
   };
 
-  const openDeleteModal = (id: number, ledgerTitle: string) => {
+  const openDeleteModal = (id: number, userName: string) => {
     setEditModalId(id);
     setDeleteModalOpen(true);
-    setLedgerAccountTitle(ledgerTitle);
-  };
-
-  const openUnlinkModal = (id: number) => {
-    setEditModalId(id);
-    setUnlinkModalOpen(true);
+    setUserName(userName);
   };
 
   return (
@@ -134,39 +127,6 @@ const UsersList = ({
                         </Tooltip>
                       )}
 
-                      {user.actions.canExtendAutomation && (
-                        <Tooltip
-                          label={intl.formatMessage({
-                            id: "Fields.ToolTipReconnect",
-                          })}
-                          fontSize="sm"
-                          className="bg-gray-800 text-white p-2 rounded "
-                          placement="top"
-                        >
-                          <button className="btn btn-icon btn-light btn-sm me-4">
-                            <i className="fas fa-wifi text-primary fs-3" />
-                          </button>
-                        </Tooltip>
-                      )}
-                      {user.actions.canRevokeAutomation && (
-                        <Tooltip
-                          label={intl.formatMessage({
-                            id: "Fields.ToolTipDisonnect",
-                          })}
-                          fontSize="sm"
-                          className="bg-gray-800 text-white p-2 rounded "
-                          placement="top"
-                        >
-                          <button
-                            className="btn btn-icon btn-light btn-sm me-4"
-                            onClick={() => {
-                              openUnlinkModal(user.id);
-                            }}
-                          >
-                            <i className="fas fa-wifi text-danger fs-3" />
-                          </button>
-                        </Tooltip>
-                      )}
                       {user.actions.canDelete && (
                         <Tooltip
                           label={intl.formatMessage({
@@ -256,7 +216,7 @@ const UsersList = ({
       </div>
 
       {users?.result?.length > 0 && (
-        <VatListPagination
+        <UsersPagination
           totalPages={users.totalPages}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}

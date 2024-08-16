@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { FinancialUnlinkModalHeader } from "./FinancialUnlinkModalHeader";
-import { FinancialUnlinkModalFooter } from "./FinancialUnlinkModalFooter";
+import { UserDeleteModalHeader } from "./UserDeleteModalHeader";
+import { UserDeleteModalFooter } from "./UserDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
+  userName: string;
   deleteModalId: number;
-  setUnlinkModalOpen: (type: boolean) => void;
+  setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
 }
-const FinancialUnlinkModal = ({
+const UserDeleteModal = ({
   deleteModalId,
-  setUnlinkModalOpen,
+  userName,
+  setDeleteModalOpen,
   setRefresh,
 }: ComponentProps) => {
   useEffect(() => {
@@ -33,26 +35,32 @@ const FinancialUnlinkModal = ({
         <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <FinancialUnlinkModalHeader
-              setDeleteModalOpen={setUnlinkModalOpen}
-            />
+            <UserDeleteModalHeader setDeleteModalOpen={setDeleteModalOpen} />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div className="form-wrapper">
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: intl.formatMessage({
-                      id: "Fields.ModalRemoveSyncConsensusDescriptionFinancialAccount",
-                    }),
-                  }}
-                />
+                {
+                  intl
+                    .formatMessage({
+                      id: "Fields.ModalDeleteDescriptionUserProfile",
+                    })
+                    .split("{0}")[0]
+                }
+                <strong>{userName}</strong>
+                {
+                  intl
+                    .formatMessage({
+                      id: "Fields.ModalDeleteDescriptionUserProfile",
+                    })
+                    .split("{0}")[1]
+                }
               </div>
             </div>
 
             {/* end::Modal body */}
-            <FinancialUnlinkModalFooter
+            <UserDeleteModalFooter
               deleteModalId={deleteModalId}
-              setDeleteModalOpen={setUnlinkModalOpen}
+              setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
             />
           </div>
@@ -67,4 +75,4 @@ const FinancialUnlinkModal = ({
   );
 };
 
-export { FinancialUnlinkModal };
+export { UserDeleteModal };

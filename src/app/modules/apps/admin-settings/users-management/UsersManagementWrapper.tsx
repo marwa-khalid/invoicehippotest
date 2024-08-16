@@ -1,14 +1,12 @@
-import { FinancialListHeader } from "./components/header/FinancialListHeader";
+import { UsersHeader } from "./components/header/UsersHeader";
 import { UsersList } from "./search-list/UsersList";
-import { FinancialAddModal } from "./financial-add-modal/FinancialAddModal";
+import { UserAddModal } from "./user-add-modal/UserAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
-import { FinancialAccountsToolbar } from "./components/header/FinancialAccountsToolbar";
-import { FinancialEditModal } from "./financial-edit-modal/FinancialEditModal";
-import { FinancialDeleteModal } from "./financial-delete-modal/FinancialDeleteModal";
-import { BankLinkModal } from "./financial-link-modal/BankLinkModal";
-import { FinancialUnlinkModal } from "./financial-unlink-modal/FinancialUnlinkModal";
+import { UsersToolbar } from "./components/header/UsersToolbar";
+import { UserEditModal } from "./user-edit-modal/UserEditModal";
+import { UserDeleteModal } from "./user-delete-modal/UserDeleteModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -34,31 +32,21 @@ const UsersManagementInnerWrapper = () => {
   const [editModalId, setEditModalId] = useState<number>(0);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
-  const [linkModalOpen, setLinkModalOpen] = useState<boolean>(false);
-  const [unlinkModalOpen, setUnlinkModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [ledgerAccountTitle, setLedgerAccountTitle] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
 
   return (
     <>
-      <FinancialListHeader
-        setSearchTerm={setSearchTermState}
-        searchTerm={searchTerm}
-      />
-      <FinancialAccountsToolbar
-        totalRows={totalRows}
-        setAddModalOpen={setAddModalOpen}
-        setLinkModalOpen={setLinkModalOpen}
-      />
+      <UsersHeader setSearchTerm={setSearchTermState} searchTerm={searchTerm} />
+      <UsersToolbar totalRows={totalRows} setAddModalOpen={setAddModalOpen} />
       <UsersList
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
-        setUnlinkModalOpen={setUnlinkModalOpen}
         setEditModalId={setEditModalId}
-        setLedgerAccountTitle={setLedgerAccountTitle}
+        setUserName={setUserName}
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
@@ -66,35 +54,23 @@ const UsersManagementInnerWrapper = () => {
         deleteModalOpen={deleteModalOpen}
       />
       {addModalOpen && (
-        <FinancialAddModal
+        <UserAddModal
           setRefresh={setRefresh}
           setAddModalOpen={setAddModalOpen}
         />
       )}
-      {linkModalOpen && (
-        <BankLinkModal
-          setRefresh={setRefresh}
-          setLinkModalOpen={setLinkModalOpen}
-        />
-      )}
-      {unlinkModalOpen && (
-        <FinancialUnlinkModal
-          deleteModalId={editModalId}
-          setUnlinkModalOpen={setUnlinkModalOpen}
-          setRefresh={setRefresh}
-        />
-      )}
+      s
       {editModalOpen && (
-        <FinancialEditModal
+        <UserEditModal
           editModalId={editModalId}
           setRefresh={setRefresh}
           setEditModalOpen={setEditModalOpen}
         />
       )}
       {deleteModalOpen && (
-        <FinancialDeleteModal
+        <UserDeleteModal
           deleteModalId={editModalId}
-          ledgerAccountTitle={ledgerAccountTitle}
+          userName={userName}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
         />

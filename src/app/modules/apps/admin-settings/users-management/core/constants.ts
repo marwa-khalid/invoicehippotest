@@ -11,3 +11,4 @@ export const UNLINK_ACCOUNT = `${API_URL_V1}/admin/financialaccount/automation/r
 export const GET_ALL_USERS = `${API_URL_V1}/admin/user`;
 export const GET_COMPANIES = `${API_URL_V1}/lists/companies/for/users`;
 export const GET_USER_TYPES = `${API_URL_V1}/lists/user-types/for/users`;
+export const GET_LANGUAGES = `${API_URL_V1}/localization/available-languages`;

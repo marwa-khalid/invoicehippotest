@@ -4,14 +4,9 @@ import { Tooltip } from "@chakra-ui/react";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
-  setLinkModalOpen: (type: boolean) => void;
 }
 
-const FinancialAccountsToolbar = ({
-  totalRows,
-  setAddModalOpen,
-  setLinkModalOpen,
-}: ToolbarProps) => {
+const UsersToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
   const openAddFinancialAccountModal = () => {
     setAddModalOpen(true);
   };
@@ -52,4 +47,4 @@ const FinancialAccountsToolbar = ({
   );
 };
 
-export { FinancialAccountsToolbar };
+export { UsersToolbar };

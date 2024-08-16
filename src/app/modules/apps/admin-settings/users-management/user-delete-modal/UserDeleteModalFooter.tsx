@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteAutomation, deleteFinancialAccount } from "../core/_requests";
+import { deleteFinancialAccount } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
@@ -9,7 +9,7 @@ interface ComponentProps {
   setRefresh: (type: boolean) => void;
 }
 
-const FinancialUnlinkModalFooter = ({
+const UserDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
@@ -20,8 +20,8 @@ const FinancialUnlinkModalFooter = ({
 
   const deleteVat = async () => {
     setIsSubmitting(true);
-    const response = await deleteAutomation(deleteModalId);
-    if (response) {
+    const response = await deleteFinancialAccount(deleteModalId);
+    if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);
       setIsSubmitting(false);
@@ -47,8 +47,7 @@ const FinancialUnlinkModalFooter = ({
           onClick={deleteVat}
           //   disabled={!isValid || isSubmitting || !touched}
         >
-          {!isSubmitting &&
-            intl.formatMessage({ id: "Fields.ActionRevokeAutomation" })}
+          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionDelete" })}
           {isSubmitting && (
             <span className="indicator-progress" style={{ display: "block" }}>
               {intl.formatMessage({ id: "Common.Busy" })}
@@ -61,4 +60,4 @@ const FinancialUnlinkModalFooter = ({
   );
 };
 
-export { FinancialUnlinkModalFooter };
+export { UserDeleteModalFooter };

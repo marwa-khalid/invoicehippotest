@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
-import { FinancialAddModalHeader } from "./FinancialAddModalHeader";
-import { FinancialAddModalFooter } from "./FinancialAddModalFooter";
+import { UserAddModalHeader } from "./UserAddModalHeader";
+import { UserAddModalFooter } from "./UserAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
 import { postUser } from "../core/_requests";
 import { UserAddModalForm } from "./UserAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
+import { useAuth } from "../../../../auth";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
 }
-const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const UserAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -21,6 +22,8 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const intl = useIntl();
+  const auth = useAuth();
+  console.log(auth.currentUser?.result.id);
 
   const formik = useFormik({
     initialValues: {
@@ -43,40 +46,14 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         password: "",
         passwordVerification: "",
       },
-      requestingUserProfileIda: 0,
+      requestingUserProfileId: auth.currentUser?.result.id || 0,
       requestingUserPassword: "",
       sendInvitationForNewUser: true,
       generatePasswordForNewUser: true,
       accountantBeconNumber: "",
       accountantNotificationEmailAddress: "",
     },
-    validationSchema: Yup.object().shape({
-      accountType: Yup.number().required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.AccountType" }))
-      ),
-      accountName: Yup.string()
-        .min(
-          3,
-          intl
-            .formatMessage({ id: "Common.ValidationMin" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
-            .replace("{1}", `3`)
-        )
-        .max(
-          50,
-          intl
-            .formatMessage({ id: "Common.ValidationMax" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
-            .replace("{1}", `50`)
-        )
-        .required(
-          intl
-            .formatMessage({ id: "Common.RequiredFieldHint2" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
-        ),
-    }),
+    validationSchema: Yup.object().shape({}),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
@@ -92,7 +69,7 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
           values.isActive,
           values.accessibleCompanies,
           values.passwordSet,
-          values.requestingUserProfileIda,
+          values.requestingUserProfileId,
           values.requestingUserPassword,
           values.sendInvitationForNewUser,
           values.generatePasswordForNewUser,
@@ -126,11 +103,11 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <FinancialAddModalHeader setAddModalOpen={setAddModalOpen} />
+            <UserAddModalHeader setAddModalOpen={setAddModalOpen} />
             <div className="modal-body px-20 py-10">
               <UserAddModalForm formik={formik} isSubmitting={isSubmitting} />
             </div>
-            <FinancialAddModalFooter
+            <UserAddModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setAddModalOpen={setAddModalOpen}
@@ -143,4 +120,4 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   );
 };
 
-export { FinancialAddModal };
+export { UserAddModal };

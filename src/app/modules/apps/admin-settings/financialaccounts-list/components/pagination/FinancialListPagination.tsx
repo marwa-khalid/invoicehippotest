@@ -11,7 +11,7 @@ interface VatListPaginationProps {
   setPageIndex: (page: number) => void;
 }
 
-const VatListPagination = ({
+const FinancialListPagination = ({
   totalPages,
   pageIndex,
   onPageChange,
@@ -231,4 +231,4 @@ const VatListPagination = ({
   );
 };
 
-export { VatListPagination };
+export { FinancialListPagination };

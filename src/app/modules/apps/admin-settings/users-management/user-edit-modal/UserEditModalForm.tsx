@@ -3,10 +3,8 @@ import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
 import { FormikProps } from "formik";
-import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
-import { Avatar, Box, IconButton, Stack, Input } from "@chakra-ui/react";
-import { getCompanies, getUserTypes } from "../core/_requests";
-import { CompaniesResult } from "../core/_models";
+import { getCompanies, getLanguages, getUserTypes } from "../core/_requests";
+import { CompaniesResult, LanguagesResult } from "../core/_models";
 import enums from "../../../../../../invoicehippo.enums.json";
 interface FormValues {
   id: number;
@@ -26,7 +24,7 @@ interface FormValues {
     password: string;
     passwordVerification: string;
   };
-  requestingUserProfileIda: number;
+  requestingUserProfileId: number;
   requestingUserPassword: string;
   sendInvitationForNewUser: boolean;
   generatePasswordForNewUser: boolean;
@@ -39,10 +37,11 @@ type Props = {
   isSubmitting: boolean;
 };
 
-const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
+const UserEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
   const [companies, setCompanies] = useState<CompaniesResult[]>([]);
   const [userTypes, setUserTypes] = useState<CompaniesResult[]>([]);
+  const [languages, setLanguages] = useState<LanguagesResult[]>([]);
   useEffect(() => {
     const fetchAccessibleCompanies = async () => {
       const response = await getCompanies();
@@ -61,6 +60,15 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
     fetchUserTypes();
   }, []);
 
+  useEffect(() => {
+    const fetchLanguages = async () => {
+      const response = await getLanguages();
+
+      setLanguages(response.result);
+    };
+    fetchLanguages();
+  }, []);
+
   // Gender type options for react-select
   const genderOptions = enums.GenderTypes.map((genderType) => {
     return {
@@ -68,28 +76,7 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
       label: genderType.Title,
     };
   });
-
-  // Language options for react-select
-  const languageOptions = [
-    { value: "nl", label: "Nederlands" },
-    { value: "en", label: "English" },
-  ];
-
-  const [avatar, setAvatar] = useState<string | ArrayBuffer | null>(null);
-
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatar(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const removeAvatar = () => setAvatar(null);
-
+  console.log(formik.values);
   return (
     <>
       <form
@@ -98,46 +85,6 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
         onSubmit={formik.handleSubmit}
         noValidate
       >
-        {/* Avatar upload */}
-        <div className="fv-row mb-7">
-          <label className="d-block fw-bold fs-6 mb-5">Avatar</label>
-          <Stack direction="row" align="center">
-            <Avatar
-              src={
-                avatar
-                  ? avatar.toString()
-                  : toAbsoluteUrl("media/svg/avatars/blank.svg")
-              }
-              bg="gray.100"
-              width={100}
-              height={100}
-            />
-            <Box>
-              <Input
-                type="file"
-                accept=".png, .jpg, .jpeg"
-                onChange={handleAvatarChange}
-                display="none"
-                id="avatar-upload"
-              />
-              <IconButton
-                icon={<i className="bi bi-pencil-fill fs-7" />}
-                aria-label="Change avatar"
-                as="label"
-                htmlFor="avatar-upload"
-                mr={2}
-              />
-              {avatar && (
-                <IconButton
-                  icon={<i className="bi bi-x fs-2" />}
-                  aria-label="Remove avatar"
-                  onClick={removeAvatar}
-                />
-              )}
-            </Box>
-          </Stack>
-        </div>
-
         {/* Email address */}
         <div className="fv-row mb-7">
           <label className="required fw-bold fs-6 mb-2">
@@ -280,13 +227,23 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             </label>
             <Select
               name="languageType"
-              options={languageOptions}
-              value={languageOptions.find(
-                (option: any) => option.value === formik.values.languageType
-              )}
+              options={languages.map((language) => {
+                return {
+                  value: language.languageType.value,
+                  label: language.languageType.name,
+                };
+              })}
               onChange={(option) =>
                 formik.setFieldValue("languageType", option?.value)
               }
+              value={languages
+                .map((language) => {
+                  return {
+                    value: language.languageType.value,
+                    label: language.languageType.name,
+                  };
+                })
+                .find((option) => option.value === formik.values.languageType)}
               isDisabled={formik.isSubmitting}
               className="react-select-styled"
               isClearable
@@ -313,6 +270,14 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
               onChange={(option) =>
                 formik.setFieldValue("userType", option?.value)
               }
+              value={userTypes
+                .map((userType) => {
+                  return {
+                    value: userType.value,
+                    label: userType.title,
+                  };
+                })
+                .find((option) => option.value === formik.values.userType)}
               isDisabled={formik.isSubmitting}
               className="react-select-styled"
               isClearable
@@ -326,43 +291,96 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
         </div>
 
         {/* Accessible Companies */}
+
         <div className="fv-row mb-7">
           <label className="fw-bold fs-6 mb-2">
             {intl.formatMessage({ id: "Fields.AccessibleCompanies" })}
           </label>
-          <Select
-            name="accessibleCompanies"
-            options={companies.map((company) => {
-              return {
-                value: company.value,
-                label: company.title,
-              };
-            })}
-            onChange={(selectedOptions) =>
-              formik.setFieldValue(
-                "accessibleCompanies",
-                selectedOptions?.map((option: any) => ({
-                  companyId: option.value,
-                  isDefault: false,
-                }))
-              )
-            }
-            placeholder={intl.formatMessage({
-              id: "Fields.SelectOptionDefaultStatusType",
-            })}
-            isMulti
-            isDisabled={formik.isSubmitting}
-            className="react-select-styled"
-            isClearable
-          />
-          {/* {formik.touched.accessibleCompanies &&
-            formik.errors.accessibleCompanies && (
-              <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.accessibleCompanies}</span>
+          {companies.map((company, index) => {
+            const isActive = formik.values.accessibleCompanies.some(
+              (selectedCompany) => selectedCompany.companyId === company.value
+            );
+            const isDefault = isActive
+              ? formik.values.accessibleCompanies.find(
+                  (selectedCompany) =>
+                    selectedCompany.companyId === company.value
+                )?.isDefault
+              : false;
+
+            return (
+              <div
+                key={company.value}
+                className="d-flex align-items-center justify-content-between mb-3 alert alert-custom alert-default bg-secondary  "
+              >
+                <div className="d-flex align-items-center">
+                  <i className="ki-duotone ki-office-bag text-primary fs-2x me-2">
+                    <span className="path1"></span>
+                    <span className="path2"></span>
+                    <span className="path3"></span>
+                    <span className="path4"></span>
+                  </i>
+                  <label className="me-3">{company.title}</label>
+                </div>
+
+                <div className="d-flex align-items-center">
+                  <label className="me-2">Active</label>
+                  <div className="form-check form-switch d-flex align-items-center ">
+                    <input
+                      className="form-check-input h-20px w-35px"
+                      type="checkbox"
+                      checked={isActive}
+                      onChange={(e) => {
+                        const updatedCompanies = e.target.checked
+                          ? [
+                              ...formik.values.accessibleCompanies,
+                              { companyId: company.value, isDefault: false },
+                            ]
+                          : formik.values.accessibleCompanies.filter(
+                              (selectedCompany) =>
+                                selectedCompany.companyId !== company.value
+                            );
+
+                        formik.setFieldValue(
+                          "accessibleCompanies",
+                          updatedCompanies
+                        );
+                      }}
+                    />
+                  </div>
+
+                  <label className="me-2">isDefault</label>
+                  <div className="form-check form-switch">
+                    <input
+                      className="form-check-input h-20px w-35px"
+                      type="checkbox"
+                      checked={isDefault}
+                      disabled={!isActive}
+                      onChange={(e) => {
+                        const updatedCompanies =
+                          formik.values.accessibleCompanies.map(
+                            (selectedCompany) => ({
+                              ...selectedCompany,
+                              isDefault:
+                                selectedCompany.companyId === company.value
+                                  ? e.target.checked
+                                  : false,
+                            })
+                          );
+
+                        formik.setFieldValue(
+                          "accessibleCompanies",
+                          updatedCompanies
+                        );
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
-            )} */}
+            );
+          })}
         </div>
 
+        {console.log(formik.values)!}
         <div
           className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0 "
           role="alert"
@@ -410,35 +428,34 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           </label>
           <input
             placeholder="Password"
-            type="password"
+            type="requestingUserPassword"
             autoComplete="off"
-            {...formik.getFieldProps("passwordSet.password")}
+            {...formik.getFieldProps("requestingUserPassword")}
             className={clsx(
               "form-control form-control-solid mb-3 mb-lg-0",
               {
                 "is-invalid":
-                  formik.touched.passwordSet?.password &&
-                  formik.errors.passwordSet?.password,
+                  formik.touched.requestingUserPassword &&
+                  formik.errors.requestingUserPassword,
               },
               {
                 "is-valid":
-                  formik.touched.passwordSet?.password &&
-                  !formik.errors.passwordSet?.password,
+                  formik.touched.requestingUserPassword &&
+                  !formik.errors.requestingUserPassword,
               }
             )}
             disabled={formik.isSubmitting}
           />
-          {formik.touched.passwordSet?.password &&
-            formik.errors.passwordSet?.password && (
+          {formik.touched.requestingUserPassword &&
+            formik.errors.requestingUserPassword && (
               <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.passwordSet?.password}</span>
+                <span role="alert">{formik.errors.requestingUserPassword}</span>
               </div>
             )}
         </div>
-
       </form>
     </>
   );
 };
 
-export { UserAddModalForm };
+export { UserEditModalForm };

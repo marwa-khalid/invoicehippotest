@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
 
-interface VatListPaginationProps {
+interface PaginationProps {
   totalPages: number;
   pageIndex: number;
   onPageChange: (page: number) => void;
@@ -11,13 +11,13 @@ interface VatListPaginationProps {
   setPageIndex: (page: number) => void;
 }
 
-const VatListPagination = ({
+const UsersPagination = ({
   totalPages,
   pageIndex,
   onPageChange,
   totalItems,
   setPageIndex,
-}: VatListPaginationProps) => {
+}: PaginationProps) => {
   const [state, setState] = useState(pageIndex);
   const intl = useIntl();
 
@@ -231,4 +231,4 @@ const VatListPagination = ({
   );
 };
 
-export { VatListPagination };
+export { UsersPagination };

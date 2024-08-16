@@ -56,6 +56,33 @@ export interface UserResult {
   actions: Actions;
 }
 
+export interface UserResultById {
+  id: number;
+  genderType: number;
+  userType: number;
+  firstName: string;
+  languageType: number;
+  betweenName: string;
+  lastName: string;
+  loginEmailAddress: string;
+  isActive: boolean;
+  accessibleCompanies: [
+    {
+      isDefault: boolean;
+      companyId: number;
+    }
+  ];
+  passwordSet: {
+    password: string;
+    passwordVerification: string;
+  };
+  requestingUserProfileId: number;
+  requestingUserPassword: string;
+  sendInvitationForNewUser: boolean;
+  generatePasswordForNewUser: boolean;
+  accountantBeconNumber: string;
+  accountantNotificationEmailAddress: string;
+}
 export interface CompaniesResult {
   title: string;
   symbol: string;
@@ -73,7 +100,20 @@ export interface CompaniesResult {
   isAccountTypePrive: boolean;
 }
 
+export interface LanguagesResult {
+  languageType: {
+    value: number;
+    name: string;
+    description: string;
+  };
+  translatedItemsCount: number;
+  translatedCoveragePercentage: number;
+  useInLists: boolean;
+}
+
+export type LanguagesModel = ApiResponse<LanguagesResult[]>;
 export type UserModel = ApiResponse<UserResult[]>;
+export type UserModelById = ApiResponse<UserResultById>;
 export type CompaniesModel = ApiResponse<CompaniesResult[]>;
 
 //extraa

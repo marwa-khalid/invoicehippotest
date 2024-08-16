@@ -4,14 +4,14 @@ import { useIntl } from "react-intl";
 interface ComponentProps {
   setAddModalOpen: (type: boolean) => void;
 }
-const BankLinkModalHeader = ({ setAddModalOpen }: ComponentProps) => {
+const UserAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
   const intl = useIntl();
 
   return (
     <div className="modal-header d-flex justify-content-between align-items-center bg-primary ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {intl.formatMessage({ id: "Fields.FinancialBankConnectModalTitle" })}
+        {intl.formatMessage({ id: "Fields.ModalNewTitleUserProfile" })}
       </h2>
       {/* end::Modal title */}
 
@@ -29,4 +29,4 @@ const BankLinkModalHeader = ({ setAddModalOpen }: ComponentProps) => {
   );
 };
 
-export { BankLinkModalHeader };
+export { UserAddModalHeader };
