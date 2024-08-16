@@ -1,10 +1,4 @@
 import {
-  FinancialAccountsModel,
-  FinancialAccountByIdModel,
-  PrivateLedgersModel,
-  FinancialInstitutionsResult,
-  FinancialInstitutionsModel,
-  AccountAutomationModel,
   UserModel,
   CompaniesModel,
   LanguagesModel,
@@ -17,24 +11,17 @@ import {
   deleteRequest,
 } from "../../../../auth/core/_apiservice";
 import {
-  SEARCH_FINANCIAL_ACCOUNTS,
-  POST_FINANCIAL_ACCOUNT,
-  GET_LEDGDER_FOR_FINANCIAL,
-  GET_FINANCIALACCOUNT_BY_ID,
-  GET_FINANCIAL_INSTITUTIONS,
-  POST_ACCOUNT_AUTOMATION,
-  UNLINK_ACCOUNT,
-  GET_ALL_USERS,
+  USERS_API,
   GET_COMPANIES,
   GET_USER_TYPES,
   GET_LANGUAGES,
 } from "./constants";
 
-interface DeleteResult extends Partial<FinancialAccountsModel> {}
+interface DeleteResult extends Partial<UserModel> {}
 
 export function getUsers(searchTerm: string, pageIndex: number) {
   return postRequest<UserModel>(
-    `${GET_ALL_USERS}/search`,
+    `${USERS_API}/search`,
     {
       pageMax: 25,
       pageIndex: searchTerm ? 1 : pageIndex,
@@ -80,8 +67,8 @@ export function postUser(
   accountantBeconNumber: string,
   accountantNotificationEmailAddress: string
 ) {
-  return postRequest<FinancialAccountsModel>(
-    GET_ALL_USERS,
+  return postRequest<UserModelById>(
+    USERS_API,
     {
       id: id,
       genderType: genderType,
@@ -105,51 +92,10 @@ export function postUser(
   );
 }
 
-//extraaaaaaaaaa
-
 export function getUserById(editModalId: number) {
-  return getRequest<UserModelById>(`${GET_ALL_USERS}/${editModalId}`, true);
+  return getRequest<UserModelById>(`${USERS_API}/${editModalId}`, true);
 }
 
-export function getLedgerForFinancial(id: number) {
-  return getRequest<PrivateLedgersModel>(
-    `${GET_LEDGDER_FOR_FINANCIAL}/${id}`,
-    true
-  );
-}
-
-export function deleteFinancialAccount(id: number) {
-  return deleteRequest<DeleteResult>(GET_ALL_USERS, [id], true);
-}
-
-export function getFinancialInstitutions(countryType: number) {
-  return getRequest<FinancialInstitutionsModel>(
-    `${GET_FINANCIAL_INSTITUTIONS}/${countryType}`,
-    true
-  );
-}
-
-export function postAccounAutomation(
-  companyId: number,
-  importDateMarker: string,
-  optionalFinancialInstitutionId: string,
-  redirectCommand: {
-    successUrl: string;
-    oopsUrl: string;
-  }
-) {
-  return postRequest<AccountAutomationModel>(
-    `${POST_ACCOUNT_AUTOMATION}`,
-    {
-      companyId: companyId,
-      importDateMarker: importDateMarker,
-      optionalFinancialInstitutionId: optionalFinancialInstitutionId,
-      redirectCommand: redirectCommand,
-    },
-    true
-  );
-}
-
-export function deleteAutomation(id: number) {
-  return deleteRequest<Boolean>(`${UNLINK_ACCOUNT}/${id}`, [], true);
+export function deleteUser(id: number) {
+  return deleteRequest<DeleteResult>(USERS_API, [id], true);
 }

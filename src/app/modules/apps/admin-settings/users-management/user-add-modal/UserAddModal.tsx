@@ -38,8 +38,8 @@ const UserAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       isActive: false,
       accessibleCompanies: [
         {
-          isDefault: false,
           companyId: 0,
+          isDefault: false,
         },
       ],
       passwordSet: {

@@ -277,8 +277,7 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
         </div>
 
         {/* Accessible Companies */}
-        
-        
+
         <div className="fv-row mb-7">
           <label className="fw-bold fs-6 mb-2">
             {intl.formatMessage({ id: "Fields.AccessibleCompanies" })}
@@ -297,7 +296,7 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             return (
               <div
                 key={company.value}
-                className="d-flex align-items-center justify-content-between mb-3 alert alert-custom alert-default bg-secondary  "
+                className="d-flex align-items-center justify-content-between mb-3 alert alert-custom alert-default bg-secondary"
               >
                 <div className="d-flex align-items-center">
                   <i className="ki-duotone ki-office-bag text-primary fs-2x me-2">
@@ -311,7 +310,7 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
 
                 <div className="d-flex align-items-center">
                   <label className="me-2">Active</label>
-                  <div className="form-check form-switch d-flex align-items-center ">
+                  <div className="form-check form-switch d-flex align-items-center">
                     <input
                       className="form-check-input h-20px w-35px"
                       type="checkbox"
@@ -319,7 +318,10 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
                       onChange={(e) => {
                         const updatedCompanies = e.target.checked
                           ? [
-                              ...formik.values.accessibleCompanies,
+                              ...formik.values.accessibleCompanies.filter(
+                                (selectedCompany) =>
+                                  selectedCompany.companyId !== 0
+                              ),
                               { companyId: company.value, isDefault: false },
                             ]
                           : formik.values.accessibleCompanies.filter(
@@ -344,15 +346,18 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
                       disabled={!isActive}
                       onChange={(e) => {
                         const updatedCompanies =
-                          formik.values.accessibleCompanies.map(
-                            (selectedCompany) => ({
+                          formik.values.accessibleCompanies
+                            .filter(
+                              (selectedCompany) =>
+                                selectedCompany.companyId !== 0
+                            ) // Filter out the placeholder entry
+                            .map((selectedCompany) => ({
                               ...selectedCompany,
                               isDefault:
                                 selectedCompany.companyId === company.value
                                   ? e.target.checked
                                   : false,
-                            })
-                          );
+                            }));
 
                         formik.setFieldValue(
                           "accessibleCompanies",
