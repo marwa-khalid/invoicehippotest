@@ -23,7 +23,7 @@ const UserAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const intl = useIntl();
   const auth = useAuth();
-  console.log(auth.currentUser?.result.id);
+ 
 
   const formik = useFormik({
     initialValues: {

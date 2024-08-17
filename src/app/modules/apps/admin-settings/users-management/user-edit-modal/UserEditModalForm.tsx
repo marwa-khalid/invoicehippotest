@@ -76,7 +76,7 @@ const UserEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
       label: genderType.Title,
     };
   });
-  console.log(formik.values);
+ 
   return (
     <>
       <form
@@ -380,7 +380,7 @@ const UserEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           })}
         </div>
 
-        {console.log(formik.values)!}
+   
         <div
           className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0 "
           role="alert"
