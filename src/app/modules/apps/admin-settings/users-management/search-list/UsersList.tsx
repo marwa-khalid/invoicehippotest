@@ -20,6 +20,9 @@ interface ComponentProps {
   pageIndex: number;
   editModalOpen: boolean;
   deleteModalOpen: boolean;
+  isLoading: boolean;
+  setIsLoading: (type: boolean) => void;
+  
 }
 const UsersList = ({
   searchTerm,
@@ -33,12 +36,14 @@ const UsersList = ({
   pageIndex,
   editModalOpen,
   deleteModalOpen,
+  isLoading,
+  setIsLoading,
 }: ComponentProps) => {
   const [users, setUsers] = useState<any>([]);
   const auth = useAuth();
   const currentUser = auth.currentUser;
   const intl = useIntl();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   // const [pageIndex, setPageIndex] = useState<number>(1);
 
   const fetchUsersList = async () => {

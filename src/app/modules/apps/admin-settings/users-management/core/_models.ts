@@ -12,6 +12,7 @@ interface ApiResponse<T> {
   isValid: boolean;
   textInfo: any;
 }
+
 interface UserType {
   value: number;
   name: string;

@@ -15,6 +15,7 @@ import {
   GET_COMPANIES,
   GET_USER_TYPES,
   GET_LANGUAGES,
+  CHECK_CREATE_USAGE,
 } from "./constants";
 
 interface DeleteResult extends Partial<UserModel> {}
@@ -33,6 +34,10 @@ export function getUsers(searchTerm: string, pageIndex: number) {
 
 export function getCompanies() {
   return getRequest<CompaniesModel>(GET_COMPANIES, true);
+}
+
+export function checkUsage() {
+  return getRequest<Boolean>(CHECK_CREATE_USAGE, true);
 }
 
 export function getUserTypes() {

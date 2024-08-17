@@ -7,6 +7,9 @@ import { useState } from "react";
 import { UsersToolbar } from "./components/header/UsersToolbar";
 import { UserEditModal } from "./user-edit-modal/UserEditModal";
 import { UserDeleteModal } from "./user-delete-modal/UserDeleteModal";
+import { useIntl } from "react-intl";
+import { KTIcon } from "../../../../../_metronic/helpers";
+import { UpgradeModal } from "./components/upgrade/UpgradeModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -35,11 +38,18 @@ const UsersManagementInnerWrapper = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [userName, setUserName] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isUpgradeAvailable, setIsUpgradeAvailable] = useState(false);
+  const intl = useIntl();
   return (
     <>
       <UsersHeader setSearchTerm={setSearchTermState} searchTerm={searchTerm} />
-      <UsersToolbar totalRows={totalRows} setAddModalOpen={setAddModalOpen} />
+      <UsersToolbar
+        totalRows={totalRows}
+        setAddModalOpen={setAddModalOpen}
+        setIsLoading={setIsLoading}
+        setIsUpgradeAvailable={setIsUpgradeAvailable}
+      />
       <UsersList
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
@@ -52,6 +62,8 @@ const UsersManagementInnerWrapper = () => {
         setPageIndex={setPageIndexState}
         editModalOpen={editModalOpen}
         deleteModalOpen={deleteModalOpen}
+        setIsLoading={setIsLoading}
+        isLoading={isLoading}
       />
       {addModalOpen && (
         <UserAddModal
@@ -59,7 +71,7 @@ const UsersManagementInnerWrapper = () => {
           setAddModalOpen={setAddModalOpen}
         />
       )}
-      s
+
       {editModalOpen && (
         <UserEditModal
           editModalId={editModalId}
@@ -74,6 +86,10 @@ const UsersManagementInnerWrapper = () => {
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
         />
+      )}
+
+      {isUpgradeAvailable && (
+        <UpgradeModal setIsUpgradeAvailable={setIsUpgradeAvailable} />
       )}
     </>
   );

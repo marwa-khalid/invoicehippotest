@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { UserDeleteModalHeader } from "./UserDeleteModalHeader";
 import { UserDeleteModalFooter } from "./UserDeleteModalFooter";
 import { useIntl } from "react-intl";
