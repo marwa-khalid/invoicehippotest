@@ -35,11 +35,13 @@ const UsersToolbar = ({
     const response = await checkUsage();
 
     if (response) {
-      setAddModalOpen(true);
+      handleToast(response);
+      setIsUpgradeAvailable(true);
+
       setIsLoading(false);
     } else {
-      handleToast(response);
-      setIsUpgradeAvailable(true); // Open the upgrade modal
+      // Open the upgrade modal
+      setAddModalOpen(true);
       setIsLoading(false);
     }
   };

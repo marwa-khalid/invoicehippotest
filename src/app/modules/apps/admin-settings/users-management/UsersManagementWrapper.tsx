@@ -8,8 +8,7 @@ import { UsersToolbar } from "./components/header/UsersToolbar";
 import { UserEditModal } from "./user-edit-modal/UserEditModal";
 import { UserDeleteModal } from "./user-delete-modal/UserDeleteModal";
 import { useIntl } from "react-intl";
-import { KTIcon } from "../../../../../_metronic/helpers";
-import { UpgradeModal } from "./components/upgrade/UpgradeModal";
+import { LimitationModal } from "../../license-limitation/LimitationModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -89,7 +88,12 @@ const UsersManagementInnerWrapper = () => {
       )}
 
       {isUpgradeAvailable && (
-        <UpgradeModal setIsUpgradeAvailable={setIsUpgradeAvailable} />
+        <LimitationModal
+          setIsUpgradeAvailable={setIsUpgradeAvailable}
+          description={intl.formatMessage({
+            id: "Fields.ModalUsageMaxUsersInfo",
+          })}
+        />
       )}
     </>
   );
