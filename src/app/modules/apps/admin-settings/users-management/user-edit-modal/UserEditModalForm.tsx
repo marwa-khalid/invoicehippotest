@@ -3,8 +3,8 @@ import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
 import { FormikProps } from "formik";
-import { getCompanies, getLanguages, getUserTypes } from "../core/_requests";
-import { CompaniesResult, LanguagesResult } from "../core/_models";
+import { getCompanies, getUserTypes } from "../core/_requests";
+import { CompaniesResult } from "../core/_models";
 import enums from "../../../../../../invoicehippo.enums.json";
 interface FormValues {
   id: number;
@@ -41,7 +41,7 @@ const UserEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
   const [companies, setCompanies] = useState<CompaniesResult[]>([]);
   const [userTypes, setUserTypes] = useState<CompaniesResult[]>([]);
-  const [languages, setLanguages] = useState<LanguagesResult[]>([]);
+  // const [languages, setLanguages] = useState<LanguagesResult[]>([]);
   useEffect(() => {
     const fetchAccessibleCompanies = async () => {
       const response = await getCompanies();
@@ -60,14 +60,14 @@ const UserEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
     fetchUserTypes();
   }, []);
 
-  useEffect(() => {
-    const fetchLanguages = async () => {
-      const response = await getLanguages();
+  // useEffect(() => {
+  //   const fetchLanguages = async () => {
+  //     const response = await getLanguages();
 
-      setLanguages(response.result);
-    };
-    fetchLanguages();
-  }, []);
+  //     setLanguages(response.result);
+  //   };
+  //   fetchLanguages();
+  // }, []);
 
   // Gender type options for react-select
   const genderOptions = enums.GenderTypes.map((genderType) => {
@@ -76,7 +76,14 @@ const UserEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
       label: genderType.Title,
     };
   });
- 
+
+  const languageOptions = enums.LanguageTypes.map((languageType) => {
+    return {
+      value: languageType.Value,
+      label: languageType.Title,
+    };
+  });
+
   return (
     <>
       <form
@@ -227,23 +234,13 @@ const UserEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             </label>
             <Select
               name="languageType"
-              options={languages.map((language) => {
-                return {
-                  value: language.languageType.value,
-                  label: language.languageType.name,
-                };
-              })}
+              options={languageOptions}
               onChange={(option) =>
                 formik.setFieldValue("languageType", option?.value)
               }
-              value={languages
-                .map((language) => {
-                  return {
-                    value: language.languageType.value,
-                    label: language.languageType.name,
-                  };
-                })
-                .find((option) => option.value === formik.values.languageType)}
+              value={languageOptions.find(
+                (option) => option.value === formik.values.languageType
+              )}
               isDisabled={formik.isSubmitting}
               className="react-select-styled"
               isClearable
@@ -380,7 +377,6 @@ const UserEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           })}
         </div>
 
-   
         <div
           className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0 "
           role="alert"

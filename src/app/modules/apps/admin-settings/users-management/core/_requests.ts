@@ -1,7 +1,6 @@
 import {
   UserModel,
   CompaniesModel,
-  LanguagesModel,
   UserModelById,
 } from "./_models";
 
@@ -44,9 +43,9 @@ export function getUserTypes() {
   return getRequest<CompaniesModel>(GET_USER_TYPES, true);
 }
 
-export function getLanguages() {
-  return getRequest<LanguagesModel>(GET_LANGUAGES, true);
-}
+// export function getLanguages() {
+//   return getRequest<LanguagesModel>(GET_LANGUAGES, true);
+// }
 export function postUser(
   id: number,
   genderType: number,

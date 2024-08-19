@@ -8,6 +8,7 @@ import { useIntl } from "react-intl";
 import { UserEditModalForm } from "./UserEditModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { useAuth } from "../../../../auth";
+import { getProfileInfo } from "../../../../auth/core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
   setEditModalOpen: (type: boolean) => void;
@@ -85,7 +86,16 @@ const UserEditModal = ({
           formik.resetForm();
           setEditModalOpen(false);
           setRefresh(true);
+          console.log(response.result.id);
+          console.log(auth.currentUser?.result.id);
+          if (response.result.id === auth.currentUser?.result.id) {
+            const data = await getProfileInfo();
+            if (data) {
+              auth.setCurrentUser(data);
+            }
+          }
         }
+
         handleToast(response);
       } catch (error) {
         console.error("Put failed:", error);

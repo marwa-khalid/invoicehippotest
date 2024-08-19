@@ -101,18 +101,18 @@ export interface CompaniesResult {
   isAccountTypePrive: boolean;
 }
 
-export interface LanguagesResult {
-  languageType: {
-    value: number;
-    name: string;
-    description: string;
-  };
-  translatedItemsCount: number;
-  translatedCoveragePercentage: number;
-  useInLists: boolean;
-}
+// export interface LanguagesResult {
+//   languageType: {
+//     value: number;
+//     name: string;
+//     description: string;
+//   };
+//   translatedItemsCount: number;
+//   translatedCoveragePercentage: number;
+//   useInLists: boolean;
+// }
 
-export type LanguagesModel = ApiResponse<LanguagesResult[]>;
+// export type LanguagesModel = ApiResponse<LanguagesResult[]>;
 export type UserModel = ApiResponse<UserResult[]>;
 export type UserModelById = ApiResponse<UserResultById>;
 export type CompaniesModel = ApiResponse<CompaniesResult[]>;

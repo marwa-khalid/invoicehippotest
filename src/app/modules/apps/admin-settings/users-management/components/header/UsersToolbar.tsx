@@ -65,7 +65,7 @@ const UsersToolbar = ({
               id: "Fields.ToolTipNew",
             })}
             fontSize="sm"
-            className="bg-gray-800 text-white p-2 rounded "
+            className="bg-gray-800 text-white p-2 rounded"
             placement="top"
           >
             <button
