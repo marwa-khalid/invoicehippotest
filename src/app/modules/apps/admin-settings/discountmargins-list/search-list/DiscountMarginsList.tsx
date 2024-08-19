@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getDiscountMargins } from "../core/_requests";
 import { DiscountMarginResult, ProductGroupResult } from "../core/_models";
-import { ListLoading } from "../../components/ListLoading";
+import { ListLoading } from "../../../components/ListLoading";
 import { DiscountPagination } from "../components/pagination/DiscountPagination";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
@@ -77,7 +77,6 @@ const DiscountMarginsList = ({
 
   const toggleRowSelection = (id: number) => {
     setDeleteModalId((prevSelected: number[]) => {
-    
       const newSelected = [...prevSelected];
       if (newSelected.includes(id)) {
         // Remove the ID if it's already selected
@@ -112,7 +111,6 @@ const DiscountMarginsList = ({
   };
 
   const openDeleteModal = (id: number, discountMarginTitle: string) => {
- 
     setDeleteModalId([id]);
     setDeleteModalOpen(true);
     setDiscountMarginTitle(discountMarginTitle);

@@ -16,6 +16,7 @@ const PrivateRoutes = () => {
   const SettingsPage = lazy(
     () => import("../modules/apps/admin-settings/SettingsPage")
   );
+  const ClientsPage = lazy(() => import("../modules/apps/client/ClientsPage"));
 
   return (
     <Routes>
@@ -74,6 +75,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <SettingsPage />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path="client/*"
+          element={
+            <SuspensedView>
+              <ClientsPage />
             </SuspensedView>
           }
         />

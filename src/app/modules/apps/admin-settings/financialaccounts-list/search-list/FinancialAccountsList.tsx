@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getFinancialAccounts } from "../core/_requests";
 import { FinancialAccountsResult } from "../core/_models";
-import { ListLoading } from "../../components/ListLoading";
+import { ListLoading } from "../../../components/ListLoading";
 import { FinancialListPagination } from "../components/pagination/FinancialListPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";

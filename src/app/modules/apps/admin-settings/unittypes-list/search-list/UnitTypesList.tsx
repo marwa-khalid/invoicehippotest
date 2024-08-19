@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUnitTypes } from "../core/_requests";
 import { UnitTypesResult } from "../core/_models";
-import { ListLoading } from "../../components/ListLoading";
+import { ListLoading } from "../../../components/ListLoading";
 import { UnitTypesPagination } from "../components/pagination/UnitTypesPagination";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
@@ -80,7 +80,6 @@ const UnitTypesList = ({
 
   const toggleRowSelection = (id: number) => {
     setDeleteModalId((prevSelected: number[]) => {
-    
       const newSelected = [...prevSelected];
       if (newSelected.includes(id)) {
         // Remove the ID if it's already selected

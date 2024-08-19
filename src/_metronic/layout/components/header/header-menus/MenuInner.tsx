@@ -186,11 +186,15 @@ export function MenuInner() {
           title="Discount Margins"
           hasBullet={true}
         />
-        <MenuItem
-          to="/admin/settings/users"
-          title="Users"
-          hasBullet={true}
-        />
+        <MenuItem to="/admin/settings/users" title="Users" hasBullet={true} />
+      </MenuInnerWithSub>
+      <MenuInnerWithSub
+        to="/client"
+        title="Client"
+        fontIcon="bi-chat-left"
+        icon="message-text-2"
+      >
+        <MenuItem to="/client/search" title="Client" hasBullet={true} />
       </MenuInnerWithSub>
 
       <MenuInnerWithSub

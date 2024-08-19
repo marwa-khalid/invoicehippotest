@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUsers } from "../core/_requests";
 import { UserResult } from "../core/_models";
-import { ListLoading } from "../../components/ListLoading";
+import { ListLoading } from "../../../components/ListLoading";
 import { UsersPagination } from "../components/pagination/UsersPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
@@ -22,7 +22,6 @@ interface ComponentProps {
   deleteModalOpen: boolean;
   isLoading: boolean;
   setIsLoading: (type: boolean) => void;
-  
 }
 const UsersList = ({
   searchTerm,

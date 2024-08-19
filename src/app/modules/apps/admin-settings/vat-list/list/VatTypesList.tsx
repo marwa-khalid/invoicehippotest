@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getVatTypes } from "../core/_requests";
 import { VatTypesResult } from "../core/_models";
-import { ListLoading } from "../../components/ListLoading";
+import { ListLoading } from "../../../components/ListLoading";
 import { VatListPagination } from "../components/pagination/VatListPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";

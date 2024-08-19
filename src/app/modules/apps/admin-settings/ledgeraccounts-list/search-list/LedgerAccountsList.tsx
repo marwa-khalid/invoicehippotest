@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getLedgerAccounts } from "../core/_requests";
 import { LedgerAccountsResult } from "../core/_models";
-import { ListLoading } from "../../components/ListLoading";
+import { ListLoading } from "../../../components/ListLoading";
 import { LedgerListPagination } from "../components/pagination/LedgerListPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";

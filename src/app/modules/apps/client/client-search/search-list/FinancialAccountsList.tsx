@@ -1,0 +1,282 @@
+import { useEffect, useState } from "react";
+import { getClients } from "../core/_requests";
+import { ClientResult, FinancialAccountsResult } from "../core/_models";
+import { ListLoading } from "../../../components/ListLoading";
+import { FinancialListPagination } from "../components/pagination/FinancialListPagination";
+import { KTCardBody } from "../../../../../../_metronic/helpers";
+import { useIntl } from "react-intl";
+import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
+import { KTSVG } from "../../../../../../_metronic/helpers";
+import { Tooltip } from "@chakra-ui/react";
+interface ComponentProps {
+  searchTerm: string;
+  setTotalRows: (type: number) => void;
+  setEditModalOpen: (type: boolean) => void;
+  setUnlinkModalOpen: (type: boolean) => void;
+  setEditModalId: (type: number) => void;
+  setLedgerAccountTitle: (type: string) => void;
+  setDeleteModalOpen: (type: boolean) => void;
+  refresh: boolean;
+  setPageIndex: (type: number) => void;
+  pageIndex: number;
+  editModalOpen: boolean;
+  deleteModalOpen: boolean;
+}
+const FinancialAccountsList = ({
+  searchTerm,
+  setTotalRows,
+  setEditModalOpen,
+  setEditModalId,
+  setLedgerAccountTitle,
+  setDeleteModalOpen,
+  setUnlinkModalOpen,
+  refresh,
+  setPageIndex,
+  pageIndex,
+  editModalOpen,
+  deleteModalOpen,
+}: ComponentProps) => {
+  const [clients, setClients] = useState<any>([]);
+
+  const intl = useIntl();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [pageIndex, setPageIndex] = useState<number>(1);
+
+  const fetchFinancialAccounts = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await getClients(searchTerm, pageIndex);
+
+      setClients(response);
+      setPageIndex(response.pageIndex);
+      setTotalRows(response.totalRows);
+    } catch (error) {
+      console.error("Error fetching clients :", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const handlePageChange = (page: number) => {
+    setPageIndex(page);
+    fetchFinancialAccounts();
+  };
+
+  useEffect(() => {
+    fetchFinancialAccounts();
+  }, [searchTerm, pageIndex]);
+
+  useEffect(() => {
+    fetchFinancialAccounts();
+  }, [editModalOpen, deleteModalOpen, refresh]);
+
+  const renderWifiIcon = () => {
+    return <i className="fas fa-wifi text-success fs-2" />;
+  };
+  const openEditModal = (id: number) => {
+    setEditModalId(id);
+    setEditModalOpen(true);
+  };
+
+  const openDeleteModal = (id: number, ledgerTitle: string) => {
+    setEditModalId(id);
+    setDeleteModalOpen(true);
+    setLedgerAccountTitle(ledgerTitle);
+  };
+
+  const openUnlinkModal = (id: number) => {
+    setEditModalId(id);
+    setUnlinkModalOpen(true);
+  };
+
+  const formatExpirationDate = (dateStr: string): string => {
+    const date = new Date(dateStr);
+
+    const days = [
+      "Zondag",
+      "Maandag",
+      "Dinsdag",
+      "Woensdag",
+      "Donderdag",
+      "Vrijdag",
+      "Zaterdag",
+    ];
+    const months = [
+      "Januari",
+      "Februari",
+      "Maart",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Augustus",
+      "September",
+      "Oktober",
+      "November",
+      "December",
+    ];
+
+    const dayName = days[date.getDay()];
+    const day = date.getDate();
+    const monthName = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${dayName} ${day} ${monthName} ${year}`;
+  };
+  const formatRequestDate = (dateTimeStr: any) => {
+    const date = new Date(dateTimeStr);
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const year = date.getFullYear();
+
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+  };
+  return (
+    <KTCardBody className="py-4">
+      <div className="row row-cols-1 row-cols-md-1 g-4">
+        {
+          // !isLoading &&
+          clients?.result?.map((client: ClientResult) => (
+            <div className="col" key={client.id}>
+              <div className="card h-100 py-6 ">
+                <div className="card-body">
+                  {/* First Row: Checkbox, Divider, Value */}
+                  <div className="d-flex align-items-center justify-content-between mb-3">
+                    <div
+                      className="d-flex flex-column gap-3 cursor-pointer title-clickable"
+                      onClick={() => {
+                        openEditModal(client.id);
+                      }}
+                    >
+                      {/* {client.bankConnectInfo.isActive &&
+                        renderWifiIcon()} */}
+
+                      <small className="text-muted">{client.customerNr}</small>
+                      <strong className="fs-4">{client.businessName}</strong>
+                      <small className="text-muted">
+                        {client.primaryContact.fullName}
+                      </small>
+                      <small className="text-muted">
+                        {client.primaryContact.emailAddress}
+                      </small>
+                    </div>
+                    <div className="align-items-center my-lg-0 my-1 necessary-icons">
+                      {client.actions.canEdit && (
+                        <Tooltip
+                          label={intl.formatMessage({
+                            id: "Fields.ToolTipEdit",
+                          })}
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded "
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            onClick={() => {
+                              openEditModal(client.id);
+                            }}
+                          >
+                            <i className="ki-solid ki-pencil text-warning fs-2 " />
+                          </button>
+                        </Tooltip>
+                      )}
+
+                      {client.actions.canExtendAutomation && (
+                        <Tooltip
+                          label={intl.formatMessage({
+                            id: "Fields.ToolTipReconnect",
+                          })}
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded "
+                          placement="top"
+                        >
+                          <button className="btn btn-icon btn-light btn-sm me-4">
+                            <i className="fas fa-wifi text-primary fs-3" />
+                          </button>
+                        </Tooltip>
+                      )}
+                      {client.actions.canRevokeAutomation && (
+                        <Tooltip
+                          label={intl.formatMessage({
+                            id: "Fields.ToolTipDisonnect",
+                          })}
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded "
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            onClick={() => {
+                              openUnlinkModal(client.id);
+                            }}
+                          >
+                            <i className="fas fa-wifi text-danger fs-3" />
+                          </button>
+                        </Tooltip>
+                      )}
+                      {client.actions.canDelete && (
+                        <Tooltip
+                          label={intl.formatMessage({
+                            id: "Fields.ToolTipDelete",
+                          })}
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded "
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm"
+                            onClick={() => {
+                              openDeleteModal(client.id, client.businessName);
+                            }}
+                          >
+                            <i className="ki-solid ki-trash text-danger fs-2"></i>
+                          </button>
+                        </Tooltip>
+                      )}
+                    </div>
+                  </div>
+                  {/* separator Line */}
+
+                  <div className="separator separator-solid mb-3"></div>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+
+        {clients?.result?.length == 0 && (
+          <div className="text-center">
+            <img
+              alt=""
+              src={toAbsoluteUrl("media/logos/searchnotfound.png")}
+              className="h-350px w-450px"
+            />
+            <h3>
+              {intl.formatMessage({
+                id: "Fields.SearchNoItemsAvailableDefault",
+              })}
+            </h3>
+          </div>
+        )}
+        {isLoading && <ListLoading />}
+      </div>
+
+      {clients?.result?.length > 0 && (
+        <FinancialListPagination
+          totalPages={clients.totalPages}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+          onPageChange={handlePageChange}
+          totalItems={clients.totalRows}
+        />
+      )}
+    </KTCardBody>
+  );
+};
+
+export { FinancialAccountsList };
