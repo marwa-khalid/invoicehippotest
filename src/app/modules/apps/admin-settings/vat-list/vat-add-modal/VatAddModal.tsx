@@ -62,11 +62,11 @@ const VatAddModal = ({ setRefresh }: Props) => {
     validationSchema: Yup.object().shape({
       title: Yup.string()
         .min(
-          3,
+          2,
           intl
             .formatMessage({ id: "Common.ValidationMin" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
-            .replace("{1}", `3`)
+            .replace("{1}", `2`)
         )
         .max(
           50,
@@ -112,7 +112,6 @@ const VatAddModal = ({ setRefresh }: Props) => {
           values.isNoneVatType
         );
 
-        
         formik.resetForm();
         setItemIdForUpdate(undefined);
         setRefresh(true);
@@ -139,10 +138,7 @@ const VatAddModal = ({ setRefresh }: Props) => {
           <div className="modal-content">
             <VatAddModalHeader />
             <div className="modal-body p-10">
-              <div
-                className="form-wrapper"
-               
-              >
+              <div className="form-wrapper">
                 <VatAddModalFormWrapper
                   formik={formik}
                   isSubmitting={isSubmitting}

@@ -105,9 +105,7 @@ const VatListWrapper = () => (
       <ListViewProvider>
         <ToolbarWrapper />
         <Content>
-       
           <VatListInnerWrapper />
-        
         </Content>
       </ListViewProvider>
     </QueryResponseProvider>

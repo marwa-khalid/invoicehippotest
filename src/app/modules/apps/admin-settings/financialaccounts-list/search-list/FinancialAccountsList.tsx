@@ -21,6 +21,7 @@ interface ComponentProps {
   pageIndex: number;
   editModalOpen: boolean;
   deleteModalOpen: boolean;
+  addModalOpen: boolean;
 }
 const FinancialAccountsList = ({
   searchTerm,
@@ -35,24 +36,23 @@ const FinancialAccountsList = ({
   pageIndex,
   editModalOpen,
   deleteModalOpen,
+  addModalOpen,
 }: ComponentProps) => {
   const [financialAccounts, setFinancialAccounts] = useState<any>([]);
 
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const [pageIndex, setPageIndex] = useState<number>(1);
 
   const fetchFinancialAccounts = async () => {
     setIsLoading(true);
 
     try {
       const response = await getFinancialAccounts(searchTerm, pageIndex);
-
       setFinancialAccounts(response);
       setPageIndex(response.pageIndex);
       setTotalRows(response.totalRows);
     } catch (error) {
-      console.error("Error fetching VAT types:", error);
+      console.error("Error fetching financial accounts:", error);
     } finally {
       setIsLoading(false);
     }
@@ -68,7 +68,7 @@ const FinancialAccountsList = ({
 
   useEffect(() => {
     fetchFinancialAccounts();
-  }, [editModalOpen, deleteModalOpen, refresh]);
+  }, [refresh, editModalOpen, deleteModalOpen, addModalOpen]);
 
   const renderWifiIcon = () => {
     return <i className="fas fa-wifi text-success fs-2" />;

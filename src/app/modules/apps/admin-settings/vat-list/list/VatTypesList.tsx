@@ -8,6 +8,7 @@ import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
 import { Tooltip, Box } from "@chakra-ui/react";
+import { useListView } from "../core/ListViewProvider";
 
 // import { VatEditModal } from "../user-edit-modal/VatEditModal";
 interface UsersTableComponentProps {
@@ -42,6 +43,7 @@ const VatTypesList = ({
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // const [pageIndex, setPageIndex] = useState<number>(1);
+  const { itemIdForUpdate } = useListView();
 
   const fetchVatTypes = async () => {
     setIsLoading(true);
@@ -74,7 +76,7 @@ const VatTypesList = ({
 
   useEffect(() => {
     fetchVatTypes();
-  }, [editModalOpen, deleteModalOpen, refresh]);
+  }, [editModalOpen, deleteModalOpen, itemIdForUpdate, refresh]);
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (

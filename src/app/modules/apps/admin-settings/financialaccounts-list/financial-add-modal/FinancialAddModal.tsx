@@ -86,9 +86,9 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         );
 
         if (response.isValid) {
+          setRefresh(true);
           formik.resetForm();
           setAddModalOpen(false);
-          setRefresh(true);
         }
         handleToast(response);
       } catch (error) {

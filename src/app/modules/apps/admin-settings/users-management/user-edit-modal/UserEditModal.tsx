@@ -58,7 +58,31 @@ const UserEditModal = ({
       accountantBeconNumber: "",
       accountantNotificationEmailAddress: "",
     },
-    validationSchema: Yup.object().shape({}),
+    validationSchema: Yup.object().shape({
+      firstName: Yup.string().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.FirstName" }))
+      ),
+      lastName: Yup.string().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.LastName" }))
+      ),
+      loginEmailAddress: Yup.string().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace(
+            "{0}",
+            intl.formatMessage({ id: "Fields.LoginEmailAddress" })
+          )
+      ),
+      requestingUserPassword: Yup.string().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.Password" }))
+      ),
+    }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {

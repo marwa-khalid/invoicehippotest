@@ -68,6 +68,7 @@ const UnitTypesListInnerWrapper = () => {
         editModalOpen={editModalOpen}
         deleteModalOpen={deleteModalOpen}
         deleteModalId={deleteModalId}
+        addModalOpen={addModalOpen}
       />
 
       {addModalOpen && (

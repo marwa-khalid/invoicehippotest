@@ -5,7 +5,7 @@ import { getUnitTypesById, postUnitType } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import FinancialEditModalForm from "./UnitTypesEditModalForm";
+import { UnitTypesEditModalForm } from "./UnitTypesEditModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 interface Props {
   setRefresh: (type: boolean) => void;
@@ -83,7 +83,7 @@ const UnitTypesEditModal = ({
     const fetchInitialData = async () => {
       try {
         const response = await getUnitTypesById(editModalId);
-  
+
         formik.setValues({
           id: response.result?.id || 0,
           title: response.result?.title || "",
@@ -110,7 +110,7 @@ const UnitTypesEditModal = ({
           <div className="modal-content">
             <UnitTypesEditModalHeader setEditModalOpen={setEditModalOpen} />
             <div className="modal-body p-10">
-              <FinancialEditModalForm
+              <UnitTypesEditModalForm
                 formik={formik}
                 isSubmitting={isSubmitting}
               />

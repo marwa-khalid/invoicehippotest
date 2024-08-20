@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
@@ -27,7 +27,7 @@ const UnitTypesEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
         </label>
         <div className="form-check form-switch mt-1 d-flex align-items-center">
           <label
-            className="form-check-label me-4 fs-sm text-muted"
+            className="form-check-label me-20 fs-sm text-muted"
             htmlFor="isDefaultSwitch"
           >
             {intl.formatMessage({ id: "Fields.IsDefault" })}
@@ -76,4 +76,4 @@ const UnitTypesEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
   );
 };
 
-export default UnitTypesEditModalForm;
+export { UnitTypesEditModalForm };

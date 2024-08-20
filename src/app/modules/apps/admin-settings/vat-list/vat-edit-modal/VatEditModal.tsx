@@ -68,11 +68,11 @@ const VatEditModal = ({
   const formSchema = Yup.object().shape({
     title: Yup.string()
       .min(
-        3,
+        2,
         intl
           .formatMessage({ id: "Common.ValidationMin" })
           .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
-          .replace("{1}", `3`)
+          .replace("{1}", `2`)
       )
       .max(
         50,

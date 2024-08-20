@@ -1,3 +1,4 @@
+import { FC } from "react";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
@@ -13,22 +14,19 @@ type Props = {
   isSubmitting: boolean;
 };
 
-const UnitTypesAddModalForm = ({ formik, isSubmitting }: Props) => {
+const UnitTypesAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
 
   return (
-    <form className="form p-3" onSubmit={formik.handleSubmit} noValidate>
+    <form className="form p-3 " onSubmit={formik.handleSubmit} noValidate>
       {/* begin::Input group */}
       <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-7">
-        {/* title Field */}
-
-        <label className="required fw-bold fs-6 mb-2">
-          {" "}
+        <label className="required fw-bold fs-6">
           {intl.formatMessage({ id: "Fields.Title" })}
         </label>
-        <div className="form-check form-switch mt-1">
+        <div className="form-check form-switch mt-1 d-flex align-items-center">
           <label
-            className="form-check-label me-4 fs-sm text-muted"
+            className="form-check-label me-20 fs-sm text-muted"
             htmlFor="isDefaultSwitch"
           >
             {intl.formatMessage({ id: "Fields.IsDefault" })}

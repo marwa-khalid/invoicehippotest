@@ -23,7 +23,6 @@ const UserAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const intl = useIntl();
   const auth = useAuth();
- 
 
   const formik = useFormik({
     initialValues: {
@@ -53,7 +52,31 @@ const UserAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       accountantBeconNumber: "",
       accountantNotificationEmailAddress: "",
     },
-    validationSchema: Yup.object().shape({}),
+    validationSchema: Yup.object().shape({
+      firstName: Yup.string().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.FirstName" }))
+      ),
+      lastName: Yup.string().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.LastName" }))
+      ),
+      loginEmailAddress: Yup.string().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace(
+            "{0}",
+            intl.formatMessage({ id: "Fields.LoginEmailAddress" })
+          )
+      ),
+      requestingUserPassword: Yup.string().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.Password" }))
+      ),
+    }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {

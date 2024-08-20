@@ -3,11 +3,6 @@ import { useIntl } from "react-intl";
 
 const ListLoading = () => {
   const intl = useIntl();
-  const overlayStyles = {
-    // Ensure it is above other elements
-  };
-
-  const contentStyles = {};
 
   return (
     <div
@@ -17,13 +12,14 @@ const ListLoading = () => {
         left: "0",
         width: "100%",
         height: "100%",
-        // backgroundColor: "rgba(0, 0, 0, 0.5)",
+        backgroundColor: "rgba(0, 0, 0, 0.3)", // Semi-transparent dark overlay
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: "9999", // Ensure it is above other elements
+        marginTop: 0,
+        zIndex: "9999",
         flexDirection: "column",
-        color: "#fff",
+        color: "rgba(0, 0, 0, 0.3)",
       }}
     >
       <iframe
@@ -32,9 +28,14 @@ const ListLoading = () => {
         height="200"
         style={{ border: "none" }}
       ></iframe>
-      <div style={{ marginTop: "1rem" }}>
+      {/* <div
+        style={{
+          marginTop: "1rem",
+          color: "red",
+        }}
+      >
         {intl.formatMessage({ id: "Common.Busy" })}...
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -239,6 +239,11 @@ const LedgerAddModalForm = ({
             <input
               type="text"
               {...formik.getFieldProps("code")}
+              onKeyPress={(e) => {
+                if (!/^\d$/.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
               className={clsx(
                 "form-control form-control-solid"
                 // { "is-invalid": formik.touched.code && formik.errors.code },

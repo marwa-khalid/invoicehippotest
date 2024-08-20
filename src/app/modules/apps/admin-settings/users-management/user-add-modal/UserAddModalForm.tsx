@@ -62,15 +62,6 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
     fetchUserTypes();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchLanguages = async () => {
-  //     const response = await getLanguages();
-
-  //     setLanguages(response.result);
-  //   };
-  //   fetchLanguages();
-  // }, []);
-
   // Gender type options for react-select
   const genderOptions = enums.GenderTypes.map((genderType) => {
     return {
@@ -79,12 +70,10 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
     };
   });
 
-  const languageOptions = enums.LanguageTypes.map((languageType) => {
-    return {
-      value: languageType.Value,
-      label: languageType.Title,
-    };
-  });
+  const languageOptions = [
+    { value: 1, label: "Nederlands" },
+    { value: 2, label: "English" },
+  ];
 
   console.log(languageOptions);
 
@@ -125,7 +114,12 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           {formik.touched.loginEmailAddress &&
             formik.errors.loginEmailAddress && (
               <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.loginEmailAddress}</span>
+                <span
+                  className="text-danger"
+                  dangerouslySetInnerHTML={{
+                    __html: formik.errors.loginEmailAddress,
+                  }}
+                />
               </div>
             )}
         </div>
@@ -151,7 +145,12 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           />
           {formik.touched.genderType && formik.errors.genderType && (
             <div className="fv-plugins-message-container">
-              <span role="alert">{formik.errors.genderType}</span>
+              <span
+                className="text-danger"
+                dangerouslySetInnerHTML={{
+                  __html: formik.errors.genderType,
+                }}
+              />
             </div>
           )}
         </div>
@@ -176,7 +175,12 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             {formik.touched.firstName && formik.errors.firstName && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.firstName}</span>
+                  <span
+                    className="text-danger"
+                    dangerouslySetInnerHTML={{
+                      __html: formik.errors.firstName,
+                    }}
+                  />
                 </div>
               </div>
             )}
@@ -200,7 +204,12 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             {formik.touched.betweenName && formik.errors.betweenName && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.betweenName}</span>
+                  <span
+                    className="text-danger"
+                    dangerouslySetInnerHTML={{
+                      __html: formik.errors.betweenName,
+                    }}
+                  />
                 </div>
               </div>
             )}
@@ -223,7 +232,12 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             {formik.touched.lastName && formik.errors.lastName && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.lastName}</span>
+                  <span
+                    className="text-danger"
+                    dangerouslySetInnerHTML={{
+                      __html: formik.errors.lastName,
+                    }}
+                  />
                 </div>
               </div>
             )}
@@ -248,7 +262,12 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             />
             {formik.touched.languageType && formik.errors.languageType && (
               <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.languageType}</span>
+                <span
+                  className="text-danger"
+                  dangerouslySetInnerHTML={{
+                    __html: formik.errors.languageType,
+                  }}
+                />
               </div>
             )}
           </div>
@@ -274,7 +293,12 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             />
             {formik.touched.userType && formik.errors.userType && (
               <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.userType}</span>
+                <span
+                  className="text-danger"
+                  dangerouslySetInnerHTML={{
+                    __html: formik.errors.userType,
+                  }}
+                />
               </div>
             )}
           </div>
@@ -444,7 +468,12 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           {formik.touched.requestingUserPassword &&
             formik.errors.requestingUserPassword && (
               <div className="fv-plugins-message-container">
-                <span role="alert">{formik.errors.requestingUserPassword}</span>
+                <span
+                  className="text-danger"
+                  dangerouslySetInnerHTML={{
+                    __html: formik.errors.requestingUserPassword,
+                  }}
+                />
               </div>
             )}
         </div>

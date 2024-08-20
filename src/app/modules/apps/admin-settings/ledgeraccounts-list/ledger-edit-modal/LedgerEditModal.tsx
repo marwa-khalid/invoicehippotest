@@ -123,7 +123,7 @@ const LedgerEditModal = ({
       }
     },
   });
-
+  console.log(formik.values);
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
@@ -161,10 +161,7 @@ const LedgerEditModal = ({
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
             <LedgerEditModalHeader setEditModalOpen={setEditModalOpen} />
-            <div
-              className="modal-body p-10"
-             
-            >
+            <div className="modal-body p-10">
               <LedgerEditModalForm
                 formik={formik}
                 setSelectedBearingTypeOption={setSelectedBearingTypeOption}

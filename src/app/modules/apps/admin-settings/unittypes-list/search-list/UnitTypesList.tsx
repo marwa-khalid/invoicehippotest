@@ -21,6 +21,7 @@ interface ComponentProps {
   deleteModalOpen: boolean;
   setDeleteSelectedButton: (type: boolean) => void;
   deleteModalId: any;
+  addModalOpen: boolean;
   setDeleteModalId: any;
 }
 
@@ -32,6 +33,7 @@ const UnitTypesList = ({
   setUnitTypeTitle,
   setDeleteModalOpen,
   setDeleteModalId,
+  addModalOpen,
   refresh,
   setPageIndex,
   pageIndex,
@@ -71,7 +73,7 @@ const UnitTypesList = ({
 
   useEffect(() => {
     fetchFinancialAccounts();
-  }, [editModalOpen, deleteModalOpen, refresh]);
+  }, [editModalOpen, deleteModalOpen, addModalOpen, refresh]);
 
   const handlePageChange = (page: number) => {
     setPageIndex(page);

@@ -62,58 +62,54 @@ const DiscountEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           )}
         </div>
       </div>
-      <div className="row d-flex mb-7 align-items-center">
-        <div className="fv-row col-6">
-          <div className="form-check form-switch mt-4">
-            <input
-              className="form-check-input h-30px w-50px"
-              type="checkbox"
-              id="isPercentageMarginSwitch"
-              checked={formik.values.isPercentageMargin}
-              {...formik.getFieldProps("isPercentageMargin")}
-              disabled={isSubmitting}
-            />
-            <label
-              className="form-check-label ms-4 mt-1 fw-bold fs-6 text-dark"
-              htmlFor="isPercentageMarginSwitch"
-            >
-              {intl.formatMessage({ id: "Fields.IsPercentageMargin" })}
-            </label>
-          </div>
-        </div>
-        <div className="fv-row col-6">
-          <label className="required fw-bold fs-6 mb-2">
-            {intl.formatMessage({ id: "Fields.Amount" })}
+      <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-7">
+        <label className="required fw-bold fs-6">
+          {intl.formatMessage({ id: "Fields.Amount" })}
+        </label>
+        <div className="form-check form-switch mt-1 d-flex align-items-center">
+          <label
+            className="form-check-label me-20 fs-sm text-muted"
+            htmlFor="isPercentageMarginSwitch"
+          >
+            {intl.formatMessage({ id: "Fields.IsPercentageMargin" })}
           </label>
-          <div className="input-group">
-            <input
-              type="number"
-              {...formik.getFieldProps("amount")}
-              className="form-control form-control-solid"
-              disabled={isSubmitting}
-              placeholder={intl.formatMessage({ id: "Fields.Amount" })}
-              aria-label="Amount"
-              aria-describedby="basic-addon1"
-            />
-            <span className="input-group-text ms-1" id="basic-addon1">
-              {formik.values.isPercentageMargin ? "%" : "$"}
-            </span>
-          </div>
-
-          {formik.touched.amount && formik.errors.amount && (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: formik.errors.amount,
-                  }}
-                  role="alert"
-                />
-              </div>
-            </div>
-          )}
+          <input
+            className="form-check-input h-30px w-50px"
+            type="checkbox"
+            id="isPercentageMarginSwitch"
+            checked={formik.values.isPercentageMargin}
+            {...formik.getFieldProps("isPercentageMargin")}
+            disabled={isSubmitting}
+          />
         </div>
       </div>
+      <div className="col-12 input-group">
+        <input
+          type="number"
+          {...formik.getFieldProps("amount")}
+          className="form-control form-control-solid"
+          disabled={isSubmitting}
+          placeholder={intl.formatMessage({ id: "Fields.Amount" })}
+          aria-label="Amount"
+          aria-describedby="basic-addon1"
+        />
+        <span className="input-group-text ms-1" id="basic-addon1">
+          {formik.values.isPercentageMargin ? "%" : "$"}
+        </span>
+      </div>
+
+      {formik.touched.amount && formik.errors.amount && (
+        <div className="fv-plugins-message-container">
+          <div className="fv-help-block">
+            <span
+              dangerouslySetInnerHTML={{
+                __html: formik.errors.amount,
+              }}
+              role="alert"
+            />
+          </div>
+        </div>
+      )}
     </form>
   );
 };
