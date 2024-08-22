@@ -7,7 +7,6 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   docker-compose:
     runs-on: self-hosted
@@ -18,12 +17,12 @@ jobs:
 
     - name: Build Docker images
       run: |
-        sudo docker compose  build
+         docker compose  build
 
     - name: Stop and remove containers
       run: |
-       sudo docker compose  down
+       docker compose  down
 
     - name: Start services
       run: |
-        docker compose -f up -d
+        docker compose  up -d
