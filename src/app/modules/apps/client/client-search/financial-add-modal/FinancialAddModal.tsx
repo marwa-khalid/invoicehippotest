@@ -24,22 +24,72 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
 
   const formik = useFormik({
     initialValues: {
+      customFields: [
+        {
+          fieldLabel: "",
+          fieldInfo: "",
+          groupDisplayName: "",
+          options: [],
+          fieldType: {
+            value: 0,
+            description: "",
+          },
+          fieldId: 0,
+          value: {
+            asDate: "",
+            asText: "",
+            asMoney: 0,
+            asNumber: 0,
+            asOptions: [],
+          },
+        },
+      ],
       id: 0,
-      accountName: "",
-      accountNumber: "",
-      ledgerAccountId: 0,
-      bankConnectMinImportDate: null,
-      accountType: 0,
-      autoCreateLedgerAccount: true,
-      bankAccountCompanyType: 0,
-      afterSaveModel: {
-        ledgerAccountDisplayName: "",
+      companyId: 0,
+      customerNr: "",
+      importReference: "",
+      businessName: "",
+      kvkNr: "",
+      btwNr: "",
+      isPrivateClient: false,
+      factoringSessionStatement: "",
+      clientTypes: [],
+      financialSettings: {
+        bankAccountCompanyType: 0,
+        accountIbanNr: "",
+        accountHolderName: "",
+        hasSepaMandate: false,
+        sepaMandateDate: "",
+        sepaMandateReference: "",
       },
-      bankConnectInfo: {
-        isConnected: false,
-        isActive: false,
-        accessExpirtationDate: null,
-        lastSyncRequestDate: null,
+      invoiceAndQuoteSettings: {
+        defaultDeadlineDaysForPayment: 0,
+        defaultVatTypeId: 0,
+        defaultLedgerAccountId: 0,
+        extraCcEmailAddressesInvoice: [],
+        extraCcEmailAddressesQuotes: [],
+        costDefaultLedgerAccountId: 0,
+        costDefaultVatTypeId: 0,
+        costDefaultReference: "",
+        costDefaultLineReference: "",
+      },
+      invoiceAddress: {
+        id: 0,
+        streetName: "",
+        houseNr: "",
+        houseNrAddition: "",
+        postCode: "",
+        city: "",
+        countryType: 0,
+      },
+      deliveryAddress: {
+        id: 0,
+        streetName: "",
+        houseNr: "",
+        houseNrAddition: "",
+        postCode: "",
+        city: "",
+        countryType: 0,
       },
     },
     validationSchema: Yup.object().shape({
@@ -72,25 +122,24 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postFinancialAccount(
-          values.id,
-          values.accountName,
-          values.accountNumber,
-          values.ledgerAccountId,
-          values.bankConnectMinImportDate,
-          values.autoCreateLedgerAccount,
-          values.accountType,
-          values.bankAccountCompanyType,
-          values.afterSaveModel,
-          values.bankConnectInfo
-        );
-
-        if (response.isValid) {
-          formik.resetForm();
-          setAddModalOpen(false);
-          setRefresh(true);
-        }
-        handleToast(response);
+        // const response = await postFinancialAccount(
+        //   values.id,
+        //   values.accountName,
+        //   values.accountNumber,
+        //   values.ledgerAccountId,
+        //   values.bankConnectMinImportDate,
+        //   values.autoCreateLedgerAccount,
+        //   values.accountType,
+        //   values.bankAccountCompanyType,
+        //   values.afterSaveModel,
+        //   values.bankConnectInfo
+        // );
+        // if (response.isValid) {
+        //   formik.resetForm();
+        //   setAddModalOpen(false);
+        //   setRefresh(true);
+        // }
+        // handleToast(response);
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
@@ -112,12 +161,12 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
             <FinancialAddModalHeader setAddModalOpen={setAddModalOpen} />
-            <div className="modal-body p-10">
-              <FinancialAddModalForm
-                formik={formik}
-                isSubmitting={isSubmitting}
-              />
-            </div>
+
+            <FinancialAddModalForm
+              formik={formik}
+              isSubmitting={isSubmitting}
+            />
+
             <FinancialAddModalFooter
               formik={formik}
               isSubmitting={isSubmitting}

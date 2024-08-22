@@ -1,29 +1,76 @@
-import { FC, useEffect, useState } from "react";
+import { Tabs, TabList, Tab, TabPanels, TabPanel, Box } from "@chakra-ui/react";
+import { FC } from "react";
 import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
 import { FormikProps } from "formik";
 import enums from "../../../../../../invoicehippo.enums.json";
-import { getLedgerForFinancial } from "../core/_requests";
-import { KTSVG } from "../../../../../../_metronic/helpers";
 
 interface FormValues {
+  customFields: {
+    fieldLabel: string;
+    fieldInfo: string;
+    groupDisplayName: string;
+    options: string[];
+    fieldType: {
+      value: number;
+      description: string;
+    };
+    fieldId: number;
+    value: {
+      asDate?: string;
+      asText?: string;
+      asMoney?: number;
+      asNumber?: number;
+      asOptions?: string[];
+    };
+  }[];
   id: number;
-  accountName: string;
-  accountNumber: string;
-  ledgerAccountId: number;
-  bankConnectMinImportDate: any;
-  accountType: number;
-  autoCreateLedgerAccount: boolean;
-  bankAccountCompanyType: number;
-  afterSaveModel: {
-    ledgerAccountDisplayName: string;
+  companyId: number;
+  customerNr: string;
+  importReference: string;
+  businessName: string;
+  kvkNr: string;
+  btwNr: string;
+  isPrivateClient: boolean;
+  factoringSessionStatement: string;
+  clientTypes: number[];
+  financialSettings: {
+    bankAccountCompanyType: number;
+    accountIbanNr: string;
+    accountHolderName: string;
+    hasSepaMandate: boolean;
+    sepaMandateDate: string;
+    sepaMandateReference: string;
   };
-  bankConnectInfo: {
-    isConnected: boolean;
-    isActive: boolean;
-    accessExpirtationDate: any;
-    lastSyncRequestDate: any;
+  invoiceAndQuoteSettings: {
+    defaultDeadlineDaysForPayment: number;
+    defaultVatTypeId: number;
+    defaultLedgerAccountId: number;
+    extraCcEmailAddressesInvoice: string[];
+    extraCcEmailAddressesQuotes: string[];
+    costDefaultLedgerAccountId: number;
+    costDefaultVatTypeId: number;
+    costDefaultReference: string;
+    costDefaultLineReference: string;
+  };
+  invoiceAddress: {
+    id: number;
+    streetName: string;
+    houseNr: string;
+    houseNrAddition?: string;
+    postCode: string;
+    city: string;
+    countryType: number;
+  };
+  deliveryAddress: {
+    id: number;
+    streetName: string;
+    houseNr: string;
+    houseNrAddition?: string;
+    postCode: string;
+    city: string;
+    countryType: number;
   };
 }
 
@@ -32,326 +79,636 @@ type Props = {
   isSubmitting: boolean;
 };
 
-interface SelectorOption {
-  value: number;
-  label: string;
-}
-
 const FinancialAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
 
-  const [ledgerAccounts, setLedgerAccounts] = useState<SelectorOption[]>([]);
-
-  useEffect(() => {
-    const getLedgerAccounts = async () => {
-      try {
-        const response = await getLedgerForFinancial(formik.values.id);
-        const options = response.result.map((item) => ({
-          value: item.id,
-          label: item.title,
-        }));
-        setLedgerAccounts(options);
-      } catch (error) {
-        console.error("Error fetching ledger accounts:", error);
-      }
-    };
-
-    getLedgerAccounts();
-  }, []);
-
   return (
-    <form
-      className="form p-3"
-      style={{ zIndex: "9999" }}
-      onSubmit={formik.handleSubmit}
-      noValidate
-    >
-      {/* begin::Input group */}
-      <div className="row d-flex mb-7">
-        {/* account type Field */}
-        <div className="fv-row flex-grow-1 col-5">
-          <label className="required fw-bold fs-6 mb-2">
+    <Box p={3}>
+      <Tabs isFitted variant="enclosed">
+        <TabList>
+          <Tab>
+            <i className="ki-duotone ki-user fs-2 me-2 text-dark">
+              <span className="path1"></span>
+              <span className="path2"></span>
+              <span className="path3"></span>
+            </i>
+            {intl.formatMessage({ id: "Fields.ClientSettings" })}
+          </Tab>
+          <Tab>
+            <i className="ki-duotone ki-people fs-1 me-2 text-dark">
+              <span className="path1"></span>
+              <span className="path2"></span>
+              <span className="path3"></span>
+              <span className="path4"></span>
+              <span className="path5"></span>
+            </i>
+            {intl.formatMessage({ id: "Fields.ContactPersonSettings" })}
+          </Tab>
+          <Tab>
             {" "}
-            {intl.formatMessage({ id: "Fields.AccountType" })}
-          </label>
+            <i className="ki-duotone ki-bank fs-1 me-2 text-dark ">
+              <span className="path1"></span>
+              <span className="path2"></span>
+            </i>
+            overige instellingen
+          </Tab>
+          <Tab>
+            <i className="ki-duotone ki-information-4 fs-1 me-2 text-dark">
+              <span className="path1"></span>
+              <span className="path2"></span>
+              <span className="path3"></span>
+            </i>
+            {intl.formatMessage({ id: "Fields.SideMenuCustomFeatures" })}
+          </Tab>
+        </TabList>
 
-          <Select
-            placeholder={intl.formatMessage({
-              id: "Fields.SelectOptionDefaultFinancialAccountType",
-            })}
-            className={clsx(
-              "react-select-styled",
-              {
-                "is-invalid":
-                  formik.touched.accountType && formik.errors.accountType,
-              },
-              {
-                "is-valid":
-                  formik.touched.accountType && !formik.errors.accountType,
-              }
-            )}
-            options={enums.AccountTypes.map((item: any) => ({
-              value: item.Value,
-              label: item.Title,
-            }))}
-            onChange={(selectedOption) =>
-              formik.setFieldValue("accountType", selectedOption?.value)
-            }
-          />
-          {formik.touched.accountType && formik.errors.accountType && (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: formik.errors.accountType,
-                  }}
-                  role="alert"
-                />
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* account name Field */}
-        <div className="fv-row col-7 flex-grow-1">
-          <label className="required fw-bold fs-6 mb-2">
-            {" "}
-            {intl.formatMessage({ id: "Fields.AccountName" })}
-          </label>
-          <input
-            type="text"
-            {...formik.getFieldProps("accountName")}
-            className={clsx(
-              "form-control form-control-solid",
-              {
-                "is-invalid":
-                  formik.touched.accountName && formik.errors.accountName,
-              },
-              {
-                "is-valid":
-                  formik.touched.accountName && !formik.errors.accountName,
-              }
-            )}
-            placeholder={intl.formatMessage({ id: "Fields.AccountName" })}
-          />
-
-          {formik.touched.accountName && formik.errors.accountName && (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: formik.errors.accountName,
-                  }}
-                  role="alert"
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {formik.values.accountType === 64 && (
-        <div className="row ">
-          <div className="fv-row mb-7">
-            <label className="required fw-bold fs-6 mb-2">
-              {intl.formatMessage({ id: "Fields.PayPalAccountNumber" })}
-            </label>
-            <input
-              type="text"
-              {...formik.getFieldProps("accountNumber")}
-              className="form-control form-control-solid"
-            />
-          </div>
-        </div>
-      )}
-
-      {formik.values.accountType == 1 ||
-      formik.values.accountType == 4 ||
-      formik.values.accountType == 8 ||
-      formik.values.accountType == 16 ? (
-        <>
-          {/* begin::Input group */}
-          <div className="row">
-            <div className="fv-row mb-7 col-5">
-              <label className="required fw-bold fs-6 mb-2">
-                {intl.formatMessage({
-                  id: "Fields.BankAccountCompanyType",
-                })}
-              </label>
-
-              <Select
-                className="react-select-styled react-select-transparent"
-                value={
-                  formik.values.bankAccountCompanyType === 0
-                    ? null
-                    : enums.BankAccountCompanyTypes.map((item: any) => ({
-                        value: item.Value,
-                        label: item.Title,
-                      })).find(
-                        (option) =>
-                          option.value === formik.values.bankAccountCompanyType
-                      ) || null
-                }
-                onBlur={() =>
-                  formik.setFieldTouched("bankAccountCompanyType", true)
-                }
-                placeholder={intl.formatMessage({
-                  id: "Fields.SelectOptionDefaultBankAccountCompanyType",
-                })}
-                isClearable
-                options={enums.BankAccountCompanyTypes.map((item: any) => ({
-                  value: item.Value,
-                  label: item.Title,
-                }))}
-                onChange={(selectedOption: any) => {
-                  formik.setFieldValue(
-                    "bankAccountCompanyType",
-                    selectedOption ? selectedOption.value : null
-                  );
-                }}
-              />
-
-              {formik.touched.bankAccountCompanyType &&
-                formik.errors.bankAccountCompanyType && (
-                  <div className="fv-plugins-message-container">
-                    <div className="fv-help-block">
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: formik.errors.bankAccountCompanyType,
-                        }}
-                        role="alert"
-                      />
-                    </div>
+        <TabPanels>
+          <TabPanel>
+            <div className="modal-body">
+              <form
+                className="form p-1"
+                onSubmit={formik.handleSubmit}
+                noValidate
+              >
+                {/* begin::Input group */}
+                <div className="fv-row col-12 d-flex mb-3 d-flex justify-content-between align-items-center mb-3">
+                  <label className="required fw-bold fs-6">
+                    {intl.formatMessage({ id: "Fields.CompanyName" })}
+                  </label>
+                  <div className="form-check form-switch mt-1 d-flex align-items-center">
+                    <label
+                      className="form-check-label me-20 fs-sm text-muted"
+                      htmlFor="isPrivateClientSwitch"
+                    >
+                      {intl.formatMessage({ id: "Fields.IsPrivateClient" })}
+                    </label>
+                    <input
+                      className="form-check-input h-20px w-40px"
+                      type="checkbox"
+                      id="isPrivateClientSwitch"
+                      {...formik.getFieldProps("isPrivateClient")}
+                      disabled={isSubmitting}
+                    />
                   </div>
-                )}
-            </div>
-            <div className="fv-row mb-7 col-7">
-              <label className="required d-block fw-bold fs-6 mb-2">
-                {intl.formatMessage({ id: "Fields.AccountNumber" })}
-              </label>
-              <input
-                className={clsx(
-                  "form-control form-control-solid",
-                  {
-                    "is-invalid":
-                      formik.touched.accountNumber &&
-                      formik.errors.accountNumber,
-                  },
-                  {
-                    "is-valid":
-                      formik.touched.accountNumber &&
-                      !formik.errors.accountNumber,
-                  }
-                )}
-                type="text"
-                {...formik.getFieldProps("accountNumber")}
-                disabled={isSubmitting}
-              />
-            </div>
-            {formik.touched.accountNumber && formik.errors.accountNumber && (
-              <div className="fv-plugins-message-container">
-                <div className="fv-help-block">
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: formik.errors.accountNumber,
-                    }}
-                    role="alert"
-                  />
                 </div>
-              </div>
-            )}
-          </div>
-        </>
-      ) : null}
+                <div className="row d-flex mb-5">
+                  <input
+                    type="text"
+                    {...formik.getFieldProps("businessName")}
+                    className={clsx(
+                      "form-control form-control-solid",
+                      {
+                        "is-invalid":
+                          formik.touched.businessName &&
+                          formik.errors.businessName,
+                      },
+                      {
+                        "is-valid":
+                          formik.touched.businessName &&
+                          !formik.errors.businessName,
+                      }
+                    )}
+                    placeholder={intl.formatMessage({
+                      id: "Fields.CompanyName",
+                    })}
+                  />
+                  {formik.touched.businessName &&
+                    formik.errors.businessName && (
+                      <div className="fv-plugins-message-container">
+                        <div className="fv-help-block">
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: formik.errors.businessName,
+                            }}
+                            role="alert"
+                          />
+                        </div>
+                      </div>
+                    )}
+                </div>
 
-      <div className="accordion accordion-icon-toggle" id="kt_accordion_2">
-        <div className="mb-5">
-          <div
-            className="accordion-header py-3 d-flex"
-            data-bs-toggle="collapse"
-            data-bs-target="#kt_accordion_2_item_1"
-          >
-            <span className="accordion-icon">
-              <KTSVG
-                className="svg-icon svg-icon-4"
-                path="media/icons/duotune/arrows/arr064.svg"
-              />
-            </span>
-            <h3 className="fs-6 text-gray-800 fw-bold mb-0 ms-4">
-              Advanced Settings
-            </h3>
-          </div>
-          <div
-            id="kt_accordion_2_item_1"
-            className="fs-6 collapse p-10 bg-secondary align-items-center alert"
-            data-bs-parent="#kt_accordion_2"
-          >
-            <div className="form-check form-switch my-4 ms-2">
-              <input
-                className="form-check-input h-25px w-45px me-4"
-                type="checkbox"
-                id="automaticLedgerSwitch"
-                checked={formik.values.autoCreateLedgerAccount}
-                {...formik.getFieldProps("autoCreateLedgerAccount")}
-              />
-              <label className="required fw-bold fs-6 mb-2">
-                {intl.formatMessage({ id: "Fields.AutoCreateLedgerAccount" })}
-              </label>
-            </div>
-
-            {!formik.values.autoCreateLedgerAccount && (
-              <div className="row">
-                <label className="required fw-bold fs-6 mb-4">
-                  {intl.formatMessage({ id: "Fields.LedgerAccount" })}
-                </label>
-
-                <Select
-                  className="react-select-styled react-select-transparent"
-                  value={
-                    formik.values.ledgerAccountId === 0
-                      ? null
-                      : ledgerAccounts.find(
-                          (option) =>
-                            option.value === formik.values.ledgerAccountId
-                        ) || null
-                  }
-                  onBlur={() => formik.setFieldTouched("ledgerAccountId", true)}
-                  placeholder={intl.formatMessage({
-                    id: "Fields.SelectOptionDefaultLedgerAccount",
-                  })}
-                  isClearable
-                  options={ledgerAccounts}
-                  onChange={(selectedOption: any) => {
-                    formik.setFieldValue(
-                      "ledgerAccountId",
-                      selectedOption ? selectedOption.value : null
-                    );
-                    formik.setFieldValue(
-                      "afterSaveModel.ledgerAccountDisplayName",
-                      selectedOption?.label
-                    );
-                  }}
-                />
-
-                {formik.touched.ledgerAccountId &&
-                  formik.errors.ledgerAccountId && (
+                {/*  client type Field */}
+                <div className="row flex-grow-1 d-flex mb-5">
+                  <label className="fw-bold fs-6 mb-2">
+                    {intl.formatMessage({ id: "Fields.ClientTypes" })}
+                  </label>
+                  <Select
+                    options={enums.ClientTypes.map((clientType) => {
+                      return {
+                        value: clientType.Value,
+                        label: clientType.Title,
+                      };
+                    })}
+                    isMulti
+                    onChange={(option: any) =>
+                      formik.setFieldValue("clientType", option?.value)
+                    }
+                    isDisabled={formik.isSubmitting}
+                    className="react-select-styled"
+                    isClearable
+                  />
+                  {formik.touched.kvkNr && formik.errors.kvkNr && (
                     <div className="fv-plugins-message-container">
                       <div className="fv-help-block">
                         <span
                           dangerouslySetInnerHTML={{
-                            __html: formik.errors.ledgerAccountId,
+                            __html: formik.errors.kvkNr,
                           }}
                           role="alert"
                         />
                       </div>
                     </div>
                   )}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </form>
+                </div>
+
+                <div className="row d-flex mb-5">
+                  <div className="fv-row col-6">
+                    <label className="fw-bold fs-6 mb-2">
+                      {intl.formatMessage({ id: "Fields.KvkNr" })}
+                    </label>
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("KvkNr")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.KvkNr",
+                      })}
+                    />
+                  </div>
+                  <div className="fv-row col-6 mb-3">
+                    <label className=" fw-bold fs-6 mb-2">
+                      {intl.formatMessage({ id: "Fields.BtwNr" })}
+                    </label>
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("BtwNr")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.BtwNr",
+                      })}
+                    />
+                  </div>
+                </div>
+
+                <h2 className="text-center">
+                  {intl.formatMessage({ id: "Fields.InvoiceAddress" })}:
+                </h2>
+                <div className="row d-flex mb-5">
+                  <label className=" fw-bold fs-6 mb-2">
+                    {intl.formatMessage({ id: "Fields.Street" })} &{" "}
+                    {intl.formatMessage({ id: "Fields.HouseNr" })}
+                  </label>
+                  <div className="fv-row col-4">
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("street")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.Street",
+                      })}
+                    />
+                  </div>
+                  <div className="fv-row col-4">
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("BtwNr")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.HouseNr",
+                      })}
+                    />
+                  </div>
+                  <div className="fv-row col-4">
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("BtwNr")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.HouseNrAddon",
+                      })}
+                    />
+                  </div>
+                </div>
+                <div className="row d-flex mb-5">
+                  <label className=" fw-bold fs-6 mb-2">
+                    {intl.formatMessage({ id: "Fields.PostCode" })} &{" "}
+                    {intl.formatMessage({ id: "Fields.City" })}
+                  </label>
+                  <div className="fv-row col-6">
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("street")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.PostCode",
+                      })}
+                    />
+                  </div>
+                  <div className="fv-row col-6">
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("BtwNr")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.City",
+                      })}
+                    />
+                  </div>
+                </div>
+                <div className="row flex-grow-1 d-flex mb-5">
+                  <label className="fw-bold fs-6 mb-2">
+                    {intl.formatMessage({ id: "Fields.Country" })}
+                  </label>
+                  <Select
+                    options={enums.CountryType.map((country) => {
+                      return {
+                        value: country.Value,
+                        label: country.Title,
+                      };
+                    })}
+                    onChange={(option) =>
+                      formik.setFieldValue("clientType", option?.value)
+                    }
+                    isDisabled={formik.isSubmitting}
+                    className="react-select-styled"
+                    isClearable
+                  />
+                  {formik.touched.kvkNr && formik.errors.kvkNr && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: formik.errors.kvkNr,
+                          }}
+                          role="alert"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <h2 className="text-center">
+                  {intl.formatMessage({ id: "Fields.DeliveryAddress" })}:
+                </h2>
+                <div className="row d-flex mb-5">
+                  <label className=" fw-bold fs-6 mb-2">
+                    {intl.formatMessage({ id: "Fields.Street" })} &{" "}
+                    {intl.formatMessage({ id: "Fields.HouseNr" })}
+                  </label>
+                  <div className="fv-row col-4">
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("street")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.Street",
+                      })}
+                    />
+                  </div>
+                  <div className="fv-row col-4">
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("BtwNr")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.HouseNr",
+                      })}
+                    />
+                  </div>
+                  <div className="fv-row col-4">
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("BtwNr")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.HouseNrAddon",
+                      })}
+                    />
+                  </div>
+                </div>
+                <div className="row d-flex mb-5">
+                  <label className=" fw-bold fs-6 mb-2">
+                    {intl.formatMessage({ id: "Fields.PostCode" })} &{" "}
+                    {intl.formatMessage({ id: "Fields.City" })}
+                  </label>
+                  <div className="fv-row col-6">
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("street")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.PostCode",
+                      })}
+                    />
+                  </div>
+                  <div className="fv-row col-6">
+                    <input
+                      type="text"
+                      {...formik.getFieldProps("BtwNr")}
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.businessName &&
+                            formik.errors.businessName,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.businessName &&
+                            !formik.errors.businessName,
+                        }
+                      )}
+                      placeholder={intl.formatMessage({
+                        id: "Fields.City",
+                      })}
+                    />
+                  </div>
+                </div>
+                <div className="row flex-grow-1 d-flex mb-5">
+                  <label className="fw-bold fs-6 mb-2">
+                    {intl.formatMessage({ id: "Fields.Country" })}
+                  </label>
+                  <Select
+                    options={enums.CountryType.map((country) => {
+                      return {
+                        value: country.Value,
+                        label: country.Title,
+                      };
+                    })}
+                    onChange={(option) =>
+                      formik.setFieldValue("clientType", option?.value)
+                    }
+                    isDisabled={formik.isSubmitting}
+                    className="react-select-styled"
+                    isClearable
+                  />
+                  {formik.touched.kvkNr && formik.errors.kvkNr && (
+                    <div className="fv-plugins-message-container">
+                      <div className="fv-help-block">
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: formik.errors.kvkNr,
+                          }}
+                          role="alert"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {/* More fields related to Client Settings */}
+                {/* Add as needed based on the FormValues structure */}
+
+                {/* Financial Settings Section */}
+                {/* <div className="row">
+                  <div className="fv-row mb-7 col-5">
+                    <label className=" fw-bold fs-6 mb-2">
+                      {intl.formatMessage({
+                        id: "Fields.BankAccountCompanyType",
+                      })}
+                    </label>
+                    <Select
+                      className="react-select-styled react-select-transparent"
+                      value={
+                        formik.values.financialSettings
+                          .bankAccountCompanyType === 0
+                          ? null
+                          : enums.BankAccountCompanyTypes.map((item: any) => ({
+                              value: item.Value,
+                              label: item.Title,
+                            })).find(
+                              (option) =>
+                                option.value ===
+                                formik.values.financialSettings
+                                  .bankAccountCompanyType
+                            ) || null
+                      }
+                      onBlur={() =>
+                        formik.setFieldTouched(
+                          "financialSettings.bankAccountCompanyType",
+                          true
+                        )
+                      }
+                      placeholder={intl.formatMessage({
+                        id: "Fields.SelectOptionDefaultBankAccountCompanyType",
+                      })}
+                      isClearable
+                      options={enums.BankAccountCompanyTypes.map(
+                        (item: any) => ({
+                          value: item.Value,
+                          label: item.Title,
+                        })
+                      )}
+                      onChange={(selectedOption: any) => {
+                        formik.setFieldValue(
+                          "financialSettings.bankAccountCompanyType",
+                          selectedOption ? selectedOption.value : null
+                        );
+                      }}
+                    />
+                    {formik.touched.financialSettings?.bankAccountCompanyType &&
+                      formik.errors.financialSettings
+                        ?.bankAccountCompanyType && (
+                        <div className="fv-plugins-message-container">
+                          <div className="fv-help-block">
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  formik.errors.financialSettings
+                                    ?.bankAccountCompanyType,
+                              }}
+                              role="alert"
+                            />
+                          </div>
+                        </div>
+                      )}
+                  </div>
+
+                  <div className="fv-row mb-7 col-7">
+                    <label className=" d-block fw-bold fs-6 mb-2">
+                      {intl.formatMessage({ id: "Fields.AccountIbanNr" })}
+                    </label>
+                    <input
+                      className={clsx(
+                        "form-control form-control-solid",
+                        {
+                          "is-invalid":
+                            formik.touched.financialSettings?.accountIbanNr &&
+                            formik.errors.financialSettings?.accountIbanNr,
+                        },
+                        {
+                          "is-valid":
+                            formik.touched.financialSettings?.accountIbanNr &&
+                            !formik.errors.financialSettings?.accountIbanNr,
+                        }
+                      )}
+                      type="text"
+                      {...formik.getFieldProps(
+                        "financialSettings.accountIbanNr"
+                      )}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                  {formik.touched.financialSettings?.accountIbanNr &&
+                    formik.errors.financialSettings?.accountIbanNr && (
+                      <div className="fv-plugins-message-container">
+                        <div className="fv-help-block">
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html:
+                                formik.errors.financialSettings?.accountIbanNr,
+                            }}
+                            role="alert"
+                          />
+                        </div>
+                      </div>
+                    )}
+                </div> */}
+
+                {/* Advanced Settings and other sections if needed */}
+              </form>
+            </div>
+          </TabPanel>
+
+          <TabPanel>{/* Add content for Contact Persons */}</TabPanel>
+
+          <TabPanel>{/* Add content for About */}</TabPanel>
+
+          <TabPanel>{/* Add content for Custom Features */}</TabPanel>
+        </TabPanels>
+      </Tabs>
+    </Box>
   );
 };
 

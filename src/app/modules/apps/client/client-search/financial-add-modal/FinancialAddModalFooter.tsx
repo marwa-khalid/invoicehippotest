@@ -9,22 +9,72 @@ type Props = {
 };
 
 interface FormValues {
+  customFields: [
+    {
+      fieldLabel: string;
+      fieldInfo: string;
+      groupDisplayName: string;
+      options: string[];
+      fieldType: {
+        value: number;
+        description: string;
+      };
+      fieldId: number;
+      value: {
+        asDate?: string;
+        asText?: string;
+        asMoney?: number;
+        asNumber?: number;
+        asOptions?: string[];
+      };
+    }
+  ];
   id: number;
-  accountName: string;
-  accountNumber: string;
-  ledgerAccountId: number;
-  bankConnectMinImportDate: any;
-  accountType: number;
-  autoCreateLedgerAccount: boolean;
-  bankAccountCompanyType: number;
-  afterSaveModel: {
-    ledgerAccountDisplayName: string;
+  companyId: number;
+  customerNr: string;
+  importReference: string;
+  businessName: string;
+  kvkNr: string;
+  btwNr: string;
+  isPrivateClient: boolean;
+  factoringSessionStatement: string;
+  clientTypes: number[];
+  financialSettings: {
+    bankAccountCompanyType: number;
+    accountIbanNr: string;
+    accountHolderName: string;
+    hasSepaMandate: boolean;
+    sepaMandateDate: string;
+    sepaMandateReference: string;
   };
-  bankConnectInfo: {
-    isConnected: boolean;
-    isActive: boolean;
-    accessExpirtationDate: any;
-    lastSyncRequestDate: any;
+  invoiceAndQuoteSettings: {
+    defaultDeadlineDaysForPayment: number;
+    defaultVatTypeId: number;
+    defaultLedgerAccountId: number;
+    extraCcEmailAddressesInvoice: string[];
+    extraCcEmailAddressesQuotes: string[];
+    costDefaultLedgerAccountId: number;
+    costDefaultVatTypeId: number;
+    costDefaultReference: string;
+    costDefaultLineReference: string;
+  };
+  invoiceAddress: {
+    id: number;
+    streetName: string;
+    houseNr: string;
+    houseNrAddition?: string;
+    postCode: string;
+    city: string;
+    countryType: number;
+  };
+  deliveryAddress: {
+    id: number;
+    streetName: string;
+    houseNr: string;
+    houseNrAddition?: string;
+    postCode: string;
+    city: string;
+    countryType: number;
   };
 }
 

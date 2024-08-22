@@ -31,7 +31,7 @@ const FinancialAccountsToolbar = ({
           .replace("{0}", totalRows.toString())}
       </h5>
       <div>
-        {/* begin::Add financial account */}
+        {/* begin::Add new client */}
         <Tooltip
           label={intl.formatMessage({
             id: "Fields.ToolTipConnect",
@@ -45,9 +45,11 @@ const FinancialAccountsToolbar = ({
             className="btn btn-primary mb-3 me-2"
             onClick={openLinkBankAccountModal}
           >
-            <i className="fas fa-wifi fs-3" />
-
-            {intl.formatMessage({ id: "Fields.ActionLinkFinancialAccounts" })}
+            <i className="ki-duotone ki-cloud-download fs-1">
+              <span className="path1"></span>
+              <span className="path2"></span>
+            </i>
+            {intl.formatMessage({ id: "Fields.ActionDownloadExcel" })}
           </button>
         </Tooltip>
         <Tooltip
@@ -64,11 +66,11 @@ const FinancialAccountsToolbar = ({
             onClick={openAddFinancialAccountModal}
           >
             <KTIcon iconName="plus" className="fs-1" />
-            {intl.formatMessage({ id: "Fields.ModalNewTitleFinancialAccount" })}
+            {intl.formatMessage({ id: "Fields.ModalNewTitleClient" })}
           </button>
         </Tooltip>
       </div>
-      {/* end:: Add financial account */}
+      {/* end:: Add new client */}
     </div>
   );
 };

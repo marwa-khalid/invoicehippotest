@@ -6,21 +6,28 @@ import { MasterInit } from "../_metronic/layout/MasterInit";
 import { AuthInit } from "./modules/auth";
 import { ThemeModeProvider } from "../_metronic/partials";
 import { ToastContainer } from "react-toastify";
+import { ChakraProvider } from "@chakra-ui/react";
 const App = () => {
   return (
-    <Suspense fallback={<LayoutSplashScreen />}>
-      <I18nProvider>
-        <LayoutProvider>
-          <ThemeModeProvider>
-            <ToastContainer position="top-center" draggable autoClose={5000} />
-            <AuthInit>
-              <Outlet />
-              <MasterInit />
-            </AuthInit>
-          </ThemeModeProvider>
-        </LayoutProvider>
-      </I18nProvider>
-    </Suspense>
+    <ChakraProvider>
+      <Suspense fallback={<LayoutSplashScreen />}>
+        <I18nProvider>
+          <LayoutProvider>
+            <ThemeModeProvider>
+              <ToastContainer
+                position="top-center"
+                draggable
+                autoClose={5000}
+              />
+              <AuthInit>
+                <Outlet />
+                <MasterInit />
+              </AuthInit>
+            </ThemeModeProvider>
+          </LayoutProvider>
+        </I18nProvider>
+      </Suspense>
+    </ChakraProvider>
   );
 };
 

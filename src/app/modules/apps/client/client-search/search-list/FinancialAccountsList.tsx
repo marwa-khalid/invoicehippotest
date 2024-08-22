@@ -8,6 +8,7 @@ import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
 import { Tooltip } from "@chakra-ui/react";
+import clsx from "clsx";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
@@ -156,14 +157,10 @@ const FinancialAccountsList = ({
                       {/* {client.bankConnectInfo.isActive &&
                         renderWifiIcon()} */}
 
-                      <small className="text-muted">{client.customerNr}</small>
-                      <strong className="fs-4">{client.businessName}</strong>
-                      <small className="text-muted">
-                        {client.primaryContact.fullName}
+                      <small className="text-muted fs-9">
+                        {client.customerNr}
                       </small>
-                      <small className="text-muted">
-                        {client.primaryContact.emailAddress}
-                      </small>
+                      <strong>{client.businessName}</strong>
                     </div>
                     <div className="align-items-center my-lg-0 my-1 necessary-icons">
                       {client.actions.canEdit && (
@@ -181,7 +178,98 @@ const FinancialAccountsList = ({
                               openEditModal(client.id);
                             }}
                           >
-                            <i className="ki-solid ki-pencil text-warning fs-2 " />
+                            <i className="ki-solid ki-pencil text-warning fs-1 " />
+                          </button>
+                        </Tooltip>
+                      )}
+
+                      {client.actions.canView && (
+                        <Tooltip
+                          label="view"
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded "
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            onClick={() => {
+                              openEditModal(client.id);
+                            }}
+                          >
+                            <i className="ki-duotone ki-eye text-dark fs-1">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                              <span className="path3"></span>
+                            </i>
+                          </button>
+                        </Tooltip>
+                      )}
+                      {client.actions.canCreateInvoice && (
+                        <Tooltip
+                          label="create invoice"
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded "
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            onClick={() => {
+                              openEditModal(client.id);
+                            }}
+                          >
+                            <i className="ki-duotone ki-cheque text-info fs-1">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                              <span className="path3"></span>
+                              <span className="path4"></span>
+                              <span className="path5"></span>
+                              <span className="path6"></span>
+                              <span className="path7"></span>
+                            </i>
+                          </button>
+                        </Tooltip>
+                      )}
+
+                      {client.actions.canTakeOverAccount && (
+                        <Tooltip
+                          label="takeover"
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded "
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            onClick={() => {
+                              openEditModal(client.id);
+                            }}
+                          >
+                            <i className="ki-duotone ki-profile-user fs-1 text-danger">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                              <span className="path3"></span>
+                              <span className="path4"></span>
+                            </i>
+                          </button>
+                        </Tooltip>
+                      )}
+                      {client.actions.canCreateQuote && (
+                        <Tooltip
+                          label="create quote"
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded "
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            onClick={() => {
+                              openEditModal(client.id);
+                            }}
+                          >
+                            <i className="ki-duotone ki-add-item text-success fs-1">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                              <span className="path3"></span>
+                            </i>
                           </button>
                         </Tooltip>
                       )}
@@ -234,15 +322,112 @@ const FinancialAccountsList = ({
                               openDeleteModal(client.id, client.businessName);
                             }}
                           >
-                            <i className="ki-solid ki-trash text-danger fs-2"></i>
+                            <i className="ki-solid ki-trash text-danger fs-1"></i>
                           </button>
                         </Tooltip>
                       )}
                     </div>
                   </div>
-                  {/* separator Line */}
 
-                  <div className="separator separator-solid mb-3"></div>
+                  {console.log(client.contacts)!}
+                  {client?.primaryContact?.fullName && (
+                    <div className="mb-4">
+                      <div className="separator separator-solid mb-3"></div>
+                      <ul className="breadcrumb breadcrumb-black breadcrumb-dot">
+                        <li className="breadcrumb-item">
+                          <div className="breadcrumb-item bg-primary py-1 px-2 rounded text-white align-items-center">
+                            <i className="ki-duotone ki-user fs-2 text-white me-2">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            <small>
+                              {client?.primaryContact?.fullName.toLowerCase()}
+                            </small>
+                          </div>
+                        </li>
+
+                        {client?.primaryContact?.emailAddress && (
+                          <li className="breadcrumb-item">
+                            <div className="breadcrumb-item bg-secondary py-1 px-2 rounded align-items-center">
+                              <i className="ki-duotone ki-sms text-dark fs-2 me-2">
+                                <span className="path1"></span>
+                                <span className="path2"></span>
+                              </i>
+
+                              <small>
+                                {client?.primaryContact?.emailAddress}
+                              </small>
+                            </div>
+                          </li>
+                        )}
+                        {client?.primaryContact?.phoneNrs.length > 0 && (
+                          <li className="breadcrumb-item align-items-center bg-secondary ms-2 py-1 px-2 rounded">
+                            <i className="ki-duotone ki-phone text-dark fs-2 me-2">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+
+                            <small>
+                              {client?.primaryContact?.phoneNrs.map(
+                                (phoneNumber) => {
+                                  return phoneNumber;
+                                }
+                              )}
+                            </small>
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  )}
+
+                  <div className="d-flex flex-column justify-content-end pe-0">
+                    <div className="separator separator-solid mb-3"></div>
+                    <strong className="mb-3">
+                      {intl.formatMessage({ id: "Fields.Contacts" })}
+                    </strong>
+                    <div className="symbol-group symbol-hover flex-nowrap">
+                      {client.contacts.map((contact, index) => {
+                        const initials = contact.fullName
+                          .split(" ")
+                          .map((name) => name[0])
+                          .join("");
+
+                        // Define a list of colors
+                        const colors = [
+                          "bg-warning",
+                          "bg-primary",
+                          "bg-success",
+                          "bg-danger",
+                          "bg-info",
+                        ];
+                        // Choose a color based on the index
+                        const backgroundColor = colors[index % colors.length];
+
+                        return (
+                          <Tooltip
+                            label={contact.fullName}
+                            fontSize="sm"
+                            className="bg-gray-800 text-white p-2 rounded"
+                            placement="top"
+                          >
+                            <div
+                              className="symbol symbol-40px symbol-circle"
+                              key={`cw7-item-${index}`}
+                            >
+                              <span
+                                className={clsx(
+                                  "symbol-label fw-bold",
+                                  backgroundColor
+                                )}
+                              >
+                                {initials}
+                              </span>
+                            </div>
+                          </Tooltip>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

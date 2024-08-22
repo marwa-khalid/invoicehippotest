@@ -152,24 +152,25 @@ const UsersList = ({
                       )}
                     </div>
                   </div>
-
-                  <div className="row">
-                    <div className="d-flex align-items-center gap-3 cursor-pointer title-clickable mb-4">
-                      {currentUser?.result.id === user.id ? (
-                        <i className="ki-duotone ki-user-tick text-success fs-1">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                          <span className="path3"></span>
-                        </i>
-                      ) : (
-                        <i className="ki-duotone ki-user fs-1 text-primary">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                        </i>
-                      )}
-                      <strong>{user.fullName}</strong>
+                  {user.fullName && (
+                    <div className="row">
+                      <div className="d-flex align-items-center gap-3 cursor-pointer title-clickable mb-4">
+                        {currentUser?.result.id === user.id ? (
+                          <i className="ki-duotone ki-user-tick text-success fs-1">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                            <span className="path3"></span>
+                          </i>
+                        ) : (
+                          <i className="ki-duotone ki-user fs-1 text-primary">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                        )}
+                        <strong>{user.fullName}</strong>
+                      </div>
                     </div>
-                  </div>
+                  )}
                   {/* separator Line */}
                   <div className="separator separator-solid mb-3"></div>
 
