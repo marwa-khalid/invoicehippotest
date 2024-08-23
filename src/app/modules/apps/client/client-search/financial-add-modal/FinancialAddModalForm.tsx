@@ -134,7 +134,6 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
               </label>
               <Select
                 className="react-select-styled"
-                classNamePrefix="react-select"
                 options={enums.ClientTypes.map((clientType) => {
                   return {
                     value: clientType.Value,
