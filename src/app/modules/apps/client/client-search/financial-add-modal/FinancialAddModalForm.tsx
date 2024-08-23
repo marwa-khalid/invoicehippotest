@@ -84,50 +84,66 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
 
   return (
     <div className="p-3">
-      <ul className="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6 align-items-center d-flex justify-content-around">
+      <ul className="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6 d-flex justify-content-around">
         <li className="nav-item flex-fill text-center">
           <a
-            className="nav-link active"
+            className="nav-link active d-flex align-items-center justify-content-center"
             data-bs-toggle="tab"
             href="#kt_tab_pane_4"
           >
-            <i className="ki-duotone ki-user fs-2 me-2 text-dark">
+            <i className="ki-duotone ki-user fs-2 text-dark me-2">
               <span className="path1"></span>
               <span className="path2"></span>
               <span className="path3"></span>
             </i>
-            {intl.formatMessage({ id: "Fields.ClientSettings" })}
+            <span>{intl.formatMessage({ id: "Fields.ClientSettings" })}</span>
           </a>
         </li>
         <li className="nav-item flex-fill text-center">
-          <a className="nav-link" data-bs-toggle="tab" href="#kt_tab_pane_5">
-            <i className="ki-duotone ki-people fs-1 me-2 text-dark">
+          <a
+            className="nav-link d-flex align-items-center justify-content-center"
+            data-bs-toggle="tab"
+            href="#kt_tab_pane_5"
+          >
+            <i className="ki-duotone ki-people fs-1 text-dark me-2">
               <span className="path1"></span>
               <span className="path2"></span>
               <span className="path3"></span>
               <span className="path4"></span>
               <span className="path5"></span>
             </i>
-            {intl.formatMessage({ id: "Fields.ContactPersonSettings" })}
+            <span>
+              {intl.formatMessage({ id: "Fields.ContactPersonSettings" })}
+            </span>
           </a>
         </li>
         <li className="nav-item flex-fill text-center">
-          <a className="nav-link" data-bs-toggle="tab" href="#kt_tab_pane_6">
-            <i className="ki-duotone ki-bank fs-1 me-2 text-dark ">
+          <a
+            className="nav-link d-flex align-items-center justify-content-center"
+            data-bs-toggle="tab"
+            href="#kt_tab_pane_6"
+          >
+            <i className="ki-duotone ki-bank fs-1 text-dark me-2">
               <span className="path1"></span>
               <span className="path2"></span>
             </i>
-            overige instellingen
+            <span>overige instellingen</span>
           </a>
         </li>
         <li className="nav-item flex-fill text-center">
-          <a className="nav-link" data-bs-toggle="tab" href="#kt_tab_pane_6">
-            <i className="ki-duotone ki-information-4 fs-1 me-2 text-dark">
+          <a
+            className="nav-link d-flex align-items-center justify-content-center"
+            data-bs-toggle="tab"
+            href="#kt_tab_pane_7"
+          >
+            <i className="ki-duotone ki-information-4 fs-1 text-dark me-2">
               <span className="path1"></span>
               <span className="path2"></span>
               <span className="path3"></span>
             </i>
-            {intl.formatMessage({ id: "Fields.SideMenuCustomFeatures" })}
+            <span>
+              {intl.formatMessage({ id: "Fields.SideMenuCustomFeatures" })}
+            </span>
           </a>
         </li>
       </ul>
@@ -229,31 +245,21 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
               <ul className="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6 align-items-center d-flex justify-content-around">
                 <li className="nav-item">
                   <a
-                    className="nav-link active"
+                    className="nav-link active d-flex align-items-center justify-content-center"
                     data-bs-toggle="tab"
-                    href="#kt_tab_pane_4"
+                    href="#kt_tab_pane_1"
                   >
-                    <i className="ki-duotone ki-user fs-2 me-2 text-dark">
-                      <span className="path1"></span>
-                      <span className="path2"></span>
-                      <span className="path3"></span>
-                    </i>
+                    <i className="ki-duotone ki-home me-2 fs-2" />
                     {intl.formatMessage({ id: "Fields.InvoiceAddress" })}
                   </a>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item ">
                   <a
-                    className="nav-link"
+                    className="nav-link d-flex align-items-center justify-content-center"
                     data-bs-toggle="tab"
-                    href="#kt_tab_pane_5"
+                    href="#kt_tab_pane_2"
                   >
-                    <i className="ki-duotone ki-people fs-1 me-2 text-dark">
-                      <span className="path1"></span>
-                      <span className="path2"></span>
-                      <span className="path3"></span>
-                      <span className="path4"></span>
-                      <span className="path5"></span>
-                    </i>
+                    <i className="ki-duotone ki-home me-2 fs-2" />
                     {intl.formatMessage({
                       id: "Fields.DeliveryAddress",
                     })}
@@ -264,7 +270,7 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
               <div className="tab-content" id="myTabContent">
                 <div
                   className="tab-pane fade show active"
-                  id="kt_tab_pane_4"
+                  id="kt_tab_pane_1"
                   role="tabpanel"
                 >
                   <div className="row d-flex mb-5">
@@ -455,11 +461,11 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
           {/* Add content for Contact Persons */}
         </div>
 
-        <div className="tab-pane fade" id="kt_tab_pane_5" role="tabpanel">
+        <div className="tab-pane fade" id="kt_tab_pane_6" role="tabpanel">
           {/* Add content for About */}
         </div>
 
-        <div className="tab-pane fade" id="kt_tab_pane_5" role="tabpanel">
+        <div className="tab-pane fade" id="kt_tab_pane_7" role="tabpanel">
           {/* Add content for Custom Features */}
         </div>
       </div>
