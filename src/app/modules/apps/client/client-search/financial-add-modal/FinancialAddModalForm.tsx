@@ -133,6 +133,8 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
                 {intl.formatMessage({ id: "Fields.ClientTypes" })}
               </label>
               <Select
+                className="react-select-styled"
+                classNamePrefix="react-select"
                 options={enums.ClientTypes.map((clientType) => {
                   return {
                     value: clientType.Value,
@@ -144,7 +146,6 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
                 //   formik.setFieldValue("clientTypes", option?.value)
                 // }
                 // isDisabled={formik.isSubmitting}
-                className="react-select-styled"
                 isClearable
               />
             </div>

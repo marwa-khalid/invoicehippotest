@@ -27,7 +27,7 @@ const ListLoading = () => {
         width="200"
         height="200"
         style={{ border: "none" }}
-      ></iframe>
+      />
       {/* <div
         style={{
           marginTop: "1rem",
