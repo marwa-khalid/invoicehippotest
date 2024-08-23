@@ -3,32 +3,30 @@ import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
 
 type Props = {
-  formik: FormikProps<FormValues>;
+  // formik: FormikProps<FormValues>;
   isSubmitting: boolean;
   setAddModalOpen: (type: boolean) => void;
 };
 
 interface FormValues {
-  customFields: [
-    {
-      fieldLabel: string;
-      fieldInfo: string;
-      groupDisplayName: string;
-      options: string[];
-      fieldType: {
-        value: number;
-        description: string;
-      };
-      fieldId: number;
-      value: {
-        asDate?: string;
-        asText?: string;
-        asMoney?: number;
-        asNumber?: number;
-        asOptions?: string[];
-      };
-    }
-  ];
+  customFields: {
+    fieldLabel: string;
+    fieldInfo: string;
+    groupDisplayName: string;
+    options: any[];
+    fieldType: {
+      value: number;
+      description: string;
+    };
+    fieldId: number;
+    value: {
+      asDate: string;
+      asText: string;
+      asMoney: number;
+      asNumber: number;
+      asOptions: any[];
+    };
+  }[];
   id: number;
   companyId: number;
   customerNr: string;
@@ -38,7 +36,7 @@ interface FormValues {
   btwNr: string;
   isPrivateClient: boolean;
   factoringSessionStatement: string;
-  clientTypes: number[];
+  clientTypes: any[];
   financialSettings: {
     bankAccountCompanyType: number;
     accountIbanNr: string;
@@ -51,8 +49,8 @@ interface FormValues {
     defaultDeadlineDaysForPayment: number;
     defaultVatTypeId: number;
     defaultLedgerAccountId: number;
-    extraCcEmailAddressesInvoice: string[];
-    extraCcEmailAddressesQuotes: string[];
+    extraCcEmailAddressesInvoice: any[];
+    extraCcEmailAddressesQuotes: any[];
     costDefaultLedgerAccountId: number;
     costDefaultVatTypeId: number;
     costDefaultReference: string;
@@ -62,7 +60,7 @@ interface FormValues {
     id: number;
     streetName: string;
     houseNr: string;
-    houseNrAddition?: string;
+    houseNrAddition: string;
     postCode: string;
     city: string;
     countryType: number;
@@ -71,7 +69,7 @@ interface FormValues {
     id: number;
     streetName: string;
     houseNr: string;
-    houseNrAddition?: string;
+    houseNrAddition: string;
     postCode: string;
     city: string;
     countryType: number;
@@ -79,7 +77,6 @@ interface FormValues {
 }
 
 const FinancialAddModalFooter: FC<Props> = ({
-  formik,
   isSubmitting,
   setAddModalOpen,
 }) => {
@@ -97,8 +94,8 @@ const FinancialAddModalFooter: FC<Props> = ({
       <button
         type="submit"
         className="btn btn-primary"
-        onClick={() => formik.handleSubmit()}
-        disabled={isSubmitting || !formik.isValid}
+        // onClick={() => formik.handleSubmit()}
+        // disabled={isSubmitting || !formik.isValid}
       >
         {!isSubmitting && intl.formatMessage({ id: "Fields.ActionSave" })}
         {isSubmitting && (

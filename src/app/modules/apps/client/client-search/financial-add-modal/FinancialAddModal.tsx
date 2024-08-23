@@ -163,12 +163,12 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
             <FinancialAddModalHeader setAddModalOpen={setAddModalOpen} />
 
             <FinancialAddModalForm
-              formik={formik}
+              // formik={formik}
               isSubmitting={isSubmitting}
             />
 
             <FinancialAddModalFooter
-              formik={formik}
+              // formik={formik}
               isSubmitting={isSubmitting}
               setAddModalOpen={setAddModalOpen}
             />
