@@ -8,7 +8,7 @@ const FinancialAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
   const intl = useIntl();
 
   return (
-    <div className="modal-header d-flex flex-column bg-primary ">
+    <div className="modal-header d-flex flex-column bg-primary pb-3 ">
       {/* begin::Modal title */}
       <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-0">
         <h2 className="fw-bolder mb-0 text-white">
