@@ -84,72 +84,7 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
 
   return (
     <>
-      <ul className="modal-header rounded-0 bg-primary nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6 mt-0 d-flex justify-content-around text-white">
-        <li className="nav-item flex-fill text-center">
-          <a
-            className="nav-link active d-flex align-items-center justify-content-center"
-            data-bs-toggle="tab"
-            href="#kt_tab_pane_4"
-          >
-            <i className="ki-duotone ki-user fs-2 text-white me-2">
-              <span className="path1"></span>
-              <span className="path2"></span>
-              <span className="path3"></span>
-            </i>
-            <span className="text-white">
-              {intl.formatMessage({ id: "Fields.ClientSettings" })}
-            </span>
-          </a>
-        </li>
-        <li className="nav-item flex-fill text-center">
-          <a
-            className="nav-link d-flex align-items-center justify-content-center"
-            data-bs-toggle="tab"
-            href="#kt_tab_pane_5"
-          >
-            <i className="ki-duotone ki-people fs-1 text-white me-2">
-              <span className="path1"></span>
-              <span className="path2"></span>
-              <span className="path3"></span>
-              <span className="path4"></span>
-              <span className="path5"></span>
-            </i>
-            <span className="text-white">
-              {intl.formatMessage({ id: "Fields.ContactPersonSettings" })}
-            </span>
-          </a>
-        </li>
-        <li className="nav-item flex-fill text-center">
-          <a
-            className="nav-link d-flex align-items-center justify-content-center"
-            data-bs-toggle="tab"
-            href="#kt_tab_pane_6"
-          >
-            <i className="ki-duotone ki-bank fs-1 text-white me-2">
-              <span className="path1"></span>
-              <span className="path2"></span>
-            </i>
-            <span className="text-white">overige instellingen</span>
-          </a>
-        </li>
-        <li className="nav-item flex-fill text-center">
-          <a
-            className="nav-link d-flex align-items-center justify-content-center"
-            data-bs-toggle="tab"
-            href="#kt_tab_pane_7"
-          >
-            <i className="ki-duotone ki-information-4 fs-1 text-white me-2">
-              <span className="path1"></span>
-              <span className="path2"></span>
-              <span className="path3"></span>
-            </i>
-            <span className="text-white">
-              {intl.formatMessage({ id: "Fields.SideMenuCustomFeatures" })}
-            </span>
-          </a>
-        </li>
-      </ul>
-
+   
       <div className="tab-content" id="myTabContent">
         <div
           className="tab-pane fade show active"
