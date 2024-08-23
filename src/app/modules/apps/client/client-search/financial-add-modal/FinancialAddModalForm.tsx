@@ -83,20 +83,22 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
   const intl = useIntl();
 
   return (
-    <div className="p-3">
-      <ul className="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6 d-flex justify-content-around">
+    <>
+      <ul className="modal-header rounded-0 bg-primary nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6 mt-0 d-flex justify-content-around text-white">
         <li className="nav-item flex-fill text-center">
           <a
             className="nav-link active d-flex align-items-center justify-content-center"
             data-bs-toggle="tab"
             href="#kt_tab_pane_4"
           >
-            <i className="ki-duotone ki-user fs-2 text-dark me-2">
+            <i className="ki-duotone ki-user fs-2 text-white me-2">
               <span className="path1"></span>
               <span className="path2"></span>
               <span className="path3"></span>
             </i>
-            <span>{intl.formatMessage({ id: "Fields.ClientSettings" })}</span>
+            <span className="text-white">
+              {intl.formatMessage({ id: "Fields.ClientSettings" })}
+            </span>
           </a>
         </li>
         <li className="nav-item flex-fill text-center">
@@ -105,14 +107,14 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
             data-bs-toggle="tab"
             href="#kt_tab_pane_5"
           >
-            <i className="ki-duotone ki-people fs-1 text-dark me-2">
+            <i className="ki-duotone ki-people fs-1 text-white me-2">
               <span className="path1"></span>
               <span className="path2"></span>
               <span className="path3"></span>
               <span className="path4"></span>
               <span className="path5"></span>
             </i>
-            <span>
+            <span className="text-white">
               {intl.formatMessage({ id: "Fields.ContactPersonSettings" })}
             </span>
           </a>
@@ -123,11 +125,11 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
             data-bs-toggle="tab"
             href="#kt_tab_pane_6"
           >
-            <i className="ki-duotone ki-bank fs-1 text-dark me-2">
+            <i className="ki-duotone ki-bank fs-1 text-white me-2">
               <span className="path1"></span>
               <span className="path2"></span>
             </i>
-            <span>overige instellingen</span>
+            <span className="text-white">overige instellingen</span>
           </a>
         </li>
         <li className="nav-item flex-fill text-center">
@@ -136,12 +138,12 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
             data-bs-toggle="tab"
             href="#kt_tab_pane_7"
           >
-            <i className="ki-duotone ki-information-4 fs-1 text-dark me-2">
+            <i className="ki-duotone ki-information-4 fs-1 text-white me-2">
               <span className="path1"></span>
               <span className="path2"></span>
               <span className="path3"></span>
             </i>
-            <span>
+            <span className="text-white">
               {intl.formatMessage({ id: "Fields.SideMenuCustomFeatures" })}
             </span>
           </a>
@@ -242,7 +244,7 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
                   />
                 </div>
               </div>
-              <ul className="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6 align-items-center d-flex justify-content-around">
+              <ul className="nav nav-tabs nav-line-tabs nav-line-tabs-2xe mb-5 fs-6 align-items-center d-flex justify-content-start">
                 <li className="nav-item">
                   <a
                     className="nav-link active d-flex align-items-center justify-content-center"
@@ -469,7 +471,7 @@ const FinancialAddModalForm: FC<Props> = ({ isSubmitting }) => {
           {/* Add content for Custom Features */}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -8,7 +8,7 @@ const FinancialAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
   const intl = useIntl();
 
   return (
-    <div className="modal-header d-flex justify-content-between align-items-center bg-primary ">
+    <div className="modal-header d-flex justify-content-between align-items-center mb-0 bg-primary ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
         {intl.formatMessage({ id: "Fields.ModalNewTitleClient" })}

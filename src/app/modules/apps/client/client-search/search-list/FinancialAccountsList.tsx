@@ -329,7 +329,6 @@ const FinancialAccountsList = ({
                     </div>
                   </div>
 
-                  {console.log(client.contacts)!}
                   {client?.primaryContact?.fullName && (
                     <div className="mb-4">
                       <div className="separator separator-solid mb-3"></div>
@@ -379,55 +378,56 @@ const FinancialAccountsList = ({
                       </ul>
                     </div>
                   )}
+                  {client.contacts.length > 0 && (
+                    <div className="d-flex flex-column justify-content-end pe-0">
+                      <div className="separator separator-solid mb-3"></div>
+                      <strong className="mb-3">
+                        {intl.formatMessage({ id: "Fields.Contacts" })}
+                      </strong>
+                      <div className="symbol-group symbol-hover flex-nowrap">
+                        {client.contacts.map((contact, index) => {
+                          const initials = contact.fullName
+                            .split(" ")
+                            .map((name) => name[0])
+                            .join("");
 
-                  <div className="d-flex flex-column justify-content-end pe-0">
-                    <div className="separator separator-solid mb-3"></div>
-                    <strong className="mb-3">
-                      {intl.formatMessage({ id: "Fields.Contacts" })}
-                    </strong>
-                    <div className="symbol-group symbol-hover flex-nowrap">
-                      {client.contacts.map((contact, index) => {
-                        const initials = contact.fullName
-                          .split(" ")
-                          .map((name) => name[0])
-                          .join("");
+                          // Define a list of colors
+                          const colors = [
+                            "bg-warning",
+                            "bg-primary",
+                            "bg-success",
+                            "bg-danger",
+                            "bg-info",
+                          ];
+                          // Choose a color based on the index
+                          const backgroundColor = colors[index % colors.length];
 
-                        // Define a list of colors
-                        const colors = [
-                          "bg-warning",
-                          "bg-primary",
-                          "bg-success",
-                          "bg-danger",
-                          "bg-info",
-                        ];
-                        // Choose a color based on the index
-                        const backgroundColor = colors[index % colors.length];
-
-                        return (
-                          <Tooltip
-                            label={contact.fullName}
-                            fontSize="sm"
-                            className="bg-gray-800 text-white p-2 rounded"
-                            placement="top"
-                          >
-                            <div
-                              className="symbol symbol-40px symbol-circle"
-                              key={`cw7-item-${index}`}
+                          return (
+                            <Tooltip
+                              label={contact.fullName}
+                              fontSize="sm"
+                              className="bg-gray-800 text-white p-2 rounded"
+                              placement="top"
                             >
-                              <span
-                                className={clsx(
-                                  "symbol-label fw-bold",
-                                  backgroundColor
-                                )}
+                              <div
+                                className="symbol symbol-40px symbol-circle"
+                                key={`cw7-item-${index}`}
                               >
-                                {initials}
-                              </span>
-                            </div>
-                          </Tooltip>
-                        );
-                      })}
+                                <span
+                                  className={clsx(
+                                    "symbol-label fw-bold",
+                                    backgroundColor
+                                  )}
+                                >
+                                  {initials}
+                                </span>
+                              </div>
+                            </Tooltip>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
