@@ -9,6 +9,7 @@ import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { ListLoading } from "../../../components/ListLoading";
 import { ClientAddStep1 } from "./ClientAddStep1";
 import { ClientAddStep2 } from "./ClientAddStep2";
+import { ClientAddStep3 } from "./ClientAddStep3";
 
 interface FormValues {
   customFields: {
@@ -127,7 +128,7 @@ const ClientAddModalForm: FC<Props> = ({
         />
       </div>
       <div className="tab-pane fade" id="kt_tab_pane_6" role="tabpanel">
-        {/* Add content for About */}
+        <ClientAddStep3 formik={formik} isSubmitting={isSubmitting} />
       </div>
       <div className="tab-pane fade" id="kt_tab_pane_7" role="tabpanel">
         {/* Add content for Custom Features */}

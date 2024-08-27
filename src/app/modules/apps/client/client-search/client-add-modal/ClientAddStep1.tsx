@@ -80,16 +80,16 @@ type Props = {
 
 const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
-  const [isEditing, setIsEditing] = useState(false); // State for edit mode
+  const [isEditing, setIsEditing] = useState(false);
 
-  const hasClientType16 = formik.values.clientTypes.includes(16); // Check if clientTypes includes 16
+  const hasClientType16 = formik.values.clientTypes.includes(16);
 
   const handleEditClick = () => {
     setIsEditing(true); // Enable editing mode
   };
 
   const handleQuillChange = (content: string) => {
-    formik.setFieldValue("factoringSessionStatement", content); // Set VAT number in formik
+    formik.setFieldValue("factoringSessionStatement", content); // Set statement number in formik
   };
   useEffect(() => {
     if (!hasClientType16) {
@@ -421,7 +421,7 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
         <button
           type="button"
           className="btn btn-light me-3"
-        //   onClick={() => setAddModalOpen(false)}
+          //   onClick={() => setAddModalOpen(false)}
         >
           {intl.formatMessage({ id: "Fields.ActionCancel" })}
         </button>
