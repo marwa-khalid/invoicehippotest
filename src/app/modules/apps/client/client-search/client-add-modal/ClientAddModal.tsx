@@ -109,7 +109,28 @@ const ClientAddModal = ({
         countryType: 0,
       },
     },
-    validationSchema: Yup.object().shape({}),
+    validationSchema: Yup.object().shape({
+      businessName: Yup.string()
+        .min(
+          3,
+          intl
+            .formatMessage({ id: "Common.ValidationMin" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.CompanyName" }))
+            .replace("{1}", `3`)
+        )
+        .max(
+          50,
+          intl
+            .formatMessage({ id: "Common.ValidationMax" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.CompanyName" }))
+            .replace("{1}", `50`)
+        )
+        .required(
+          intl
+            .formatMessage({ id: "Common.RequiredFieldHint2" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.CompanyName" }))
+        ),
+    }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
