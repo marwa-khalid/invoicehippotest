@@ -3,15 +3,17 @@ import { FinancialDeleteModalHeader } from "./FinancialDeleteModalHeader";
 import { FinancialDeleteModalFooter } from "./FinancialDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
-  ledgerAccountTitle: string;
-  deleteModalId: number;
+  title: string;
+  deleteModalId: number[];
+  intlMessage: string;
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
 }
 const FinancialDeleteModal = ({
   deleteModalId,
-  ledgerAccountTitle,
   setDeleteModalOpen,
+  title,
+  intlMessage,
   setRefresh,
 }: ComponentProps) => {
   useEffect(() => {
@@ -44,15 +46,15 @@ const FinancialDeleteModal = ({
                 {
                   intl
                     .formatMessage({
-                      id: "Fields.ModalDeleteDescriptionFinancialAccount",
+                      id: `${intlMessage}`,
                     })
                     .split("{0}")[0]
                 }
-                <strong>{ledgerAccountTitle}</strong>
+                <strong>{title}</strong>
                 {
                   intl
                     .formatMessage({
-                      id: "Fields.ModalDeleteDescriptionFinancialAccount",
+                      id: `${intlMessage}`,
                     })
                     .split("{0}")[1]
                 }
@@ -64,6 +66,7 @@ const FinancialDeleteModal = ({
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
+              intlMessage={intlMessage}
             />
           </div>
           {/* end::Modal content */}

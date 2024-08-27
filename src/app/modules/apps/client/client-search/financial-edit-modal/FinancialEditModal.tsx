@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { FinancialEditModalHeader } from "./FinancialEditModalHeader";
 import { FinancialEditModalFooter } from "./FinancialEditModalFooter";
-import {
-  getFinancialAccountById,
-  postFinancialAccount,
-} from "../core/_requests";
+import { getFinancialAccountById } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
@@ -81,25 +78,24 @@ const FinancialEditModal = ({
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postFinancialAccount(
-          values.id,
-          values.accountName,
-          values.accountNumber,
-          values.ledgerAccountId,
-          values.bankConnectMinImportDate,
-          values.autoCreateLedgerAccount,
-          values.accountType,
-          values.bankAccountCompanyType,
-          values.afterSaveModel,
-          values.bankConnectInfo
-        );
-
-        if (response.isValid) {
-          formik.resetForm();
-          setEditModalOpen(false);
-          setRefresh(true);
-        }
-        handleToast(response);
+        // const response = await postFinancialAccount(
+        //   values.id,
+        //   values.accountName,
+        //   values.accountNumber,
+        //   values.ledgerAccountId,
+        //   values.bankConnectMinImportDate,
+        //   values.autoCreateLedgerAccount,
+        //   values.accountType,
+        //   values.bankAccountCompanyType,
+        //   values.afterSaveModel,
+        //   values.bankConnectInfo
+        // );
+        // if (response.isValid) {
+        //   formik.resetForm();
+        //   setEditModalOpen(false);
+        //   setRefresh(true);
+        // }
+        // handleToast(response);
       } catch (error) {
         console.error("Put failed:", error);
       } finally {
@@ -113,7 +109,7 @@ const FinancialEditModal = ({
     const fetchInitialData = async () => {
       try {
         const response = await getFinancialAccountById(editModalId);
-    
+
         formik.setValues({
           id: response.result.id,
           accountName: response.result.accountName,

@@ -1,17 +1,31 @@
 import { useEffect, useState } from "react";
-import { FinancialAddModalHeader } from "./FinancialAddModalHeader";
-import { FinancialAddModalFooter } from "./FinancialAddModalFooter";
+import { ClientAddModalHeader } from "./ClientAddModalHeader";
+import { ClientAddModalFooter } from "./ClientAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { postFinancialAccount } from "../core/_requests";
-import FinancialAddModalForm from "./FinancialAddModalForm";
+import { postClient } from "../core/_requests";
+import { ClientAddModalForm } from "./ClientAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
+import { useAuth } from "../../../../auth";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
+  setDeleteModalId: (type: number[]) => void;
+  setDeleteModalOpen: (type: boolean) => void;
+  setTitle: (type: string) => void;
+  setIntlMessage: (type: string) => void;
+  deleteModalOpen: boolean;
 }
-const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const ClientAddModal = ({
+  setRefresh,
+  setAddModalOpen,
+  setDeleteModalId,
+  setDeleteModalOpen,
+  setIntlMessage,
+  setTitle,
+  deleteModalOpen,
+}: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -21,7 +35,10 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const intl = useIntl();
-
+  const auth = useAuth();
+  const [showTabs, setShowTabs] = useState(false);
+  const [clientId, setClientId] = useState(0);
+  console.log(auth.currentUser?.result.activeCompany.id);
   const formik = useFormik({
     initialValues: {
       customFields: [
@@ -29,7 +46,7 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
           fieldLabel: "",
           fieldInfo: "",
           groupDisplayName: "",
-          options: [],
+          options: [""],
           fieldType: {
             value: 0,
             description: "",
@@ -40,25 +57,25 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
             asText: "",
             asMoney: 0,
             asNumber: 0,
-            asOptions: [],
+            asOptions: [""],
           },
         },
       ],
       id: 0,
-      companyId: 0,
+      companyId: auth.currentUser?.result.activeCompany.id || 0,
       customerNr: "",
       importReference: "",
       businessName: "",
       kvkNr: "",
       btwNr: "",
-      isPrivateClient: false,
+      isPrivateClient: true,
       factoringSessionStatement: "",
-      clientTypes: [],
+      clientTypes: [0],
       financialSettings: {
         bankAccountCompanyType: 0,
         accountIbanNr: "",
         accountHolderName: "",
-        hasSepaMandate: false,
+        hasSepaMandate: true,
         sepaMandateDate: "",
         sepaMandateReference: "",
       },
@@ -66,8 +83,8 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         defaultDeadlineDaysForPayment: 0,
         defaultVatTypeId: 0,
         defaultLedgerAccountId: 0,
-        extraCcEmailAddressesInvoice: [],
-        extraCcEmailAddressesQuotes: [],
+        extraCcEmailAddressesInvoice: [""],
+        extraCcEmailAddressesQuotes: [""],
         costDefaultLedgerAccountId: 0,
         costDefaultVatTypeId: 0,
         costDefaultReference: "",
@@ -92,54 +109,19 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         countryType: 0,
       },
     },
-    validationSchema: Yup.object().shape({
-      accountType: Yup.number().required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.AccountType" }))
-      ),
-      accountName: Yup.string()
-        .min(
-          3,
-          intl
-            .formatMessage({ id: "Common.ValidationMin" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
-            .replace("{1}", `3`)
-        )
-        .max(
-          50,
-          intl
-            .formatMessage({ id: "Common.ValidationMax" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
-            .replace("{1}", `50`)
-        )
-        .required(
-          intl
-            .formatMessage({ id: "Common.RequiredFieldHint2" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.AccountName" }))
-        ),
-    }),
+    validationSchema: Yup.object().shape({}),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        // const response = await postFinancialAccount(
-        //   values.id,
-        //   values.accountName,
-        //   values.accountNumber,
-        //   values.ledgerAccountId,
-        //   values.bankConnectMinImportDate,
-        //   values.autoCreateLedgerAccount,
-        //   values.accountType,
-        //   values.bankAccountCompanyType,
-        //   values.afterSaveModel,
-        //   values.bankConnectInfo
-        // );
-        // if (response.isValid) {
-        //   formik.resetForm();
-        //   setAddModalOpen(false);
-        //   setRefresh(true);
-        // }
-        // handleToast(response);
+        const response = await postClient(values);
+        if (response.isValid) {
+          formik.resetForm();
+          // setAddModalOpen(false);
+          setRefresh(true);
+          setShowTabs(true);
+          setClientId(response.result.id);
+        }
+        handleToast(response);
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
@@ -160,15 +142,25 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <FinancialAddModalHeader setAddModalOpen={setAddModalOpen} />
-
-            <FinancialAddModalForm
-              // formik={formik}
-              isSubmitting={isSubmitting}
+            <ClientAddModalHeader
+              setAddModalOpen={setAddModalOpen}
+              showTabs={showTabs}
             />
 
-            <FinancialAddModalFooter
-              // formik={formik}
+            <ClientAddModalForm
+              formik={formik}
+              isSubmitting={isSubmitting}
+              showTabs={showTabs}
+              clientId={clientId}
+              setDeleteModalOpen={setDeleteModalOpen}
+              setDeleteModalId={setDeleteModalId}
+              setIntlMessage={setIntlMessage}
+              setTitle={setTitle}
+              deleteModalOpen={deleteModalOpen}
+            />
+
+            <ClientAddModalFooter
+              formik={formik}
               isSubmitting={isSubmitting}
               setAddModalOpen={setAddModalOpen}
             />
@@ -180,4 +172,4 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   );
 };
 
-export { FinancialAddModal };
+export { ClientAddModal };

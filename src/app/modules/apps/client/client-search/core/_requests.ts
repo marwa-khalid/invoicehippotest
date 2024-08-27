@@ -6,6 +6,10 @@ import {
   FinancialInstitutionsModel,
   AccountAutomationModel,
   ClientModel,
+  ClientResult,
+  ClientFormValues,
+  ContactModel,
+  ContactResult,
 } from "./_models";
 
 import {
@@ -15,15 +19,18 @@ import {
 } from "../../../../auth/core/_apiservice";
 import {
   GET_CLIENTS,
+  POST_CLIENT,
   POST_FINANCIAL_ACCOUNT,
   GET_LEDGDER_FOR_FINANCIAL,
   GET_FINANCIALACCOUNT_BY_ID,
   GET_FINANCIAL_INSTITUTIONS,
   POST_ACCOUNT_AUTOMATION,
   UNLINK_ACCOUNT,
+  POST_CONTACT,
+  GET_CONTACT_BY_ID,
 } from "./constants";
-
 interface DeleteResult extends Partial<ClientModel> {}
+interface ContactValues extends Partial<ContactResult> {}
 
 export function getClients(searchTerm: string, pageIndex: number) {
   return postRequest<ClientModel>(
@@ -39,6 +46,52 @@ export function getClients(searchTerm: string, pageIndex: number) {
   );
 }
 
+export function postClient(values: ClientFormValues) {
+  return postRequest<FinancialAccountsModel>(
+    POST_CLIENT,
+    {
+      id: 0,
+      companyId: values.companyId,
+      businessName: values.businessName,
+      kvkNr: values.kvkNr,
+      btwNr: values.btwNr,
+      isPrivateClient: values.isPrivateClient,
+      factoringSessionStatement: values.factoringSessionStatement,
+      clientTypes: values.clientTypes,
+      invoiceAddress: values.invoiceAddress,
+      deliveryAddress: values.deliveryAddress,
+    },
+    true
+  );
+}
+
+export function postContact(values: ContactValues) {
+  return postRequest<ContactModel>(
+    POST_CONTACT,
+    {
+      id: values.id,
+      clientId: values.clientId,
+      firstName: values.firstName,
+      betweenName: values.betweenName,
+      lastName: values.lastName,
+      emailAddress: values.emailAddress,
+      phoneNr: values.phoneNr,
+      mobileNr: values.mobileNr,
+      department: values.department,
+    },
+    true
+  );
+}
+export function getContactListById(clientId: number) {
+  return getRequest<ContactModel>(`${GET_CONTACT_BY_ID}/${clientId}`, true);
+}
+
+export function deleteContact(id: number[]) {
+  return deleteRequest<DeleteResult>(POST_CONTACT, id, true);
+}
+
+//extraaaaa
+
 export function getFinancialAccountById(editModalId: number) {
   return getRequest<FinancialAccountByIdModel>(
     `${GET_FINANCIALACCOUNT_BY_ID}/${editModalId}`,
@@ -53,44 +106,7 @@ export function getLedgerForFinancial(id: number) {
   );
 }
 
-export function postFinancialAccount(
-  id: number,
-  accountName: string,
-  accountNumber: string,
-  ledgerAccountId: number,
-  bankConnectMinImportDate: any,
-  autoCreateLedgerAccount: boolean,
-  accountType: number,
-  bankAccountCompanyType: number,
-  afterSaveModel: {
-    ledgerAccountDisplayName: string;
-  },
-  bankConnectInfo: {
-    isConnected: boolean;
-    isActive: boolean;
-    accessExpirtationDate: any;
-    lastSyncRequestDate: any;
-  }
-) {
-  return postRequest<FinancialAccountsModel>(
-    POST_FINANCIAL_ACCOUNT,
-    {
-      id: id,
-      accountName: accountName,
-      accountNumber: accountNumber,
-      ledgerAccountId: ledgerAccountId,
-      bankConnectMinImportDate: bankConnectMinImportDate,
-      accountType: accountType,
-      autoCreateLedgerAccount: autoCreateLedgerAccount,
-      bankAccountCompanyType: bankAccountCompanyType,
-      afterSaveModel: afterSaveModel,
-      bankConnectInfo: bankConnectInfo,
-    },
-    true
-  );
-}
-
-export function deleteFinancialAccount(id: number) {
+export function deleteFinancialAccount(id: number[]) {
   return deleteRequest<DeleteResult>(POST_FINANCIAL_ACCOUNT, [id], true);
 }
 

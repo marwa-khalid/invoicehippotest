@@ -7,6 +7,8 @@ import { AuthInit } from "./modules/auth";
 import { ThemeModeProvider } from "../_metronic/partials";
 import { ToastContainer } from "react-toastify";
 import { ChakraProvider } from "@chakra-ui/react";
+
+
 const App = () => {
   return (
     <ChakraProvider>

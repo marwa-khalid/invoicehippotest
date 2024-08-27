@@ -1,3 +1,5 @@
+import { debug } from "webpack";
+
 interface ApiResponse<T> {
   pageIndex: number;
   totalRows: number;
@@ -67,6 +69,90 @@ export interface ClientResult {
 }
 
 export type ClientModel = ApiResponse<ClientResult[]>;
+
+export interface ClientFormValues {
+  customFields: {
+    fieldLabel: string;
+    fieldInfo: string;
+    groupDisplayName: string;
+    options: any[];
+    fieldType: {
+      value: number;
+      description: string;
+    };
+    fieldId: number;
+    value: {
+      asDate: string;
+      asText: string;
+      asMoney: number;
+      asNumber: number;
+      asOptions: any[];
+    };
+  }[];
+  id: number;
+  companyId: number;
+  customerNr: string;
+  importReference: string;
+  businessName: string;
+  kvkNr: string;
+  btwNr: string;
+  isPrivateClient: boolean;
+  factoringSessionStatement: string;
+  clientTypes: any[];
+  financialSettings: {
+    bankAccountCompanyType: number;
+    accountIbanNr: string;
+    accountHolderName: string;
+    hasSepaMandate: boolean;
+    sepaMandateDate: string;
+    sepaMandateReference: string;
+  };
+  invoiceAndQuoteSettings: {
+    defaultDeadlineDaysForPayment: number;
+    defaultVatTypeId: number;
+    defaultLedgerAccountId: number;
+    extraCcEmailAddressesInvoice: any[];
+    extraCcEmailAddressesQuotes: any[];
+    costDefaultLedgerAccountId: number;
+    costDefaultVatTypeId: number;
+    costDefaultReference: string;
+    costDefaultLineReference: string;
+  };
+  invoiceAddress: {
+    id: number;
+    streetName: string;
+    houseNr: string;
+    houseNrAddition: string;
+    postCode: string;
+    city: string;
+    countryType: number;
+  };
+  deliveryAddress: {
+    id: number;
+    streetName: string;
+    houseNr: string;
+    houseNrAddition: string;
+    postCode: string;
+    city: string;
+    countryType: number;
+  };
+}
+
+export interface ContactResult {
+  id: number;
+  clientId: number;
+  isDefaultContact: boolean;
+  firstName: string;
+  betweenName: string;
+  lastName: string;
+  addressingType: number;
+  emailAddress: string;
+  phoneNr: string;
+  mobileNr: string;
+  department: string;
+}
+
+export type ContactModel = ApiResponse<ContactResult[]>;
 
 //extraaaaa
 interface AccountType {

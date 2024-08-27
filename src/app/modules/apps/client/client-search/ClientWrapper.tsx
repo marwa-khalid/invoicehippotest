@@ -1,6 +1,6 @@
 import { FinancialListHeader } from "./components/header/FinancialListHeader";
 import { FinancialAccountsList } from "./search-list/FinancialAccountsList";
-import { FinancialAddModal } from "./financial-add-modal/FinancialAddModal";
+import { ClientAddModal } from "./client-add-modal/ClientAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
@@ -14,7 +14,7 @@ const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
   if (storedPaginationString) {
     const pagination = JSON.parse(storedPaginationString);
-   
+
     const currentPage = pagination["financial-module"].pageIndex || 1;
     const searchTerm = pagination["financial-module"].filters.searchTerm || "";
 
@@ -32,12 +32,14 @@ const FinancialListInnerWrapper = () => {
 
   const [totalRows, setTotalRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
+  const [deleteModalId, setDeleteModalId] = useState<number[]>([0]);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [linkModalOpen, setLinkModalOpen] = useState<boolean>(false);
   const [unlinkModalOpen, setUnlinkModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [ledgerAccountTitle, setLedgerAccountTitle] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [intlMessage, setIntlMessage] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
 
   return (
@@ -58,7 +60,7 @@ const FinancialListInnerWrapper = () => {
         setDeleteModalOpen={setDeleteModalOpen}
         setUnlinkModalOpen={setUnlinkModalOpen}
         setEditModalId={setEditModalId}
-        setLedgerAccountTitle={setLedgerAccountTitle}
+        setTitle={setTitle}
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
@@ -66,9 +68,14 @@ const FinancialListInnerWrapper = () => {
         deleteModalOpen={deleteModalOpen}
       />
       {addModalOpen && (
-        <FinancialAddModal
+        <ClientAddModal
           setRefresh={setRefresh}
           setAddModalOpen={setAddModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          setDeleteModalId={setDeleteModalId}
+          setTitle={setTitle}
+          setIntlMessage={setIntlMessage}
+          deleteModalOpen={deleteModalOpen}
         />
       )}
       {linkModalOpen && (
@@ -93,10 +100,11 @@ const FinancialListInnerWrapper = () => {
       )}
       {deleteModalOpen && (
         <FinancialDeleteModal
-          deleteModalId={editModalId}
-          ledgerAccountTitle={ledgerAccountTitle}
+          deleteModalId={deleteModalId}
+          title={title}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
+          intlMessage={intlMessage}
         />
       )}
     </>

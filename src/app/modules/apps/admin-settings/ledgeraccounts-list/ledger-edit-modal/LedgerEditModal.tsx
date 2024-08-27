@@ -57,11 +57,11 @@ const LedgerEditModal = ({
             .replace("{1}", `3`)
         )
         .max(
-          50,
+          100,
           intl
             .formatMessage({ id: "Common.ValidationMax" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
-            .replace("{1}", `50`)
+            .replace("{1}", `100`)
         )
         .required(
           intl
@@ -77,11 +77,11 @@ const LedgerEditModal = ({
             .replace("{1}", `2`)
         )
         .max(
-          50,
+          100,
           intl
             .formatMessage({ id: "Common.ValidationMax" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
-            .replace("{1}", `50`)
+            .replace("{1}", `100`)
         )
         .required(
           intl

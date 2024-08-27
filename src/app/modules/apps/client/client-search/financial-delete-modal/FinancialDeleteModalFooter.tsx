@@ -1,26 +1,34 @@
 import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteFinancialAccount } from "../core/_requests";
+import { deleteContact, deleteFinancialAccount } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
-  deleteModalId: number;
+  deleteModalId: number[];
   setRefresh: (type: boolean) => void;
+  intlMessage: string;
 }
 
 const FinancialDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
+  intlMessage,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const deleteVat = async () => {
+  console.log(intlMessage);
+  console.log(deleteModalId);
+  const deleteItem = async () => {
     setIsSubmitting(true);
-    const response = await deleteFinancialAccount(deleteModalId);
+    let response;
+    if (intlMessage === "Fields.ModalDeleteDescriptionClientContact") {
+      response = await deleteContact(deleteModalId);
+    } else {
+      response = await deleteFinancialAccount(deleteModalId);
+    }
     if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);
@@ -44,7 +52,7 @@ const FinancialDeleteModalFooter = ({
         <button
           type="submit"
           className="btn btn-danger"
-          onClick={deleteVat}
+          onClick={deleteItem}
           //   disabled={!isValid || isSubmitting || !touched}
         >
           {!isSubmitting && intl.formatMessage({ id: "Fields.ActionDelete" })}

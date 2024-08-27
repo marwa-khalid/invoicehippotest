@@ -4,7 +4,7 @@ import { BankLinkModalFooter } from "./BankLinkModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { postAccounAutomation, postFinancialAccount } from "../core/_requests";
+import { postAccounAutomation } from "../core/_requests";
 import BankLinkModalForm from "./BankLinkModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { useAuth } from "../../../../auth";

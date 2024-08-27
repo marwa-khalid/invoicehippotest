@@ -3,8 +3,12 @@ import { useIntl } from "react-intl";
 
 interface ComponentProps {
   setAddModalOpen: (type: boolean) => void;
+  showTabs: boolean;
 }
-const FinancialAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
+const ClientAddModalHeader = ({
+  showTabs,
+  setAddModalOpen,
+}: ComponentProps) => {
   const intl = useIntl();
 
   return (
@@ -46,6 +50,8 @@ const FinancialAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
             </span>
           </a>
         </li>
+        {/* {showTabs && (
+          <> */}
         <li className="nav-item flex-fill text-center">
           <a
             className="nav-link d-flex align-items-center justify-content-center"
@@ -93,9 +99,11 @@ const FinancialAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
             </span>
           </a>
         </li>
+        {/* </>
+        )} */}
       </ul>
     </div>
   );
 };
 
-export { FinancialAddModalHeader };
+export { ClientAddModalHeader };

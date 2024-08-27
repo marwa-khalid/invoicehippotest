@@ -15,7 +15,7 @@ interface ComponentProps {
   setEditModalOpen: (type: boolean) => void;
   setUnlinkModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
-  setLedgerAccountTitle: (type: string) => void;
+  setTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
   setPageIndex: (type: number) => void;
@@ -28,7 +28,7 @@ const FinancialAccountsList = ({
   setTotalRows,
   setEditModalOpen,
   setEditModalId,
-  setLedgerAccountTitle,
+  setTitle,
   setDeleteModalOpen,
   setUnlinkModalOpen,
   refresh,
@@ -79,10 +79,10 @@ const FinancialAccountsList = ({
     setEditModalOpen(true);
   };
 
-  const openDeleteModal = (id: number, ledgerTitle: string) => {
+  const openDeleteModal = (id: number, title: string) => {
     setEditModalId(id);
     setDeleteModalOpen(true);
-    setLedgerAccountTitle(ledgerTitle);
+    setTitle(title);
   };
 
   const openUnlinkModal = (id: number) => {

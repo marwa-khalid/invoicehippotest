@@ -3,6 +3,9 @@ const API_URL_V1 =
   "https://api-tst.invoicehippo.nl/api/v1";
 
 export const GET_CLIENTS = `${API_URL_V1}/client/search`;
+export const POST_CLIENT = `${API_URL_V1}/client`;
+export const POST_CONTACT = `${API_URL_V1}/client/contact`;
+export const GET_CONTACT_BY_ID = `${API_URL_V1}/client/contact-list`;
 
 //extraa
 export const GET_FINANCIALACCOUNT_BY_ID = `${API_URL_V1}/admin/financialaccount`;
