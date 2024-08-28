@@ -154,6 +154,29 @@ export interface ContactResult {
 
 export type ContactModel = ApiResponse<ContactResult[]>;
 
+interface VatListItem {
+  id: number;
+  title: string;
+  value: number;
+  hideOnDocuments: boolean;
+  isAlwaysExBtw: boolean;
+  isDefault: boolean;
+  vatAreaUsageType: {
+    value: number;
+    name: string;
+    description: string;
+  };
+  isDisabledForManualInput: boolean;
+}
+
+export interface VatTypesForClientResult {
+  listForSalesGroupTitle: string;
+  listForSales: VatListItem[];
+}
+
+export interface VatTypesForClientModel
+  extends ApiResponse<VatTypesForClientResult> {}
+
 //extraaaaa
 interface AccountType {
   value: number;

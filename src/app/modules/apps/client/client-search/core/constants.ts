@@ -6,6 +6,8 @@ export const GET_CLIENTS = `${API_URL_V1}/client/search`;
 export const POST_CLIENT = `${API_URL_V1}/client`;
 export const POST_CONTACT = `${API_URL_V1}/client/contact`;
 export const GET_CONTACT_BY_ID = `${API_URL_V1}/client/contact-list`;
+export const GET_LEDGDER_FOR_CLIENT = `${API_URL_V1}/lists/ledger-accounts/for/sale`;
+export const GET_VAT_FOR_CLIENT = `${API_URL_V1}/lists/vat-types`;
 
 //extraa
 export const GET_FINANCIALACCOUNT_BY_ID = `${API_URL_V1}/admin/financialaccount`;

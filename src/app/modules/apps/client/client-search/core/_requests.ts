@@ -10,6 +10,7 @@ import {
   ClientFormValues,
   ContactModel,
   ContactResult,
+  VatTypesForClientModel,
 } from "./_models";
 
 import {
@@ -28,7 +29,10 @@ import {
   UNLINK_ACCOUNT,
   POST_CONTACT,
   GET_CONTACT_BY_ID,
+  GET_LEDGDER_FOR_CLIENT,
+  GET_VAT_FOR_CLIENT,
 } from "./constants";
+import { VatTypesForLedgerModel } from "../../../admin-settings/ledgeraccounts-list/core/_models";
 interface DeleteResult extends Partial<ClientModel> {}
 interface ContactValues extends Partial<ContactResult> {}
 
@@ -88,6 +92,14 @@ export function getContactListById(clientId: number) {
 
 export function deleteContact(id: number[]) {
   return deleteRequest<DeleteResult>(POST_CONTACT, id, true);
+}
+
+export function getLedgerForClient() {
+  return getRequest<PrivateLedgersModel>(GET_LEDGDER_FOR_CLIENT, true);
+}
+
+export function getVatForClient() {
+  return getRequest<VatTypesForClientModel>(GET_VAT_FOR_CLIENT, true);
 }
 
 //extraaaaa

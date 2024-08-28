@@ -5,6 +5,7 @@ import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { getLedgerForClient, getVatForClient } from "../core/_requests";
 interface FormValues {
   customFields: {
     fieldLabel: string;
@@ -80,13 +81,28 @@ type Props = {
 
 const ClientAddStep3: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
-
-  const hasClientType16 = formik.values.clientTypes.includes(16); // Check if clientTypes includes 16
-
-  const handleQuillChange = (content: string) => {
-    formik.setFieldValue("factoringSessionStatement", content); // Set VAT number in formik
-  };
-
+  const [ledgers, setLedgers] = useState<any>([]);
+  const [vats, setVats] = useState<any>([]);
+  useEffect(() => {
+    const fetchLedgers = async () => {
+      const response = await getLedgerForClient();
+      console.log(response.result);
+      if (response.isValid) {
+        setLedgers(response.result);
+      }
+    };
+    fetchLedgers();
+  }, []);
+  useEffect(() => {
+    const fetchVats = async () => {
+      const response = await getVatForClient();
+      console.log(response.result);
+      if (response.isValid) {
+        setVats(response.result.listForSales);
+      }
+    };
+    fetchVats();
+  }, []);
   console.log(formik.values);
   return (
     <>
@@ -162,19 +178,16 @@ const ClientAddStep3: FC<Props> = ({ formik, isSubmitting }) => {
             <div className="row d-flex mb-5">
               {/* KvkNr Field */}
               <label className="required fw-bold fs-6 mb-3">
-                {intl.formatMessage({
-                  id: "Fields.DefaultDeadlineDaysForPayment",
-                })}
+                Standaard Grootboek
               </label>
               <div className="fv-row">
                 <Select
                   className="react-select-styled"
                   placeholder={intl.formatMessage({
-                    id: "Fields.DefaultDeadlineDaysForPaymentSelectOption",
+                    id: "Fields.SelectOptionDefaultLedgerAccount",
                   })}
-                  options={Array.from({ length: 89 }, (_, index) => {
-                    const value = index + 2;
-                    return { value, label: value.toString() };
+                  options={ledgers.map((ledger: any) => {
+                    return { label: ledger.title, value: ledger.id };
                   })}
                   onChange={(selectedOption: any) => {
                     formik.setFieldValue(
@@ -191,13 +204,15 @@ const ClientAddStep3: FC<Props> = ({ formik, isSubmitting }) => {
               <div className="fv-row col-6">
                 {/* KvkNr Field */}
                 <label className="required fw-bold fs-6 mb-3">
-                  Standaard Grootboek
+                  {intl.formatMessage({
+                    id: "Fields.DefaultDeadlineDaysForPayment",
+                  })}
                 </label>
                 <div className="fv-row">
                   <Select
                     className="react-select-styled"
                     placeholder={intl.formatMessage({
-                      id: "Fields.SelectOptionDefaultLedgerAccount",
+                      id: "Fields.DefaultDeadlineDaysForPaymentSelectOption",
                     })}
                     options={Array.from({ length: 89 }, (_, index) => {
                       const value = index + 2;
@@ -225,9 +240,8 @@ const ClientAddStep3: FC<Props> = ({ formik, isSubmitting }) => {
                     placeholder={intl.formatMessage({
                       id: "Fields.SelectOptionDefaultVatType",
                     })}
-                    options={Array.from({ length: 89 }, (_, index) => {
-                      const value = index + 2;
-                      return { value, label: value.toString() };
+                    options={vats.map((vat: any) => {
+                      return { label: vat.title, value: vat.id };
                     })}
                     onChange={(selectedOption: any) => {
                       formik.setFieldValue(
@@ -252,8 +266,11 @@ const ClientAddStep3: FC<Props> = ({ formik, isSubmitting }) => {
                 </label>
                 <input
                   type="text"
-                  {...formik.getFieldProps("kvkNr")}
-                  className="form-control form-control-solid"
+                  data-role="tagsinput"
+                  {...formik.getFieldProps(
+                    "financialSettings.sepaMandateReference"
+                  )}
+                  className="form-control form-control-solid tagify"
                   placeholder={intl.formatMessage({
                     id: "Fields.ExtraCcEmailAddressesInvoice",
                   })}
