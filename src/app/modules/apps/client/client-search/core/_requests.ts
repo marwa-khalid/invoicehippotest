@@ -106,8 +106,8 @@ export function getLedgerForFinancial(id: number) {
   );
 }
 
-export function deleteFinancialAccount(id: number[]) {
-  return deleteRequest<DeleteResult>(POST_FINANCIAL_ACCOUNT, [id], true);
+export function deleteClient(id: number[]) {
+  return deleteRequest<DeleteResult>(POST_CLIENT, id, true);
 }
 
 export function getFinancialInstitutions(countryType: number) {

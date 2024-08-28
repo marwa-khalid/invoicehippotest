@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteContact, deleteFinancialAccount } from "../core/_requests";
+import { deleteContact, deleteClient } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
@@ -27,7 +27,7 @@ const FinancialDeleteModalFooter = ({
     if (intlMessage === "Fields.ModalDeleteDescriptionClientContact") {
       response = await deleteContact(deleteModalId);
     } else {
-      response = await deleteFinancialAccount(deleteModalId);
+      response = await deleteClient(deleteModalId);
     }
     if (response.isValid) {
       setRefresh(true);

@@ -66,6 +66,7 @@ const FinancialListInnerWrapper = () => {
         setPageIndex={setPageIndexState}
         editModalOpen={editModalOpen}
         deleteModalOpen={deleteModalOpen}
+        setIntlMessage={setIntlMessage}
       />
       {addModalOpen && (
         <ClientAddModal

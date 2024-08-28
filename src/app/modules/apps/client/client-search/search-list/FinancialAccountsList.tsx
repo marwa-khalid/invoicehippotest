@@ -16,6 +16,7 @@ interface ComponentProps {
   setUnlinkModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
   setTitle: (type: string) => void;
+  setIntlMessage: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
   setPageIndex: (type: number) => void;
@@ -36,6 +37,7 @@ const FinancialAccountsList = ({
   pageIndex,
   editModalOpen,
   deleteModalOpen,
+  setIntlMessage,
 }: ComponentProps) => {
   const [clients, setClients] = useState<any>([]);
 
@@ -83,6 +85,7 @@ const FinancialAccountsList = ({
     setEditModalId(id);
     setDeleteModalOpen(true);
     setTitle(title);
+    setIntlMessage("Fields.ModalDeleteDescriptionClient");
   };
 
   const openUnlinkModal = (id: number) => {
