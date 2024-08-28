@@ -32,50 +32,6 @@ const LanguagesAuth: FC = () => {
   };
 
   return (
-    // <div
-    //   className='menu-item px-5'
-    //   data-kt-menu-trigger='hover'
-    //   data-kt-menu-placement='left-start'
-    //   data-kt-menu-flip='bottom'
-    // >
-    //   <a href='#' className='menu-link px-5'>
-    //     <span className='menu-title position-relative'>
-    //       {intl.formatMessage({id: 'FIELDS.LANGUAGEPREFERENCETYPE'})}
-    //       <span className='fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0'>
-    //         {currentLanguage?.name}{' '}
-    //         <img
-    //           className='w-15px h-15px rounded-1 ms-2'
-    //           src={currentLanguage?.flag}
-    //           alt='metronic'
-    //         />
-    //       </span>
-    //     </span>
-    //   </a>
-
-    //   <div className=''>
-    //     {languages.map((l) => (
-    //       <div
-    //         className='menu-item px-3'
-    //         key={l.lang}
-    //         onClick={() => {
-    //           debugger;
-    //           setLanguage(l.lang)
-    //         }}
-    //       >
-    //         <a
-    //           href='#'
-    //           className={clsx('menu-link d-flex px-5', {active: l.lang === currentLanguage?.lang})}
-    //         >
-    //           <span className='symbol symbol-20px me-4'>
-    //             <img className='rounded-1' src={l.flag} alt='metronic' />
-    //           </span>
-    //           {l.name}
-    //         </a>
-    //       </div>
-    //     ))}
-    //   </div>
-    // </div>
-
     <div className=" position-relative ">
       <div
         className="btn btn-flex btn-link rotate"
@@ -100,7 +56,7 @@ const LanguagesAuth: FC = () => {
 
       {menuOpen && (
         <div
-          className="menu-column menu-rounded menu-gray-800 bg-white fw-semibold py-4 position-absolute w-200px bottom-100 shadow-2xl rounded shadow-lg"
+          className="menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary bg-white fw-semibold py-4 position-absolute w-200px bottom-100 shadow-2xl rounded shadow-lg"
           data-kt-menu="true"
           id="kt_auth_lang_menu"
           data-kt-menu-flip="top"
