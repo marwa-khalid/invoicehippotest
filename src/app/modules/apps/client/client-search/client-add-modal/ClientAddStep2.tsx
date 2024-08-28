@@ -101,7 +101,7 @@ const ClientAddStep2: FC<Props> = ({
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentContactId, setCurrentContactId] = useState<number>(0);
   const [infoModalOpen, setInfoModalOpen] = useState(false);
-  const [contacts, setContacts] = useState<any>([]);
+  const [contacts, setContacts] = useState<any[]>([]);
   const [newContact, setNewContact] = useState({
     id: 0,
     clientId: clientId,
@@ -118,8 +118,12 @@ const ClientAddStep2: FC<Props> = ({
   useEffect(() => {
     const fecthspecificContacts = async () => {
       const response = await getContactListById(clientId);
-      console.log(response.result);
-      setContacts(response.result);
+
+      if (response.result.length > 0) {
+        setContacts(response.result);
+      } else {
+        setContacts([]);
+      }
     };
     fecthspecificContacts();
   }, [deleteModalOpen]);
@@ -131,7 +135,7 @@ const ClientAddStep2: FC<Props> = ({
     });
   };
 
-  console.log(currentContactId);
+  console.log(contacts);
 
   const handleOpenModal = (contactId?: number) => {
     console.log(contactId);
@@ -140,6 +144,7 @@ const ClientAddStep2: FC<Props> = ({
       const contactToEdit = contacts.find(
         (contact: any) => contact.id === contactId
       );
+      console.log(contactToEdit);
       if (contactToEdit) {
         setNewContact(contactToEdit);
         setIsEditMode(true);
@@ -194,6 +199,7 @@ const ClientAddStep2: FC<Props> = ({
         setContacts(updatedContacts);
       } else {
         // Add new contact
+        console.log(newContact);
         setContacts([...contacts, { ...newContact, id: Date.now() }]);
       }
     } else {
