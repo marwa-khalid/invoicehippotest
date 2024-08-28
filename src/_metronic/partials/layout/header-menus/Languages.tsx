@@ -16,22 +16,6 @@ const languages = [
     flag: toAbsoluteUrl("media/flags/united-states.svg"),
   },
 
-  {
-    lang: "es",
-    name: "Spanish",
-    flag: toAbsoluteUrl("media/flags/spain.svg"),
-  },
-
-  {
-    lang: "de",
-    name: "German",
-    flag: toAbsoluteUrl("media/flags/germany.svg"),
-  },
-  {
-    lang: "fr",
-    name: "French",
-    flag: toAbsoluteUrl("media/flags/france.svg"),
-  },
 ];
 
 const Languages: FC = () => {

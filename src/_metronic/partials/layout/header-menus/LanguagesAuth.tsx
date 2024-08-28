@@ -18,23 +18,6 @@ const languages = [
     name: "English",
     flag: toAbsoluteUrl("media/flags/united-states.svg"),
   },
-
-  {
-    lang: "es",
-    name: "Spanish",
-    flag: toAbsoluteUrl("media/flags/spain.svg"),
-  },
-
-  {
-    lang: "de",
-    name: "German",
-    flag: toAbsoluteUrl("media/flags/germany.svg"),
-  },
-  {
-    lang: "fr",
-    name: "French",
-    flag: toAbsoluteUrl("media/flags/france.svg"),
-  },
 ];
 
 const LanguagesAuth: FC = () => {
@@ -117,13 +100,13 @@ const LanguagesAuth: FC = () => {
 
       {menuOpen && (
         <div
-          className="menu-column menu-rounded menu-gray-800 bg-white fw-semibold py-4 position-absolute w-200px bottom-100 shadow-2xl"
+          className="menu-column menu-rounded menu-gray-800 bg-white fw-semibold py-4 position-absolute w-200px bottom-100 shadow-2xl rounded shadow-lg"
           data-kt-menu="true"
           id="kt_auth_lang_menu"
           data-kt-menu-flip="top"
         >
           {languages.map((lang) => (
-            <div key={lang.name} className="menu-item px-3 rounded-lg">
+            <div key={lang.name} className="menu-item px-3 ">
               <a
                 href="#"
                 className="menu-link d-flex px-5"
