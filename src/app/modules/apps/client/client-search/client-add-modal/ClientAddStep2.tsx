@@ -260,7 +260,7 @@ const ClientAddStep2: FC<Props> = ({
                 <span className="path2"></span>
                 <span className="path3"></span>
               </i>
-              Add Contact
+              {intl.formatMessage({ id: "Fields.ModalNewTitleClientContact" })}
             </button>
           </div>
           {selectedContacts?.length > 0 && (
