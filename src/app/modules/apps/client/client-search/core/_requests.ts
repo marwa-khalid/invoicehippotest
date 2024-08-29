@@ -71,12 +71,18 @@ export function postClient(values: ClientFormValues) {
   );
 }
 
-export function postClientFinancial(values: PartialClientFormValues) {
+export function postClientFinancial(
+  values: PartialClientFormValues,
+  response: any
+) {
   return postRequest<FinancialAccountsModel>(
     POST_CLIENT,
     {
-      id: values.id,
-      businessName: values.businessName,
+      id: response.id,
+      businessName: response.businessName,
+      clientTypes: response.clientTypes,
+      invoiceAddress: response.invoiceAddress,
+      deliveryAddress: response.deliveryAddress,
       invoiceAndQuoteSettings: values.invoiceAndQuoteSettings,
       financialSettings: values.financialSettings,
     },

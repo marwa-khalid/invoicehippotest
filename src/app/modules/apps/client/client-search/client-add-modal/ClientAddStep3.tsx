@@ -8,6 +8,7 @@ import ReactQuill from "react-quill";
 import * as Yup from "yup";
 import Tags from "@yaireo/tagify/dist/react.tagify";
 import "@yaireo/tagify/dist/tagify.css";
+import { toast } from "react-toastify";
 
 import {
   getLedgerForClient,
@@ -16,11 +17,11 @@ import {
 } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 import { getVatTypesForLedger } from "../../../admin-settings/ledgeraccounts-list/core/_requests";
+import clsx from "clsx";
 type Props = {
   isSubmitting: boolean;
   setIsSubmitting: (value: boolean) => void;
-  clientId: number;
-  businessName: string;
+  response: any;
 };
 interface vatType {
   value: number;
@@ -40,24 +41,15 @@ interface GroupedOption {
   }[];
 }
 
-const ClientAddStep3: FC<Props> = ({
-  setIsSubmitting,
-  clientId,
-  businessName,
-}) => {
+const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
   const intl = useIntl();
   const tagifyRef = useRef<any>();
   const formik = useFormik({
     initialValues: {
-      id: clientId || 0,
-      businessName: businessName || "",
       financialSettings: {
         bankAccountCompanyType: 0,
         accountIbanNr: "",
         accountHolderName: "",
-        hasSepaMandate: true,
-        sepaMandateDate: "",
-        sepaMandateReference: "",
       },
       invoiceAndQuoteSettings: {
         defaultDeadlineDaysForPayment: 0,
@@ -71,23 +63,34 @@ const ClientAddStep3: FC<Props> = ({
         costDefaultLineReference: "",
       },
     },
-    validationSchema: Yup.object().shape({}),
+    validationSchema: Yup.object().shape({
+      "financialSettings.accountIbanNr": Yup.string().matches(
+        /^([A-Z]{2}[0-9]{2})(?:[ ]?[0-9A-Z]{4}){3}(?:[ ]?[0-9A-Z]{1,2})?$/,
+        intl
+          .formatMessage({ id: "Common.InvalidFormat" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.AccountNrIBAN" }))
+      ),
+    }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postClientFinancial(values);
-        if (response.isValid) {
+        const responseStep3 = await postClientFinancial(values, response);
+        if (responseStep3.isValid) {
           formik.resetForm();
+          handleToast(responseStep3);
         }
-        handleToast(response);
-      } catch (error) {
-        console.error("Post failed:", error);
+      } catch (error: any) {
+        if (error.response && error.response.status === 400) {
+          // Handle specific error status
+          toast.error("Client ID not provided. Please complete step 1.");
+        }
       } finally {
         setIsSubmitting(false);
         setSubmitting(false);
       }
     },
   });
+
   const [ledgers, setLedgers] = useState<any>([]);
   const [vats, setVats] = useState<any>([]);
   useEffect(() => {
@@ -215,7 +218,9 @@ const ClientAddStep3: FC<Props> = ({
       }, 1500);
     }
   };
-
+  {
+    console.log(formik.values.invoiceAndQuoteSettings);
+  }
   return (
     <>
       <div className="modal-body">
@@ -233,7 +238,7 @@ const ClientAddStep3: FC<Props> = ({
             {/* begin::Input group */}
             <div className="row d-flex mb-5">
               {/* KvkNr Field */}
-              <label className="required fw-bold fs-6 mb-3">
+              <label className="   fw-bold fs-6 mb-3">
                 {intl.formatMessage({ id: "Fields.BankAccountCompanyType" })} &{" "}
                 {intl.formatMessage({ id: "Fields.AccountNrIBAN" })}
               </label>
@@ -261,11 +266,38 @@ const ClientAddStep3: FC<Props> = ({
                 <input
                   type="text"
                   {...formik.getFieldProps("financialSettings.accountIbanNr")}
-                  className="form-control form-control-solid"
+                  className={clsx(
+                    "form-control form-control-solid",
+                    {
+                      "is-invalid":
+                        formik.touched.financialSettings?.accountIbanNr &&
+                        formik.errors.financialSettings?.accountIbanNr,
+                    },
+                    {
+                      "is-valid":
+                        formik.touched.financialSettings?.accountIbanNr &&
+                        !formik.errors.financialSettings?.accountIbanNr,
+                    }
+                  )}
                   placeholder={intl.formatMessage({
                     id: "Fields.AccountNrIBAN",
                   })}
                 />
+
+                {formik.touched.financialSettings?.accountIbanNr &&
+                  formik.errors.financialSettings?.accountIbanNr && (
+                    <div className="fv-plugins-message-container ">
+                      <div className="fv-help-block">
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              formik.errors.financialSettings?.accountIbanNr,
+                          }}
+                          role="alert"
+                        />
+                      </div>
+                    </div>
+                  )}
               </div>
             </div>
             <div className="row d-flex mb-5">
@@ -295,9 +327,7 @@ const ClientAddStep3: FC<Props> = ({
             {/* begin::Input group */}
             <div className="row d-flex mb-5">
               {/* KvkNr Field */}
-              <label className="required fw-bold fs-6 mb-3">
-                Standaard Grootboek
-              </label>
+              <label className=" fw-bold fs-6 mb-3">Standaard Grootboek</label>
               <div className="fv-row">
                 <Select
                   className="react-select-styled"
@@ -321,7 +351,7 @@ const ClientAddStep3: FC<Props> = ({
             <div className="row d-flex mb-5">
               <div className="fv-row col-6">
                 {/* KvkNr Field */}
-                <label className="required fw-bold fs-6 mb-3">
+                <label className="   fw-bold fs-6 mb-3">
                   {intl.formatMessage({
                     id: "Fields.DefaultDeadlineDaysForPayment",
                   })}
@@ -349,9 +379,7 @@ const ClientAddStep3: FC<Props> = ({
               </div>
               <div className="fv-row col-6">
                 {/* KvkNr Field */}
-                <label className="required fw-bold fs-6 mb-3">
-                  Standaard BTW
-                </label>
+                <label className="   fw-bold fs-6 mb-3">Standaard BTW</label>
                 <div className="fv-row">
                   <Select
                     className="react-select-styled"
@@ -393,22 +421,32 @@ const ClientAddStep3: FC<Props> = ({
                     dropdown: {
                       enabled: 0,
                     },
-                    validate: (tagData) =>
+                    validate: (tagData: any) =>
                       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tagData.value),
                   }}
-                  value={formik.values.invoiceAndQuoteSettings?.extraCcEmailAddressesInvoice?.join(
-                    ", "
-                  )}
-                  onChange={(e: any) =>
+                  value={
+                    formik.values.invoiceAndQuoteSettings
+                      ?.extraCcEmailAddressesInvoice || []
+                  }
+                  onChange={(e: any) => {
+                    const value = e.detail.tagify.value.map(
+                      (tag: any) => tag.value
+                    ); // Get the clean value from Tagify
                     formik.setFieldValue(
                       "invoiceAndQuoteSettings.extraCcEmailAddressesInvoice",
-                      e.target.value?.split(", ")
-                    )
-                  }
+                      value
+                    );
+                  }}
                   onInvalid={handleInvalidEmail}
                 />
               </div>
-              {console.log(formik.values.invoiceAndQuoteSettings)!}
+
+              {
+                console.log(
+                  "Extra CC Emails for Invoice:",
+                  formik.values.invoiceAndQuoteSettings
+                )!
+              }
             </div>
           </div>
 
@@ -416,7 +454,7 @@ const ClientAddStep3: FC<Props> = ({
             <h4 className="mb-2 text-start text-gray-600">
               standaard instellingen voor het opmaken van offertes
             </h4>
-            {console.log(formik.values.invoiceAndQuoteSettings)!}
+
             <div className="separator border-gray-300 my-6"></div>
 
             <div className="row d-flex mb-5">
@@ -437,18 +475,22 @@ const ClientAddStep3: FC<Props> = ({
                     dropdown: {
                       enabled: 0,
                     },
-                    validate: (tagData) =>
+                    validate: (tagData: any) =>
                       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tagData.value),
                   }}
-                  value={formik.values.invoiceAndQuoteSettings?.extraCcEmailAddressesQuotes?.join(
-                    ", "
-                  )}
-                  onChange={(e: any) =>
+                  value={
+                    formik.values.invoiceAndQuoteSettings
+                      ?.extraCcEmailAddressesQuotes || []
+                  }
+                  onChange={(e: any) => {
+                    const value = e.detail.tagify.value.map(
+                      (tag: any) => tag.value
+                    ); // Get the clean value from Tagify
                     formik.setFieldValue(
                       "invoiceAndQuoteSettings.extraCcEmailAddressesQuotes",
-                      e.target.value?.split(", ")
-                    )
-                  }
+                      value
+                    );
+                  }}
                   onInvalid={handleInvalidEmail}
                 />
               </div>
@@ -484,7 +526,7 @@ const ClientAddStep3: FC<Props> = ({
             </div>
             <div className="row d-flex mb-5">
               {/* ledger Field */}
-              <label className="required fw-bold fs-6 mb-3">
+              <label className="   fw-bold fs-6 mb-3">
                 Standaard Grootboek
               </label>
               <div className="fv-row">
@@ -509,9 +551,7 @@ const ClientAddStep3: FC<Props> = ({
 
             <div className="row d-flex mb-5">
               {/* KvkNr Field */}
-              <label className="required fw-bold fs-6 mb-3">
-                Standaard BTW
-              </label>
+              <label className="   fw-bold fs-6 mb-3">Standaard BTW</label>
               <div className="fv-row">
                 <Select
                   className="react-select-styled"
@@ -534,7 +574,7 @@ const ClientAddStep3: FC<Props> = ({
             <div className="row d-flex mb-5">
               <div className="fv-row col-6">
                 {/* KvkNr Field */}
-                <label className="required fw-bold fs-6 mb-3">
+                <label className="   fw-bold fs-6 mb-3">
                   Standaard referentie
                 </label>
                 <input
@@ -548,7 +588,7 @@ const ClientAddStep3: FC<Props> = ({
               </div>
               <div className="fv-row col-6">
                 {/* KvkNr Field */}
-                <label className="required fw-bold fs-6 mb-3">
+                <label className="   fw-bold fs-6 mb-3">
                   Standaard regelomschrijving
                 </label>
                 <input
@@ -565,7 +605,18 @@ const ClientAddStep3: FC<Props> = ({
 
           {/* Advanced Settings and other sections if needed */}
         </form>
+        <div className="text-end">
+          <button
+            type="submit"
+            className="btn btn-primary "
+            onClick={() => formik.handleSubmit()}
+            // disabled={isSubmitting || !formik.isValid}
+          >
+            {intl.formatMessage({ id: "Fields.ActionSave" })}
+          </button>
+        </div>
       </div>
+
       <div className="modal-footer flex-end p-10"></div>
     </>
   );

@@ -103,9 +103,6 @@ export interface ClientFormValues {
     bankAccountCompanyType: number;
     accountIbanNr: string;
     accountHolderName: string;
-    hasSepaMandate: boolean;
-    sepaMandateDate: string;
-    sepaMandateReference: string;
   };
   invoiceAndQuoteSettings: {
     defaultDeadlineDaysForPayment: number;

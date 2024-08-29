@@ -1,84 +1,13 @@
 import React, { FC, useState, useEffect } from "react";
 import { KTIcon, toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-import { FormikProps } from "formik";
 import {
   postContact,
   getContactListById,
   deleteContact,
 } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
-import { Divider, Tooltip } from "@chakra-ui/react";
-import { toast } from "react-toastify";
-import clsx from "clsx";
-
-interface FormValues {
-  customFields: {
-    fieldLabel: string;
-    fieldInfo: string;
-    groupDisplayName: string;
-    options: string[];
-    fieldType: {
-      value: number;
-      description: string;
-    };
-    fieldId: number;
-    value: {
-      asDate: string;
-      asText: string;
-      asMoney: number;
-      asNumber: number;
-      asOptions: string[];
-    };
-  }[];
-  id: number;
-  companyId: number;
-  customerNr: string;
-  importReference: string;
-  businessName: string;
-  kvkNr: string;
-  btwNr: string;
-  isPrivateClient: boolean;
-  factoringSessionStatement: string;
-  clientTypes: number[];
-  financialSettings: {
-    bankAccountCompanyType: number;
-    accountIbanNr: string;
-    accountHolderName: string;
-    hasSepaMandate: boolean;
-    sepaMandateDate: string;
-    sepaMandateReference: string;
-  };
-  invoiceAndQuoteSettings: {
-    defaultDeadlineDaysForPayment: number;
-    defaultVatTypeId: number;
-    defaultLedgerAccountId: number;
-    extraCcEmailAddressesInvoice: string[];
-    extraCcEmailAddressesQuotes: string[];
-    costDefaultLedgerAccountId: number;
-    costDefaultVatTypeId: number;
-    costDefaultReference: string;
-    costDefaultLineReference: string;
-  };
-  invoiceAddress: {
-    id: number;
-    streetName: string;
-    houseNr: string;
-    houseNrAddition: string;
-    postCode: string;
-    city: string;
-    countryType: number;
-  };
-  deliveryAddress: {
-    id: number;
-    streetName: string;
-    houseNr: string;
-    houseNrAddition: string;
-    postCode: string;
-    city: string;
-    countryType: number;
-  };
-}
+import { Tooltip } from "@chakra-ui/react";
 
 type Props = {
   clientId: number;
@@ -105,7 +34,7 @@ const ClientAddStep2: FC<Props> = ({
   const [contacts, setContacts] = useState<any[]>([]);
   const [newContact, setNewContact] = useState({
     id: 0,
-    clientId: clientId,
+    clientId: clientId || 0,
     firstName: "",
     lastName: "",
     betweenName: "",
@@ -115,7 +44,7 @@ const ClientAddStep2: FC<Props> = ({
     mobileNr: "",
   });
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
-
+  console.log(clientId);
   useEffect(() => {
     const fecthspecificContacts = async () => {
       const response = await getContactListById(clientId);
@@ -126,8 +55,10 @@ const ClientAddStep2: FC<Props> = ({
         setContacts([]);
       }
     };
-    fecthspecificContacts();
-  }, [deleteModalOpen, selectedContacts]);
+    if (clientId != undefined) {
+      fecthspecificContacts();
+    }
+  }, [deleteModalOpen, clientId]);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewContact({

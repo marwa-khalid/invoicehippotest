@@ -5,6 +5,7 @@ import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import clsx from "clsx";
 interface FormValues {
   customFields: {
     fieldLabel: string;
@@ -78,7 +79,6 @@ type Props = {
   isSubmitting: boolean;
 };
 
-
 const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
   const [isEditing, setIsEditing] = useState(false);
@@ -131,11 +131,33 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
             <input
               type="text"
               {...formik.getFieldProps("businessName")}
-              className="form-control form-control-solid"
+              className={clsx(
+                "form-control form-control-solid",
+                {
+                  "is-invalid":
+                    formik.touched.businessName && formik.errors.businessName,
+                },
+                {
+                  "is-valid":
+                    formik.touched.businessName && !formik.errors.businessName,
+                }
+              )}
               placeholder={intl.formatMessage({
                 id: "Fields.CompanyName",
               })}
             />
+            {formik.touched.businessName && formik.errors.businessName && (
+              <div className="fv-plugins-message-container mt-2 ">
+                <div className="fv-help-block">
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: formik.errors.businessName,
+                    }}
+                    role="alert"
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           {/*  client type Field */}
@@ -426,6 +448,7 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
         >
           {intl.formatMessage({ id: "Fields.ActionCancel" })}
         </button>
+
         <button
           type="submit"
           className="btn btn-primary"
@@ -433,6 +456,26 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
           // disabled={isSubmitting || !formik.isValid}
         >
           {!isSubmitting && intl.formatMessage({ id: "Fields.ActionSave" })}
+          {isSubmitting && (
+            <span className="indicator-progress" style={{ display: "block" }}>
+              {intl.formatMessage({ id: "Common.Busy" })}
+              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+          )}
+        </button>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={() => {
+            formik.handleSubmit();
+          }}
+          // disabled={isSubmitting || !formik.isValid}
+        >
+          {!isSubmitting &&
+            intl.formatMessage({ id: "Fields.ActionSave" }) +
+              " & " +
+              intl.formatMessage({ id: "Fields.ActionClose" })}
+
           {isSubmitting && (
             <span className="indicator-progress" style={{ display: "block" }}>
               {intl.formatMessage({ id: "Common.Busy" })}

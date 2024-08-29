@@ -60,6 +60,7 @@ const FinancialListInnerWrapper = () => {
         setDeleteModalOpen={setDeleteModalOpen}
         setUnlinkModalOpen={setUnlinkModalOpen}
         setEditModalId={setEditModalId}
+        setDeleteModalId={setDeleteModalId}
         setTitle={setTitle}
         refresh={refresh}
         pageIndex={pageIndex}

@@ -15,6 +15,7 @@ interface ComponentProps {
   setEditModalOpen: (type: boolean) => void;
   setUnlinkModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
+  setDeleteModalId: (type: number[]) => void;
   setTitle: (type: string) => void;
   setIntlMessage: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
@@ -31,6 +32,7 @@ const FinancialAccountsList = ({
   setEditModalId,
   setTitle,
   setDeleteModalOpen,
+  setDeleteModalId,
   setUnlinkModalOpen,
   refresh,
   setPageIndex,
@@ -82,7 +84,7 @@ const FinancialAccountsList = ({
   };
 
   const openDeleteModal = (id: number, title: string) => {
-    setEditModalId(id);
+    setDeleteModalId([id]);
     setDeleteModalOpen(true);
     setTitle(title);
     setIntlMessage("Fields.ModalDeleteDescriptionClient");
@@ -382,7 +384,10 @@ const FinancialAccountsList = ({
                     </div>
                   )}
                   {client.contacts.length > 0 && (
-                    <div className="d-flex flex-column justify-content-end pe-0">
+                    <div
+                      className="d-flex flex-column justify-content-end pe-0"
+                      key={client.id}
+                    >
                       <div className="separator separator-solid mb-3"></div>
                       <strong className="mb-3">
                         {intl.formatMessage({ id: "Fields.Contacts" })}
