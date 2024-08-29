@@ -8,6 +8,7 @@ import {
 } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 import { Tooltip } from "@chakra-ui/react";
+import { toast } from "react-toastify";
 
 type Props = {
   clientId: number;
@@ -135,6 +136,7 @@ const ClientAddStep2: FC<Props> = ({
         setContacts([...contacts, { ...newContact, id: Date.now() }]);
       }
     } else {
+      toast.error("Client ID not provided. Please complete step 1.");
       handleToast(addContact);
     }
   };
@@ -214,9 +216,7 @@ const ClientAddStep2: FC<Props> = ({
             )}
             <button
               className="btn btn-primary d-flex align-items-center rounded p-3"
-              onClick={() =>
-                clientId ? handleOpenModal() : setInfoModalOpen(true)
-              }
+              onClick={() => handleOpenModal()}
             >
               <i className="ki-duotone ki-plus-square fs-2x text-white ">
                 <span className="path1"></span>
@@ -413,7 +413,7 @@ const ClientAddStep2: FC<Props> = ({
             </div>
           </div>
         )}
-        {infoModalOpen && (
+        {/* {infoModalOpen && (
           <div
             className="modal fade show d-block"
             tabIndex={-1}
@@ -460,7 +460,7 @@ const ClientAddStep2: FC<Props> = ({
               </div>
             </div>
           </div>
-        )}
+        )} */}
         {/* Contacts Table */}
         {contacts?.length > 0 ? (
           <>
