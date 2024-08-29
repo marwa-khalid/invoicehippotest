@@ -10,6 +10,7 @@ import { ListLoading } from "../../../components/ListLoading";
 import { ClientAddStep1 } from "./ClientAddStep1";
 import { ClientAddStep2 } from "./ClientAddStep2";
 import { ClientAddStep3 } from "./ClientAddStep3";
+import { ClientAddStep4 } from "./ClientAddStep4";
 
 interface FormValues {
   customFields: {
@@ -135,6 +136,11 @@ const ClientAddModalForm: FC<Props> = ({
       </div>
       <div className="tab-pane fade" id="kt_tab_pane_7" role="tabpanel">
         {/* Add content for Custom Features */}
+        <ClientAddStep4
+          setIsSubmitting={setIsSubmitting}
+          isSubmitting={isSubmitting}
+          response={response}
+        />
       </div>
       {/* </>
       )} */}
