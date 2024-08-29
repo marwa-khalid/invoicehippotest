@@ -38,6 +38,7 @@ const ClientAddModal = ({
   const auth = useAuth();
   const [showTabs, setShowTabs] = useState(false);
   const [clientId, setClientId] = useState(0);
+  const [businessName, setBusinessName] = useState("");
   console.log(auth.currentUser?.result.activeCompany.id);
   const formik = useFormik({
     initialValues: {
@@ -139,8 +140,9 @@ const ClientAddModal = ({
           formik.resetForm();
           // setAddModalOpen(false);
           setRefresh(true);
-          setShowTabs(true);
+          // setShowTabs(true);
           setClientId(response.result.id);
+          setBusinessName(response.result.businessName);
         }
         handleToast(response);
       } catch (error) {
@@ -164,6 +166,7 @@ const ClientAddModal = ({
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
             <ClientAddModalHeader
+              businessName={businessName}
               setAddModalOpen={setAddModalOpen}
               showTabs={showTabs}
             />
@@ -171,13 +174,14 @@ const ClientAddModal = ({
             <ClientAddModalForm
               formik={formik}
               isSubmitting={isSubmitting}
-              showTabs={showTabs}
+              setIsSubmitting={setIsSubmitting}
               clientId={clientId}
               setDeleteModalOpen={setDeleteModalOpen}
               setDeleteModalId={setDeleteModalId}
               setIntlMessage={setIntlMessage}
               setTitle={setTitle}
               deleteModalOpen={deleteModalOpen}
+              businessName={businessName}
             />
 
             <ClientAddModalFooter

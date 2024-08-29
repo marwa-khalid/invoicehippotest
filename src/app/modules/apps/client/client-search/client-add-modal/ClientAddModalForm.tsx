@@ -81,7 +81,7 @@ interface FormValues {
 
 type Props = {
   formik: FormikProps<FormValues>;
-  showTabs: boolean;
+
   isSubmitting: boolean;
   clientId: number;
   setDeleteModalId: (type: number[]) => void;
@@ -89,11 +89,14 @@ type Props = {
   setTitle: (type: string) => void;
   setIntlMessage: (type: string) => void;
   deleteModalOpen: boolean;
+  businessName: string;
+  setIsSubmitting: (type: boolean) => void;
 };
 
 const ClientAddModalForm: FC<Props> = ({
-  showTabs,
+  setIsSubmitting,
   formik,
+  businessName,
   setTitle,
   setIntlMessage,
   isSubmitting,
@@ -117,8 +120,6 @@ const ClientAddModalForm: FC<Props> = ({
         <> */}
       <div className="tab-pane fade" id="kt_tab_pane_5" role="tabpanel">
         <ClientAddStep2
-          formik={formik}
-          isSubmitting={isSubmitting}
           clientId={clientId}
           setDeleteModalOpen={setDeleteModalOpen}
           setDeleteModalId={setDeleteModalId}
@@ -128,7 +129,12 @@ const ClientAddModalForm: FC<Props> = ({
         />
       </div>
       <div className="tab-pane fade" id="kt_tab_pane_6" role="tabpanel">
-        <ClientAddStep3 formik={formik} isSubmitting={isSubmitting} />
+        <ClientAddStep3
+          setIsSubmitting={setIsSubmitting}
+          isSubmitting={isSubmitting}
+          clientId={clientId}
+          businessName={businessName}
+        />
       </div>
       <div className="tab-pane fade" id="kt_tab_pane_7" role="tabpanel">
         {/* Add content for Custom Features */}

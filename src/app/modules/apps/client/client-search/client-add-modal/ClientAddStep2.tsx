@@ -76,8 +76,6 @@ interface FormValues {
 }
 
 type Props = {
-  formik: FormikProps<FormValues>;
-  isSubmitting: boolean;
   clientId: number;
   setDeleteModalId: (id: number[]) => void;
   setDeleteModalOpen: (type: boolean) => void;
@@ -87,8 +85,6 @@ type Props = {
   deleteModalOpen: boolean;
 };
 const ClientAddStep2: FC<Props> = ({
-  formik,
-  isSubmitting,
   clientId,
   setDeleteModalId,
   setDeleteModalOpen,
@@ -119,7 +115,7 @@ const ClientAddStep2: FC<Props> = ({
     const fecthspecificContacts = async () => {
       const response = await getContactListById(clientId);
 
-      if (response.result.length > 0) {
+      if (response.result?.length > 0) {
         setContacts(response.result);
       } else {
         setContacts([]);

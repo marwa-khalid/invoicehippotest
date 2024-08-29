@@ -4,10 +4,12 @@ import { useIntl } from "react-intl";
 interface ComponentProps {
   setAddModalOpen: (type: boolean) => void;
   showTabs: boolean;
+  businessName: string;
 }
 const ClientAddModalHeader = ({
   showTabs,
   setAddModalOpen,
+  businessName,
 }: ComponentProps) => {
   const intl = useIntl();
 
@@ -17,6 +19,9 @@ const ClientAddModalHeader = ({
       <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-0">
         <h2 className="fw-bolder mb-0 text-white">
           {intl.formatMessage({ id: "Fields.ModalNewTitleClient" })}
+          {businessName && (
+            <span className="text-white me-2"> ({businessName})</span>
+          )}
         </h2>
         {/* end::Modal title */}
 

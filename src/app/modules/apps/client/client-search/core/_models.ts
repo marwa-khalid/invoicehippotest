@@ -138,6 +138,8 @@ export interface ClientFormValues {
   };
 }
 
+export type ClientFormValuesModel = ApiResponse<ClientFormValues>;
+
 export interface ContactResult {
   id: number;
   clientId: number;

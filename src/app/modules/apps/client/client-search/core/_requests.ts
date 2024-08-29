@@ -11,6 +11,7 @@ import {
   ContactModel,
   ContactResult,
   VatTypesForClientModel,
+  ClientFormValuesModel,
 } from "./_models";
 
 import {
@@ -35,6 +36,7 @@ import {
 import { VatTypesForLedgerModel } from "../../../admin-settings/ledgeraccounts-list/core/_models";
 interface DeleteResult extends Partial<ClientModel> {}
 interface ContactValues extends Partial<ContactResult> {}
+interface PartialClientFormValues extends Partial<ClientFormValues> {}
 
 export function getClients(searchTerm: string, pageIndex: number) {
   return postRequest<ClientModel>(
@@ -51,7 +53,7 @@ export function getClients(searchTerm: string, pageIndex: number) {
 }
 
 export function postClient(values: ClientFormValues) {
-  return postRequest<FinancialAccountsModel>(
+  return postRequest<ClientFormValuesModel>(
     POST_CLIENT,
     {
       id: 0,
@@ -64,6 +66,19 @@ export function postClient(values: ClientFormValues) {
       clientTypes: values.clientTypes,
       invoiceAddress: values.invoiceAddress,
       deliveryAddress: values.deliveryAddress,
+    },
+    true
+  );
+}
+
+export function postClientFinancial(values: PartialClientFormValues) {
+  return postRequest<FinancialAccountsModel>(
+    POST_CLIENT,
+    {
+      id: values.id,
+      businessName: values.businessName,
+      invoiceAndQuoteSettings: values.invoiceAndQuoteSettings,
+      financialSettings: values.financialSettings,
     },
     true
   );

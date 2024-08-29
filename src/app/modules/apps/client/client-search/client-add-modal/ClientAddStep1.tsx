@@ -78,6 +78,7 @@ type Props = {
   isSubmitting: boolean;
 };
 
+
 const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
   const intl = useIntl();
   const [isEditing, setIsEditing] = useState(false);
