@@ -63,8 +63,8 @@ const ClientAddStep3: FC<Props> = ({
         defaultDeadlineDaysForPayment: 0,
         defaultVatTypeId: 0,
         defaultLedgerAccountId: 0,
-        extraCcEmailAddressesInvoice: [""],
-        extraCcEmailAddressesQuotes: [""],
+        extraCcEmailAddressesInvoice: [],
+        extraCcEmailAddressesQuotes: [],
         costDefaultLedgerAccountId: 0,
         costDefaultVatTypeId: 0,
         costDefaultReference: "",
@@ -396,13 +396,13 @@ const ClientAddStep3: FC<Props> = ({
                     validate: (tagData) =>
                       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tagData.value),
                   }}
-                  //   value={formik.values.invoiceAndQuoteSettings?.extraCcEmailAddressesInvoice?.join(
-                  //     ", "
-                  //   )}
+                  value={formik.values.invoiceAndQuoteSettings?.extraCcEmailAddressesInvoice?.join(
+                    ", "
+                  )}
                   onChange={(e: any) =>
                     formik.setFieldValue(
                       "invoiceAndQuoteSettings.extraCcEmailAddressesInvoice",
-                      e.target.value
+                      e.target.value?.split(", ")
                     )
                   }
                   onInvalid={handleInvalidEmail}

@@ -2,10 +2,15 @@ import React, { FC, useState, useEffect } from "react";
 import { KTIcon, toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
-import { postContact, getContactListById } from "../core/_requests";
+import {
+  postContact,
+  getContactListById,
+  deleteContact,
+} from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 import { Divider, Tooltip } from "@chakra-ui/react";
 import { toast } from "react-toastify";
+import clsx from "clsx";
 
 interface FormValues {
   customFields: {
@@ -122,7 +127,7 @@ const ClientAddStep2: FC<Props> = ({
       }
     };
     fecthspecificContacts();
-  }, [deleteModalOpen]);
+  }, [deleteModalOpen, selectedContacts]);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewContact({
@@ -226,13 +231,20 @@ const ClientAddStep2: FC<Props> = ({
     }
   };
 
-  const handleDeleteSelectedContacts = () => {
-    setContacts((prevContacts: any) =>
-      prevContacts.filter(
-        (contact: any) => !selectedContacts.includes(contact.id)
-      )
-    );
-    setSelectedContacts([]); // Reset selection after deletion
+  const handleDeleteSelectedContacts = async () => {
+    const response = await deleteContact(selectedContacts);
+    if (response.isValid) {
+      setContacts((prevContacts: any) =>
+        prevContacts.filter(
+          (contact: any) => !selectedContacts.includes(contact.id)
+        )
+      );
+      console.log(selectedContacts);
+
+      setSelectedContacts([]);
+    } else {
+      handleToast(response);
+    } // Reset selection after deletion
   };
 
   const openDeleteModal = (id: number, title: string) => {
@@ -245,12 +257,32 @@ const ClientAddStep2: FC<Props> = ({
 
   return (
     <>
-      <div className="container mt-4 mb-20">
+      <div className="container my-4 ">
         {/* Add Contact Button */}
         <div className="d-flex mb-3">
-          <div className="input-group justify-content-end">
+          <div className="input-group justify-content-between">
+            {contacts.length > 0 ? (
+              <div className="form-check form-check-sm form-check-custom form-check-solid">
+                <input
+                  className="form-check-input me-3"
+                  type="checkbox"
+                  checked={selectedContacts.length === contacts.length}
+                  onChange={toggleAllRowsSelection}
+                />
+                <label className="text-muted">Delete All</label>
+              </div>
+            ) : (
+              <div className="form-check form-check-sm form-check-custom form-check-solid">
+                <input
+                  className="form-check-input me-3"
+                  type="checkbox"
+                  disabled
+                />
+                <label className="text-muted">No records</label>
+              </div>
+            )}
             <button
-              className="btn btn-primary d-flex align-items-center"
+              className="btn btn-primary d-flex align-items-center rounded p-3"
               onClick={() =>
                 clientId ? handleOpenModal() : setInfoModalOpen(true)
               }
@@ -500,95 +532,131 @@ const ClientAddStep2: FC<Props> = ({
         )}
         {/* Contacts Table */}
         {contacts?.length > 0 ? (
-          <div className="table-responsive">
-            <table className="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
-              <thead>
-                <tr className="fw-bold text-muted">
-                  <th className="w-25px">
-                    <div className="form-check form-check-sm form-check-custom form-check-solid">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        checked={selectedContacts.length === contacts.length}
-                        onChange={toggleAllRowsSelection}
-                      />
-                    </div>
-                  </th>
-                  {/* Table Headers */}
-                  <th>{intl.formatMessage({ id: "Fields.FirstName" })}</th>
-                  <th>{intl.formatMessage({ id: "Fields.LastName" })}</th>
-                  <th>{intl.formatMessage({ id: "Fields.BetweenName" })}</th>
-                  <th>{intl.formatMessage({ id: "Fields.EmailAddress" })}</th>
-                  <th>{intl.formatMessage({ id: "Fields.Department" })}</th>
-                  <th>{intl.formatMessage({ id: "Fields.PhoneNr" })}</th>
-                  <th>{intl.formatMessage({ id: "Fields.MobileNr" })}</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {contacts.map((contact: any) => (
-                  <tr key={contact.id}>
-                    <td>
-                      <div className="form-check form-check-sm form-check-custom form-check-solid">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          checked={selectedContacts.includes(contact.id)}
-                          onChange={() => toggleRowSelection(contact.id)}
-                        />
-                      </div>
-                    </td>
-                    {/* Contact Information */}
-                    <td>{contact.firstName}</td>
-                    <td>{contact.lastName}</td>
-                    <td>{contact.betweenName}</td>
-                    <td>{contact.emailAddress}</td>
-                    <td>{contact.department}</td>
-                    <td>{contact.phoneNr}</td>
-                    <td>{contact.mobileNr}</td>
-                    <td className="text-end w-auto d-flex justify-content-end">
-                      <Tooltip
-                        label={intl.formatMessage({
-                          id: "Fields.ToolTipEdit",
-                        })}
-                        fontSize="sm"
-                        className="bg-gray-800 text-white p-2 rounded "
-                        placement="top"
-                      >
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => handleOpenModal(contact.id)}
-                        >
-                          <i className="ki-solid ki-pencil text-warning fs-1" />
-                        </button>
-                      </Tooltip>
+          <>
+            <div className="">
+              {contacts.map((contact: any, index: number) => {
+                const initials = `${contact.firstName[0] || ""}${
+                  contact.betweenName ? contact.betweenName[0] : ""
+                }${contact.lastName[0] || ""}`;
+                const avatarColors = [
+                  "bg-light-danger text-danger",
+                  "bg-light-success text-success",
+                  "bg-light-primary text-primary",
+                  "bg-light-warning text-warning",
+                  "bg-light-info text-info",
+                  "bg-light-dark text-dark",
+                ];
 
-                      <Tooltip
-                        label={intl.formatMessage({
-                          id: "Fields.ToolTipDelete",
-                        })}
-                        fontSize="sm"
-                        className="bg-gray-800 text-white p-2 rounded "
-                        placement="top"
-                      >
-                        <button
-                          className="btn btn-icon btn-light btn-sm"
-                          onClick={() => {
-                            openDeleteModal(
-                              contact.id,
-                              contact.emailAddress || contact.firstName
-                            );
-                          }}
+                // Step 2: Select a color based on the index
+                const colorClass = avatarColors[index % avatarColors.length];
+
+                return (
+                  <React.Fragment key={contact.id}>
+                    {/* Contact Record */}
+                    <div className="list-group-item d-flex align-items-center justify-content-between py-3">
+                      {/* Avatar and Name */}
+                      <div className="d-flex align-items-center">
+                        <div className="form-check form-check-sm form-check-custom form-check-solid me-3">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            checked={selectedContacts.includes(contact.id)}
+                            onChange={() => toggleRowSelection(contact.id)}
+                          />
+                        </div>
+                        <div className="symbol symbol-50px symbol-circle me-5">
+                          <span
+                            className={`symbol-label fw-bold ${colorClass}`}
+                          >
+                            {initials.toUpperCase()}
+                          </span>
+                        </div>
+                        <div className="">
+                          <div className="fw-bold fs-5">
+                            {contact.firstName} {contact.betweenName}{" "}
+                            {contact.lastName}
+                          </div>
+                          <div className="text-muted fs-8 mt-1">
+                            {contact.emailAddress && (
+                              <div className="d-flex align-items-center mb-1">
+                                <i className="ki-duotone ki-sms me-2 fs-3">
+                                  <span className="path1"></span>
+                                  <span className="path2"></span>
+                                </i>
+                                {contact.emailAddress}
+                              </div>
+                            )}
+                          </div>
+                          <div className="text-muted d-flex flex-row gap-3 fs-8 mt-2">
+                            {contact.phoneNr && (
+                              <div className="d-flex align-items-center mb-1">
+                                <i className="fa fa-phone me-2 fs-6" />
+                                {contact.phoneNr}
+                              </div>
+                            )}
+                            {contact.mobileNr && (
+                              <div className="d-flex align-items-center">
+                                <i className="ki-duotone ki-phone fs-2 me-2">
+                                  <span className="path1"></span>
+                                  <span className="path2"></span>
+                                </i>
+                                {contact.mobileNr}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="d-flex align-items-center">
+                        <Tooltip
+                          label={intl.formatMessage({
+                            id: "Fields.ToolTipEdit",
+                          })}
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded"
+                          placement="top"
                         >
-                          <i className="ki-solid ki-trash text-danger fs-1"></i>
-                        </button>
-                      </Tooltip>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-2"
+                            onClick={() => handleOpenModal(contact.id)}
+                          >
+                            <i className="ki-solid ki-pencil text-warning fs-1" />
+                          </button>
+                        </Tooltip>
+
+                        <Tooltip
+                          label={intl.formatMessage({
+                            id: "Fields.ToolTipDelete",
+                          })}
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded"
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm"
+                            onClick={() =>
+                              openDeleteModal(
+                                contact.id,
+                                `${contact.firstName} ${contact.lastName}`
+                              )
+                            }
+                          >
+                            <i className="ki-solid ki-trash text-danger fs-1" />
+                          </button>
+                        </Tooltip>
+                      </div>
+                    </div>
+
+                    {/* Separator */}
+                    {index < contacts.length - 1 && (
+                      <div className="separator separator-solid border-secondary  my-3"></div>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+          </>
         ) : (
           // No Contacts Found
 
