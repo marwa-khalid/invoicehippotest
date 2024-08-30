@@ -272,7 +272,7 @@ const VatAddModalForm: FC<Props> = ({
       {/* end::Input group */}
 
       {/* begin::Input group */}
-      {!formik.values.isNoneVatType && (
+      {/* {!formik.values.isNoneVatType && (
         <div className="fv-row mb-7">
           <label className="d-block fw-bold fs-6 mb-2">
             {intl.formatMessage({ id: "Fields.IsAlwaysExBtw" })}
@@ -291,7 +291,7 @@ const VatAddModalForm: FC<Props> = ({
             ></label>
           </div>
         </div>
-      )}
+      )} */}
       {/* end::Input group */}
 
       {/* begin::Input group */}

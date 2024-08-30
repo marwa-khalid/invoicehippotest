@@ -415,26 +415,6 @@ const UserEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
               <span className="path3"></span>
             </i>
           </div>
-          <div className="alert-text  col-11">
-            <p className="my-0 p-3">
-              {intl.formatMessage({
-                id: "Fields.RegionInfoUserNewInfo",
-              })}
-            </p>
-          </div>
-        </div>
-
-        <div
-          className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0 "
-          role="alert"
-        >
-          <div className="alert-icon col-1">
-            <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
-              <span className="path1"></span>
-              <span className="path2"></span>
-              <span className="path3"></span>
-            </i>
-          </div>
           <div className="alert-text col-11">
             <p className="my-0 p-3">
               {intl.formatMessage({
@@ -451,7 +431,7 @@ const UserEditModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           </label>
           <input
             placeholder="Password"
-            type="requestingUserPassword"
+            type="password"
             autoComplete="off"
             {...formik.getFieldProps("requestingUserPassword")}
             className={clsx(

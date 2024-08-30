@@ -7,7 +7,6 @@ import { useFormik } from "formik";
 import ReactQuill from "react-quill";
 import * as Yup from "yup";
 import Tags from "@yaireo/tagify/dist/react.tagify";
-import "@yaireo/tagify/dist/tagify.css";
 import { toast } from "react-toastify";
 
 import {

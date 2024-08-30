@@ -447,7 +447,7 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
           </label>
           <input
             placeholder="Password"
-            type="requestingUserPassword"
+            type="password"
             autoComplete="off"
             {...formik.getFieldProps("requestingUserPassword")}
             className={clsx(

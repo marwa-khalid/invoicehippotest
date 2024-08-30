@@ -6,12 +6,13 @@ export default defineConfig({
   plugins: [react()],
   base: "/",
   build: {
-    rollupOptions: {
-      external: [
-        "@yaireo/tagify/dist/react.tagify",
-        "@yaireo/tagify/dist/tagify.css",
-      ],
-    },
+    target: "es2022",
+    // rollupOptions: {
+    //   external: [
+    //     "@yaireo/tagify/dist/react.tagify",
+    //     "@yaireo/tagify/dist/tagify.css",
+    //   ],
+    // },
     chunkSizeWarningLimit: 3000,
   },
 });
