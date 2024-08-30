@@ -52,7 +52,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
       });
     }
   }, [response]);
-  console.log(response);
+  console.log(response.financialSettings);
   const formik = useFormik({
     initialValues: {
       financialSettings: {
@@ -228,7 +228,9 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
     }
   };
   {
-    console.log(formik.values.invoiceAndQuoteSettings);
+    console.log(
+      formik.values.invoiceAndQuoteSettings.extraCcEmailAddressesInvoice
+    );
   }
   return (
     <>
@@ -267,6 +269,19 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                       selectedOption ? selectedOption.value : null
                     );
                   }}
+                  value={
+                    formik.values.financialSettings.bankAccountCompanyType === 0
+                      ? null
+                      : enums.BankAccountCompanyTypes.filter(
+                          (item) =>
+                            item.Value ===
+                            formik.values.financialSettings
+                              .bankAccountCompanyType
+                        ).map((item) => ({
+                          value: item.Value,
+                          label: item.Title,
+                        }))[0] || null
+                  }
                   isClearable
                 />
               </div>
@@ -352,10 +367,37 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                       selectedOption ? selectedOption.value : null
                     );
                   }}
+                  value={
+                    formik.values.invoiceAndQuoteSettings
+                      .defaultLedgerAccountId === 0
+                      ? null
+                      : ledgers
+                          .map((ledger: any) => ({
+                            label: ledger.title,
+                            value: ledger.id,
+                          }))
+                          .find(
+                            (item: any) =>
+                              item.value ===
+                              formik.values.invoiceAndQuoteSettings
+                                .defaultLedgerAccountId
+                          ) || null
+                  }
                   isClearable
                   menuPlacement="top"
                 />
               </div>
+              {
+                console.log(
+                  ledgers.find((item: any) => {
+                    return (
+                      item.id ===
+                      formik.values.invoiceAndQuoteSettings
+                        .defaultLedgerAccountId
+                    );
+                  })
+                )!
+              }
             </div>
             <div className="row d-flex mb-5">
               <div className="fv-row col-6">
@@ -381,6 +423,18 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                         selectedOption ? selectedOption.value : null
                       );
                     }}
+                    value={
+                      formik.values.invoiceAndQuoteSettings
+                        .defaultDeadlineDaysForPayment !== null
+                        ? {
+                            value:
+                              formik.values.invoiceAndQuoteSettings
+                                .defaultDeadlineDaysForPayment,
+                            label:
+                              formik.values.invoiceAndQuoteSettings.defaultDeadlineDaysForPayment.toString(),
+                          }
+                        : null
+                    }
                     isClearable
                     menuPlacement="top"
                   />
@@ -404,6 +458,22 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                         selectedOption ? selectedOption.value : null
                       );
                     }}
+                    value={
+                      formik.values.invoiceAndQuoteSettings.defaultVatTypeId ===
+                      0
+                        ? null
+                        : vats
+                            .map((vat: any) => ({
+                              label: vat.title,
+                              value: vat.id,
+                            }))
+                            .find(
+                              (item: any) =>
+                                item.value ===
+                                formik.values.invoiceAndQuoteSettings
+                                  .defaultVatTypeId
+                            ) || null
+                    }
                     isClearable
                     menuPlacement="top"
                   />
@@ -552,6 +622,19 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                     );
                     setSelectedBearingTypeOption(selectedOption);
                   }}
+                  value={
+                    formik.values.invoiceAndQuoteSettings
+                      .costDefaultLedgerAccountId === 0
+                      ? null
+                      : bearingGroups?.map((item: any) =>
+                          item.options.find(
+                            (option: any) =>
+                              option.value ===
+                              formik.values.invoiceAndQuoteSettings
+                                .costDefaultLedgerAccountId
+                          )
+                        ) || null
+                  }
                   isClearable
                   menuPlacement="top"
                 />
@@ -574,6 +657,19 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                       selectedOption ? selectedOption.value : null
                     );
                   }}
+                  value={
+                    formik.values.invoiceAndQuoteSettings
+                      .costDefaultVatTypeId === 0
+                      ? null
+                      : vatTypes?.map((item: any) =>
+                          item.options.find(
+                            (option: any) =>
+                              option.value ===
+                              formik.values.invoiceAndQuoteSettings
+                                .costDefaultVatTypeId
+                          )
+                        ) || null
+                  }
                   isClearable
                   menuPlacement="top"
                 />

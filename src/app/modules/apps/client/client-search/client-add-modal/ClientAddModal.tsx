@@ -18,9 +18,11 @@ interface Props {
   setIntlMessage: (type: string) => void;
   deleteModalOpen: boolean;
   editModalId: number;
+  setEditModalId: (type: number) => void;
 }
 const ClientAddModal = ({
   setRefresh,
+  setEditModalId,
   setAddModalOpen,
   setEditModalOpen,
   setDeleteModalId,
@@ -192,6 +194,7 @@ const ClientAddModal = ({
               businessName={response?.businessName}
               setAddModalOpen={setAddModalOpen}
               showTabs={showTabs}
+              setEditModalId={setEditModalId}
             />
 
             <ClientAddModalForm
@@ -202,8 +205,11 @@ const ClientAddModal = ({
               setDeleteModalId={setDeleteModalId}
               setIntlMessage={setIntlMessage}
               setTitle={setTitle}
+              setEditModalOpen={setEditModalOpen}
+              setAddModalOpen={setAddModalOpen}
               deleteModalOpen={deleteModalOpen}
               response={response}
+              setEditModalId={setEditModalId}
               editModalId={editModalId}
             />
 

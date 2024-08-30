@@ -338,9 +338,11 @@ const FinancialAccountsList = ({
                       <div className="symbol-group symbol-hover flex-nowrap">
                         {client.contacts.map((contact, index) => {
                           const initials = contact.fullName
-                            .split(" ")
-                            .map((name) => name[0])
-                            .join("");
+                            ? contact.fullName
+                                .split(" ")
+                                .map((name) => name[0])
+                                .join("")
+                            : contact.emailAddress?.[0].toUpperCase() || "";
 
                           // Define a list of colors
                           const colors = [
@@ -355,7 +357,7 @@ const FinancialAccountsList = ({
 
                           return (
                             <Tooltip
-                              label={contact.fullName}
+                              label={contact.fullName || contact.emailAddress}
                               fontSize="sm"
                               className="bg-gray-800 text-white p-2 rounded"
                               placement="top"

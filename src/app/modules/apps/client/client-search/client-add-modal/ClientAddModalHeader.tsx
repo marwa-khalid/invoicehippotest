@@ -6,10 +6,12 @@ interface ComponentProps {
   setEditModalOpen: (type: boolean) => void;
   showTabs: boolean;
   businessName: string;
+  setEditModalId: (type: number) => void;
 }
 const ClientAddModalHeader = ({
   showTabs,
   setAddModalOpen,
+  setEditModalId,
   setEditModalOpen,
   businessName,
 }: ComponentProps) => {
@@ -20,7 +22,9 @@ const ClientAddModalHeader = ({
       {/* begin::Modal title */}
       <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-0">
         <h2 className="fw-bolder mb-0 text-white">
-          {intl.formatMessage({ id: "Fields.ModalNewTitleClient" })}
+          {businessName
+            ? intl.formatMessage({ id: "Fields.ModalEditTitleClient" })
+            : intl.formatMessage({ id: "Fields.ModalNewTitleClient" })}
           {businessName && (
             <span className="text-white me-2"> ({businessName})</span>
           )}
@@ -33,6 +37,7 @@ const ClientAddModalHeader = ({
           onClick={() => {
             setAddModalOpen(false);
             setEditModalOpen(false);
+            setEditModalId(0);
           }}
           style={{ cursor: "pointer" }}
         >

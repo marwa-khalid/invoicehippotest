@@ -77,9 +77,18 @@ interface FormValues {
 type Props = {
   formik: FormikProps<FormValues>;
   isSubmitting: boolean;
+  setEditModalId: (type: number) => void;
+  setAddModalOpen: (type: boolean) => void;
+  setEditModalOpen: (type: boolean) => void;
 };
 
-const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
+const ClientAddStep1: FC<Props> = ({
+  formik,
+  isSubmitting,
+  setEditModalId,
+  setAddModalOpen,
+  setEditModalOpen,
+}) => {
   const intl = useIntl();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -98,7 +107,7 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
       //   formik.setFieldValue("factoringSessionStatement", "");
     }
   }, [formik.values.clientTypes]);
-  console.log(formik.values);
+  console.log(formik.values.invoiceAddress);
   return (
     <>
       <div className="modal-body">
@@ -167,12 +176,24 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
             </label>
             <Select
               className="react-select-styled"
-              options={enums.ClientTypes.map((clientType) => {
-                return {
-                  value: clientType.Value,
-                  label: clientType.Title,
-                };
-              })}
+              options={enums.ClientTypes.map((clientType) => ({
+                value: clientType.Value,
+                label: clientType.Title,
+              }))}
+              value={formik.values.clientTypes
+                .filter(
+                  (clientTypeValue) =>
+                    clientTypeValue !== 0 && clientTypeValue !== undefined
+                )
+                .map((clientTypeValue) => {
+                  const clientType = enums.ClientTypes.find(
+                    (ct) => ct.Value === clientTypeValue
+                  );
+                  return {
+                    value: clientType?.Value,
+                    label: clientType?.Title,
+                  };
+                })}
               isMulti
               onChange={(selectedOptions) =>
                 formik.setFieldValue(
@@ -185,6 +206,8 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
               isClearable
             />
           </div>
+
+          {console.log(formik.values.clientTypes)!}
           <div className="row d-flex mb-5">
             {/* KvkNr Field */}
             <div className="fv-row col-6">
@@ -337,7 +360,19 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
                       label: country.Title,
                     };
                   })}
-                  onChange={(option) =>
+                  value={
+                    formik.values.invoiceAddress.countryType === 0
+                      ? null
+                      : enums.CountryType.filter(
+                          (item) =>
+                            item.Value ===
+                            formik.values.invoiceAddress.countryType
+                        ).map((item) => ({
+                          value: item.Value,
+                          label: item.Title,
+                        }))[0] || null
+                  }
+                  onChange={(option: any) =>
                     formik.setFieldValue(
                       "invoiceAddress.countryType",
                       option?.value
@@ -348,7 +383,7 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
                 />
               </div>
             </div>
-            {console.log(formik.values)!}
+            {console.log(formik.values.deliveryAddress)!}
 
             <div className="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
               <div className="row d-flex mb-5">
@@ -424,6 +459,18 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
                       label: country.Title,
                     };
                   })}
+                  value={
+                    formik.values.invoiceAddress.countryType === 0
+                      ? null
+                      : enums.CountryType.filter(
+                          (item) =>
+                            item.Value ===
+                            formik.values.invoiceAddress.countryType
+                        ).map((item) => ({
+                          value: item.Value,
+                          label: item.Title,
+                        }))[0] || null
+                  }
                   onChange={(option) =>
                     formik.setFieldValue(
                       "deliveryAddress.countryType",
@@ -438,7 +485,7 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
           </div>
           {/* Advanced Settings and other sections if needed */}
         </form>
-        {console.log(formik.values)!}
+        {console.log(formik.values.financialSettings)!}
       </div>
       <div className="modal-footer flex-end">
         <button
@@ -446,6 +493,11 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
           className="btn btn-light me-3"
           data-bs-dismiss="modal"
           data-bs-target="client_add_modal"
+          onClick={() => {
+            setEditModalId(0);
+            setAddModalOpen(false);
+            setEditModalOpen(false);
+          }}
         >
           {intl.formatMessage({ id: "Fields.ActionCancel" })}
         </button>

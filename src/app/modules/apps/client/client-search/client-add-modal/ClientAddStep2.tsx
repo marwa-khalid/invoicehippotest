@@ -24,6 +24,7 @@ const ClientAddStep2: FC<Props> = ({
   clientId,
   setDeleteModalId,
   setDeleteModalOpen,
+  
   deleteModalOpen,
   setIntlMessage,
   setTitle,
@@ -416,54 +417,7 @@ const ClientAddStep2: FC<Props> = ({
             </div>
           </div>
         )}
-        {/* {infoModalOpen && (
-          <div
-            className="modal fade show d-block"
-            tabIndex={-1}
-            role="dialog"
-            aria-modal="true"
-          >
-            <div className="modal-dialog mw-600px">
-              <div className="modal-content">
-                <div className="modal-header bg-info">
-                  <h2 className="fw-bolder mb-0 text-white">
-                    Information Modal
-                  </h2>
-                </div>
-                <div className="modal-body">
-                  <div
-                    className="row alert alert-custom alert-default align-items-center mt-8 p-8 "
-                    style={{ backgroundColor: "#eee6fe" }}
-                    role="alert"
-                  >
-                    <div className="alert-icon col-1 me-4">
-                      <i className="ki-duotone ki-information-4 fs-3x my-auto text-center text-info">
-                        <span className="path1"></span>
-                        <span className="path2"></span>
-                        <span className="path3"></span>
-                      </i>
-                    </div>
-                    <div className="alert-text col-10 ">
-                      <h5 className="text-info">
-                        Contacts can not be linked until client settings are
-                        added
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-info"
-                    onClick={() => setInfoModalOpen(false)}
-                  >
-                    {intl.formatMessage({ id: "Fields.ActionClose" })}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )} */}
+
         {/* Contacts Table */}
         {contacts?.length > 0 ? (
           <>
@@ -475,7 +429,7 @@ const ClientAddStep2: FC<Props> = ({
                       contact.betweenName?.[0] || ""
                     }${contact.lastName?.[0] || ""}`;
                   }
-                  return ""; // Default to an empty string if neither firstName nor lastName is present
+                  return `${contact.emailAddress?.[0] || ""}`; // Default to an empty string if neither firstName nor lastName is present
                 };
 
                 const initials = getInitials(contact);

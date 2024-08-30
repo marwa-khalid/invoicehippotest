@@ -5,10 +5,7 @@ import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolb
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
 import { FinancialAccountsToolbar } from "./components/header/FinancialAccountsToolbar";
-import { FinancialEditModal } from "./financial-edit-modal/FinancialEditModal";
 import { FinancialDeleteModal } from "./financial-delete-modal/FinancialDeleteModal";
-import { BankLinkModal } from "./financial-link-modal/BankLinkModal";
-import { FinancialUnlinkModal } from "./financial-unlink-modal/FinancialUnlinkModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -71,6 +68,7 @@ const FinancialListInnerWrapper = () => {
           setRefresh={setRefresh}
           setAddModalOpen={setAddModalOpen}
           setDeleteModalOpen={setDeleteModalOpen}
+          setEditModalId={setEditModalId}
           setDeleteModalId={setDeleteModalId}
           setTitle={setTitle}
           editModalId={editModalId}

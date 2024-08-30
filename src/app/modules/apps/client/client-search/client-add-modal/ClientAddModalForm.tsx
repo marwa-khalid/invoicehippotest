@@ -92,6 +92,9 @@ type Props = {
   deleteModalOpen: boolean;
   editModalId: number;
   setIsSubmitting: (type: boolean) => void;
+  setEditModalId: (type: number) => void;
+  setAddModalOpen: (type: boolean) => void;
+  setEditModalOpen: (type: boolean) => void;
 };
 
 const ClientAddModalForm: FC<Props> = ({
@@ -99,11 +102,14 @@ const ClientAddModalForm: FC<Props> = ({
   formik,
   editModalId,
   setTitle,
+  setEditModalId,
   setIntlMessage,
   isSubmitting,
   response,
   setDeleteModalId,
   setDeleteModalOpen,
+  setAddModalOpen,
+  setEditModalOpen,
   deleteModalOpen,
 }) => {
   const intl = useIntl();
@@ -115,7 +121,13 @@ const ClientAddModalForm: FC<Props> = ({
         id="kt_tab_pane_4"
         role="tabpanel"
       >
-        <ClientAddStep1 formik={formik} isSubmitting={isSubmitting} />
+        <ClientAddStep1
+          formik={formik}
+          isSubmitting={isSubmitting}
+          setEditModalId={setEditModalId}
+          setEditModalOpen={setEditModalOpen}
+          setAddModalOpen={setAddModalOpen}
+        />
       </div>
       {/* {showTabs && (
         <> */}
