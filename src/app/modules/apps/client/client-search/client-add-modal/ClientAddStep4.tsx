@@ -85,11 +85,11 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, response }) => {
         noValidate
       >
         <div className="card">
-          <div className="card-header d-flex flex-column">
-            <h3 className="card-title text-gray-600 mb-0 h-0">
+          <div className="card-header d-flex flex-column p-3 mx-3">
+            <h3 className="card-title text-gray-600 fw-bold mb-0 h-0">
               {intl.formatMessage({ id: "Fields.CustomFeatures" })}
             </h3>
-            <span className="mt-0">
+            <span className="mt-0 text-muted fs-7">
               {intl.formatMessage({ id: "Fields.CustomFeaturesSubTitle" })}
             </span>
           </div>
