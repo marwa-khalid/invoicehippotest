@@ -43,6 +43,16 @@ interface GroupedOption {
 const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
   const intl = useIntl();
   const tagifyRef = useRef<any>();
+
+  useEffect(() => {
+    if (response) {
+      formik.setValues({
+        ...formik.values,
+        ...response,
+      });
+    }
+  }, [response]);
+  console.log(response);
   const formik = useFormik({
     initialValues: {
       financialSettings: {

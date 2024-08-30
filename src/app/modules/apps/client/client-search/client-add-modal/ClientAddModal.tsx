@@ -4,26 +4,30 @@ import { ClientAddModalFooter } from "./ClientAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { postClient } from "../core/_requests";
+import { getClientById, postClient } from "../core/_requests";
 import { ClientAddModalForm } from "./ClientAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { useAuth } from "../../../../auth";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
+  setEditModalOpen: (type: boolean) => void;
   setDeleteModalId: (type: number[]) => void;
   setDeleteModalOpen: (type: boolean) => void;
   setTitle: (type: string) => void;
   setIntlMessage: (type: string) => void;
   deleteModalOpen: boolean;
+  editModalId: number;
 }
 const ClientAddModal = ({
   setRefresh,
   setAddModalOpen,
+  setEditModalOpen,
   setDeleteModalId,
   setDeleteModalOpen,
   setIntlMessage,
   setTitle,
+  editModalId,
   deleteModalOpen,
 }: Props) => {
   useEffect(() => {
@@ -37,9 +41,28 @@ const ClientAddModal = ({
   const intl = useIntl();
   const auth = useAuth();
   const [showTabs, setShowTabs] = useState(false);
-  const [clientId, setClientId] = useState(0);
   const [response, setResponse] = useState<any>([]);
+  console.log(editModalId);
   console.log(auth.currentUser?.result.activeCompany.id);
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      const res = await getClientById(editModalId);
+
+      setResponse(res.result);
+    };
+
+    if (editModalId != 0) {
+      fetchInitialData();
+    }
+  }, [editModalId]);
+  useEffect(() => {
+    if (response) {
+      formik.setValues({
+        ...formik.values,
+        ...response, // Merge the response with the existing form values
+      });
+    }
+  }, [response]);
   const formik = useFormik({
     initialValues: {
       customFields: [
@@ -159,12 +182,13 @@ const ClientAddModal = ({
         className="modal fade show d-block"
         tabIndex={-1}
         role="dialog"
-        id="kt_modal_1"
+        id="client_add_modal"
         aria-modal="true"
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
             <ClientAddModalHeader
+              setEditModalOpen={setEditModalOpen}
               businessName={response?.businessName}
               setAddModalOpen={setAddModalOpen}
               showTabs={showTabs}
@@ -180,6 +204,7 @@ const ClientAddModal = ({
               setTitle={setTitle}
               deleteModalOpen={deleteModalOpen}
               response={response}
+              editModalId={editModalId}
             />
 
             <ClientAddModalFooter

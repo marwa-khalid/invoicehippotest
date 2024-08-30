@@ -13,7 +13,7 @@ interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
-  setUnlinkModalOpen: (type: boolean) => void;
+
   setEditModalId: (type: number) => void;
   setDeleteModalId: (type: number[]) => void;
   setTitle: (type: string) => void;
@@ -33,7 +33,7 @@ const FinancialAccountsList = ({
   setTitle,
   setDeleteModalOpen,
   setDeleteModalId,
-  setUnlinkModalOpen,
+
   refresh,
   setPageIndex,
   pageIndex,
@@ -90,58 +90,6 @@ const FinancialAccountsList = ({
     setIntlMessage("Fields.ModalDeleteDescriptionClient");
   };
 
-  const openUnlinkModal = (id: number) => {
-    setEditModalId(id);
-    setUnlinkModalOpen(true);
-  };
-
-  const formatExpirationDate = (dateStr: string): string => {
-    const date = new Date(dateStr);
-
-    const days = [
-      "Zondag",
-      "Maandag",
-      "Dinsdag",
-      "Woensdag",
-      "Donderdag",
-      "Vrijdag",
-      "Zaterdag",
-    ];
-    const months = [
-      "Januari",
-      "Februari",
-      "Maart",
-      "April",
-      "Mei",
-      "Juni",
-      "Juli",
-      "Augustus",
-      "September",
-      "Oktober",
-      "November",
-      "December",
-    ];
-
-    const dayName = days[date.getDay()];
-    const day = date.getDate();
-    const monthName = months[date.getMonth()];
-    const year = date.getFullYear();
-
-    return `${dayName} ${day} ${monthName} ${year}`;
-  };
-  const formatRequestDate = (dateTimeStr: any) => {
-    const date = new Date(dateTimeStr);
-
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
-    const year = date.getFullYear();
-
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-
-    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-  };
   return (
     <KTCardBody className="py-4">
       <div className="row row-cols-1 row-cols-md-1 g-4">
@@ -302,12 +250,7 @@ const FinancialAccountsList = ({
                           className="bg-gray-800 text-white p-2 rounded "
                           placement="top"
                         >
-                          <button
-                            className="btn btn-icon btn-light btn-sm me-4"
-                            onClick={() => {
-                              openUnlinkModal(client.id);
-                            }}
-                          >
+                          <button className="btn btn-icon btn-light btn-sm me-4">
                             <i className="fas fa-wifi text-danger fs-3" />
                           </button>
                         </Tooltip>

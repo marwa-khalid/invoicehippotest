@@ -4,21 +4,19 @@ import { Tooltip } from "@chakra-ui/react";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
-  setLinkModalOpen: (type: boolean) => void;
+ 
 }
 
 const FinancialAccountsToolbar = ({
   totalRows,
   setAddModalOpen,
-  setLinkModalOpen,
+  
 }: ToolbarProps) => {
   const openAddFinancialAccountModal = () => {
     setAddModalOpen(true);
   };
 
-  const openLinkBankAccountModal = () => {
-    setLinkModalOpen(true);
-  };
+  
   const intl = useIntl();
   return (
     <div
@@ -43,7 +41,7 @@ const FinancialAccountsToolbar = ({
           <button
             type="button"
             className="btn btn-primary mb-3 me-2"
-            onClick={openLinkBankAccountModal}
+            
           >
             <i className="ki-duotone ki-cloud-download fs-1">
               <span className="path1"></span>

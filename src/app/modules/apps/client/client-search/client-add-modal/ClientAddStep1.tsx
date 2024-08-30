@@ -444,7 +444,8 @@ const ClientAddStep1: FC<Props> = ({ formik, isSubmitting }) => {
         <button
           type="button"
           className="btn btn-light me-3"
-          //   onClick={() => setAddModalOpen(false)}
+          data-bs-dismiss="modal"
+          data-bs-target="client_add_modal"
         >
           {intl.formatMessage({ id: "Fields.ActionCancel" })}
         </button>

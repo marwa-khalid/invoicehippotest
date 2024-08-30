@@ -90,12 +90,14 @@ type Props = {
   setTitle: (type: string) => void;
   setIntlMessage: (type: string) => void;
   deleteModalOpen: boolean;
+  editModalId: number;
   setIsSubmitting: (type: boolean) => void;
 };
 
 const ClientAddModalForm: FC<Props> = ({
   setIsSubmitting,
   formik,
+  editModalId,
   setTitle,
   setIntlMessage,
   isSubmitting,
@@ -119,7 +121,7 @@ const ClientAddModalForm: FC<Props> = ({
         <> */}
       <div className="tab-pane fade" id="kt_tab_pane_5" role="tabpanel">
         <ClientAddStep2
-          clientId={response.id}
+          clientId={response?.id}
           setDeleteModalOpen={setDeleteModalOpen}
           setDeleteModalId={setDeleteModalId}
           setIntlMessage={setIntlMessage}

@@ -9,6 +9,7 @@ import {
 import { handleToast } from "../../../../auth/core/_toast";
 import { Tooltip } from "@chakra-ui/react";
 import { toast } from "react-toastify";
+import { setTimeout } from "timers/promises";
 
 type Props = {
   clientId: number;
@@ -47,19 +48,21 @@ const ClientAddStep2: FC<Props> = ({
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
   console.log(clientId);
   useEffect(() => {
-    const fecthspecificContacts = async () => {
-      const response = await getContactListById(clientId);
-
-      if (response.result?.length > 0) {
-        setContacts(response.result);
-      } else {
+    const fetchSpecificContacts = async () => {
+      try {
+        const response = await getContactListById(clientId);
+        setContacts(response.result?.length > 0 ? response.result : []);
+      } catch (error) {
+        console.error("Failed to fetch contacts:", error);
         setContacts([]);
       }
     };
-    if (clientId != undefined) {
-      fecthspecificContacts();
+
+    if (clientId !== undefined) {
+      fetchSpecificContacts();
     }
-  }, [deleteModalOpen, clientId]);
+  }, [clientId, deleteModalOpen]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewContact({
@@ -465,10 +468,18 @@ const ClientAddStep2: FC<Props> = ({
         {contacts?.length > 0 ? (
           <>
             <div className="">
-              {contacts.map((contact: any, index: number) => {
-                const initials = `${contact.firstName[0] || ""}${
-                  contact.betweenName ? contact.betweenName[0] : ""
-                }${contact.lastName[0] || ""}`;
+              {contacts?.map((contact: any, index: number) => {
+                const getInitials = (contact: any) => {
+                  if (contact?.firstName || contact?.lastName) {
+                    return `${contact.firstName?.[0] || ""}${
+                      contact.betweenName?.[0] || ""
+                    }${contact.lastName?.[0] || ""}`;
+                  }
+                  return ""; // Default to an empty string if neither firstName nor lastName is present
+                };
+
+                const initials = getInitials(contact);
+
                 const avatarColors = [
                   "bg-light-danger text-danger",
                   "bg-light-success text-success",

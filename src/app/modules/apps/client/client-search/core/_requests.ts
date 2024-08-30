@@ -52,6 +52,14 @@ export function getClients(searchTerm: string, pageIndex: number) {
   );
 }
 
+export function getClientById(id: number) {
+  return getRequest<ClientFormValuesModel>(
+    `${POST_CLIENT}/${id}`,
+
+    true
+  );
+}
+
 export function postClient(values: ClientFormValues) {
   return postRequest<ClientFormValuesModel>(
     POST_CLIENT,
