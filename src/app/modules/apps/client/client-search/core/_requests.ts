@@ -64,7 +64,7 @@ export function postClient(values: ClientFormValues) {
   return postRequest<ClientFormValuesModel>(
     POST_CLIENT,
     {
-      id: 0,
+      id: values.id,
       companyId: values.companyId,
       businessName: values.businessName,
       kvkNr: values.kvkNr,

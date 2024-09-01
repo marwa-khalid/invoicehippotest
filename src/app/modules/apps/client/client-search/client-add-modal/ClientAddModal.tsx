@@ -44,26 +44,7 @@ const ClientAddModal = ({
   const auth = useAuth();
   const [showTabs, setShowTabs] = useState(false);
   const [response, setResponse] = useState<any>([]);
- 
-  useEffect(() => {
-    const fetchInitialData = async () => {
-      const res = await getClientById(editModalId);
 
-      setResponse(res.result);
-    };
-
-    if (editModalId != 0) {
-      fetchInitialData();
-    }
-  }, [editModalId]);
-  useEffect(() => {
-    if (response) {
-      formik.setValues({
-        ...formik.values,
-        ...response, // Merge the response with the existing form values
-      });
-    }
-  }, [response]);
   const formik = useFormik({
     initialValues: {
       customFields: [
@@ -176,6 +157,30 @@ const ClientAddModal = ({
       }
     },
   });
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      const res = await getClientById(editModalId);
+
+      setResponse(res.result);
+    };
+
+    if (editModalId != 0) {
+      fetchInitialData();
+    }
+  }, [editModalId]);
+  useEffect(() => {
+    if (response) {
+      formik.setValues({
+        ...formik.values,
+        ...response, // Merge the response with the existing form values
+      });
+    }
+  }, [response]);
+
+  {
+    console.log(formik.values);
+  }
 
   return (
     <>
