@@ -52,7 +52,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
       });
     }
   }, [response]);
-  console.log(response.financialSettings);
+
   const formik = useFormik({
     initialValues: {
       financialSettings: {
@@ -105,7 +105,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
   useEffect(() => {
     const fetchLedgers = async () => {
       const response = await getLedgerForClient();
-      console.log(response.result);
+
       if (response.isValid) {
         setLedgers(response.result);
       }
@@ -115,7 +115,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
   useEffect(() => {
     const fetchVats = async () => {
       const response = await getVatForClient();
-      console.log(response.result);
+      
       if (response.isValid) {
         setVats(response.result.listForSales);
       }
@@ -208,7 +208,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
 
     fetchVatTypes();
   }, [selectedBearingTypeOption]);
-  console.log(formik.values);
+  
   // Function to handle invalid tags and remove them
 
   const handleInvalidEmail = (e: any) => {
@@ -227,11 +227,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
       }, 1500);
     }
   };
-  {
-    console.log(
-      formik.values.invoiceAndQuoteSettings.extraCcEmailAddressesInvoice
-    );
-  }
+
   return (
     <>
       <div className="modal-body">
@@ -387,17 +383,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                   menuPlacement="top"
                 />
               </div>
-              {
-                console.log(
-                  ledgers.find((item: any) => {
-                    return (
-                      item.id ===
-                      formik.values.invoiceAndQuoteSettings
-                        .defaultLedgerAccountId
-                    );
-                  })
-                )!
-              }
+             
             </div>
             <div className="row d-flex mb-5">
               <div className="fv-row col-6">
@@ -520,12 +506,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                 />
               </div>
 
-              {
-                console.log(
-                  "Extra CC Emails for Invoice:",
-                  formik.values.invoiceAndQuoteSettings
-                )!
-              }
+             
             </div>
           </div>
 
@@ -579,7 +560,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
             <h4 className="mb-2 text-start text-gray-600">
               standaard instellingen voor het verwerken van kosten
             </h4>
-            {console.log(formik.values.invoiceAndQuoteSettings)!}
+           
             <div className="separator border-gray-300 my-6"></div>
             <div
               className="row alert alert-custom alert-default align-items-center mt-8 mx-0 "

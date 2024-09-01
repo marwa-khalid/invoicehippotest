@@ -44,8 +44,7 @@ const ClientAddModal = ({
   const auth = useAuth();
   const [showTabs, setShowTabs] = useState(false);
   const [response, setResponse] = useState<any>([]);
-  console.log(editModalId);
-  console.log(auth.currentUser?.result.activeCompany.id);
+ 
   useEffect(() => {
     const fetchInitialData = async () => {
       const res = await getClientById(editModalId);

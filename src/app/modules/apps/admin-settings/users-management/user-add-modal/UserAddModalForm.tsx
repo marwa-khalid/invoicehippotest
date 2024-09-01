@@ -75,7 +75,7 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
     { value: 2, label: "English" },
   ];
 
-  console.log(languageOptions);
+
 
   return (
     <>

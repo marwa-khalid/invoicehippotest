@@ -1,38 +1,38 @@
 import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteContact, deleteClient } from "../core/_requests";
+import { deleteDiscountMargin } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   deleteModalId: number[];
   setRefresh: (type: boolean) => void;
-  intlMessage: string;
+  setDeleteModalId: (type: number[]) => void;
 }
 
-const FinancialDeleteModalFooter = ({
+const DiscountDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
-  intlMessage,
+  setDeleteModalId,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const deleteItem = async () => {
+  const deleteProduct = async () => {
     setIsSubmitting(true);
-    let response;
-    if (intlMessage === "Fields.ModalDeleteDescriptionClientContact") {
-      response = await deleteContact(deleteModalId);
-    } else {
-      response = await deleteClient(deleteModalId);
-    }
+
+    const response = await deleteDiscountMargin(deleteModalId);
+
     if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);
+      setDeleteModalId([]);
       setIsSubmitting(false);
     }
+
+    setIsSubmitting(false);
     handleToast(response);
   };
   return (
@@ -41,7 +41,10 @@ const FinancialDeleteModalFooter = ({
         {/* Cancel Button */}
         <button
           type="reset"
-          onClick={() => setDeleteModalOpen(false)}
+          onClick={() => {
+            setDeleteModalOpen(false);
+            setDeleteModalId([]);
+          }}
           className="btn btn-light me-3"
         >
           {intl.formatMessage({ id: "Fields.ActionClose" })}
@@ -51,11 +54,11 @@ const FinancialDeleteModalFooter = ({
         <button
           type="submit"
           className="btn btn-danger"
-          onClick={deleteItem}
-          //   disabled={!isValid || isSubmitting || !touched}
+          onClick={deleteProduct}
         >
-          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionDelete" })}
-          {isSubmitting && (
+          {!isSubmitting ? (
+            intl.formatMessage({ id: "Fields.ActionDelete" })
+          ) : (
             <span className="indicator-progress" style={{ display: "block" }}>
               {intl.formatMessage({ id: "Common.Busy" })}
               <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -67,4 +70,4 @@ const FinancialDeleteModalFooter = ({
   );
 };
 
-export { FinancialDeleteModalFooter };
+export { DiscountDeleteModalFooter };

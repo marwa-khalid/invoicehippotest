@@ -107,7 +107,7 @@ const ClientAddStep1: FC<Props> = ({
       //   formik.setFieldValue("factoringSessionStatement", "");
     }
   }, [formik.values.clientTypes]);
-  console.log(formik.values.invoiceAddress);
+ 
   return (
     <>
       <div className="modal-body">
@@ -207,7 +207,6 @@ const ClientAddStep1: FC<Props> = ({
             />
           </div>
 
-          {console.log(formik.values.clientTypes)!}
           <div className="row d-flex mb-5">
             {/* KvkNr Field */}
             <div className="fv-row col-6">
@@ -383,8 +382,7 @@ const ClientAddStep1: FC<Props> = ({
                 />
               </div>
             </div>
-            {console.log(formik.values.deliveryAddress)!}
-
+           
             <div className="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
               <div className="row d-flex mb-5">
                 <label className=" fw-bold fs-6 mb-2">
@@ -485,7 +483,7 @@ const ClientAddStep1: FC<Props> = ({
           </div>
           {/* Advanced Settings and other sections if needed */}
         </form>
-        {console.log(formik.values.financialSettings)!}
+        
       </div>
       <div className="modal-footer flex-end">
         <button

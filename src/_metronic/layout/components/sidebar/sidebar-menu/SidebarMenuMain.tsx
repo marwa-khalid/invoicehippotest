@@ -189,6 +189,11 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         />
         <SidebarMenuItem
+          to="/admin/customfields"
+          title="Custom Fields"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
           to="/admin/settings/users"
           title="Users"
           hasBullet={true}

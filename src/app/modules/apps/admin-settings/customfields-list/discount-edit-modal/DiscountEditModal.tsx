@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { LedgerEditModalHeader } from "./LedgerEditModalHeader";
-import { LedgerEditModalFooter } from "./LedgerEditModalFooter";
-import { getLedgerById, postLedgerAccount } from "../core/_requests";
+import { DiscountEditModalHeader } from "./DiscountEditModalHeader";
+import { DiscountEditModalFooter } from "./DiscountEditModalFooter";
+import { getDiscountMarginById, postDiscountMargin } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import LedgerEditModalForm from "./LedgerEditModalForm";
+import FinancialEditModalForm from "./DiscountEditModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
+import { Value } from "sass";
 interface Props {
   setRefresh: (type: boolean) => void;
   setEditModalOpen: (type: boolean) => void;
   editModalId: number;
 }
-const LedgerEditModal = ({
+const DiscountEditModal = ({
   setRefresh,
   setEditModalOpen,
   editModalId,
@@ -26,26 +27,13 @@ const LedgerEditModal = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const intl = useIntl();
-  const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
-    useState<any>();
-
-  const [reportReferenceType1, setReportReferenceType1] = useState();
 
   const formik = useFormik({
     initialValues: {
       id: 0,
       title: "",
-      code: "",
-      defaultTaxTypeId: 0,
-      bearingType: 0,
-      reportReferenceType1: 0,
-      reportReferenceType2LegderAccountId: 0,
-      disableManualInput: true,
-      taxDeductibleSettings: {
-        isNotFullyTaxDeductible: false,
-        taxDeductiblePercentage: 0,
-        deductiblePrivateLedgerAccountId: 0,
-      },
+      isPercentageMargin: false,
+      amount: 0,
     },
     validationSchema: Yup.object().shape({
       title: Yup.string()
@@ -57,58 +45,48 @@ const LedgerEditModal = ({
             .replace("{1}", `3`)
         )
         .max(
-          100,
+          50,
           intl
             .formatMessage({ id: "Common.ValidationMax" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
-            .replace("{1}", `100`)
+            .replace("{1}", `50`)
         )
         .required(
           intl
             .formatMessage({ id: "Common.RequiredFieldHint2" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
         ),
-      code: Yup.string()
+      amount: Yup.number()
         .min(
-          2,
+          0,
           intl
             .formatMessage({ id: "Common.ValidationMin" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
-            .replace("{1}", `2`)
+            .replace("{0}", intl.formatMessage({ id: "Fields.Amount" }))
+            .replace("{1}", `0`)
         )
         .max(
           100,
           intl
             .formatMessage({ id: "Common.ValidationMax" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.Amount" }))
             .replace("{1}", `100`)
         )
         .required(
           intl
             .formatMessage({ id: "Common.RequiredFieldHint2" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
+            .replace("{0}", intl.formatMessage({ id: "Fields.Amount" }))
         ),
-
-      bearingType: Yup.number().required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
-      ),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postLedgerAccount(
+        const response = await postDiscountMargin(
           values.id,
           values.title,
-          values.code,
-          values.defaultTaxTypeId,
-          values.bearingType,
-          values.reportReferenceType1,
-          values.reportReferenceType2LegderAccountId,
-          values.disableManualInput,
-          values.taxDeductibleSettings
+          values.isPercentageMargin,
+          values.amount
         );
+
         if (response.isValid) {
           formik.resetForm();
           setEditModalOpen(false);
@@ -127,19 +105,13 @@ const LedgerEditModal = ({
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const response = await getLedgerById(editModalId);
-
+        const response = await getDiscountMarginById(editModalId);
+  
         formik.setValues({
-          id: response.result.id,
-          title: response.result.title,
-          code: response.result.code,
-          defaultTaxTypeId: response.result.defaultTaxTypeId,
-          bearingType: response.result.bearingType,
-          reportReferenceType1: response.result.reportReferenceType1,
-          reportReferenceType2LegderAccountId:
-            response.result.reportReferenceType2LegderAccountId,
-          disableManualInput: response.result.disableManualInput,
-          taxDeductibleSettings: response.result.taxDeductibleSettings,
+          id: response.result?.id || 0,
+          title: response.result?.title || "",
+          amount: response.result?.amount || 0,
+          isPercentageMargin: response.result?.isPercentageMargin || false,
         });
       } catch (error) {
         console.error("Error fetching initial data:", error);
@@ -158,20 +130,16 @@ const LedgerEditModal = ({
         id="kt_modal_1"
         aria-modal="true"
       >
-        <div className="modal-dialog mw-800px">
+        <div className="modal-dialog mw-500px">
           <div className="modal-content">
-            <LedgerEditModalHeader setEditModalOpen={setEditModalOpen} />
+            <DiscountEditModalHeader setEditModalOpen={setEditModalOpen} />
             <div className="modal-body p-10">
-              <LedgerEditModalForm
+              <FinancialEditModalForm
                 formik={formik}
-                setSelectedBearingTypeOption={setSelectedBearingTypeOption}
-                selectedBearingTypeOption={selectedBearingTypeOption}
                 isSubmitting={isSubmitting}
-                setReportReferenceType1={setReportReferenceType1}
-                reportReferenceType1={reportReferenceType1}
               />
             </div>
-            <LedgerEditModalFooter
+            <DiscountEditModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setEditModalOpen={setEditModalOpen}
@@ -184,4 +152,4 @@ const LedgerEditModal = ({
   );
 };
 
-export { LedgerEditModal };
+export { DiscountEditModal };

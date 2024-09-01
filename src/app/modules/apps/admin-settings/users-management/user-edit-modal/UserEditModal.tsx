@@ -110,8 +110,6 @@ const UserEditModal = ({
           formik.resetForm();
           setEditModalOpen(false);
           setRefresh(true);
-          console.log(response.result.id);
-          console.log(auth.currentUser?.result.id);
           if (response.result.id === auth.currentUser?.result.id) {
             const data = await getProfileInfo();
             if (data) {
