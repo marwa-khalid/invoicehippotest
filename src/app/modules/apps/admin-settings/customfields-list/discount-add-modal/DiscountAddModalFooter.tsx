@@ -10,9 +10,20 @@ type Props = {
 
 interface FormValues {
   id: number;
+  uniqueId: string;
+  areaUsageType: number;
   title: string;
-  isPercentageMargin: boolean;
-  amount: number;
+  customData: string;
+  usageInfo: string;
+  fieldType: number;
+  editOptions: {
+    isActivlyUsed: boolean;
+  };
+  groupDisplayName: string;
+  defaultValue: string;
+  includeOnInvoiceType: number;
+  includeOnQuoteType: number;
+  includeOnDocumentDisplayName: string;
 }
 
 const DiscountAddModalFooter: FC<Props> = ({

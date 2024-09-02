@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DiscountEditModalHeader } from "./DiscountEditModalHeader";
 import { DiscountEditModalFooter } from "./DiscountEditModalFooter";
-import { getDiscountMarginById, postDiscountMargin } from "../core/_requests";
+import { getDiscountMarginById } from "../core/_requests";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
@@ -79,26 +79,26 @@ const DiscountEditModal = ({
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
-      try {
-        const response = await postDiscountMargin(
-          values.id,
-          values.title,
-          values.isPercentageMargin,
-          values.amount
-        );
+      // try {
+      //   const response = await postDiscountMargin(
+      //     values.id,
+      //     values.title,
+      //     values.isPercentageMargin,
+      //     values.amount
+      //   );
 
-        if (response.isValid) {
-          formik.resetForm();
-          setEditModalOpen(false);
-          setRefresh(true);
-        }
-        handleToast(response);
-      } catch (error) {
-        console.error("Put failed:", error);
-      } finally {
-        setIsSubmitting(false);
-        setSubmitting(false);
-      }
+      //   if (response.isValid) {
+      //     formik.resetForm();
+      //     setEditModalOpen(false);
+      //     setRefresh(true);
+      //   }
+      //   handleToast(response);
+      // } catch (error) {
+      //   console.error("Put failed:", error);
+      // } finally {
+      //   setIsSubmitting(false);
+      //   setSubmitting(false);
+      // }
     },
   });
 
@@ -106,7 +106,7 @@ const DiscountEditModal = ({
     const fetchInitialData = async () => {
       try {
         const response = await getDiscountMarginById(editModalId);
-  
+
         formik.setValues({
           id: response.result?.id || 0,
           title: response.result?.title || "",

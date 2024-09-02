@@ -25,19 +25,23 @@ export function getDiscountMarginById(editModalId: number) {
   return getRequest<PartialResult>(`${CUSTOM_FIELD}/${editModalId}`, true);
 }
 
-export function postDiscountMargin(
+export function postCustomField(
   id: number,
   title: string,
-  isPercentageMargin: boolean,
-  amount: number
+  areaUsageType: number,
+  fieldType: number,
+  includeOnInvoiceType: number,
+  includeOnQuoteType: number
 ) {
   return postRequest<PartialResult>(
     CUSTOM_FIELD,
     {
       id: id,
       title: title,
-      isPercentageMargin: isPercentageMargin,
-      amount: amount,
+      areaUsageType: areaUsageType,
+      fieldType: fieldType,
+      includeOnInvoiceType: includeOnInvoiceType,
+      includeOnQuoteType: includeOnQuoteType,
     },
     true
   );

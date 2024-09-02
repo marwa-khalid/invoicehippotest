@@ -11,7 +11,7 @@ const DiscountAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
     <div className="modal-header d-flex justify-content-between align-items-center bg-primary ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {intl.formatMessage({ id: "Fields.ModalNewTitleDiscountMargin" })}
+        {intl.formatMessage({ id: "Fields.ModalNewTitleCustomField" })}
       </h2>
       {/* end::Modal title */}
 

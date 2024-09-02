@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { useIntl } from "react-intl";
 import { DiscountAddModalForm } from "./DiscountAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
-import { postDiscountMargin } from "../core/_requests";
+import { postCustomField } from "../core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
@@ -25,9 +25,20 @@ const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   const formik = useFormik({
     initialValues: {
       id: 0,
+      uniqueId: "",
+      areaUsageType: 0,
       title: "",
-      isPercentageMargin: false,
-      amount: 0,
+      customData: "",
+      usageInfo: "",
+      fieldType: 0,
+      editOptions: {
+        isActivlyUsed: true,
+      },
+      groupDisplayName: "",
+      defaultValue: "",
+      includeOnInvoiceType: 0,
+      includeOnQuoteType: 0,
+      includeOnDocumentDisplayName: "",
     },
     validationSchema: Yup.object().shape({
       title: Yup.string()
@@ -50,36 +61,28 @@ const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
             .formatMessage({ id: "Common.RequiredFieldHint2" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
         ),
-      amount: Yup.number()
-        .min(
-          0,
-          intl
-            .formatMessage({ id: "Common.ValidationMin" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Amount" }))
-            .replace("{1}", `0`)
-        )
-        .max(
-          100,
-          intl
-            .formatMessage({ id: "Common.ValidationMax" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Amount" }))
-            .replace("{1}", `100`)
-        )
-        .required(
-          intl
-            .formatMessage({ id: "Common.RequiredFieldHint2" })
-            .replace("{0}", intl.formatMessage({ id: "Fields.Amount" }))
-        ),
+      fieldType: Yup.number().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.FieldType" }))
+      ),
+      areaUsageType: Yup.number().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.AreaUsageType" }))
+      ),
     }),
 
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postDiscountMargin(
+        const response = await postCustomField(
           values.id,
           values.title,
-          values.isPercentageMargin,
-          values.amount
+          values.areaUsageType,
+          values.fieldType,
+          values.includeOnInvoiceType,
+          values.includeOnQuoteType
         );
         if (response.isValid) {
           formik.resetForm();
@@ -105,7 +108,7 @@ const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         id="kt_modal_1"
         aria-modal="true"
       >
-        <div className="modal-dialog mw-500px">
+        <div className="modal-dialog mw-800px">
           <div className="modal-content">
             <DiscountAddModalHeader setAddModalOpen={setAddModalOpen} />
             <div className="modal-body p-10">
