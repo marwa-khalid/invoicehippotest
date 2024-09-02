@@ -75,8 +75,6 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
     { value: 2, label: "English" },
   ];
 
-
-
   return (
     <>
       <form
@@ -85,6 +83,26 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
         onSubmit={formik.handleSubmit}
         noValidate
       >
+        <div
+          className="row alert alert-custom alert-default align-items-center mx-0 "
+          style={{ backgroundColor: "#eee6fe" }}
+          role="alert"
+        >
+          <div className="alert-icon col-1">
+            <i className="ki-duotone ki-information-4 fs-3x text-center text-info">
+              <span className="path1"></span>
+              <span className="path2"></span>
+              <span className="path3"></span>
+            </i>
+          </div>
+          <div className="alert-text  col-11">
+            <p className="my-0 p-3">
+              {intl.formatMessage({
+                id: "Fields.RegionInfoUserNewInfo",
+              })}
+            </p>
+          </div>
+        </div>
         {/* Email address */}
         <div className="fv-row mb-7">
           <label className="required fw-bold fs-6 mb-2">
@@ -398,26 +416,6 @@ const UserAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
               </div>
             );
           })}
-        </div>
-
-        <div
-          className="row alert alert-custom alert-default bg-secondary align-items-center mt-8 mx-0 "
-          role="alert"
-        >
-          <div className="alert-icon col-1">
-            <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
-              <span className="path1"></span>
-              <span className="path2"></span>
-              <span className="path3"></span>
-            </i>
-          </div>
-          <div className="alert-text  col-11">
-            <p className="my-0 p-3">
-              {intl.formatMessage({
-                id: "Fields.RegionInfoUserNewInfo",
-              })}
-            </p>
-          </div>
         </div>
 
         <div

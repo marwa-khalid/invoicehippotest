@@ -1,10 +1,10 @@
-import { DiscountHeader } from "./components/header/DiscountHeader";
+import { CustomFieldsHeader } from "./components/header/CustomFieldsHeader";
 import { DiscountMarginsList } from "./search-list/DiscountMarginsList";
 import { DiscountAddModal } from "./discount-add-modal/DiscountAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
-import { DiscountToolbar } from "./components/header/DiscountToolbar";
+import { CustomFieldsToolbar } from "./components/header/CustomFieldsToolbar";
 import { DiscountEditModal } from "./discount-edit-modal/DiscountEditModal";
 import { DiscountDeleteModal } from "./discount-delete-modal/DiscountDeleteModal";
 
@@ -40,12 +40,12 @@ const DiscountMarginsInnerWrapper = () => {
 
   return (
     <>
-      <DiscountHeader
+      <CustomFieldsHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
       />
 
-      <DiscountToolbar
+      <CustomFieldsToolbar
         totalRows={totalRows}
         setAddModalOpen={setAddModalOpen}
         deleteSelectedButton={deleteSelectedButton}

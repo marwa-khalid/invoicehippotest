@@ -196,6 +196,7 @@ const ClientAddModal = ({
             <ClientAddModalHeader
               setEditModalOpen={setEditModalOpen}
               businessName={response?.businessName}
+              customerNr={response?.customerNr}
               setAddModalOpen={setAddModalOpen}
               showTabs={showTabs}
               setEditModalId={setEditModalId}

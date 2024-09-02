@@ -14,7 +14,7 @@ const DiscountToolbar = ({
   deleteSelectedButton,
   setDeleteModalOpen,
 }: ToolbarProps) => {
-  const openAddFinancialAccountModal = () => {
+  const openAddModal = () => {
     setAddModalOpen(true);
   };
   const intl = useIntl();
@@ -50,7 +50,7 @@ const DiscountToolbar = ({
           <button
             type="button"
             className="btn btn-primary mb-3"
-            onClick={openAddFinancialAccountModal}
+            onClick={openAddModal}
           >
             <KTIcon iconName="plus" className="fs-2" />
             {intl.formatMessage({ id: "Fields.ModalNewTitleDiscountMargin" })}

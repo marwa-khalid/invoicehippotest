@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getCustomFields } from "../core/_requests";
 import { CustomFieldResult, DiscountMarginResult } from "../core/_models";
 import { ListLoading } from "../../../components/ListLoading";
-import { DiscountPagination } from "../components/pagination/DiscountPagination";
+import { CustomFieldsPagination } from "../components/pagination/CustomFieldsPagination";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { Tooltip } from "@chakra-ui/react";
@@ -259,7 +259,7 @@ const DiscountMarginsList = ({
         </table>
       </div>
       {discountMargins?.result?.length > 0 && (
-        <DiscountPagination
+        <CustomFieldsPagination
           totalPages={discountMargins.totalPages}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}

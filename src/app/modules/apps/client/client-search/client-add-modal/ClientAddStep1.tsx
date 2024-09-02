@@ -107,7 +107,7 @@ const ClientAddStep1: FC<Props> = ({
       //   formik.setFieldValue("factoringSessionStatement", "");
     }
   }, [formik.values.clientTypes]);
- 
+
   return (
     <>
       <div className="modal-body">
@@ -382,7 +382,7 @@ const ClientAddStep1: FC<Props> = ({
                 />
               </div>
             </div>
-           
+
             <div className="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
               <div className="row d-flex mb-5">
                 <label className=" fw-bold fs-6 mb-2">
@@ -483,7 +483,6 @@ const ClientAddStep1: FC<Props> = ({
           </div>
           {/* Advanced Settings and other sections if needed */}
         </form>
-        
       </div>
       <div className="modal-footer flex-end">
         <button
@@ -519,6 +518,7 @@ const ClientAddStep1: FC<Props> = ({
           className="btn btn-primary"
           onClick={() => {
             formik.handleSubmit();
+            setAddModalOpen(false);
           }}
           // disabled={isSubmitting || !formik.isValid}
         >

@@ -8,28 +8,28 @@ interface ToolbarProps {
   setDeleteModalOpen: (type: boolean) => void;
 }
 
-const DiscountToolbar = ({
+const CustomFieldsToolbar = ({
   totalRows,
   setAddModalOpen,
   deleteSelectedButton,
   setDeleteModalOpen,
 }: ToolbarProps) => {
-  const openAddFinancialAccountModal = () => {
+  const openAddUserModal = () => {
     setAddModalOpen(true);
   };
   const intl = useIntl();
   return (
     <div
-      className="d-flex justify-content-between align-items-center mb-6"
+      className="d-flex justify-content-between align-items-center"
       data-kt-user-table-toolbar="base"
     >
+      {/* <VatListFilter /> */}
       <h5 className="ms-5 text-muted">
         {intl
           .formatMessage({ id: "Fields.SearchResultHeaderCount" })
           .replace("{0}", totalRows.toString())}
       </h5>
 
-      {/* begin::Add product group */}
       {deleteSelectedButton ? (
         <button
           type="button"
@@ -44,22 +44,21 @@ const DiscountToolbar = ({
             id: "Fields.ToolTipNew",
           })}
           fontSize="sm"
-          className="bg-gray-800 text-white p-2 rounded"
+          className="bg-gray-800 text-white p-2 rounded "
           placement="top"
         >
           <button
             type="button"
             className="btn btn-primary mb-3"
-            onClick={openAddFinancialAccountModal}
+            onClick={openAddUserModal}
           >
             <KTIcon iconName="plus" className="fs-2" />
             {intl.formatMessage({ id: "Fields.ModalNewTitleCustomField" })}
           </button>
         </Tooltip>
       )}
-      {/* end:: Add product group */}
     </div>
   );
 };
 
-export { DiscountToolbar };
+export { CustomFieldsToolbar };

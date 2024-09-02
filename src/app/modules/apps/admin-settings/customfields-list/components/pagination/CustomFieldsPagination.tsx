@@ -8,18 +8,27 @@ interface PaginationProps {
   pageIndex: number;
   onPageChange: (page: number) => void;
   totalItems: number;
+  // filterType1: number;
+  // filterType2: number;
   setPageIndex: (page: number) => void;
 }
 
-const DiscountPagination = ({
+const CustomFieldsPagination = ({
   totalPages,
   pageIndex,
   onPageChange,
   totalItems,
+  // filterType1,
+  // filterType2,
   setPageIndex,
 }: PaginationProps) => {
   const [state, setState] = useState(pageIndex);
   const intl = useIntl();
+
+  // const [testState, settestState] = useState<number>({
+  //   filterType: 1,
+  //   pageIndex: 1,
+  // });
 
   useEffect(() => {
     let storedPaginationString = localStorage.getItem("pagination");
@@ -62,8 +71,8 @@ const DiscountPagination = ({
           },
         };
 
-    // Update the page in the discounts module
-    pagination["discounts-module"].pageIndex = state;
+    // Update the filter in the vat-module
+    pagination["ledger-module"].pageIndex = state;
 
     // Convert the updated object back to a JSON string
     const updatedPaginationString = JSON.stringify(pagination);
@@ -231,4 +240,4 @@ const DiscountPagination = ({
   );
 };
 
-export { DiscountPagination };
+export { CustomFieldsPagination };

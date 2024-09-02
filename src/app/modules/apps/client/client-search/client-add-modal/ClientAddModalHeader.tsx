@@ -6,6 +6,7 @@ interface ComponentProps {
   setEditModalOpen: (type: boolean) => void;
   showTabs: boolean;
   businessName: string;
+  customerNr: string;
   setEditModalId: (type: number) => void;
 }
 const ClientAddModalHeader = ({
@@ -13,6 +14,7 @@ const ClientAddModalHeader = ({
   setAddModalOpen,
   setEditModalId,
   setEditModalOpen,
+  customerNr,
   businessName,
 }: ComponentProps) => {
   const intl = useIntl();
@@ -20,17 +22,23 @@ const ClientAddModalHeader = ({
   return (
     <div className="modal-header d-flex flex-column bg-primary pb-3 ">
       {/* begin::Modal title */}
-      <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-0">
-        <h2 className="fw-bolder mb-0 text-white">
-          {businessName
-            ? intl.formatMessage({ id: "Fields.ModalEditTitleClient" })
-            : intl.formatMessage({ id: "Fields.ModalNewTitleClient" })}
+      <div className="fv-row col-12 d-flex flex-row justify-content-between align-items-center mb-0">
+        <div className="d-flex gap-4">
+          {businessName ? (
+            <h3 className=" mb-0 text-gray-300">
+              {intl.formatMessage({ id: "Fields.ModalEditTitleClient" })}
+            </h3>
+          ) : (
+            <h2 className="fw-bolder mb-0 text-white">
+              {intl.formatMessage({ id: "Fields.ModalNewTitleClient" })}
+            </h2>
+          )}{" "}
           {businessName && (
-            <span className="text-white me-2"> ({businessName})</span>
+            <h2 className="text-white me-2">
+              ({customerNr} - {businessName})
+            </h2>
           )}
-        </h2>
-        {/* end::Modal title */}
-
+        </div>
         {/* begin::Close */}
         <div
           className="btn btn-icon btn-sm btn-active-icon-primary"
