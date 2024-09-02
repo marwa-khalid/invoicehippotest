@@ -24,7 +24,7 @@ const ClientAddStep2: FC<Props> = ({
   clientId,
   setDeleteModalId,
   setDeleteModalOpen,
-  
+
   deleteModalOpen,
   setIntlMessage,
   setTitle,
@@ -47,7 +47,7 @@ const ClientAddStep2: FC<Props> = ({
     mobileNr: "",
   });
   const [selectedContacts, setSelectedContacts] = useState<number[]>([]);
- 
+
   useEffect(() => {
     const fetchSpecificContacts = async () => {
       try {
@@ -72,9 +72,7 @@ const ClientAddStep2: FC<Props> = ({
     });
   };
 
-
   const handleOpenModal = (contactId?: number) => {
-
     if (contactId !== undefined) {
       // Edit mode
       const contactToEdit = contacts.find(
@@ -135,7 +133,7 @@ const ClientAddStep2: FC<Props> = ({
         setContacts(updatedContacts);
       } else {
         // Add new contact
-   
+
         setContacts([...contacts, { ...newContact, id: Date.now() }]);
       }
     } else {
@@ -176,7 +174,6 @@ const ClientAddStep2: FC<Props> = ({
         )
       );
 
-
       setSelectedContacts([]);
     } else {
       handleToast(response);
@@ -189,7 +186,6 @@ const ClientAddStep2: FC<Props> = ({
     setIntlMessage("Fields.ModalDeleteDescriptionClientContact");
     setDeleteModalId([id]);
   };
-
 
   return (
     <>

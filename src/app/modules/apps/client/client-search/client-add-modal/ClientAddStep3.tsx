@@ -115,7 +115,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
   useEffect(() => {
     const fetchVats = async () => {
       const response = await getVatForClient();
-      
+
       if (response.isValid) {
         setVats(response.result.listForSales);
       }
@@ -208,7 +208,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
 
     fetchVatTypes();
   }, [selectedBearingTypeOption]);
-  
+
   // Function to handle invalid tags and remove them
 
   const handleInvalidEmail = (e: any) => {
@@ -341,13 +341,20 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
           </div>
           <div className="bg-secondary p-6 rounded mb-7">
             <h4 className="mb-2 text-start text-gray-600">
-              standaard instellingen voor het opmaken van facturen
+              {intl.formatMessage({
+                id: "Fields.DefaultSettingsForCreateInvoice",
+              })}
             </h4>
             <div className="separator border-gray-300 my-6"></div>
             {/* begin::Input group */}
             <div className="row d-flex mb-5">
               {/* KvkNr Field */}
-              <label className=" fw-bold fs-6 mb-3">Standaard Grootboek</label>
+              <label className=" fw-bold fs-6 mb-3">
+                {" "}
+                {intl.formatMessage({
+                  id: "Fields.DefaultLedgerAccount",
+                })}
+              </label>
               <div className="fv-row">
                 <Select
                   className="react-select-styled"
@@ -383,7 +390,6 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                   menuPlacement="top"
                 />
               </div>
-             
             </div>
             <div className="row d-flex mb-5">
               <div className="fv-row col-6">
@@ -428,7 +434,11 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
               </div>
               <div className="fv-row col-6">
                 {/* KvkNr Field */}
-                <label className="   fw-bold fs-6 mb-3">Standaard BTW</label>
+                <label className="   fw-bold fs-6 mb-3">
+                  {intl.formatMessage({
+                    id: "Fields.DefaultTax",
+                  })}
+                </label>
                 <div className="fv-row">
                   <Select
                     className="react-select-styled"
@@ -505,14 +515,14 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                   onInvalid={handleInvalidEmail}
                 />
               </div>
-
-             
             </div>
           </div>
 
           <div className="bg-secondary p-6 rounded mb-7">
             <h4 className="mb-2 text-start text-gray-600">
-              standaard instellingen voor het opmaken van offertes
+              {intl.formatMessage({
+                id: "Fields.DefaultSettingsForCreateQuote",
+              })}
             </h4>
 
             <div className="separator border-gray-300 my-6"></div>
@@ -558,9 +568,11 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
           </div>
           <div className="bg-secondary p-6 rounded mb-7">
             <h4 className="mb-2 text-start text-gray-600">
-              standaard instellingen voor het verwerken van kosten
+              {intl.formatMessage({
+                id: "Fields.DefaultSettingsForCreateCost",
+              })}
             </h4>
-           
+
             <div className="separator border-gray-300 my-6"></div>
             <div
               className="row alert alert-custom alert-default align-items-center mt-8 mx-0 "
@@ -575,19 +587,17 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                 </i>
               </div>
               <div className="alert-text col-11 text-gray-600">
-                Hier krijg je de mogelijkheid om een standaard kosten rubriek en
-                BTW-tarief toe te passen op de klant voor het verwerken van
-                kosten. Dit is handig indien je voor bepaalde klanten altijd de
-                zelfde kosten rubriek en BTW-tarief moet gebruiken. Ook kun je
-                een standaard referentie opgeven, maar we raden je aan om deze
-                het liefst uniek te houden per boeking. Dit bereik je door het
-                'referentie' veld hier leeg te laten!
+                {intl.formatMessage({
+                  id: "Fields.DefaultSettingsForCreateCostInfo",
+                })}
               </div>
             </div>
             <div className="row d-flex mb-5">
               {/* ledger Field */}
               <label className="   fw-bold fs-6 mb-3">
-                Standaard Grootboek
+                {intl.formatMessage({
+                  id: "Fields.DefaultLedgerAccount",
+                })}
               </label>
               <div className="fv-row">
                 <Select
@@ -624,7 +634,11 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
 
             <div className="row d-flex mb-5">
               {/* KvkNr Field */}
-              <label className="   fw-bold fs-6 mb-3">Standaard BTW</label>
+              <label className="   fw-bold fs-6 mb-3">
+                {intl.formatMessage({
+                  id: "Fields.DefaultTax",
+                })}
+              </label>
               <div className="fv-row">
                 <Select
                   className="react-select-styled"

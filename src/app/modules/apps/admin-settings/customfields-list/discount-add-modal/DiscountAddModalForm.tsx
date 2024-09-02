@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
 import Select from "react-select";
-
+import enums from "../../../../../../invoicehippo.enums.json";
 interface FormValues {
   id: number;
   uniqueId: string;
@@ -38,20 +38,32 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
   return (
     <form className="form p-3" onSubmit={formik.handleSubmit} noValidate>
       {/* begin::Input group */}
-      <div className="row d-flex mb-7">
+      <div className="row d-flex mb-5">
         {/* code Field */}
         <div className="col-6 d-flex flex-column">
           <label className="required fw-bold fs-6 mb-2">
             {intl.formatMessage({ id: "Fields.FieldType" })}
           </label>
-          {console.log(formik.values)!}
+
           <Select
             className="react-select-styled"
             menuPlacement="bottom"
             placeholder={intl.formatMessage({
-              id: "Fields.SelectOptionNvt",
+              id: "Fields.SelectOptionDefaultFieldType",
             })}
-            options={data}
+            options={enums.CustomFeatureFieldTypes.map((fieldType) => {
+              return {
+                value: fieldType.Value,
+                label: fieldType.Title,
+              };
+            })}
+            value={
+              formik.values.fieldType
+                ? enums.CustomFeatureFieldTypes.find(
+                    (option) => option.Value === formik.values.fieldType
+                  )
+                : null
+            }
             onChange={(selectedOption: any) => {
               formik.setFieldValue(
                 "fieldType",
@@ -82,9 +94,21 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
             className="react-select-styled"
             menuPlacement="bottom"
             placeholder={intl.formatMessage({
-              id: "Fields.SelectOptionNvt",
+              id: "Fields.SelectOptionDefaultAreaType",
             })}
-            options={data}
+            options={enums.CustomFeatureAreaUsageTypes.map((areaUsageType) => {
+              return {
+                value: areaUsageType.Value,
+                label: areaUsageType.Title,
+              };
+            })}
+            value={
+              formik.values.areaUsageType
+                ? enums.CustomFeatureAreaUsageTypes.find(
+                    (option) => option.Value === formik.values.areaUsageType
+                  )
+                : null
+            }
             onChange={(selectedOption: any) => {
               formik.setFieldValue(
                 "areaUsageType",
@@ -108,8 +132,8 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
           )}
         </div>
       </div>
-      <div className="row d-flex mb-7">
-        <label className="required fw-bold fs-6 mb-2 mt-4">
+      <div className="row d-flex mb-5">
+        <label className="required fw-bold fs-6 mb-2">
           {intl.formatMessage({ id: "Fields.Title" })}
         </label>
         <input
@@ -137,7 +161,7 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
           </div>
         )}
       </div>
-      <div className="row d-flex mb-7">
+      <div className="row d-flex">
         {/* code Field */}
         <div className="col-6 d-flex flex-column">
           <label className=" fw-bold fs-6 mb-2">
@@ -147,9 +171,14 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
             className="react-select-styled"
             menuPlacement="top"
             placeholder={intl.formatMessage({
-              id: "Fields.SelectOptionNvt",
+              id: "Fields.SelectOptionDefaultIncludeInvoiceAreaType",
             })}
-            options={data}
+            options={enums.IncludeOnDocumentAreaTypes.map((option) => {
+              return {
+                value: option.Value,
+                label: option.Title,
+              };
+            })}
             onChange={(selectedOption: any) => {
               formik.setFieldValue(
                 "includeOnInvoiceType",
@@ -167,9 +196,14 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
             className="react-select-styled"
             menuPlacement="top"
             placeholder={intl.formatMessage({
-              id: "Fields.SelectOptionNvt",
+              id: "Fields.SelectOptionDefaultIncludeQuoteAreaType",
             })}
-            options={data}
+            options={enums.IncludeOnDocumentAreaTypes.map((option) => {
+              return {
+                value: option.Value,
+                label: option.Title,
+              };
+            })}
             onChange={(selectedOption: any) => {
               formik.setFieldValue(
                 "includeOnQuoteType",

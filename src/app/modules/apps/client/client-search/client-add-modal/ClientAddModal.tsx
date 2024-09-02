@@ -146,6 +146,7 @@ const ClientAddModal = ({
           // setAddModalOpen(false);
           setRefresh(true);
           // setShowTabs(true);
+          formik.resetForm();
           setResponse(response.result);
         }
         handleToast(response);

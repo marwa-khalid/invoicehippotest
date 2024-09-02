@@ -198,14 +198,24 @@ const LedgerAddModalForm = ({
           {intl.formatMessage({ id: "Fields.BearingType" })}
         </label>
         <Select
-          className="react-select-styled react-select-transparent border-bottom"
+          className={clsx(
+            "react-select-styled react-select-transparent border-bottom",
+            {
+              "is-invalid":
+                formik.touched.bearingType && formik.errors.bearingType,
+            },
+            {
+              "is-valid":
+                formik.touched.bearingType && !formik.errors.bearingType,
+            }
+          )}
           options={bearingGroups}
           value={selectedBearingTypeOption || null}
           onChange={(selectedOption) => {
             formik.setFieldValue("bearingType", selectedOption?.value);
-
             setSelectedBearingTypeOption(selectedOption);
           }}
+          onBlur={() => formik.setFieldTouched("bearingType", true)}
           placeholder={
             selectedBearingTypeOption
               ? selectedBearingTypeOption.label
@@ -215,6 +225,18 @@ const LedgerAddModalForm = ({
           }
           isClearable
         />
+        {formik.touched.bearingType && formik.errors.bearingType && (
+          <div className="fv-plugins-message-container">
+            <div className="fv-help-block">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: formik.errors.bearingType,
+                }}
+                role="alert"
+              />
+            </div>
+          </div>
+        )}
       </div>
       {/* end::Input group */}
       {/* begin::Input group */}

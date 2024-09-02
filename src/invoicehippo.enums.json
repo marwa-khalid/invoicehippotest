@@ -8022,6 +8022,276 @@
       "HasGroup": false
     }
   ],
+  "CustomFeatureFieldTypes": [
+    {
+      "Title": "None",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 0,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Text",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Number",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Money",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 4,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Date",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 8,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Options",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 16,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "MultipleOptions",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 32,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Computed",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 64,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Table",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 128,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Hidden",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 256,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "ProductPicker",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 512,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    }
+  ],
+  "CustomFeatureAreaUsageTypes": [
+    {
+      "Title": "None",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 0,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Products",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Clients",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Quotes",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 4,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Company",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 8,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "PluginManaged",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 16,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "PluginSettings",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 32,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Invoices",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 64,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    }
+  ],
+  "IncludeOnDocumentAreaTypes": [
+    {
+      "Title": "None",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 0,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "OnInvoiceOrQuoteDetails",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "OnClientDetails",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "BeforeComments",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 4,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "AfterComments",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 8,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    }
+  ],
   "GenderTypes": [
     {
       "Title": "Man",
