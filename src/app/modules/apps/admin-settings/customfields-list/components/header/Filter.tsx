@@ -3,34 +3,28 @@ import { useIntl } from "react-intl";
 import Select from "react-select";
 import enums from "../../../../../../../invoicehippo.enums.json";
 
-interface GroupedOption {
-  label: any;
-  options: { value: number; label: string }[];
-}
 interface ComponentProps {
   setFieldTypeFilter: (type: number) => void;
   setAreaTypeFilter: (type: number) => void;
   onFilterApply: (isApplied: boolean) => void;
-  areaTypeFilter: number;
-  fieldTypeFilter: number;
+  tempAreaTypeOption: number;
+  tempFieldTypeOption: number;
+  setTempAreaTypeOption: (type: number) => void;
+  setTempFieldTypeOption: (type: number) => void;
 }
 
 export function Filter({
   setFieldTypeFilter,
   setAreaTypeFilter,
   onFilterApply,
-  areaTypeFilter,
-  fieldTypeFilter,
+  tempAreaTypeOption,
+  tempFieldTypeOption,
+  setTempAreaTypeOption,
+  setTempFieldTypeOption,
 }: ComponentProps) {
   const intl = useIntl();
 
-  const [tempFieldTypeOption, setTempFieldTypeOption] =
-    useState<any>(fieldTypeFilter);
-  const [tempAreaTypeOption, setTempAreaTypeOption] =
-    useState<any>(areaTypeFilter);
-
   const handleFieldTypeChange = (option: any) => {
-
     if (option === null) {
       setTempFieldTypeOption(0);
     } else setTempFieldTypeOption(option.value);

@@ -34,6 +34,12 @@ const CustomFieldsSearchComponent = ({
   isFilterApplied,
 }: ComponentProps) => {
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
+
+  const [tempFieldTypeOption, setTempFieldTypeOption] =
+    useState<any>(fieldTypeFilter);
+  const [tempAreaTypeOption, setTempAreaTypeOption] =
+    useState<any>(areaTypeFilter);
+
   const intl = useIntl();
 
   const handleSearchClick = () => {
@@ -122,9 +128,13 @@ const CustomFieldsSearchComponent = ({
     setFieldTypeFilter(0);
     setAreaTypeFilter(0);
     setLocalSearchTerm("");
+    setTempAreaTypeOption(0);
+    setTempFieldTypeOption(0);
 
     setSearchTerm(""); // Reset the parent search term
+
     setIsFilterApplied(false);
+
     localStorage.setItem(
       "pagination",
       JSON.stringify({
@@ -144,8 +154,8 @@ const CustomFieldsSearchComponent = ({
         },
       })
     );
-    setAreaTypeFilter(0);
-    setFieldTypeFilter(0);
+    // setAreaTypeFilter(0);
+    // setFieldTypeFilter(0);
 
     // Reset the filter to its default state
   };
@@ -205,8 +215,10 @@ const CustomFieldsSearchComponent = ({
               setFieldTypeFilter={setFieldTypeFilter}
               setAreaTypeFilter={setAreaTypeFilter}
               onFilterApply={handleFilterApply}
-              areaTypeFilter={areaTypeFilter}
-              fieldTypeFilter={fieldTypeFilter}
+              tempAreaTypeOption={tempAreaTypeOption}
+              tempFieldTypeOption={tempFieldTypeOption}
+              setTempAreaTypeOption={setTempAreaTypeOption}
+              setTempFieldTypeOption={setTempFieldTypeOption}
             />
           </div>
           {/* {filterModalOpen && <Filter />} */}
