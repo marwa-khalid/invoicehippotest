@@ -226,7 +226,7 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
 
             {/* Alert Box */}
             <div
-              className="d-flex flex-row mx-3  bg-secondary mb-3 p-3 rounded"
+              className="d-flex flex-row bg-secondary mb-3 p-3 rounded"
               role="alert"
             >
               <div className="alert-icon me-4">
@@ -248,7 +248,7 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
             {/* Tags Input */}
             <Tags
               tagifyRef={tagifyRef}
-              className="form-control form-control-solid tagify p-3"
+              className="form-control form-control-solid tagify "
               placeholder={intl.formatMessage({
                 id: "Fields.OptionsOrMultipleOptions",
               })}

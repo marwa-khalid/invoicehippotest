@@ -76,8 +76,8 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
   return (
     <div className="modal-body">
       <form className="form p-3" noValidate>
-        <div className="card">
-          <div className="card-header d-flex flex-column p-3 mx-3">
+        <div className="card bg-secondary p-2 rounded mb-7">
+          <div className="card-header d-flex flex-column p-3 ">
             <h3 className="card-title text-gray-600 fw-bold mb-0 h-0">
               {intl.formatMessage({ id: "Fields.CustomFeatures" })}
             </h3>
@@ -85,8 +85,9 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
               {intl.formatMessage({ id: "Fields.CustomFeaturesSubTitle" })}
             </span>
           </div>
-          <div className="card-body">
-            <div className="row d-flex mb-5">
+          <div className="separator border-gray-300 my-6"></div>
+          <div className="card-body p-3">
+            <div className="row d-flex ">
               {/* Replace formik.getFieldValue with formik.values */}
               {formik.values.customFields &&
                 formik.values.customFields.map((field: any) =>
@@ -110,4 +111,3 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
 };
 
 export { ClientAddStep4 };
-                                                                                        
