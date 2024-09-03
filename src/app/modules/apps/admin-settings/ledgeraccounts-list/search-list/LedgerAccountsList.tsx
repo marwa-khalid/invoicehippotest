@@ -44,7 +44,7 @@ const LedgerAccountsList = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // const [pageIndex, setPageIndex] = useState<number>(1);
 
-  const fetchVatTypes = async () => {
+  const fetchLedgers = async () => {
     setIsLoading(true);
 
     try {
@@ -69,15 +69,15 @@ const LedgerAccountsList = ({
   };
   const handlePageChange = (page: number) => {
     setPageIndex(page);
-    fetchVatTypes();
+    fetchLedgers();
   };
 
   useEffect(() => {
-    fetchVatTypes();
+    fetchLedgers();
   }, [searchTerm, ledgerTypeFilter, bearingTypeFilter, pageIndex]);
 
   useEffect(() => {
-    fetchVatTypes();
+    fetchLedgers();
   }, [editModalOpen, deleteModalOpen, refresh]);
 
   const renderLockIcon = (isChecked: boolean) => {

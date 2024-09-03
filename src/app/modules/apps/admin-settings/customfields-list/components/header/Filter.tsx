@@ -11,44 +11,44 @@ interface ComponentProps {
   setFieldTypeFilter: (type: number) => void;
   setAreaTypeFilter: (type: number) => void;
   onFilterApply: (isApplied: boolean) => void;
-  selectedAreaTypeOption: (type: any) => void;
-  selectedFieldTypeOption: (type: any) => void;
-  setSelectedAreaTypeOption: any;
-  setSelectedFieldTypeOption: any;
+  areaTypeFilter: number;
+  fieldTypeFilter: number;
 }
 
 export function Filter({
   setFieldTypeFilter,
   setAreaTypeFilter,
   onFilterApply,
-  selectedAreaTypeOption,
-  selectedFieldTypeOption,
-  setSelectedAreaTypeOption,
-  setSelectedFieldTypeOption,
+  areaTypeFilter,
+  fieldTypeFilter,
 }: ComponentProps) {
   const intl = useIntl();
-
-  const [tempFieldTypeOption, setTempFieldTypeOption] = useState<any>(
-    selectedFieldTypeOption
-  );
-  const [tempAreaTypeOption, setTempAreaTypeOption] = useState<any>(
-    selectedAreaTypeOption
-  );
+  console.log(fieldTypeFilter);
+  console.log(areaTypeFilter);
+  const [tempFieldTypeOption, setTempFieldTypeOption] =
+    useState<any>(fieldTypeFilter);
+  const [tempAreaTypeOption, setTempAreaTypeOption] =
+    useState<any>(areaTypeFilter);
 
   const handleFieldTypeChange = (option: any) => {
-
-    setTempFieldTypeOption(option);
+    console.log(option);
+    if (option === null) {
+      setTempFieldTypeOption(0);
+    } else setTempFieldTypeOption(option.value);
   };
 
   const handleAreaTypeChange = (option: any) => {
-    setTempAreaTypeOption(option.value);
+    if (option === null) {
+      setTempAreaTypeOption(0);
+    } else setTempAreaTypeOption(option.value);
   };
 
+  console.log(tempAreaTypeOption);
+  console.log(tempFieldTypeOption);
+
   const handleApply = () => {
-    setSelectedFieldTypeOption(tempFieldTypeOption);
-    setSelectedAreaTypeOption(tempAreaTypeOption);
-    setAreaTypeFilter(tempAreaTypeOption ? tempAreaTypeOption.value : 0);
-    setFieldTypeFilter(tempFieldTypeOption ? tempFieldTypeOption.value : 0);
+    setAreaTypeFilter(tempAreaTypeOption ? tempAreaTypeOption : 0);
+    setFieldTypeFilter(tempFieldTypeOption ? tempFieldTypeOption : 0);
 
     const storedPaginationString = localStorage.getItem("pagination");
     const pagination = storedPaginationString
@@ -97,9 +97,9 @@ export function Filter({
         };
 
     pagination["customfields-module"].filters.fieldTypeFilter =
-      tempFieldTypeOption ? tempFieldTypeOption.value : 0;
+      tempFieldTypeOption ? tempFieldTypeOption : 0;
     pagination["customfields-module"].filters.areaTypeFilter =
-      tempAreaTypeOption ? tempAreaTypeOption.value : 0;
+      tempAreaTypeOption ? tempAreaTypeOption : 0;
     pagination["customfields-module"].pageIndex = 1;
     localStorage.setItem("pagination", JSON.stringify(pagination));
 
@@ -107,10 +107,6 @@ export function Filter({
   };
 
   const handleReset = () => {
-    setTempAreaTypeOption(null);
-    setTempFieldTypeOption(null);
-    setSelectedFieldTypeOption(null);
-    setSelectedAreaTypeOption(null);
     onFilterApply(false);
     localStorage.setItem(
       "pagination",
@@ -122,7 +118,7 @@ export function Filter({
           ],
           filters: {
             ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-              "customfieldss-module"
+              "customfields-module"
             ]?.filters,
             areaTypeFilter: 0,
             fieldTypeFilter: 0,
@@ -132,7 +128,10 @@ export function Filter({
     );
     setAreaTypeFilter(0);
     setFieldTypeFilter(0);
+    setTempAreaTypeOption(0);
+    setTempFieldTypeOption(0);
   };
+  console.log(fieldTypeFilter);
 
   return (
     <div
@@ -161,7 +160,12 @@ export function Filter({
               id: "Fields.SelectOptionDefaultFieldType",
             })}
             menuPlacement="bottom"
-            value={tempFieldTypeOption || null}
+            value={
+              enums.CustomFeatureFieldTypes.map((item: any) => ({
+                value: item.Value,
+                label: item.Title,
+              })).find((option) => option.value === tempFieldTypeOption) || 0
+            }
             onChange={handleFieldTypeChange}
             options={enums.CustomFeatureFieldTypes.map((item: any) => ({
               value: item.Value,
@@ -186,7 +190,12 @@ export function Filter({
               id: "Fields.SelectOptionDefaultAreaType",
             })}
             menuPlacement="top"
-            value={tempAreaTypeOption || null}
+            value={
+              enums.CustomFeatureAreaUsageTypes.map((item: any) => ({
+                value: item.Value,
+                label: item.Title,
+              })).find((option) => option.value === tempAreaTypeOption) || 0
+            }
             onChange={handleAreaTypeChange}
             options={enums.CustomFeatureAreaUsageTypes.map((item: any) => ({
               value: item.Value,

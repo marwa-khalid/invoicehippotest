@@ -11,8 +11,9 @@ interface PartialResult extends Partial<CustomFieldModel> {}
 
 export function getCustomFields(
   searchTerm: string,
-  areaFilterType: number,
+
   fieldFilterType: number,
+  areaFilterType: number,
   pageIndex: number
 ) {
   return postRequest<CustomFieldModel>(
@@ -21,8 +22,8 @@ export function getCustomFields(
       pageMax: 25,
       pageIndex: searchTerm ? 1 : pageIndex,
       searchTerm: searchTerm,
-      areaFilterType: areaFilterType,
-      fieldFilterType: fieldFilterType,
+      areaUsageType: areaFilterType,
+      fieldType: fieldFilterType,
     },
     true
   );

@@ -48,15 +48,17 @@ const DiscountMarginsList = ({
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const fetchDiscountTypes = async () => {
+  const fetchCustomFields = async () => {
     setIsLoading(true);
     try {
+      console.log(fieldTypeFilter + " " + areaTypeFilter);
       const response = await getCustomFields(
         searchTerm,
         fieldTypeFilter,
         areaTypeFilter,
         pageIndex
       );
+      console.log(response);
       setDiscountMargins(response);
       setPageIndex(response.pageIndex);
       setTotalRows(response.totalRows);
@@ -66,22 +68,22 @@ const DiscountMarginsList = ({
       setIsLoading(false);
     }
   };
+  useEffect(() => {
+    fetchCustomFields();
+  }, [searchTerm, areaTypeFilter, fieldTypeFilter, pageIndex]);
 
   const handlePageChange = (page: number) => {
     setPageIndex(page);
-    fetchDiscountTypes();
+    fetchCustomFields();
   };
   useEffect(() => {
     if (deleteModalId.length == 0) {
       setDeleteSelectedButton(false);
     }
   }, [deleteModalId]);
-  useEffect(() => {
-    fetchDiscountTypes();
-  }, [searchTerm, areaTypeFilter, fieldTypeFilter, pageIndex]);
 
   useEffect(() => {
-    fetchDiscountTypes();
+    fetchCustomFields();
   }, [addModalOpen, deleteModalOpen, refresh]);
 
   const toggleRowSelection = (id: number) => {

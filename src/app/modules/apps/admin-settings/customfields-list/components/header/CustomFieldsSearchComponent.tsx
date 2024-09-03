@@ -35,15 +35,7 @@ const CustomFieldsSearchComponent = ({
 }: ComponentProps) => {
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const intl = useIntl();
-  const [selectedFieldTypeOption, setSelectedFieldTypeOption] = useState<any>(
-    enums.CustomFeatureFieldTypes.find((item) => item.Value === fieldTypeFilter)
-      ?.Title || ""
-  );
-  const [selectedAreaTypeOption, setSelectedAreaTypeOption] = useState<any>(
-    enums.CustomFeatureAreaUsageTypes.find(
-      (item) => item.Value === areaTypeFilter
-    )?.Title || ""
-  );
+
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
       // Update the query state and parent search term when search button is clicked
@@ -127,8 +119,8 @@ const CustomFieldsSearchComponent = ({
   const resetFilter = () => {
     // Function to reset the Filter component
 
-    setSelectedFieldTypeOption(null);
-    setSelectedAreaTypeOption(null);
+    setFieldTypeFilter(0);
+    setAreaTypeFilter(0);
     setLocalSearchTerm("");
 
     setSearchTerm(""); // Reset the parent search term
@@ -202,21 +194,19 @@ const CustomFieldsSearchComponent = ({
               data-kt-menu-placement="bottom-end"
             >
               <i
-                className={`ki-solid ki-filter fs-3 me-1  
-                 
-                    // isFilterApplied ? "text-white" : "text-muted"
-                    "text-white"
-                  `}
+                className={clsx(
+                  "ki-solid ki-filter fs-3 me-1",
+
+                  isFilterApplied ? "text-white" : "text-muted"
+                )}
               />
             </a>
             <Filter
               setFieldTypeFilter={setFieldTypeFilter}
               setAreaTypeFilter={setAreaTypeFilter}
               onFilterApply={handleFilterApply}
-              selectedAreaTypeOption={selectedAreaTypeOption}
-              selectedFieldTypeOption={selectedFieldTypeOption}
-              setSelectedAreaTypeOption={setSelectedAreaTypeOption}
-              setSelectedFieldTypeOption={setSelectedFieldTypeOption}
+              areaTypeFilter={areaTypeFilter}
+              fieldTypeFilter={fieldTypeFilter}
             />
           </div>
           {/* {filterModalOpen && <Filter />} */}
