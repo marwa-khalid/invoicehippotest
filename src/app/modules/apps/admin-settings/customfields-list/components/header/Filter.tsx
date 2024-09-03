@@ -23,15 +23,14 @@ export function Filter({
   fieldTypeFilter,
 }: ComponentProps) {
   const intl = useIntl();
-  console.log(fieldTypeFilter);
-  console.log(areaTypeFilter);
+
   const [tempFieldTypeOption, setTempFieldTypeOption] =
     useState<any>(fieldTypeFilter);
   const [tempAreaTypeOption, setTempAreaTypeOption] =
     useState<any>(areaTypeFilter);
 
   const handleFieldTypeChange = (option: any) => {
-    console.log(option);
+
     if (option === null) {
       setTempFieldTypeOption(0);
     } else setTempFieldTypeOption(option.value);
@@ -42,9 +41,6 @@ export function Filter({
       setTempAreaTypeOption(0);
     } else setTempAreaTypeOption(option.value);
   };
-
-  console.log(tempAreaTypeOption);
-  console.log(tempFieldTypeOption);
 
   const handleApply = () => {
     setAreaTypeFilter(tempAreaTypeOption ? tempAreaTypeOption : 0);
@@ -131,7 +127,6 @@ export function Filter({
     setTempAreaTypeOption(0);
     setTempFieldTypeOption(0);
   };
-  console.log(fieldTypeFilter);
 
   return (
     <div

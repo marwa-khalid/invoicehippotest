@@ -51,14 +51,12 @@ const DiscountMarginsList = ({
   const fetchCustomFields = async () => {
     setIsLoading(true);
     try {
-      console.log(fieldTypeFilter + " " + areaTypeFilter);
       const response = await getCustomFields(
         searchTerm,
         fieldTypeFilter,
         areaTypeFilter,
         pageIndex
       );
-      console.log(response);
       setDiscountMargins(response);
       setPageIndex(response.pageIndex);
       setTotalRows(response.totalRows);
