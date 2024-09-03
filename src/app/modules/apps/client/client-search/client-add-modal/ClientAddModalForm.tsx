@@ -153,7 +153,7 @@ const ClientAddModalForm: FC<Props> = ({
         <ClientAddStep4
           setIsSubmitting={setIsSubmitting}
           isSubmitting={isSubmitting}
-          response={response}
+          formik={formik}
         />
       </div>
       {/* </>

@@ -179,10 +179,6 @@ const ClientAddModal = ({
     }
   }, [response]);
 
-  {
-    console.log(formik.values);
-  }
-
   return (
     <>
       <div

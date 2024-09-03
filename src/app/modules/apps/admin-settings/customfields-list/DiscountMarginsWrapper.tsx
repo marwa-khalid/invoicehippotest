@@ -3,30 +3,43 @@ import { DiscountMarginsList } from "./search-list/DiscountMarginsList";
 import { DiscountAddModal } from "./discount-add-modal/DiscountAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomFieldsToolbar } from "./components/header/CustomFieldsToolbar";
-import { DiscountEditModal } from "./discount-edit-modal/DiscountEditModal";
 import { DiscountDeleteModal } from "./discount-delete-modal/DiscountDeleteModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
   if (storedPaginationString) {
     const pagination = JSON.parse(storedPaginationString);
+    const fieldType =
+      pagination["customfields-module"].filters.fieldTypeFilter || 0;
+    const areaType =
+      pagination["customfields-module"].filters.areaTypeFilter || 0;
 
-    const currentPage = pagination["discounts-module"].pageIndex || 1;
-    const searchTerm = pagination["discounts-module"].filters.searchTerm || "";
+    const currentPage = pagination["customfields-module"].pageIndex || 1;
+    const searchTerm =
+      pagination["customfields-module"].filters.searchTerm || "";
 
     return {
+      fieldType,
+      areaType,
       pageIndex: currentPage,
       searchTerm: searchTerm,
     };
   }
-  return { pageIndex: 1, searchTerm: "" };
+  return {
+    fieldType: 0,
+    areaType: 0,
+    pageIndex: 1,
+    searchTerm: "",
+  };
 };
 const DiscountMarginsInnerWrapper = () => {
-  const { pageIndex, searchTerm } = getPaginationValues();
+  const { fieldType, areaType, pageIndex, searchTerm } = getPaginationValues();
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
   const [searchTermState, setSearchTermState] = useState(searchTerm);
+  const [fieldTypeFilter, setFieldTypeFilter] = useState<number>(fieldType);
+  const [areaTypeFilter, setAreaTypeFilter] = useState<number>(areaType);
   const [deleteSelectedButton, setDeleteSelectedButton] =
     useState<boolean>(false);
   const [totalRows, setTotalRows] = useState(0);
@@ -37,12 +50,23 @@ const DiscountMarginsInnerWrapper = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [discountMarginTitle, setDiscountMarginTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
-
+  const [isFilterApplied, setIsFilterApplied] = useState(false);
+  useEffect(() => {
+    if (fieldType !== 0) {
+      setIsFilterApplied(true);
+    }
+  }, [fieldType]);
   return (
     <>
       <CustomFieldsHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
+        setFieldTypeFilter={setFieldTypeFilter}
+        setAreaTypeFilter={setAreaTypeFilter}
+        areaTypeFilter={areaTypeFilter}
+        fieldTypeFilter={fieldTypeFilter}
+        setIsFilterApplied={setIsFilterApplied}
+        isFilterApplied={isFilterApplied}
       />
 
       <CustomFieldsToolbar
@@ -55,33 +79,31 @@ const DiscountMarginsInnerWrapper = () => {
       <DiscountMarginsList
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
-        setEditModalOpen={setEditModalOpen}
+        setAddModalOpen={setAddModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setEditModalId={setEditModalId}
         setDiscountMarginTitle={setDiscountMarginTitle}
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
-        editModalOpen={editModalOpen}
+        addModalOpen={addModalOpen}
         deleteModalOpen={deleteModalOpen}
         deleteModalId={deleteModalId}
         setDeleteSelectedButton={setDeleteSelectedButton}
         setDeleteModalId={setDeleteModalId}
+        fieldTypeFilter={fieldTypeFilter}
+        areaTypeFilter={areaTypeFilter}
       />
 
       {addModalOpen && (
         <DiscountAddModal
           setRefresh={setRefresh}
           setAddModalOpen={setAddModalOpen}
-        />
-      )}
-      {editModalOpen && (
-        <DiscountEditModal
           editModalId={editModalId}
-          setRefresh={setRefresh}
-          setEditModalOpen={setEditModalOpen}
+          setEditModalId={setEditModalId}
         />
       )}
+
       {deleteModalOpen && (
         <DiscountDeleteModal
           deleteModalId={deleteModalId}

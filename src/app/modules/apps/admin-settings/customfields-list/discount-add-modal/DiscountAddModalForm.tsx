@@ -1,43 +1,53 @@
 import clsx from "clsx";
+import { useRef } from "react";
 import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
 import Select from "react-select";
 import enums from "../../../../../../invoicehippo.enums.json";
-interface FormValues {
-  id: number;
-  uniqueId: string;
-  areaUsageType: number;
-  title: string;
-  customData: string;
-  usageInfo: string;
-  fieldType: number;
-  editOptions: {
-    isActivlyUsed: boolean;
-  };
-  groupDisplayName: string;
-  defaultValue: string;
-  includeOnInvoiceType: number;
-  includeOnQuoteType: number;
-  includeOnDocumentDisplayName: string;
-}
+import Tags from "@yaireo/tagify/dist/react.tagify";
 
 type Props = {
-  formik: FormikProps<FormValues>;
+  formik: FormikProps<any>;
   isSubmitting: boolean;
 };
 
 const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
   const intl = useIntl();
 
-  const data = [
-    { value: 1, label: "test1" },
-    { value: 2, label: "test2" },
-    { value: 3, label: "test90" },
-  ];
+  const tagifyRef = useRef<any>();
 
   return (
     <form className="form p-3" onSubmit={formik.handleSubmit} noValidate>
       {/* begin::Input group */}
+      <div className="row d-flex mb-5">
+        <label className="required fw-bold fs-6 mb-2">
+          {intl.formatMessage({ id: "Fields.Title" })}
+        </label>
+        <input
+          type="text"
+          {...formik.getFieldProps("title")}
+          className={clsx(
+            "form-control form-control-solid",
+            { "is-invalid": formik.touched.title && formik.errors.title },
+            { "is-valid": formik.touched.title && !formik.errors.title }
+          )}
+          disabled={isSubmitting}
+          placeholder={intl.formatMessage({ id: "Fields.Title" })}
+        />
+
+        {formik.touched.title && formik.errors.title && (
+          <div className="fv-plugins-message-container">
+            <div className="fv-help-block">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: formik.errors.title,
+                }}
+                role="alert"
+              />
+            </div>
+          </div>
+        )}
+      </div>
       <div className="row d-flex mb-5">
         {/* code Field */}
         <div className="col-6 d-flex flex-column">
@@ -57,20 +67,21 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
                 label: fieldType.Title,
               };
             })}
-            value={
-              formik.values.fieldType
-                ? enums.CustomFeatureFieldTypes.find(
-                    (option) => option.Value === formik.values.fieldType
-                  )
-                : null
-            }
+            value={enums.CustomFeatureFieldTypes.map((fieldType) => {
+              return {
+                value: fieldType.Value,
+                label: fieldType.Title,
+              };
+            }).find((option) => {
+              return option.value === formik.values.fieldType;
+            })}
             onChange={(selectedOption: any) => {
               formik.setFieldValue(
                 "fieldType",
-                selectedOption ? selectedOption.value : null
+                selectedOption ? selectedOption.value : 0
               );
             }}
-            onBlur={() => formik.setFieldTouched("fieldType", true)} // Ensuring field is touched
+            onBlur={() => formik.setFieldTouched("fieldType", true)}
             isClearable
           />
           {formik.touched.fieldType && formik.errors.fieldType && (
@@ -102,17 +113,18 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
                 label: areaUsageType.Title,
               };
             })}
-            value={
-              formik.values.areaUsageType
-                ? enums.CustomFeatureAreaUsageTypes.find(
-                    (option) => option.Value === formik.values.areaUsageType
-                  )
-                : null
-            }
+            value={enums.CustomFeatureAreaUsageTypes.map((areaUsageType) => {
+              return {
+                value: areaUsageType.Value,
+                label: areaUsageType.Title,
+              };
+            }).find((option) => {
+              return option.value === formik.values.areaUsageType;
+            })}
             onChange={(selectedOption: any) => {
               formik.setFieldValue(
                 "areaUsageType",
-                selectedOption ? selectedOption.value : null
+                selectedOption ? selectedOption.value : 0
               );
             }}
             onBlur={() => formik.setFieldTouched("areaUsageType", true)}
@@ -132,35 +144,7 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
           )}
         </div>
       </div>
-      <div className="row d-flex mb-5">
-        <label className="required fw-bold fs-6 mb-2">
-          {intl.formatMessage({ id: "Fields.Title" })}
-        </label>
-        <input
-          type="text"
-          {...formik.getFieldProps("title")}
-          className={clsx(
-            "form-control form-control-solid",
-            { "is-invalid": formik.touched.title && formik.errors.title },
-            { "is-valid": formik.touched.title && !formik.errors.title }
-          )}
-          disabled={isSubmitting}
-          placeholder={intl.formatMessage({ id: "Fields.Title" })}
-        />
 
-        {formik.touched.title && formik.errors.title && (
-          <div className="fv-plugins-message-container">
-            <div className="fv-help-block">
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: formik.errors.title,
-                }}
-                role="alert"
-              />
-            </div>
-          </div>
-        )}
-      </div>
       <div className="row d-flex">
         {/* code Field */}
         <div className="col-6 d-flex flex-column">
@@ -179,10 +163,18 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
                 label: option.Title,
               };
             })}
+            value={enums.IncludeOnDocumentAreaTypes.map((item) => {
+              return {
+                value: item.Value,
+                label: item.Title,
+              };
+            }).find((option) => {
+              return option.value === formik.values.includeOnInvoiceType;
+            })}
             onChange={(selectedOption: any) => {
               formik.setFieldValue(
                 "includeOnInvoiceType",
-                selectedOption ? selectedOption.value : null
+                selectedOption ? selectedOption.value : 0
               );
             }}
             isClearable
@@ -204,16 +196,80 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
                 label: option.Title,
               };
             })}
+            value={enums.IncludeOnDocumentAreaTypes.map((item) => {
+              return {
+                value: item.Value,
+                label: item.Title,
+              };
+            }).find((option) => {
+              return option.value === formik.values.includeOnQuoteType;
+            })}
             onChange={(selectedOption: any) => {
               formik.setFieldValue(
                 "includeOnQuoteType",
-                selectedOption ? selectedOption.value : null
+                selectedOption ? selectedOption.value : 0
               );
             }}
             isClearable
           />
         </div>
       </div>
+
+      {formik.values.fieldType === 16 && (
+        <>
+          <div className="row d-flex mt-5">
+            <label className="fw-bold fs-6 mb-3 required">
+              {intl.formatMessage({
+                id: "Fields.OptionsOrMultipleOptions",
+              })}
+            </label>
+
+            {/* Alert Box */}
+            <div
+              className="d-flex flex-row mx-3  bg-secondary mb-3 p-3 rounded"
+              role="alert"
+            >
+              <div className="alert-icon me-4">
+                <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
+                  <span className="path1"></span>
+                  <span className="path2"></span>
+                  <span className="path3"></span>
+                </i>
+              </div>
+              <div className="alert-text">
+                <p className="my-auto fs-xs">
+                  {intl.formatMessage({
+                    id: "Fields.OptionsOrMultipleOptionsInfo",
+                  })}
+                </p>
+              </div>
+            </div>
+
+            {/* Tags Input */}
+            <Tags
+              tagifyRef={tagifyRef}
+              className="form-control form-control-solid tagify p-3"
+              placeholder={intl.formatMessage({
+                id: "Fields.OptionsOrMultipleOptions",
+              })}
+              settings={{
+                dropdown: {
+                  enabled: 0,
+                },
+              }}
+              value={formik.values.customData || ""}
+              onChange={(e: any) => {
+                // Convert tags to a semicolon-separated string
+                const value = e.detail.tagify.value.map(
+                  (tag: any) => tag.value
+                );
+                formik.setFieldValue("customData", value);
+              }}
+            />
+          </div>
+
+        </>
+      )}
     </form>
   );
 };

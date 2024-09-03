@@ -60,6 +60,14 @@ const FinancialListPagination = ({
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
+          "customfields-module": {
+            pageIndex: 1,
+            filters: {
+              searchTerm: "",
+              areaTypeFilter: 0,
+              fieldTypeFilter: 0,
+            },
+          },
         };
 
     // Update the page in the financial-module

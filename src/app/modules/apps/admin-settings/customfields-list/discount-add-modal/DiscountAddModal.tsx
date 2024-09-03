@@ -6,12 +6,19 @@ import { useFormik } from "formik";
 import { useIntl } from "react-intl";
 import { DiscountAddModalForm } from "./DiscountAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
-import { postCustomField } from "../core/_requests";
+import { getCustomFieldById, postCustomField } from "../core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
+  editModalId: number;
+  setEditModalId: (type: number) => void;
 }
-const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const DiscountAddModal = ({
+  setRefresh,
+  setAddModalOpen,
+  editModalId,
+  setEditModalId,
+}: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -22,13 +29,31 @@ const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const intl = useIntl();
 
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      const res = await getCustomFieldById(editModalId);
+
+      const response = res.result;
+      if (res.isValid) {
+        formik.setValues({
+          ...formik.values,
+          ...response,
+        });
+      }
+    };
+
+    if (editModalId != 0) {
+      fetchInitialData();
+    }
+  }, [editModalId]);
+
   const formik = useFormik({
     initialValues: {
       id: 0,
       uniqueId: "",
       areaUsageType: 0,
       title: "",
-      customData: "",
+      customData: "" || [],
       usageInfo: "",
       fieldType: 0,
       editOptions: {
@@ -82,12 +107,14 @@ const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
           values.areaUsageType,
           values.fieldType,
           values.includeOnInvoiceType,
-          values.includeOnQuoteType
+          values.includeOnQuoteType,
+          values.customData?.join(",").toString()
         );
         if (response.isValid) {
           formik.resetForm();
           setAddModalOpen(false);
           setRefresh(true);
+          setEditModalId(0);
         }
         handleToast(response);
       } catch (error) {
@@ -98,7 +125,7 @@ const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       }
     },
   });
-
+  
   return (
     <>
       <div
@@ -110,7 +137,10 @@ const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <DiscountAddModalHeader setAddModalOpen={setAddModalOpen} />
+            <DiscountAddModalHeader
+              setAddModalOpen={setAddModalOpen}
+              setEditModalId={setEditModalId}
+            />
             <div className="modal-body p-10">
               <DiscountAddModalForm
                 formik={formik}
@@ -121,6 +151,7 @@ const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
               formik={formik}
               isSubmitting={isSubmitting}
               setAddModalOpen={setAddModalOpen}
+              setEditModalId={setEditModalId}
             />
           </div>
         </div>

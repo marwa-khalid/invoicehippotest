@@ -3,33 +3,17 @@ import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
 
 type Props = {
-  formik: FormikProps<FormValues>;
+  formik: FormikProps<any>;
   isSubmitting: boolean;
   setAddModalOpen: (type: boolean) => void;
+  setEditModalId: (type: number) => void;
 };
-
-interface FormValues {
-  id: number;
-  uniqueId: string;
-  areaUsageType: number;
-  title: string;
-  customData: string;
-  usageInfo: string;
-  fieldType: number;
-  editOptions: {
-    isActivlyUsed: boolean;
-  };
-  groupDisplayName: string;
-  defaultValue: string;
-  includeOnInvoiceType: number;
-  includeOnQuoteType: number;
-  includeOnDocumentDisplayName: string;
-}
 
 const DiscountAddModalFooter: FC<Props> = ({
   formik,
   isSubmitting,
   setAddModalOpen,
+  setEditModalId,
 }) => {
   const intl = useIntl();
 
@@ -38,7 +22,10 @@ const DiscountAddModalFooter: FC<Props> = ({
       <button
         type="button"
         className="btn btn-light me-3"
-        onClick={() => setAddModalOpen(false)}
+        onClick={() => {
+          setAddModalOpen(false);
+          setEditModalId(0);
+        }}
       >
         {intl.formatMessage({ id: "Fields.ActionCancel" })}
       </button>

@@ -16,26 +16,10 @@ interface ApiResponse<T> {
 export interface CustomFieldResult {
   id: number;
   uniqueId: string;
-  areaUsageType: {
-    value: number;
-    name: string;
-    description: string;
-  };
-  includeOnInvoiceType: {
-    value: number;
-    name: string;
-    description: string;
-  };
-  includeOnQuoteType: {
-    value: number;
-    name: string;
-    description: string;
-  };
-  fieldType: {
-    value: number;
-    name: string;
-    description: string;
-  };
+  areaUsageType: any;
+  includeOnInvoiceType: any;
+  includeOnQuoteType: any;
+  fieldType: any;
   title: string;
   groupDisplayName: string;
   defaultValue: string;

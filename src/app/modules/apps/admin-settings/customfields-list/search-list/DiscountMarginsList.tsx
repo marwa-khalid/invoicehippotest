@@ -9,35 +9,39 @@ import { Tooltip } from "@chakra-ui/react";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
-  setEditModalOpen: (type: boolean) => void;
+  setAddModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
   setDiscountMarginTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
   setPageIndex: (type: number) => void;
   pageIndex: number;
-  editModalOpen: boolean;
+  addModalOpen: boolean;
   deleteModalOpen: boolean;
   setDeleteSelectedButton: (type: boolean) => void;
   deleteModalId: any;
   setDeleteModalId: any;
+  fieldTypeFilter: number;
+  areaTypeFilter: number;
 }
 
 const DiscountMarginsList = ({
   searchTerm,
   setTotalRows,
-  setEditModalOpen,
+  setAddModalOpen,
   setEditModalId,
   setDiscountMarginTitle,
   setDeleteModalOpen,
   refresh,
   setPageIndex,
   pageIndex,
-  editModalOpen,
+  addModalOpen,
   deleteModalOpen,
   setDeleteSelectedButton,
   deleteModalId,
   setDeleteModalId,
+  fieldTypeFilter,
+  areaTypeFilter,
 }: ComponentProps) => {
   const [discountMargins, setDiscountMargins] = useState<any>([]);
   const [selectAll, setSelectAll] = useState(false);
@@ -47,7 +51,12 @@ const DiscountMarginsList = ({
   const fetchDiscountTypes = async () => {
     setIsLoading(true);
     try {
-      const response = await getCustomFields(searchTerm, pageIndex);
+      const response = await getCustomFields(
+        searchTerm,
+        fieldTypeFilter,
+        areaTypeFilter,
+        pageIndex
+      );
       setDiscountMargins(response);
       setPageIndex(response.pageIndex);
       setTotalRows(response.totalRows);
@@ -69,11 +78,11 @@ const DiscountMarginsList = ({
   }, [deleteModalId]);
   useEffect(() => {
     fetchDiscountTypes();
-  }, [searchTerm, pageIndex]);
+  }, [searchTerm, areaTypeFilter, fieldTypeFilter, pageIndex]);
 
   useEffect(() => {
     fetchDiscountTypes();
-  }, [editModalOpen, deleteModalOpen, refresh]);
+  }, [addModalOpen, deleteModalOpen, refresh]);
 
   const toggleRowSelection = (id: number) => {
     setDeleteModalId((prevSelected: number[]) => {
@@ -107,7 +116,7 @@ const DiscountMarginsList = ({
 
   const openEditModal = (id: number) => {
     setEditModalId(id);
-    setEditModalOpen(true);
+    setAddModalOpen(true);
   };
 
   const openDeleteModal = (id: number, discountMarginTitle: string) => {
@@ -263,6 +272,8 @@ const DiscountMarginsList = ({
           totalPages={discountMargins.totalPages}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
+          filterType1={fieldTypeFilter}
+          filterType2={areaTypeFilter}
           onPageChange={handlePageChange}
           totalItems={discountMargins.totalRows}
         />

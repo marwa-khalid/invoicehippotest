@@ -25,10 +25,6 @@ const LedgerListPagination = ({
   const [state, setState] = useState(pageIndex);
   const intl = useIntl();
 
-  // const [testState, settestState] = useState<number>({
-  //   filterType: 1,
-  //   pageIndex: 1,
-  // });
 
   useEffect(() => {
     let storedPaginationString = localStorage.getItem("pagination");
@@ -68,6 +64,14 @@ const LedgerListPagination = ({
           "users-module": {
             pageIndex: 1,
             filters: { searchTerm: "" },
+          },
+          "customfields-module": {
+            pageIndex: 1,
+            filters: {
+              searchTerm: "",
+              areaTypeFilter: 0,
+              fieldTypeFilter: 0,
+            },
           },
         };
 

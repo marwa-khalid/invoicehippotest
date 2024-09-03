@@ -8,191 +8,131 @@ interface GroupedOption {
   options: { value: number; label: string }[];
 }
 interface ComponentProps {
-  // setLedgerTypeFilter: (type: number) => void;
-  // setBearingTypeFilter: (type: number) => void;
-  // onFilterApply: (isApplied: boolean) => void;
-  // setSelectedLedgerTypeOption: (type: any) => void;
-  // setSelectedBearingTypeOption: (type: any) => void;
-  // selectedLedgerTypeOption: any;
-  // selectedBearingTypeOption: any;
+  setFieldTypeFilter: (type: number) => void;
+  setAreaTypeFilter: (type: number) => void;
+  onFilterApply: (isApplied: boolean) => void;
+  selectedAreaTypeOption: (type: any) => void;
+  selectedFieldTypeOption: (type: any) => void;
+  setSelectedAreaTypeOption: any;
+  setSelectedFieldTypeOption: any;
 }
 
-export function Filter({}: // setLedgerTypeFilter,
-// setBearingTypeFilter,
-// onFilterApply,
-// setSelectedLedgerTypeOption,
-// setSelectedBearingTypeOption,
-// selectedLedgerTypeOption,
-// selectedBearingTypeOption,
-ComponentProps) {
+export function Filter({
+  setFieldTypeFilter,
+  setAreaTypeFilter,
+  onFilterApply,
+  selectedAreaTypeOption,
+  selectedFieldTypeOption,
+  setSelectedAreaTypeOption,
+  setSelectedFieldTypeOption,
+}: ComponentProps) {
   const intl = useIntl();
-  const [bearingGroups, setBearingGroups] = useState<GroupedOption[]>([]);
-  const [filteredBearingGroups, setFilteredBearingGroups] = useState<
-    GroupedOption[]
-  >([]);
-  // const [tempLedgerTypeOption, setTempLedgerTypeOption] = useState<any>(
-  //   selectedLedgerTypeOption
-  // );
-  // const [tempBearingTypeOption, setTempBearingTypeOption] = useState<any>(
-  //   selectedBearingTypeOption
-  // );
 
-  useEffect(() => {
-    const toTitleCase = (str: string) => {
-      return str.replace(/\w\S*/g, (txt) => {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-      });
-    };
+  const [tempFieldTypeOption, setTempFieldTypeOption] = useState<any>(
+    selectedFieldTypeOption
+  );
+  const [tempAreaTypeOption, setTempAreaTypeOption] = useState<any>(
+    selectedAreaTypeOption
+  );
 
-    const transformBearingTypes = () => {
-      const groupMap: { [key: string]: GroupedOption } = {};
+  const handleFieldTypeChange = (option: any) => {
 
-      enums.BearingTypes.forEach((item: any) => {
-        const group = toTitleCase(item.Group);
-        const subGroup = toTitleCase(item.SubGroup);
-        const groupKey = `${group} - ${subGroup}`;
+    setTempFieldTypeOption(option);
+  };
 
-        if (!groupMap[groupKey]) {
-          groupMap[groupKey] = {
-            label: (
-              <div>
-                {group} - <small>{subGroup}</small>
-              </div>
-            ) as any,
-            options: [],
-          };
-        }
+  const handleAreaTypeChange = (option: any) => {
+    setTempAreaTypeOption(option.value);
+  };
 
-        groupMap[groupKey].options.push({
-          value: item.Value,
-          label: item.Title,
-        });
-      });
+  const handleApply = () => {
+    setSelectedFieldTypeOption(tempFieldTypeOption);
+    setSelectedAreaTypeOption(tempAreaTypeOption);
+    setAreaTypeFilter(tempAreaTypeOption ? tempAreaTypeOption.value : 0);
+    setFieldTypeFilter(tempFieldTypeOption ? tempFieldTypeOption.value : 0);
 
-      const sortedGroups = Object.values(groupMap).sort((a, b) => {
-        const aLabel = (a.label as any).props.children[0];
-        const bLabel = (b.label as any).props.children[0];
-        return aLabel.localeCompare(bLabel);
-      });
+    const storedPaginationString = localStorage.getItem("pagination");
+    const pagination = storedPaginationString
+      ? JSON.parse(storedPaginationString)
+      : {
+          "vat-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "", documentGroup: 0 },
+          },
+          "ledger-module": {
+            pageIndex: 1,
+            filters: {
+              searchTerm: "",
+              ledgerTypeFilter: 0,
+              bearingTypeFilter: 0,
+            },
+          },
+          "financial-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
+          "unit-types-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
+          "productgroups-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
+          "discounts-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
+          "users-module": {
+            pageIndex: 1,
+            filters: { searchTerm: "" },
+          },
+          "customfields-module": {
+            pageIndex: 1,
+            filters: {
+              searchTerm: "",
+              areaTypeFilter: 0,
+              fieldTypeFilter: 0,
+            },
+          },
+        };
 
-      setBearingGroups(sortedGroups);
-    };
+    pagination["customfields-module"].filters.fieldTypeFilter =
+      tempFieldTypeOption ? tempFieldTypeOption.value : 0;
+    pagination["customfields-module"].filters.areaTypeFilter =
+      tempAreaTypeOption ? tempAreaTypeOption.value : 0;
+    pagination["customfields-module"].pageIndex = 1;
+    localStorage.setItem("pagination", JSON.stringify(pagination));
 
-    transformBearingTypes();
-  }, []);
+    onFilterApply(true);
+  };
 
-  // useEffect(() => {
-  //   if (tempLedgerTypeOption) {
-  //     const selectedType = tempLedgerTypeOption.label || tempLedgerTypeOption;
-  //     const filteredGroups = bearingGroups
-  //       .filter((group) => group.label.props.children[0].includes(selectedType))
-  //       .map((group) => ({
-  //         ...group,
-  //         label: (
-  //           <div>
-  //             {tempLedgerTypeOption.label || tempLedgerTypeOption} -{" "}
-  //             <small>{group.label.props.children[2]}</small>
-  //           </div>
-  //         ),
-  //       }));
-  //     setFilteredBearingGroups(filteredGroups);
-  //   } else {
-  //     setFilteredBearingGroups(bearingGroups);
-  //   }
-  // }, [tempLedgerTypeOption, bearingGroups]);
-
-  // const handleLedgerTypeChange = (option: any) => {
-  //   setTempLedgerTypeOption(option);
-  // };
-
-  // const handleBearingTypeChange = (option: any) => {
-  //   setTempBearingTypeOption(option);
-  // };
-
-  // const handleApply = () => {
-  //   setSelectedLedgerTypeOption(tempLedgerTypeOption);
-  //   setSelectedBearingTypeOption(tempBearingTypeOption);
-  //   setLedgerTypeFilter(tempLedgerTypeOption ? tempLedgerTypeOption.value : 0);
-  //   setBearingTypeFilter(
-  //     tempBearingTypeOption ? tempBearingTypeOption.value : 0
-  //   );
-
-  //   const storedPaginationString = localStorage.getItem("pagination");
-  //   const pagination = storedPaginationString
-  //     ? JSON.parse(storedPaginationString)
-  //     : {
-  //         "vat-module": {
-  //           pageIndex: 1,
-  //           filters: { searchTerm: "", documentGroup: 0 },
-  //         },
-  //         "ledger-module": {
-  //           pageIndex: 1,
-  //           filters: {
-  //             searchTerm: "",
-  //             ledgerTypeFilter: 0,
-  //             bearingTypeFilter: 0,
-  //           },
-  //         },
-  //         "financial-module": {
-  //           pageIndex: 1,
-  //           filters: { searchTerm: "" },
-  //         },
-  //         "unit-types-module": {
-  //           pageIndex: 1,
-  //           filters: { searchTerm: "" },
-  //         },
-  //         "productgroups-module": {
-  //           pageIndex: 1,
-  //           filters: { searchTerm: "" },
-  //         },
-  //         "discounts-module": {
-  //           pageIndex: 1,
-  //           filters: { searchTerm: "" },
-  //         },
-  //         "users-module": {
-  //           pageIndex: 1,
-  //           filters: { searchTerm: "" },
-  //         },
-  //       };
-
-  //   pagination["ledger-module"].filters.ledgerTypeFilter = tempLedgerTypeOption
-  //     ? tempLedgerTypeOption.value
-  //     : 0;
-  //   pagination["ledger-module"].filters.bearingTypeFilter =
-  //     tempBearingTypeOption ? tempBearingTypeOption.value : 0;
-  //   pagination["ledger-module"].pageIndex = 1;
-  //   localStorage.setItem("pagination", JSON.stringify(pagination));
-
-  //   onFilterApply(true);
-  // };
-
-  // const handleReset = () => {
-  //   setTempLedgerTypeOption(null);
-  //   setTempBearingTypeOption(null);
-  //   setSelectedLedgerTypeOption(null);
-  //   setSelectedBearingTypeOption(null);
-  //   onFilterApply(false);
-  //   localStorage.setItem(
-  //     "pagination",
-  //     JSON.stringify({
-  //       ...JSON.parse(localStorage.getItem("pagination") || "{}"),
-  //       "ledger-module": {
-  //         ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-  //           "ledger-module"
-  //         ],
-  //         filters: {
-  //           ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-  //             "ledger-module"
-  //           ]?.filters,
-  //           ledgerTypeFilter: 0,
-  //           bearingTypeFilter: 0,
-  //         },
-  //       },
-  //     })
-  //   );
-  //   setLedgerTypeFilter(0);
-  //   setBearingTypeFilter(0);
-  // };
+  const handleReset = () => {
+    setTempAreaTypeOption(null);
+    setTempFieldTypeOption(null);
+    setSelectedFieldTypeOption(null);
+    setSelectedAreaTypeOption(null);
+    onFilterApply(false);
+    localStorage.setItem(
+      "pagination",
+      JSON.stringify({
+        ...JSON.parse(localStorage.getItem("pagination") || "{}"),
+        "customfields-module": {
+          ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+            "customfields-module"
+          ],
+          filters: {
+            ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+              "customfieldss-module"
+            ]?.filters,
+            areaTypeFilter: 0,
+            fieldTypeFilter: 0,
+          },
+        },
+      })
+    );
+    setAreaTypeFilter(0);
+    setFieldTypeFilter(0);
+  };
 
   return (
     <div
@@ -211,23 +151,19 @@ ComponentProps) {
         <div className="mb-10">
           <label className="form-label fw-bold">
             {intl.formatMessage({
-              id: "Fields.SelectOptionDefaultLedgerAccountType",
+              id: "Fields.FieldType",
             })}
             :
           </label>
           <Select
             className="react-select-styled"
-            // placeholder={
-            //   tempLedgerTypeOption
-            //     ? tempLedgerTypeOption.label
-            //     : intl.formatMessage({
-            //         id: "Fields.SelectOptionDefaultLedgerAccountType",
-            //       })
-            // }
+            placeholder={intl.formatMessage({
+              id: "Fields.SelectOptionDefaultFieldType",
+            })}
             menuPlacement="bottom"
-            // value={tempLedgerTypeOption || null}
-            // onChange={handleLedgerTypeChange}
-            options={enums.LedgerTypes.map((item: any) => ({
+            value={tempFieldTypeOption || null}
+            onChange={handleFieldTypeChange}
+            options={enums.CustomFeatureFieldTypes.map((item: any) => ({
               value: item.Value,
               label: item.Title,
             }))}
@@ -239,24 +175,23 @@ ComponentProps) {
         <div className="mb-10">
           <label className="form-label fw-bold">
             {intl.formatMessage({
-              id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
+              id: "Fields.AreaUsageType",
             })}
             :
           </label>
 
           <Select
             className="react-select-styled"
-            // placeholder={
-            //   tempBearingTypeOption
-            //     ? tempBearingTypeOption.label
-            //     : intl.formatMessage({
-            //         id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
-            //       })
-            // }
-            menuPlacement="bottom"
-            // value={tempBearingTypeOption || null}
-            // onChange={handleBearingTypeChange}
-            options={filteredBearingGroups}
+            placeholder={intl.formatMessage({
+              id: "Fields.SelectOptionDefaultAreaType",
+            })}
+            menuPlacement="top"
+            value={tempAreaTypeOption || null}
+            onChange={handleAreaTypeChange}
+            options={enums.CustomFeatureAreaUsageTypes.map((item: any) => ({
+              value: item.Value,
+              label: item.Title,
+            }))}
             closeMenuOnSelect={false}
             isClearable
             data-kt-menu-dismiss="false"
@@ -267,7 +202,7 @@ ComponentProps) {
           <button
             type="reset"
             className="btn btn-sm btn-light btn-active-light-primary me-2"
-            // onClick={handleReset}
+            onClick={handleReset}
             data-kt-menu-dismiss="true"
           >
             {intl.formatMessage({ id: "Fields.FilterResetBtn" })}
@@ -276,7 +211,7 @@ ComponentProps) {
           <button
             type="submit"
             className="btn btn-sm btn-primary"
-            // onClick={handleApply}
+            onClick={handleApply}
             data-kt-menu-dismiss="true"
           >
             {intl.formatMessage({ id: "Fields.FilterApplyBtn" })}

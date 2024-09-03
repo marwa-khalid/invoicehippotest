@@ -3,25 +3,27 @@ import { KTCardBody } from "../../../../../../../_metronic/helpers";
 
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
-  // setLedgerTypeFilter: (type: number) => void;
-  // setBearingTypeFilter: (type: number) => void;
-  // setIsFilterApplied: (type: boolean) => void;
-  // isFilterApplied: boolean;
   searchTerm: string;
-  // ledgerTypeFilter: number;
-  // bearingTypeFilter: number;
+
+  setFieldTypeFilter: (type: number) => void;
+  setAreaTypeFilter: (type: number) => void;
+
+  areaTypeFilter: number;
+  fieldTypeFilter: number;
+  setIsFilterApplied: (type: boolean) => void;
+  isFilterApplied: boolean;
 }
 
 const CustomFieldsHeader = ({
   setSearchTerm,
-  // setLedgerTypeFilter,
-  // setIsFilterApplied,
   searchTerm,
-}: // isFilterApplied,
-// ledgerTypeFilter,
-// setBearingTypeFilter,
-// bearingTypeFilter,
-ComponentProps) => {
+  isFilterApplied,
+  setAreaTypeFilter,
+  setFieldTypeFilter,
+  fieldTypeFilter,
+  areaTypeFilter,
+  setIsFilterApplied,
+}: ComponentProps) => {
   return (
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
       <div className="card-body pt-9 pb-0">
@@ -29,12 +31,12 @@ ComponentProps) => {
         <CustomFieldsSearchComponent
           setSearchTerm={setSearchTerm}
           searchTerm={searchTerm}
-          // setLedgerTypeFilter={setLedgerTypeFilter}
-          // setIsFilterApplied={setIsFilterApplied}
-          // setBearingTypeFilter={setBearingTypeFilter}
-          // bearingTypeFilter={bearingTypeFilter}
-          // isFilterApplied={isFilterApplied}
-          // ledgerTypeFilter={ledgerTypeFilter}
+          setFieldTypeFilter={setFieldTypeFilter}
+          setAreaTypeFilter={setAreaTypeFilter}
+          areaTypeFilter={areaTypeFilter}
+          fieldTypeFilter={fieldTypeFilter}
+          setIsFilterApplied={setIsFilterApplied}
+          isFilterApplied={isFilterApplied}
         />
       </div>
     </KTCardBody>

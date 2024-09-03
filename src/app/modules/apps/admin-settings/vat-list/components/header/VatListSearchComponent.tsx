@@ -75,6 +75,14 @@ const VatListSearchComponent = ({
               pageIndex: 1,
               filters: { searchTerm: "" },
             },
+            "customfields-module": {
+              pageIndex: 1,
+              filters: {
+                searchTerm: "",
+                areaTypeFilter: 0,
+                fieldTypeFilter: 0,
+              },
+            },
           };
 
       // Update the filter in the vat-module

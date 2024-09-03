@@ -8,8 +8,8 @@ interface PaginationProps {
   pageIndex: number;
   onPageChange: (page: number) => void;
   totalItems: number;
-  // filterType1: number;
-  // filterType2: number;
+  filterType1: number;
+  filterType2: number;
   setPageIndex: (page: number) => void;
 }
 
@@ -18,17 +18,12 @@ const CustomFieldsPagination = ({
   pageIndex,
   onPageChange,
   totalItems,
-  // filterType1,
-  // filterType2,
+  filterType1,
+  filterType2,
   setPageIndex,
 }: PaginationProps) => {
   const [state, setState] = useState(pageIndex);
   const intl = useIntl();
-
-  // const [testState, settestState] = useState<number>({
-  //   filterType: 1,
-  //   pageIndex: 1,
-  // });
 
   useEffect(() => {
     let storedPaginationString = localStorage.getItem("pagination");
@@ -69,10 +64,18 @@ const CustomFieldsPagination = ({
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
+          "customfields-module": {
+            pageIndex: 1,
+            filters: {
+              searchTerm: "",
+              areaTypeFilter: filterType2,
+              fieldTypeFilter: filterType1,
+            },
+          },
         };
 
     // Update the filter in the vat-module
-    pagination["ledger-module"].pageIndex = state;
+    pagination["customfields-module"].pageIndex = state;
 
     // Convert the updated object back to a JSON string
     const updatedPaginationString = JSON.stringify(pagination);

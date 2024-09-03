@@ -3,8 +3,12 @@ import { useIntl } from "react-intl";
 
 interface ComponentProps {
   setAddModalOpen: (type: boolean) => void;
+  setEditModalId: (type: number) => void;
 }
-const DiscountAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
+const DiscountAddModalHeader = ({
+  setAddModalOpen,
+  setEditModalId,
+}: ComponentProps) => {
   const intl = useIntl();
 
   return (
@@ -19,7 +23,10 @@ const DiscountAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
       <div
         className="btn btn-icon btn-sm btn-active-icon-primary"
         data-kt-users-modal-action="close"
-        onClick={() => setAddModalOpen(false)}
+        onClick={() => {
+          setAddModalOpen(false);
+          setEditModalId(0);
+        }}
         style={{ cursor: "pointer" }}
       >
         <KTIcon iconName="cross" className="fs-1 text-white" />

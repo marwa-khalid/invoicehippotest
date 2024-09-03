@@ -154,6 +154,14 @@ export function Filter({
             pageIndex: 1,
             filters: { searchTerm: "" },
           },
+          "customfields-module": {
+            pageIndex: 1,
+            filters: {
+              searchTerm: "",
+              areaTypeFilter: 0,
+              fieldTypeFilter: 0,
+            },
+          },
         };
 
     pagination["ledger-module"].filters.ledgerTypeFilter = tempLedgerTypeOption

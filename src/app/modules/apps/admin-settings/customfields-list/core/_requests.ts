@@ -7,22 +7,29 @@ import {
 } from "../../../../auth/core/_apiservice";
 import { CUSTOM_FIELD } from "./constants";
 
-interface PartialResult extends Partial<DiscountMarginModel> {}
+interface PartialResult extends Partial<CustomFieldModel> {}
 
-export function getCustomFields(searchTerm: string, pageIndex: number) {
+export function getCustomFields(
+  searchTerm: string,
+  areaFilterType: number,
+  fieldFilterType: number,
+  pageIndex: number
+) {
   return postRequest<CustomFieldModel>(
     `${CUSTOM_FIELD}/search`,
     {
       pageMax: 25,
       pageIndex: searchTerm ? 1 : pageIndex,
       searchTerm: searchTerm,
+      areaFilterType: areaFilterType,
+      fieldFilterType: fieldFilterType,
     },
     true
   );
 }
 
-export function getDiscountMarginById(editModalId: number) {
-  return getRequest<PartialResult>(`${CUSTOM_FIELD}/${editModalId}`, true);
+export function getCustomFieldById(editModalId: number) {
+  return getRequest<CustomFieldModel>(`${CUSTOM_FIELD}/${editModalId}`, true);
 }
 
 export function postCustomField(
@@ -31,7 +38,8 @@ export function postCustomField(
   areaUsageType: number,
   fieldType: number,
   includeOnInvoiceType: number,
-  includeOnQuoteType: number
+  includeOnQuoteType: number,
+  customData: any
 ) {
   return postRequest<PartialResult>(
     CUSTOM_FIELD,
@@ -42,6 +50,7 @@ export function postCustomField(
       fieldType: fieldType,
       includeOnInvoiceType: includeOnInvoiceType,
       includeOnQuoteType: includeOnQuoteType,
+      customData: customData,
     },
     true
   );
