@@ -223,29 +223,28 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
                 id: "Fields.OptionsOrMultipleOptions",
               })}
             </label>
-          </div>
 
-          {/* Alert Box */}
-          <div
-            className="row  d-flex flex-row mx-0 bg-secondary mb-3 p-5 rounded"
-            role="alert"
-          >
-            <div className="alert-icon me-4 col-1">
-              <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
-                <span className="path1"></span>
-                <span className="path2"></span>
-                <span className="path3"></span>
-              </i>
+            {/* Alert Box */}
+            <div
+              className="d-flex flex-row mx-3  bg-secondary mb-3 p-3 rounded"
+              role="alert"
+            >
+              <div className="alert-icon me-4">
+                <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
+                  <span className="path1"></span>
+                  <span className="path2"></span>
+                  <span className="path3"></span>
+                </i>
+              </div>
+              <div className="alert-text">
+                <p className="my-auto fs-xs">
+                  {intl.formatMessage({
+                    id: "Fields.OptionsOrMultipleOptionsInfo",
+                  })}
+                </p>
+              </div>
             </div>
-            <div className="alert-text col-10">
-              <p className="my-auto fs-xs">
-                {intl.formatMessage({
-                  id: "Fields.OptionsOrMultipleOptionsInfo",
-                })}
-              </p>
-            </div>
-          </div>
-          <div className="row d-flex mt-5">
+
             {/* Tags Input */}
             <Tags
               tagifyRef={tagifyRef}
