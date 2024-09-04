@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from "react";
-import {
-  initialQueryState,
-  KTIcon,
-} from "../../../../../../../_metronic/helpers";
+import { useState } from "react";
+import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { Filter } from "./Filter";
-
 import clsx from "clsx";
 import { useLayout } from "../../../../../../../_metronic/layout/core";
-import enums from "../../../../../../../invoicehippo.enums.json";
 
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
   searchTerm: string;
-
   setFieldTypeFilter: (type: number) => void;
   setAreaTypeFilter: (type: number) => void;
-
   areaTypeFilter: number;
   fieldTypeFilter: number;
   setIsFilterApplied: (type: boolean) => void;
   isFilterApplied: boolean;
 }
-
 const CustomFieldsSearchComponent = ({
   setSearchTerm,
   searchTerm,
@@ -34,22 +26,16 @@ const CustomFieldsSearchComponent = ({
   isFilterApplied,
 }: ComponentProps) => {
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
-
   const [tempFieldTypeOption, setTempFieldTypeOption] =
     useState<any>(fieldTypeFilter);
   const [tempAreaTypeOption, setTempAreaTypeOption] =
     useState<any>(areaTypeFilter);
-
   const intl = useIntl();
-
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
       // Update the query state and parent search term when search button is clicked
-
       setSearchTerm(localSearchTerm);
-
       let storedPaginationString = localStorage.getItem("pagination");
-
       // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
       let pagination = storedPaginationString
         ? JSON.parse(storedPaginationString)
@@ -98,17 +84,14 @@ const CustomFieldsSearchComponent = ({
 
       // Update the filter in the vat-module
       pagination["customfields-module"].filters.searchTerm = localSearchTerm;
-
       // Convert the updated object back to a JSON string
       const updatedPaginationString = JSON.stringify(pagination);
-
       // Store the updated JSON string in local storage
       localStorage.setItem("pagination", updatedPaginationString);
     }
   };
   const handleResetClick = () => {
     setLocalSearchTerm("");
-
     setSearchTerm(""); // Reset the parent search term
     setIsFilterApplied(false);
     resetFilter();
@@ -117,24 +100,18 @@ const CustomFieldsSearchComponent = ({
   const daterangepickerButtonClass = config.app?.toolbar?.fixed?.desktop
     ? "btn-light"
     : "bg-body btn-color-gray-700 btn-active-color-primary";
-
   const handleFilterApply = (isApplied: boolean) => {
     setIsFilterApplied(isApplied); // Update the filter applied state
   };
-
   const resetFilter = () => {
     // Function to reset the Filter component
-
     setFieldTypeFilter(0);
     setAreaTypeFilter(0);
     setLocalSearchTerm("");
     setTempAreaTypeOption(0);
     setTempFieldTypeOption(0);
-
     setSearchTerm(""); // Reset the parent search term
-
     setIsFilterApplied(false);
-
     localStorage.setItem(
       "pagination",
       JSON.stringify({
@@ -154,10 +131,6 @@ const CustomFieldsSearchComponent = ({
         },
       })
     );
-    // setAreaTypeFilter(0);
-    // setFieldTypeFilter(0);
-
-    // Reset the filter to its default state
   };
 
   return (
@@ -165,7 +138,6 @@ const CustomFieldsSearchComponent = ({
       {/* Full-width search input */}
       <div className="d-flex align-items-center position-relative mb-2 gap-2 ">
         <KTIcon iconName="magnifier" className="fs-3 position-absolute ms-6" />
-
         <input
           type="text"
           data-kt-user-table-filter="search"

@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  initialQueryState,
-  KTIcon,
-} from "../../../../../../../_metronic/helpers";
+import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { Filter } from "./Filter";
-
 import clsx from "clsx";
 import { useLayout } from "../../../../../../../_metronic/layout/core";
-import enums from "../../../../../../../invoicehippo.enums.json";
 
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
@@ -18,7 +13,6 @@ interface ComponentProps {
   setBearingTypeFilter: (type: number) => void;
   bearingTypeFilter: number;
   isFilterApplied: boolean;
-
   ledgerTypeFilter: number;
 }
 
@@ -34,24 +28,16 @@ const LedgerListSearchComponent = ({
 }: ComponentProps) => {
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const intl = useIntl();
-  const [selectedLedgerTypeOption, setSelectedLedgerTypeOption] = useState<any>(
-    enums.LedgerTypes.find((item) => item.Value === ledgerTypeFilter)?.Title ||
-      ""
-  );
+  const [tempLedgerTypeOption, setTempLedgerTypeOption] =
+    useState<any>(ledgerTypeFilter);
+  const [tempBearingTypeOption, setTempBearingTypeOption] =
+    useState<any>(bearingTypeFilter);
 
-  const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
-    useState<any>(
-      enums.BearingTypes.find((item) => item.Value === bearingTypeFilter)
-        ?.Title || ""
-    );
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
       // Update the query state and parent search term when search button is clicked
-
       setSearchTerm(localSearchTerm);
-
       let storedPaginationString = localStorage.getItem("pagination");
-
       // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
       let pagination = storedPaginationString
         ? JSON.parse(storedPaginationString)
@@ -97,21 +83,17 @@ const LedgerListSearchComponent = ({
               },
             },
           };
-
       // Update the filter in the vat-module
       pagination["ledger-module"].filters.searchTerm = localSearchTerm;
-
       // Convert the updated object back to a JSON string
       const updatedPaginationString = JSON.stringify(pagination);
-
       // Store the updated JSON string in local storage
       localStorage.setItem("pagination", updatedPaginationString);
     }
   };
   const handleResetClick = () => {
     setLocalSearchTerm("");
-
-    setSearchTerm(""); // Reset the parent search term
+    setSearchTerm("");
     setIsFilterApplied(false);
     resetFilter();
   };
@@ -119,18 +101,15 @@ const LedgerListSearchComponent = ({
   const daterangepickerButtonClass = config.app?.toolbar?.fixed?.desktop
     ? "btn-light"
     : "bg-body btn-color-gray-700 btn-active-color-primary";
-
   const handleFilterApply = (isApplied: boolean) => {
     setIsFilterApplied(isApplied); // Update the filter applied state
   };
-
   const resetFilter = () => {
-    // Function to reset the Filter component
-
-    setSelectedLedgerTypeOption(null);
-    setSelectedBearingTypeOption(null);
+    setBearingTypeFilter(0);
+    setLedgerTypeFilter(0);
     setLocalSearchTerm("");
-
+    setTempBearingTypeOption(0);
+    setTempLedgerTypeOption(0);
     setSearchTerm(""); // Reset the parent search term
     setIsFilterApplied(false);
     localStorage.setItem(
@@ -152,10 +131,6 @@ const LedgerListSearchComponent = ({
         },
       })
     );
-    setLedgerTypeFilter(0);
-    setBearingTypeFilter(0);
-
-    // Reset the filter to its default state
   };
 
   return (
@@ -163,7 +138,6 @@ const LedgerListSearchComponent = ({
       {/* Full-width search input */}
       <div className="d-flex align-items-center position-relative mb-2 gap-2 ">
         <KTIcon iconName="magnifier" className="fs-3 position-absolute ms-6" />
-
         <input
           type="text"
           data-kt-user-table-filter="search"
@@ -211,13 +185,12 @@ const LedgerListSearchComponent = ({
               setLedgerTypeFilter={setLedgerTypeFilter}
               setBearingTypeFilter={setBearingTypeFilter}
               onFilterApply={handleFilterApply}
-              selectedLedgerTypeOption={selectedLedgerTypeOption}
-              selectedBearingTypeOption={selectedBearingTypeOption}
-              setSelectedBearingTypeOption={setSelectedBearingTypeOption}
-              setSelectedLedgerTypeOption={setSelectedLedgerTypeOption}
+              tempBearingTypeOption={tempBearingTypeOption}
+              tempLedgerTypeOption={tempLedgerTypeOption}
+              setTempBearingTypeOption={setTempBearingTypeOption}
+              setTempLedgerTypeOption={setTempLedgerTypeOption}
             />
           </div>
-          {/* {filterModalOpen && <Filter />} */}
           <button
             className="btn btn-secondary btn-icon"
             onClick={handleResetClick}

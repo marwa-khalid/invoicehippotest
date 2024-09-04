@@ -23,7 +23,6 @@ export function Filter({
   setTempFieldTypeOption,
 }: ComponentProps) {
   const intl = useIntl();
-
   const handleFieldTypeChange = (option: any) => {
     if (option === null) {
       setTempFieldTypeOption(0);
@@ -39,7 +38,6 @@ export function Filter({
   const handleApply = () => {
     setAreaTypeFilter(tempAreaTypeOption ? tempAreaTypeOption : 0);
     setFieldTypeFilter(tempFieldTypeOption ? tempFieldTypeOption : 0);
-
     const storedPaginationString = localStorage.getItem("pagination");
     const pagination = storedPaginationString
       ? JSON.parse(storedPaginationString)
@@ -85,17 +83,14 @@ export function Filter({
             },
           },
         };
-
     pagination["customfields-module"].filters.fieldTypeFilter =
       tempFieldTypeOption ? tempFieldTypeOption : 0;
     pagination["customfields-module"].filters.areaTypeFilter =
       tempAreaTypeOption ? tempAreaTypeOption : 0;
     pagination["customfields-module"].pageIndex = 1;
     localStorage.setItem("pagination", JSON.stringify(pagination));
-
     onFilterApply(true);
   };
-
   const handleReset = () => {
     onFilterApply(false);
     localStorage.setItem(
@@ -132,9 +127,7 @@ export function Filter({
           {intl.formatMessage({ id: "Fields.FilterPopUpTitle" })}
         </div>
       </div>
-
       <div className="separator border-gray-200"></div>
-
       <div className="px-7 py-5">
         <div className="mb-10">
           <label className="form-label fw-bold">
@@ -172,7 +165,6 @@ export function Filter({
             })}
             :
           </label>
-
           <Select
             className="react-select-styled"
             placeholder={intl.formatMessage({
@@ -195,7 +187,6 @@ export function Filter({
             data-kt-menu-dismiss="false"
           />
         </div>
-
         <div className="d-flex justify-content-end">
           <button
             type="reset"
@@ -205,7 +196,6 @@ export function Filter({
           >
             {intl.formatMessage({ id: "Fields.FilterResetBtn" })}
           </button>
-
           <button
             type="submit"
             className="btn btn-sm btn-primary"

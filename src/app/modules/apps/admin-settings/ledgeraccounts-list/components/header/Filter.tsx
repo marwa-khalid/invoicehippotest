@@ -11,32 +11,26 @@ interface ComponentProps {
   setLedgerTypeFilter: (type: number) => void;
   setBearingTypeFilter: (type: number) => void;
   onFilterApply: (isApplied: boolean) => void;
-  setSelectedLedgerTypeOption: (type: any) => void;
-  setSelectedBearingTypeOption: (type: any) => void;
-  selectedLedgerTypeOption: any;
-  selectedBearingTypeOption: any;
+  tempLedgerTypeOption: number;
+  tempBearingTypeOption: number;
+  setTempLedgerTypeOption: (type: number) => void;
+  setTempBearingTypeOption: (type: number) => void;
 }
 
 export function Filter({
   setLedgerTypeFilter,
   setBearingTypeFilter,
   onFilterApply,
-  setSelectedLedgerTypeOption,
-  setSelectedBearingTypeOption,
-  selectedLedgerTypeOption,
-  selectedBearingTypeOption,
+  tempLedgerTypeOption,
+  tempBearingTypeOption,
+  setTempLedgerTypeOption,
+  setTempBearingTypeOption,
 }: ComponentProps) {
   const intl = useIntl();
   const [bearingGroups, setBearingGroups] = useState<GroupedOption[]>([]);
   const [filteredBearingGroups, setFilteredBearingGroups] = useState<
     GroupedOption[]
   >([]);
-  const [tempLedgerTypeOption, setTempLedgerTypeOption] = useState<any>(
-    selectedLedgerTypeOption
-  );
-  const [tempBearingTypeOption, setTempBearingTypeOption] = useState<any>(
-    selectedBearingTypeOption
-  );
 
   useEffect(() => {
     const toTitleCase = (str: string) => {
@@ -84,14 +78,18 @@ export function Filter({
 
   useEffect(() => {
     if (tempLedgerTypeOption) {
-      const selectedType = tempLedgerTypeOption.label || tempLedgerTypeOption;
+      const selectedTypeLabel = enums.LedgerTypes.find((item) => {
+        return item.Value === tempLedgerTypeOption;
+      })?.Title;
       const filteredGroups = bearingGroups
-        .filter((group) => group.label.props.children[0].includes(selectedType))
+        .filter((group) => {
+          return group.label.props.children[0].includes(selectedTypeLabel);
+        })
         .map((group) => ({
           ...group,
           label: (
             <div>
-              {tempLedgerTypeOption.label || tempLedgerTypeOption} -{" "}
+              {selectedTypeLabel || selectedTypeLabel} -{" "}
               <small>{group.label.props.children[2]}</small>
             </div>
           ),
@@ -103,20 +101,20 @@ export function Filter({
   }, [tempLedgerTypeOption, bearingGroups]);
 
   const handleLedgerTypeChange = (option: any) => {
-    setTempLedgerTypeOption(option);
+    if (option === null) {
+      setTempLedgerTypeOption(0);
+    } else setTempLedgerTypeOption(option.value);
   };
 
   const handleBearingTypeChange = (option: any) => {
-    setTempBearingTypeOption(option);
+    if (option === null) {
+      setTempBearingTypeOption(0);
+    } else setTempBearingTypeOption(option.value);
   };
 
   const handleApply = () => {
-    setSelectedLedgerTypeOption(tempLedgerTypeOption);
-    setSelectedBearingTypeOption(tempBearingTypeOption);
-    setLedgerTypeFilter(tempLedgerTypeOption ? tempLedgerTypeOption.value : 0);
-    setBearingTypeFilter(
-      tempBearingTypeOption ? tempBearingTypeOption.value : 0
-    );
+    setLedgerTypeFilter(tempLedgerTypeOption ? tempLedgerTypeOption : 0);
+    setBearingTypeFilter(tempBearingTypeOption ? tempBearingTypeOption : 0);
 
     const storedPaginationString = localStorage.getItem("pagination");
     const pagination = storedPaginationString
@@ -165,21 +163,16 @@ export function Filter({
         };
 
     pagination["ledger-module"].filters.ledgerTypeFilter = tempLedgerTypeOption
-      ? tempLedgerTypeOption.value
+      ? tempLedgerTypeOption
       : 0;
     pagination["ledger-module"].filters.bearingTypeFilter =
-      tempBearingTypeOption ? tempBearingTypeOption.value : 0;
+      tempBearingTypeOption ? tempBearingTypeOption : 0;
     pagination["ledger-module"].pageIndex = 1;
     localStorage.setItem("pagination", JSON.stringify(pagination));
 
     onFilterApply(true);
   };
-
   const handleReset = () => {
-    setTempLedgerTypeOption(null);
-    setTempBearingTypeOption(null);
-    setSelectedLedgerTypeOption(null);
-    setSelectedBearingTypeOption(null);
     onFilterApply(false);
     localStorage.setItem(
       "pagination",
@@ -199,6 +192,8 @@ export function Filter({
         },
       })
     );
+    setTempLedgerTypeOption(0);
+    setTempBearingTypeOption(0);
     setLedgerTypeFilter(0);
     setBearingTypeFilter(0);
   };
@@ -226,15 +221,16 @@ export function Filter({
           </label>
           <Select
             className="react-select-styled"
-            placeholder={
-              tempLedgerTypeOption
-                ? tempLedgerTypeOption.label
-                : intl.formatMessage({
-                    id: "Fields.SelectOptionDefaultLedgerAccountType",
-                  })
-            }
+            placeholder={intl.formatMessage({
+              id: "Fields.SelectOptionDefaultLedgerAccountType",
+            })}
             menuPlacement="bottom"
-            value={tempLedgerTypeOption || null}
+            value={
+              enums.LedgerTypes.map((item: any) => ({
+                value: item.Value,
+                label: item.Title,
+              })).find((option) => option.value === tempLedgerTypeOption) || 0
+            }
             onChange={handleLedgerTypeChange}
             options={enums.LedgerTypes.map((item: any) => ({
               value: item.Value,
@@ -255,15 +251,15 @@ export function Filter({
 
           <Select
             className="react-select-styled"
-            placeholder={
-              tempBearingTypeOption
-                ? tempBearingTypeOption.label
-                : intl.formatMessage({
-                    id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
-                  })
+            placeholder={intl.formatMessage({
+              id: "Fields.SelectOptionDefaultLedgerAccountBearingType",
+            })}
+            menuPlacement="top"
+            value={
+              filteredBearingGroups
+                .flatMap((group) => group.options)
+                .find((option) => option.value === tempBearingTypeOption) || 0
             }
-            menuPlacement="bottom"
-            value={tempBearingTypeOption || null}
             onChange={handleBearingTypeChange}
             options={filteredBearingGroups}
             closeMenuOnSelect={false}
@@ -271,7 +267,6 @@ export function Filter({
             data-kt-menu-dismiss="false"
           />
         </div>
-
         <div className="d-flex justify-content-end">
           <button
             type="reset"
