@@ -576,55 +576,55 @@ const ClientAddStep1: FC<Props> = ({
                 </div>
               </div>
               <div className="modal-body">
-                <div
+                {/* <div
                   className="w-full mb-20 p-10 rounded"
                   style={{ backgroundColor: "#32388e" }}
-                >
-                  {/* Full-width search input */}
-                  <div className="d-flex align-items-center position-relative mb-2 gap-2 ">
-                    <KTIcon
-                      iconName="magnifier"
-                      className="fs-3 position-absolute ms-6"
-                    />
+                > */}
+                {/* Full-width search input */}
+                <div className="d-flex align-items-center position-relative mb-10 gap-2 ">
+                  <KTIcon
+                    iconName="magnifier"
+                    className="fs-3 position-absolute ms-6"
+                  />
 
-                    <input
-                      type="text"
-                      data-kt-user-table-filter="search"
-                      className="form-control form-control-solid w-100 ps-14 rounded-lg me-6"
-                      placeholder={intl.formatMessage({
-                        id: "Fields.SearchTerm",
-                      })}
-                      //value={localSearchTerm}
-                      onChange={(e) => {
-                        e.preventDefault();
-                        // setLocalSearchTerm(e.target.value);
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          //  handleSearchClick();
-                        }
-                      }}
-                    />
-                    <div className="btn-group">
-                      <button
-                        className="btn btn-primary d-inline-flex align-items-center"
-                        // onClick={handleSearchClick}
-                      >
-                        <i className="la la-search fs-2"></i>
-                        <span className="ms-1">
-                          {intl.formatMessage({ id: "Fields.SearchBtn" })}
-                        </span>
-                      </button>
+                  <input
+                    type="text"
+                    data-kt-user-table-filter="search"
+                    className="form-control form-control-solid w-100 ps-14 rounded-lg me-6"
+                    placeholder={intl.formatMessage({
+                      id: "Fields.SearchTerm",
+                    })}
+                    //value={localSearchTerm}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      // setLocalSearchTerm(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        //  handleSearchClick();
+                      }
+                    }}
+                  />
+                  <div className="btn-group">
+                    <button
+                      className="btn btn-primary d-inline-flex align-items-center"
+                      // onClick={handleSearchClick}
+                    >
+                      <i className="la la-search fs-2"></i>
+                      <span className="ms-1">
+                        {intl.formatMessage({ id: "Fields.SearchBtn" })}
+                      </span>
+                    </button>
 
-                      <button
-                        className="btn btn-secondary btn-icon"
-                        // onClick={handleResetClick}
-                      >
-                        <i className="la la-remove fs-3"></i>
-                      </button>
-                    </div>
+                    <button
+                      className="btn btn-secondary btn-icon"
+                      // onClick={handleResetClick}
+                    >
+                      <i className="la la-remove fs-3"></i>
+                    </button>
                   </div>
                 </div>
+                {/* </div> */}
                 <div className="text-center">
                   <img
                     alt=""

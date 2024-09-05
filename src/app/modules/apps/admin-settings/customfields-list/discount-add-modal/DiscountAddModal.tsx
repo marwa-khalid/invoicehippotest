@@ -104,11 +104,14 @@ const DiscountAddModal = ({
         const response = await postCustomField(
           values.id,
           values.title,
+          values.groupDisplayName,
           values.areaUsageType,
           values.fieldType,
           values.includeOnInvoiceType,
           values.includeOnQuoteType,
-          values.customData?.join(",").toString()
+          Array.isArray(values.customData)
+            ? values.customData.join(",").toString()
+            : values.customData
         );
         if (response.isValid) {
           formik.resetForm();
@@ -125,7 +128,7 @@ const DiscountAddModal = ({
       }
     },
   });
-  
+
   return (
     <>
       <div

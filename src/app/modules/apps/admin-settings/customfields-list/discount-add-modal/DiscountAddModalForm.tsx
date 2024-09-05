@@ -48,6 +48,46 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
           </div>
         )}
       </div>
+
+      <div className="row d-flex mb-5">
+        <label className="fw-bold fs-6 mb-2">
+          group display name
+          {/* {intl.formatMessage({ id: "Fields.Title" })} */}
+        </label>
+        <input
+          type="text"
+          {...formik.getFieldProps("groupDisplayName")}
+          className={clsx(
+            "form-control form-control-solid",
+            {
+              "is-invalid":
+                formik.touched.groupDisplayName &&
+                formik.errors.groupDisplayName,
+            },
+            {
+              "is-valid":
+                formik.touched.groupDisplayName &&
+                !formik.errors.groupDisplayName,
+            }
+          )}
+          disabled={isSubmitting}
+          placeholder="group display name"
+        />
+
+        {formik.touched.groupDisplayName && formik.errors.groupDisplayName && (
+          <div className="fv-plugins-message-container">
+            <div className="fv-help-block">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: formik.errors.groupDisplayName,
+                }}
+                role="alert"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
       <div className="row d-flex mb-5">
         {/* code Field */}
         <div className="col-6 d-flex flex-column">
@@ -97,6 +137,7 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
             </div>
           )}
         </div>
+
         <div className="col-6 d-flex flex-column">
           <label className="required fw-bold fs-6 mb-2">
             {intl.formatMessage({ id: "Fields.AreaUsageType" })}
@@ -215,7 +256,7 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
         </div>
       </div>
 
-      {formik.values.fieldType === 16 && (
+      {(formik.values.fieldType === 16 || formik.values.fieldType === 32) && (
         <>
           <div className="row d-flex mt-5">
             <label className="fw-bold fs-6 mb-3 required">

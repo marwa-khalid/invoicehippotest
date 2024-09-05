@@ -8099,50 +8099,6 @@
       "Group": null,
       "ExtraDescription": null,
       "HasGroup": false
-    },
-    {
-      "Title": "Computed",
-      "Symbol": null,
-      "HasSymbol": false,
-      "Value": 64,
-      "SubGroup": null,
-      "HasSubGroup": false,
-      "Group": null,
-      "ExtraDescription": null,
-      "HasGroup": false
-    },
-    {
-      "Title": "Table",
-      "Symbol": null,
-      "HasSymbol": false,
-      "Value": 128,
-      "SubGroup": null,
-      "HasSubGroup": false,
-      "Group": null,
-      "ExtraDescription": null,
-      "HasGroup": false
-    },
-    {
-      "Title": "Hidden",
-      "Symbol": null,
-      "HasSymbol": false,
-      "Value": 256,
-      "SubGroup": null,
-      "HasSubGroup": false,
-      "Group": null,
-      "ExtraDescription": null,
-      "HasGroup": false
-    },
-    {
-      "Title": "ProductPicker",
-      "Symbol": null,
-      "HasSymbol": false,
-      "Value": 512,
-      "SubGroup": null,
-      "HasSubGroup": false,
-      "Group": null,
-      "ExtraDescription": null,
-      "HasGroup": false
     }
   ],
   "CustomFeatureAreaUsageTypes": [
@@ -8157,17 +8113,7 @@
       "ExtraDescription": null,
       "HasGroup": false
     },
-    {
-      "Title": "Products",
-      "Symbol": null,
-      "HasSymbol": false,
-      "Value": 1,
-      "SubGroup": null,
-      "HasSubGroup": false,
-      "Group": null,
-      "ExtraDescription": null,
-      "HasGroup": false
-    },
+
     {
       "Title": "Clients",
       "Symbol": null,
@@ -8190,39 +8136,7 @@
       "ExtraDescription": null,
       "HasGroup": false
     },
-    {
-      "Title": "Company",
-      "Symbol": null,
-      "HasSymbol": false,
-      "Value": 8,
-      "SubGroup": null,
-      "HasSubGroup": false,
-      "Group": null,
-      "ExtraDescription": null,
-      "HasGroup": false
-    },
-    {
-      "Title": "PluginManaged",
-      "Symbol": null,
-      "HasSymbol": false,
-      "Value": 16,
-      "SubGroup": null,
-      "HasSubGroup": false,
-      "Group": null,
-      "ExtraDescription": null,
-      "HasGroup": false
-    },
-    {
-      "Title": "PluginSettings",
-      "Symbol": null,
-      "HasSymbol": false,
-      "Value": 32,
-      "SubGroup": null,
-      "HasSubGroup": false,
-      "Group": null,
-      "ExtraDescription": null,
-      "HasGroup": false
-    },
+
     {
       "Title": "Invoices",
       "Symbol": null,

@@ -145,10 +145,10 @@ const DiscountMarginsList = ({
               <th>{intl.formatMessage({ id: "Fields.Title" })}</th>
               <th>{intl.formatMessage({ id: "Fields.AreaUsageType" })}</th>
               <th>{intl.formatMessage({ id: "Fields.FieldType" })}</th>
-              <th className="text-end">
+              <th className="text-center">
                 {intl.formatMessage({ id: "Fields.ShowOnInvoice" })}
               </th>
-              <th className="text-end">
+              <th className="text-center">
                 {intl.formatMessage({
                   id: "Fields.ShowOnQuote",
                 })}
@@ -183,15 +183,15 @@ const DiscountMarginsList = ({
                     {discountMargin.fieldType.name}
                   </td>
 
-                  <td className="cursor-pointer  text-center">
-                    {discountMargin.includeOnInvoiceType ? (
+                  <td className="cursor-pointer text-center">
+                    {discountMargin.includeOnInvoiceType.value != 0 ? (
                       <i className="ki-duotone ki-check text-success fs-2x" />
                     ) : (
                       <i className="ki-duotone ki-check text-secondary fs-2x" />
                     )}
                   </td>
                   <td className="cursor-pointer text-center">
-                    {discountMargin.includeOnQuoteType ? (
+                    {discountMargin.includeOnQuoteType.value != 0 ? (
                       <i className="ki-duotone ki-check text-success fs-2x" />
                     ) : (
                       <i className="ki-duotone ki-check text-secondary fs-2x" />

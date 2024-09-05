@@ -36,6 +36,7 @@ export function getCustomFieldById(editModalId: number) {
 export function postCustomField(
   id: number,
   title: string,
+  groupDisplayName: string,
   areaUsageType: number,
   fieldType: number,
   includeOnInvoiceType: number,
@@ -47,6 +48,7 @@ export function postCustomField(
     {
       id: id,
       title: title,
+      groupDisplayName: groupDisplayName,
       areaUsageType: areaUsageType,
       fieldType: fieldType,
       includeOnInvoiceType: includeOnInvoiceType,
