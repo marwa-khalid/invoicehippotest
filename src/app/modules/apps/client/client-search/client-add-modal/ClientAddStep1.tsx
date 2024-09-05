@@ -1,4 +1,5 @@
 import enums from "../../../../../../invoicehippo.enums.json";
+import { KTIcon, toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { FC, useEffect, useState } from "react";
 import Select from "react-select";
 import { useIntl } from "react-intl";
@@ -91,6 +92,7 @@ const ClientAddStep1: FC<Props> = ({
 }) => {
   const intl = useIntl();
   const [isEditing, setIsEditing] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const hasClientType16 = formik.values.clientTypes.includes(16);
 
@@ -107,6 +109,10 @@ const ClientAddStep1: FC<Props> = ({
       //   formik.setFieldValue("factoringSessionStatement", "");
     }
   }, [formik.values.clientTypes]);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
 
   return (
     <>
@@ -136,6 +142,7 @@ const ClientAddStep1: FC<Props> = ({
               />
             </div>
           </div>
+
           <div className="row d-flex mb-5">
             <input
               type="text"
@@ -168,7 +175,14 @@ const ClientAddStep1: FC<Props> = ({
               </div>
             )}
           </div>
-
+          <div className="row d-flex mb-5">
+            <a href="#" onClick={() => handleOpenModal()}>
+              <i className="la la-search-plus me-2"></i>
+              {intl.formatMessage({
+                id: "Fields.PickerClientToolTipSearchChaimberOfCommerce",
+              })}
+            </a>
+          </div>
           {/*  client type Field */}
           <div className="row flex-grow-1 d-flex mb-5">
             <label className="fw-bold fs-6 mb-2">
@@ -535,6 +549,108 @@ const ClientAddStep1: FC<Props> = ({
           )}
         </button>
       </div>
+
+      {isModalOpen && (
+        <div
+          className="modal fade show d-block"
+          tabIndex={-1}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="modal-dialog mw-800px">
+            <div className="modal-content">
+              <div className="modal-header bg-primary">
+                <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-0">
+                  <h2 className="fw-bolder mb-0 text-white">
+                    {intl.formatMessage({
+                      id: "Fields.ActionClientSearchViaChaimberOfCommerce",
+                    })}
+                  </h2>
+                  <div
+                    className="btn btn-icon btn-sm btn-active-icon-primary"
+                    onClick={() => setModalOpen(false)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <KTIcon iconName="cross" className="fs-1 text-white" />
+                  </div>
+                </div>
+              </div>
+              <div className="modal-body">
+                <div
+                  className="w-full mb-20 p-10 rounded"
+                  style={{ backgroundColor: "#32388e" }}
+                >
+                  {/* Full-width search input */}
+                  <div className="d-flex align-items-center position-relative mb-2 gap-2 ">
+                    <KTIcon
+                      iconName="magnifier"
+                      className="fs-3 position-absolute ms-6"
+                    />
+
+                    <input
+                      type="text"
+                      data-kt-user-table-filter="search"
+                      className="form-control form-control-solid w-100 ps-14 rounded-lg me-6"
+                      placeholder={intl.formatMessage({
+                        id: "Fields.SearchTerm",
+                      })}
+                      //value={localSearchTerm}
+                      onChange={(e) => {
+                        e.preventDefault();
+                        // setLocalSearchTerm(e.target.value);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          //  handleSearchClick();
+                        }
+                      }}
+                    />
+                    <div className="btn-group">
+                      <button
+                        className="btn btn-primary d-inline-flex align-items-center"
+                        // onClick={handleSearchClick}
+                      >
+                        <i className="la la-search fs-2"></i>
+                        <span className="ms-1">
+                          {intl.formatMessage({ id: "Fields.SearchBtn" })}
+                        </span>
+                      </button>
+
+                      <button
+                        className="btn btn-secondary btn-icon"
+                        // onClick={handleResetClick}
+                      >
+                        <i className="la la-remove fs-3"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <img
+                    alt=""
+                    src={toAbsoluteUrl("media/logos/searchnotfound.png")}
+                    className="h-250px w-350px"
+                  />
+                  <h4>
+                    {intl.formatMessage({
+                      id: "Fields.SearchNoItemsAvailableDefault",
+                    })}
+                  </h4>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setModalOpen(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
