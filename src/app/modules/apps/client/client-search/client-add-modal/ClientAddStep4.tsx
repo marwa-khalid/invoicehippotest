@@ -73,30 +73,42 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
     }
   };
 
+  // Group fields by groupDisplayName
+  const groupedFields = formik.values.customFields.reduce(
+    (groups: any, field: any) => {
+      const group = field.groupDisplayName || "Ungrouped"; // Default group name for ungrouped fields
+      if (!groups[group]) {
+        groups[group] = [];
+      }
+      groups[group].push(field);
+      return groups;
+    },
+    {}
+  );
+
   return (
     <div className="modal-body">
       <form className="form p-3" noValidate>
-        <div className="card bg-secondary">
-          <div className="card-header d-flex flex-column p-3 mx-3">
-            <h3 className="card-title text-gray-600 fw-bold mb-0 h-0">
-              {intl.formatMessage({ id: "Fields.CustomFeatures" })}
-            </h3>
-            <span className="mt-0 text-muted fs-7">
-              {intl.formatMessage({ id: "Fields.CustomFeaturesSubTitle" })}
-            </span>
-          </div>
-          <div className="separator border-gray-300 "></div>
-          <div className="card-body">
-            <div className="row d-flex mb-5">
-              {/* Replace formik.getFieldValue with formik.values */}
-              {formik.values.customFields &&
-                formik.values.customFields.map((field: any) =>
-                  renderFormField(field)
-                )}
+        {Object.keys(groupedFields).map((groupName) => (
+          <div className="card bg-secondary mb-5" key={groupName}>
+            <div className="card-header d-flex flex-column p-3 mx-3">
+              <h4 className="card-title text-gray-600 fw-bold mb-0">
+                {groupName}
+              </h4>
+              <span className="mt-0 text-muted fs-7">
+                {intl.formatMessage({ id: "Fields.CustomFeaturesSubTitle" })}
+              </span>
+            </div>
+            <div className="separator border-gray-300"></div>
+            <div className="card-body">
+              {groupedFields[groupName].map((field: any) =>
+                renderFormField(field)
+              )}
             </div>
           </div>
-        </div>
+        ))}
       </form>
+
       <div className="text-end">
         <button
           type="submit"

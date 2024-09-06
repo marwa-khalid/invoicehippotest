@@ -66,6 +66,7 @@ const FinancialListInnerWrapper = () => {
       {(addModalOpen || editModalOpen) && (
         <ClientAddModal
           setRefresh={setRefresh}
+          refresh={refresh}
           setAddModalOpen={setAddModalOpen}
           setDeleteModalOpen={setDeleteModalOpen}
           setEditModalId={setEditModalId}

@@ -4,12 +4,13 @@ import { ClientAddModalFooter } from "./ClientAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { getClientById, postClient } from "../core/_requests";
+import { getClientById, getDefaultEmpty, postClient } from "../core/_requests";
 import { ClientAddModalForm } from "./ClientAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { useAuth } from "../../../../auth";
 interface Props {
   setRefresh: (type: boolean) => void;
+  refresh: boolean;
   setAddModalOpen: (type: boolean) => void;
   setEditModalOpen: (type: boolean) => void;
   setDeleteModalId: (type: number[]) => void;
@@ -22,6 +23,7 @@ interface Props {
 }
 const ClientAddModal = ({
   setRefresh,
+  refresh,
   setEditModalId,
   setAddModalOpen,
   setEditModalOpen,
@@ -161,15 +163,18 @@ const ClientAddModal = ({
 
   useEffect(() => {
     const fetchInitialData = async () => {
-      const res = await getClientById(editModalId);
-
+      let res;
+      if (editModalId != 0) {
+        res = await getClientById(editModalId);
+      } else {
+        res = await getDefaultEmpty();
+        console.log(res);
+      }
       setResponse(res.result);
     };
 
-    if (editModalId != 0) {
-      fetchInitialData();
-    }
-  }, [editModalId]);
+    fetchInitialData();
+  }, []);
   useEffect(() => {
     if (response) {
       formik.setValues({
@@ -201,6 +206,7 @@ const ClientAddModal = ({
 
             <ClientAddModalForm
               formik={formik}
+              refresh={refresh}
               isSubmitting={isSubmitting}
               setIsSubmitting={setIsSubmitting}
               setDeleteModalOpen={setDeleteModalOpen}

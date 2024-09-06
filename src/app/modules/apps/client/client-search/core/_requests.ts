@@ -1,12 +1,7 @@
 import {
   FinancialAccountsModel,
-  FinancialAccountByIdModel,
   PrivateLedgersModel,
-  FinancialInstitutionsResult,
-  FinancialInstitutionsModel,
-  AccountAutomationModel,
   ClientModel,
-  ClientResult,
   ClientFormValues,
   ContactModel,
   ContactResult,
@@ -22,18 +17,12 @@ import {
 import {
   GET_CLIENTS,
   POST_CLIENT,
-  POST_FINANCIAL_ACCOUNT,
-  GET_LEDGDER_FOR_FINANCIAL,
-  GET_FINANCIALACCOUNT_BY_ID,
-  GET_FINANCIAL_INSTITUTIONS,
-  POST_ACCOUNT_AUTOMATION,
-  UNLINK_ACCOUNT,
   POST_CONTACT,
   GET_CONTACT_BY_ID,
   GET_LEDGDER_FOR_CLIENT,
   GET_VAT_FOR_CLIENT,
+  GET_DEFAULT_EMPTY,
 } from "./constants";
-import { VatTypesForLedgerModel } from "../../../admin-settings/ledgeraccounts-list/core/_models";
 interface DeleteResult extends Partial<ClientModel> {}
 interface ContactValues extends Partial<ContactResult> {}
 interface PartialClientFormValues extends Partial<ClientFormValues> {}
@@ -55,6 +44,14 @@ export function getClients(searchTerm: string, pageIndex: number) {
 export function getClientById(id: number) {
   return getRequest<ClientFormValuesModel>(
     `${POST_CLIENT}/${id}`,
+
+    true
+  );
+}
+
+export function getDefaultEmpty() {
+  return getRequest<ClientFormValuesModel>(
+    `${GET_DEFAULT_EMPTY}`,
 
     true
   );
@@ -131,54 +128,6 @@ export function getVatForClient() {
   return getRequest<VatTypesForClientModel>(GET_VAT_FOR_CLIENT, true);
 }
 
-//extraaaaa
-
-export function getFinancialAccountById(editModalId: number) {
-  return getRequest<FinancialAccountByIdModel>(
-    `${GET_FINANCIALACCOUNT_BY_ID}/${editModalId}`,
-    true
-  );
-}
-
-export function getLedgerForFinancial(id: number) {
-  return getRequest<PrivateLedgersModel>(
-    `${GET_LEDGDER_FOR_FINANCIAL}/${id}`,
-    true
-  );
-}
-
 export function deleteClient(id: number[]) {
   return deleteRequest<DeleteResult>(POST_CLIENT, id, true);
-}
-
-export function getFinancialInstitutions(countryType: number) {
-  return getRequest<FinancialInstitutionsModel>(
-    `${GET_FINANCIAL_INSTITUTIONS}/${countryType}`,
-    true
-  );
-}
-
-export function postAccounAutomation(
-  companyId: number,
-  importDateMarker: string,
-  optionalFinancialInstitutionId: string,
-  redirectCommand: {
-    successUrl: string;
-    oopsUrl: string;
-  }
-) {
-  return postRequest<AccountAutomationModel>(
-    `${POST_ACCOUNT_AUTOMATION}`,
-    {
-      companyId: companyId,
-      importDateMarker: importDateMarker,
-      optionalFinancialInstitutionId: optionalFinancialInstitutionId,
-      redirectCommand: redirectCommand,
-    },
-    true
-  );
-}
-
-export function deleteAutomation(id: number) {
-  return deleteRequest<Boolean>(`${UNLINK_ACCOUNT}/${id}`, [], true);
 }

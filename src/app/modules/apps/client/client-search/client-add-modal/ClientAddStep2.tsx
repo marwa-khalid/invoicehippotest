@@ -13,6 +13,7 @@ import { setTimeout } from "timers/promises";
 
 type Props = {
   clientId: number;
+  refresh: boolean;
   setDeleteModalId: (id: number[]) => void;
   setDeleteModalOpen: (type: boolean) => void;
   setTitle: (type: string) => void;
@@ -22,9 +23,9 @@ type Props = {
 };
 const ClientAddStep2: FC<Props> = ({
   clientId,
+  refresh,
   setDeleteModalId,
   setDeleteModalOpen,
-
   deleteModalOpen,
   setIntlMessage,
   setTitle,
@@ -33,7 +34,7 @@ const ClientAddStep2: FC<Props> = ({
   const intl = useIntl();
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentContactId, setCurrentContactId] = useState<number>(0);
-  const [infoModalOpen, setInfoModalOpen] = useState(false);
+
   const [contacts, setContacts] = useState<any[]>([]);
   const [newContact, setNewContact] = useState({
     id: 0,
@@ -62,7 +63,16 @@ const ClientAddStep2: FC<Props> = ({
     if (clientId !== undefined) {
       fetchSpecificContacts();
     }
-  }, [clientId, deleteModalOpen]);
+  }, [clientId, deleteModalOpen, refresh]);
+
+  useEffect(() => {
+    setContacts((prevContacts: any) =>
+      prevContacts.filter(
+        (contact: any) => !selectedContacts.includes(contact.id)
+      )
+    );
+    setSelectedContacts([]);
+  }, [refresh]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -167,18 +177,17 @@ const ClientAddStep2: FC<Props> = ({
 
   const handleDeleteSelectedContacts = async () => {
     setDeleteModalOpen(true);
-    const response = await deleteContact(selectedContacts);
-    if (response.isValid) {
-      setContacts((prevContacts: any) =>
-        prevContacts.filter(
-          (contact: any) => !selectedContacts.includes(contact.id)
-        )
-      );
+    setIntlMessage("Fields.ModalDeleteDescriptionClientContact");
 
-      setSelectedContacts([]);
-    } else {
-      handleToast(response);
-    } // Reset selection after deletion
+    // Extract the titles of selected contacts
+    const selectedTitles = contacts
+      .filter((contact: any) => selectedContacts.includes(contact.id)) // Find contacts by their IDs
+      .map((contact: any) => contact.firstName || contact.emailAddress) // Extract the title of each selected contact
+      .join(", "); // Join the titles into a comma-separated string
+
+    setDeleteModalId(selectedContacts); // Set the IDs for deletion modal
+    setTitle(selectedTitles); // Set the comma-separated titles
+    console.log(selectedTitles);
   };
 
   const openDeleteModal = (id: number, title: string) => {
