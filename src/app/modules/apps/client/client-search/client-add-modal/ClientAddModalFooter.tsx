@@ -76,16 +76,10 @@ interface FormValues {
   };
 }
 
-const ClientAddModalFooter: FC<Props> = ({
-  isSubmitting,
-  formik,
-  setAddModalOpen,
-}) => {
+const ClientAddModalFooter = () => {
   const intl = useIntl();
 
-  return (
-   <></>
-  );
+  return <></>;
 };
 
 export { ClientAddModalFooter };

@@ -58,6 +58,7 @@ const ClientAddModal = ({
           fieldType: {
             value: 0,
             description: "",
+            name: "",
           },
           fieldId: 0,
           value: {
@@ -221,11 +222,7 @@ const ClientAddModal = ({
               editModalId={editModalId}
             />
 
-            <ClientAddModalFooter
-              formik={formik}
-              isSubmitting={isSubmitting}
-              setAddModalOpen={setAddModalOpen}
-            />
+            <ClientAddModalFooter />
           </div>
         </div>
       </div>

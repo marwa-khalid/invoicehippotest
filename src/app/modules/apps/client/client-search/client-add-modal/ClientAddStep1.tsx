@@ -16,6 +16,7 @@ interface FormValues {
     fieldType: {
       value: number;
       description: string;
+      name: string;
     };
     fieldId: number;
     value: {

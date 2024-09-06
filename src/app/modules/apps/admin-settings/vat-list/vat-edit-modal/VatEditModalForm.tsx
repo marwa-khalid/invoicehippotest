@@ -221,6 +221,7 @@ const VatEditModalForm: FC<Props> = ({
               }
             )}
             options={ledgerAccounts}
+            isClearable
           />
           {formik.touched.ledgerAccountId && formik.errors.ledgerAccountId && (
             <div className="fv-plugins-message-container">

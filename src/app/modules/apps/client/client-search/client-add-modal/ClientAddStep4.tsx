@@ -15,7 +15,9 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
 
   // Helper function to render form fields based on fieldType
   const renderFormField = (field: any) => {
-    switch (field.fieldType.name) {
+    console.log(field);
+
+    switch (field?.fieldType?.name) {
       case "Text":
         return (
           <div className="row mb-7" key={field.fieldId}>
@@ -25,6 +27,10 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
               {...formik.getFieldProps(
                 `customFields[${field.fieldId}].value.asText`
               )}
+              value={
+                formik.values.customFields?.[field.fieldId]?.value?.asText || ""
+              }
+              onChange={formik.handleChange}
               className={clsx(
                 "form-control form-control-solid",
                 {
@@ -76,7 +82,7 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
   // Group fields by groupDisplayName
   const groupedFields = formik.values.customFields.reduce(
     (groups: any, field: any) => {
-      const group = field.groupDisplayName || "Ungrouped"; // Default group name for ungrouped fields
+      const group = field?.groupDisplayName || "Ungrouped"; // Default group name for ungrouped fields
       if (!groups[group]) {
         groups[group] = [];
       }
@@ -85,6 +91,7 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
     },
     {}
   );
+  console.log(formik.values.customFields);
 
   return (
     <div className="modal-body">
@@ -95,6 +102,7 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
               <h4 className="card-title text-gray-600 fw-bold mb-0">
                 {groupName}
               </h4>
+              {console.log(groupedFields)!}
               <span className="mt-0 text-muted fs-7">
                 {intl.formatMessage({ id: "Fields.CustomFeaturesSubTitle" })}
               </span>

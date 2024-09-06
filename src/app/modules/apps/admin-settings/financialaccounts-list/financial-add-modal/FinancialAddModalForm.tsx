@@ -97,6 +97,7 @@ const FinancialAddModalForm: FC<Props> = ({ formik, isSubmitting }) => {
             onChange={(selectedOption) =>
               formik.setFieldValue("accountType", selectedOption?.value)
             }
+            isClearable
           />
           {formik.touched.accountType && formik.errors.accountType && (
             <div className="fv-plugins-message-container">

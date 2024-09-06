@@ -11,6 +11,7 @@ import { ProductGroupsWrapper } from "./productgroups-list/ProductGroupsWrapper"
 import { DiscountMarginsWrapper } from "./discountmargins-list/DiscountMarginsWrapper";
 import { UsersManagementWrapper } from "./users-management/UsersManagementWrapper";
 import { CustomFieldsWrapper } from "./customfields-list/DiscountMarginsWrapper";
+import { ReminderSettingsWrapper } from "./remindersettings-list/ReminderSettingsWrapper";
 
 const VatTypesPage = () => {
   const { config } = useLayout();
@@ -188,6 +189,32 @@ const VatTypesPage = () => {
             </>
           }
         />
+
+        <Route
+          path="notification-cycle"
+          element={
+            <>
+              <PageTitle breadcrumbs={settingsBreadcrumbs}>
+                {intl.formatMessage({
+                  id: "Fields.SearchPanelTitleNotificationCycle",
+                })}
+              </PageTitle>
+              <div
+                className={clsx(
+                  "main rounded",
+                  config.app?.sidebar?.default?.class,
+                  {
+                    "bg-light": config.layoutType === "light-sidebar",
+                    "bg-dark": config.layoutType === "dark-sidebar",
+                  }
+                )}
+              >
+                <ReminderSettingsWrapper />
+              </div>
+            </>
+          }
+        />
+
         <Route
           path="customfields"
           element={

@@ -173,21 +173,12 @@ const SidebarMenuMain = () => {
           title="Financial Accounts"
           hasBullet={true}
         />
-        <SidebarMenuItem
+        {/* <SidebarMenuItem
           to="/admin/unit-types"
           title="Unit Types"
           hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/productgroups"
-          title="Product Groups"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/discounts"
-          title="Discount Margins"
-          hasBullet={true}
-        />
+        /> */}
+
         <SidebarMenuItem
           to="/admin/customfields"
           title="Custom Fields"
@@ -207,6 +198,35 @@ const SidebarMenuMain = () => {
       >
         <SidebarMenuItem to="/client/search" title="Client" hasBullet={true} />
       </SidebarMenuItemWithSub>
+
+      <SidebarMenuItemWithSub
+        to="/admin"
+        title="Sales"
+        fontIcon="bi-chat-left"
+        icon="message-text-2"
+      >
+        <SidebarMenuItem
+          to="/admin/unit-types"
+          title="Unit Types"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to="/admin/productgroups"
+          title="Product Groups"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to="/admin/discounts"
+          title="Discount Margins"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to="/admin/notification-cycle"
+          title="Reminder Settings"
+          hasBullet={true}
+        />
+      </SidebarMenuItemWithSub>
+
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">

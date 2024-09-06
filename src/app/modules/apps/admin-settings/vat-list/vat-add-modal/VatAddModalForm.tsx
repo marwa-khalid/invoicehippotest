@@ -185,6 +185,7 @@ const VatAddModalForm: FC<Props> = ({
             value: item.Value,
             label: item.Title,
           }))}
+          isClearable
         />
 
         {formik.touched.documentGroup && formik.errors.documentGroup && (
@@ -253,6 +254,7 @@ const VatAddModalForm: FC<Props> = ({
               }
             )}
             options={ledgerAccounts}
+            isClearable
           />
 
           {formik.touched.ledgerAccountId && formik.errors.ledgerAccountId && (
