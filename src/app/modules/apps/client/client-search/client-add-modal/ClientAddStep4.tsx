@@ -18,7 +18,7 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
     switch (field.fieldType.name) {
       case "Text":
         return (
-          <div className="fv-row col-6 mb-7" key={field.fieldId}>
+          <div className="row mb-7" key={field.fieldId}>
             <label className="fw-bold fs-6 mb-3">{field.fieldLabel}</label>
             <input
               type="text"
@@ -46,7 +46,7 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
         );
       case "Options":
         return (
-          <div className="fv-row col-6" key={field.fieldId}>
+          <div className="fv-row" key={field.fieldId}>
             <label className="fw-bold fs-6 mb-3">{field.fieldLabel}</label>
             <Select
               className="react-select-styled"
@@ -76,8 +76,8 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
   return (
     <div className="modal-body">
       <form className="form p-3" noValidate>
-        <div className="card bg-secondary p-2 rounded mb-7">
-          <div className="card-header d-flex flex-column p-3 ">
+        <div className="card bg-secondary">
+          <div className="card-header d-flex flex-column p-3 mx-3">
             <h3 className="card-title text-gray-600 fw-bold mb-0 h-0">
               {intl.formatMessage({ id: "Fields.CustomFeatures" })}
             </h3>
@@ -85,9 +85,9 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
               {intl.formatMessage({ id: "Fields.CustomFeaturesSubTitle" })}
             </span>
           </div>
-          <div className="separator border-gray-300 my-6"></div>
-          <div className="card-body p-3">
-            <div className="row d-flex ">
+          <div className="separator border-gray-300 "></div>
+          <div className="card-body">
+            <div className="row d-flex mb-5">
               {/* Replace formik.getFieldValue with formik.values */}
               {formik.values.customFields &&
                 formik.values.customFields.map((field: any) =>

@@ -166,6 +166,7 @@ const ClientAddStep2: FC<Props> = ({
   };
 
   const handleDeleteSelectedContacts = async () => {
+    setDeleteModalOpen(true);
     const response = await deleteContact(selectedContacts);
     if (response.isValid) {
       setContacts((prevContacts: any) =>
@@ -192,8 +193,8 @@ const ClientAddStep2: FC<Props> = ({
       <div className="container my-4 ">
         {/* Add Contact Button */}
         <div className="d-flex mb-3">
-          <div className="input-group justify-content-between">
-            {contacts.length > 0 ? (
+          <div className="input-group">
+            {contacts.length > 1 ? (
               <div className="form-check form-check-sm form-check-custom form-check-solid">
                 <input
                   className="form-check-input me-3"
@@ -201,30 +202,25 @@ const ClientAddStep2: FC<Props> = ({
                   checked={selectedContacts.length === contacts.length}
                   onChange={toggleAllRowsSelection}
                 />
-                <label className="text-muted">Delete All</label>
               </div>
-            ) : (
-              <div className="form-check form-check-sm form-check-custom form-check-solid">
-                <input
-                  className="form-check-input me-3"
-                  type="checkbox"
-                  disabled
-                />
-                <label className="text-muted">No records</label>
-              </div>
+            ) : null}
+            {selectedContacts.length === 0 && (
+              <button
+                className="btn btn-primary d-flex align-items-center rounded p-3 ms-auto"
+                onClick={() => handleOpenModal()}
+              >
+                <i className="ki-duotone ki-plus-square fs-2x text-white ">
+                  <span className="path1"></span>
+                  <span className="path2"></span>
+                  <span className="path3"></span>
+                </i>
+                {intl.formatMessage({
+                  id: "Fields.ModalNewTitleClientContact",
+                })}
+              </button>
             )}
-            <button
-              className="btn btn-primary d-flex align-items-center rounded p-3"
-              onClick={() => handleOpenModal()}
-            >
-              <i className="ki-duotone ki-plus-square fs-2x text-white ">
-                <span className="path1"></span>
-                <span className="path2"></span>
-                <span className="path3"></span>
-              </i>
-              {intl.formatMessage({ id: "Fields.ModalNewTitleClientContact" })}
-            </button>
           </div>
+
           {selectedContacts?.length > 0 && (
             <div>
               <button
