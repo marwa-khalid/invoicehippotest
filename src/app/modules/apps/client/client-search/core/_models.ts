@@ -215,7 +215,6 @@ export interface FinancialAccountsResult {
   actions: Actions;
 }
 
-
 export interface BalanceItem {
   id: number;
   title: string;
@@ -261,7 +260,6 @@ export interface BalanceItem {
     description: string;
   };
 }
-
 
 export type FinancialAccountsModel = ApiResponse<FinancialAccountsResult>;
 export type PrivateLedgersModel = ApiResponse<BalanceItem[]>;

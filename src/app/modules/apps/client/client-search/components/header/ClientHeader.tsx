@@ -1,4 +1,4 @@
-import { FinancialListSearchComponent } from "./FinancialListSearchComponent";
+import { ClientSearchComponent } from "./ClientSearchComponent";
 import { KTCardBody } from "../../../../../../../_metronic/helpers";
 
 interface ComponentProps {
@@ -16,7 +16,7 @@ const ClientHeader = ({
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
       <div className="card-body pt-9 pb-0">
         {/* Full-width search and button */}
-        <FinancialListSearchComponent
+        <ClientSearchComponent
           setSearchTerm={setSearchTerm}
           setSearchCounter={setSearchCounter}
           searchTerm={searchTerm}

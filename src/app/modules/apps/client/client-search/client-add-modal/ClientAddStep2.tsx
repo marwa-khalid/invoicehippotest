@@ -187,7 +187,6 @@ const ClientAddStep2: FC<Props> = ({
 
     setDeleteModalId(selectedContacts); // Set the IDs for deletion modal
     setTitle(selectedTitles); // Set the comma-separated titles
-   
   };
 
   const openDeleteModal = (id: number, title: string) => {
@@ -199,9 +198,9 @@ const ClientAddStep2: FC<Props> = ({
 
   return (
     <>
-      <div className="container my-4 ">
+      <div className="container p-8 ">
         {/* Add Contact Button */}
-        <div className="d-flex mb-3">
+        <div className="d-flex">
           <div className="input-group">
             {contacts.length > 1 ? (
               <div className="form-check form-check-sm form-check-custom form-check-solid">
@@ -403,7 +402,7 @@ const ClientAddStep2: FC<Props> = ({
                     className="btn btn-secondary"
                     onClick={() => setModalOpen(false)}
                   >
-                    Close
+                    {intl.formatMessage({ id: "Fields.ActionClose" })}
                   </button>
                   <button
                     type="button"
@@ -454,7 +453,7 @@ const ClientAddStep2: FC<Props> = ({
                       <div className="d-flex align-items-center">
                         <div className="form-check form-check-sm form-check-custom form-check-solid me-3">
                           <input
-                            className="form-check-input"
+                            className="form-check-input me-5"
                             type="checkbox"
                             checked={selectedContacts.includes(contact.id)}
                             onChange={() => toggleRowSelection(contact.id)}

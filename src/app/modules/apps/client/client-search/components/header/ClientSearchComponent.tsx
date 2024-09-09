@@ -8,7 +8,7 @@ interface ComponentProps {
   setSearchCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const FinancialListSearchComponent = ({
+const ClientSearchComponent = ({
   setSearchTerm,
   searchTerm,
   setSearchCounter,
@@ -107,4 +107,4 @@ const FinancialListSearchComponent = ({
   );
 };
 
-export { FinancialListSearchComponent };
+export { ClientSearchComponent };

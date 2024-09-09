@@ -75,7 +75,6 @@ const LimitationModal = ({
                 className="btn btn-warning"
                 type="submit"
               >
-                {/* {intl.formatMessage({ id: "Fields.UpgradeNow" })} */}
                 {intl.formatMessage({ id: "Fields.ActionUpgrade" })}
               </button>
             </div>
