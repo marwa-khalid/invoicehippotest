@@ -14,16 +14,14 @@ const getPaginationValues = () => {
     const pagination = JSON.parse(storedPaginationString);
 
     const currentMainFilter =
-      pagination["ledger-module"].filters.ledgerTypeFilter || 0;
-    const currentSubTypeFilter =
-      pagination["ledger-module"].filters.bearingTypeFilter || 0;
+      pagination["notifications-module"].filters.areaUsageType || 0;
 
-    const currentPage = pagination["ledger-module"].pageIndex || 1;
-    const searchTerm = pagination["ledger-module"].filters.searchTerm || "";
+    const currentPage = pagination["notifications-module"].pageIndex || 1;
+    const searchTerm =
+      pagination["notifications-module"].filters.searchTerm || "";
 
     return {
       mainfilter: currentMainFilter,
-      subTypeFilter: currentSubTypeFilter,
       pageIndex: currentPage,
       searchTerm: searchTerm,
     };
@@ -34,10 +32,9 @@ const ReminderSettingsInnerWrapper = () => {
   const [isFilterApplied, setIsFilterApplied] = useState(false);
   const { mainfilter, subTypeFilter, pageIndex, searchTerm } =
     getPaginationValues();
-
+  const [searchCounter, setSearchCounter] = useState(0);
   const [ledgerTypeFilter, setLedgerTypeFilter] = useState<number>(mainfilter);
-  const [bearingTypeFilter, setBearingTypeFilter] =
-    useState<number>(subTypeFilter);
+  const [bearingTypeFilter, setBearingTypeFilter] = useState<number>(0);
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
   const [searchTermState, setSearchTermState] = useState(searchTerm);
   useEffect(() => {
@@ -65,6 +62,7 @@ const ReminderSettingsInnerWrapper = () => {
         bearingTypeFilter={bearingTypeFilter}
         setIsFilterApplied={setIsFilterApplied}
         isFilterApplied={isFilterApplied}
+        setSearchCounter={setSearchCounter}
       />
 
       <LedgerListToolbar
@@ -73,6 +71,7 @@ const ReminderSettingsInnerWrapper = () => {
       />
 
       <LedgerAccountsList
+      searchCounter={searchCounter}
         searchTerm={searchTerm}
         ledgerTypeFilter={ledgerTypeFilter}
         bearingTypeFilter={bearingTypeFilter}

@@ -672,34 +672,32 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
             </div>
 
             <div className="row d-flex mb-5">
-              <div className="fv-row col-6">
-                {/* KvkNr Field */}
-                <label className="   fw-bold fs-6 mb-3">
-                  Standaard referentie
-                </label>
-                <input
-                  type="text"
-                  {...formik.getFieldProps(
-                    "invoiceAndQuoteSettings.costDefaultReference"
-                  )}
-                  className="form-control form-control-solid"
-                  placeholder="Standaard referentie"
-                />
-              </div>
-              <div className="fv-row col-6">
-                {/* KvkNr Field */}
-                <label className="   fw-bold fs-6 mb-3">
-                  Standaard regelomschrijving
-                </label>
-                <input
-                  type="text"
-                  {...formik.getFieldProps(
-                    "invoiceAndQuoteSettings.costDefaultLineReference"
-                  )}
-                  className="form-control form-control-solid"
-                  placeholder="Standaard regelomschrijving"
-                />
-              </div>
+              {/* KvkNr Field */}
+              <label className="   fw-bold fs-6 mb-3">
+                Standaard referentie
+              </label>
+              <input
+                type="text"
+                {...formik.getFieldProps(
+                  "invoiceAndQuoteSettings.costDefaultReference"
+                )}
+                className={clsx("form-control form-control-solid")}
+                placeholder="Standaard referentie"
+              />
+            </div>
+            <div className="row d-flex mb-5">
+              {/* KvkNr Field */}
+              <label className="   fw-bold fs-6 mb-3">
+                Standaard regelomschrijving
+              </label>
+              <input
+                type="text"
+                {...formik.getFieldProps(
+                  "invoiceAndQuoteSettings.costDefaultLineReference"
+                )}
+                className="form-control form-control-solid mx-3"
+                placeholder="Standaard regelomschrijving"
+              />
             </div>
           </div>
 

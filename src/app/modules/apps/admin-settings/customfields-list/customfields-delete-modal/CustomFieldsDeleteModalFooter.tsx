@@ -10,7 +10,7 @@ interface ComponentProps {
   setDeleteModalId: (type: number[]) => void;
 }
 
-const DiscountDeleteModalFooter = ({
+const CustomFieldsDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
@@ -70,4 +70,4 @@ const DiscountDeleteModalFooter = ({
   );
 };
 
-export { DiscountDeleteModalFooter };
+export { CustomFieldsDeleteModalFooter };

@@ -34,7 +34,7 @@ const LedgerListInnerWrapper = () => {
   const [isFilterApplied, setIsFilterApplied] = useState(false);
   const { mainfilter, subTypeFilter, pageIndex, searchTerm } =
     getPaginationValues();
-
+  const [searchCounter, setSearchCounter] = useState(0);
   const [ledgerTypeFilter, setLedgerTypeFilter] = useState<number>(mainfilter);
   const [bearingTypeFilter, setBearingTypeFilter] =
     useState<number>(subTypeFilter);
@@ -65,6 +65,7 @@ const LedgerListInnerWrapper = () => {
         bearingTypeFilter={bearingTypeFilter}
         setIsFilterApplied={setIsFilterApplied}
         isFilterApplied={isFilterApplied}
+        setSearchCounter={setSearchCounter}
       />
 
       <LedgerListToolbar
@@ -73,6 +74,7 @@ const LedgerListInnerWrapper = () => {
       />
 
       <LedgerAccountsList
+        searchCounter={searchCounter}
         searchTerm={searchTerm}
         ledgerTypeFilter={ledgerTypeFilter}
         bearingTypeFilter={bearingTypeFilter}

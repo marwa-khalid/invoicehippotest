@@ -5,7 +5,7 @@ import {
   postRequest,
   deleteRequest,
 } from "../../../../auth/core/_apiservice";
-import { UNIT_TYPES, GET_LEDGDER_FOR_FINANCIAL } from "./constants";
+import { UNIT_TYPES } from "./constants";
 
 interface PartialResult extends Partial<UnitTypesModel> {}
 

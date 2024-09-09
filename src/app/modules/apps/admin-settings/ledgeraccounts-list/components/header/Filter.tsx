@@ -119,48 +119,7 @@ export function Filter({
     const storedPaginationString = localStorage.getItem("pagination");
     const pagination = storedPaginationString
       ? JSON.parse(storedPaginationString)
-      : {
-          "vat-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "", documentGroup: 0 },
-          },
-          "ledger-module": {
-            pageIndex: 1,
-            filters: {
-              searchTerm: "",
-              ledgerTypeFilter: 0,
-              bearingTypeFilter: 0,
-            },
-          },
-          "financial-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "unit-types-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "productgroups-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "discounts-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "users-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "customfields-module": {
-            pageIndex: 1,
-            filters: {
-              searchTerm: "",
-              areaTypeFilter: 0,
-              fieldTypeFilter: 0,
-            },
-          },
-        };
+      : JSON.parse(import.meta.env.VITE_APP_PAGINATION);
 
     pagination["ledger-module"].filters.ledgerTypeFilter = tempLedgerTypeOption
       ? tempLedgerTypeOption

@@ -187,7 +187,7 @@ const ClientAddStep2: FC<Props> = ({
 
     setDeleteModalId(selectedContacts); // Set the IDs for deletion modal
     setTitle(selectedTitles); // Set the comma-separated titles
-    console.log(selectedTitles);
+   
   };
 
   const openDeleteModal = (id: number, title: string) => {

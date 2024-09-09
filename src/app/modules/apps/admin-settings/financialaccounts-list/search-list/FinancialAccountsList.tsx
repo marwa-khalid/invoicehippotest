@@ -22,6 +22,7 @@ interface ComponentProps {
   editModalOpen: boolean;
   deleteModalOpen: boolean;
   addModalOpen: boolean;
+  searchCounter: number;
 }
 const FinancialAccountsList = ({
   searchTerm,
@@ -31,6 +32,7 @@ const FinancialAccountsList = ({
   setLedgerAccountTitle,
   setDeleteModalOpen,
   setUnlinkModalOpen,
+  searchCounter,
   refresh,
   setPageIndex,
   pageIndex,
@@ -64,7 +66,7 @@ const FinancialAccountsList = ({
 
   useEffect(() => {
     fetchFinancialAccounts();
-  }, [searchTerm, pageIndex]);
+  }, [searchTerm, pageIndex, searchCounter]);
 
   useEffect(() => {
     fetchFinancialAccounts();

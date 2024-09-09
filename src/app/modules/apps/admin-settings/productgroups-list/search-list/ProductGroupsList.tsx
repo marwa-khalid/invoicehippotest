@@ -21,6 +21,7 @@ interface ComponentProps {
   setDeleteSelectedButton: (type: boolean) => void;
   deleteModalId: any;
   setDeleteModalId: any;
+  searchCounter: number;
 }
 
 const ProductGroupsList = ({
@@ -38,6 +39,7 @@ const ProductGroupsList = ({
   setDeleteSelectedButton,
   deleteModalId,
   setDeleteModalId,
+  searchCounter,
 }: ComponentProps) => {
   const [productGroups, setProductGroups] = useState<any>([]);
   const [selectAll, setSelectAll] = useState(false);
@@ -69,7 +71,7 @@ const ProductGroupsList = ({
   }, [deleteModalId]);
   useEffect(() => {
     fetchProductGroups();
-  }, [searchTerm, pageIndex]);
+  }, [searchTerm, pageIndex, searchCounter]);
 
   useEffect(() => {
     fetchProductGroups();

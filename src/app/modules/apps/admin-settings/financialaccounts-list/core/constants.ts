@@ -1,6 +1,4 @@
-const API_URL_V1 =
-  import.meta.env.INVOICEHIPPO_API_CORE_V1 ||
-  "https://api-tst.invoicehippo.nl/api/v1";
+const API_URL_V1 = import.meta.env.VITE_APP_INVOICEHIPPO_API_CORE_V1;
 
 export const GET_FINANCIALACCOUNT_BY_ID = `${API_URL_V1}/admin/financialaccount`;
 export const GET_LEDGDER_FOR_FINANCIAL = `${API_URL_V1}/lists/ledger-accounts/for/financial-accounts`;

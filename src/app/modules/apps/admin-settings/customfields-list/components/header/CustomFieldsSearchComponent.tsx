@@ -8,6 +8,7 @@ import { useLayout } from "../../../../../../../_metronic/layout/core";
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
   searchTerm: string;
+  setSearchCounter: React.Dispatch<React.SetStateAction<number>>;
   setFieldTypeFilter: (type: number) => void;
   setAreaTypeFilter: (type: number) => void;
   areaTypeFilter: number;
@@ -18,6 +19,7 @@ interface ComponentProps {
 const CustomFieldsSearchComponent = ({
   setSearchTerm,
   searchTerm,
+  setSearchCounter,
   setFieldTypeFilter,
   setAreaTypeFilter,
   areaTypeFilter,
@@ -31,6 +33,7 @@ const CustomFieldsSearchComponent = ({
   const [tempAreaTypeOption, setTempAreaTypeOption] =
     useState<any>(areaTypeFilter);
   const intl = useIntl();
+
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
       // Update the query state and parent search term when search button is clicked
@@ -39,48 +42,7 @@ const CustomFieldsSearchComponent = ({
       // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
       let pagination = storedPaginationString
         ? JSON.parse(storedPaginationString)
-        : {
-            "vat-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "", documentGroup: 0 },
-            },
-            "ledger-module": {
-              pageIndex: 1,
-              filters: {
-                searchTerm: "",
-                ledgerTypeFilter: 0,
-                bearingTypeFilter: 0,
-              },
-            },
-            "financial-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "unit-types-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "productgroups-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "discounts-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "users-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "customfields-module": {
-              pageIndex: 1,
-              filters: {
-                searchTerm: "",
-                areaTypeFilter: 0,
-                fieldTypeFilter: 0,
-              },
-            },
-          };
+        : JSON.parse(import.meta.env.VITE_APP_PAGINATION);
 
       // Update the filter in the vat-module
       pagination["customfields-module"].filters.searchTerm = localSearchTerm;
@@ -88,6 +50,7 @@ const CustomFieldsSearchComponent = ({
       const updatedPaginationString = JSON.stringify(pagination);
       // Store the updated JSON string in local storage
       localStorage.setItem("pagination", updatedPaginationString);
+      setSearchCounter((prev: number) => prev + 1);
     }
   };
   const handleResetClick = () => {

@@ -10,6 +10,7 @@ interface ComponentProps {
   searchTerm: string;
   ledgerTypeFilter: number;
   bearingTypeFilter: number;
+  setSearchCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const LedgerListHeader = ({
@@ -21,6 +22,7 @@ const LedgerListHeader = ({
   ledgerTypeFilter,
   setBearingTypeFilter,
   bearingTypeFilter,
+  setSearchCounter
 }: ComponentProps) => {
   return (
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
@@ -35,6 +37,7 @@ const LedgerListHeader = ({
           bearingTypeFilter={bearingTypeFilter}
           isFilterApplied={isFilterApplied}
           ledgerTypeFilter={ledgerTypeFilter}
+          setSearchCounter={setSearchCounter}
         />
       </div>
     </KTCardBody>

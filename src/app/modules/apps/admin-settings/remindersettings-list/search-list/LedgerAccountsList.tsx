@@ -22,6 +22,7 @@ interface ComponentProps {
   pageIndex: number;
   editModalOpen: boolean;
   deleteModalOpen: boolean;
+  searchCounter: number;
 }
 const LedgerAccountsList = ({
   searchTerm,
@@ -37,6 +38,7 @@ const LedgerAccountsList = ({
   editModalOpen,
   bearingTypeFilter,
   deleteModalOpen,
+  searchCounter,
 }: ComponentProps) => {
   const [notificationCycles, setNotificationCycles] = useState<any>([]);
 
@@ -69,7 +71,13 @@ const LedgerAccountsList = ({
 
   useEffect(() => {
     fetchLedgers();
-  }, [searchTerm, ledgerTypeFilter, bearingTypeFilter, pageIndex]);
+  }, [
+    searchTerm,
+    ledgerTypeFilter,
+    bearingTypeFilter,
+    pageIndex,
+    searchCounter,
+  ]);
 
   useEffect(() => {
     fetchLedgers();

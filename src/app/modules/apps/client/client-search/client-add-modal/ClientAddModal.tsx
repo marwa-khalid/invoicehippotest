@@ -166,7 +166,7 @@ const ClientAddModal = ({
         res = await getClientById(editModalId);
       } else {
         res = await getDefaultEmpty();
-        console.log(res);
+      
       }
       setResponse(res.result);
     };

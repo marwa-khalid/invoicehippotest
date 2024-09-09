@@ -4,10 +4,9 @@ import { KTCardBody } from "../../../../../../../_metronic/helpers";
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
   searchTerm: string;
-
   setFieldTypeFilter: (type: number) => void;
   setAreaTypeFilter: (type: number) => void;
-
+  setSearchCounter: React.Dispatch<React.SetStateAction<number>>;
   areaTypeFilter: number;
   fieldTypeFilter: number;
   setIsFilterApplied: (type: boolean) => void;
@@ -17,6 +16,7 @@ interface ComponentProps {
 const CustomFieldsHeader = ({
   setSearchTerm,
   searchTerm,
+  setSearchCounter,
   isFilterApplied,
   setAreaTypeFilter,
   setFieldTypeFilter,
@@ -31,6 +31,7 @@ const CustomFieldsHeader = ({
         <CustomFieldsSearchComponent
           setSearchTerm={setSearchTerm}
           searchTerm={searchTerm}
+          setSearchCounter={setSearchCounter}
           setFieldTypeFilter={setFieldTypeFilter}
           setAreaTypeFilter={setAreaTypeFilter}
           areaTypeFilter={areaTypeFilter}

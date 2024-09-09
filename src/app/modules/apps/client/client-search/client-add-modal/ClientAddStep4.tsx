@@ -15,8 +15,7 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
 
   // Helper function to render form fields based on fieldType
   const renderFormField = (field: any) => {
-    console.log(field);
-
+   
     switch (field?.fieldType?.name) {
       case "Text":
         return (
@@ -91,7 +90,6 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
     },
     {}
   );
-  console.log(formik.values.customFields);
 
   return (
     <div className="modal-body">
@@ -102,7 +100,7 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
               <h4 className="card-title text-gray-600 fw-bold mb-0">
                 {groupName}
               </h4>
-              {console.log(groupedFields)!}
+         
               <span className="mt-0 text-muted fs-7">
                 {intl.formatMessage({ id: "Fields.CustomFeaturesSubTitle" })}
               </span>

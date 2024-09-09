@@ -22,6 +22,7 @@ interface ComponentProps {
   pageIndex: number;
   editModalOpen: boolean;
   deleteModalOpen: boolean;
+  searchCounter: number;
 }
 const LedgerAccountsList = ({
   searchTerm,
@@ -37,6 +38,7 @@ const LedgerAccountsList = ({
   editModalOpen,
   bearingTypeFilter,
   deleteModalOpen,
+  searchCounter,
 }: ComponentProps) => {
   const [ledgerAccounts, setLedgerAccounts] = useState<any>([]);
 
@@ -55,12 +57,9 @@ const LedgerAccountsList = ({
         pageIndex
       );
 
-      // vatAreaUsageTypeFilter
-
       setLedgerAccounts(response);
       setPageIndex(response.pageIndex);
       setTotalRows(response.totalRows);
-      // setTotalItems(response.result);
     } catch (error) {
       console.error("Error fetching VAT types:", error);
     } finally {
@@ -74,7 +73,13 @@ const LedgerAccountsList = ({
 
   useEffect(() => {
     fetchLedgers();
-  }, [searchTerm, ledgerTypeFilter, bearingTypeFilter, pageIndex]);
+  }, [
+    searchTerm,
+    ledgerTypeFilter,
+    bearingTypeFilter,
+    pageIndex,
+    searchCounter,
+  ]);
 
   useEffect(() => {
     fetchLedgers();

@@ -27,7 +27,7 @@ const UnitTypesListInnerWrapper = () => {
   const { pageIndex, searchTerm } = getPaginationValues();
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
   const [searchTermState, setSearchTermState] = useState(searchTerm);
-
+  const [searchCounter, setSearchCounter] = useState(0);
   const [totalRows, setTotalRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
   const [deleteModalId, setDeleteModalId] = useState<number[]>([]);
@@ -44,6 +44,7 @@ const UnitTypesListInnerWrapper = () => {
       <UnitTypesHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
+        setSearchCounter={setSearchCounter}
       />
 
       <UnitTypesToolbar
@@ -54,6 +55,7 @@ const UnitTypesListInnerWrapper = () => {
       />
 
       <UnitTypesList
+        searchCounter={searchCounter}
         searchTerm={searchTerm}
         setDeleteSelectedButton={setDeleteSelectedButton}
         setTotalRows={setTotalRows}

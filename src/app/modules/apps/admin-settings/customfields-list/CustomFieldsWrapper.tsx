@@ -1,14 +1,15 @@
 import { CustomFieldsHeader } from "./components/header/CustomFieldsHeader";
-import { DiscountMarginsList } from "./search-list/DiscountMarginsList";
-import { DiscountAddModal } from "./discount-add-modal/DiscountAddModal";
+import { CustomFieldsList } from "./search-list/CustomFieldsList";
+import { CustomFieldsAddModal } from "./customfields-add-modal/CustomFieldsAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useEffect, useState } from "react";
 import { CustomFieldsToolbar } from "./components/header/CustomFieldsToolbar";
-import { DiscountDeleteModal } from "./discount-delete-modal/DiscountDeleteModal";
+import { CustomFieldsDeleteModal } from "./customfields-delete-modal/CustomFieldsDeleteModal";
 
 const getPaginationValues = () => {
-  const storedPaginationString = localStorage.getItem("pagination")!;
+  const storedPaginationString = localStorage.getItem("pagination");
+
   if (storedPaginationString) {
     const pagination = JSON.parse(storedPaginationString);
     const fieldType =
@@ -34,12 +35,13 @@ const getPaginationValues = () => {
     searchTerm: "",
   };
 };
-const DiscountMarginsInnerWrapper = () => {
+const CustomFieldsInnerWrapper = () => {
   const { fieldType, areaType, pageIndex, searchTerm } = getPaginationValues();
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
   const [searchTermState, setSearchTermState] = useState(searchTerm);
   const [fieldTypeFilter, setFieldTypeFilter] = useState<number>(fieldType);
   const [areaTypeFilter, setAreaTypeFilter] = useState<number>(areaType);
+  const [searchCounter, setSearchCounter] = useState(0);
   const [deleteSelectedButton, setDeleteSelectedButton] =
     useState<boolean>(false);
   const [totalRows, setTotalRows] = useState(0);
@@ -67,6 +69,7 @@ const DiscountMarginsInnerWrapper = () => {
         fieldTypeFilter={fieldTypeFilter}
         setIsFilterApplied={setIsFilterApplied}
         isFilterApplied={isFilterApplied}
+        setSearchCounter={setSearchCounter}
       />
 
       <CustomFieldsToolbar
@@ -76,7 +79,7 @@ const DiscountMarginsInnerWrapper = () => {
         setDeleteModalOpen={setDeleteModalOpen}
       />
 
-      <DiscountMarginsList
+      <CustomFieldsList
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
         setAddModalOpen={setAddModalOpen}
@@ -89,6 +92,7 @@ const DiscountMarginsInnerWrapper = () => {
         addModalOpen={addModalOpen}
         deleteModalOpen={deleteModalOpen}
         deleteModalId={deleteModalId}
+        searchCounter={searchCounter}
         setDeleteSelectedButton={setDeleteSelectedButton}
         setDeleteModalId={setDeleteModalId}
         fieldTypeFilter={fieldTypeFilter}
@@ -96,7 +100,7 @@ const DiscountMarginsInnerWrapper = () => {
       />
 
       {addModalOpen && (
-        <DiscountAddModal
+        <CustomFieldsAddModal
           setRefresh={setRefresh}
           setAddModalOpen={setAddModalOpen}
           editModalId={editModalId}
@@ -105,7 +109,7 @@ const DiscountMarginsInnerWrapper = () => {
       )}
 
       {deleteModalOpen && (
-        <DiscountDeleteModal
+        <CustomFieldsDeleteModal
           deleteModalId={deleteModalId}
           discountMarginTitle={discountMarginTitle}
           setDeleteModalOpen={setDeleteModalOpen}
@@ -121,7 +125,7 @@ const CustomFieldsWrapper = () => (
   <>
     <ToolbarWrapper />
     <Content>
-      <DiscountMarginsInnerWrapper />
+      <CustomFieldsInnerWrapper />
     </Content>
   </>
 );

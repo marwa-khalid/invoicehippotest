@@ -1,6 +1,4 @@
-const API_URL_V1 =
-  import.meta.env.INVOICEHIPPO_API_CORE_V1 ||
-  "https://api-tst.invoicehippo.nl/api/v1";
+const API_URL_V1 = import.meta.env.VITE_APP_INVOICEHIPPO_API_CORE_V1;
 export const GET_LEDGER_BY_ID = `${API_URL_V1}/admin/ledgeraccount`;
 export const SEARCH_LEDGER_ACCOUNTS = `${API_URL_V1}/admin/ledgeraccount/search`;
 export const GET_LEDGDER_FOR_FILTER = `${API_URL_V1}/lists/ledger-accounts`;

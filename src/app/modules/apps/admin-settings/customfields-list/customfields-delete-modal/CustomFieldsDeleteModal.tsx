@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { DiscountDeleteModalHeader } from "./DiscountDeleteModalHeader";
-import { DiscountDeleteModalFooter } from "./DiscountDeleteModalFooter";
+import { CustomFieldsDeleteModalHeader } from "./CustomFieldsDeleteModalHeader";
+import { CustomFieldsDeleteModalFooter } from "./CustomFieldsDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
   discountMarginTitle: string;
@@ -9,7 +9,7 @@ interface ComponentProps {
   setRefresh: (type: boolean) => void;
   setDeleteModalId: (type: number[]) => void;
 }
-const DiscountDeleteModal = ({
+const CustomFieldsDeleteModal = ({
   deleteModalId,
   discountMarginTitle,
   setDeleteModalOpen,
@@ -36,7 +36,7 @@ const DiscountDeleteModal = ({
         <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <DiscountDeleteModalHeader
+            <CustomFieldsDeleteModalHeader
               setDeleteModalOpen={setDeleteModalOpen}
               setDeleteModalId={setDeleteModalId}
             />
@@ -55,7 +55,7 @@ const DiscountDeleteModal = ({
             </div>
 
             {/* end::Modal body */}
-            <DiscountDeleteModalFooter
+            <CustomFieldsDeleteModalFooter
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
@@ -73,4 +73,4 @@ const DiscountDeleteModal = ({
   );
 };
 
-export { DiscountDeleteModal };
+export { CustomFieldsDeleteModal };

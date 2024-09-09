@@ -8,6 +8,7 @@ interface ComponentProps {
   deleteModalId: number[];
   setRefresh: (type: boolean) => void;
   intlMessage: string;
+  refresh: boolean;
 }
 
 const ClientDeleteModalFooter = ({
@@ -15,6 +16,7 @@ const ClientDeleteModalFooter = ({
   setDeleteModalOpen,
   setRefresh,
   intlMessage,
+  refresh,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
@@ -29,7 +31,7 @@ const ClientDeleteModalFooter = ({
       response = await deleteClient(deleteModalId);
     }
     if (response.isValid) {
-      setRefresh(true);
+      setRefresh(!refresh);
       setDeleteModalOpen(false);
       setIsSubmitting(false);
     }
@@ -41,7 +43,10 @@ const ClientDeleteModalFooter = ({
         {/* Cancel Button */}
         <button
           type="reset"
-          onClick={() => setDeleteModalOpen(false)}
+          onClick={() => {
+            setDeleteModalOpen(false);
+            setRefresh(!refresh);
+          }}
           className="btn btn-light me-3"
         >
           {intl.formatMessage({ id: "Fields.ActionClose" })}

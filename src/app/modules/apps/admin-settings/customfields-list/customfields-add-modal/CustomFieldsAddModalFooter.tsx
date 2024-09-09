@@ -9,7 +9,7 @@ type Props = {
   setEditModalId: (type: number) => void;
 };
 
-const DiscountAddModalFooter: FC<Props> = ({
+const CustomFieldsAddModalFooter: FC<Props> = ({
   formik,
   isSubmitting,
   setAddModalOpen,
@@ -47,4 +47,4 @@ const DiscountAddModalFooter: FC<Props> = ({
   );
 };
 
-export { DiscountAddModalFooter };
+export { CustomFieldsAddModalFooter };

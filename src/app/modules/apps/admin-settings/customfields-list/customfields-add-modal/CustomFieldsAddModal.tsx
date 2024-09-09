@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { DiscountAddModalHeader } from "./DiscountAddModalHeader";
-import { DiscountAddModalFooter } from "./DiscountAddModalFooter";
+import { CustomFieldsAddModalHeader } from "./CustomFieldsAddModalHeader";
+import { CustomFieldsAddModalFooter } from "./CustomFieldsAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { DiscountAddModalForm } from "./DiscountAddModalForm";
+import { CustomFieldsAddModalForm } from "./CustomFieldsAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { getCustomFieldById, postCustomField } from "../core/_requests";
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
   editModalId: number;
   setEditModalId: (type: number) => void;
 }
-const DiscountAddModal = ({
+const CustomFieldsAddModal = ({
   setRefresh,
   setAddModalOpen,
   editModalId,
@@ -96,6 +96,11 @@ const DiscountAddModal = ({
           .formatMessage({ id: "Common.RequiredFieldHint2" })
           .replace("{0}", intl.formatMessage({ id: "Fields.AreaUsageType" }))
       ),
+      groupDisplayName: Yup.string().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", "Group Display Name")
+      ),
     }),
 
     onSubmit: async (values, { setSubmitting }) => {
@@ -140,17 +145,17 @@ const DiscountAddModal = ({
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <DiscountAddModalHeader
+            <CustomFieldsAddModalHeader
               setAddModalOpen={setAddModalOpen}
               setEditModalId={setEditModalId}
             />
             <div className="modal-body p-10">
-              <DiscountAddModalForm
+              <CustomFieldsAddModalForm
                 formik={formik}
                 isSubmitting={isSubmitting}
               />
             </div>
-            <DiscountAddModalFooter
+            <CustomFieldsAddModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setAddModalOpen={setAddModalOpen}
@@ -164,4 +169,4 @@ const DiscountAddModal = ({
   );
 };
 
-export { DiscountAddModal };
+export { CustomFieldsAddModal };

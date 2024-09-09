@@ -10,7 +10,7 @@ import { UnitTypesListWrapper } from "./unittypes-list/UnitTypesListWrapper";
 import { ProductGroupsWrapper } from "./productgroups-list/ProductGroupsWrapper";
 import { DiscountMarginsWrapper } from "./discountmargins-list/DiscountMarginsWrapper";
 import { UsersManagementWrapper } from "./users-management/UsersManagementWrapper";
-import { CustomFieldsWrapper } from "./customfields-list/DiscountMarginsWrapper";
+import { CustomFieldsWrapper } from "./customfields-list/CustomFieldsWrapper";
 import { ReminderSettingsWrapper } from "./remindersettings-list/ReminderSettingsWrapper";
 
 const VatTypesPage = () => {

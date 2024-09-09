@@ -25,55 +25,13 @@ const LedgerListPagination = ({
   const [state, setState] = useState(pageIndex);
   const intl = useIntl();
 
-
   useEffect(() => {
     let storedPaginationString = localStorage.getItem("pagination");
 
     // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
     let pagination = storedPaginationString
       ? JSON.parse(storedPaginationString)
-      : {
-          "vat-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "", documentGroup: 0 },
-          },
-          "ledger-module": {
-            pageIndex: 1,
-            filters: {
-              searchTerm: "",
-              ledgerTypeFilter: filterType1,
-              bearingTypeFilter: filterType2,
-            },
-          },
-          "financial-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "unit-types-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "productgroups-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "discounts-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "users-module": {
-            pageIndex: 1,
-            filters: { searchTerm: "" },
-          },
-          "customfields-module": {
-            pageIndex: 1,
-            filters: {
-              searchTerm: "",
-              areaTypeFilter: 0,
-              fieldTypeFilter: 0,
-            },
-          },
-        };
+      : JSON.parse(import.meta.env.VITE_APP_PAGINATION);
 
     // Update the filter in the vat-module
     pagination["ledger-module"].pageIndex = state;

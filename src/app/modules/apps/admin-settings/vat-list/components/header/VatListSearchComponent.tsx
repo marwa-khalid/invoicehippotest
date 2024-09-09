@@ -16,6 +16,7 @@ interface ComponentProps {
   isFilterApplied: boolean;
   searchTerm: string;
   vatAreaUsageTypeFilter: number;
+  setSearchCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const VatListSearchComponent = ({
@@ -25,6 +26,7 @@ const VatListSearchComponent = ({
   setIsFilterApplied,
   searchTerm,
   vatAreaUsageTypeFilter,
+  setSearchCounter
 }: ComponentProps) => {
   const { updateState } = useQueryRequest();
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
@@ -46,44 +48,7 @@ const VatListSearchComponent = ({
       // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
       let pagination = storedPaginationString
         ? JSON.parse(storedPaginationString)
-        : {
-            "vat-module": {
-              pageIndex: 1,
-              filters: { searchTerm: localSearchTerm, documentGroup: 0 },
-            },
-            "ledger-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "", ledgerTypeFilter: 0 },
-            },
-            "financial-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "unit-types-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "productgroups-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "discounts-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "users-module": {
-              pageIndex: 1,
-              filters: { searchTerm: "" },
-            },
-            "customfields-module": {
-              pageIndex: 1,
-              filters: {
-                searchTerm: "",
-                areaTypeFilter: 0,
-                fieldTypeFilter: 0,
-              },
-            },
-          };
+        : JSON.parse(import.meta.env.VITE_APP_PAGINATION);
 
       // Update the filter in the vat-module
       pagination["vat-module"].filters.searchTerm = localSearchTerm;
@@ -93,6 +58,7 @@ const VatListSearchComponent = ({
 
       // Store the updated JSON string in local storage
       localStorage.setItem("pagination", updatedPaginationString);
+      setSearchCounter((prev) => prev + 1);
     }
   };
   const handleResetClick = () => {

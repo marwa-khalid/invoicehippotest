@@ -215,20 +215,6 @@ export interface FinancialAccountsResult {
   actions: Actions;
 }
 
-interface FinancialAccountByIdResult {
-  id: number;
-  accountName: string;
-  accountNumber: string;
-  ledgerAccountId: number;
-  bankConnectMinImportDate: string;
-  accountType: number;
-  autoCreateLedgerAccount: boolean;
-  bankAccountCompanyType: number;
-  afterSaveModel: {
-    ledgerAccountDisplayName: string;
-  };
-  bankConnectInfo: BankConnectInfo;
-}
 
 export interface BalanceItem {
   id: number;
@@ -276,21 +262,6 @@ export interface BalanceItem {
   };
 }
 
-export interface FinancialInstitutionsResult {
-  id: string;
-  name: string;
-  transactionTotalDays: number;
-  logo: string;
-}
-
-export interface AccountAutomationResult {
-  requestUrlForConsent: string;
-}
 
 export type FinancialAccountsModel = ApiResponse<FinancialAccountsResult>;
-export type FinancialAccountByIdModel = ApiResponse<FinancialAccountByIdResult>;
 export type PrivateLedgersModel = ApiResponse<BalanceItem[]>;
-export type FinancialInstitutionsModel = ApiResponse<
-  FinancialInstitutionsResult[]
->;
-export type AccountAutomationModel = ApiResponse<AccountAutomationResult>;

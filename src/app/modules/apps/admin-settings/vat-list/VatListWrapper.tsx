@@ -33,7 +33,7 @@ const VatListInnerWrapper = () => {
   const { itemIdForUpdate } = useListView();
   const [isFilterApplied, setIsFilterApplied] = useState(false);
   const { filter, pageIndex, searchTerm } = getPaginationValues();
-
+const [searchCounter, setSearchCounter] = useState(0);
   const [vatAreaUsageTypeFilter, setVatAreaUsageTypeFilter] =
     useState<number>(filter);
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
@@ -54,6 +54,7 @@ const VatListInnerWrapper = () => {
   return (
     <>
       <VatListHeader
+      setSearchCounter={setSearchCounter}
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
         setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
@@ -65,6 +66,7 @@ const VatListInnerWrapper = () => {
       <VatListToolbar totalRows={totalRows} />
 
       <VatTypesList
+      searchCounter={searchCounter}
         searchTerm={searchTerm}
         vatAreaUsageTypeFilter={vatAreaUsageTypeFilter}
         setTotalRows={setTotalRows}

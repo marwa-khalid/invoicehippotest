@@ -29,7 +29,7 @@ const UsersManagementInnerWrapper = () => {
   const { pageIndex, searchTerm } = getPaginationValues();
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
   const [searchTermState, setSearchTermState] = useState(searchTerm);
-
+const [searchCounter, setSearchCounter] = useState(0);
   const [totalRows, setTotalRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
@@ -42,7 +42,11 @@ const UsersManagementInnerWrapper = () => {
   const intl = useIntl();
   return (
     <>
-      <UsersHeader setSearchTerm={setSearchTermState} searchTerm={searchTerm} />
+      <UsersHeader
+        setSearchTerm={setSearchTermState}
+        searchTerm={searchTerm}
+        setSearchCounter={setSearchCounter}
+      />
       <UsersToolbar
         totalRows={totalRows}
         setAddModalOpen={setAddModalOpen}
@@ -51,6 +55,7 @@ const UsersManagementInnerWrapper = () => {
       />
       <UsersList
         searchTerm={searchTerm}
+        searchCounter={searchCounter}
         setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}

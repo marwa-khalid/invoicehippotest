@@ -21,6 +21,7 @@ interface ComponentProps {
   setDeleteSelectedButton: (type: boolean) => void;
   deleteModalId: any;
   setDeleteModalId: any;
+  searchCounter: number;
 }
 
 const DiscountMarginsList = ({
@@ -38,6 +39,7 @@ const DiscountMarginsList = ({
   setDeleteSelectedButton,
   deleteModalId,
   setDeleteModalId,
+  searchCounter,
 }: ComponentProps) => {
   const [discountMargins, setDiscountMargins] = useState<any>([]);
   const [selectAll, setSelectAll] = useState(false);
@@ -69,7 +71,7 @@ const DiscountMarginsList = ({
   }, [deleteModalId]);
   useEffect(() => {
     fetchDiscountTypes();
-  }, [searchTerm, pageIndex]);
+  }, [searchTerm, pageIndex, searchCounter]);
 
   useEffect(() => {
     fetchDiscountTypes();

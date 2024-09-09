@@ -38,12 +38,13 @@ const ProductGroupsInnerWrapper = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [productGroupTitle, setProductGroupTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
-
+const [searchCounter, setSearchCounter] = useState(0);
   return (
     <>
       <ProductGroupsHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
+        setSearchCounter={setSearchCounter}
       />
 
       <ProductGroupsToolbar
@@ -54,6 +55,7 @@ const ProductGroupsInnerWrapper = () => {
       />
 
       <ProductGroupsList
+      searchCounter={searchCounter}
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}

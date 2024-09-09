@@ -4,6 +4,7 @@ import { ClientDeleteModalFooter } from "./ClientDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
   title: string;
+  refresh: boolean;
   deleteModalId: number[];
   intlMessage: string;
   setDeleteModalOpen: (type: boolean) => void;
@@ -12,6 +13,7 @@ interface ComponentProps {
 const ClientDeleteModal = ({
   deleteModalId,
   setDeleteModalOpen,
+  refresh,
   title,
   intlMessage,
   setRefresh,
@@ -37,7 +39,12 @@ const ClientDeleteModal = ({
         <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <ClientDeleteModalHeader setDeleteModalOpen={setDeleteModalOpen} />
+            <ClientDeleteModalHeader
+              setRefresh={setRefresh}
+              setDeleteModalOpen={setDeleteModalOpen}
+              intlMessage={intlMessage}
+              refresh={refresh}
+            />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div className="form-wrapper">
@@ -63,6 +70,7 @@ const ClientDeleteModal = ({
             <ClientDeleteModalFooter
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
+              refresh={refresh}
               setRefresh={setRefresh}
               intlMessage={intlMessage}
             />

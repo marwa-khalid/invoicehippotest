@@ -37,12 +37,14 @@ const DiscountMarginsInnerWrapper = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [discountMarginTitle, setDiscountMarginTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
+  const [searchCounter, setSearchCounter] = useState(0);
 
   return (
     <>
       <DiscountHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
+        setSearchCounter={setSearchCounter}
       />
 
       <DiscountToolbar
@@ -53,6 +55,7 @@ const DiscountMarginsInnerWrapper = () => {
       />
 
       <DiscountMarginsList
+        searchCounter={searchCounter}
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}

@@ -14,7 +14,6 @@ const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
   if (storedPaginationString) {
     const pagination = JSON.parse(storedPaginationString);
-
     const currentPage = pagination["financial-module"].pageIndex || 1;
     const searchTerm = pagination["financial-module"].filters.searchTerm || "";
 
@@ -29,7 +28,7 @@ const FinancialListInnerWrapper = () => {
   const { pageIndex, searchTerm } = getPaginationValues();
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
   const [searchTermState, setSearchTermState] = useState(searchTerm);
-
+  const [searchCounter, setSearchCounter] = useState(0);
   const [totalRows, setTotalRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
@@ -45,6 +44,7 @@ const FinancialListInnerWrapper = () => {
       <FinancialListHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
+        setSearchCounter={setSearchCounter}
       />
       <FinancialAccountsToolbar
         totalRows={totalRows}
@@ -52,6 +52,7 @@ const FinancialListInnerWrapper = () => {
         setLinkModalOpen={setLinkModalOpen}
       />
       <FinancialAccountsList
+        searchCounter={searchCounter}
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}

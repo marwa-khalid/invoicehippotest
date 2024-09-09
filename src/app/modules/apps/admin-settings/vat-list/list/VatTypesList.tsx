@@ -13,6 +13,7 @@ import { useListView } from "../core/ListViewProvider";
 // import { VatEditModal } from "../user-edit-modal/VatEditModal";
 interface UsersTableComponentProps {
   searchTerm: string;
+  searchCounter: number;
   vatAreaUsageTypeFilter: number;
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
@@ -30,6 +31,7 @@ const VatTypesList = ({
   vatAreaUsageTypeFilter,
   setTotalRows,
   setEditModalOpen,
+  searchCounter,
   setEditModalId,
   setVatTitle,
   setDeleteModalOpen,
@@ -58,7 +60,6 @@ const VatTypesList = ({
       setVatTypesList(response);
       setPageIndex(response.pageIndex);
       setTotalRows(response.totalRows);
-      // setTotalItems(response.result);
     } catch (error) {
       console.error("Error fetching VAT types:", error);
     } finally {
@@ -72,7 +73,7 @@ const VatTypesList = ({
 
   useEffect(() => {
     fetchVatTypes();
-  }, [searchTerm, vatAreaUsageTypeFilter, pageIndex]);
+  }, [searchTerm, vatAreaUsageTypeFilter, pageIndex, searchCounter]);
 
   useEffect(() => {
     fetchVatTypes();

@@ -23,9 +23,10 @@ interface ComponentProps {
   setDeleteModalId: any;
   fieldTypeFilter: number;
   areaTypeFilter: number;
+  searchCounter: number;
 }
 
-const DiscountMarginsList = ({
+const CustomFieldsList = ({
   searchTerm,
   setTotalRows,
   setAddModalOpen,
@@ -33,6 +34,7 @@ const DiscountMarginsList = ({
   setDiscountMarginTitle,
   setDeleteModalOpen,
   refresh,
+  searchCounter,
   setPageIndex,
   pageIndex,
   addModalOpen,
@@ -68,7 +70,7 @@ const DiscountMarginsList = ({
   };
   useEffect(() => {
     fetchCustomFields();
-  }, [searchTerm, areaTypeFilter, fieldTypeFilter, pageIndex]);
+  }, [searchTerm, areaTypeFilter, fieldTypeFilter, pageIndex, searchCounter]);
 
   const handlePageChange = (page: number) => {
     setPageIndex(page);
@@ -282,4 +284,4 @@ const DiscountMarginsList = ({
   );
 };
 
-export { DiscountMarginsList };
+export { CustomFieldsList };

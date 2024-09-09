@@ -24,6 +24,7 @@ interface ComponentProps {
   pageIndex: number;
   editModalOpen: boolean;
   deleteModalOpen: boolean;
+  searchCounter: number;
 }
 const ClientsList = ({
   searchTerm,
@@ -33,7 +34,7 @@ const ClientsList = ({
   setTitle,
   setDeleteModalOpen,
   setDeleteModalId,
-
+  searchCounter,
   refresh,
   setPageIndex,
   pageIndex,
@@ -69,15 +70,12 @@ const ClientsList = ({
 
   useEffect(() => {
     fetchFinancialAccounts();
-  }, [searchTerm, pageIndex]);
+  }, [searchTerm, pageIndex, searchCounter]);
 
   useEffect(() => {
     fetchFinancialAccounts();
   }, [editModalOpen, deleteModalOpen, refresh]);
 
-  const renderWifiIcon = () => {
-    return <i className="fas fa-wifi text-success fs-2" />;
-  };
   const openEditModal = (id: number) => {
     setEditModalId(id);
     setEditModalOpen(true);

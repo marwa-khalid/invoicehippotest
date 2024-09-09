@@ -10,6 +10,7 @@ import { Tooltip } from "@chakra-ui/react";
 import { useAuth } from "../../../../auth";
 interface ComponentProps {
   searchTerm: string;
+  searchCounter: number;
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
@@ -26,6 +27,7 @@ interface ComponentProps {
 const UsersList = ({
   searchTerm,
   setTotalRows,
+  searchCounter,
   setEditModalOpen,
   setEditModalId,
   setUserName,
@@ -67,7 +69,7 @@ const UsersList = ({
 
   useEffect(() => {
     fetchUsersList();
-  }, [searchTerm, pageIndex]);
+  }, [searchTerm, pageIndex, searchCounter]);
 
   useEffect(() => {
     fetchUsersList();

@@ -26,13 +26,12 @@ const FinancialListInnerWrapper = () => {
   const { pageIndex, searchTerm } = getPaginationValues();
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
   const [searchTermState, setSearchTermState] = useState(searchTerm);
-
   const [totalRows, setTotalRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
   const [deleteModalId, setDeleteModalId] = useState<number[]>([0]);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
-
+  const [searchCounter, setSearchCounter] = useState(0);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [intlMessage, setIntlMessage] = useState<string>("");
@@ -43,10 +42,12 @@ const FinancialListInnerWrapper = () => {
       <ClientHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
+        setSearchCounter={setSearchCounter}
       />
       <ClientToolbar totalRows={totalRows} setAddModalOpen={setAddModalOpen} />
       <ClientsList
         searchTerm={searchTerm}
+        searchCounter={searchCounter}
         setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
@@ -80,6 +81,7 @@ const FinancialListInnerWrapper = () => {
         <ClientDeleteModal
           deleteModalId={deleteModalId}
           title={title}
+          refresh={refresh}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
           intlMessage={intlMessage}

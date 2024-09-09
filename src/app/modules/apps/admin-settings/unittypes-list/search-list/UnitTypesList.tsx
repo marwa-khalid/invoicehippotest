@@ -9,6 +9,7 @@ import { Tooltip } from "@chakra-ui/react";
 
 interface ComponentProps {
   searchTerm: string;
+  searchCounter: number;
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
@@ -38,6 +39,7 @@ const UnitTypesList = ({
   setPageIndex,
   pageIndex,
   editModalOpen,
+  searchCounter,
   deleteModalOpen,
   setDeleteSelectedButton,
   deleteModalId,
@@ -69,7 +71,7 @@ const UnitTypesList = ({
 
   useEffect(() => {
     fetchFinancialAccounts();
-  }, [searchTerm, pageIndex]);
+  }, [searchTerm, pageIndex, searchCounter]);
 
   useEffect(() => {
     fetchFinancialAccounts();

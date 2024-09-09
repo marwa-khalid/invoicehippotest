@@ -2,20 +2,21 @@ import { KTIcon } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 
 interface ComponentProps {
-  setAddModalOpen: (type: boolean) => void;
-  setEditModalId: (type: number) => void;
+  setDeleteModalOpen: (type: boolean) => void;
+  setDeleteModalId: (type: number[]) => void;
 }
-const DiscountAddModalHeader = ({
-  setAddModalOpen,
-  setEditModalId,
+
+const CustomFieldsDeleteModalHeader = ({
+  setDeleteModalOpen,
+  setDeleteModalId,
 }: ComponentProps) => {
   const intl = useIntl();
 
   return (
-    <div className="modal-header d-flex justify-content-between align-items-center bg-primary ">
+    <div className="modal-header d-flex justify-content-between align-items-center bg-danger ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {intl.formatMessage({ id: "Fields.ModalNewTitleCustomField" })}
+        {intl.formatMessage({ id: "Fields.ModalDeleteTitleCustomField" })}
       </h2>
       {/* end::Modal title */}
 
@@ -24,8 +25,8 @@ const DiscountAddModalHeader = ({
         className="btn btn-icon btn-sm btn-active-icon-primary"
         data-kt-users-modal-action="close"
         onClick={() => {
-          setAddModalOpen(false);
-          setEditModalId(0);
+          setDeleteModalOpen(false);
+          setDeleteModalId([]);
         }}
         style={{ cursor: "pointer" }}
       >
@@ -36,4 +37,4 @@ const DiscountAddModalHeader = ({
   );
 };
 
-export { DiscountAddModalHeader };
+export { CustomFieldsDeleteModalHeader };

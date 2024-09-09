@@ -11,7 +11,7 @@ type Props = {
   isSubmitting: boolean;
 };
 
-const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
+const CustomFieldsAddModalForm = ({ formik, isSubmitting }: Props) => {
   const intl = useIntl();
 
   const tagifyRef = useRef<any>();
@@ -315,4 +315,4 @@ const DiscountAddModalForm = ({ formik, isSubmitting }: Props) => {
   );
 };
 
-export { DiscountAddModalForm };
+export { CustomFieldsAddModalForm };

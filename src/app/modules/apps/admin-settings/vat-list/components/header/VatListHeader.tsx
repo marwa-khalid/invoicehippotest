@@ -13,12 +13,14 @@ interface ComponentProps {
   isFilterApplied: boolean;
   searchTerm: string;
   vatAreaUsageTypeFilter: number;
+  setSearchCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const VatListHeader = ({
   setSearchTerm,
   setVatAreaUsageTypeFilter,
   setIsFilterApplied,
+  setSearchCounter,
   searchTerm,
   isFilterApplied,
   vatAreaUsageTypeFilter,
@@ -30,6 +32,7 @@ const VatListHeader = ({
         {/* Full-width search and button */}
         <VatListSearchComponent
           setSearchTerm={setSearchTerm}
+          setSearchCounter={setSearchCounter}
           searchTerm={searchTerm}
           setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
           setIsFilterApplied={setIsFilterApplied}
