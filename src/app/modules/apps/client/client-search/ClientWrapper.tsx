@@ -1,11 +1,11 @@
-import { FinancialListHeader } from "./components/header/FinancialListHeader";
-import { FinancialAccountsList } from "./search-list/FinancialAccountsList";
+import { ClientHeader } from "./components/header/ClientHeader";
+import { ClientsList } from "./search-list/ClientsList";
 import { ClientAddModal } from "./client-add-modal/ClientAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
-import { FinancialAccountsToolbar } from "./components/header/FinancialAccountsToolbar";
-import { FinancialDeleteModal } from "./financial-delete-modal/FinancialDeleteModal";
+import { ClientToolbar } from "./components/header/ClientToolbar";
+import { ClientDeleteModal } from "./client-delete-modal/ClientDeleteModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -40,15 +40,12 @@ const FinancialListInnerWrapper = () => {
 
   return (
     <>
-      <FinancialListHeader
+      <ClientHeader
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
       />
-      <FinancialAccountsToolbar
-        totalRows={totalRows}
-        setAddModalOpen={setAddModalOpen}
-      />
-      <FinancialAccountsList
+      <ClientToolbar totalRows={totalRows} setAddModalOpen={setAddModalOpen} />
+      <ClientsList
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
         setEditModalOpen={setEditModalOpen}
@@ -79,15 +76,8 @@ const FinancialListInnerWrapper = () => {
         />
       )}
 
-      {/* {editModalOpen && (
-        <FinancialEditModal
-          editModalId={editModalId}
-          setRefresh={setRefresh}
-          setEditModalOpen={setEditModalOpen}
-        />
-      )} */}
       {deleteModalOpen && (
-        <FinancialDeleteModal
+        <ClientDeleteModal
           deleteModalId={deleteModalId}
           title={title}
           setDeleteModalOpen={setDeleteModalOpen}

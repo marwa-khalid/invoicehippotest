@@ -44,7 +44,6 @@ const ClientAddModal = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const intl = useIntl();
   const auth = useAuth();
-  const [showTabs, setShowTabs] = useState(false);
   const [response, setResponse] = useState<any>([]);
 
   const formik = useFormik({
@@ -146,9 +145,7 @@ const ClientAddModal = ({
         const response = await postClient(values);
         if (response.isValid) {
           formik.resetForm();
-          // setAddModalOpen(false);
           setRefresh(true);
-          // setShowTabs(true);
           formik.resetForm();
           setResponse(response.result);
         }
@@ -201,7 +198,6 @@ const ClientAddModal = ({
               businessName={response?.businessName}
               customerNr={response?.customerNr}
               setAddModalOpen={setAddModalOpen}
-              showTabs={showTabs}
               setEditModalId={setEditModalId}
             />
 

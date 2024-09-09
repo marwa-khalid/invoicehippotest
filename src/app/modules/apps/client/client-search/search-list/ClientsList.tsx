@@ -25,7 +25,7 @@ interface ComponentProps {
   editModalOpen: boolean;
   deleteModalOpen: boolean;
 }
-const FinancialAccountsList = ({
+const ClientsList = ({
   searchTerm,
   setTotalRows,
   setEditModalOpen,
@@ -417,4 +417,4 @@ const FinancialAccountsList = ({
   );
 };
 
-export { FinancialAccountsList };
+export { ClientsList };

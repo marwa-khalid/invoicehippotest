@@ -6,7 +6,7 @@ interface ComponentProps {
   searchTerm: string;
 }
 
-const FinancialListHeader = ({ setSearchTerm, searchTerm }: ComponentProps) => {
+const ClientHeader = ({ setSearchTerm, searchTerm }: ComponentProps) => {
   return (
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
       <div className="card-body pt-9 pb-0">
@@ -20,4 +20,4 @@ const FinancialListHeader = ({ setSearchTerm, searchTerm }: ComponentProps) => {
   );
 };
 
-export { FinancialListHeader };
+export { ClientHeader  };

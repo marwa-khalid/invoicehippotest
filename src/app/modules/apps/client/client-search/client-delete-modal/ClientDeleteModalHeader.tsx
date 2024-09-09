@@ -5,7 +5,7 @@ interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
 }
 
-const FinancialDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
+const ClientDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
   const intl = useIntl();
 
   return (
@@ -30,4 +30,4 @@ const FinancialDeleteModalHeader = ({ setDeleteModalOpen }: ComponentProps) => {
   );
 };
 
-export { FinancialDeleteModalHeader };
+export { ClientDeleteModalHeader };

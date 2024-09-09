@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { FinancialDeleteModalHeader } from "./FinancialDeleteModalHeader";
-import { FinancialDeleteModalFooter } from "./FinancialDeleteModalFooter";
+import { ClientDeleteModalHeader } from "./ClientDeleteModalHeader";
+import { ClientDeleteModalFooter } from "./ClientDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
   title: string;
@@ -9,7 +9,7 @@ interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
 }
-const FinancialDeleteModal = ({
+const ClientDeleteModal = ({
   deleteModalId,
   setDeleteModalOpen,
   title,
@@ -37,9 +37,7 @@ const FinancialDeleteModal = ({
         <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <FinancialDeleteModalHeader
-              setDeleteModalOpen={setDeleteModalOpen}
-            />
+            <ClientDeleteModalHeader setDeleteModalOpen={setDeleteModalOpen} />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div className="form-wrapper">
@@ -62,7 +60,7 @@ const FinancialDeleteModal = ({
             </div>
 
             {/* end::Modal body */}
-            <FinancialDeleteModalFooter
+            <ClientDeleteModalFooter
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
@@ -80,4 +78,4 @@ const FinancialDeleteModal = ({
   );
 };
 
-export { FinancialDeleteModal };
+export { ClientDeleteModal };

@@ -10,7 +10,7 @@ interface ComponentProps {
   intlMessage: string;
 }
 
-const FinancialDeleteModalFooter = ({
+const ClientDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
@@ -67,4 +67,4 @@ const FinancialDeleteModalFooter = ({
   );
 };
 
-export { FinancialDeleteModalFooter };
+export { ClientDeleteModalFooter };

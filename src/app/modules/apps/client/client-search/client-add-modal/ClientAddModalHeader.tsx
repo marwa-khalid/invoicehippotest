@@ -4,13 +4,11 @@ import { useIntl } from "react-intl";
 interface ComponentProps {
   setAddModalOpen: (type: boolean) => void;
   setEditModalOpen: (type: boolean) => void;
-  showTabs: boolean;
   businessName: string;
   customerNr: string;
   setEditModalId: (type: number) => void;
 }
 const ClientAddModalHeader = ({
-  showTabs,
   setAddModalOpen,
   setEditModalId,
   setEditModalOpen,

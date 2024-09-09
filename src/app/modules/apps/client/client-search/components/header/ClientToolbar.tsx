@@ -7,16 +7,11 @@ interface ToolbarProps {
  
 }
 
-const FinancialAccountsToolbar = ({
-  totalRows,
-  setAddModalOpen,
-  
-}: ToolbarProps) => {
+const ClientToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
   const openAddFinancialAccountModal = () => {
     setAddModalOpen(true);
   };
 
-  
   const intl = useIntl();
   return (
     <div
@@ -38,11 +33,7 @@ const FinancialAccountsToolbar = ({
           className="bg-gray-800 text-white p-2 rounded "
           placement="top"
         >
-          <button
-            type="button"
-            className="btn btn-primary mb-3 me-2"
-            
-          >
+          <button type="button" className="btn btn-primary mb-3 me-2">
             <i className="ki-duotone ki-cloud-download fs-1">
               <span className="path1"></span>
               <span className="path2"></span>
@@ -73,4 +64,4 @@ const FinancialAccountsToolbar = ({
   );
 };
 
-export { FinancialAccountsToolbar };
+export { ClientToolbar };
