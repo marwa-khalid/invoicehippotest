@@ -111,10 +111,11 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
                     date.length > 0 ? date[0] : ""
                   );
                 }}
-                className="form-control"
                 options={{
-                  dateFormat: "d-m-Y", // Flatpickr format for dd-MM-yyyy
+                  weekNumbers: true,
+                  dateFormat: "d-m-Y",
                 }}
+                className="form-control"
                 placeholder="dd-MM-yyyy"
                 isClearable="true"
               />
