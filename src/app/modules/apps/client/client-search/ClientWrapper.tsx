@@ -12,8 +12,8 @@ const getPaginationValues = () => {
   if (storedPaginationString) {
     const pagination = JSON.parse(storedPaginationString);
 
-    const currentPage = pagination["financial-module"].pageIndex || 1;
-    const searchTerm = pagination["financial-module"].filters.searchTerm || "";
+    const currentPage = pagination["clients-module"].pageIndex || 1;
+    const searchTerm = pagination["clients-module"].filters.searchTerm || "";
 
     return {
       pageIndex: currentPage,
@@ -22,7 +22,7 @@ const getPaginationValues = () => {
   }
   return { pageIndex: 1, searchTerm: "" };
 };
-const FinancialListInnerWrapper = () => {
+const ClientInnerWrapper = () => {
   const { pageIndex, searchTerm } = getPaginationValues();
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
   const [searchTermState, setSearchTermState] = useState(searchTerm);
@@ -95,7 +95,7 @@ const ClientWrapper = () => (
   <>
     <ToolbarWrapper />
     <Content>
-      <FinancialListInnerWrapper />
+      <ClientInnerWrapper />
     </Content>
   </>
 );

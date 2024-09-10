@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { useIntl } from "react-intl";
 import Select from "react-select";
 
-interface VatListPaginationProps {
+interface PaginationProps {
   totalPages: number;
   pageIndex: number;
   onPageChange: (page: number) => void;
@@ -11,13 +11,13 @@ interface VatListPaginationProps {
   setPageIndex: (page: number) => void;
 }
 
-const FinancialListPagination = ({
+const ClientPagination = ({
   totalPages,
   pageIndex,
   onPageChange,
   totalItems,
   setPageIndex,
-}: VatListPaginationProps) => {
+}: PaginationProps) => {
   const [state, setState] = useState(pageIndex);
   const intl = useIntl();
 
@@ -29,8 +29,8 @@ const FinancialListPagination = ({
       ? JSON.parse(storedPaginationString)
       : JSON.parse(import.meta.env.VITE_APP_PAGINATION);
 
-    // Update the page in the financial-module
-    pagination["financial-module"].pageIndex = state;
+    // Update the page in the clients-module
+    pagination["clients-module"].pageIndex = state;
 
     // Convert the updated object back to a JSON string
     const updatedPaginationString = JSON.stringify(pagination);
@@ -198,4 +198,4 @@ const FinancialListPagination = ({
   );
 };
 
-export { FinancialListPagination };
+export { ClientPagination };

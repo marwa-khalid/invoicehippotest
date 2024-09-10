@@ -4,14 +4,9 @@ import { Tooltip } from "@chakra-ui/react";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
- 
 }
 
 const ClientToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
-  const openAddFinancialAccountModal = () => {
-    setAddModalOpen(true);
-  };
-
   const intl = useIntl();
   return (
     <div
@@ -52,7 +47,7 @@ const ClientToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
           <button
             type="button"
             className="btn btn-primary mb-3"
-            onClick={openAddFinancialAccountModal}
+            onClick={() => setAddModalOpen(true)}
           >
             <KTIcon iconName="plus" className="fs-1" />
             {intl.formatMessage({ id: "Fields.ModalNewTitleClient" })}

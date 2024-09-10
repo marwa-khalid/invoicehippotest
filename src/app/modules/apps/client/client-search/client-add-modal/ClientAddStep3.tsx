@@ -674,7 +674,7 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
             <div className="row d-flex mb-5">
               {/* KvkNr Field */}
               <label className="   fw-bold fs-6 mb-3">
-                Standaard referentie
+                {intl.formatMessage({ id: "Fields.DefaultCostReference" })}
               </label>
               <input
                 type="text"
@@ -682,13 +682,17 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                   "invoiceAndQuoteSettings.costDefaultReference"
                 )}
                 className={clsx("form-control form-control-solid")}
-                placeholder="Standaard referentie"
+                placeholder={intl.formatMessage({
+                  id: "Fields.DefaultCostReference",
+                })}
               />
             </div>
             <div className="row d-flex mb-5">
               {/* KvkNr Field */}
               <label className="   fw-bold fs-6 mb-3">
-                Standaard regelomschrijving
+                {intl.formatMessage({
+                  id: "Fields.DefaultCostItemDescritption",
+                })}
               </label>
               <input
                 type="text"
@@ -696,7 +700,9 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
                   "invoiceAndQuoteSettings.costDefaultLineReference"
                 )}
                 className="form-control form-control-solid mx-3"
-                placeholder="Standaard regelomschrijving"
+                placeholder={intl.formatMessage({
+                  id: "Fields.DefaultCostItemDescritption",
+                })}
               />
             </div>
           </div>

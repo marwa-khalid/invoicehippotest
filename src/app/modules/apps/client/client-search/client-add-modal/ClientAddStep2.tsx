@@ -1,15 +1,10 @@
 import React, { FC, useState, useEffect } from "react";
 import { KTIcon, toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-import {
-  postContact,
-  getContactListById,
-  deleteContact,
-} from "../core/_requests";
+import { postContact, getContactListById } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 import { Tooltip } from "@chakra-ui/react";
 import { toast } from "react-toastify";
-import { setTimeout } from "timers/promises";
 
 type Props = {
   clientId: number;
@@ -236,7 +231,9 @@ const ClientAddStep2: FC<Props> = ({
                 className="btn btn-danger ms-3"
                 onClick={handleDeleteSelectedContacts}
               >
-                Delete Selected Entries
+                {intl.formatMessage({
+                  id: "Fields.ActionDeleteMultiSelect",
+                })}
               </button>
             </div>
           )}
@@ -561,7 +558,12 @@ const ClientAddStep2: FC<Props> = ({
               src={toAbsoluteUrl("media/logos/nocontacts.svg")}
               className="h-250px w-400px mb-10"
             />
-            <h3>no contacts have been created yet</h3>
+            <h3>
+              {" "}
+              {intl.formatMessage({
+                id: "Fields.EmptyContactsSearch",
+              })}
+            </h3>
           </div>
         )}
       </div>

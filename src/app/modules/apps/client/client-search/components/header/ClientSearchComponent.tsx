@@ -29,8 +29,8 @@ const ClientSearchComponent = ({
         ? JSON.parse(storedPaginationString)
         : JSON.parse(import.meta.env.VITE_APP_PAGINATION);
 
-      // Update the filter in the financial-module
-      pagination["financial-module"].filters.searchTerm = localSearchTerm;
+      // Update the filter in the clients-module
+      pagination["clients-module"].filters.searchTerm = localSearchTerm;
 
       // Convert the updated object back to a JSON string
       const updatedPaginationString = JSON.stringify(pagination);
@@ -47,13 +47,13 @@ const ClientSearchComponent = ({
       "pagination",
       JSON.stringify({
         ...JSON.parse(localStorage.getItem("pagination") || "{}"),
-        "financial-module": {
+        "clients-module": {
           ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-            "financial-module"
+            "clients-module"
           ],
           filters: {
             ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-              "financial-module"
+              "clients-module"
             ]?.filters,
             searchTerm: "",
           },

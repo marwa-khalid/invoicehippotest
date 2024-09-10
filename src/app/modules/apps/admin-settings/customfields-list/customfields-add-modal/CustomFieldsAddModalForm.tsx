@@ -51,8 +51,9 @@ const CustomFieldsAddModalForm = ({ formik, isSubmitting }: Props) => {
 
       <div className="row d-flex mb-5">
         <label className="fw-bold fs-6 mb-2">
-          group display name
-          {/* {intl.formatMessage({ id: "Fields.Title" })} */}
+          {intl.formatMessage({
+            id: "Fields.CustomFieldsGroupDisplayName",
+          })}
         </label>
         <input
           type="text"
@@ -71,7 +72,9 @@ const CustomFieldsAddModalForm = ({ formik, isSubmitting }: Props) => {
             }
           )}
           disabled={isSubmitting}
-          placeholder="group display name"
+          placeholder={intl.formatMessage({
+            id: "Fields.CustomFieldsGroupDisplayName",
+          })}
         />
 
         {formik.touched.groupDisplayName && formik.errors.groupDisplayName && (

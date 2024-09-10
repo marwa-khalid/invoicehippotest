@@ -97,9 +97,12 @@ const CustomFieldsAddModal = ({
           .replace("{0}", intl.formatMessage({ id: "Fields.AreaUsageType" }))
       ),
       groupDisplayName: Yup.string().required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", "Group Display Name")
+        intl.formatMessage({ id: "Common.RequiredFieldHint2" }).replace(
+          "{0}",
+          intl.formatMessage({
+            id: "Fields.CustomFieldsGroupDisplayName",
+          })
+        )
       ),
     }),
 

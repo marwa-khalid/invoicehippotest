@@ -36,7 +36,9 @@ const CustomFieldsToolbar = ({
           className="btn btn-danger mb-3"
           onClick={() => setDeleteModalOpen(true)}
         >
-          Delete Selected Entries
+          {intl.formatMessage({
+            id: "Fields.ActionDeleteMultiSelect",
+          })}
         </button>
       ) : (
         <Tooltip
