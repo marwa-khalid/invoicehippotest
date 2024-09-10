@@ -50,11 +50,30 @@ const CustomFieldsAddModalForm = ({ formik, isSubmitting }: Props) => {
       </div>
 
       <div className="row d-flex mb-5">
-        <label className="fw-bold fs-6 mb-2">
+        <label className=" required fw-bold fs-6 ">
           {intl.formatMessage({
             id: "Fields.CustomFieldsGroupDisplayName",
           })}
         </label>
+
+        <div
+          className="row d-flex mb-5 alert alert-custom alert-default align-items-center mt-5 mx-0 bg-secondary"
+          // style={{ backgroundColor: "secondary" }}
+          role="alert"
+        >
+          <div className="alert-icon col-1">
+            <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
+              <span className="path1"></span>
+              <span className="path2"></span>
+              <span className="path3"></span>
+            </i>
+          </div>
+          <div className="alert-text col-11 text-gray-600">
+            {intl.formatMessage({
+              id: "Fields.CustomFieldsGroupDisplayNameInfo",
+            })}
+          </div>
+        </div>
         <input
           type="text"
           {...formik.getFieldProps("groupDisplayName")}

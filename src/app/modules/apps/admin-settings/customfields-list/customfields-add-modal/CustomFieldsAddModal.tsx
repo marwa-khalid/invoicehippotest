@@ -86,24 +86,60 @@ const CustomFieldsAddModal = ({
             .formatMessage({ id: "Common.RequiredFieldHint2" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
         ),
-      fieldType: Yup.number().required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.FieldType" }))
-      ),
-      areaUsageType: Yup.number().required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.AreaUsageType" }))
-      ),
-      groupDisplayName: Yup.string().required(
-        intl.formatMessage({ id: "Common.RequiredFieldHint2" }).replace(
-          "{0}",
-          intl.formatMessage({
-            id: "Fields.CustomFieldsGroupDisplayName",
-          })
+      fieldType: Yup.number()
+        .min(
+          1,
+          intl
+            .formatMessage({ id: "Common.RequiredFieldHint2" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.FieldType" }))
         )
-      ),
+        .required(
+          intl
+            .formatMessage({ id: "Common.RequiredFieldHint2" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.FieldType" }))
+        ),
+      areaUsageType: Yup.number()
+        .min(
+          1,
+          intl
+            .formatMessage({ id: "Common.RequiredFieldHint2" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.AreaUsageType" }))
+        )
+
+        .required(
+          intl
+            .formatMessage({ id: "Common.RequiredFieldHint2" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.AreaUsageType" }))
+        ),
+      groupDisplayName: Yup.string()
+        .min(
+          3,
+          intl
+            .formatMessage({ id: "Common.ValidationMin" })
+            .replace(
+              "{0}",
+              intl.formatMessage({ id: "Fields.CustomFieldsGroupDisplayName" })
+            )
+            .replace("{1}", `3`)
+        )
+        .max(
+          50,
+          intl
+            .formatMessage({ id: "Common.ValidationMax" })
+            .replace(
+              "{0}",
+              intl.formatMessage({ id: "Fields.CustomFieldsGroupDisplayName" })
+            )
+            .replace("{1}", `50`)
+        )
+        .required(
+          intl
+            .formatMessage({ id: "Common.RequiredFieldHint2" })
+            .replace(
+              "{0}",
+              intl.formatMessage({ id: "Fields.CustomFieldsGroupDisplayName" })
+            )
+        ),
     }),
 
     onSubmit: async (values, { setSubmitting }) => {
