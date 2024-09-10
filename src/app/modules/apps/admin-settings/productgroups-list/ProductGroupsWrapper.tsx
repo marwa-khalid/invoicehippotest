@@ -5,7 +5,6 @@ import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolb
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
 import { ProductGroupsToolbar } from "./components/header/ProductGroupsToolbar";
-import { ProductGroupsEditModal } from "./productgroups-edit-modal/ProductGroupsEditModal";
 import { ProductGroupsDeleteModal } from "./productgroups-delete-modal/ProductGroupsDeleteModal";
 
 const getPaginationValues = () => {
@@ -33,12 +32,11 @@ const ProductGroupsInnerWrapper = () => {
   const [totalRows, setTotalRows] = useState(0);
   const [editModalId, setEditModalId] = useState<number>(0);
   const [deleteModalId, setDeleteModalId] = useState<number[]>([]);
-  const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [productGroupTitle, setProductGroupTitle] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
-const [searchCounter, setSearchCounter] = useState(0);
+  const [searchCounter, setSearchCounter] = useState(0);
   return (
     <>
       <ProductGroupsHeader
@@ -50,22 +48,23 @@ const [searchCounter, setSearchCounter] = useState(0);
       <ProductGroupsToolbar
         totalRows={totalRows}
         setAddModalOpen={setAddModalOpen}
+        setEditModalId={setEditModalId}
         deleteSelectedButton={deleteSelectedButton}
         setDeleteModalOpen={setDeleteModalOpen}
       />
 
       <ProductGroupsList
-      searchCounter={searchCounter}
+        searchCounter={searchCounter}
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
-        setEditModalOpen={setEditModalOpen}
+        setAddModalOpen={setAddModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setEditModalId={setEditModalId}
         setProductGroupTitle={setProductGroupTitle}
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
-        editModalOpen={editModalOpen}
+        addModalOpen={addModalOpen}
         deleteModalOpen={deleteModalOpen}
         deleteModalId={deleteModalId}
         setDeleteSelectedButton={setDeleteSelectedButton}
@@ -76,15 +75,10 @@ const [searchCounter, setSearchCounter] = useState(0);
         <ProductGroupsAddModal
           setRefresh={setRefresh}
           setAddModalOpen={setAddModalOpen}
-        />
-      )}
-      {editModalOpen && (
-        <ProductGroupsEditModal
           editModalId={editModalId}
-          setRefresh={setRefresh}
-          setEditModalOpen={setEditModalOpen}
         />
       )}
+
       {deleteModalOpen && (
         <ProductGroupsDeleteModal
           deleteModalId={deleteModalId}

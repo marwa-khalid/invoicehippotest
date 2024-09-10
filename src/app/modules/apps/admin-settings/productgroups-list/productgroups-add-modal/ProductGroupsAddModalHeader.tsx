@@ -3,18 +3,22 @@ import { useIntl } from "react-intl";
 
 interface ComponentProps {
   setAddModalOpen: (type: boolean) => void;
+  editModalId: number;
 }
-const ProductGroupsAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
+const ProductGroupsAddModalHeader = ({
+  setAddModalOpen,
+  editModalId,
+}: ComponentProps) => {
   const intl = useIntl();
 
   return (
     <div className="modal-header d-flex justify-content-between align-items-center bg-primary ">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {intl.formatMessage({ id: "Fields.ModalNewTitleProductGroup" })}
+        {editModalId != 0
+          ? intl.formatMessage({ id: "Fields.ModalEditTitleProductGroup" })
+          : intl.formatMessage({ id: "Fields.ModalNewTitleProductGroup" })}
       </h2>
-      {/* end::Modal title */}
-
       {/* begin::Close */}
       <div
         className="btn btn-icon btn-sm btn-active-icon-primary"
@@ -24,7 +28,6 @@ const ProductGroupsAddModalHeader = ({ setAddModalOpen }: ComponentProps) => {
       >
         <KTIcon iconName="cross" className="fs-1 text-white" />
       </div>
-      {/* end::Close */}
     </div>
   );
 };

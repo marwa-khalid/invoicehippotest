@@ -7,19 +7,23 @@ import { useFormik } from "formik";
 import { useIntl } from "react-intl";
 import { ProductGroupsAddModalForm } from "./ProductGroupsAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
-import { postProductGroup } from "../core/_requests";
+import { getProductGroupById, postProductGroup } from "../core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
+  editModalId: number;
 }
-const ProductGroupsAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const ProductGroupsAddModal = ({
+  setRefresh,
+  setAddModalOpen,
+  editModalId,
+}: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
       document.body.classList.remove("modal-open");
     };
   }, []);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const intl = useIntl();
 
@@ -69,6 +73,23 @@ const ProductGroupsAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
     },
   });
 
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const response = await getProductGroupById(editModalId);
+        formik.setValues({
+          id: response.result?.id || 0,
+          title: response.result?.title || "",
+        });
+      } catch (error) {
+        console.error("Error fetching initial data:", error);
+      }
+    };
+    if (editModalId != 0) {
+      fetchInitialData();
+    }
+  }, [editModalId]);
+
   return (
     <>
       <div
@@ -80,7 +101,10 @@ const ProductGroupsAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
       >
         <div className="modal-dialog mw-500px">
           <div className="modal-content">
-            <ProductGroupsAddModalHeader setAddModalOpen={setAddModalOpen} />
+            <ProductGroupsAddModalHeader
+              setAddModalOpen={setAddModalOpen}
+              editModalId={editModalId}
+            />
             <div className="modal-body p-10">
               <ProductGroupsAddModalForm
                 formik={formik}

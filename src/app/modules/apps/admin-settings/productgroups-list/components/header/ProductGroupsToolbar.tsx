@@ -6,6 +6,7 @@ interface ToolbarProps {
   setAddModalOpen: (type: boolean) => void;
   deleteSelectedButton: boolean;
   setDeleteModalOpen: (type: boolean) => void;
+  setEditModalId: (type: number) => void;
 }
 
 const ProductGroupsToolbar = ({
@@ -13,10 +14,8 @@ const ProductGroupsToolbar = ({
   setAddModalOpen,
   deleteSelectedButton,
   setDeleteModalOpen,
+  setEditModalId,
 }: ToolbarProps) => {
-  const openAddFinancialAccountModal = () => {
-    setAddModalOpen(true);
-  };
   const intl = useIntl();
   return (
     <div
@@ -52,7 +51,10 @@ const ProductGroupsToolbar = ({
           <button
             type="button"
             className="btn btn-primary mb-3"
-            onClick={openAddFinancialAccountModal}
+            onClick={() => {
+              setEditModalId(0);
+              setAddModalOpen(true);
+            }}
           >
             <KTIcon iconName="plus" className="fs-2" />
             {intl.formatMessage({ id: "Fields.ModalNewTitleProductGroup" })}

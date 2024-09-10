@@ -9,14 +9,14 @@ import { Tooltip } from "@chakra-ui/react";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
-  setEditModalOpen: (type: boolean) => void;
+  setAddModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
   setProductGroupTitle: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   refresh: boolean;
   setPageIndex: (type: number) => void;
   pageIndex: number;
-  editModalOpen: boolean;
+  addModalOpen: boolean;
   deleteModalOpen: boolean;
   setDeleteSelectedButton: (type: boolean) => void;
   deleteModalId: any;
@@ -27,14 +27,14 @@ interface ComponentProps {
 const ProductGroupsList = ({
   searchTerm,
   setTotalRows,
-  setEditModalOpen,
+  setAddModalOpen,
   setEditModalId,
   setProductGroupTitle,
   setDeleteModalOpen,
   refresh,
   setPageIndex,
   pageIndex,
-  editModalOpen,
+  addModalOpen,
   deleteModalOpen,
   setDeleteSelectedButton,
   deleteModalId,
@@ -75,7 +75,7 @@ const ProductGroupsList = ({
 
   useEffect(() => {
     fetchProductGroups();
-  }, [editModalOpen, deleteModalOpen, refresh]);
+  }, [addModalOpen, deleteModalOpen, refresh]);
 
   const toggleRowSelection = (id: number) => {
     setDeleteModalId((prevSelected: number[]) => {
@@ -109,7 +109,7 @@ const ProductGroupsList = ({
 
   const openEditModal = (id: number) => {
     setEditModalId(id);
-    setEditModalOpen(true);
+    setAddModalOpen(true);
   };
 
   const openDeleteModal = (id: number, productGroupTitle: string) => {

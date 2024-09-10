@@ -13,7 +13,6 @@ type Props = {
 
 const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
   const intl = useIntl();
-  console.log(formik.values.customFields);
 
   // Helper function to render form fields based on fieldType with global index
   const renderFormField = (field: any, globalIndex: number) => {

@@ -23,7 +23,6 @@ const ProductGroupsAddModalForm = ({ formik, isSubmitting }: Props) => {
 
         <div className="fv-row flex-grow-1">
           <label className="required fw-bold fs-6 mb-2">
-            {" "}
             {intl.formatMessage({ id: "Fields.Title" })}
           </label>
           <input
