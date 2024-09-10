@@ -13,9 +13,10 @@ type Props = {
 
 const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
   const intl = useIntl();
+  console.log(formik.values.customFields);
 
-  // Helper function to render form fields based on fieldType
-  const renderFormField = (field: any) => {
+  // Helper function to render form fields based on fieldType with global index
+  const renderFormField = (field: any, globalIndex: number) => {
     switch (field?.fieldType?.name) {
       case "Text":
         return (
@@ -24,25 +25,23 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
             <input
               type="text"
               {...formik.getFieldProps(
-                `customFields[${field.fieldId}].value.asText`
+                `customFields[${globalIndex}].value.asText`
               )}
               value={
-                formik.values.customFields?.[field.fieldId]?.value?.asText || ""
+                formik.values.customFields?.[globalIndex]?.value?.asText || ""
               }
               onChange={formik.handleChange}
               className={clsx(
                 "form-control form-control-solid",
                 {
                   "is-invalid":
-                    formik.touched.customFields?.[field.fieldId]?.value
-                      ?.asText &&
-                    formik.errors.customFields?.[field.fieldId]?.value?.asText,
+                    formik.touched.customFields?.[globalIndex]?.value?.asText &&
+                    formik.errors.customFields?.[globalIndex]?.value?.asText,
                 },
                 {
                   "is-valid":
-                    formik.touched.customFields?.[field.fieldId]?.value
-                      ?.asText &&
-                    !formik.errors.customFields?.[field.fieldId]?.value?.asText,
+                    formik.touched.customFields?.[globalIndex]?.value?.asText &&
+                    !formik.errors.customFields?.[globalIndex]?.value?.asText,
                 }
               )}
               placeholder={field.fieldLabel}
@@ -57,28 +56,25 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
             <input
               type="number"
               {...formik.getFieldProps(
-                `customFields[${field.fieldId}].value.asNumber`
+                `customFields[${globalIndex}].value.asNumber`
               )}
               value={
-                formik.values.customFields?.[field.fieldId]?.value?.asNumber ||
-                ""
+                formik.values.customFields?.[globalIndex]?.value?.asNumber || ""
               }
               onChange={formik.handleChange}
               className={clsx(
                 "form-control form-control-solid",
                 {
                   "is-invalid":
-                    formik.touched.customFields?.[field.fieldId]?.value
+                    formik.touched.customFields?.[globalIndex]?.value
                       ?.asNumber &&
-                    formik.errors.customFields?.[field.fieldId]?.value
-                      ?.asNumber,
+                    formik.errors.customFields?.[globalIndex]?.value?.asNumber,
                 },
                 {
                   "is-valid":
-                    formik.touched.customFields?.[field.fieldId]?.value
+                    formik.touched.customFields?.[globalIndex]?.value
                       ?.asNumber &&
-                    !formik.errors.customFields?.[field.fieldId]?.value
-                      ?.asNumber,
+                    !formik.errors.customFields?.[globalIndex]?.value?.asNumber,
                 }
               )}
               placeholder={field.fieldLabel}
@@ -98,17 +94,15 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
             >
               <Flatpickr
                 value={
-                  formik.values.customFields?.[field.fieldId]?.value?.asDate ||
-                  ""
+                  formik.values.customFields?.[globalIndex]?.value?.asDate || ""
                 }
                 {...formik.getFieldProps(
-                  `customFields[${field.fieldId}].value.asDate`
+                  `customFields[${globalIndex}].value.asDate`
                 )}
                 onChange={(date: Date[]) => {
-                  // Update the formik field value with the selected date
                   formik.setFieldValue(
-                    `customFields[${field.fieldId}].value.asDate`,
-                    date.length > 0 ? date[0] : ""
+                    `customFields[${globalIndex}].value.asDate`,
+                    date.length > 0 ? date[0].toISOString() : "" // Convert Date to ISO string
                   );
                 }}
                 options={{
@@ -147,9 +141,21 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
                 value: option,
                 label: option,
               }))}
+              value={
+                formik.values.customFields?.[globalIndex]?.value?.asOptions
+                  ? {
+                      value:
+                        formik.values.customFields?.[globalIndex]?.value
+                          ?.asOptions,
+                      label:
+                        formik.values.customFields?.[globalIndex]?.value
+                          ?.asOptions,
+                    }
+                  : null
+              }
               onChange={(selectedOption: any) => {
                 formik.setFieldValue(
-                  `customFields[${field.fieldId}].value.asOptions`,
+                  `customFields[${globalIndex}].value.asOptions`,
                   selectedOption ? selectedOption.value : null
                 );
               }}
@@ -163,55 +169,61 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
     }
   };
 
-  // Group fields by groupDisplayName
-  const groupedFields = formik.values.customFields.reduce(
-    (groups: any, field: any) => {
+  // Group fields by their groupDisplayName and use global index
+  const groupedFields = formik.values.customFields
+    ?.filter((field: any) => field !== undefined)
+    .reduce((groups: any, field: any) => {
       const group =
         field?.groupDisplayName ||
-        intl.formatMessage({ id: "Fields.CustomFeaturesUngrouped" }); // Default group name for ungrouped fields
+        intl.formatMessage({ id: "Fields.CustomFeaturesUngrouped" });
       if (!groups[group]) {
         groups[group] = [];
       }
       groups[group].push(field);
       return groups;
-    },
-    {}
-  );
+    }, {});
+
+  let globalIndex = 0; // Initialize global index
 
   return (
-    <div className="modal-body">
-      <form className="form p-3" noValidate>
-        {Object.keys(groupedFields).map((groupName) => (
-          <div className="card bg-secondary mb-5" key={groupName}>
-            <div className="card-header d-flex flex-column p-3 mx-3">
-              <h4 className="card-title text-gray-600 fw-bold mb-0">
-                {groupName}
-              </h4>
+    <>
+      <div className="modal-body">
+        <form className="form p-3" noValidate>
+          {Object.keys(groupedFields).map((groupName) => (
+            <div className="card bg-secondary mb-5" key={groupName}>
+              <div className="card-header d-flex flex-column p-3 mx-3">
+                <h4 className="card-title text-gray-600 fw-bold mb-0">
+                  {groupName}
+                </h4>
 
-              <span className="mt-0 text-muted fs-7">
-                {intl.formatMessage({ id: "Fields.CustomFeaturesSubTitle" })}
-              </span>
+                <span className="mt-0 text-muted fs-7">
+                  {intl.formatMessage({ id: "Fields.CustomFeaturesSubTitle" })}
+                </span>
+              </div>
+              <div className="separator border-gray-300"></div>
+              <div className="card-body">
+                {groupedFields[groupName].map((field: any) => {
+                  const fieldComponent = renderFormField(field, globalIndex);
+                  globalIndex++; // Increment global index for each field
+                  return fieldComponent;
+                })}
+              </div>
             </div>
-            <div className="separator border-gray-300"></div>
-            <div className="card-body">
-              {groupedFields[groupName].map((field: any) =>
-                renderFormField(field)
-              )}
-            </div>
-          </div>
-        ))}
-      </form>
+          ))}
+        </form>
 
-      <div className="text-end">
-        <button
-          type="submit"
-          className="btn btn-primary"
-          onClick={() => formik.handleSubmit()}
-        >
-          {intl.formatMessage({ id: "Fields.ActionSave" })}
-        </button>
+        <div className="text-end">
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={() => formik.handleSubmit()}
+          >
+            {intl.formatMessage({ id: "Fields.ActionSave" })}
+          </button>
+        </div>
       </div>
-    </div>
+      <div className="modal-footer flex-end p-10"></div>
+    </>
   );
 };
 
