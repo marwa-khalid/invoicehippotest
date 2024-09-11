@@ -3,15 +3,11 @@ import { useIntl } from "react-intl";
 
 interface ComponentProps {
   setAddModalOpen: (type: boolean) => void;
-  setEditModalOpen: (type: boolean) => void;
   businessName: string;
   customerNr: string;
-  setEditModalId: (type: number) => void;
 }
 const ClientAddModalHeader = ({
   setAddModalOpen,
-  setEditModalId,
-  setEditModalOpen,
   customerNr,
   businessName,
 }: ComponentProps) => {
@@ -42,8 +38,6 @@ const ClientAddModalHeader = ({
           className="btn btn-icon btn-sm btn-active-icon-primary"
           onClick={() => {
             setAddModalOpen(false);
-            setEditModalOpen(false);
-            setEditModalId(0);
           }}
           style={{ cursor: "pointer" }}
         >
@@ -70,8 +64,7 @@ const ClientAddModalHeader = ({
             </span>
           </a>
         </li>
-        {/* {showTabs && (
-          <> */}
+
         <li className="nav-item flex-fill text-center">
           <a
             className="nav-link d-flex align-items-center justify-content-center"

@@ -7,6 +7,7 @@ import { FormikProps } from "formik";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import clsx from "clsx";
+import { ClientAddModalFooter } from "./ClientAddModalFooter";
 interface FormValues {
   customFields: {
     fieldLabel: string;
@@ -79,37 +80,22 @@ interface FormValues {
 type Props = {
   formik: FormikProps<FormValues>;
   isSubmitting: boolean;
-  setEditModalId: (type: number) => void;
   setAddModalOpen: (type: boolean) => void;
-  setEditModalOpen: (type: boolean) => void;
 };
 
 const ClientAddStep1: FC<Props> = ({
   formik,
   isSubmitting,
-  setEditModalId,
   setAddModalOpen,
-  setEditModalOpen,
 }) => {
   const intl = useIntl();
-  const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
 
   const hasClientType16 = formik.values.clientTypes.includes(16);
 
-  const handleEditClick = () => {
-    setIsEditing(true); // Enable editing mode
-  };
-
   const handleQuillChange = (content: string) => {
     formik.setFieldValue("factoringSessionStatement", content); // Set statement number in formik
   };
-  useEffect(() => {
-    if (!hasClientType16) {
-      setIsEditing(false); // Disable editing mode
-      //   formik.setFieldValue("factoringSessionStatement", "");
-    }
-  }, [formik.values.clientTypes]);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -499,57 +485,11 @@ const ClientAddStep1: FC<Props> = ({
           {/* Advanced Settings and other sections if needed */}
         </form>
       </div>
-      <div className="modal-footer flex-end">
-        <button
-          type="button"
-          className="btn btn-light me-3"
-          data-bs-dismiss="modal"
-          data-bs-target="client_add_modal"
-          onClick={() => {
-            setEditModalId(0);
-            setAddModalOpen(false);
-            setEditModalOpen(false);
-          }}
-        >
-          {intl.formatMessage({ id: "Fields.ActionCancel" })}
-        </button>
-
-        <button
-          type="submit"
-          className="btn btn-primary"
-          onClick={() => formik.handleSubmit()}
-          // disabled={isSubmitting || !formik.isValid}
-        >
-          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionSave" })}
-          {isSubmitting && (
-            <span className="indicator-progress" style={{ display: "block" }}>
-              {intl.formatMessage({ id: "Common.Busy" })}
-              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-          )}
-        </button>
-        <button
-          type="submit"
-          className="btn btn-primary"
-          onClick={() => {
-            formik.handleSubmit();
-            setAddModalOpen(false);
-          }}
-          // disabled={isSubmitting || !formik.isValid}
-        >
-          {!isSubmitting &&
-            intl.formatMessage({ id: "Fields.ActionSave" }) +
-              " & " +
-              intl.formatMessage({ id: "Fields.ActionClose" })}
-
-          {isSubmitting && (
-            <span className="indicator-progress" style={{ display: "block" }}>
-              {intl.formatMessage({ id: "Common.Busy" })}
-              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-          )}
-        </button>
-      </div>
+      <ClientAddModalFooter
+        formik={formik}
+        setAddModalOpen={setAddModalOpen}
+        isSubmitting={isSubmitting}
+      />
 
       {isModalOpen && (
         <div

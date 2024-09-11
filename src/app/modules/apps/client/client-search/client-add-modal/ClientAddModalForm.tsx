@@ -91,28 +91,22 @@ type Props = {
   setTitle: (type: string) => void;
   setIntlMessage: (type: string) => void;
   deleteModalOpen: boolean;
-  editModalId: number;
   setIsSubmitting: (type: boolean) => void;
-  setEditModalId: (type: number) => void;
   setAddModalOpen: (type: boolean) => void;
-  setEditModalOpen: (type: boolean) => void;
   refresh: boolean;
 };
 
 const ClientAddModalForm: FC<Props> = ({
   setIsSubmitting,
   formik,
-  editModalId,
   refresh,
   setTitle,
-  setEditModalId,
   setIntlMessage,
   isSubmitting,
   response,
   setDeleteModalId,
   setDeleteModalOpen,
   setAddModalOpen,
-  setEditModalOpen,
   deleteModalOpen,
 }) => {
   const intl = useIntl();
@@ -127,8 +121,6 @@ const ClientAddModalForm: FC<Props> = ({
         <ClientAddStep1
           formik={formik}
           isSubmitting={isSubmitting}
-          setEditModalId={setEditModalId}
-          setEditModalOpen={setEditModalOpen}
           setAddModalOpen={setAddModalOpen}
         />
       </div>
@@ -137,6 +129,7 @@ const ClientAddModalForm: FC<Props> = ({
       <div className="tab-pane fade" id="kt_tab_pane_5" role="tabpanel">
         <ClientAddStep2
           clientId={response?.id}
+          businessName={formik.values.businessName}
           refresh={refresh}
           setDeleteModalOpen={setDeleteModalOpen}
           setDeleteModalId={setDeleteModalId}
@@ -149,7 +142,8 @@ const ClientAddModalForm: FC<Props> = ({
         <ClientAddStep3
           setIsSubmitting={setIsSubmitting}
           isSubmitting={isSubmitting}
-          response={response}
+          formik={formik}
+          setAddModalOpen={setAddModalOpen}
         />
       </div>
       <div className="tab-pane fade" id="kt_tab_pane_7" role="tabpanel">
@@ -158,6 +152,7 @@ const ClientAddModalForm: FC<Props> = ({
           setIsSubmitting={setIsSubmitting}
           isSubmitting={isSubmitting}
           formik={formik}
+          setAddModalOpen={setAddModalOpen}
         />
       </div>
       {/* </>

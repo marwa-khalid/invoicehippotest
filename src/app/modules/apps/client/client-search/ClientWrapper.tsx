@@ -44,12 +44,16 @@ const ClientInnerWrapper = () => {
         searchTerm={searchTerm}
         setSearchCounter={setSearchCounter}
       />
-      <ClientToolbar totalRows={totalRows} setAddModalOpen={setAddModalOpen} />
+      <ClientToolbar
+        totalRows={totalRows}
+        setAddModalOpen={setAddModalOpen}
+        setEditModalId={setEditModalId}
+      />
       <ClientsList
         searchTerm={searchTerm}
         searchCounter={searchCounter}
         setTotalRows={setTotalRows}
-        setEditModalOpen={setEditModalOpen}
+        setAddModalOpen={setAddModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setEditModalId={setEditModalId}
         setDeleteModalId={setDeleteModalId}
@@ -57,11 +61,11 @@ const ClientInnerWrapper = () => {
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
-        editModalOpen={editModalOpen}
+        addModalOpen={addModalOpen}
         deleteModalOpen={deleteModalOpen}
         setIntlMessage={setIntlMessage}
       />
-      {(addModalOpen || editModalOpen) && (
+      {addModalOpen && (
         <ClientAddModal
           setRefresh={setRefresh}
           refresh={refresh}
@@ -73,7 +77,6 @@ const ClientInnerWrapper = () => {
           editModalId={editModalId}
           setIntlMessage={setIntlMessage}
           deleteModalOpen={deleteModalOpen}
-          setEditModalOpen={setEditModalOpen}
         />
       )}
 

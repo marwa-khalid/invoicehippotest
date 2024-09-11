@@ -12,7 +12,7 @@ interface Props {
   setRefresh: (type: boolean) => void;
   refresh: boolean;
   setAddModalOpen: (type: boolean) => void;
-  setEditModalOpen: (type: boolean) => void;
+
   setDeleteModalId: (type: number[]) => void;
   setDeleteModalOpen: (type: boolean) => void;
   setTitle: (type: string) => void;
@@ -26,7 +26,7 @@ const ClientAddModal = ({
   refresh,
   setEditModalId,
   setAddModalOpen,
-  setEditModalOpen,
+
   setDeleteModalId,
   setDeleteModalOpen,
   setIntlMessage,
@@ -69,7 +69,7 @@ const ClientAddModal = ({
           },
         },
       ],
-      id: 0,
+      id: response?.id || 0,
       companyId: auth.currentUser?.result.activeCompany.id || 0,
       customerNr: "",
       importReference: "",
@@ -138,15 +138,23 @@ const ClientAddModal = ({
             .formatMessage({ id: "Common.RequiredFieldHint2" })
             .replace("{0}", intl.formatMessage({ id: "Fields.CompanyName" }))
         ),
+      "financialSettings.accountIbanNr": Yup.string().matches(
+        /^([A-Z]{2}[0-9]{2})(?:[ ]?[0-9A-Z]{4}){3}(?:[ ]?[0-9A-Z]{1,2})?$/,
+        intl
+          .formatMessage({ id: "Common.InvalidFormat" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.AccountNrIBAN" }))
+      ),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
         const response = await postClient(values);
+        console.log("working");
         if (response.isValid) {
-          formik.resetForm();
-          setRefresh(true);
-          formik.resetForm();
+          // formik.resetForm();
+          setRefresh(!refresh);
+          // formik.resetForm();
+          setEditModalId(response.result.id);
           setResponse(response.result);
         }
         handleToast(response);
@@ -158,6 +166,7 @@ const ClientAddModal = ({
       }
     },
   });
+  console.log(response);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -166,13 +175,13 @@ const ClientAddModal = ({
         res = await getClientById(editModalId);
       } else {
         res = await getDefaultEmpty();
-      
       }
       setResponse(res.result);
     };
 
     fetchInitialData();
-  }, []);
+  }, [formik.values.id, refresh]);
+  console.log(formik.values.customFields);
   useEffect(() => {
     if (response) {
       formik.setValues({
@@ -194,11 +203,9 @@ const ClientAddModal = ({
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
             <ClientAddModalHeader
-              setEditModalOpen={setEditModalOpen}
               businessName={response?.businessName}
               customerNr={response?.customerNr}
               setAddModalOpen={setAddModalOpen}
-              setEditModalId={setEditModalId}
             />
 
             <ClientAddModalForm
@@ -210,15 +217,10 @@ const ClientAddModal = ({
               setDeleteModalId={setDeleteModalId}
               setIntlMessage={setIntlMessage}
               setTitle={setTitle}
-              setEditModalOpen={setEditModalOpen}
               setAddModalOpen={setAddModalOpen}
               deleteModalOpen={deleteModalOpen}
               response={response}
-              setEditModalId={setEditModalId}
-              editModalId={editModalId}
             />
-
-            <ClientAddModalFooter />
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ import clsx from "clsx";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
-  setEditModalOpen: (type: boolean) => void;
+  setAddModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
   setDeleteModalId: (type: number[]) => void;
   setTitle: (type: string) => void;
@@ -20,14 +20,14 @@ interface ComponentProps {
   refresh: boolean;
   setPageIndex: (type: number) => void;
   pageIndex: number;
-  editModalOpen: boolean;
+  addModalOpen: boolean;
   deleteModalOpen: boolean;
   searchCounter: number;
 }
 const ClientsList = ({
   searchTerm,
   setTotalRows,
-  setEditModalOpen,
+  setAddModalOpen,
   setEditModalId,
   setTitle,
   setDeleteModalOpen,
@@ -36,7 +36,7 @@ const ClientsList = ({
   refresh,
   setPageIndex,
   pageIndex,
-  editModalOpen,
+  addModalOpen,
   deleteModalOpen,
   setIntlMessage,
 }: ComponentProps) => {
@@ -71,11 +71,11 @@ const ClientsList = ({
 
   useEffect(() => {
     fetchClients();
-  }, [editModalOpen, deleteModalOpen, refresh]);
+  }, [addModalOpen, deleteModalOpen, refresh]);
 
   const openEditModal = (id: number) => {
     setEditModalId(id);
-    setEditModalOpen(true);
+    setAddModalOpen(true);
   };
 
   const openDeleteModal = (id: number, title: string) => {

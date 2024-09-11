@@ -4,14 +4,20 @@ import Select from "react-select";
 import { useIntl } from "react-intl";
 import clsx from "clsx";
 import Flatpickr from "react-flatpickr";
+import { ClientAddModalFooter } from "./ClientAddModalFooter";
 
 type Props = {
   isSubmitting: boolean;
   setIsSubmitting: (value: boolean) => void;
   formik: any;
+  setAddModalOpen: (type: boolean) => void;
 };
 
-const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
+const ClientAddStep4: FC<Props> = ({
+  isSubmitting,
+  formik,
+  setAddModalOpen,
+}) => {
   const intl = useIntl();
 
   // Helper function to render form fields based on fieldType with global index
@@ -128,7 +134,44 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
 
       case "Options":
         return (
-          <div className="fv-row" key={field.fieldId}>
+          <div className="fv-row mb-7" key={field.fieldId}>
+            <label className="fw-bold fs-6 mb-3">{field.fieldLabel}</label>
+            <Select
+              className="react-select-styled"
+              menuPlacement="top"
+              placeholder={intl.formatMessage({
+                id: "Fields.SelectOptionNvt",
+              })}
+              options={field.options.map((option: string) => ({
+                value: option,
+                label: option,
+              }))}
+              value={
+                formik.values.customFields?.[globalIndex]?.value?.asText
+                  ? {
+                      value:
+                        formik.values.customFields?.[globalIndex]?.value
+                          ?.asText,
+                      label:
+                        formik.values.customFields?.[globalIndex]?.value
+                          ?.asText,
+                    }
+                  : null
+              }
+              onChange={(selectedOption: any) => {
+                formik.setFieldValue(
+                  `customFields[${globalIndex}].value.asText`,
+                  selectedOption ? selectedOption.value : ""
+                );
+              }}
+              isClearable
+            />
+          </div>
+        );
+
+      case "MultipleOptions":
+        return (
+          <div className="fv-row mb-7" key={field.fieldId}>
             <label className="fw-bold fs-6 mb-3">{field.fieldLabel}</label>
             <Select
               className="react-select-styled"
@@ -142,23 +185,24 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
               }))}
               value={
                 formik.values.customFields?.[globalIndex]?.value?.asOptions
-                  ? {
-                      value:
-                        formik.values.customFields?.[globalIndex]?.value
-                          ?.asOptions,
-                      label:
-                        formik.values.customFields?.[globalIndex]?.value
-                          ?.asOptions,
-                    }
-                  : null
+                  ? formik.values.customFields?.[
+                      globalIndex
+                    ]?.value.asOptions.map((opt: string) => ({
+                      value: opt,
+                      label: opt,
+                    }))
+                  : []
               }
-              onChange={(selectedOption: any) => {
+              onChange={(selectedOptions: any) => {
                 formik.setFieldValue(
                   `customFields[${globalIndex}].value.asOptions`,
-                  selectedOption ? selectedOption.value : null
+                  selectedOptions
+                    ? selectedOptions.map((opt: any) => opt.value)
+                    : []
                 );
               }}
               isClearable
+              isMulti
             />
           </div>
         );
@@ -211,17 +255,22 @@ const ClientAddStep4: FC<Props> = ({ setIsSubmitting, formik }) => {
           ))}
         </form>
 
-        <div className="text-end">
+        {/* <div className="text-end">
           <button
             type="submit"
             className="btn btn-primary"
             onClick={() => formik.handleSubmit()}
+            disabled={formik.values.id === undefined || formik.values.id === 0}
           >
             {intl.formatMessage({ id: "Fields.ActionSave" })}
           </button>
-        </div>
+        </div> */}
       </div>
-      <div className="modal-footer flex-end p-10"></div>
+      <ClientAddModalFooter
+        formik={formik}
+        setAddModalOpen={setAddModalOpen}
+        isSubmitting={isSubmitting}
+      />
     </>
   );
 };

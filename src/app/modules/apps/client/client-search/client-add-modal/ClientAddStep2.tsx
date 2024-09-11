@@ -13,7 +13,7 @@ type Props = {
   setDeleteModalOpen: (type: boolean) => void;
   setTitle: (type: string) => void;
   setIntlMessage: (type: string) => void;
-
+  businessName: string;
   deleteModalOpen: boolean;
 };
 const ClientAddStep2: FC<Props> = ({
@@ -23,13 +23,13 @@ const ClientAddStep2: FC<Props> = ({
   setDeleteModalOpen,
   deleteModalOpen,
   setIntlMessage,
+  businessName,
   setTitle,
 }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const intl = useIntl();
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentContactId, setCurrentContactId] = useState<number>(0);
-
   const [contacts, setContacts] = useState<any[]>([]);
   const [newContact, setNewContact] = useState({
     id: 0,

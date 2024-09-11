@@ -71,6 +71,9 @@ export function postClient(values: ClientFormValues) {
       clientTypes: values.clientTypes,
       invoiceAddress: values.invoiceAddress,
       deliveryAddress: values.deliveryAddress,
+      customFields: values.customFields,
+      invoiceAndQuoteSettings: values.invoiceAndQuoteSettings,
+      financialSettings: values.financialSettings,
     },
     true
   );

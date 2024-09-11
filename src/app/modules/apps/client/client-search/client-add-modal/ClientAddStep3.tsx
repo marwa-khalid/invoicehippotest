@@ -17,10 +17,12 @@ import {
 import { handleToast } from "../../../../auth/core/_toast";
 import { getVatTypesForLedger } from "../../../admin-settings/ledgeraccounts-list/core/_requests";
 import clsx from "clsx";
+import { ClientAddModalFooter } from "./ClientAddModalFooter";
 type Props = {
   isSubmitting: boolean;
+  setAddModalOpen: (value: boolean) => void;
   setIsSubmitting: (value: boolean) => void;
-  response: any;
+  formik: any;
 };
 interface vatType {
   value: number;
@@ -40,65 +42,14 @@ interface GroupedOption {
   }[];
 }
 
-const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
+const ClientAddStep3: FC<Props> = ({
+  setIsSubmitting,
+  formik,
+  setAddModalOpen,
+  isSubmitting,
+}) => {
   const intl = useIntl();
   const tagifyRef = useRef<any>();
-
-  useEffect(() => {
-    if (response) {
-      formik.setValues({
-        ...formik.values,
-        ...response,
-      });
-    }
-  }, [response]);
-
-  const formik = useFormik({
-    initialValues: {
-      financialSettings: {
-        bankAccountCompanyType: 0,
-        accountIbanNr: "",
-        accountHolderName: "",
-      },
-      invoiceAndQuoteSettings: {
-        defaultDeadlineDaysForPayment: 0,
-        defaultVatTypeId: 0,
-        defaultLedgerAccountId: 0,
-        extraCcEmailAddressesInvoice: [],
-        extraCcEmailAddressesQuotes: [],
-        costDefaultLedgerAccountId: 0,
-        costDefaultVatTypeId: 0,
-        costDefaultReference: "",
-        costDefaultLineReference: "",
-      },
-    },
-    validationSchema: Yup.object().shape({
-      "financialSettings.accountIbanNr": Yup.string().matches(
-        /^([A-Z]{2}[0-9]{2})(?:[ ]?[0-9A-Z]{4}){3}(?:[ ]?[0-9A-Z]{1,2})?$/,
-        intl
-          .formatMessage({ id: "Common.InvalidFormat" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.AccountNrIBAN" }))
-      ),
-    }),
-    onSubmit: async (values, { setSubmitting }) => {
-      setIsSubmitting(true);
-      try {
-        const responseStep3 = await postClientFinancial(values, response);
-        if (responseStep3.isValid) {
-          formik.resetForm();
-          handleToast(responseStep3);
-        }
-      } catch (error: any) {
-        if (error.response && error.response.status === 400) {
-          // Handle specific error status
-          toast.error("Client ID not provided. Please complete step 1.");
-        }
-      } finally {
-        setIsSubmitting(false);
-        setSubmitting(false);
-      }
-    },
-  });
 
   const [ledgers, setLedgers] = useState<any>([]);
   const [vats, setVats] = useState<any>([]);
@@ -709,19 +660,24 @@ const ClientAddStep3: FC<Props> = ({ setIsSubmitting, response }) => {
 
           {/* Advanced Settings and other sections if needed */}
         </form>
-        <div className="text-end">
+        {/* <div className="text-end">
           <button
             type="submit"
             className="btn btn-primary "
             onClick={() => formik.handleSubmit()}
-            // disabled={isSubmitting || !formik.isValid}
+            // disabled={response.id === undefined || response.id === 0}
           >
             {intl.formatMessage({ id: "Fields.ActionSave" })}
           </button>
-        </div>
+        </div> */}
       </div>
+      {console.log(formik.values.id)}
 
-      <div className="modal-footer flex-end p-10"></div>
+      <ClientAddModalFooter
+        formik={formik}
+        setAddModalOpen={setAddModalOpen}
+        isSubmitting={isSubmitting}
+      />
     </>
   );
 };
