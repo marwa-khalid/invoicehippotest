@@ -5,6 +5,7 @@ import { postContact, getContactListById } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 import { Tooltip } from "@chakra-ui/react";
 import { toast } from "react-toastify";
+import { Formik } from "formik";
 
 type Props = {
   clientId: number;
@@ -30,6 +31,7 @@ const ClientAddStep2: FC<Props> = ({
   const intl = useIntl();
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentContactId, setCurrentContactId] = useState<number>(0);
+  const [accordions, setAccordions] = useState<any[]>([]);
   const [contacts, setContacts] = useState<any[]>([]);
   const [newContact, setNewContact] = useState({
     id: 0,
@@ -191,383 +193,289 @@ const ClientAddStep2: FC<Props> = ({
     setDeleteModalId([id]);
   };
 
-  return (
-    <>
-      <div className="container p-8 ">
-        {/* Add Contact Button */}
-        <div className="d-flex">
-          <div className="input-group">
-            {contacts.length > 1 ? (
-              <div className="form-check form-check-sm form-check-custom form-check-solid">
-                <input
-                  className="form-check-input me-3"
-                  type="checkbox"
-                  checked={selectedContacts.length === contacts.length}
-                  onChange={toggleAllRowsSelection}
-                />
-              </div>
-            ) : null}
-            {selectedContacts.length === 0 && (
-              <button
-                className="btn btn-primary d-flex align-items-center rounded p-3 ms-auto"
-                onClick={() => handleOpenModal()}
+  //let index = 0;
+  const Accordion = () => {
+    // index++;
+    return (
+      <div
+        className="accordion accordion-icon-collapse"
+        //id={`accordion_${index}`}
+        id="kt-A1"
+      >
+        {/* Accordion Item */}
+        <div className="mb-5">
+          {/* Card with Accordion Header */}
+          <div className="card card-custom">
+            {/* Card Header */}
+            <div className="card-header d-flex justify-content-between align-items-center">
+              {/* Accordion Title */}
+              <h4 className="card-title mb-0 text-start text-black-600">
+                {intl.formatMessage({
+                  id: "Fields.NewContactPerson",
+                })}
+              </h4>
+
+              {/* Accordion Toggle Icon */}
+              <span
+                className="accordion-icon"
+                data-bs-toggle="collapse"
+                // data-bs-target={`#accordion_${index}`}
+                data-bs-target="#kt_accordion_3_item_1"
               >
-                <i className="ki-duotone ki-plus-square fs-2x text-white ">
+                <i className="ki-duotone ki-plus-square fs-3 accordion-icon-off">
                   <span className="path1"></span>
                   <span className="path2"></span>
                   <span className="path3"></span>
                 </i>
-                {intl.formatMessage({
-                  id: "Fields.ModalNewTitleClientContact",
-                })}
-              </button>
-            )}
-          </div>
-
-          {selectedContacts?.length > 0 && (
-            <div>
-              <button
-                style={{ whiteSpace: "nowrap" }}
-                className="btn btn-danger ms-3"
-                onClick={handleDeleteSelectedContacts}
-              >
-                {intl.formatMessage({
-                  id: "Fields.ActionDeleteMultiSelect",
-                })}
-              </button>
+                <i className="ki-duotone ki-minus-square fs-3 accordion-icon-on">
+                  <span className="path1"></span>
+                  <span className="path2"></span>
+                </i>
+              </span>
             </div>
-          )}
-        </div>
 
-        {/* Add Contact Modal */}
-        {isModalOpen && (
-          <div
-            className="modal fade show d-block"
-            tabIndex={-1}
-            role="dialog"
-            aria-modal="true"
-          >
-            <div className="modal-dialog mw-600px">
-              <div className="modal-content">
-                <div className="modal-header bg-dark">
-                  <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-0">
-                    <h2 className="fw-bolder mb-0 text-white">
-                      {isEditMode
-                        ? intl.formatMessage({ id: "Fields.EditContactPerson" })
-                        : intl.formatMessage({ id: "Fields.NewContactPerson" })}
-                    </h2>
-                    <div
-                      className="btn btn-icon btn-sm btn-active-icon-primary"
-                      onClick={() => setModalOpen(false)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <KTIcon iconName="cross" className="fs-1 text-white" />
-                    </div>
-                  </div>
-                </div>
-                <div className="modal-body">
-                  {/* Input fields for the contact form */}
-                  <div className="row d-flex mb-5">
-                    <label className="fw-bold fs-6 mb-2">
-                      {intl.formatMessage({ id: "Fields.FullName" })}
-                    </label>
-                    <div className="fv-row col-4 mb-3">
-                      <input
-                        type="text"
-                        name="firstName"
-                        // {...formik.getFieldProps("KvkNr")}
-                        value={newContact.firstName}
-                        className="form-control form-control-solid"
-                        placeholder={intl.formatMessage({
-                          id: "Fields.FirstName",
-                        })}
-                        onChange={handleInputChange}
-                      />
-                    </div>{" "}
-                    <div className="fv-row col-4 mb-3">
-                      <input
-                        type="text"
-                        name="betweenName"
-                        value={newContact.betweenName}
-                        // {...formik.getFieldProps("BtwNr")}
-                        className="form-control form-control-solid"
-                        placeholder={intl.formatMessage({
-                          id: "Fields.BetweenName",
-                        })}
-                        onChange={handleInputChange}
-                      />
-                    </div>{" "}
-                    <div className="fv-row col-4 mb-3">
-                      <input
-                        type="text"
-                        name="lastName"
-                        // {...formik.getFieldProps("BtwNr")}
-                        value={newContact.lastName}
-                        className="form-control form-control-solid"
-                        placeholder={intl.formatMessage({
-                          id: "Fields.LastName",
-                        })}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="row flex-grow-1 d-flex mb-5">
-                    <label className="fw-bold fs-6 mb-2">
-                      {intl.formatMessage({ id: "Fields.EmailAddress" })}
-                    </label>
-                    <input
-                      type="email"
-                      name="emailAddress"
-                      value={newContact.emailAddress}
-                      placeholder={intl.formatMessage({
-                        id: "Fields.EmailAddress",
-                      })}
-                      onChange={handleInputChange}
-                      className="form-control form-control-solid"
-                    />
-                  </div>
-
-                  <div className="row flex-grow-1 d-flex mb-5">
-                    <label className="fw-bold fs-6 mb-2">
-                      {intl.formatMessage({ id: "Fields.Department" })}
-                    </label>
-                    <input
-                      type="department"
-                      name="department"
-                      value={newContact.department}
-                      placeholder={intl.formatMessage({
-                        id: "Fields.Department",
-                      })}
-                      onChange={handleInputChange}
-                      className="form-control form-control-solid"
-                    />
-                  </div>
-
-                  <div className="row flex-grow-1 d-flex mb-5">
-                    <label className="fw-bold fs-6 mb-2">
-                      {intl.formatMessage({ id: "Fields.PhoneNr" })}
-                    </label>
-                    <div className="fv-row col-6">
-                      <div className="input-group">
-                        <span
-                          className="input-group-text me-1"
-                          id="basic-addon1"
-                        >
-                          <i className="fa fa-phone" />
-                        </span>
+            {/* Accordion Body */}
+            <div
+              id="kt_accordion_3_item_1"
+              className="fs-6 collapse show ps-10"
+              data-bs-parent="#kt-A1"
+            >
+              {/* Card Body - Form */}
+              <div className="card-body">
+                <form className="form p-3" noValidate>
+                  <div className="innerContainer">
+                    <div className="row d-flex mb-5">
+                      <div className="col-4">
                         <input
-                          type="phoneNr"
-                          name="phoneNr"
-                          placeholder={intl.formatMessage({
-                            id: "Fields.PhoneNr",
-                          })}
-                          value={newContact.phoneNr}
-                          onChange={handleInputChange}
+                          type="text"
                           className="form-control form-control-solid"
+                          placeholder={intl.formatMessage({
+                            id: "Fields.FirstName",
+                          })}
+                        />
+                      </div>
+                      <div className="col-4">
+                        <input
+                          type="text"
+                          className="form-control form-control-solid"
+                          placeholder={intl.formatMessage({
+                            id: "Fields.BetweenName",
+                          })}
+                        />
+                      </div>
+                      <div className="col-4">
+                        <input
+                          type="text"
+                          className="form-control form-control-solid"
+                          placeholder={intl.formatMessage({
+                            id: "Fields.LastName",
+                          })}
                         />
                       </div>
                     </div>
-                    <div className="fv-row col-6">
-                      <div className="input-group">
-                        <span
-                          className="input-group-text me-1"
-                          id="basic-addon1"
-                        >
-                          <i className="ki-duotone ki-phone fs-1 text-dark">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                        </span>
+                    <div className="row d-flex mb-5">
+                      <div className="col-8">
                         <input
                           type="text"
-                          name="mobileNr"
+                          className="form-control form-control-solid"
+                          placeholder={intl.formatMessage({
+                            id: "Fields.ContactEmailAddress",
+                          })}
+                        />
+                      </div>
+                      <div className="col-4">
+                        <input
+                          type="text"
+                          className="form-control form-control-solid"
+                          placeholder={intl.formatMessage({
+                            id: "Fields.Department",
+                          })}
+                        />
+                      </div>
+                    </div>
+                    <div className="row d-flex mb-5">
+                      <div className="col-7">
+                        <input
+                          type="text"
+                          className="form-control form-control-solid"
+                          placeholder={intl.formatMessage({
+                            id: "Fields.PhoneNumbers",
+                          })}
+                        />
+                      </div>
+                      <div className="col-5">
+                        <input
+                          type="text"
+                          className="form-control form-control-solid"
                           placeholder={intl.formatMessage({
                             id: "Fields.MobileNr",
                           })}
-                          value={newContact.mobileNr}
-                          onChange={handleInputChange}
-                          className="form-control form-control-solid"
                         />
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setModalOpen(false)}
-                  >
-                    {intl.formatMessage({ id: "Fields.ActionClose" })}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-dark"
-                    onClick={handleAddOrEditContact}
-                  >
-                    {isEditMode ? "Save Changes" : "Add"}
-                  </button>
-                </div>
+                </form>
+              </div>
+
+              {/* Card Footer */}
+              <div className="text-end p-5">
+                {/* Delete Button */}
+                <button type="button" className="btn btn-danger">
+                  Delete
+                </button>
               </div>
             </div>
           </div>
-        )}
-
-        {/* Contacts Table */}
-        {contacts?.length > 0 ? (
-          <>
-            <div className="">
-              {contacts?.map((contact: any, index: number) => {
-                const getInitials = (contact: any) => {
-                  if (contact?.firstName || contact?.lastName) {
-                    return `${contact.firstName?.[0] || ""}${
-                      contact.betweenName?.[0] || ""
-                    }${contact.lastName?.[0] || ""}`;
-                  }
-                  return `${contact.emailAddress?.[0] || ""}`; // Default to an empty string if neither firstName nor lastName is present
-                };
-
-                const initials = getInitials(contact);
-
-                const avatarColors = [
-                  "bg-light-danger text-danger",
-                  "bg-light-success text-success",
-                  "bg-light-primary text-primary",
-                  "bg-light-warning text-warning",
-                  "bg-light-info text-info",
-                  "bg-light-dark text-dark",
-                ];
-
-                // Step 2: Select a color based on the index
-                const colorClass = avatarColors[index % avatarColors.length];
-
-                return (
-                  <React.Fragment key={contact.id}>
-                    {/* Contact Record */}
-                    <div className="list-group-item d-flex align-items-center justify-content-between py-3">
-                      {/* Avatar and Name */}
-                      <div className="d-flex align-items-center">
-                        <div className="form-check form-check-sm form-check-custom form-check-solid me-3">
-                          <input
-                            className="form-check-input me-5"
-                            type="checkbox"
-                            checked={selectedContacts.includes(contact.id)}
-                            onChange={() => toggleRowSelection(contact.id)}
-                          />
-                        </div>
-                        <div className="symbol symbol-50px symbol-circle me-5">
-                          <span
-                            className={`symbol-label fw-bold ${colorClass}`}
-                          >
-                            {initials.toUpperCase()}
-                          </span>
-                        </div>
-                        <div className="">
-                          <div className="fw-bold fs-5">
-                            {contact.firstName} {contact.betweenName}{" "}
-                            {contact.lastName}
-                          </div>
-                          <div className="text-muted fs-8 mt-1">
-                            {contact.emailAddress && (
-                              <div className="d-flex align-items-center mb-1">
-                                <i className="ki-duotone ki-sms me-2 fs-3">
-                                  <span className="path1"></span>
-                                  <span className="path2"></span>
-                                </i>
-                                {contact.emailAddress}
-                              </div>
-                            )}
-                          </div>
-                          <div className="text-muted d-flex flex-row gap-3 fs-8 mt-2">
-                            {contact.phoneNr && (
-                              <div className="d-flex align-items-center mb-1">
-                                <i className="fa fa-phone me-2 fs-6" />
-                                {contact.phoneNr}
-                              </div>
-                            )}
-                            {contact.mobileNr && (
-                              <div className="d-flex align-items-center">
-                                <i className="ki-duotone ki-phone fs-2 me-2">
-                                  <span className="path1"></span>
-                                  <span className="path2"></span>
-                                </i>
-                                {contact.mobileNr}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Actions */}
-                      <div className="d-flex align-items-center">
-                        <Tooltip
-                          label={intl.formatMessage({
-                            id: "Fields.ToolTipEdit",
-                          })}
-                          fontSize="sm"
-                          className="bg-gray-800 text-white p-2 rounded"
-                          placement="top"
-                        >
-                          <button
-                            className="btn btn-icon btn-light btn-sm me-2"
-                            onClick={() => handleOpenModal(contact.id)}
-                          >
-                            <i className="ki-solid ki-pencil text-warning fs-1" />
-                          </button>
-                        </Tooltip>
-
-                        <Tooltip
-                          label={intl.formatMessage({
-                            id: "Fields.ToolTipDelete",
-                          })}
-                          fontSize="sm"
-                          className="bg-gray-800 text-white p-2 rounded"
-                          placement="top"
-                        >
-                          <button
-                            className="btn btn-icon btn-light btn-sm"
-                            onClick={() =>
-                              openDeleteModal(
-                                contact.id,
-                                `${contact.firstName} ${contact.lastName}`
-                              )
-                            }
-                          >
-                            <i className="ki-solid ki-trash text-danger fs-1" />
-                          </button>
-                        </Tooltip>
-                      </div>
-                    </div>
-
-                    {/* Separator */}
-                    {index < contacts.length - 1 && (
-                      <div className="separator separator-solid border-secondary  my-3"></div>
-                    )}
-                  </React.Fragment>
-                );
-              })}
-            </div>
-          </>
-        ) : (
-          // No Contacts Found
-
-          <div className="text-center d-flex justify-content-center align-items-center flex-column">
-            <img
-              alt=""
-              src={toAbsoluteUrl("media/logos/nocontacts.svg")}
-              className="h-250px w-400px mb-10"
-            />
-            <h3>
-              {" "}
-              {intl.formatMessage({
-                id: "Fields.EmptyContactsSearch",
-              })}
-            </h3>
-          </div>
-        )}
+        </div>
       </div>
-      <div className="modal-footer flex-end p-10"></div>
+    );
+  };
+  const handleAddAccordion = () => {
+    setAccordions((prevAccordions) => [
+      ...prevAccordions,
+      <Accordion key={prevAccordions.length} />,
+    ]);
+  };
+
+  return (
+    <>
+      <div className="modal-body">
+        <form
+          className="form p-3"
+          // onSubmit={formik.handleSubmit}
+          noValidate
+        >
+          <div className=" p-6 rounded mb-7">
+            <h4 className="mb-2 text-start text-black-600">
+              {intl.formatMessage({ id: "Fields.Contacts" })}
+            </h4>
+            <span className="mt-0 text-muted fs-7">
+              {intl.formatMessage({
+                id: "Fields.ContactPersonSettingsSubTitle",
+              })}
+            </span>
+            <div className="separator border-gray-300 my-6"></div>
+            <div className="innerContainer">
+              <h4 className="mb-5 text-start text-black-600">
+                {intl.formatMessage({
+                  id: "Fields.PrimarContactPerson",
+                })}
+              </h4>
+              <div className="row d-flex mb-5">
+                <div className="col-4">
+                  <input
+                    type="text"
+                    // {...formik.getFieldProps(
+                    //   "financialSettings.accountHolderName"
+                    // )}
+                    className="form-control form-control-solid"
+                    placeholder={intl.formatMessage({
+                      id: "Fields.FirstName",
+                    })}
+                  />
+                </div>
+                <div className="col-4">
+                  <input
+                    type="text"
+                    // {...formik.getFieldProps(
+                    //   "financialSettings.accountHolderName"
+                    // )}
+                    className="form-control form-control-solid"
+                    placeholder={intl.formatMessage({
+                      id: "Fields.BetweenName",
+                    })}
+                  />
+                </div>
+                <div className="col-4">
+                  <input
+                    type="text"
+                    // {...formik.getFieldProps(
+                    //   "financialSettings.accountHolderName"
+                    // )}
+                    className="form-control form-control-solid"
+                    placeholder={intl.formatMessage({
+                      id: "Fields.LastName",
+                    })}
+                  />
+                </div>
+              </div>
+              <div className="row d-flex mb-5">
+                <div className="col-8">
+                  <input
+                    type="text"
+                    // {...formik.getFieldProps(
+                    //   "financialSettings.accountHolderName"
+                    // )}
+                    className="form-control form-control-solid"
+                    placeholder={intl.formatMessage({
+                      id: "Fields.ContactEmailAddress",
+                    })}
+                  />
+                </div>
+                <div className="col-4">
+                  <input
+                    type="text"
+                    // {...formik.getFieldProps(
+                    //   "financialSettings.accountHolderName"
+                    // )}
+                    className="form-control form-control-solid"
+                    placeholder={intl.formatMessage({
+                      id: "Fields.Department",
+                    })}
+                  />
+                </div>
+              </div>
+              <div className="row d-flex mb-5">
+                <div className="col-7">
+                  <input
+                    type="text"
+                    // {...formik.getFieldProps(
+                    //   "financialSettings.accountHolderName"
+                    // )}
+                    className="form-control form-control-solid"
+                    placeholder={intl.formatMessage({
+                      id: "Fields.PhoneNumbers",
+                    })}
+                  />
+                </div>
+                <div className="col-5">
+                  <input
+                    type="text"
+                    // {...formik.getFieldProps(
+                    //   "financialSettings.accountHolderName"
+                    // )}
+                    className="form-control form-control-solid"
+                    placeholder={intl.formatMessage({
+                      id: "Fields.MobileNr",
+                    })}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="separator border-gray-300 my-6"></div>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleAddAccordion}
+            >
+              <i className="ki-duotone ki-plus-square fs-2x text-white ">
+                <span className="path1"></span>
+                <span className="path2"></span>
+                <span className="path3"></span>
+              </i>
+              overige contactpersonon
+              {/* {intl.formatMessage({
+                id: "Fields.ContactPersonSettingsSubTitle",
+              })} */}
+            </button>
+            <div className="mt-5">
+              {accordions.map((accordion, index) => (
+                <div key={index}>{accordion}</div>
+              ))}
+            </div>
+          </div>
+        </form>
+      </div>
     </>
   );
 };
