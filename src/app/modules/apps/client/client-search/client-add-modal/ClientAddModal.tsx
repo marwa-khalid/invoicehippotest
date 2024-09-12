@@ -175,6 +175,7 @@ const ClientAddModal = ({
       let res;
       if (editModalId != 0) {
         res = await getClientById(editModalId);
+        setDisableTabs(false);
       } else {
         res = await getDefaultEmpty();
       }

@@ -155,15 +155,21 @@ const ClientAddStep1: FC<Props> = ({
 
               <span className="input-group-text">
                 {/* <Tooltip
+                  className="tooltip"
                   label={intl.formatMessage({
                     id: "Fields.PickerClientToolTipSearchChaimberOfCommerce",
                   })}
-                  zIndex={100000}
+                  placement="top" // Adjust the placement if needed
                 > */}
                 <i
                   className="la la-search-plus fs-1 cursor-pointer text-primary"
                   onClick={() => handleOpenModal()}
-                ></i>
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title={intl.formatMessage({
+                    id: "Fields.PickerClientToolTipSearchChaimberOfCommerce",
+                  })}
+                />
                 {/* </Tooltip> */}
               </span>
             </div>
