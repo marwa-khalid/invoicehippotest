@@ -8,6 +8,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import clsx from "clsx";
 import { ClientAddModalFooter } from "./ClientAddModalFooter";
+import { Tooltip } from "@chakra-ui/react";
 interface FormValues {
   customFields: {
     fieldLabel: string;
@@ -131,24 +132,42 @@ const ClientAddStep1: FC<Props> = ({
           </div>
 
           <div className="row d-flex mb-5">
-            <input
-              type="text"
-              {...formik.getFieldProps("businessName")}
-              className={clsx(
-                "form-control form-control-solid",
-                {
-                  "is-invalid":
-                    formik.touched.businessName && formik.errors.businessName,
-                },
-                {
-                  "is-valid":
-                    formik.touched.businessName && !formik.errors.businessName,
-                }
-              )}
-              placeholder={intl.formatMessage({
-                id: "Fields.CompanyName",
-              })}
-            />
+            <div className="input-group">
+              <input
+                type="text"
+                {...formik.getFieldProps("businessName")}
+                className={clsx(
+                  "form-control form-control-solid me-1 ",
+                  {
+                    "is-invalid":
+                      formik.touched.businessName && formik.errors.businessName,
+                  },
+                  {
+                    "is-valid":
+                      formik.touched.businessName &&
+                      !formik.errors.businessName,
+                  }
+                )}
+                placeholder={intl.formatMessage({
+                  id: "Fields.CompanyName",
+                })}
+              />
+
+              <span className="input-group-text">
+                {/* <Tooltip
+                  label={intl.formatMessage({
+                    id: "Fields.PickerClientToolTipSearchChaimberOfCommerce",
+                  })}
+                  zIndex={100000}
+                > */}
+                <i
+                  className="la la-search-plus fs-1 cursor-pointer text-primary"
+                  onClick={() => handleOpenModal()}
+                ></i>
+                {/* </Tooltip> */}
+              </span>
+            </div>
+
             {formik.touched.businessName && formik.errors.businessName && (
               <div className="fv-plugins-message-container mt-2 ">
                 <div className="fv-help-block">
@@ -162,14 +181,14 @@ const ClientAddStep1: FC<Props> = ({
               </div>
             )}
           </div>
-          <div className="row d-flex mb-5">
-            <a href="#" onClick={() => handleOpenModal()}>
+          {/* <div className="row d-flex mb-5">
+            <a href="#">
               <i className="la la-search-plus me-2"></i>
               {intl.formatMessage({
                 id: "Fields.PickerClientToolTipSearchChaimberOfCommerce",
               })}
             </a>
-          </div>
+          </div> */}
           {/*  client type Field */}
           <div className="row flex-grow-1 d-flex mb-5">
             <label className="fw-bold fs-6 mb-2">

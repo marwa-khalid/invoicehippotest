@@ -45,6 +45,7 @@ const ClientAddModal = ({
   const intl = useIntl();
   const auth = useAuth();
   const [response, setResponse] = useState<any>([]);
+  const [disableTabs, setDisableTabs] = useState(true);
 
   const formik = useFormik({
     initialValues: {
@@ -156,6 +157,7 @@ const ClientAddModal = ({
           // formik.resetForm();
           setEditModalId(response.result.id);
           setResponse(response.result);
+          setDisableTabs(false);
         }
         handleToast(response);
       } catch (error) {
@@ -206,6 +208,7 @@ const ClientAddModal = ({
               businessName={response?.businessName}
               customerNr={response?.customerNr}
               setAddModalOpen={setAddModalOpen}
+              disableTabs={disableTabs}
             />
 
             <ClientAddModalForm

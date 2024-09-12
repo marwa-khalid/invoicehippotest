@@ -19,9 +19,9 @@ const ClientAddStep4: FC<Props> = ({
   setAddModalOpen,
 }) => {
   const intl = useIntl();
-
+  console.log(formik.values.customFields);
   // Helper function to render form fields based on fieldType with global index
-  const renderFormField = (field: any, globalIndex: number) => {
+  const renderFormField = (field: any, fieldIndex: number) => {
     switch (field?.fieldType?.name) {
       case "Text":
         return (
@@ -30,23 +30,23 @@ const ClientAddStep4: FC<Props> = ({
             <input
               type="text"
               {...formik.getFieldProps(
-                `customFields[${globalIndex}].value.asText`
+                `customFields[${fieldIndex}].value.asText`
               )}
               value={
-                formik.values.customFields?.[globalIndex]?.value?.asText || ""
+                formik.values.customFields?.[fieldIndex]?.value?.asText || ""
               }
               onChange={formik.handleChange}
               className={clsx(
                 "form-control form-control-solid",
                 {
                   "is-invalid":
-                    formik.touched.customFields?.[globalIndex]?.value?.asText &&
-                    formik.errors.customFields?.[globalIndex]?.value?.asText,
+                    formik.touched.customFields?.[fieldIndex]?.value?.asText &&
+                    formik.errors.customFields?.[fieldIndex]?.value?.asText,
                 },
                 {
                   "is-valid":
-                    formik.touched.customFields?.[globalIndex]?.value?.asText &&
-                    !formik.errors.customFields?.[globalIndex]?.value?.asText,
+                    formik.touched.customFields?.[fieldIndex]?.value?.asText &&
+                    !formik.errors.customFields?.[fieldIndex]?.value?.asText,
                 }
               )}
               placeholder={field.fieldLabel}
@@ -61,25 +61,25 @@ const ClientAddStep4: FC<Props> = ({
             <input
               type="number"
               {...formik.getFieldProps(
-                `customFields[${globalIndex}].value.asNumber`
+                `customFields[${fieldIndex}].value.asNumber`
               )}
               value={
-                formik.values.customFields?.[globalIndex]?.value?.asNumber || ""
+                formik.values.customFields?.[fieldIndex]?.value?.asNumber || ""
               }
               onChange={formik.handleChange}
               className={clsx(
                 "form-control form-control-solid",
                 {
                   "is-invalid":
-                    formik.touched.customFields?.[globalIndex]?.value
+                    formik.touched.customFields?.[fieldIndex]?.value
                       ?.asNumber &&
-                    formik.errors.customFields?.[globalIndex]?.value?.asNumber,
+                    formik.errors.customFields?.[fieldIndex]?.value?.asNumber,
                 },
                 {
                   "is-valid":
-                    formik.touched.customFields?.[globalIndex]?.value
+                    formik.touched.customFields?.[fieldIndex]?.value
                       ?.asNumber &&
-                    !formik.errors.customFields?.[globalIndex]?.value?.asNumber,
+                    !formik.errors.customFields?.[fieldIndex]?.value?.asNumber,
                 }
               )}
               placeholder={field.fieldLabel}
@@ -99,14 +99,14 @@ const ClientAddStep4: FC<Props> = ({
             >
               <Flatpickr
                 value={
-                  formik.values.customFields?.[globalIndex]?.value?.asDate || ""
+                  formik.values.customFields?.[fieldIndex]?.value?.asDate || ""
                 }
                 {...formik.getFieldProps(
-                  `customFields[${globalIndex}].value.asDate`
+                  `customFields[${fieldIndex}].value.asDate`
                 )}
                 onChange={(date: Date[]) => {
                   formik.setFieldValue(
-                    `customFields[${globalIndex}].value.asDate`,
+                    `customFields[${fieldIndex}].value.asDate`,
                     date.length > 0 ? date[0].toISOString() : "" // Convert Date to ISO string
                   );
                 }}
@@ -147,20 +147,18 @@ const ClientAddStep4: FC<Props> = ({
                 label: option,
               }))}
               value={
-                formik.values.customFields?.[globalIndex]?.value?.asText
+                formik.values.customFields?.[fieldIndex]?.value?.asText
                   ? {
                       value:
-                        formik.values.customFields?.[globalIndex]?.value
-                          ?.asText,
+                        formik.values.customFields?.[fieldIndex]?.value.asText,
                       label:
-                        formik.values.customFields?.[globalIndex]?.value
-                          ?.asText,
+                        formik.values.customFields?.[fieldIndex]?.value.asText,
                     }
                   : null
               }
               onChange={(selectedOption: any) => {
                 formik.setFieldValue(
-                  `customFields[${globalIndex}].value.asText`,
+                  `customFields[${fieldIndex}].value.asText`,
                   selectedOption ? selectedOption.value : ""
                 );
               }}
@@ -168,7 +166,6 @@ const ClientAddStep4: FC<Props> = ({
             />
           </div>
         );
-
       case "MultipleOptions":
         return (
           <div className="fv-row mb-7" key={field.fieldId}>
@@ -184,9 +181,9 @@ const ClientAddStep4: FC<Props> = ({
                 label: option,
               }))}
               value={
-                formik.values.customFields?.[globalIndex]?.value?.asOptions
+                formik.values.customFields?.[fieldIndex]?.value?.asOptions
                   ? formik.values.customFields?.[
-                      globalIndex
+                      fieldIndex
                     ]?.value.asOptions.map((opt: string) => ({
                       value: opt,
                       label: opt,
@@ -195,7 +192,7 @@ const ClientAddStep4: FC<Props> = ({
               }
               onChange={(selectedOptions: any) => {
                 formik.setFieldValue(
-                  `customFields[${globalIndex}].value.asOptions`,
+                  `customFields[${fieldIndex}].value.asOptions`,
                   selectedOptions
                     ? selectedOptions.map((opt: any) => opt.value)
                     : []
@@ -215,19 +212,16 @@ const ClientAddStep4: FC<Props> = ({
   // Group fields by their groupDisplayName and use global index
   const groupedFields = formik.values.customFields
     ?.filter((field: any) => field !== undefined)
-    .reduce((groups: any, field: any) => {
+    .reduce((groups: any, field: any, index: number) => {
       const group =
         field?.groupDisplayName ||
         intl.formatMessage({ id: "Fields.CustomFeaturesUngrouped" });
       if (!groups[group]) {
         groups[group] = [];
       }
-      groups[group].push(field);
+      groups[group].push({ field, index });
       return groups;
     }, {});
-
-  let globalIndex = 0; // Initialize global index
-
   return (
     <>
       <div className="modal-body">
@@ -245,32 +239,22 @@ const ClientAddStep4: FC<Props> = ({
               </div>
               <div className="separator border-gray-300"></div>
               <div className="card-body">
-                {groupedFields[groupName].map((field: any) => {
-                  const fieldComponent = renderFormField(field, globalIndex);
-                  globalIndex++; // Increment global index for each field
-                  return fieldComponent;
-                })}
+                {groupedFields[groupName].map(
+                  ({ field, index }: { field: any; index: number }) => {
+                    return renderFormField(field, index);
+                  }
+                )}
               </div>
             </div>
           ))}
         </form>
 
-        {/* <div className="text-end">
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={() => formik.handleSubmit()}
-            disabled={formik.values.id === undefined || formik.values.id === 0}
-          >
-            {intl.formatMessage({ id: "Fields.ActionSave" })}
-          </button>
-        </div> */}
+        <ClientAddModalFooter
+          formik={formik}
+          setAddModalOpen={setAddModalOpen}
+          isSubmitting={isSubmitting}
+        />
       </div>
-      <ClientAddModalFooter
-        formik={formik}
-        setAddModalOpen={setAddModalOpen}
-        isSubmitting={isSubmitting}
-      />
     </>
   );
 };

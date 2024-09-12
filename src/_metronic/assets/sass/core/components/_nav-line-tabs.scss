@@ -20,6 +20,11 @@
       padding: 0.5rem 0;
       margin: 0 1rem;
     }
+    .disabled-tab {
+      color: gray !important; /* Greyish color for disabled tabs */
+      // pointer-events: none; /* Prevent any interaction */
+      border-bottom: none !important; /* Remove the white underline */
+    }
 
     // First Item
     &:first-child {
@@ -55,6 +60,11 @@
 
       .nav-link {
         border-bottom-width: 2px;
+      }
+      .disabled-tab {
+        color: gray !important; /* Greyish color for disabled tabs */
+        // pointer-events: none; /* Prevent any interaction */
+        border-bottom: none !important; /* Remove the white underline */
       }
     }
 
