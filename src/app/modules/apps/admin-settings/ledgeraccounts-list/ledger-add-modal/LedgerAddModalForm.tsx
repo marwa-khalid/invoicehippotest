@@ -532,21 +532,21 @@ const LedgerAddModalForm = ({
                 <input
                   type="number"
                   className={clsx(
-                    "form-control form-control-solid",
-                    {
-                      "is-invalid":
-                        formik.touched.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible &&
-                        formik.errors.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible,
-                    },
-                    {
-                      "is-valid":
-                        formik.touched.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible &&
-                        !formik.errors.taxDeductibleSettings
-                          ?.isNotFullyTaxDeductible,
-                    }
+                    "form-control form-control-solid"
+                    // {
+                    //   "is-invalid":
+                    //     formik.touched.taxDeductibleSettings
+                    //       ?.isNotFullyTaxDeductible &&
+                    //     formik.errors.taxDeductibleSettings
+                    //       ?.isNotFullyTaxDeductible,
+                    // },
+                    // {
+                    //   "is-valid":
+                    //     formik.touched.taxDeductibleSettings
+                    //       ?.isNotFullyTaxDeductible &&
+                    //     !formik.errors.taxDeductibleSettings
+                    //       ?.isNotFullyTaxDeductible,
+                    // }
                   )}
                   id="taxDeductiblePercentage"
                   min={0}
@@ -563,6 +563,11 @@ const LedgerAddModalForm = ({
                 <span className="input-group-text ms-1">%</span>
               </div>
             </div>
+            {
+              console.log(
+                formik.values.taxDeductibleSettings.isNotFullyTaxDeductible
+              )!
+            }
 
             <div className="fv-row col-5 flex-grow-1">
               <label className="fw-bold fs-6 mb-2">

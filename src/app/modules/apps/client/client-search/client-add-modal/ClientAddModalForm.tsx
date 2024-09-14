@@ -79,10 +79,28 @@ interface FormValues {
     city: string;
     countryType: number;
   };
+  contactlist: {
+    contacts: [
+      {
+        id: 0;
+        clientId: 0;
+        isDefaultContact: true;
+        firstName: "";
+        betweenName: "";
+        lastName: "";
+        addressingType: 0;
+        emailAddress: "";
+        phoneNr: "";
+        mobileNr: "";
+        department: "";
+      }
+    ];
+    listOfDeletedClientContactIDs: [0];
+  };
 }
 
 type Props = {
-  formik: FormikProps<FormValues>;
+  formik: any;
 
   isSubmitting: boolean;
   response: any;
@@ -129,13 +147,13 @@ const ClientAddModalForm: FC<Props> = ({
       <div className="tab-pane fade" id="kt_tab_pane_5" role="tabpanel">
         <ClientAddStep2
           clientId={response?.id}
-          businessName={formik.values.businessName}
           refresh={refresh}
-          setDeleteModalOpen={setDeleteModalOpen}
-          setDeleteModalId={setDeleteModalId}
-          setIntlMessage={setIntlMessage}
-          setTitle={setTitle}
-          deleteModalOpen={deleteModalOpen}
+          formik={formik}
+          // setDeleteModalOpen={setDeleteModalOpen}
+          // setDeleteModalId={setDeleteModalId}
+          // setIntlMessage={setIntlMessage}
+          // setTitle={setTitle}
+          // deleteModalOpen={deleteModalOpen}
         />
       </div>
       <div className="tab-pane fade" id="kt_tab_pane_6" role="tabpanel">

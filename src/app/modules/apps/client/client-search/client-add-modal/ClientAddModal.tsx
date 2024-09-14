@@ -4,7 +4,12 @@ import { ClientAddModalFooter } from "./ClientAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { getClientById, getDefaultEmpty, postClient } from "../core/_requests";
+import {
+  getClientById,
+  getDefaultEmpty,
+  postClient,
+  postContact,
+} from "../core/_requests";
 import { ClientAddModalForm } from "./ClientAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { useAuth } from "../../../../auth";
@@ -117,6 +122,24 @@ const ClientAddModal = ({
         city: "",
         countryType: 0,
       },
+      contactlist: {
+        contacts: [
+          {
+            id: 0,
+            clientId: 0,
+            isDefaultContact: true,
+            firstName: "",
+            betweenName: "",
+            lastName: "",
+            addressingType: 0,
+            emailAddress: "",
+            phoneNr: "",
+            mobileNr: "",
+            department: "",
+          },
+        ],
+        listOfDeletedClientContactIDs: [0],
+      },
     },
     validationSchema: Yup.object().shape({
       businessName: Yup.string()
@@ -150,6 +173,10 @@ const ClientAddModal = ({
       setIsSubmitting(true);
       try {
         const response = await postClient(values);
+        let postContactsPromise;
+        if (values.contactlist.contacts.length > 0) {
+          postContactsPromise = await postContact(values.contactlist);
+        }
         console.log("working");
         if (response.isValid) {
           // formik.resetForm();
@@ -160,6 +187,15 @@ const ClientAddModal = ({
           setDisableTabs(false);
         }
         handleToast(response);
+        if (postContactsPromise?.isValid) {
+          // formik.resetForm();
+          setRefresh(!refresh);
+          // formik.resetForm();
+          // setEditModalId(response.result.id);
+          // setResponse(response.result);
+          // setDisableTabs(false);
+        }
+        handleToast(postContactsPromise);
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
@@ -224,6 +260,12 @@ const ClientAddModal = ({
               setAddModalOpen={setAddModalOpen}
               deleteModalOpen={deleteModalOpen}
               response={response}
+            />
+
+            <ClientAddModalFooter
+              formik={formik}
+              setAddModalOpen={setAddModalOpen}
+              isSubmitting={isSubmitting}
             />
           </div>
         </div>

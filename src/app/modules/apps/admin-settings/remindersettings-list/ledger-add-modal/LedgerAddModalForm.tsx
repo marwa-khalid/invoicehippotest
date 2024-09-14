@@ -266,11 +266,7 @@ const LedgerAddModalForm = ({
                   e.preventDefault();
                 }
               }}
-              className={clsx(
-                "form-control form-control-solid"
-                // { "is-invalid": formik.touched.code && formik.errors.code },
-                // { "is-valid": formik.touched.code && !formik.errors.code }
-              )}
+              className={clsx("form-control form-control-solid")}
               disabled={isSubmitting}
               placeholder={intl.formatMessage({ id: "Fields.Code" })}
               aria-label="Code"

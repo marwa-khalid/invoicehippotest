@@ -249,11 +249,11 @@ const ClientAddStep4: FC<Props> = ({
           ))}
         </form>
 
-        <ClientAddModalFooter
+        {/* <ClientAddModalFooter
           formik={formik}
           setAddModalOpen={setAddModalOpen}
           isSubmitting={isSubmitting}
-        />
+        /> */}
       </div>
     </>
   );

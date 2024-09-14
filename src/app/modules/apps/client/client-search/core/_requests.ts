@@ -98,19 +98,12 @@ export function postClientFinancial(
   );
 }
 
-export function postContact(values: ContactValues) {
+export function postContact(values: any) {
   return postRequest<ContactModel>(
-    POST_CONTACT,
+    GET_CONTACT_BY_ID,
     {
-      id: values.id,
-      clientId: values.clientId,
-      firstName: values.firstName,
-      betweenName: values.betweenName,
-      lastName: values.lastName,
-      emailAddress: values.emailAddress,
-      phoneNr: values.phoneNr,
-      mobileNr: values.mobileNr,
-      department: values.department,
+      contacts: values.contacts,
+      listOfDeletedClientContactIDs: values.listOfDeletedClientContactIDs,
     },
     true
   );

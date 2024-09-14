@@ -673,11 +673,11 @@ const ClientAddStep3: FC<Props> = ({
       </div>
       {console.log(formik.values.id)}
 
-      <ClientAddModalFooter
+      {/* <ClientAddModalFooter
         formik={formik}
         setAddModalOpen={setAddModalOpen}
         isSubmitting={isSubmitting}
-      />
+      /> */}
     </>
   );
 };

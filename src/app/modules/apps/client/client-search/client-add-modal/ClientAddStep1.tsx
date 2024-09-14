@@ -76,6 +76,24 @@ interface FormValues {
     city: string;
     countryType: number;
   };
+  contactlist: {
+    contacts: [
+      {
+        id: 0;
+        clientId: 0;
+        isDefaultContact: true;
+        firstName: "";
+        betweenName: "";
+        lastName: "";
+        addressingType: 0;
+        emailAddress: "";
+        phoneNr: "";
+        mobileNr: "";
+        department: "";
+      }
+    ];
+    listOfDeletedClientContactIDs: [0];
+  };
 }
 
 type Props = {
@@ -510,11 +528,7 @@ const ClientAddStep1: FC<Props> = ({
           {/* Advanced Settings and other sections if needed */}
         </form>
       </div>
-      <ClientAddModalFooter
-        formik={formik}
-        setAddModalOpen={setAddModalOpen}
-        isSubmitting={isSubmitting}
-      />
+     
 
       {isModalOpen && (
         <div
