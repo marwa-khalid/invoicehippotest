@@ -305,11 +305,9 @@ const ClientsList = ({
                           </i>
                           <small>
                             {client?.primaryContact?.phoneNrs.map(
-                              (phoneNumber, index) => {
+                              (phoneNumber) => {
                                 return (
-                                  <div key={index}>
-                                    <span className="me-2">{phoneNumber}</span>
-                                  </div>
+                                  <span className="me-2">{phoneNumber}</span>
                                 );
                               }
                             )}

@@ -447,13 +447,14 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="text-end p-5">
+                    <div className="text-end ">
                       <button
                         type="button"
-                        className="btn btn-danger"
+                        className="btn btn-icon btn-danger"
                         onClick={() => handleRemoveContact(contact.id, index)}
                       >
-                        {intl.formatMessage({ id: "Fields.ActionDelete" })}
+                        <i className="ki-solid ki-trash text-white fs-2 "></i>
+                        {/* {intl.formatMessage({ id: "Fields.ActionDelete" })} */}
                       </button>
                     </div>
                   </div>
