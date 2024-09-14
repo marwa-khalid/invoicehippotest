@@ -19,7 +19,6 @@ const ClientAddStep4: FC<Props> = ({
   setAddModalOpen,
 }) => {
   const intl = useIntl();
-  console.log(formik.values.customFields);
   // Helper function to render form fields based on fieldType with global index
   const renderFormField = (field: any, fieldIndex: number) => {
     switch (field?.fieldType?.name) {
@@ -116,7 +115,6 @@ const ClientAddStep4: FC<Props> = ({
                 }}
                 className="form-control"
                 placeholder="dd-MM-yyyy"
-                isClearable="true"
               />
               <span
                 className="input-group-text"

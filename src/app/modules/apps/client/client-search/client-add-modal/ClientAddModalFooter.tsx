@@ -15,8 +15,6 @@ const ClientAddModalFooter = ({
 }: Props) => {
   const intl = useIntl();
   const checkIdAndHandleTab = () => {
-    console.log(formik.values.businessName);
-
     // Check if businessName is empty (submit only if businessName is provided)
     if (!formik.values.businessName) {
       toast.info("Complete initial steps please.");

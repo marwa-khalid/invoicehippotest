@@ -302,15 +302,14 @@ const ClientsList = ({
                           <i className="ki-duotone ki-phone text-dark fs-2 me-2">
                             <span className="path1"></span>
                             <span className="path2"></span>
-                          </i>{" "}
+                          </i>
                           <small>
-                            
                             {client?.primaryContact?.phoneNrs.map(
-                              (phoneNumber) => {
+                              (phoneNumber, index) => {
                                 return (
-                                  <>
+                                  <div key={index}>
                                     <span className="me-2">{phoneNumber}</span>
-                                  </>
+                                  </div>
                                 );
                               }
                             )}

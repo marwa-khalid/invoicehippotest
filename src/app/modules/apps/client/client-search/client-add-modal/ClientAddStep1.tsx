@@ -528,7 +528,6 @@ const ClientAddStep1: FC<Props> = ({
           {/* Advanced Settings and other sections if needed */}
         </form>
       </div>
-     
 
       {isModalOpen && (
         <div

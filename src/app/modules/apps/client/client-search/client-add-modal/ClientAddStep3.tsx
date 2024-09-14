@@ -671,8 +671,6 @@ const ClientAddStep3: FC<Props> = ({
           </button>
         </div> */}
       </div>
-      {console.log(formik.values.id)}
-
       {/* <ClientAddModalFooter
         formik={formik}
         setAddModalOpen={setAddModalOpen}

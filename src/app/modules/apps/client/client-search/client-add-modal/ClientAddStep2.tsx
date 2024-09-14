@@ -37,8 +37,6 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
       fetchSpecificContacts();
     }
   }, [clientId, refresh]);
-  console.log(primaryContact);
-
   // Handle primary contact change
   const handlePrimaryContactChange = (field: string, value: any) => {
     const updatedPrimaryContact = {
@@ -55,7 +53,6 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
       [field]: value, // Update the specific field with the new value
     };
 
-    console.log(updatedPrimaryContact);
     setPrimaryContact(updatedPrimaryContact);
 
     // Update Formik with the updated contact list
@@ -65,7 +62,6 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
     ]);
   };
 
-  console.log(formik.values.contactlist);
   // Handle additional contact changes
   const handleAdditionalContactChange = (
     index: number,
@@ -114,7 +110,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
   // Handle removing contact
   const handleRemoveContact = (id: number, index: number) => {
     const updatedContacts = additionalContacts.filter((_, i) => i !== index);
-    console.log(updatedContacts);
+
     const deletedIds =
       formik.values.contactlist.listOfDeletedClientContactIDs || [];
 
@@ -134,8 +130,6 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
       ...updatedContacts,
     ]);
   };
-
-  console.log(formik.values.contactlist.contacts);
 
   return (
     <div className="modal-body">

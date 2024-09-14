@@ -177,7 +177,7 @@ const ClientAddModal = ({
         if (values.contactlist.contacts.length > 0) {
           postContactsPromise = await postContact(values.contactlist);
         }
-        console.log("working");
+       
         if (response.isValid) {
           // formik.resetForm();
           setRefresh(!refresh);
@@ -204,8 +204,6 @@ const ClientAddModal = ({
       }
     },
   });
-  console.log(response);
-
   useEffect(() => {
     const fetchInitialData = async () => {
       let res;
@@ -220,7 +218,7 @@ const ClientAddModal = ({
 
     fetchInitialData();
   }, [formik.values.id, refresh]);
-  console.log(formik.values.customFields);
+
   useEffect(() => {
     if (response) {
       formik.setValues({
