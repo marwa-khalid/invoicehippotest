@@ -135,13 +135,13 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
     <div className="modal-body">
       <form className="form p-3" noValidate>
         {/* Primary Contact Form */}
-        <div className="p-6 rounded ">
+        <div className="p-6 rounded bg-secondary">
           {/* Primary Contact Form Fields */}
-          <h4 className="mb-5 text-start text-black-600">
-            {intl.formatMessage({
-              id: "Fields.PrimarContactPerson",
-            })}
+          <h4 className="mb-2 text-start text-gray-600">
+            {intl.formatMessage({ id: "Fields.PrimarContactPerson" })}
           </h4>
+          <div className="separator border-gray-300 my-6"></div>
+
           <div className="row d-flex mb-7">
             <div className="col-5">
               <input
@@ -262,7 +262,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
         </div>
 
         {/* Dynamic Accordions for Additional Contacts */}
-        <div className="accordion p-4" id="contactAccordion">
+        <div className="accordion pt-4" id="contactAccordion">
           {additionalContacts.map((contact, index) => (
             <div className="accordion-item mb-7" key={index}>
               <h2 className="accordion-header" id={`heading_${index}`}>
