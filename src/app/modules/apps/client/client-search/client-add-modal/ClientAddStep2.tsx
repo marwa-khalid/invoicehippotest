@@ -332,8 +332,10 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                 className="accordion-collapse collapse "
                 aria-labelledby={`heading_${index}`}
               >
+                <div className="separator border-gray-300"></div>
                 <div className="accordion-body bg-secondary">
                   {/* Secondary Contact Form Fields */}
+
                   <div className="innerContainer">
                     <div className="row d-flex mb-7">
                       <div className="col-5">
@@ -392,10 +394,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                     <div className="row d-flex mb-7">
                       <div className="col-8">
                         <div className="input-group">
-                          <span
-                            className="input-group-text"
-                            id="basic-addon1"
-                          >
+                          <span className="input-group-text" id="basic-addon1">
                             <i className="fa fa-envelope" />
                           </span>
                           <input
@@ -455,10 +454,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                     <div className="row d-flex mb-7">
                       <div className="col-6">
                         <div className="input-group">
-                          <span
-                            className="input-group-text"
-                            id="basic-addon1"
-                          >
+                          <span className="input-group-text" id="basic-addon1">
                             <i className="fa fa-phone" />
                           </span>
                           <input
@@ -481,10 +477,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                       </div>
                       <div className="col-6">
                         <div className="input-group">
-                          <span
-                            className="input-group-text "
-                            id="basic-addon1"
-                          >
+                          <span className="input-group-text " id="basic-addon1">
                             <i className="ki-duotone ki-phone fs-1 text-dark">
                               <span className="path1"></span>
                               <span className="path2"></span>
