@@ -168,6 +168,31 @@ const ClientAddModal = ({
           .formatMessage({ id: "Common.InvalidFormat" })
           .replace("{0}", intl.formatMessage({ id: "Fields.AccountNrIBAN" }))
       ),
+      contactlist: Yup.object().shape({
+        contacts: Yup.array().of(
+          Yup.object().shape({
+            firstName: Yup.string(),
+            lastName: Yup.string(),
+            emailAddress: Yup.string().email(
+              intl
+                .formatMessage({ id: "Common.InvalidFormat" })
+                .replace("{0}", "Email")
+            ),
+            phoneNr: Yup.string().matches(
+              /^\+?\d{1,4}\s?\(?\d{1,4}\)?\s?\d{1,4}\s?\d{1,4}\s?\d{4,15}$/,
+              intl
+                .formatMessage({ id: "Common.InvalidFormat" })
+                .replace("{0}", intl.formatMessage({ id: "Fields.PhoneNr" }))
+            ),
+            mobileNr: Yup.string().matches(
+              /^\+?\d{1,4}\s?\(?\d{1,4}\)?\s?\d{1,4}\s?\d{1,4}\s?\d{4,15}$/,
+              intl
+                .formatMessage({ id: "Common.InvalidFormat" })
+                .replace("{0}", intl.formatMessage({ id: "Fields.MobileNr" }))
+            ),
+          })
+        ),
+      }),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
@@ -177,14 +202,13 @@ const ClientAddModal = ({
         if (values.contactlist.contacts.length > 0) {
           postContactsPromise = await postContact(values.contactlist);
         }
-       
+
         if (response.isValid) {
           // formik.resetForm();
           setRefresh(!refresh);
           // formik.resetForm();
           setEditModalId(response.result.id);
           setResponse(response.result);
-          setDisableTabs(false);
         }
         handleToast(response);
         if (postContactsPromise?.isValid) {
@@ -227,6 +251,13 @@ const ClientAddModal = ({
       });
     }
   }, [response]);
+  useEffect(() => {
+    if (formik.errors.businessName) {
+      setDisableTabs(true);
+    } else {
+      setDisableTabs(false);
+    }
+  }, [formik.errors.businessName]);
 
   return (
     <>

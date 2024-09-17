@@ -238,7 +238,7 @@ const ClientAddStep3: FC<Props> = ({
                   type="text"
                   {...formik.getFieldProps("financialSettings.accountIbanNr")}
                   className={clsx(
-                    "form-control form-control-solid",
+                    "form-control form-control-white",
                     {
                       "is-invalid":
                         formik.touched.financialSettings?.accountIbanNr &&
@@ -282,7 +282,7 @@ const ClientAddStep3: FC<Props> = ({
                   {...formik.getFieldProps(
                     "financialSettings.accountHolderName"
                   )}
-                  className="form-control form-control-solid"
+                  className="form-control form-control-white"
                   placeholder={intl.formatMessage({
                     id: "Fields.AccountHolderName",
                   })}
@@ -439,7 +439,7 @@ const ClientAddStep3: FC<Props> = ({
 
                 <Tags
                   tagifyRef={tagifyRef}
-                  className="form-control form-control-solid tagify p-3"
+                  className="form-control form-control-white tagify p-3"
                   placeholder={intl.formatMessage({
                     id: "Fields.ExtraCcEmailAddressesInvoice",
                   })}
@@ -488,7 +488,7 @@ const ClientAddStep3: FC<Props> = ({
                 </label>
                 <Tags
                   tagifyRef={tagifyRef}
-                  className="form-control form-control-solid tagify p-3"
+                  className="form-control form-control-white tagify p-3"
                   placeholder={intl.formatMessage({
                     id: "Fields.ExtraCcEmailAddressesQuotes",
                   })}
@@ -632,7 +632,7 @@ const ClientAddStep3: FC<Props> = ({
                 {...formik.getFieldProps(
                   "invoiceAndQuoteSettings.costDefaultReference"
                 )}
-                className={clsx("form-control form-control-solid")}
+                className={clsx("form-control form-control-white")}
                 placeholder={intl.formatMessage({
                   id: "Fields.DefaultCostReference",
                 })}
@@ -650,7 +650,7 @@ const ClientAddStep3: FC<Props> = ({
                 {...formik.getFieldProps(
                   "invoiceAndQuoteSettings.costDefaultLineReference"
                 )}
-                className="form-control form-control-solid mx-3"
+                className="form-control form-control-white mx-3"
                 placeholder={intl.formatMessage({
                   id: "Fields.DefaultCostItemDescritption",
                 })}

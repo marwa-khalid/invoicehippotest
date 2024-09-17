@@ -153,7 +153,7 @@ const ClientAddStep1: FC<Props> = ({
             <div className="input-group">
               <input
                 type="text"
-                {...formik.getFieldProps("businessName")}
+                {...(formik.getFieldProps("businessName") || "")}
                 className={clsx(
                   "form-control form-control-solid me-1 ",
                   {

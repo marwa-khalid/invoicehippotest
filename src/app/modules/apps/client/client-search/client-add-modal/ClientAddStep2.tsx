@@ -146,7 +146,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
             <div className="col-5">
               <input
                 type="text"
-                className="form-control form-control-solid"
+                className="form-control form-control-white"
                 placeholder={intl.formatMessage({ id: "Fields.FirstName" })}
                 value={
                   formik.values?.contactlist?.contacts?.[0]?.firstName || ""
@@ -159,7 +159,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
             <div className="col-3">
               <input
                 type="text"
-                className="form-control form-control-solid"
+                className="form-control form-control-white"
                 placeholder={intl.formatMessage({ id: "Fields.BetweenName" })}
                 value={
                   formik.values?.contactlist?.contacts?.[0]?.betweenName || ""
@@ -172,7 +172,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
             <div className="col-4">
               <input
                 type="text"
-                className="form-control form-control-solid"
+                className="form-control form-control-white"
                 placeholder={intl.formatMessage({ id: "Fields.LastName" })}
                 value={
                   formik.values?.contactlist?.contacts?.[0]?.lastName || ""
@@ -186,12 +186,12 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
           <div className="row d-flex mb-7">
             <div className="col-8">
               <div className="input-group">
-                <span className="input-group-text me-1" id="basic-addon1">
+                <span className="input-group-text" id="basic-addon1">
                   <i className="fa fa-envelope" />
                 </span>
                 <input
-                  type="text"
-                  className="form-control form-control-solid"
+                  type="email"
+                  className="form-control form-control-white"
                   placeholder={intl.formatMessage({
                     id: "Fields.ContactEmailAddress",
                   })}
@@ -201,11 +201,26 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                   }
                 />
               </div>
+
+              {formik.touched.contactlist?.contacts?.[0]?.emailAddress &&
+                formik.errors.contactlist?.contacts?.[0]?.emailAddress && (
+                  <div className="fv-plugins-message-container mt-2 ">
+                    <div className="fv-help-block ">
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            formik.errors.contactlist.contacts[0].emailAddress,
+                        }}
+                        role="alert"
+                      />
+                    </div>
+                  </div>
+                )}
             </div>
             <div className="col-4">
               <input
                 type="text"
-                className="form-control form-control-solid"
+                className="form-control form-control-white"
                 placeholder={intl.formatMessage({ id: "Fields.Department" })}
                 value={
                   formik.values?.contactlist?.contacts?.[0]?.department || ""
@@ -219,14 +234,14 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
           <div className="row d-flex mb-7">
             <div className="col-6">
               <div className="input-group">
-                <span className="input-group-text me-1" id="basic-addon1">
+                <span className="input-group-text" id="basic-addon1">
                   <i className="fa fa-phone" />
                 </span>
                 <input
                   type="text"
                   name="phoneNr"
                   placeholder={intl.formatMessage({ id: "Fields.PhoneNr" })}
-                  className="form-control form-control-solid"
+                  className="form-control form-control-white"
                   value={
                     formik.values?.contactlist?.contacts?.[0]?.phoneNr || ""
                   }
@@ -235,10 +250,23 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                   }
                 />
               </div>
+              {formik.touched.contactlist?.contacts?.[0]?.phoneNr &&
+                formik.errors.contactlist?.contacts?.[0]?.phoneNr && (
+                  <div className="fv-plugins-message-container mt-2 ">
+                    <div className="fv-help-block ">
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: formik.errors.contactlist.contacts[0].phoneNr,
+                        }}
+                        role="alert"
+                      />
+                    </div>
+                  </div>
+                )}
             </div>
             <div className="col-6">
               <div className="input-group">
-                <span className="input-group-text me-1" id="basic-addon1">
+                <span className="input-group-text " id="basic-addon1">
                   <i className="ki-duotone ki-phone fs-1 text-dark">
                     <span className="path1"></span>
                     <span className="path2"></span>
@@ -248,7 +276,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                   type="text"
                   name="mobileNr"
                   placeholder={intl.formatMessage({ id: "Fields.MobileNr" })}
-                  className="form-control form-control-solid"
+                  className="form-control form-control-white"
                   value={
                     formik.values?.contactlist?.contacts?.[0]?.mobileNr || ""
                   }
@@ -257,17 +285,31 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                   }
                 />
               </div>
+              {formik.touched.contactlist?.contacts?.[0]?.mobileNr &&
+                formik.errors.contactlist?.contacts?.[0]?.mobileNr && (
+                  <div className="fv-plugins-message-container mt-2 ">
+                    <div className="fv-help-block ">
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            formik.errors.contactlist.contacts[0].mobileNr,
+                        }}
+                        role="alert"
+                      />
+                    </div>
+                  </div>
+                )}
             </div>
           </div>
         </div>
 
         {/* Dynamic Accordions for Additional Contacts */}
-        <div className="accordion pt-4" id="contactAccordion">
+        <div className="accordion pt-4 " id="contactAccordion">
           {additionalContacts.map((contact, index) => (
             <div className="accordion-item mb-7" key={index}>
               <h2 className="accordion-header" id={`heading_${index}`}>
                 <button
-                  className="accordion-button collapsed align-items-center bg-secondary"
+                  className="accordion-button collapsed align-items-center bg-secondary "
                   type="button"
                   data-bs-toggle="collapse"
                   data-bs-target={`#collapse_${index}`}
@@ -287,17 +329,17 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
 
               <div
                 id={`collapse_${index}`}
-                className="accordion-collapse collapse"
+                className="accordion-collapse collapse "
                 aria-labelledby={`heading_${index}`}
               >
-                <div className="accordion-body">
+                <div className="accordion-body bg-secondary">
                   {/* Secondary Contact Form Fields */}
                   <div className="innerContainer">
                     <div className="row d-flex mb-7">
                       <div className="col-5">
                         <input
                           type="text"
-                          className="form-control form-control-solid"
+                          className="form-control form-control-white"
                           placeholder={intl.formatMessage({
                             id: "Fields.FirstName",
                           })}
@@ -311,10 +353,11 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                           }
                         />
                       </div>
+
                       <div className="col-3">
                         <input
                           type="text"
-                          className="form-control form-control-solid"
+                          className="form-control form-control-white"
                           placeholder={intl.formatMessage({
                             id: "Fields.BetweenName",
                           })}
@@ -331,7 +374,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                       <div className="col-4">
                         <input
                           type="text"
-                          className="form-control form-control-solid"
+                          className="form-control form-control-white"
                           placeholder={intl.formatMessage({
                             id: "Fields.LastName",
                           })}
@@ -350,14 +393,14 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                       <div className="col-8">
                         <div className="input-group">
                           <span
-                            className="input-group-text me-1"
+                            className="input-group-text"
                             id="basic-addon1"
                           >
                             <i className="fa fa-envelope" />
                           </span>
                           <input
                             type="text"
-                            className="form-control form-control-solid"
+                            className="form-control form-control-white"
                             placeholder={intl.formatMessage({
                               id: "Fields.ContactEmailAddress",
                             })}
@@ -371,11 +414,30 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                             }
                           />
                         </div>
+
+                        {formik.touched.contactlist?.contacts?.[index + 1]
+                          ?.emailAddress &&
+                          formik.errors.contactlist?.contacts?.[index + 1]
+                            ?.emailAddress && (
+                            <div className="fv-plugins-message-container mt-2 ">
+                              <div className="fv-help-block ">
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html:
+                                      formik.errors.contactlist.contacts[
+                                        index + 1
+                                      ].emailAddress,
+                                  }}
+                                  role="alert"
+                                />
+                              </div>
+                            </div>
+                          )}
                       </div>
                       <div className="col-4">
                         <input
                           type="text"
-                          className="form-control form-control-solid"
+                          className="form-control form-control-white"
                           placeholder={intl.formatMessage({
                             id: "Fields.Department",
                           })}
@@ -394,7 +456,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                       <div className="col-6">
                         <div className="input-group">
                           <span
-                            className="input-group-text me-1"
+                            className="input-group-text"
                             id="basic-addon1"
                           >
                             <i className="fa fa-phone" />
@@ -406,7 +468,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                               id: "Fields.PhoneNr",
                             })}
                             value={contact.phoneNr || ""}
-                            className="form-control form-control-solid"
+                            className="form-control form-control-white"
                             onChange={(e) =>
                               handleAdditionalContactChange(
                                 index,
@@ -420,7 +482,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                       <div className="col-6">
                         <div className="input-group">
                           <span
-                            className="input-group-text me-1"
+                            className="input-group-text "
                             id="basic-addon1"
                           >
                             <i className="ki-duotone ki-phone fs-1 text-dark">
@@ -435,7 +497,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
                               id: "Fields.MobileNr",
                             })}
                             value={contact.mobileNr || ""}
-                            className="form-control form-control-solid"
+                            className="form-control form-control-white"
                             onChange={(e) =>
                               handleAdditionalContactChange(
                                 index,

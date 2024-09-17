@@ -36,7 +36,7 @@ const ClientAddStep4: FC<Props> = ({
               }
               onChange={formik.handleChange}
               className={clsx(
-                "form-control form-control-solid",
+                "form-control form-control-white",
                 {
                   "is-invalid":
                     formik.touched.customFields?.[fieldIndex]?.value?.asText &&
@@ -67,7 +67,7 @@ const ClientAddStep4: FC<Props> = ({
               }
               onChange={formik.handleChange}
               className={clsx(
-                "form-control form-control-solid",
+                "form-control form-control-white",
                 {
                   "is-invalid":
                     formik.touched.customFields?.[fieldIndex]?.value
