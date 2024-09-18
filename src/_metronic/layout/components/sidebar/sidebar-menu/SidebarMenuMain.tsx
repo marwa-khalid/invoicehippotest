@@ -200,6 +200,19 @@ const SidebarMenuMain = () => {
       </SidebarMenuItemWithSub>
 
       <SidebarMenuItemWithSub
+        to="/estimation"
+        title="Quotes"
+        fontIcon="bi-chat-left"
+        icon="message-text-2"
+      >
+        <SidebarMenuItem
+          to="/estimation/search"
+          title="Quotes"
+          hasBullet={true}
+        />
+      </SidebarMenuItemWithSub>
+
+      <SidebarMenuItemWithSub
         to="/admin"
         title="Sales"
         fontIcon="bi-chat-left"

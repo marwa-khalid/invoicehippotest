@@ -203,6 +203,15 @@ export function MenuInner() {
       </MenuInnerWithSub>
 
       <MenuInnerWithSub
+        to="/estimation"
+        title="Quotes"
+        fontIcon="bi-chat-left"
+        icon="message-text-2"
+      >
+        <MenuItem to="/estimation/search" title="Quotes" hasBullet={true} />
+      </MenuInnerWithSub>
+
+      <MenuInnerWithSub
         title="Apps"
         to="/apps"
         menuPlacement="bottom-start"
