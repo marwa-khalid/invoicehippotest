@@ -107,13 +107,10 @@ const FinancialAccountsList = ({
                       width: "100px",
                     }}
                   >
-                    <div className="ribbon-label">
-                      {
-                        auth.currentUser?.result.activeCompanyDefaults
-                          .defaultValuta.sign
-                      }{" "}
+                    <div className="ribbon-label  fw-bold">
+                      {financialAccount.valuta.sign}{" "}
                       {financialAccount.totals.totalPriceWithVAT.toFixed(2)}
-                      <span className="ribbon-inner bg-info"></span>
+                      <span className="ribbon-inner bg-primary"></span>
                     </div>
                   </div>
 
@@ -125,7 +122,7 @@ const FinancialAccountsList = ({
                       width: "100px",
                     }}
                   >
-                    <div className="ribbon-label">
+                    <div className="ribbon-label fw-bold">
                       {financialAccount.quoteNr}
                       <span className="ribbon-inner bg-success"></span>
                     </div>
@@ -135,24 +132,24 @@ const FinancialAccountsList = ({
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       {/* Client Name on the Left */}
                       <div
-                        className="client-name"
+                        className="d-flex flex-column"
                         onClick={() => openEditModal(financialAccount.id)}
                       >
                         <strong>{financialAccount.client}</strong>
+                        <span className="text-muted fs-9">
+                          {financialAccount.clientReferenceNr}
+                        </span>
                       </div>
 
                       {/* Current/Total Amount on the Right */}
-                      <div className="d-flex flex-column text-end">
+                      <div className="d-flex flex-column text-end fs-9">
                         {/* Total Price */}
                         <div className="d-flex gap-3 justify-content-end">
                           <small className="text-muted">
                             {intl.formatMessage({ id: "Fields.TotalPrice" })}
                           </small>
-                          <span className="text-muted">
-                            {
-                              auth.currentUser?.result.activeCompanyDefaults
-                                .defaultValuta.sign
-                            }{" "}
+                          <span className="text-muted ">
+                            {financialAccount.valuta.sign}{" "}
                             {financialAccount.totals.totalPrice.toFixed(2)}
                           </span>
                         </div>
@@ -165,10 +162,7 @@ const FinancialAccountsList = ({
                             })}
                           </small>
                           <span className="text-muted">
-                            {
-                              auth.currentUser?.result.activeCompanyDefaults
-                                .defaultValuta.sign
-                            }{" "}
+                            {financialAccount.valuta.sign}{" "}
                             {financialAccount.totals.totalVATAmount.toFixed(2)}
                           </span>
                         </div>
@@ -181,25 +175,23 @@ const FinancialAccountsList = ({
                     <div className="my-6 text-muted">
                       <ul className="breadcrumb breadcrumb-black breadcrumb-dot">
                         {financialAccount.quoteStatus.name && (
-                          <li className="breadcrumb-item">
-                            <small className="bg-success rounded p-1 text-white fw-bold">
-                              {financialAccount.quoteStatus.name}
-                            </small>
-                          </li>
+                          <small className="bg-success rounded p-1 text-white fw-bold">
+                            {financialAccount.quoteStatus.description}
+                          </small>
                         )}
-                        {financialAccount.quoteStatus.description && (
+                        {/* {financialAccount.quoteStatus.description && (
                           <li className="breadcrumb-item">
                             <small className=" bg-secondary rounded p-1 text-dark fw-bold">
                               {financialAccount.quoteStatus.description}
                             </small>
                           </li>
-                        )}
+                        )} */}
 
-                        {financialAccount.clientReferenceNr && (
+                        {/* {financialAccount.clientReferenceNr && (
                           <li className="breadcrumb-item">
                             <small>{financialAccount.clientReferenceNr}</small>
                           </li>
-                        )}
+                        )} */}
                       </ul>
                     </div>
 
