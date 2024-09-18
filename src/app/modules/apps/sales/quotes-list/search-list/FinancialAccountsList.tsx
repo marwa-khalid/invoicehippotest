@@ -10,6 +10,7 @@ import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
 import { Tooltip } from "@chakra-ui/react";
+import { useAuth } from "../../../../auth";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
@@ -46,8 +47,8 @@ const FinancialAccountsList = ({
 
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const fetchFinancialAccounts = async () => {
+  const auth = useAuth();
+  const fetchQuotes = async () => {
     setIsLoading(true);
 
     try {
@@ -64,20 +65,17 @@ const FinancialAccountsList = ({
   };
   const handlePageChange = (page: number) => {
     setPageIndex(page);
-    fetchFinancialAccounts();
+    fetchQuotes();
   };
 
   useEffect(() => {
-    fetchFinancialAccounts();
+    fetchQuotes();
   }, [searchTerm, pageIndex, searchCounter]);
 
   useEffect(() => {
-    fetchFinancialAccounts();
+    fetchQuotes();
   }, [refresh, editModalOpen, deleteModalOpen, addModalOpen]);
 
-  const renderWifiIcon = () => {
-    return <i className="fas fa-wifi text-success fs-2" />;
-  };
   const openEditModal = (id: number) => {
     setEditModalId(id);
     setEditModalOpen(true);
@@ -89,58 +87,6 @@ const FinancialAccountsList = ({
     setLedgerAccountTitle(ledgerTitle);
   };
 
-  const openUnlinkModal = (id: number) => {
-    setEditModalId(id);
-    setUnlinkModalOpen(true);
-  };
-
-  const formatExpirationDate = (dateStr: string): string => {
-    const date = new Date(dateStr);
-
-    const days = [
-      "Zondag",
-      "Maandag",
-      "Dinsdag",
-      "Woensdag",
-      "Donderdag",
-      "Vrijdag",
-      "Zaterdag",
-    ];
-    const months = [
-      "Januari",
-      "Februari",
-      "Maart",
-      "April",
-      "Mei",
-      "Juni",
-      "Juli",
-      "Augustus",
-      "September",
-      "Oktober",
-      "November",
-      "December",
-    ];
-
-    const dayName = days[date.getDay()];
-    const day = date.getDate();
-    const monthName = months[date.getMonth()];
-    const year = date.getFullYear();
-
-    return `${dayName} ${day} ${monthName} ${year}`;
-  };
-  const formatRequestDate = (dateTimeStr: any) => {
-    const date = new Date(dateTimeStr);
-
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
-    const year = date.getFullYear();
-
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-
-    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-  };
   return (
     <KTCardBody className="py-4">
       <div className="row row-cols-1 row-cols-md-1 g-4">
@@ -149,171 +95,117 @@ const FinancialAccountsList = ({
           financialAccounts?.result?.map(
             (financialAccount: QuoteListResult) => (
               <div className="col" key={financialAccount.id}>
-                <div className="card h-100 py-6 ">
-                  <div className="card-body">
-                    {/* First Row: Checkbox, Divider, Value */}
-                    <div className="d-flex align-items-center justify-content-between mb-3">
-                      <div
-                        className="d-flex align-items-center gap-3 cursor-pointer title-clickable"
-                        onClick={() => {
-                          openEditModal(financialAccount.id);
-                        }}
-                      >
-                        {financialAccount.clientReferenceNr && renderWifiIcon()}
+                <div className="card h-100 py-6 position-relative">
+                  {/* Ribbons */}
 
+                  <div
+                    className="ribbon ribbon-end ribbon-clip position-absolute"
+                    style={{
+                      top: "10px",
+                      right: "0px",
+                      height: "30px",
+                      width: "100px",
+                    }}
+                  >
+                    <div className="ribbon-label">
+                      {
+                        auth.currentUser?.result.activeCompanyDefaults
+                          .defaultValuta.sign
+                      }{" "}
+                      {financialAccount.totals.totalPriceWithVAT.toFixed(2)}
+                      <span className="ribbon-inner bg-info"></span>
+                    </div>
+                  </div>
+
+                  <div
+                    className="ribbon ribbon-start ribbon-clip position-absolute"
+                    style={{
+                      top: "10px",
+                      height: "30px",
+                      width: "100px",
+                    }}
+                  >
+                    <div className="ribbon-label">
+                      {financialAccount.quoteNr}
+                      <span className="ribbon-inner bg-success"></span>
+                    </div>
+                  </div>
+                  <div className="card-body my-3">
+                    {/* First Row: Client Name (Left) and Amount (Right) */}
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      {/* Client Name on the Left */}
+                      <div
+                        className="client-name"
+                        onClick={() => openEditModal(financialAccount.id)}
+                      >
                         <strong>{financialAccount.client}</strong>
                       </div>
-                      <div className="align-items-center my-lg-0 my-1 necessary-icons">
-                        {financialAccount.actions.canEdit && (
-                          <Tooltip
-                            label={intl.formatMessage({
-                              id: "Fields.ToolTipEdit",
-                            })}
-                            fontSize="sm"
-                            className="bg-gray-800 text-white p-2 rounded "
-                            placement="top"
-                          >
-                            <button
-                              className="btn btn-icon btn-light btn-sm me-4"
-                              onClick={() => {
-                                openEditModal(financialAccount.id);
-                              }}
-                            >
-                              <i className="ki-solid ki-pencil text-warning fs-2 " />
-                            </button>
-                          </Tooltip>
-                        )}
 
-                        {financialAccount.actions.canExtendAutomation && (
-                          <Tooltip
-                            label={intl.formatMessage({
-                              id: "Fields.ToolTipReconnect",
+                      {/* Current/Total Amount on the Right */}
+                      <div className="d-flex flex-column text-end">
+                        {/* Total Price */}
+                        <div className="d-flex gap-3 justify-content-end">
+                          <small className="text-muted">
+                            {intl.formatMessage({ id: "Fields.TotalPrice" })}
+                          </small>
+                          <span className="text-muted">
+                            {
+                              auth.currentUser?.result.activeCompanyDefaults
+                                .defaultValuta.sign
+                            }{" "}
+                            {financialAccount.totals.totalPrice.toFixed(2)}
+                          </span>
+                        </div>
+
+                        {/* Total VAT Amount */}
+                        <div className="d-flex gap-3 justify-content-end">
+                          <small className="text-muted">
+                            {intl.formatMessage({
+                              id: "Fields.TotalVATAmount",
                             })}
-                            fontSize="sm"
-                            className="bg-gray-800 text-white p-2 rounded "
-                            placement="top"
-                          >
-                            <button className="btn btn-icon btn-light btn-sm me-4">
-                              <i className="fas fa-wifi text-primary fs-3" />
-                            </button>
-                          </Tooltip>
-                        )}
-                        {financialAccount.actions.canRevokeAutomation && (
-                          <Tooltip
-                            label={intl.formatMessage({
-                              id: "Fields.ToolTipDisonnect",
-                            })}
-                            fontSize="sm"
-                            className="bg-gray-800 text-white p-2 rounded "
-                            placement="top"
-                          >
-                            <button
-                              className="btn btn-icon btn-light btn-sm me-4"
-                              onClick={() => {
-                                openUnlinkModal(financialAccount.id);
-                              }}
-                            >
-                              <i className="fas fa-wifi text-danger fs-3" />
-                            </button>
-                          </Tooltip>
-                        )}
-                        {/* {financialAccount.actions.canDelete && (
-                          <Tooltip
-                            label={intl.formatMessage({
-                              id: "Fields.ToolTipDelete",
-                            })}
-                            fontSize="sm"
-                            className="bg-gray-800 text-white p-2 rounded "
-                            placement="top"
-                          >
-                            <button
-                              className="btn btn-icon btn-light btn-sm"
-                              onClick={() => {
-                                openDeleteModal(
-                                  financialAccount.id,
-                                  financialAccount.accountName
-                                );
-                              }}
-                            >
-                              <i className="ki-solid ki-trash text-danger fs-2"></i>
-                            </button>
-                          </Tooltip>
-                        )} */}
+                          </small>
+                          <span className="text-muted">
+                            {
+                              auth.currentUser?.result.activeCompanyDefaults
+                                .defaultValuta.sign
+                            }{" "}
+                            {financialAccount.totals.totalVATAmount.toFixed(2)}
+                          </span>
+                        </div>
                       </div>
                     </div>
+
                     {/* separator Line */}
+                    <div className="separator separator-solid mb-6"></div>
 
-                    <div className="separator separator-solid mb-3"></div>
-
-                    <div className="mb-4 text-muted">
+                    <div className="my-6 text-muted">
                       <ul className="breadcrumb breadcrumb-black breadcrumb-dot">
-                        <li className="breadcrumb-item">
-                          <small> {financialAccount.companyTradeName}</small>
-                        </li>
-                        {/* {financialAccount.bankAccountCompanyType
-                          .description && (
+                        {financialAccount.quoteStatus.name && (
                           <li className="breadcrumb-item">
-                            <small>
-                              {financialAccount.bankAccountCompanyType.description.toLowerCase()}
+                            <small className="bg-success rounded p-1 text-white fw-bold">
+                              {financialAccount.quoteStatus.name}
                             </small>
                           </li>
                         )}
-                        {financialAccount.accountNumber && (
+                        {financialAccount.quoteStatus.description && (
                           <li className="breadcrumb-item">
-                            <small>
-                              {financialAccount.accountNumber.toUpperCase()}
+                            <small className=" bg-secondary rounded p-1 text-dark fw-bold">
+                              {financialAccount.quoteStatus.description}
                             </small>
-                          </li> */}
-                        {/* )} */}
+                          </li>
+                        )}
+
+                        {financialAccount.clientReferenceNr && (
+                          <li className="breadcrumb-item">
+                            <small>{financialAccount.clientReferenceNr}</small>
+                          </li>
+                        )}
                       </ul>
                     </div>
-                    <div className="d-flex flex-row flex-wrap fs-8 gap-4">
-                      {/* Small Image and Ledger Account + Title */}
-                      {/* {financialAccount.ledgerAccountId && (
-                        <div className="d-flex align-items-center flex-wrap">
-                          <i className="ki-duotone ki-file-added fs-3x text-warning ">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                            <span className="path3"></span>
-                            <span className="path4"></span>
-                            <span className="path5"></span>
-                          </i>
 
-                          <div className="d-flex flex-column mx-6">
-                            <span className="fs-sm text-muted">
-                              {intl.formatMessage({
-                                id: "Fields.LedgerAccount",
-                              })}
-                            </span>
-                            <span className="text-primary fw-bolder">
-                              {financialAccount.ledgerAccountDisplayName}
-                            </span>
-                          </div>
-                        </div>
-                      )} */}
-                      {/* {financialAccount.bankConnectInfo.isActive && (
+                    <div className="d-flex flex-row flex-wrap fs-8 gap-4 mt-5">
+                      {financialAccount.quoteDate && (
                         <>
-                          <span className="h-37px bg-gray-400 w-1px me-3"></span>
-                          <div className="d-flex align-items-center flex-wrap">
-                            <i className="ki-duotone ki-calendar fs-3x text-danger">
-                              <span className="path1"></span>
-                              <span className="path2"></span>
-                            </i>
-                            <div className="d-flex flex-column mx-6">
-                              <span className="fs-sm text-muted">
-                                {intl.formatMessage({
-                                  id: "Fields.ConnectedAccountsExpiresLabel",
-                                })}
-                              </span>
-                              <span className="text-primary fw-bolder">
-                                {formatExpirationDate(
-                                  financialAccount.bankConnectInfo
-                                    .accessExpirtationDate
-                                )}
-                              </span>
-                            </div>
-                          </div>
-                          <span className=" h-37px bg-gray-400 w-1px me-3 "></span>
                           <div className="d-flex align-items-center flex-wrap">
                             <i className="ki-duotone ki-calendar fs-3x text-primary">
                               <span className="path1"></span>
@@ -322,19 +214,38 @@ const FinancialAccountsList = ({
                             <div className="d-flex flex-column mx-6">
                               <span className="fs-sm text-muted">
                                 {intl.formatMessage({
-                                  id: "Fields.ConnectedAccountsLatestSyncRunLabel",
+                                  id: "Fields.QuoteDate",
                                 })}
                               </span>
                               <span className="text-primary fw-bolder">
-                                {formatRequestDate(
-                                  financialAccount.bankConnectInfo
-                                    .lastSyncRequestDate
-                                )}
+                                {financialAccount.quoteDateAsString}
                               </span>
                             </div>
                           </div>
                         </>
-                      )} */}
+                      )}
+                      {financialAccount.quoteDueDate && (
+                        <>
+                          <span className=" h-37px bg-gray-400 w-1px me-3 "></span>
+                          <div className="d-flex align-items-center flex-wrap">
+                            <i className="ki-duotone ki-calendar fs-3x text-danger">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            <div className="d-flex flex-column mx-6">
+                              <span className="fs-sm text-muted">
+                                {intl.formatMessage({
+                                  id: "Fields.InvoiceDueDate",
+                                })}
+                              </span>
+
+                              <span className="text-primary fw-bolder">
+                                {financialAccount.quoteDueDateAsString}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

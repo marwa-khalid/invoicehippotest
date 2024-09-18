@@ -45,13 +45,13 @@ export function getQuotes(searchTerm: string, pageIndex: number) {
       pageMax: 25,
       pageIndex: searchTerm ? 1 : pageIndex,
       searchTerm: searchTerm,
-      statusTypes: 0,
-      dateRange: {
-        startDate: "",
-        endDate: "",
-      },
-      clientId: 0,
-      companyTradeNameId: 0,
+      // statusTypes: 0,
+      // dateRange: {
+      //   startDate: "",
+      //   endDate: "",
+      // },
+      // clientId: 0,
+      // companyTradeNameId: 0,
     },
     true
   );

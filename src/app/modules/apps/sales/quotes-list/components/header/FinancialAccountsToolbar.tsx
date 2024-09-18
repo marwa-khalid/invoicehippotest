@@ -32,7 +32,7 @@ const FinancialAccountsToolbar = ({
       </h5>
       <div>
         {/* begin::Add financial account */}
-        <Tooltip
+        {/* <Tooltip
           label={intl.formatMessage({
             id: "Fields.ToolTipConnect",
           })}
@@ -49,7 +49,7 @@ const FinancialAccountsToolbar = ({
 
             {intl.formatMessage({ id: "Fields.ActionLinkFinancialAccounts" })}
           </button>
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip
           label={intl.formatMessage({
             id: "Fields.ToolTipNew",
@@ -64,7 +64,7 @@ const FinancialAccountsToolbar = ({
             onClick={openAddFinancialAccountModal}
           >
             <KTIcon iconName="plus" className="fs-1" />
-            {intl.formatMessage({ id: "Fields.ModalNewTitleFinancialAccount" })}
+            {intl.formatMessage({ id: "Fields.ActionNew" })}
           </button>
         </Tooltip>
       </div>
