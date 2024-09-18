@@ -1,5 +1,5 @@
 import { FinancialListHeader } from "./components/header/FinancialListHeader";
-import { FinancialAccountsList } from "./search-list/FinancialAccountsList";
+import { QuoteList } from "./search-list/QuoteList";
 import { FinancialAddModal } from "./financial-add-modal/FinancialAddModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
@@ -36,7 +36,7 @@ const QuoteListInnerWrapper = () => {
   const [linkModalOpen, setLinkModalOpen] = useState<boolean>(false);
   const [unlinkModalOpen, setUnlinkModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [ledgerAccountTitle, setLedgerAccountTitle] = useState<string>("");
+  const [quoteNumber, setQuoteNumber] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
 
   return (
@@ -51,7 +51,7 @@ const QuoteListInnerWrapper = () => {
         setAddModalOpen={setAddModalOpen}
         setLinkModalOpen={setLinkModalOpen}
       />
-      <FinancialAccountsList
+      <QuoteList
         searchCounter={searchCounter}
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
@@ -59,7 +59,7 @@ const QuoteListInnerWrapper = () => {
         setDeleteModalOpen={setDeleteModalOpen}
         setUnlinkModalOpen={setUnlinkModalOpen}
         setEditModalId={setEditModalId}
-        setLedgerAccountTitle={setLedgerAccountTitle}
+        setQuoteNumber={setQuoteNumber}
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
@@ -96,7 +96,7 @@ const QuoteListInnerWrapper = () => {
       {deleteModalOpen && (
         <FinancialDeleteModal
           deleteModalId={editModalId}
-          ledgerAccountTitle={ledgerAccountTitle}
+          quoteNumber={quoteNumber}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
         />

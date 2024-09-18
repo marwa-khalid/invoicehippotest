@@ -22,6 +22,7 @@ import {
   GET_FINANCIAL_INSTITUTIONS,
   POST_ACCOUNT_AUTOMATION,
   UNLINK_ACCOUNT,
+  DELETE_QUOTE_LIST,
 } from "./constants";
 
 interface DeleteResult extends Partial<FinancialAccountsModel> {}
@@ -110,6 +111,14 @@ export function postFinancialAccount(
 
 export function deleteFinancialAccount(id: number) {
   return deleteRequest<DeleteResult>(POST_FINANCIAL_ACCOUNT, [id], true);
+}
+
+export function deleteQuoteList(id: number) {
+  return deleteRequest<DeleteResult>(
+    DELETE_QUOTE_LIST,
+    { invoiceId: id, keepAttachments: true },
+    true
+  );
 }
 
 export function getFinancialInstitutions(countryType: number) {

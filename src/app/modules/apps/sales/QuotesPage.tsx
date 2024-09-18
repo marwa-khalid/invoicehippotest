@@ -42,7 +42,7 @@ const QoutesPage = () => {
           element={
             <>
               <PageTitle breadcrumbs={settingsBreadcrumbs}>
-                {intl.formatMessage({ id: "Fields.SearchPanelTitleClient" })}
+                {intl.formatMessage({ id: "System.UsageStats_AreaQuotes" })}
               </PageTitle>
               <div
                 className={clsx(
