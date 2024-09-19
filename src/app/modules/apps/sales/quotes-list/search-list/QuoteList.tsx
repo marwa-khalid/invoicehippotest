@@ -352,6 +352,17 @@ const QuoteList = ({
                             className="btn btn-icon btn-light btn-sm"
                             onClick={() => {
                               openDeleteModal(quoteList.id, quoteList.quoteNr);
+                              localStorage.setItem(
+                                "DeleteData",
+                                JSON.stringify({
+                                  quoteDateAsString:
+                                    quoteList.quoteDateAsString,
+                                  client: quoteList.client,
+                                  totalPriceWithVat:
+                                    quoteList.totals.totalPriceWithVAT,
+                                  sign: quoteList.valuta.sign,
+                                })
+                              );
                             }}
                           >
                             <i className="ki-solid ki-trash text-danger fs-2"></i>

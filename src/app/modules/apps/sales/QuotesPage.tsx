@@ -1,6 +1,7 @@
 import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../../_metronic/layout/core";
 import { QuoteListWrapper } from "./quotes-list/QuoteListWrapper";
+import AddQuotePage from "./quotes-list/quotes-list-edit/AddQuotePage";
 import clsx from "clsx";
 import { useLayout } from "../../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
@@ -20,9 +21,12 @@ const QoutesPage = () => {
       isSeparator: true,
       isActive: false,
     },
+
     {
-      title: intl.formatMessage({ id: "Menu.Settings" }),
-      path: "/admin/vattype",
+      title: intl.formatMessage({
+        id: "Fields.SearchPanelSubTitleLedgerAccount",
+      }),
+      path: "estimation/edit",
       isSeparator: false,
       isActive: false,
     },
@@ -30,6 +34,41 @@ const QoutesPage = () => {
       title: "",
       path: "",
       isSeparator: true,
+      isActive: false,
+    },
+  ];
+
+  const settingsBreadcrumbsEdit: Array<PageLink> = [
+    {
+      title: intl.formatMessage({ id: "Menu.Dashboard" }),
+      path: "/dashboard",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "",
+      path: "",
+      isSeparator: true,
+      isActive: false,
+    },
+    {
+      title: intl.formatMessage({ id: "Fields.SearchPanelTitleQuotes" }),
+      path: "estimation/search",
+      isSeparator: false,
+      isActive: false,
+    },
+    {
+      title: "",
+      path: "",
+      isSeparator: true,
+      isActive: false,
+    },
+    {
+      title: intl.formatMessage({
+        id: "Fields.EditPageNew",
+      }),
+      path: "estimation/edit",
+      isSeparator: false,
       isActive: false,
     },
   ];
@@ -55,6 +94,29 @@ const QoutesPage = () => {
                 )}
               >
                 <QuoteListWrapper />
+              </div>
+            </>
+          }
+        />
+
+        <Route
+          path="edit"
+          element={
+            <>
+              <PageTitle breadcrumbs={settingsBreadcrumbsEdit}>
+                {intl.formatMessage({ id: "Fields.Quotes" })}
+              </PageTitle>
+              <div
+                className={clsx(
+                  "main rounded",
+                  config.app?.sidebar?.default?.class,
+                  {
+                    "bg-light": config.layoutType === "light-sidebar",
+                    "bg-dark": config.layoutType === "dark-sidebar",
+                  }
+                )}
+              >
+                <AddQuotePage />
               </div>
             </>
           }

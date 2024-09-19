@@ -1,6 +1,7 @@
 import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { Tooltip } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
@@ -13,13 +14,15 @@ const FinancialAccountsToolbar = ({
   setLinkModalOpen,
 }: ToolbarProps) => {
   const openAddFinancialAccountModal = () => {
-    setAddModalOpen(true);
+    //setAddModalOpen(true);
+    navigate("/estimation/edit");
   };
 
   const openLinkBankAccountModal = () => {
     setLinkModalOpen(true);
   };
   const intl = useIntl();
+  const navigate = useNavigate();
   return (
     <div
       className="d-flex justify-content-between align-items-center"

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { FinancialDeleteModalHeader } from "./FinancialDeleteModalHeader";
-import { FinancialDeleteModalFooter } from "./FinancialDeleteModalFooter";
+import { FinancialDeleteModalHeader } from "./QuoteDeleteModalHeader";
+import { FinancialDeleteModalFooter } from "./QuoteDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
   deleteModalId: number;
@@ -37,11 +37,20 @@ const FinancialDeleteModal = ({
           <div className="modal-content">
             <FinancialDeleteModalHeader
               setDeleteModalOpen={setDeleteModalOpen}
+              quoteNumber={quoteNumber}
             />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
-              <div className="form-wrapper">
+              <div className="row d-flex form-wrapper bg-secondary p-5 rounded">
+                <div className="col-2">
+                  <i className="ki-duotone ki-information-4 fs-3x text-center text-danger">
+                    <span className="path1"></span>
+                    <span className="path2"></span>
+                    <span className="path3"></span>
+                  </i>
+                </div>
                 <span
+                  className="col-10"
                   dangerouslySetInnerHTML={{
                     __html: intl
                       .formatMessage({

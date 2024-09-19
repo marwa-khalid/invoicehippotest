@@ -6,7 +6,7 @@ import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
 import { FinancialAccountsToolbar } from "./components/header/FinancialAccountsToolbar";
 import { FinancialEditModal } from "./financial-edit-modal/FinancialEditModal";
-import { FinancialDeleteModal } from "./financial-delete-modal/FinancialDeleteModal";
+import { FinancialDeleteModal } from "./quote-delete-modal/QuoteDeleteModal";
 import { BankLinkModal } from "./financial-link-modal/BankLinkModal";
 import { FinancialUnlinkModal } from "./financial-unlink-modal/FinancialUnlinkModal";
 

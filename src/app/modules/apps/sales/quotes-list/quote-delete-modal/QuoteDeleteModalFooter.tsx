@@ -19,13 +19,14 @@ const FinancialDeleteModalFooter = ({
   const intl = useIntl();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const deleteVat = async () => {
+  const deleteQuote = async () => {
     setIsSubmitting(true);
     const response = await deleteQuoteList(deleteModalId);
     if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);
       setIsSubmitting(false);
+      localStorage.removeItem("DeleteData");
     }
     handleToast(response);
   };
@@ -35,7 +36,10 @@ const FinancialDeleteModalFooter = ({
         {/* Cancel Button */}
         <button
           type="reset"
-          onClick={() => setDeleteModalOpen(false)}
+          onClick={() => {
+            setDeleteModalOpen(false);
+            localStorage.removeItem("DeleteData");
+          }}
           className="btn btn-light me-3"
         >
           {intl.formatMessage({ id: "Fields.ActionClose" })}
@@ -45,7 +49,7 @@ const FinancialDeleteModalFooter = ({
         <button
           type="submit"
           className="btn btn-danger"
-          onClick={deleteVat}
+          onClick={deleteQuote}
           //   disabled={!isValid || isSubmitting || !touched}
         >
           {!isSubmitting && intl.formatMessage({ id: "Fields.ActionDelete" })}
