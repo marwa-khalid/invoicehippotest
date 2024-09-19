@@ -8022,6 +8022,142 @@
       "HasGroup": false
     }
   ],
+
+  "QuoteStatusTypes": [
+    {
+      "Title": "Concept",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Wachten op goedkeuring",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Geaccepteerd door de klant",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 4,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Afgekeurd door de klant",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 8,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Verlopen-/1e Herinnering",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 16,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Verlopen-/2e Herinnering",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 32,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Verlopen-/Laatste Herinnering",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 64,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Geannuleerd",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 128,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Gepauzeerd",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 256,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Planning",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 512,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Realisatie",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1024,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Afgerond",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2048,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    }
+  ],
+
   "CustomFeatureFieldTypes": [
     {
       "Title": "None",

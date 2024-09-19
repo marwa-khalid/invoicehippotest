@@ -9,6 +9,7 @@ import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
 import { Tooltip } from "@chakra-ui/react";
 import { useAuth } from "../../../../auth";
+import enums from "../../../../../../invoicehippo.enums.json";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
@@ -84,6 +85,37 @@ const QuoteList = ({
     setDeleteModalOpen(true);
     setQuoteNumber(quoteNr);
   };
+  // Assuming enums.QuoteStatusTypes is available and properly imported
+
+  const getStatusClass = (quoteStatusValue: number) => {
+    switch (quoteStatusValue) {
+      case 1: // Concept
+        return "bg-light";
+      case 2: // Wachten op goedkeuring (Waiting for approval)
+        return "bg-info";
+      case 4: // Geaccepteerd door de klant (Accepted by the client)
+        return "bg-success";
+      case 8: // Afgekeurd door de klant (Rejected by the client)
+        return "bg-danger";
+      case 16: // Verlopen-/1e Herinnering (Overdue/1st reminder)
+        return "bg-warning";
+      case 32: // Verlopen-/2e Herinnering (Overdue/2nd reminder)
+      case 64: // Verlopen-/Laatste Herinnering (Overdue/Last reminder)
+        return "bg-danger";
+      case 128: // Geannuleerd (Cancelled)
+        return "bg-dark";
+      case 256: // Gepauzeerd (Paused)
+        return "bg-warning";
+      case 512: // Planning
+        return "bg-primary";
+      case 1024: // Realisatie (Realization)
+        return "bg-info";
+      case 2048: // Afgerond (Completed)
+        return "bg-success";
+      default:
+        return "bg-default"; // Default case
+    }
+  };
 
   return (
     <KTCardBody className="py-4">
@@ -129,7 +161,11 @@ const QuoteList = ({
                     }}
                   >
                     {quoteList.quoteStatus.description}
-                    <span className="ribbon-inner bg-success"></span>
+                    <span
+                      className={`ribbon-inner ${getStatusClass(
+                        quoteList.quoteStatus.value
+                      )}`}
+                    ></span>
                   </div>
                 </div>
 
