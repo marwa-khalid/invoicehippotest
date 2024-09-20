@@ -9,6 +9,7 @@ import { FinancialEditModal } from "./financial-edit-modal/FinancialEditModal";
 import { FinancialDeleteModal } from "./quote-delete-modal/QuoteDeleteModal";
 import { BankLinkModal } from "./financial-link-modal/BankLinkModal";
 import { FinancialUnlinkModal } from "./financial-unlink-modal/FinancialUnlinkModal";
+import { QuoteViewModal } from "./quote-view-modal/QuoteViewModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -36,6 +37,7 @@ const QuoteListInnerWrapper = () => {
   const [linkModalOpen, setLinkModalOpen] = useState<boolean>(false);
   const [unlinkModalOpen, setUnlinkModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+
   const [quoteNumber, setQuoteNumber] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
 
@@ -73,6 +75,9 @@ const QuoteListInnerWrapper = () => {
           setAddModalOpen={setAddModalOpen}
         />
       )}
+
+      <QuoteViewModal />
+
       {linkModalOpen && (
         <BankLinkModal
           setRefresh={setRefresh}

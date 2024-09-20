@@ -76,7 +76,7 @@ const QuoteList = ({
   }, [refresh, editModalOpen, deleteModalOpen, addModalOpen]);
 
   const openEditModal = (id: number) => {
-    setEditModalId(id);
+    // setEditModalId(id);
     setEditModalOpen(true);
   };
 
@@ -139,7 +139,7 @@ const QuoteList = ({
                   <div className="ribbon-label  fw-bold">
                     {quoteList.valuta.sign}{" "}
                     {quoteList.totals.totalPriceWithVAT.toFixed(2)}
-                    <span className="ribbon-inner bg-primary"></span>
+                    <span className="ribbon-inner bg-gray-600"></span>
                   </div>
                 </div>
 
@@ -179,19 +179,19 @@ const QuoteList = ({
                 >
                   <div className="ribbon-label fw-bold">
                     {quoteList.quoteNr}
-                    <span className="ribbon-inner bg-success"></span>
+                    <span className="ribbon-inner bg-gray-600"></span>
                   </div>
                 </div>
                 <div className="card-body ">
                   {/* First Row: Client Name (Left) and Amount (Right) */}
-                  <div className="d-flex justify-content-between align-items-center mb-2">
+                  <div className="d-flex justify-content-between align-items-center mb-2 ">
                     {/* Client Name on the Left */}
                     <div
                       className="d-flex flex-column"
                       onClick={() => openEditModal(quoteList.id)}
                     >
                       <strong>{quoteList.client}</strong>
-                      <span className="text-muted fs-9">
+                      <span className="text-muted fs-sm">
                         {quoteList.clientReferenceNr}
                       </span>
                     </div>
@@ -201,7 +201,7 @@ const QuoteList = ({
                     <div className="d-flex flex-column text-end fs-9">
                       {/* Total Price */}
                       {quoteList.totals.totalPrice > 0 && (
-                        <div className="d-flex gap-3 justify-content-end">
+                        <div className="d-flex gap-3 justify-content-end fs-sm">
                           <small className="text-muted">
                             {intl.formatMessage({ id: "Fields.TotalPrice" })}
                           </small>
@@ -213,7 +213,7 @@ const QuoteList = ({
                       )}
                       {/* Total VAT Amount */}
                       {quoteList.totals.totalVATAmount > 0 && (
-                        <div className="d-flex gap-3 justify-content-end">
+                        <div className="d-flex gap-3 justify-content-end fs-sm">
                           <small className="text-muted">
                             {intl.formatMessage({
                               id: "Fields.TotalVATAmount",
@@ -254,9 +254,9 @@ const QuoteList = ({
                   {/* </ul> */}
                   {/* </div> */}
 
-                  <div className="d-flex flex-row flex-wrap fs-8 gap-4 mt-5">
-                    {quoteList.quoteDate && (
-                      <>
+                  <div className="d-flex flex-row flex-wrap fs-8 gap-4 mt-5 align-items-center justify-content-between">
+                    <div className="d-flex align-items-center flex-wrap">
+                      {quoteList.quoteDate && (
                         <div className="d-flex align-items-center flex-wrap">
                           <i className="ki-duotone ki-calendar fs-3x text-primary">
                             <span className="path1"></span>
@@ -273,79 +273,105 @@ const QuoteList = ({
                             </span>
                           </div>
                         </div>
-                      </>
-                    )}
-                    {quoteList.quoteDueDate && (
-                      <>
-                        <span className=" h-37px bg-gray-400 w-1px me-3 "></span>
-                        <div className="d-flex align-items-center flex-wrap">
-                          <i className="ki-duotone ki-calendar fs-3x text-danger">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          <div className="d-flex flex-column mx-6">
-                            <span className="fs-sm text-muted">
-                              {intl.formatMessage({
-                                id: "Fields.InvoiceDueDate",
-                              })}
-                            </span>
-
-                            <span className="text-primary fw-bolder">
-                              {quoteList.quoteDueDateAsString}
-                            </span>
+                      )}
+                      {quoteList.quoteDueDate && (
+                        <>
+                          <span className="h-37px bg-gray-400 w-1px me-3"></span>
+                          <div className="d-flex align-items-center flex-wrap">
+                            <i className="ki-duotone ki-calendar fs-3x text-danger">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            <div className="d-flex flex-column mx-6">
+                              <span className="fs-sm text-muted">
+                                {intl.formatMessage({
+                                  id: "Fields.InvoiceDueDate",
+                                })}
+                              </span>
+                              <span className="text-primary fw-bolder">
+                                {quoteList.quoteDueDateAsString}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      </>
-                    )}
-                    {quoteList.hasRelatedInvoice && (
-                      <>
-                        <span className=" h-37px bg-gray-400 w-1px me-3 "></span>
-                        <div className="d-flex align-items-center flex-wrap">
-                          <i className="ki-duotone ki-document fs-3x text-dark">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          <div className="d-flex flex-column mx-6">
-                            <span className="fs-sm text-muted">
-                              {intl.formatMessage({
-                                id: "Fields.InvoiceNr",
-                              })}
-                            </span>
-
-                            <span className="text-primary fw-bolder">
-                              {quoteList.relatedInvoice.invoiceNr}
-                            </span>
+                        </>
+                      )}
+                      {quoteList.hasRelatedInvoice && (
+                        <>
+                          <span className="h-37px bg-gray-400 w-1px me-3"></span>
+                          <div className="d-flex align-items-center flex-wrap">
+                            <i className="ki-duotone ki-document fs-3x text-dark">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            <div className="d-flex flex-column mx-6">
+                              <span className="fs-sm text-muted">
+                                {intl.formatMessage({
+                                  id: "Fields.InvoiceNr",
+                                })}
+                              </span>
+                              <span className="text-primary fw-bolder">
+                                {quoteList.relatedInvoice.invoiceNr}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      </>
-                    )}
-                    <div className="d-flex w-100 justify-content-end ">
+                        </>
+                      )}
+                    </div>
+
+                    {/* Buttons Section */}
+                    <div className="d-flex align-items-center">
+                      {quoteList.actions.canShowPreview && (
+                        <Tooltip
+                          label="view"
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded"
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight"
+                            aria-controls="offcanvasRight"
+                            // onClick={() => {
+                            //   openViewModal();
+                            // }}
+                          >
+                            <i className="ki-duotone ki-eye fs-2">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                              <span className="path3"></span>
+                            </i>
+                          </button>
+                        </Tooltip>
+                      )}
+
                       {quoteList.actions.canEdit && (
                         <Tooltip
                           label={intl.formatMessage({
                             id: "Fields.ToolTipEdit",
                           })}
                           fontSize="sm"
-                          className="bg-gray-800 text-white p-2 rounded "
+                          className="bg-gray-800 text-white p-2 rounded"
                           placement="top"
                         >
                           <button
-                            className="btn btn-icon btn-light btn-sm ms-auto me-4"
+                            className="btn btn-icon btn-light btn-sm me-4"
                             onClick={() => {
                               openEditModal(quoteList.id);
                             }}
                           >
-                            <i className="ki-solid ki-pencil text-warning fs-2 " />
+                            <i className="ki-solid ki-pencil text-warning fs-2"></i>
                           </button>
                         </Tooltip>
                       )}
+
                       {quoteList.actions.canDelete && (
                         <Tooltip
                           label={intl.formatMessage({
                             id: "Fields.ToolTipDelete",
                           })}
                           fontSize="sm"
-                          className="bg-gray-800 text-white p-2 rounded "
+                          className="bg-gray-800 text-white p-2 rounded"
                           placement="top"
                         >
                           <button
