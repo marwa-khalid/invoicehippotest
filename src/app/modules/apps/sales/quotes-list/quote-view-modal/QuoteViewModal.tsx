@@ -8,30 +8,51 @@ interface Props {
 
 const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
   const viewerRef = useRef<HTMLDivElement | null>(null);
+  const webViewerInstance = useRef<any>(null);
 
-  // Initialize WebViewer when the component is mounted
   useEffect(() => {
-    if (downloadUrl && viewerRef.current) {
+    // Initialize WebViewer once
+    if (viewerRef.current && !webViewerInstance.current) {
       WebViewer(
         {
           path: "/webviewer/lib",
           licenseKey:
             "demo:1727027175688:7e3c2b5a0300000000e2ace17fb21daa1d7c98d6e315ef1f9db3222e8f",
+          disabledElements: ["header"],
         },
-        viewerRef.current // Use the ref here
+        viewerRef.current
       ).then((instance) => {
-        const { UI, Core } = instance;
-        const { documentViewer } = Core;
+        webViewerInstance.current = instance;
 
-        documentViewer.addEventListener("documentLoaded", () => {
-          // Additional document-related methods can be called here
-        });
-
-        instance.UI.loadDocument(downloadUrl);
+        // Load the initial document
+        if (downloadUrl) {
+          instance.UI.loadDocument(downloadUrl);
+          instance.Core.documentViewer.addEventListener(
+            "documentLoaded",
+            () => {
+              instance.UI.setZoomLevel(1.5); // Set the zoom after the document is loaded
+            }
+          );
+        }
       });
-    }
-  }, [downloadUrl]); // Run effect when downloadUrl changes
+    } else if (webViewerInstance.current && downloadUrl) {
+      // If instance already exists, load the new document
 
+      webViewerInstance.current.UI.loadDocument(downloadUrl);
+      webViewerInstance.current.Core.documentViewer.addEventListener(
+        "documentLoaded",
+        () => {
+          webViewerInstance.current.UI.setZoomLevel(1.5); // Set the zoom after the document is loaded
+        }
+      );
+    }
+
+    // Cleanup on component unmount (optional)
+    return () => {
+      webViewerInstance.current?.UI?.closeDocument(); // Close the current document
+      // Do not dispose the instance, just reset the reference
+    };
+  }, [downloadUrl]);
   return (
     <div
       className="offcanvas offcanvas-end w-50"
@@ -40,20 +61,23 @@ const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
       aria-labelledby="offcanvasRightLabel"
       data-bs-backdrop="false"
     >
-      <div className="offcanvas-header">
-        <h5 id="offcanvasRightLabel">{quoteNumber || "Quote Document"}</h5>
+      <div className="offcanvas-header pb-1 pt-1 bg-primary d-flex justify-content-between align-items-center">
+        <h5 className="text-white mt-3" id="offcanvasRightLabel">
+          {quoteNumber || "Quote Document"}
+        </h5>
         <button
           type="button"
-          className="btn-close text-reset"
+          className="btn btn-active-primary btn-color-white fs-2"
           data-bs-dismiss="offcanvas"
           aria-label="Close"
-        ></button>
+        >
+          x
+        </button>
       </div>
-      <div className="offcanvas-body">
-        {/* WebViewer will be rendered inside this div */}
+      <div className="offcanvas-body p-0">
         <div
           ref={viewerRef}
-          style={{ height: "100vh", width: "100%" }} // Ensure full space usage
+          style={{ height: "90vh", width: "100%" }} // Full space
         ></div>
       </div>
     </div>
