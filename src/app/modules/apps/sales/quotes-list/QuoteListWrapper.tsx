@@ -37,7 +37,7 @@ const QuoteListInnerWrapper = () => {
   const [linkModalOpen, setLinkModalOpen] = useState<boolean>(false);
   const [unlinkModalOpen, setUnlinkModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-
+  const [downloadUrl, setDownloadUrl] = useState<string>("");
   const [quoteNumber, setQuoteNumber] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
 
@@ -57,6 +57,7 @@ const QuoteListInnerWrapper = () => {
         searchCounter={searchCounter}
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
+        setDownloadUrl={setDownloadUrl}
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setUnlinkModalOpen={setUnlinkModalOpen}
@@ -76,7 +77,7 @@ const QuoteListInnerWrapper = () => {
         />
       )}
 
-      <QuoteViewModal />
+      <QuoteViewModal downloadUrl={downloadUrl} quoteNumber={quoteNumber} />
 
       {linkModalOpen && (
         <BankLinkModal

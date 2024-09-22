@@ -18,6 +18,7 @@ interface ComponentProps {
   setEditModalId: (type: number) => void;
   setQuoteNumber: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
+  setDownloadUrl: (type: string) => void;
   refresh: boolean;
   setPageIndex: (type: number) => void;
   pageIndex: number;
@@ -34,6 +35,7 @@ const QuoteList = ({
   setQuoteNumber,
   setDeleteModalOpen,
   setUnlinkModalOpen,
+  setDownloadUrl,
   searchCounter,
   refresh,
   setPageIndex,
@@ -157,7 +159,8 @@ const QuoteList = ({
                     style={{
                       whiteSpace: "nowrap", // Prevents text wrapping
                       overflow: "hidden", // Clips overflowing content
-                      textOverflow: "ellipsis", // Adds ellipsis if the text is too long
+                      textOverflow: "ellipsis",
+                      minHeight: "16px", // Adds ellipsis if the text is too long
                     }}
                   >
                     {quoteList.quoteStatus.description}
@@ -276,7 +279,15 @@ const QuoteList = ({
                       )}
                       {quoteList.quoteDueDate && (
                         <>
-                          <span className="h-37px bg-gray-400 w-1px me-3"></span>
+                          <span
+                            style={{
+                              backgroundColor: "#d3d3d3",
+                              height: "37px",
+                              width: "1px",
+                            }}
+                            className="me-5"
+                          ></span>
+
                           <div className="d-flex align-items-center flex-wrap">
                             <i className="ki-duotone ki-calendar fs-3x text-danger">
                               <span className="path1"></span>
@@ -297,7 +308,15 @@ const QuoteList = ({
                       )}
                       {quoteList.hasRelatedInvoice && (
                         <>
-                          <span className="h-37px bg-gray-400 w-1px me-3"></span>
+                          <span
+                            style={{
+                              backgroundColor: "#d3d3d3",
+                              height: "37px",
+                              width: "1px",
+                            }}
+                            className="me-5"
+                          ></span>
+
                           <div className="d-flex align-items-center flex-wrap">
                             <i className="ki-duotone ki-document fs-3x text-dark">
                               <span className="path1"></span>
@@ -332,9 +351,12 @@ const QuoteList = ({
                             data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasRight"
                             aria-controls="offcanvasRight"
-                            // onClick={() => {
-                            //   openViewModal();
-                            // }}
+                            onClick={() => {
+                              setQuoteNumber(quoteList.quoteNr);
+                              setDownloadUrl(
+                                quoteList.downloadInfo.downloadUrl
+                              );
+                            }}
                           >
                             <i className="ki-duotone ki-eye fs-2">
                               <span className="path1"></span>
