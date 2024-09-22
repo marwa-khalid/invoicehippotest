@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import WebViewer, { WebViewerInstance } from "@pdftron/webviewer"; // Import WebViewerInstance type
+import WebViewer from "@pdftron/webviewer";
 
 interface Props {
   downloadUrl: string;
@@ -8,28 +8,30 @@ interface Props {
 
 const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
   const viewerRef = useRef<HTMLDivElement | null>(null);
-  const webViewerInstance = useRef<WebViewerInstance | null>(null);
 
   // Initialize WebViewer when the component is mounted
   useEffect(() => {
     if (downloadUrl && viewerRef.current) {
       WebViewer(
         {
-          path: "/webviewer/lib", // Path to the WebViewer library assets
-          initialDoc: downloadUrl, // URL of the PDF document
+          path: "/webviewer/lib",
+          licenseKey:
+            "demo:1727027175688:7e3c2b5a0300000000e2ace17fb21daa1d7c98d6e315ef1f9db3222e8f",
         },
-        viewerRef.current
+        viewerRef.current // Use the ref here
       ).then((instance) => {
-        webViewerInstance.current = instance; // Store the WebViewer instance
+        const { UI, Core } = instance;
+        const { documentViewer } = Core;
+
+        documentViewer.addEventListener("documentLoaded", () => {
+          // Additional document-related methods can be called here
+        });
+
+        instance.UI.loadDocument(downloadUrl);
       });
     }
+  }, [downloadUrl]); // Run effect when downloadUrl changes
 
-    // Cleanup function: No need to manually dispose WebViewerInstance
-    return () => {
-      webViewerInstance.current = null; // Just reset the reference to null
-    };
-  }, [downloadUrl]);
-  console.log(downloadUrl);
   return (
     <div
       className="offcanvas offcanvas-end w-50"
@@ -51,7 +53,7 @@ const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
         {/* WebViewer will be rendered inside this div */}
         <div
           ref={viewerRef}
-          style={{ height: "100vh" }} // Make sure it takes the full space of the offcanvas
+          style={{ height: "100vh", width: "100%" }} // Ensure full space usage
         ></div>
       </div>
     </div>
