@@ -7,8 +7,6 @@ import { useState } from "react";
 import { FinancialAccountsToolbar } from "./components/header/FinancialAccountsToolbar";
 import { FinancialEditModal } from "./financial-edit-modal/FinancialEditModal";
 import { FinancialDeleteModal } from "./quote-delete-modal/QuoteDeleteModal";
-import { BankLinkModal } from "./financial-link-modal/BankLinkModal";
-import { FinancialUnlinkModal } from "./financial-unlink-modal/FinancialUnlinkModal";
 import { QuoteViewModal } from "./quote-view-modal/QuoteViewModal";
 
 const getPaginationValues = () => {
@@ -34,8 +32,6 @@ const QuoteListInnerWrapper = () => {
   const [editModalId, setEditModalId] = useState<number>(0);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
-  const [linkModalOpen, setLinkModalOpen] = useState<boolean>(false);
-  const [unlinkModalOpen, setUnlinkModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [downloadUrl, setDownloadUrl] = useState<string>("");
   const [quoteNumber, setQuoteNumber] = useState<string>("");
@@ -51,7 +47,7 @@ const QuoteListInnerWrapper = () => {
       <FinancialAccountsToolbar
         totalRows={totalRows}
         setAddModalOpen={setAddModalOpen}
-        setLinkModalOpen={setLinkModalOpen}
+        
       />
       <QuoteList
         searchCounter={searchCounter}
@@ -60,7 +56,7 @@ const QuoteListInnerWrapper = () => {
         setDownloadUrl={setDownloadUrl}
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
-        setUnlinkModalOpen={setUnlinkModalOpen}
+        
         setEditModalId={setEditModalId}
         setQuoteNumber={setQuoteNumber}
         refresh={refresh}
@@ -79,19 +75,6 @@ const QuoteListInnerWrapper = () => {
 
       <QuoteViewModal downloadUrl={downloadUrl} quoteNumber={quoteNumber} />
 
-      {linkModalOpen && (
-        <BankLinkModal
-          setRefresh={setRefresh}
-          setLinkModalOpen={setLinkModalOpen}
-        />
-      )}
-      {unlinkModalOpen && (
-        <FinancialUnlinkModal
-          deleteModalId={editModalId}
-          setUnlinkModalOpen={setUnlinkModalOpen}
-          setRefresh={setRefresh}
-        />
-      )}
       {editModalOpen && (
         <FinancialEditModal
           editModalId={editModalId}

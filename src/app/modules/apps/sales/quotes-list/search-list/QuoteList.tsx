@@ -14,7 +14,6 @@ interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
   setEditModalOpen: (type: boolean) => void;
-  setUnlinkModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
   setQuoteNumber: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
@@ -34,7 +33,6 @@ const QuoteList = ({
   setEditModalId,
   setQuoteNumber,
   setDeleteModalOpen,
-  setUnlinkModalOpen,
   setDownloadUrl,
   searchCounter,
   refresh,
@@ -152,6 +150,7 @@ const QuoteList = ({
                     top: "3px",
                     width: "100px",
                     left: "50%",
+                    transform: "translateX(-50%)",
                   }}
                 >
                   <div

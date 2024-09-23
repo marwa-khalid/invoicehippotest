@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import WebViewer from "@pdftron/webviewer";
-
+const VIEWER_LICENSE_KEY = import.meta.env.VITE_APP_VIEWER_LICENSE_KEY;
 interface Props {
   downloadUrl: string;
   quoteNumber: string;
@@ -16,13 +16,20 @@ const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
       WebViewer(
         {
           path: "/webviewer/lib",
-          licenseKey:
-            "demo:1727027175688:7e3c2b5a0300000000e2ace17fb21daa1d7c98d6e315ef1f9db3222e8f",
+          licenseKey: VIEWER_LICENSE_KEY,
           disabledElements: ["header"],
         },
         viewerRef.current
       ).then((instance) => {
         webViewerInstance.current = instance;
+        webViewerInstance.current.UI.disableAnnotations();
+        webViewerInstance.current.UI.disableDownload();
+        webViewerInstance.current.UI.disableFilePicker();
+        webViewerInstance.current.UI.disableElements([
+          "saveAsButton",
+          "settingsButton",
+          "createPortfolioButton",
+        ]);
 
         // Load the initial document
         if (downloadUrl) {
@@ -30,7 +37,7 @@ const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
           instance.Core.documentViewer.addEventListener(
             "documentLoaded",
             () => {
-              instance.UI.setZoomLevel(1.5); // Set the zoom after the document is loaded
+              instance.UI.setFitMode(instance.UI.FitMode.FitWidth);
             }
           );
         }
@@ -42,14 +49,17 @@ const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
       webViewerInstance.current.Core.documentViewer.addEventListener(
         "documentLoaded",
         () => {
-          webViewerInstance.current.UI.setZoomLevel(1.5); // Set the zoom after the document is loaded
+          webViewerInstance.current.UI.setFitMode(
+            webViewerInstance.current.UI.FitMode.FitWidth
+          );
         }
       );
     }
 
     // Cleanup on component unmount (optional)
     return () => {
-      webViewerInstance.current?.UI?.closeDocument(); // Close the current document
+      webViewerInstance.current?.UI?.closeDocument();
+      // Close the current document
       // Do not dispose the instance, just reset the reference
     };
   }, [downloadUrl]);

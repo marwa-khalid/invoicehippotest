@@ -5,22 +5,17 @@ import { useNavigate } from "react-router-dom";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
-  setLinkModalOpen: (type: boolean) => void;
 }
 
 const FinancialAccountsToolbar = ({
   totalRows,
   setAddModalOpen,
-  setLinkModalOpen,
 }: ToolbarProps) => {
   const openAddFinancialAccountModal = () => {
     //setAddModalOpen(true);
     navigate("/estimation/edit");
   };
 
-  const openLinkBankAccountModal = () => {
-    setLinkModalOpen(true);
-  };
   const intl = useIntl();
   const navigate = useNavigate();
   return (
