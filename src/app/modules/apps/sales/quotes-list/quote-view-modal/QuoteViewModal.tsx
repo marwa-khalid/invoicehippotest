@@ -17,7 +17,7 @@ const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
         {
           path: "/webviewer/lib",
           licenseKey: VIEWER_LICENSE_KEY,
-          disabledElements: ["header"],
+          // disabledElements: ["header"],
         },
         viewerRef.current
       ).then((instance) => {
@@ -71,7 +71,7 @@ const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
       aria-labelledby="offcanvasRightLabel"
       data-bs-backdrop="false"
     >
-      <div className="offcanvas-header pb-1 pt-1 bg-primary d-flex justify-content-between align-items-center">
+      {/* <div className="offcanvas-header pb-1 pt-1 bg-primary d-flex justify-content-between align-items-center">
         <h5 className="text-white mt-3" id="offcanvasRightLabel">
           {quoteNumber || "Quote Document"}
         </h5>
@@ -83,7 +83,33 @@ const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
         >
           x
         </button>
+      </div> */}
+      <div
+        className="ribbon ribbon-start ribbon-clip position-absolute"
+        style={{
+          top: "30px",
+          height: "30px",
+          width: "100px",
+          transform: "translateX(-50%) rotate(-90deg)",
+        }}
+      >
+        <div className="ribbon-label fw-bold">
+          {quoteNumber}
+          <span className="ribbon-inner bg-gray-600"></span>
+        </div>
       </div>
+
+      <button
+        type="button"
+        className="btn btn-outline btn-outline-dashed btn-outline-danger btn-active-light-danger btn-close fs-3x position-absolute"
+        style={{
+          top: "10px",
+          left: "88%",
+        }}
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+      ></button>
+
       <div className="offcanvas-body p-0">
         <div
           ref={viewerRef}
