@@ -84,7 +84,7 @@ const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
           x
         </button>
       </div> */}
-      <div
+      {/* <div
         className="ribbon ribbon-start ribbon-clip position-absolute"
         style={{
           top: "30px",
@@ -97,7 +97,7 @@ const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
           {quoteNumber}
           <span className="ribbon-inner bg-gray-600"></span>
         </div>
-      </div>
+      </div> */}
 
       <button
         type="button"
@@ -113,7 +113,7 @@ const QuoteViewModal = ({ downloadUrl, quoteNumber }: Props) => {
       <div className="offcanvas-body p-0">
         <div
           ref={viewerRef}
-          style={{ height: "90vh", width: "100%" }} // Full space
+          style={{ height: "100vh", width: "100%" }} // Full space
         ></div>
       </div>
     </div>
