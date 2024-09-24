@@ -9,7 +9,8 @@
     "build": "tsc && vite build && npm run move-static",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "move-static": "cp -a ./node_modules/@pdftron/webviewer/public/. ./dist/public/webviewer"
+   "move-static": "shx mkdir -p ./dist/public/webviewer && shx cp -a ./node_modules/@pdftron/webviewer/public/. ./dist/public/webviewer"
+
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
