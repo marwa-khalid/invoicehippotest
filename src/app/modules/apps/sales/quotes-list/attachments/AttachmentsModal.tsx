@@ -211,7 +211,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                     })}
                   </a>
                 </li>
-                <li className="nav-item ">
+                <li className="nav-item">
                   <a
                     className="nav-link d-flex align-items-center justify-content-center"
                     data-bs-toggle="tab"
@@ -447,7 +447,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                               <div className="d-flex flex-column">
                                 <div>
                                   <span className="badge bg-gray-200 mb-3">
-                                    <i className="ki-duotone ki-calendar me-1 fs-1">
+                                    <i className="ki-duotone ki-calendar me-1 fs-1 text-primary">
                                       <span className="path1"></span>
                                       <span className="path2"></span>
                                     </i>
@@ -456,7 +456,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                                 </div>
                                 <div>
                                   <span
-                                    className="fw-bold me-3 cursor-pointer text-primary"
+                                    className="fw-bold me-3 cursor-pointer"
                                     onClick={(e) => {
                                       handleLink(attachment);
                                     }}
