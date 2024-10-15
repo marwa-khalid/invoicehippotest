@@ -321,7 +321,7 @@ Props) => {
 
     fetchInitialData();
   }, [formik.values.id]);
-useEffect(() => {
+  useEffect(() => {
     if (response) {
       formik.setValues({
         ...formik.values,
@@ -545,15 +545,14 @@ useEffect(() => {
 
   const handleDelete = (attachment: any) => {
     const attachmentId = attachment.fileId;
- 
 
     // Check if the attachmentId is already in attachmentsToLink
     const attachmentsToLink = formik.values.attachments.attachmentsToLink || [];
-   
+
     const attachmentExists = attachmentsToLink.some((attach) => {
       return attach.attachmentId === attachmentId;
     });
-  
+
     if (attachmentExists) {
       // Remove from attachmentsToLink
       const updatedAttachmentsToLink = attachmentsToLink.filter(
@@ -1038,21 +1037,33 @@ useEffect(() => {
                           {attachment.fileType.value === 6 ? (
                             <img
                               src="/media/svg/024-pdf.svg"
-                              width={40}
-                              height={40}
+                              width={50}
+                              height={50}
                               alt="pdf"
                             />
                           ) : (
                             <img
                               src="/media/svg/017-jpg.svg"
-                              width={40}
-                              height={40}
+                              width={50}
+                              height={50}
                               alt="pdf"
                             />
                           )}
                           {/* Document name and file details */}
                           <div className="ms-2">
-                            <div>{attachment.fileName}</div>
+                            <span
+                              className="text-primary fw-bold"
+                              data-bs-toggle="offcanvas"
+                              data-bs-target="#offcanvasRight"
+                              aria-controls="offcanvasRight"
+                              onClick={() => {
+                                setDownloadUrl(
+                                  attachment.downloadInfo.downloadUrl
+                                );
+                              }}
+                            >
+                              {attachment.fileName}
+                            </span>
                             <div className="text-muted small">
                               {attachment.fileType.name} &bull;{" "}
                               {attachment.sizeDescription}

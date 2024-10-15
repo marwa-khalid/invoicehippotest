@@ -169,7 +169,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
   return (
     <>
       <div
-        className="modal fade show d-block  "
+        className="modal fade show d-block"
         tabIndex={-1}
         role="dialog"
         id="attacgments_add_modal"
@@ -429,15 +429,15 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                                 <img
                                   alt="PDF"
                                   src="/media/svg/024-pdf.svg"
-                                  width={40}
-                                  height={40}
+                                  width={50}
+                                  height={50}
                                 />
                               ) : (
                                 <img
                                   alt="JPG"
                                   src="/media/svg/017-jpg.svg"
-                                  width={40}
-                                  height={40}
+                                  width={50}
+                                  height={50}
                                 />
                               )}
                             </div>
