@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Metronic React Demo 1" />
+    <meta name="icon" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"
+    />
+    <!-- Add these in your public/index.html -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@yaireo/tagify/dist/tagify.css"
+    />
+
+    <!-- <link
+      href="assets/plugins/global/plugins.bundle.css"
+      rel="stylesheet"
+      type="text/css"
+    /> -->
+
+    <title>InvoiceHippo</title>
+    <link rel="shortcut icon" href="/favicon_art01.svg" />
+    <link
+      rel="stylesheet"
+      id="layout-styles-anchor"
+      href="/splash-screen.css"
+    />
+  </head>
+
+  <body id="kt_body" class="page-loading" style="overflow: hidden">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div id="root"></div>
+
+    <!--begin::Loading markup-->
+    <div id="splash-screen" class="splash-screen">
+      <iframe
+        src="/Animation-v2.html"
+        frameborder="0"
+        allowfullscreen
+        width="300"
+        height="300"
+      ></iframe>
+    </div>
+
+    <script type="module" src="/src/main.tsx"></script>
+    <script src="https://unpkg.com/@yaireo/tagify/dist/react.tagify"></script>
+    <!-- <script src="assets/plugins/global/plugins.bundle.js"></script> -->
+    <!-- <script src="assets/plugins/global/plugins.bundle.js"></script> -->
+  </body>
+</html>

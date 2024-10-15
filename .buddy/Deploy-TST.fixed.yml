@@ -1,0 +1,24 @@
+- pipeline: "Deploy-TST"
+  events:
+  - type: "PUSH"
+    refs:
+    - ":default"
+  fail_on_prepare_env_warning: true
+  actions:
+  - action: "npm run build"
+    type: "BUILD"
+    docker_image_name: "library/node"
+    docker_image_tag: "20"
+    execute_commands:
+    - "npm install"
+    - "# npm test"
+    - "npm run build"
+    shell: "BASH"
+  - action: "Transfer to "
+    type: "SFTP"
+    input_type: "BUILD_ARTIFACTS"
+    local_path: "/dist"
+    remote_path: "C:\\Production\\Web.React.Preview"
+    login: "Administrator"
+    password: "secure!sMH8wOe2FxMFTzkz7xEu7VsdPp+SNHEvJS9qaXA6+jQ=.k3iBbi+wdvZqHe6OUzZBPg=="
+    host: "94.237.45.208"

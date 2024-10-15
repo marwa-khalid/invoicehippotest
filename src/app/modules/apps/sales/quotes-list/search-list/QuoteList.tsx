@@ -1,0 +1,485 @@
+import React, { useEffect, useState } from "react";
+import { QuoteListResult } from "../core/_models";
+import { getQuotes } from "../core/_requests";
+import { ListLoading } from "../../../components/ListLoading";
+import { FinancialListPagination } from "../components/pagination/FinancialListPagination";
+import { KTCardBody } from "../../../../../../_metronic/helpers";
+import { useIntl } from "react-intl";
+import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
+import { KTSVG } from "../../../../../../_metronic/helpers";
+import { Tooltip } from "@chakra-ui/react";
+import { useAuth } from "../../../../auth";
+import enums from "../../../../../../invoicehippo.enums.json";
+interface ComponentProps {
+  searchTerm: string;
+  setTotalRows: (type: number) => void;
+  setAddModalOpen: (type: boolean) => void;
+  setEditModalId: (type: number) => void;
+  setQuoteNumber: (type: string) => void;
+  setDeleteModalOpen: (type: boolean) => void;
+  setDownloadUrl: (type: string) => void;
+  refresh: boolean;
+  setPageIndex: (type: number) => void;
+  pageIndex: number;
+  deleteModalOpen: boolean;
+  addModalOpen: boolean;
+  searchCounter: number;
+}
+const QuoteList = ({
+  searchTerm,
+  setTotalRows,
+  setAddModalOpen,
+  setEditModalId,
+  setQuoteNumber,
+  setDeleteModalOpen,
+  setDownloadUrl,
+  searchCounter,
+  refresh,
+  setPageIndex,
+  pageIndex,
+  deleteModalOpen,
+  addModalOpen,
+}: ComponentProps) => {
+  const [quoteLists, setQuoteList] = useState<any>([]);
+
+  const intl = useIntl();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const auth = useAuth();
+  const fetchQuotes = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await getQuotes(searchTerm, pageIndex);
+      setQuoteList(response);
+
+      setPageIndex(response.pageIndex);
+      setTotalRows(response.totalRows);
+    } catch (error) {
+      console.error("Error fetching Quote List:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const handlePageChange = (page: number) => {
+    setPageIndex(page);
+    fetchQuotes();
+  };
+
+  useEffect(() => {
+    fetchQuotes();
+  }, [searchTerm, pageIndex, searchCounter]);
+
+  useEffect(() => {
+    fetchQuotes();
+  }, [refresh, deleteModalOpen, addModalOpen]);
+
+  const openEditModal = (id: number) => {
+    setEditModalId(id);
+    setAddModalOpen(true);
+  };
+
+  const openDeleteModal = (id: number, quoteNr: string) => {
+    setEditModalId(id);
+    setDeleteModalOpen(true);
+    setQuoteNumber(quoteNr);
+  };
+  // Assuming enums.QuoteStatusTypes is available and properly imported
+
+  const getStatusClass = (quoteStatusValue: number) => {
+    switch (quoteStatusValue) {
+      case 1: // Concept
+        return "bg-secondary text-dark";
+      case 2: // Wachten op goedkeuring (Waiting for approval)
+        return "bg-info";
+      case 4: // Geaccepteerd door de klant (Accepted by the client)
+        return "bg-success";
+      case 8: // Afgekeurd door de klant (Rejected by the client)
+        return "bg-danger";
+      case 16: // Verlopen-/1e Herinnering (Overdue/1st reminder)
+        return "bg-warning";
+      case 32: // Verlopen-/2e Herinnering (Overdue/2nd reminder)
+      case 64: // Verlopen-/Laatste Herinnering (Overdue/Last reminder)
+        return "bg-danger";
+      case 128: // Geannuleerd (Cancelled)
+        return "bg-dark";
+      case 256: // Gepauzeerd (Paused)
+        return "bg-warning";
+      case 512: // Planning
+        return "bg-primary";
+      case 1024: // Realisatie (Realization)
+        return "bg-info";
+      case 2048: // Afgerond (Completed)
+        return "bg-success";
+      default:
+        return "bg-default"; // Default case
+    }
+  };
+
+  return (
+    <KTCardBody className="py-4">
+      <div className="row row-cols-1 row-cols-md-1 g-4">
+        {
+          // !isLoading &&
+          quoteLists?.result?.map((quoteList: QuoteListResult) => (
+            <div className="col" key={quoteList.id}>
+              <div className="card h-100 pt-6 position-relative">
+                {/* Ribbons */}
+
+                <div
+                  className="ribbon ribbon-end ribbon-clip position-absolute"
+                  style={{
+                    top: "10px",
+                    right: "0px",
+                    height: "30px",
+                    width: "100px",
+                  }}
+                >
+                  <div className="ribbon-label  fw-bold">
+                    {quoteList.valuta.sign}{" "}
+                    {quoteList.totals.totalPriceWithVAT.toFixed(2)}
+                    <span className="ribbon-inner bg-gray-600"></span>
+                  </div>
+                </div>
+
+                {/*center ribbon */}
+                {/* <div
+                  className="ribbon ribbon-top ribbon-vertical position-absolute"
+                  style={{
+                    top: "3px",
+                    width: "100px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                  }}
+                >
+                  <div
+                    className="ribbon-label fw-bold"
+                    style={{
+                      whiteSpace: "nowrap", // Prevents text wrapping
+                      overflow: "hidden", // Clips overflowing content
+                      textOverflow: "ellipsis",
+                      backgroundColor: "#1BC5BD",
+                      minHeight: "16px", // Adds ellipsis if the text is too long
+                    }}
+                  >
+                    {quoteList.quoteStatus.description}
+                    <span
+                      className={`ribbon-inner ${getStatusClass(
+                        quoteList.quoteStatus.value
+                      )}`}
+                    ></span>
+                  </div>
+                </div> */}
+
+                <div
+                  className="ribbon ribbon-start ribbon-clip position-absolute"
+                  style={{
+                    top: "10px",
+                    height: "30px",
+                    minWidth: "200px",
+                  }}
+                >
+                  <div className="ribbon-label fw-bold">
+                    {quoteList.quoteNr}
+                    <span className="ribbon-inner bg-gray-600"></span>
+                  </div>
+                </div>
+                <div className="card-body ">
+                  {/* First Row: Client Name (Left) and Amount (Right) */}
+                  <div className="d-flex justify-content-between align-items-center ">
+                    {/* Client Name on the Left */}
+                    <div
+                      className="d-flex flex-column cursor-pointer"
+                      onClick={() => openEditModal(quoteList.id)}
+                    >
+                      <strong className="text-primary">
+                        {quoteList.client}
+                      </strong>
+                    </div>
+
+                    {/* Current/Total Amount on the Right */}
+
+                    <div className="d-flex flex-column text-end fs-9">
+                      {/* Total Price */}
+                      {quoteList.totals.totalPrice > 0 && (
+                        <div className="d-flex gap-3 justify-content-end fs-sm">
+                          <small className="text-muted">
+                            {intl.formatMessage({ id: "Fields.TotalPrice" })}
+                          </small>
+                          <span className="text-muted ">
+                            {quoteList.valuta.sign}{" "}
+                            {quoteList.totals.totalPrice.toFixed(2)}
+                          </span>
+                        </div>
+                      )}
+                      {/* Total VAT Amount */}
+                      {quoteList.totals.totalVATAmount > 0 && (
+                        <div className="d-flex gap-3 justify-content-end fs-sm">
+                          <small className="text-muted">
+                            {intl.formatMessage({
+                              id: "Fields.TotalVATAmount",
+                            })}
+                          </small>
+                          <span className="text-muted">
+                            {quoteList.valuta.sign}{" "}
+                            {quoteList.totals.totalVATAmount.toFixed(2)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <ul className="breadcrumb breadcrumb-secondary breadcrumb-dot mb-3 text-muted">
+                    <li className="breadcrumb-item">
+                      {quoteList.quoteStatus.name && (
+                        <small
+                          className={`${getStatusClass(
+                            quoteList.quoteStatus.value
+                          )} rounded p-1 text-white fw-bold px-3`}
+                        >
+                          {quoteList.quoteStatus.description}
+                        </small>
+                      )}
+                    </li>
+                    {quoteList.clientReferenceNr && (
+                      <li className="breadcrumb-item">
+                        <small>{quoteList.clientReferenceNr}</small>
+                      </li>
+                    )}
+
+                    {/* {quoteList.clientReferenceNr && (
+                          <li className="breadcrumb-item">
+                            <small>{quoteList.clientReferenceNr}</small>
+                          </li>
+                        )} */}
+                  </ul>
+
+                  {/* separator Line */}
+                  <div className="separator separator-solid mb-6"></div>
+
+                  <div className="d-flex flex-row flex-wrap fs-8 gap-4 mt-5 align-items-center justify-content-between">
+                    <div className="d-flex align-items-center flex-wrap">
+                      {quoteList.quoteDate && (
+                        <div className="d-flex align-items-center flex-wrap">
+                          <i className="ki-duotone ki-calendar fs-3x text-primary">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                          <div className="d-flex flex-column mx-6">
+                            <span className="fs-sm text-muted">
+                              {intl.formatMessage({
+                                id: "Fields.QuoteDate",
+                              })}
+                            </span>
+                            <span className="text-primary fw-bolder">
+                              {quoteList.quoteDateAsString}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      {quoteList.quoteDueDate && (
+                        <>
+                          <span
+                            style={{
+                              backgroundColor: "#d3d3d3",
+                              height: "37px",
+                              width: "1px",
+                            }}
+                            className="me-5"
+                          ></span>
+
+                          <div className="d-flex align-items-center flex-wrap">
+                            <i className="ki-duotone ki-calendar fs-3x text-danger">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            <div className="d-flex flex-column mx-6">
+                              <span className="fs-sm text-muted">
+                                {intl.formatMessage({
+                                  id: "Fields.InvoiceDueDate",
+                                })}
+                              </span>
+                              <span className="text-primary fw-bolder">
+                                {quoteList.quoteDueDateAsString}
+                              </span>
+                            </div> 
+                          </div>
+                        </>
+                      )}
+                      {quoteList.companyTradeName && (
+                        <>
+                          <span
+                            style={{
+                              backgroundColor: "#d3d3d3",
+                              height: "37px",
+                              width: "1px",
+                            }}
+                            className="me-5"
+                          ></span>
+
+                          <div className="d-flex align-items-center flex-wrap">
+                            <i className="ki-duotone ki-document fs-3x text-warning">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            <div className="d-flex flex-column mx-6">
+                              <span className="fs-sm text-muted">
+                                {intl.formatMessage({
+                                  id: "Fields.CompanyTradeNameId",
+                                })}
+                              </span>
+                              <span className="text-warning fw-bolder">
+                                {quoteList.companyTradeName}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {quoteList.hasRelatedInvoice && (
+                        <>
+                          <span
+                            style={{
+                              backgroundColor: "#d3d3d3",
+                              height: "37px",
+                              width: "1px",
+                            }}
+                            className="me-5"
+                          ></span>
+
+                          <div className="d-flex align-items-center flex-wrap">
+                            <i className="ki-duotone ki-document fs-3x text-dark">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            <div className="d-flex flex-column mx-6">
+                              <span className="fs-sm text-muted">
+                                {intl.formatMessage({
+                                  id: "Fields.InvoiceNr",
+                                })}
+                              </span>
+                              <span className="text-primary fw-bolder">
+                                {quoteList.relatedInvoice.invoiceNr}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Buttons Section */}
+                    <div className="d-flex align-items-center">
+                      {quoteList.actions.canShowPreview && (
+                        <Tooltip
+                          label="view"
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded"
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight"
+                            aria-controls="offcanvasRight"
+                            onClick={() => {
+                              setQuoteNumber(quoteList.quoteNr);
+                              setDownloadUrl(
+                                quoteList.downloadInfo.downloadUrl
+                              );
+                            }}
+                          >
+                            <i className="ki-duotone ki-eye fs-2">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                              <span className="path3"></span>
+                            </i>
+                          </button>
+                        </Tooltip>
+                      )}
+
+                      {quoteList.actions.canEdit && (
+                        <Tooltip
+                          label={intl.formatMessage({
+                            id: "Fields.ToolTipEdit",
+                          })}
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded"
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            onClick={() => {
+                              openEditModal(quoteList.id);
+                            }}
+                          >
+                            <i className="ki-solid ki-pencil text-warning fs-2"></i>
+                          </button>
+                        </Tooltip>
+                      )}
+
+                      {quoteList.actions.canDelete && (
+                        <Tooltip
+                          label={intl.formatMessage({
+                            id: "Fields.ToolTipDelete",
+                          })}
+                          fontSize="sm"
+                          className="bg-gray-800 text-white p-2 rounded"
+                          placement="top"
+                        >
+                          <button
+                            className="btn btn-icon btn-light btn-sm"
+                            onClick={() => {
+                              openDeleteModal(quoteList.id, quoteList.quoteNr);
+                              localStorage.setItem(
+                                "DeleteData",
+                                JSON.stringify({
+                                  quoteDateAsString:
+                                    quoteList.quoteDateAsString,
+                                  client: quoteList.client,
+                                  totalPriceWithVat:
+                                    quoteList.totals.totalPriceWithVAT,
+                                  sign: quoteList.valuta.sign,
+                                })
+                              );
+                            }}
+                          >
+                            <i className="ki-solid ki-trash text-danger fs-2"></i>
+                          </button>
+                        </Tooltip>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+
+        {quoteLists?.result?.length == 0 && (
+          <div className="text-center">
+            <img
+              alt=""
+              src={toAbsoluteUrl("media/logos/searchnotfound.png")}
+              className="h-350px w-450px"
+            />
+            <h3>
+              {intl.formatMessage({
+                id: "Fields.SearchNoItemsAvailableDefault",
+              })}
+            </h3>
+          </div>
+        )}
+        {isLoading && <ListLoading />}
+      </div>
+
+      {quoteLists?.result?.length > 0 && (
+        <FinancialListPagination
+          totalPages={quoteLists.totalPages}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+          onPageChange={handlePageChange}
+          totalItems={quoteLists.totalRows}
+        />
+      )}
+    </KTCardBody>
+  );
+};
+
+export { QuoteList };
