@@ -417,127 +417,120 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                   </div>
                   <div className="">
                     {attachments?.result?.length > 0 ? (
-                      attachments?.result.map((attachment: any) => (
+                      attachments?.result?.map((attachment: any) => (
                         <>
-                          {!formik.values.attachments.attachments?.find(
-                            (item) => item.id === attachment.id
-                          ) &&
-                            !formik.values.attachments.attachmentsToLink?.find(
-                              (item) => item.attachmentId === attachment.id
-                            ) && (
-                              <div
-                                className="d-flex align-items-center justify-content-between py-3"
-                                key={attachment.id}
-                              >
-                                {/* Image Section */}
-                                <div className="me-3">
-                                  {attachment.fileType.name === "AdobePdf" ? (
-                                    <img
-                                      alt="PDF"
-                                      src="/media/svg/024-pdf.svg"
-                                      width={40}
-                                      height={40}
-                                    />
-                                  ) : (
-                                    <img
-                                      alt="JPG"
-                                      src="/media/svg/017-jpg.svg"
-                                      width={40}
-                                      height={40}
-                                    />
-                                  )}
+                          <div
+                            className="d-flex align-items-center justify-content-between py-3"
+                            key={attachment.id}
+                          >
+                            {/* Image Section */}
+                            <div className="me-3">
+                              {attachment.fileType.name === "AdobePdf" ? (
+                                <img
+                                  alt="PDF"
+                                  src="/media/svg/024-pdf.svg"
+                                  width={40}
+                                  height={40}
+                                />
+                              ) : (
+                                <img
+                                  alt="JPG"
+                                  src="/media/svg/017-jpg.svg"
+                                  width={40}
+                                  height={40}
+                                />
+                              )}
+                            </div>
+
+                            {/* Document Date and File Info */}
+                            <div className="flex-grow-1">
+                              <div className="d-flex flex-column">
+                                <div>
+                                  <span className="badge bg-gray-200 mb-3">
+                                    <i className="ki-duotone ki-calendar me-1 fs-1">
+                                      <span className="path1"></span>
+                                      <span className="path2"></span>
+                                    </i>
+                                    {attachment.documentDateAsString}
+                                  </span>
                                 </div>
-
-                                {/* Document Date and File Info */}
-                                <div className="flex-grow-1">
-                                  <div className="d-flex flex-column">
-                                    <div>
-                                      <span className="badge bg-gray-200 mb-3">
-                                        <i className="ki-duotone ki-calendar me-1 fs-1">
-                                          <span className="path1"></span>
-                                          <span className="path2"></span>
-                                        </i>
-                                        {attachment.documentDateAsString}
-                                      </span>
-                                    </div>
-                                    <div>
-                                      <span
-                                        className="fw-bold me-3 cursor-pointer text-primary"
-                                        onClick={(e) => {
-                                          handleLink(attachment);
-                                        }}
-                                      >
-                                        {attachment.fileName}
-                                      </span>
-                                      {/* Breadcrumb for InvoiceNr */}
-                                      <span className="badge bg-light-primary py-2">
-                                        {attachment.sizeDescription} KB
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                {/* File Size */}
-                                <div className="text-end me-3"></div>
-
-                                {/* Tooltip Buttons */}
-                                <div className="text-end">
-                                  {/* {attachment.actions.ca} */}
-                                  <Tooltip
-                                    label={intl.formatMessage({
-                                      id: "Fields.ToolTipEdit",
-                                    })}
-                                    fontSize="sm"
-                                    className="bg-gray-800 text-white p-2 rounded"
-                                    placement="top"
+                                <div>
+                                  <span
+                                    className="fw-bold me-3 cursor-pointer text-primary"
+                                    onClick={(e) => {
+                                      handleLink(attachment);
+                                    }}
                                   >
-                                    <button
-                                      className="btn btn-icon btn-dark btn-sm me-2"
-                                      data-bs-toggle="offcanvas"
-                                      data-bs-target="#offcanvasRight"
-                                      aria-controls="offcanvasRight"
-                                      onClick={() => {
-                                        setDownloadUrl(
-                                          attachment.downloadInfo.downloadUrl
-                                        );
-                                      }}
-                                    >
-                                      <i className="ki-duotone ki-eye fs-1">
-                                        <span className="path1"></span>
-                                        <span className="path2"></span>
-                                        <span className="path3"></span>
-                                      </i>
-                                    </button>
-                                  </Tooltip>
-
-                                  {/* Pin Button */}
-                                  {!formik.values.attachments.attachments.find(
-                                    (item) => item.id === attachment.id
-                                  ) && (
-                                    <Tooltip
-                                      label={intl.formatMessage({
-                                        id: "Fields.ToolTipEdit",
-                                      })}
-                                      fontSize="sm"
-                                      className="bg-gray-800 text-white p-2 rounded"
-                                      placement="top"
-                                    >
-                                      <button
-                                        className="btn btn-icon btn-primary btn-sm"
-                                        onClick={(e) => {
-                                          handleLink(attachment);
-                                        }}
-                                      >
-                                        <i className="ki-duotone ki-pin text-white fs-2">
-                                          <span className="path1"></span>
-                                          <span className="path2"></span>
-                                        </i>
-                                      </button>
-                                    </Tooltip>
-                                  )}
+                                    {attachment.fileName}
+                                  </span>
+                                  {/* Breadcrumb for InvoiceNr */}
+                                  <span className="badge bg-light-primary py-2">
+                                    {attachment.sizeDescription} KB
+                                  </span>
                                 </div>
                               </div>
-                            )}
+                            </div>
+
+                            {/* File Size */}
+                            <div className="text-end me-3"></div>
+
+                            {/* Tooltip Buttons */}
+                            <div className="text-end">
+                              {/* {attachment.actions.ca} */}
+                              <Tooltip
+                                label={intl.formatMessage({
+                                  id: "Fields.ToolTipEdit",
+                                })}
+                                fontSize="sm"
+                                className="bg-gray-800 text-white p-2 rounded"
+                                placement="top"
+                              >
+                                <button
+                                  className="btn btn-icon btn-dark btn-sm me-2"
+                                  data-bs-toggle="offcanvas"
+                                  data-bs-target="#offcanvasRight"
+                                  aria-controls="offcanvasRight"
+                                  onClick={() => {
+                                    setDownloadUrl(
+                                      attachment.downloadInfo.downloadUrl
+                                    );
+                                  }}
+                                >
+                                  <i className="ki-duotone ki-eye fs-1">
+                                    <span className="path1"></span>
+                                    <span className="path2"></span>
+                                    <span className="path3"></span>
+                                  </i>
+                                </button>
+                              </Tooltip>
+
+                              {/* Pin Button */}
+                              {!formik.values.attachments.attachments.find(
+                                (item) => item.id === attachment.id
+                              ) && (
+                                <Tooltip
+                                  label={intl.formatMessage({
+                                    id: "Fields.ToolTipEdit",
+                                  })}
+                                  fontSize="sm"
+                                  className="bg-gray-800 text-white p-2 rounded"
+                                  placement="top"
+                                >
+                                  <button
+                                    className="btn btn-icon btn-primary btn-sm"
+                                    onClick={(e) => {
+                                      handleLink(attachment);
+                                    }}
+                                  >
+                                    <i className="ki-duotone ki-pin text-white fs-2">
+                                      <span className="path1"></span>
+                                      <span className="path2"></span>
+                                    </i>
+                                  </button>
+                                </Tooltip>
+                              )}
+                            </div>
+                          </div>
                           <div className="separator border-10  my-5"></div>
                         </>
                       ))
