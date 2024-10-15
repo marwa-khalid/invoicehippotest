@@ -27,11 +27,10 @@ const ClientSearch: FC<Props> = ({ setClientSearch, formik }) => {
 
   const fetchClients = async () => {
     const response = await getClients(searchTerm, pageIndex, 10);
-    
+
     if (response.isValid) {
       setClients(response);
     }
-   
   };
   useEffect(() => {
     fetchClients();
@@ -43,11 +42,10 @@ const ClientSearch: FC<Props> = ({ setClientSearch, formik }) => {
   };
 
   const setClient = async (client: any) => {
-  
     formik.setFieldValue("header.clientId", client.id);
     formik.setFieldValue("header.clientDisplayName", client.displayName);
-    formik.setFieldValue("header.clientReferenceNr", client.customerNr);
-    formik.setFieldValue("header.clientContactId", 0);
+    // formik.setFieldValue("header.clientReferenceNr", client.customerNr);
+    // formik.setFieldValue("header.clientContactId", 0);
     setClientSearch(false);
   };
 
@@ -140,7 +138,7 @@ const ClientSearch: FC<Props> = ({ setClientSearch, formik }) => {
                   .replace("{0}", clients?.totalRows.toString())}
               </h5>
             )}
-            
+
             <div className="text-center mt-6">
               {clients?.result.length > 0 ? (
                 clients?.result.map((client: any, index: number) => {
