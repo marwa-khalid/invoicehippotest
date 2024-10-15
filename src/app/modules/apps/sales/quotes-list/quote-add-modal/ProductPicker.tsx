@@ -22,11 +22,9 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
     setCounter(!counter);
   };
 
-
-
   const fetchProducts = async () => {
     const response = await pickProduct(searchTerm, pageIndex);
-   
+
     if (response.isValid) {
       setProducts(response);
     }
@@ -42,7 +40,7 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
 
   const fetchProductById = async (id: number) => {
     const response = await getProductById(id);
-   
+
     if (response.isValid) {
       const newRow = {
         productId: response.result.id,
@@ -68,9 +66,48 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
         orderIndex: response.result.orderIndex,
         pricingMargin: response.result.pricingMargin,
       };
-      formik.setFieldValue("products", [...formik.values.products, newRow]);
+
+      // Check if the product already exists
+      const existingProductIndex = formik.values.products.findIndex(
+        (product) => {
+          return (
+            product.productId === newRow.productId &&
+            product.title === newRow.title &&
+            product.description === newRow.description &&
+            product.code === newRow.code &&
+            product.unitPrice === newRow.unitPrice &&
+            product.companyUnitTypeId === newRow.companyUnitTypeId &&
+            product.btwExclusive === newRow.btwExclusive &&
+            product.includeLinkedProductDesciption ===
+              newRow.includeLinkedProductDesciption &&
+            product.linkedProductDescription ===
+              newRow.linkedProductDescription &&
+            product.linkedProductId === newRow.linkedProductId &&
+            product.ledgerAccountId === newRow.ledgerAccountId &&
+            product.vatTypeId === newRow.vatTypeId &&
+            product.discountMarginId === newRow.discountMarginId &&
+            product.orderIndex === newRow.orderIndex
+          );
+        }
+      );
+
+      if (existingProductIndex !== -1) {
+        // Product exists, so update the units by adding the new units
+        const updatedProducts = formik.values.products.map((product, index) =>
+          index === existingProductIndex
+            ? { ...product, units: product.units + newRow.units }
+            : product
+        );
+
+        // Update the products in formik state
+        formik.values.products = updatedProducts;
+      } else {
+        // Product does not exist, so add it to the list
+        formik.values.products = [...formik.values.products, newRow];
+      }
     }
   };
+
   return (
     <div
       className="modal fade show d-block"
@@ -144,17 +181,18 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                 </button>
               </div>
             </div>
-            <h5>
-              {intl
-                .formatMessage({ id: "Fields.SearchResultHeaderCount" })
-                .replace("{0}", products?.totalRows.toString())}
-            </h5>
-           
+            {products?.totalRows && (
+              <h5>
+                {intl
+                  .formatMessage({ id: "Fields.SearchResultHeaderCount" })
+                  .replace("{0}", products?.totalRows.toString())}
+              </h5>
+            )}
             <div className="text-center mt-6">
               {products?.result.length > 0 ? (
                 products?.result.map((product: any, index: number) => {
                   // Extract initials from the company name
-                 
+
                   return (
                     <div key={index}>
                       <table className="table table-row-dashed table-hover table-row-gray-300 gy-7">

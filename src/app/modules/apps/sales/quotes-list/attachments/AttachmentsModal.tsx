@@ -60,8 +60,9 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
-      "image/jpeg": [".jpg", ".jpeg"],
-      "application/pdf": [".pdf"],
+      "image/jpeg": [".jpg", ".jpeg", ".png"],
+      "application/pdf": [".pdf", ".doc", ".docx", ".xls", ".xlsx", ".txt"],
+      archives: [".zip", ".rar"],
     },
     maxSize,
   });
@@ -425,19 +426,26 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                           >
                             {/* Image Section */}
                             <div className="me-3">
-                              {attachment.fileType.name === "AdobePdf" ? (
+                              {attachment.fileType.name == "AdobePdf" ? (
                                 <img
                                   alt="PDF"
                                   src="/media/svg/024-pdf.svg"
-                                  width={50}
-                                  height={50}
+                                  width={60}
+                                  height={60}
+                                />
+                              ) : attachment.fileType.name == "Png" ? (
+                                <img
+                                  alt="PNG"
+                                  src="/media/svg/025-png.svg"
+                                  width={60}
+                                  height={60}
                                 />
                               ) : (
                                 <img
                                   alt="JPG"
                                   src="/media/svg/017-jpg.svg"
-                                  width={50}
-                                  height={50}
+                                  width={60}
+                                  height={60}
                                 />
                               )}
                             </div>

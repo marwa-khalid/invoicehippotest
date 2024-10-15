@@ -578,6 +578,12 @@ Props) => {
       setSelectedAttachment(attachment);
     }
   };
+
+  useEffect(() => {
+    if (formik.values.customizations.customQuoteNr === "") {
+      formik.setFieldValue("customizations.useCustomQuoteNr", false);
+    }
+  }, [extraOptionsModal]);
   return (
     <>
       <div
@@ -747,7 +753,7 @@ Props) => {
                           </label>
                         </div>
                         {formik.values.customizations.useCustomQuoteNr && (
-                          <div className="mt-5">
+                          <div className="mt-5 ms-14 col-11">
                             <label className="required fw-bold fs-6 mb-3">
                               {intl.formatMessage({
                                 id: "Fields.CustomQuoteNr",
@@ -755,6 +761,7 @@ Props) => {
                             </label>
                             <input
                               type="text"
+                              maxLength={20}
                               className="form-control form-control-solid"
                               onChange={(e) => {
                                 formik.setFieldValue(
@@ -804,26 +811,10 @@ Props) => {
                           })}
                         </div>
                       </div>
-                      {/* <div className="form-check form-switch mt-10 ms-2 d-flex align-items-center">
-                        <input
-                          className="form-check-input h-20px w-40px me-5"
-                          type="checkbox"
-                          id="btwExclusiveSwitch"
-                          // value={product.btwExclusive}
-                          {...formik.getFieldProps("header.has")}
-                        />
-                        <label
-                          className="form-check-label  fs-sm text-muted"
-                          htmlFor="btwExclusiveSwitch"
-                        >
-                          {intl.formatMessage({
-                            id: "Fields.CompanyTradeNameId",
-                          })}
-                        </label>
-                      </div> */}
+
                       <div className="row d-flex mt-7">
                         <div className="fv-row">
-                          <label className="required fw-bold fs-6 mb-3">
+                          <label className="fw-bold fs-6 mb-3">
                             {intl.formatMessage({
                               id: "Fields.CompanyTradeNameId",
                             })}
@@ -839,12 +830,13 @@ Props) => {
                             onChange={(e: any) =>
                               formik.setFieldValue(
                                 "header.companyTradeNameId",
-                                e.value
+                                e?.value || null
                               )
                             }
                             placeholder={intl.formatMessage({
                               id: "Fields.CompanyTradeNameId",
                             })}
+                            isClearable
                           />
                         </div>
                       </div>
@@ -1040,6 +1032,13 @@ Props) => {
                               width={50}
                               height={50}
                               alt="pdf"
+                            />
+                          ) : attachment.fileType.value === 3 ? (
+                            <img
+                              alt="PNG"
+                              src="/media/svg/025-png.svg"
+                              width={50}
+                              height={50}
                             />
                           ) : (
                             <img
