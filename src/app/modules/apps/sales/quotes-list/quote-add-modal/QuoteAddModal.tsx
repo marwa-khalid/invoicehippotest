@@ -310,25 +310,28 @@ Props) => {
   useEffect(() => {
     const fetchInitialData = async () => {
       let res;
-      if (editModalId != 0) {
+      if (editModalId != 0 && editModalId != formik.values.id) {
         res = await getQuoteById(editModalId);
         // setDisableTabs(false);
       } else {
         res = await getDefaultEmpty();
       }
-      setResponse(res.result);
+      formik.setValues({
+        ...formik.values,
+        ...res.result, // Merge the response with the existing form values
+      });
     };
 
     fetchInitialData();
-  }, [formik.values.id]);
-  useEffect(() => {
-    if (response) {
-      formik.setValues({
-        ...formik.values,
-        ...response, // Merge the response with the existing form values
-      });
-    }
-  }, [response]);
+  }, [editModalId]);
+  // useEffect(() => {
+  //   if (response) {
+  //     formik.setValues({
+  //       ...formik.values,
+  //       ...response, // Merge the response with the existing form values
+  //     });
+  //   }
+  // }, [response]);
 
   const [ledgers, setLedgers] = useState<any>();
   const [vatTypes, setVatTypes] = useState<any>();
@@ -606,10 +609,10 @@ Props) => {
         >
           <div className="modal-content">
             <QuoteAddModalHeader
-              businessName={response?.businessName}
+              businessName={formik.values.header.clientDisplayName}
               tabs={tabs}
               activeTab={activeTab}
-              customerNr={response?.customerNr}
+              customerNr={formik.values.header.clientReferenceNr}
               setAddModalOpen={setAddModalOpen}
               disableTabs={disableTabs}
               handleTabClick={handleTabClick}
@@ -703,7 +706,7 @@ Props) => {
                 />
               )}
             </div>
-
+            {console.log(formik.values.customizations)!}
             {extraOptionsModal && (
               <div
                 className="modal fade show d-block"
@@ -740,9 +743,15 @@ Props) => {
                             className="form-check-input h-20px w-40px me-5"
                             type="checkbox"
                             id="customNrSwitch"
-                            {...formik.getFieldProps(
-                              "customizations.useCustomQuoteNr"
-                            )}
+                            checked={
+                              formik.values.customizations.useCustomQuoteNr
+                            }
+                            onChange={(e) => {
+                              formik.setFieldValue(
+                                "customizations.useCustomQuoteNr",
+                                !formik.values.customizations.useCustomQuoteNr
+                              );
+                            }}
                           />
                           <label
                             className="form-check-label fs-sm text-muted"
@@ -764,6 +773,7 @@ Props) => {
                               type="text"
                               maxLength={20}
                               className="form-control form-control-solid"
+                              value={formik.values.customizations.customQuoteNr}
                               onChange={(e) => {
                                 formik.setFieldValue(
                                   "customizations.customQuoteNr",
@@ -782,9 +792,15 @@ Props) => {
                             className="form-check-input h-20px w-40px me-5"
                             type="checkbox"
                             id="hideProductCodesSwitch"
-                            {...formik.getFieldProps(
-                              "customizations.hideProductCodes"
-                            )}
+                            checked={
+                              formik.values.customizations.hideProductCodes
+                            }
+                            onChange={(e) => {
+                              formik.setFieldValue(
+                                "customizations.hideProductCodes",
+                                !formik.values.customizations.hideProductCodes
+                              );
+                            }}
                           />
 
                           <label
@@ -850,15 +866,18 @@ Props) => {
                             })}
                           </label>
                           <Select
-                            value={notificationCycles?.find(
-                              (ledger: any) => ledger.value === 1742
-                            )}
+                            value={notificationCycles?.find((ledger: any) => {
+                              return (
+                                ledger.value ===
+                                formik.values.customizations.notificationCycleId
+                              );
+                            })}
                             className="react-select-styled"
                             options={notificationCycles}
                             onChange={(e: any) =>
                               formik.setFieldValue(
                                 "customizations.notificationCycleId",
-                                e.value
+                                e?.value || null
                               )
                             }
                             placeholder={intl.formatMessage({
@@ -874,10 +893,17 @@ Props) => {
                             className="form-check-input h-20px w-40px me-5"
                             type="checkbox"
                             id="dontSendRemindersOnlyTrackStatusSwitch"
-                            // value={product.btwExclusive}
-                            {...formik.getFieldProps(
-                              "customizations.dontSendRemindersOnlyTrackStatusSwitch"
-                            )}
+                            checked={
+                              formik.values.customizations
+                                .dontSendRemindersOnlyTrackStatus
+                            }
+                            onChange={(e) => {
+                              formik.setFieldValue(
+                                "customizations.dontSendRemindersOnlyTrackStatus",
+                                !formik.values.customizations
+                                  .dontSendRemindersOnlyTrackStatus
+                              );
+                            }}
                           />
                           <label
                             className="form-check-label fs-sm text-muted"

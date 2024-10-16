@@ -513,7 +513,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                               </Tooltip>
 
                               {/* Pin Button */}
-                              {!formik.values.attachments.attachments.find(
+                              {!formik.values.attachments?.attachments?.find(
                                 (item) => item.id === attachment.id
                               ) && (
                                 <Tooltip
