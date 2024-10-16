@@ -82,7 +82,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
   };
 
   const fetchAttachments = async () => {
-    const response = await getInboxAttachments(searchTerm, 1);
+    const response = await getInboxAttachments(searchTerm, pageIndex);
     if (response.isValid) {
       setAttachments(response);
     }
