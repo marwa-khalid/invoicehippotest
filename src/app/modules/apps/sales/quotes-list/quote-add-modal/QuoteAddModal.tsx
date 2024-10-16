@@ -947,7 +947,7 @@ Props) => {
             )}
 
             <div className="table-responsive bg-secondary p-10">
-              <table className="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4 ">
+              <table className="table table-row-dashed table-row-gray-300  gs-0 gy-4 ">
                 <thead>
                   <tr className="fw-bold text-muted">
                     {hasDiscountmargin && (
@@ -1039,8 +1039,8 @@ Props) => {
                   <h2 className="me-2">
                     {intl.formatMessage({ id: "Fields.Attachments" })}
                   </h2>
-                  <span className="mb-1">
-                    ({formik.values.attachments.attachments.length})
+                  <span className="mb-1 bg-secondary text-dark rounded-pill px-2">
+                    {formik.values.attachments.attachments.length}
                   </span>
                   {formik.values.attachments.attachments.length > 1 && (
                     <i
@@ -1160,7 +1160,11 @@ Props) => {
                             )}
                           </div>
                         </div>
-                        <div className="separator border-10 my-5"></div>
+
+                        {index <
+                          formik.values.attachments.attachments.length - 1 && (
+                          <div className="separator border-10 my-5"></div>
+                        )}
                       </div>
                     )
                   )}

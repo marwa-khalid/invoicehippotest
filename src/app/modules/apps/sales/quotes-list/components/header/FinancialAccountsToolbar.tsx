@@ -13,6 +13,8 @@ const FinancialAccountsToolbar = ({
   setEditModalId,
 }: ToolbarProps) => {
   const openAddQuoteModal = () => {
+    localStorage.removeItem("contactResponse");
+    localStorage.removeItem("clientResponse");
     setAddModalOpen(true);
     setEditModalId(0);
   };

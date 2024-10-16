@@ -37,7 +37,6 @@ const QuoteAddStep2: FC<Props> = ({
   const auth = useAuth();
 
   const handleInputChange = (index: number, field: string, value: any) => {
-   
     const updatedProducts = [...formik.values.products];
     updatedProducts[index] = { ...updatedProducts[index], [field]: value };
     formik.setFieldValue("products", updatedProducts);
@@ -48,13 +47,10 @@ const QuoteAddStep2: FC<Props> = ({
     unitPrice: number,
     discountMarginId: null | number
   ) => {
-   
-
     // Find the discount label from discount types
     let discount = discountTypes.find((discountType: any) => {
       return discountType.value === discountMarginId;
     })?.label;
-
 
     let total = units * unitPrice;
 
@@ -74,7 +70,7 @@ const QuoteAddStep2: FC<Props> = ({
     return total; // Return the original total if no discount applies
   };
 
-  const handleAddRow = (e: any) => {
+  const handleAddRow = (product: any, e: any) => {
     e.preventDefault();
     const newRow = {
       productId: 0,
@@ -82,13 +78,13 @@ const QuoteAddStep2: FC<Props> = ({
       units: 0,
       description: "",
       unitPrice: 0,
-      companyUnitTypeId: 3233,
-      btwExclusive: true,
+      companyUnitTypeId: product.companyUnitTypeId,
+      btwExclusive: product.btwExclusive,
       includeLinkedProductDesciption: false,
       linkedProductDescription: "",
       linkedProductId: 0,
-      ledgerAccountId: 77630,
-      vatTypeId: 5906,
+      ledgerAccountId: product.ledgerAccountId,
+      vatTypeId: product.vatTypeId,
       discountMarginId: null,
       orderIndex: 0,
     };
@@ -299,7 +295,7 @@ const QuoteAddStep2: FC<Props> = ({
                                           id: "Fields.TotalDiscountSummary",
                                         })}
                                       </label>
-                                     
+
                                       <Select
                                         value={discountTypes?.find(
                                           (discountType: any) => {
@@ -570,7 +566,7 @@ const QuoteAddStep2: FC<Props> = ({
                                     // Other rows: Only show the remove button
                                     <button
                                       className="btn btn-icon btn-light btn-sm"
-                                      onClick={handleAddRow}
+                                      onClick={(e) => handleAddRow(product, e)}
                                     >
                                       <i className="ki-solid ki-plus text-success fs-2" />
                                     </button>
@@ -588,7 +584,9 @@ const QuoteAddStep2: FC<Props> = ({
                                       </button>
                                       <button
                                         className="btn btn-icon btn-light btn-sm"
-                                        onClick={handleAddRow}
+                                        onClick={(e) =>
+                                          handleAddRow(product, e)
+                                        }
                                       >
                                         <i className="ki-solid ki-plus text-success fs-2" />
                                       </button>

@@ -36,7 +36,7 @@ const QuoteAddModalHeader = ({
   const getStatusClass = (quoteStatusValue: number) => {
     switch (quoteStatusValue) {
       case 1: // Concept
-        return "bg-light";
+        return "bg-secondary";
       case 2: // Wachten op goedkeuring (Waiting for approval)
         return "bg-info";
       case 4: // Geaccepteerd door de klant (Accepted by the client)
@@ -87,9 +87,9 @@ const QuoteAddModalHeader = ({
                 })}
           </h2>
 
-          {formik.values.status === 1 ? (
+          {/* {formik.values.status === 1 ? (
             <span className="text-white">Concept</span>
-          ) : null}
+          ) : null} */}
         </div>
 
         {/* Close Button */}
@@ -103,27 +103,26 @@ const QuoteAddModalHeader = ({
       </div>
 
       {/* Ribbon at the right end of the header */}
-      {formik.values.status !== 1 && (
-        <div className="ribbon ribbon-end position-absolute top-20 end-0 w-300px">
-          <div
-            className={`ribbon-label fw-bold ${getStatusClass(
-              formik.values.status
-            )}`}
+
+      <div className="ribbon ribbon-end position-absolute top-20 end-0 w-300px">
+        <div
+          className={`ribbon-label fw-bold ${getStatusClass(
+            formik.values.status
+          )}`}
+        >
+          <small
+            className={`${getStatusClass(formik.values.status)} rounded p-0 ${
+              formik.values.status === 1 ? "text-dark" : "text-white"
+            } fw-bold `}
           >
-            <small
-              className={`${getStatusClass(
-                formik.values.status
-              )} rounded p-0 text-white fw-bold `}
-            >
-              {
-                enums.QuoteStatusTypes.find(
-                  (status: any) => status.Value === formik.values.status
-                )?.Title
-              }
-            </small>
-          </div>
+            {
+              enums.QuoteStatusTypes.find(
+                (status: any) => status.Value === formik.values.status
+              )?.Title
+            }
+          </small>
         </div>
-      )}
+      </div>
 
       <div className="separator border-white mt-3"></div>
     </div>
