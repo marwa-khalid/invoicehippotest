@@ -217,14 +217,12 @@ const ClientAddModal = ({
         }
 
         const response = await postClient(values);
-        if (
-          response.isValid &&
-          response.messages.map((message) => message.type === 1)
-        ) {
+        if (response.isValid) {
           // formik.resetForm();
           setRefresh(!refresh);
           // formik.resetForm();
           setEditModalId(response.result.id);
+
           setResponse(response.result);
           localStorage.setItem(
             "clientResponse",
