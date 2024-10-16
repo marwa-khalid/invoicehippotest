@@ -217,7 +217,10 @@ const ClientAddModal = ({
         }
 
         const response = await postClient(values);
-        if (response.isValid) {
+        if (
+          response.isValid &&
+          response.messages.map((message) => message.type === 1)
+        ) {
           // formik.resetForm();
           setRefresh(!refresh);
           // formik.resetForm();
@@ -231,7 +234,7 @@ const ClientAddModal = ({
           values.contactlist.contacts.forEach(
             (contact) => (contact.clientId = response.result.id)
           );
-        
+
           // return;
           if (values.contactlist.contacts.length > 0) {
             postContactsPromise = await postContact(values.contactlist);
