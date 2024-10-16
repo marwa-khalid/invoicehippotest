@@ -259,7 +259,7 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                                     {intl.formatMessage({
                                       id: "Fields.TotalPrice",
                                     })}{" "}
-                                    € {product.totals.totalVATAmount}
+                                    € {product.totals.totalPrice}
                                   </small>
                                 </span>
                                 <span className="text-muted fw-normal">
@@ -267,7 +267,7 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                                     {intl.formatMessage({
                                       id: "Fields.TotalVATAmount",
                                     })}{" "}
-                                    € {product.totals.totalPrice}
+                                    € {product.totals.totalVATAmount}
                                   </small>
                                 </span>
                               </div>

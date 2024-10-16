@@ -67,7 +67,6 @@ const QuoteAddModalHeader = ({
       <div className="d-flex justify-content-between align-items-center w-100">
         <div>
           <span className="text-secondary">
-            {" "}
             {editModalId != 0
               ? intl
                   .formatMessage({
@@ -90,48 +89,43 @@ const QuoteAddModalHeader = ({
 
           {formik.values.status === 1 ? (
             <span className="text-white">Concept</span>
-          ) : (
-            <small
-              className={`${getStatusClass(
-                formik.values.status
-              )} rounded p-1 text-white fw-bold`}
-            >
-              {
-                enums.QuoteStatusTypes.find((status: any) => {
-                  return status.Value === formik.values.status;
-                })?.Title
-              }
-            </small>
-          )}
+          ) : null}
         </div>
-        {/* <div className="hippo-tab-manager d-flex justify-content-center flex-grow-1 border-0">
-          {tabs.map((tab: any) => (
-            <button
-              key={tab.id}
-              onClick={() => {
-                handleTabClick(tab);
-              }}
-              className={`hippo-tab border-0 mx-2 px-4 ${
-                activeTab.id === tab.id ? "hippo-selected-tab" : "text-gray"
-              }`}
-              data-bs-toggle="tab"
-            >
-              {tab.icon}
-              {tab.label}
-            </button>
-          ))}
-        </div> */}
 
+        {/* Close Button */}
         <div
           className="btn btn-icon btn-sm btn-active-icon-primary"
           onClick={() => setAddModalOpen(false)}
           style={{ cursor: "pointer" }}
         >
-          <KTIcon iconName="cross" className="fs-2x text-white" />
+          <KTIcon iconName="cross" className="fs-2x text-white mt-2" />
         </div>
       </div>
 
-      <div className="separator border-white"></div>
+      {/* Ribbon at the right end of the header */}
+      {formik.values.status !== 1 && (
+        <div className="ribbon ribbon-end position-absolute top-20 end-0 w-300px">
+          <div
+            className={`ribbon-label fw-bold ${getStatusClass(
+              formik.values.status
+            )}`}
+          >
+            <small
+              className={`${getStatusClass(
+                formik.values.status
+              )} rounded p-0 text-white fw-bold `}
+            >
+              {
+                enums.QuoteStatusTypes.find(
+                  (status: any) => status.Value === formik.values.status
+                )?.Title
+              }
+            </small>
+          </div>
+        </div>
+      )}
+
+      <div className="separator border-white mt-3"></div>
     </div>
   );
 };

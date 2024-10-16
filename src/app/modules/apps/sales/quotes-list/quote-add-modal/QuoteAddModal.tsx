@@ -584,6 +584,7 @@ Props) => {
       formik.setFieldValue("customizations.useCustomQuoteNr", false);
     }
   }, [extraOptionsModal]);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   return (
     <>
       <div
@@ -1002,129 +1003,142 @@ Props) => {
 
             {formik.values.attachments?.attachments?.length > 0 && (
               <div className="p-10">
-                <h2> {intl.formatMessage({ id: "Fields.Attachments" })}</h2>
-                {formik.values.attachments.attachments.map(
-                  (attachment, index) => (
-                    <>
-                      <QuoteViewModal
-                        downloadUrl={
-                          downloadUrl || attachment.downloadInfo.downloadUrl
-                        }
-                      />
+                <div
+                  className="d-flex align-items-center mb-3 cursor-pointer"
+                  onClick={() =>
+                    formik.values.attachments.attachments.length > 1 &&
+                    setIsCollapsed(!isCollapsed)
+                  }
+                >
+                  <h2 className="me-2">
+                    {intl.formatMessage({ id: "Fields.Attachments" })}
+                  </h2>
+                  <span className="mb-1">
+                    ({formik.values.attachments.attachments.length})
+                  </span>
+                  {formik.values.attachments.attachments.length > 1 && (
+                    <i
+                      className={`fa fa-chevron-${
+                        isCollapsed ? "down" : "up"
+                      } ms-2 mb-1`}
+                    ></i>
+                  )}
+                </div>
 
-                      <div
-                        key={index}
-                        className="d-flex align-items-center justify-content-between mb-2 p-5"
-                      >
-                        {restoreModalOpen && (
-                          <QuoteRestorationModal
-                            attachment={selectedAttachment}
-                            setRestoreModalOpen={setRestoreModalOpen}
-                            formik={formik}
-                          />
-                        )}
-                        {/* SVG icon and document name */}
-                        <div className="d-flex align-items-center">
-                          {/* SVG icon */}
-                          {attachment.fileType.value === 6 ? (
-                            <img
-                              src="/media/svg/024-pdf.svg"
-                              width={50}
-                              height={50}
-                              alt="pdf"
-                            />
-                          ) : attachment.fileType.value === 3 ? (
-                            <img
-                              alt="PNG"
-                              src="/media/svg/025-png.svg"
-                              width={50}
-                              height={50}
-                            />
-                          ) : (
-                            <img
-                              src="/media/svg/017-jpg.svg"
-                              width={50}
-                              height={50}
-                              alt="pdf"
-                            />
-                          )}
-                          {/* Document name and file details */}
-                          <div className="ms-2">
-                            <span
-                              className="text-primary fw-bold"
-                              data-bs-toggle="offcanvas"
-                              data-bs-target="#offcanvasRight"
-                              aria-controls="offcanvasRight"
-                              onClick={() => {
-                                setDownloadUrl(
-                                  attachment.downloadInfo.downloadUrl
-                                );
-                              }}
-                            >
-                              {attachment.fileName}
-                            </span>
-                            <div className="text-muted small">
-                              {attachment.fileType.name} &bull;{" "}
-                              {attachment.sizeDescription}
+                <QuoteViewModal downloadUrl={downloadUrl} />
+
+                {/* Collapsible section for multiple attachments */}
+                <div className={`collapse ${!isCollapsed ? "show" : ""}`}>
+                  {formik.values.attachments.attachments.map(
+                    (attachment, index) => (
+                      <div key={index}>
+                        <div className="d-flex align-items-center justify-content-between mb-2 p-5">
+                          {/* SVG icon and document name */}
+                          <div className="d-flex align-items-center">
+                            {restoreModalOpen && (
+                              <QuoteRestorationModal
+                                attachment={selectedAttachment}
+                                setRestoreModalOpen={setRestoreModalOpen}
+                                formik={formik}
+                              />
+                            )}
+                            {attachment.fileType.value === 6 ? (
+                              <img
+                                src="/media/svg/024-pdf.svg"
+                                width={50}
+                                height={50}
+                                alt="pdf"
+                              />
+                            ) : attachment.fileType.value === 3 ? (
+                              <img
+                                alt="PNG"
+                                src="/media/svg/025-png.svg"
+                                width={50}
+                                height={50}
+                              />
+                            ) : (
+                              <img
+                                src="/media/svg/017-jpg.svg"
+                                width={50}
+                                height={50}
+                                alt="jpg"
+                              />
+                            )}
+
+                            <div className="ms-2">
+                              <span
+                                className="text-primary fw-bold"
+                                data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasRight"
+                                aria-controls="offcanvasRight"
+                                onClick={() =>
+                                  setDownloadUrl(
+                                    attachment.downloadInfo.downloadUrl
+                                  )
+                                }
+                              >
+                                {attachment.fileName}
+                              </span>
+                              <div className="text-muted small">
+                                {attachment.fileType.name} &bull;{" "}
+                                {attachment.sizeDescription}
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        {/* Action icons: Remove and View */}
-                        <div className="d-flex">
-                          {/* View icon */}
-                          {attachment.actions.canView && (
-                            <button
-                              type="button"
-                              className="btn btn-icon btn-dark btn-sm me-2"
-                              data-bs-toggle="offcanvas"
-                              data-bs-target="#offcanvasRight"
-                              aria-controls="offcanvasRight"
-                              onClick={() => {
-                                setDownloadUrl(
-                                  attachment.downloadInfo.downloadUrl
-                                );
-                              }}
-                            >
-                              <i className="ki-duotone ki-eye fs-1">
-                                <span className="path1"></span>
-                                <span className="path2"></span>
-                                <span className="path3"></span>
-                              </i>
-                            </button>
-                          )}
-                          {attachment.actions.canDownload && (
-                            <button
-                              type="button"
-                              className="btn btn-icon btn-primary btn-sm me-2"
-                              onClick={() => {
-                                const link = document.createElement("a");
-                                link.href = attachment.downloadInfo.downloadUrl; // Assuming you have the URL in attachment.downloadUrl
-                                link.setAttribute("download", "filename.ext"); // Optional: you can specify a filename if needed
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                              }}
-                            >
-                              <i className="fa-solid fa-cloud-arrow-down"></i>
-                            </button>
-                          )}
-                          {/* Remove icon */}
-                          {attachment.actions.canDelete && (
-                            <button
-                              type="button"
-                              className="btn btn-icon btn-danger btn-sm me-2"
-                              onClick={() => handleDelete(attachment)}
-                            >
-                              <i className="ki-solid ki-trash text-white fs-2"></i>
-                            </button>
-                          )}
+                          <div className="d-flex">
+                            {attachment.actions.canView && (
+                              <button
+                                type="button"
+                                className="btn btn-icon btn-dark btn-sm me-2"
+                                data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasRight"
+                                aria-controls="offcanvasRight"
+                                onClick={() =>
+                                  setDownloadUrl(
+                                    attachment.downloadInfo.downloadUrl
+                                  )
+                                }
+                              >
+                                <i className="ki-solid ki-eye fs-1"></i>
+                              </button>
+                            )}
+                            {attachment.actions.canDownload && (
+                              <button
+                                type="button"
+                                className="btn btn-icon btn-primary btn-sm me-2"
+                                onClick={() => {
+                                  const link = document.createElement("a");
+                                  link.href =
+                                    attachment.downloadInfo.downloadUrl;
+                                  link.setAttribute(
+                                    "download",
+                                    attachment.fileName
+                                  );
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                }}
+                              >
+                                <i className="fa-solid fa-cloud-arrow-down"></i>
+                              </button>
+                            )}
+                            {attachment.actions.canDelete && (
+                              <button
+                                type="button"
+                                className="btn btn-icon btn-danger btn-sm me-2"
+                                onClick={() => handleDelete(attachment)}
+                              >
+                                <i className="ki-solid ki-trash text-white fs-2"></i>
+                              </button>
+                            )}
+                          </div>
                         </div>
+                        <div className="separator border-10 my-5"></div>
                       </div>
-                      <div className="separator border-10  my-5"></div>
-                    </>
-                  )
-                )}
+                    )
+                  )}
+                </div>
               </div>
             )}
 
