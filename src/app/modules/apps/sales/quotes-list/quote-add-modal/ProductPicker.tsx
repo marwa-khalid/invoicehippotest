@@ -17,7 +17,8 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
   const [counter, setCounter] = useState(false);
   const [products, setProducts] = useState<any>();
   const [pageIndex, setPageIndex] = useState<number>(1);
-  const handleSearchClick = () => {
+  const handleSearchClick = (e: any) => {
+    e.preventDefault();
     setSearchTerm(localSearchTerm);
     setCounter(!counter);
   };
@@ -155,14 +156,14 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    handleSearchClick();
+                    handleSearchClick(e);
                   }
                 }}
               />
               <div className="btn-group">
                 <button
                   className="btn btn-dark d-inline-flex align-items-center"
-                  onClick={handleSearchClick}
+                  onClick={(e) => handleSearchClick(e)}
                 >
                   <i className="la la-search fs-2"></i>
                   <span className="ms-1">

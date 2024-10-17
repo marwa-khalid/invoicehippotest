@@ -100,16 +100,6 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
   };
 
   const handleLink = (attachment: any) => {
-    formik.setFieldValue("attachments.attachmentsToLink", [
-      ...(formik.values.attachments.attachmentsToLink || []),
-      {
-        inboxItemId: attachment.inboxItemId,
-        attachmentId: attachment.fileId,
-        isRemoved: false,
-        restoreAttachment: true,
-        isDirectFileReference: false,
-      },
-    ]);
     if (formik.values.attachments.attachments.length >= 5) {
       toast.warning(
         intl.formatMessage({
@@ -123,6 +113,16 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
         attachment,
       ]);
     }
+    formik.setFieldValue("attachments.attachmentsToLink", [
+      ...(formik.values.attachments.attachmentsToLink || []),
+      {
+        inboxItemId: attachment.inboxItemId,
+        attachmentId: attachment.fileId,
+        isRemoved: false,
+        restoreAttachment: true,
+        isDirectFileReference: false,
+      },
+    ]);
   };
 
   const uploadAllFiles = async () => {
@@ -134,31 +134,65 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
 
     try {
       const formData = new FormData();
-
       tempFiles.forEach((file: any) => {
         formData.append("files", file);
       });
+
       const response = await uploadAttachments(formData);
+      let attachmentsToAdd: any[] = [];
+      let attachmentsToLink: any[] = [];
+      let currentAttachmentCount = formik.values.attachments.attachments.length;
       setTimeout(() => {
         if (response.isValid) {
-          // Reset states
+          response.extraResult.forEach((result: any) => {
+            const newAttachmentsCount = response.extraResult.length;
 
-          // setSelectedFiles([]);
+            // Collect all attachments in arrays before updating Formik values
 
+            // Check if the total exceeds 5
+            console.log(currentAttachmentCount);
+            if (currentAttachmentCount < 5) {
+              attachmentsToAdd.push(result);
+              attachmentsToLink.push({
+                inboxItemId: result.inboxItemId,
+                attachmentId: result.fileId,
+                isRemoved: false,
+                restoreAttachment: true,
+                isDirectFileReference: false,
+              });
+              currentAttachmentCount++;
+            } else {
+              toast.warning(
+                intl.formatMessage({
+                  id: "System.AccessValidation_MaxAttachmentUploadOnCommon",
+                })
+              );
+              return; // Exit if limit is exceeded}
+
+              // Collect each attachment for both `attachments.attachments` and `attachments.attachmentsToLink`
+            }
+          });
+
+          // Update Formik values once after processing all files
+          formik.setFieldValue("attachments.attachments", [
+            ...(formik.values.attachments.attachments || []),
+            ...attachmentsToAdd,
+          ]);
+
+          formik.setFieldValue("attachments.attachmentsToLink", [
+            ...(formik.values.attachments.attachmentsToLink || []),
+            ...attachmentsToLink,
+          ]);
+
+          // Update completed files and reset temp state
           setCompletedFiles((prevFiles: any) => [...prevFiles, ...tempFiles]);
-
-          let count = response.extraResult.length;
-          for (let i = 0; i < count; i++) {
-            handleLink(response.extraResult[i]);
-          }
-
           setTempFiles([]);
-
           setUploading(false);
           setProgressList([]);
         }
+
         handleToast(response);
-      }, 2500);
+      }, 2000);
     } catch (error) {
       console.error("Error processing upload:", error);
     }
@@ -341,7 +375,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                   <div className=" d-flex justify-content-between">
                     <button
                       type="button"
-                      className="btn btn-primary me-2 text-start "
+                      className="btn btn-dark me-2 text-start "
                       {...getRootProps()}
                     >
                       <i className="ki-duotone ki-add-files fs-1 me-1">
@@ -355,7 +389,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                     <div className="d-flex">
                       <button
                         type="button"
-                        className="btn btn-primary me-2 text-start align-items-center d-flex"
+                        className="btn btn-dark me-2 text-start align-items-center d-flex"
                         onClick={uploadAllFiles}
                         disabled={uploading || tempFiles.length === 0}
                       >
@@ -511,7 +545,11 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                                   </i>
                                 </button>
                               </Tooltip>
-
+                              {
+                                console.log(
+                                  formik.values.attachments.attachments
+                                )!
+                              }
                               {/* Pin Button */}
                               {!formik.values.attachments?.attachments?.find(
                                 (item) => item.id === attachment.id
