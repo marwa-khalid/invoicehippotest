@@ -213,7 +213,9 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                                   fetchProductById(product.id);
                                 }}
                               >
-                                <span className=" fw-bold">
+                                <span className="fw-bold">
+                                  <i className="fa-brands fa-product-hunt text-dark"></i>
+                                  &nbsp;
                                   {product.title}
                                 </span>
                               </div>
