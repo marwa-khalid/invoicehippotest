@@ -32,9 +32,21 @@ const QuoteAddStep2: FC<Props> = ({
   const intl = useIntl();
   const [productModalOpen, setProductModalOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
-  const [productPicker, setProductPicker] = useState<boolean>(false);
+  const [productPicker, setProductPicker] = useState<any>();
   const [productModalIndex, setProductModalIndex] = useState<number>();
   const auth = useAuth();
+
+  const handleTempInputChange = (key: any, value: any) => {
+    setSelectedProduct((prev: any) => ({ ...prev, [key]: value })); // update temporary state
+  };
+
+  const handleQuillChange = (key: any, content: string) => {
+    setSelectedProduct((prev: any) => ({ ...prev, [key]: content }));
+  };
+  const handleSave = () => {
+    formik.setFieldValue(`products[${productModalIndex}]`, selectedProduct); // update Formik with temp values
+    setProductModalOpen(false);
+  };
 
   const handleInputChange = (index: number, field: string, value: any) => {
     const updatedProducts = [...formik.values.products];
@@ -109,9 +121,6 @@ const QuoteAddStep2: FC<Props> = ({
     formik.setFieldValue("products", updatedProducts);
   };
 
-  const handleQuillChange = (index: number, content: string) => {
-    formik.setFieldValue(`products[${index}].description`, content);
-  };
   return (
     <div className="modal-body" id="#kt_tab_pane_5">
       <form className="form p-3" noValidate>
@@ -119,7 +128,7 @@ const QuoteAddStep2: FC<Props> = ({
           {/* Button at the top-right corner */}
           <div className="d-flex justify-content-end mb-4">
             <button
-              className="btn btn-primary d-inline-flex align-items-center "
+              className="btn btn-primary d-inline-flex align-items-center"
               onClick={(e) => {
                 e.preventDefault();
                 setProductPicker(true);
@@ -195,7 +204,7 @@ const QuoteAddStep2: FC<Props> = ({
                             aria-modal="true"
                           >
                             <div
-                              className="modal-dialog "
+                              className="modal-dialog"
                               style={{ minWidth: "600px" }}
                             >
                               <div className="modal-content">
@@ -206,7 +215,7 @@ const QuoteAddStep2: FC<Props> = ({
                                     })}
                                   </h5>
                                   <div
-                                    className="btn btn-icon btn-sm  ms-2"
+                                    className="btn btn-icon btn-sm ms-2"
                                     data-bs-dismiss="modal"
                                     aria-label="Close"
                                     onClick={() => setProductModalOpen(false)}
@@ -237,24 +246,28 @@ const QuoteAddStep2: FC<Props> = ({
                                         className="form-check-input h-20px w-40px"
                                         type="checkbox"
                                         id="isBtwExclusiveSwitch"
-                                        defaultChecked
-                                        {...formik.getFieldProps(
-                                          `products[${index}].btwExclusive`
-                                        )}
+                                        checked={
+                                          selectedProduct.btwExclusive || false
+                                        }
+                                        onChange={(e) =>
+                                          handleTempInputChange(
+                                            "btwExclusive",
+                                            e.target.checked
+                                          )
+                                        }
                                       />
                                     </div>
                                   </div>
                                   <div className="row mb-5">
                                     <input
                                       type="text"
-                                      onChange={(e) => {
-                                        handleInputChange(
-                                          index,
+                                      onChange={(e) =>
+                                        handleTempInputChange(
                                           "title",
                                           e.target.value
-                                        );
-                                      }}
-                                      value={product.title}
+                                        )
+                                      }
+                                      value={selectedProduct.title || ""}
                                       className="form-control form-control-solid"
                                       placeholder={intl.formatMessage({
                                         id: "Fields.Product",
@@ -269,17 +282,15 @@ const QuoteAddStep2: FC<Props> = ({
                                         })}
                                       </label>
                                       <Select
-                                        value={ledgers?.find((ledger: any) => {
-                                          return (
+                                        value={ledgers?.find(
+                                          (ledger: any) =>
                                             ledger.value ===
-                                            product.ledgerAccountId
-                                          );
-                                        })}
+                                            selectedProduct.ledgerAccountId
+                                        )}
                                         className="react-select-styled"
                                         options={ledgers}
-                                        onChange={(e: any) =>
-                                          handleInputChange(
-                                            index,
+                                        onChange={(e) =>
+                                          handleTempInputChange(
                                             "ledgerAccountId",
                                             e?.value
                                           )
@@ -290,26 +301,21 @@ const QuoteAddStep2: FC<Props> = ({
                                       />
                                     </div>
                                     <div className="fv-row col-4">
-                                      <label className=" fw-bold fs-6 mb-3">
+                                      <label className="fw-bold fs-6 mb-3">
                                         {intl.formatMessage({
                                           id: "Fields.TotalDiscountSummary",
                                         })}
                                       </label>
-
                                       <Select
                                         value={discountTypes?.find(
-                                          (discountType: any) => {
-                                            return (
-                                              discountType.value ===
-                                              product.discountMarginId
-                                            );
-                                          }
+                                          (discountType: any) =>
+                                            discountType.value ===
+                                            selectedProduct.discountMarginId
                                         )}
                                         className="react-select-styled"
                                         options={discountTypes}
-                                        onChange={(e: any) =>
-                                          handleInputChange(
-                                            index,
+                                        onChange={(e) =>
+                                          handleTempInputChange(
                                             "discountMarginId",
                                             e?.value
                                           )
@@ -351,9 +357,14 @@ const QuoteAddStep2: FC<Props> = ({
                                           placeholder="Jouw tekst hier..."
                                           style={{ height: "300px" }}
                                           onChange={(content) =>
-                                            handleQuillChange(index, content)
+                                            handleQuillChange(
+                                              "description",
+                                              content
+                                            )
                                           }
-                                          value={product.description}
+                                          value={
+                                            selectedProduct.description || ""
+                                          }
                                         />
                                       </div>
                                     </div>
@@ -364,6 +375,7 @@ const QuoteAddStep2: FC<Props> = ({
                                     type="button"
                                     className="btn btn-secondary"
                                     data-bs-dismiss="modal"
+                                    onClick={() => setProductModalOpen(false)}
                                   >
                                     {intl.formatMessage({
                                       id: "Fields.ActionClose",
@@ -372,10 +384,7 @@ const QuoteAddStep2: FC<Props> = ({
                                   <button
                                     type="button"
                                     className="btn btn-primary"
-                                    disabled={!product.title}
-                                    onClick={() => {
-                                      setProductModalOpen(false);
-                                    }}
+                                    onClick={handleSave}
                                   >
                                     {intl.formatMessage({
                                       id: "Fields.SearchApplyBtn",
@@ -385,13 +394,6 @@ const QuoteAddStep2: FC<Props> = ({
                               </div>
                             </div>
                           </div>
-                        )}
-
-                        {productPicker && (
-                          <ProductPicker
-                            setProductPicker={setProductPicker}
-                            formik={formik}
-                          />
                         )}
 
                         <Draggable
@@ -637,6 +639,9 @@ const QuoteAddStep2: FC<Props> = ({
           </DragDropContext>
         </div>
       </form>
+      {productPicker && (
+        <ProductPicker setProductPicker={setProductPicker} formik={formik} />
+      )}
     </div>
   );
 };

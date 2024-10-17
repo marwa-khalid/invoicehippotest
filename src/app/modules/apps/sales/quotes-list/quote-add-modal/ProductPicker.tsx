@@ -215,7 +215,7 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                                   fetchProductById(product.id);
                                 }}
                               >
-                                <span className="text-primary fw-bold">
+                                <span className=" fw-bold">
                                   {product.title}
                                 </span>
                               </div>
