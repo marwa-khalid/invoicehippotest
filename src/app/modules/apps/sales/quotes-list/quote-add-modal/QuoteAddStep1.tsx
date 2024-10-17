@@ -107,6 +107,7 @@ export interface FormValues {
         fileId: number;
         fileType: { value: number; name: string; description: string };
         downloadUrl: string;
+        fileExtension: any;
       };
       actions: {
         canDelete: boolean;
