@@ -27,7 +27,7 @@ const QuoteAddModalFooter = ({
       <div className="btn-group" role="group">
         <button
           type="button"
-          className="btn btn-primary d-flex align-items-center"
+          className="btn btn-dark d-flex align-items-center"
           onClick={() => setAttachmentsModalOpen(true)}
         >
           <i className="fas fa-upload me-2"></i>
