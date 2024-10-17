@@ -251,12 +251,12 @@ const ClientAddModal = ({
           } else {
             handleToast(postContactsPromise);
           }
+
+          if (close) {
+            setAddModalOpen(false);
+          }
         }
         handleToast(response);
-
-        if (close) {
-          setAddModalOpen(false);
-        }
       } catch (error) {
         console.error("Post failed:", error);
       } finally {
