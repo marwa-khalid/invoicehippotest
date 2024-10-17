@@ -63,7 +63,7 @@ const QuoteAddModalHeader = ({
     }
   };
   return (
-    <div className="modal-header d-flex flex-column bg-primary pb-3">
+    <div className="modal-header d-flex flex-column bg-dark pb-3">
       <div className="d-flex justify-content-between align-items-center w-100">
         <div>
           <span className="text-secondary">
