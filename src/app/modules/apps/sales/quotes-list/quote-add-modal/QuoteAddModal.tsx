@@ -220,6 +220,7 @@ Props) => {
                 name: "",
                 description: "",
               },
+              fileExtension: null,
               downloadUrl: "",
             },
             actions: {
@@ -544,6 +545,7 @@ Props) => {
 
   const [restoreModalOpen, setRestoreModalOpen] = useState<boolean>(false);
   const [downloadUrl, setDownloadUrl] = useState<string>("");
+  const [fileExtension, setFileExtension] = useState<any>();
   const [selectedAttachment, setSelectedAttachment] = useState<any>();
 
   const handleDelete = (attachment: any) => {
@@ -1065,7 +1067,10 @@ Props) => {
                   )}
                 </div>
 
-                <QuoteViewModal downloadUrl={downloadUrl} />
+                <QuoteViewModal
+                  downloadUrl={downloadUrl}
+                  fileExtension={fileExtension}
+                />
 
                 {/* Collapsible section for multiple attachments */}
                 <div className={`collapse ${!isCollapsed ? "show" : ""}`}>
@@ -1111,11 +1116,14 @@ Props) => {
                                 data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasRight"
                                 aria-controls="offcanvasRight"
-                                onClick={() =>
+                                onClick={() => {
                                   setDownloadUrl(
                                     attachment.downloadInfo.downloadUrl
-                                  )
-                                }
+                                  );
+                                  setFileExtension(
+                                    attachment.downloadInfo.fileExtension
+                                  );
+                                }}
                               >
                                 {attachment.fileName}
                               </span>
@@ -1134,11 +1142,14 @@ Props) => {
                                 data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasRight"
                                 aria-controls="offcanvasRight"
-                                onClick={() =>
+                                onClick={() => {
                                   setDownloadUrl(
                                     attachment.downloadInfo.downloadUrl
-                                  )
-                                }
+                                  );
+                                  setFileExtension(
+                                    attachment.downloadInfo.fileExtension
+                                  );
+                                }}
                               >
                                 <i className="ki-solid ki-eye fs-1"></i>
                               </button>

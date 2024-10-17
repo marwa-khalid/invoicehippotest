@@ -18,6 +18,7 @@ interface ComponentProps {
   setQuoteNumber: (type: string) => void;
   setDeleteModalOpen: (type: boolean) => void;
   setDownloadUrl: (type: string) => void;
+  setFileExtension: (type: any) => void;
   refresh: boolean;
   setPageIndex: (type: number) => void;
   pageIndex: number;
@@ -33,6 +34,7 @@ const QuoteList = ({
   setQuoteNumber,
   setDeleteModalOpen,
   setDownloadUrl,
+  setFileExtension,
   searchCounter,
   refresh,
   setPageIndex,
@@ -300,7 +302,7 @@ const QuoteList = ({
                               <span className="text-primary fw-bolder">
                                 {quoteList.quoteDueDateAsString}
                               </span>
-                            </div> 
+                            </div>
                           </div>
                         </>
                       )}
@@ -382,6 +384,9 @@ const QuoteList = ({
                               setQuoteNumber(quoteList.quoteNr);
                               setDownloadUrl(
                                 quoteList.downloadInfo.downloadUrl
+                              );
+                              setFileExtension(
+                                quoteList.downloadInfo.fileExtension
                               );
                             }}
                           >

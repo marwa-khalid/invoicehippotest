@@ -200,6 +200,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
 
   useEffect(() => {}, []);
   const [downloadUrl, setDownloadUrl] = useState<string>("");
+  const [fileExtension, setFileExtension] = useState<any>();
 
   return (
     <>
@@ -232,7 +233,10 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
               </div>
             </div>
             <div className="modal-body " style={{ minHeight: "300px" }}>
-              <QuoteViewModal downloadUrl={downloadUrl} />
+              <QuoteViewModal
+                downloadUrl={downloadUrl}
+                fileExtension={fileExtension}
+              />
               <ul className="nav nav-tabs nav-line-tabs nav-line-tabs-2xe mb-5 fs-6 align-items-center d-flex justify-content-start">
                 <li className="nav-item">
                   <a
@@ -535,6 +539,9 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                                   onClick={() => {
                                     setDownloadUrl(
                                       attachment.downloadInfo.downloadUrl
+                                    );
+                                    setFileExtension(
+                                      attachment.downloadInfo.fileExtension
                                     );
                                   }}
                                 >

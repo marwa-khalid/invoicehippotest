@@ -33,6 +33,7 @@ const QuoteListInnerWrapper = () => {
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [downloadUrl, setDownloadUrl] = useState<string>("");
+  const [fileExtension, setFileExtension] = useState<any>();
   const [quoteNumber, setQuoteNumber] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
   const [deleteModalId, setDeleteModalId] = useState<number[]>([0]);
@@ -54,6 +55,7 @@ const QuoteListInnerWrapper = () => {
         searchTerm={searchTerm}
         setTotalRows={setTotalRows}
         setDownloadUrl={setDownloadUrl}
+        setFileExtension={setFileExtension}
         setAddModalOpen={setAddModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
         setEditModalId={setEditModalId}
@@ -78,7 +80,7 @@ const QuoteListInnerWrapper = () => {
         />
       )}
 
-      <QuoteViewModal downloadUrl={downloadUrl} />
+      <QuoteViewModal downloadUrl={downloadUrl} fileExtension={fileExtension} />
 
       {deleteModalOpen && (
         <QuoteDeleteModal
