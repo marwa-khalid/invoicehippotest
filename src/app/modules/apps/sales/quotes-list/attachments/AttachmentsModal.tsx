@@ -532,7 +532,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                                 placement="top"
                               >
                                 <button
-                                  className="btn btn-icon btn-dark btn-sm me-2"
+                                  className="btn btn-icon btn-dark btn-sm me-2 cursor-pointer "
                                   data-bs-toggle="offcanvas"
                                   data-bs-target="#offcanvasRight"
                                   aria-controls="offcanvasRight"

@@ -1112,7 +1112,7 @@ Props) => {
 
                             <div className="ms-2">
                               <span
-                                className="text-primary fw-bold"
+                                className="text-primary fw-bold cursor-pointer"
                                 data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasRight"
                                 aria-controls="offcanvasRight"
