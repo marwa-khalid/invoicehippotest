@@ -587,7 +587,15 @@ Props) => {
       formik.setFieldValue("customizations.useCustomQuoteNr", false);
     }
   }, [extraOptionsModal]);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+  useEffect(() => {
+    if (formik.values.attachments?.attachments?.length === 1) {
+      setIsCollapsed(false);
+    } else {
+      setIsCollapsed(true);
+    }
+  }, [formik.values.attachments?.attachments?.length]);
+
   return (
     <>
       <div
