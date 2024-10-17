@@ -196,10 +196,8 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
 
                   return (
                     <div key={index}>
-                      <table className="table table-row-dashed table-hover table-row-gray-300 gy-7">
-                        <thead>
-                          <tr></tr>
-                        </thead>
+                      <table className="table table-row-dashed table-row-gray-300 gy-7">
+                        <thead></thead>
                         <tbody>
                           <tr className="table-row-dashed">
                             <td width={350}>
