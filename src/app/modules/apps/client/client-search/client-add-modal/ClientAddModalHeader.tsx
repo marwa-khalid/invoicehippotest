@@ -51,7 +51,7 @@ const ClientAddModalHeader = ({
                   className="btn-close "
                   onClick={onClose}
                 ></button>
-              
+
                 <span className="svg-icon svg-icon-5tx svg-icon-warning mb-5">
                   <i className="ki-duotone ki-information-3 text-warning fs-3x">
                     <span className="path1"></span>
@@ -82,7 +82,7 @@ const ClientAddModalHeader = ({
   };
 
   return (
-    <div className="modal-header d-flex flex-column bg-primary pb-3 ">
+    <div className="modal-header d-flex flex-column bg-dark pb-3 ">
       <CustomAlertModal show={showModal} onClose={() => setShowModal(false)} />
       {/* Modal title */}
       <div className="fv-row col-12 d-flex flex-row justify-content-between align-items-center mb-0">
@@ -113,7 +113,7 @@ const ClientAddModalHeader = ({
           <KTIcon iconName="cross" className="fs-1 text-white" />
         </div>
       </div>
-      <ul
+      {/* <ul
         style={{ borderBottom: "0" }}
         className="modal-header fv-row col-12 nav nav-tabs nav-line-tabs nav-line-tabs-2x p-0 fs-5 mt-4 d-flex justify-content-around text-white"
       >
@@ -134,7 +134,6 @@ const ClientAddModalHeader = ({
           </a>
         </li>
 
-        {/* Contact Person Settings Tab */}
         <li className="nav-item flex-fill text-center">
           <a
             className={`nav-link d-flex align-items-center justify-content-center ${
@@ -159,7 +158,6 @@ const ClientAddModalHeader = ({
           </a>
         </li>
 
-        {/* overige instellingen Tab */}
         <li className="nav-item flex-fill text-center">
           <a
             className={`nav-link d-flex align-items-center justify-content-center ${
@@ -181,7 +179,7 @@ const ClientAddModalHeader = ({
           </a>
         </li>
 
-        {/* Custom Features Tab */}
+      
         {!hideTab4 && (
           <li className="nav-item flex-fill text-center">
             <a
@@ -205,7 +203,7 @@ const ClientAddModalHeader = ({
             </a>
           </li>
         )}
-      </ul>
+      </ul> */}
     </div>
   );
 };

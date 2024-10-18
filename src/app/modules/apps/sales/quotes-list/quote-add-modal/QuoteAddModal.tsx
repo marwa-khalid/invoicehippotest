@@ -748,58 +748,65 @@ Props) => {
                         </div>
                       </div>
                       <div className="modal-body">
-                        <div className="row d-flex mb-7 mt-3">
-                          <div className="form-check form-switch mt-1 ms-2 d-flex align-items-center">
-                            <input
-                              className="form-check-input h-20px w-40px me-5"
-                              type="checkbox"
-                              id="customNrSwitch"
-                              checked={
-                                formik.values.customizations.useCustomQuoteNr
-                              }
-                              onChange={(e) => {
-                                formik.setFieldValue(
-                                  "customizations.useCustomQuoteNr",
-                                  !formik.values.customizations.useCustomQuoteNr
-                                );
-                              }}
-                            />
-                            <label
-                              className="form-check-label fs-sm text-muted"
-                              htmlFor="customNrSwitch"
-                            >
-                              {intl.formatMessage({
-                                id: "Fields.UseCustomQuoteNr",
-                              })}
-                            </label>
-                          </div>
-                          {formik.values.customizations.useCustomQuoteNr && (
-                            <div className="mt-5 ms-14 col-11">
-                              <label className="required fw-bold fs-6 mb-3">
-                                {intl.formatMessage({
-                                  id: "Fields.CustomQuoteNr",
-                                })}
-                              </label>
-                              <input
-                                type="text"
-                                maxLength={20}
-                                className="form-control form-control-solid"
-                                value={
-                                  formik.values.customizations.customQuoteNr
-                                }
-                                onChange={(e) => {
-                                  formik.setFieldValue(
-                                    "customizations.customQuoteNr",
-                                    e.target.value
-                                  );
-                                }}
-                              />
+                        {formik.values.status != 1 && (
+                          <>
+                            <div className="row d-flex mb-7 mt-3">
+                              <div className="form-check form-switch mt-1 ms-2 d-flex align-items-center">
+                                <input
+                                  className="form-check-input h-20px w-40px me-5"
+                                  type="checkbox"
+                                  id="customNrSwitch"
+                                  checked={
+                                    formik.values.customizations
+                                      .useCustomQuoteNr
+                                  }
+                                  onChange={(e) => {
+                                    formik.setFieldValue(
+                                      "customizations.useCustomQuoteNr",
+                                      !formik.values.customizations
+                                        .useCustomQuoteNr
+                                    );
+                                  }}
+                                />
+                                <label
+                                  className="form-check-label fs-sm text-muted"
+                                  htmlFor="customNrSwitch"
+                                >
+                                  {intl.formatMessage({
+                                    id: "Fields.UseCustomQuoteNr",
+                                  })}
+                                </label>
+                              </div>
+                              {formik.values.customizations
+                                .useCustomQuoteNr && (
+                                <div className="mt-5 ms-14 col-11">
+                                  <label className="required fw-bold fs-6 mb-3">
+                                    {intl.formatMessage({
+                                      id: "Fields.CustomQuoteNr",
+                                    })}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    maxLength={20}
+                                    className="form-control form-control-solid"
+                                    value={
+                                      formik.values.customizations.customQuoteNr
+                                    }
+                                    onChange={(e) => {
+                                      formik.setFieldValue(
+                                        "customizations.customQuoteNr",
+                                        e.target.value
+                                      );
+                                    }}
+                                  />
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
 
-                        <div className="border-bottom w-100 mt-10 mb-10"></div>
-                        <div className="row d-flex mb-7">
+                            <div className="border-bottom w-100 mt-10 mb-7"></div>
+                          </>
+                        )}
+                        <div className="row d-flex mb-7 mt-3">
                           <div className="form-check form-switch mt-1 ms-2 d-flex align-items-center">
                             <input
                               className="form-check-input h-20px w-40px me-5"
@@ -827,9 +834,9 @@ Props) => {
                           </div>
                         </div>
                         <div className="border-bottom w-100 mt-10 mb-10"></div>
-                        <div className="d-flex info-container p-5 bg-secondary">
+                        <div className="d-flex info-container p-5 bg-secondary alert">
                           <div className="col-1 mx-5">
-                            <i className="ki-duotone ki-information-4 fs-3x text-center">
+                            <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
                               <span className="path1"></span>
                               <span className="path2"></span>
                               <span className="path3"></span>

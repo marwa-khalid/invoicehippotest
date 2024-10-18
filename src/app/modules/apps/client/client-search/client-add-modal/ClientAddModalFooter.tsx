@@ -57,7 +57,7 @@ const ClientAddModalFooter = ({
 
       <button
         type="submit"
-        className="btn btn-primary"
+        className="btn btn-dark"
         onClick={() => checkIdAndHandleTab()}
         disabled={isAnySubmitting} // Disable if any button is submitting
       >
@@ -72,7 +72,7 @@ const ClientAddModalFooter = ({
 
       <button
         type="submit"
-        className="btn btn-primary"
+        className="btn btn-dark"
         onClick={() => {
           formik.handleSubmit();
           setClose(true);

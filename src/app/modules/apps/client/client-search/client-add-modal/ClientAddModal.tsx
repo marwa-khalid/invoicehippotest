@@ -14,6 +14,10 @@ import { ClientAddModalForm } from "./ClientAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { useAuth } from "../../../../auth";
 import { toast } from "react-toastify";
+import { ClientAddStep4 } from "./ClientAddStep4";
+import { ClientAddStep3 } from "./ClientAddStep3";
+import { ClientAddStep2 } from "./ClientAddStep2";
+import { ClientAddStep1 } from "./ClientAddStep1";
 interface Props {
   setRefresh: (type: boolean) => void;
   refresh: boolean;
@@ -54,6 +58,36 @@ const ClientAddModal = ({
   const [disableTabs, setDisableTabs] = useState(true);
   const [close, setClose] = useState(false);
 
+  const tabs = [
+    {
+      id: "tab1",
+      label: intl.formatMessage({ id: "Fields.ClientSettings" }),
+      icon: <i className="fa-regular fa-address-book fs-3 hippo-tab-icon"></i>,
+    },
+    {
+      id: "tab2",
+      label: intl.formatMessage({ id: "Fields.ContactPersonSettings" }),
+      icon: <i className="fa-solid fa-file-invoice fs-3 hippo-tab-icon"></i>,
+    },
+    {
+      id: "tab3",
+      label: "overige instellingen",
+      icon: (
+        <i className="fa-regular fa-closed-captioning fs-3 hippo-tab-icon"></i>
+      ),
+    },
+    {
+      id: "tab4",
+      label: intl.formatMessage({ id: "Fields.SideMenuCustomFeatures" }),
+      icon: <i className="fa-solid fa-file-invoice fs-3 hippo-tab-icon"></i>,
+    },
+  ];
+
+  const [activeTab, setActiveTab] = useState(tabs[0]);
+
+  const handleTabClick = (tab: any) => {
+    setActiveTab(tab);
+  };
   const formik = useFormik({
     initialValues: {
       customFields: [
@@ -318,21 +352,69 @@ const ClientAddModal = ({
               disableTabs={disableTabs}
               hideTab4={hideTab4}
             />
+            <div className="hippo-tab-manager d-flex justify-content-between p-5 flex-grow-1 bg-secondary">
+              <div className="d-flex justify-content-start">
+                {tabs.map((tab: any) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => {
+                      handleTabClick(tab);
+                    }}
+                    className={`btn btn-light border-0 mx-2 px-4 ${
+                      activeTab.id === tab.id
+                        ? "hippo-selected-tab btn-dark"
+                        : "text-gray bg-body"
+                    }  `}
+                    data-bs-toggle="tab"
+                    style={{ borderBottomColor: "1px solid black" }}
+                  >
+                    {tab.icon}
+                    <span className="me-1">|</span>
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="hippo-tab-content" id="myTabContent">
+              {activeTab.id === "tab1" && (
+                <ClientAddStep1
+                  formik={formik}
+                  isSubmitting={isSubmitting}
+                  setAddModalOpen={setAddModalOpen}
+                  setResponse={setResponse}
+                />
+              )}
 
-            <ClientAddModalForm
-              formik={formik}
-              refresh={refresh}
-              isSubmitting={isSubmitting}
-              setIsSubmitting={setIsSubmitting}
-              setDeleteModalOpen={setDeleteModalOpen}
-              setDeleteModalId={setDeleteModalId}
-              setIntlMessage={setIntlMessage}
-              setTitle={setTitle}
-              setAddModalOpen={setAddModalOpen}
-              deleteModalOpen={deleteModalOpen}
-              response={response}
-              setResponse={setResponse}
-            />
+              {activeTab.id === "tab2" && (
+                <ClientAddStep2
+                  clientId={response?.id}
+                  refresh={refresh}
+                  formik={formik}
+                  // setDeleteModalOpen={setDeleteModalOpen}
+                  // setDeleteModalId={setDeleteModalId}
+                  // setIntlMessage={setIntlMessage}
+                  // setTitle={setTitle}
+                  // deleteModalOpen={deleteModalOpen}
+                />
+              )}
+              {activeTab.id === "tab3" && (
+                <ClientAddStep3
+                  setIsSubmitting={setIsSubmitting}
+                  isSubmitting={isSubmitting}
+                  formik={formik}
+                  setAddModalOpen={setAddModalOpen}
+                />
+              )}
+
+              {activeTab.id === "tab4" && (
+                <ClientAddStep4
+                  setIsSubmitting={setIsSubmitting}
+                  isSubmitting={isSubmitting}
+                  formik={formik}
+                  setAddModalOpen={setAddModalOpen}
+                />
+              )}
+            </div>
 
             <ClientAddModalFooter
               formik={formik}

@@ -77,22 +77,21 @@ interface FormValues {
     countryType: number;
   };
   contactlist: {
-    contacts: [
-      {
-        id: 0;
-        clientId: 0;
-        isDefaultContact: true;
-        firstName: "";
-        betweenName: "";
-        lastName: "";
-        addressingType: 0;
-        emailAddress: "";
-        phoneNr: "";
-        mobileNr: "";
-        department: "";
-      }
-    ];
-    listOfDeletedClientContactIDs: [0];
+    contacts: {
+      id: number;
+      clientId: number;
+      isDefaultContact: boolean;
+      firstName: string;
+      betweenName: string;
+      lastName: string;
+      addressingType: number;
+      emailAddress: string;
+      phoneNr: string;
+      mobileNr: string;
+      department: string;
+    }[];
+
+    listOfDeletedClientContactIDs: number[];
   };
   hasCustomFields: boolean;
 }
