@@ -25,6 +25,10 @@ interface ComponentProps {
   deleteModalOpen: boolean;
   addModalOpen: boolean;
   searchCounter: number;
+  periodValueType: any;
+  quoteStatusTypes: any;
+  clientIdForFilter: number;
+  year: number;
 }
 const QuoteList = ({
   searchTerm,
@@ -41,17 +45,73 @@ const QuoteList = ({
   pageIndex,
   deleteModalOpen,
   addModalOpen,
+  periodValueType,
+  quoteStatusTypes,
+  clientIdForFilter,
+  year,
 }: ComponentProps) => {
   const [quoteLists, setQuoteList] = useState<any>([]);
 
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const auth = useAuth();
+
+  const getDateRange = (period: any, tempYear: any) => {
+    const periodValue = typeof period === "number" ? period : period?.Value;
+
+    switch (periodValue) {
+      case 101:
+        return `01-01-${tempYear} - 31-03-${tempYear}`;
+      case 102:
+        return `01-04-${tempYear} - 30-06-${tempYear}`;
+      case 103:
+        return `01-07-${tempYear} - 30-09-${tempYear}`;
+      case 104:
+        return `01-10-${tempYear} - 31-12-${tempYear}`;
+      case 201:
+        return `01-01-${tempYear} - 30-06-${tempYear}`;
+      case 202:
+        return `01-07-${tempYear} - 31-12-${tempYear}`;
+      case 13:
+        return `01-01-${tempYear} - 31-12-${tempYear}`;
+      default:
+        return "";
+    }
+  };
+  function parseDate(dateString: any) {
+    const [day, month, year] = dateString.split("-");
+    return new Date(year, month - 1, day); // Month is 0-indexed in JavaScript
+  }
   const fetchQuotes = async () => {
     setIsLoading(true);
+    console.log(periodValueType, quoteStatusTypes, clientIdForFilter);
+    let value;
+    if (periodValueType != 0 && periodValueType != null) {
+      const range = getDateRange(periodValueType, year);
+      // if (!range) return null;
+      console.log(range);
+      const [startDate, endDate] = range.split(" - ");
+      console.log(startDate);
+      console.log(endDate);
+      const start = parseDate(startDate).toISOString();
+      const end = parseDate(endDate).toISOString();
+      console.log(start);
+      console.log(end);
+      value = {
+        startDate: start,
+        endDate: end,
+      };
+    }
+    console.log(value);
 
     try {
-      const response = await getQuotes(searchTerm, pageIndex);
+      const response = await getQuotes(
+        searchTerm,
+        pageIndex,
+        value,
+        quoteStatusTypes,
+        clientIdForFilter
+      );
       setQuoteList(response);
 
       setPageIndex(response.pageIndex);
@@ -69,11 +129,18 @@ const QuoteList = ({
 
   useEffect(() => {
     fetchQuotes();
-  }, [searchTerm, pageIndex, searchCounter]);
+  }, [
+    searchTerm,
+    pageIndex,
+    periodValueType,
+    quoteStatusTypes,
+    clientIdForFilter,
+    searchCounter,
+  ]);
 
   useEffect(() => {
     fetchQuotes();
-  }, [refresh, deleteModalOpen, addModalOpen]);
+  }, [refresh]);
 
   const openEditModal = (id: number) => {
     setEditModalId(id);

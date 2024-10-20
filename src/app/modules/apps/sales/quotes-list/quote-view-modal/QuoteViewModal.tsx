@@ -18,7 +18,6 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
         {
           path: "/WebViewer/lib", // Adjust this path as needed for your project structure
           licenseKey: VIEWER_LICENSE_KEY,
-
           ui: "beta",
           initialDoc: downloadUrl,
           fullAPI: true, // Add this to enable full API support, including image format
@@ -42,7 +41,7 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
         const mainMenu = new instance.UI.Components.MainMenu();
 
         // @ts-ignore comment.
-        const errorModalCloseButton = new UI.Components.CustomButton({
+        const errorModalCloseButton = new instance.UI.Components.CustomButton({
           dataElement: "errorModalCloseButton",
           label: "close",
           title: "this is a close button",

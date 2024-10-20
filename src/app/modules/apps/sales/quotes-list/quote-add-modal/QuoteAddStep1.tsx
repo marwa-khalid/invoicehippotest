@@ -208,6 +208,9 @@ const QuoteAddStep1: FC<Props> = ({
     label: contact.fullName,
   }));
 
+  const handleClose = () => {
+    setClientSearch(false);
+  };
   // Auto-select if there's only one contact
   // useEffect(() => {
   //   if (contactsArray.length === 1) {
@@ -418,7 +421,7 @@ const QuoteAddStep1: FC<Props> = ({
           />
         )}
         {clientSearch && (
-          <ClientSearch setClientSearch={setClientSearch} formik={formik} />
+          <ClientSearch handleClose={handleClose} formik={formik} />
         )}
       </div>
     </>

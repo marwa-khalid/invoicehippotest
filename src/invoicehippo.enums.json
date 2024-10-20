@@ -8022,7 +8022,6 @@
       "HasGroup": false
     }
   ],
-
   "QuoteStatusTypes": [
     {
       "Title": "Concept",
@@ -8150,6 +8149,611 @@
       "Symbol": null,
       "HasSymbol": false,
       "Value": 2048,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    }
+  ],
+
+  "TaxDeclarationPeriodTypes": [
+    {
+      "Title": "None",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 0,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "PerMonth",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "PerQuarter",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "PerYear",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 4,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "CustomPeriod",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 8,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Semester1",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 16,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Semester2",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 32,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    }
+  ],
+  "TaxDeclarationModeTypes": [
+    {
+      "Title": "None",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 0,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Normal",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Disabled",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "ViewOnly",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 4,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "ViewOnlyWithValidation",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 8,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    }
+  ],
+  "SortTypes": [
+    {
+      "Title": "None",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 0,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Ascending",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Descending",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Unkown",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": -1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Unkown",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": -1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Unkown",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": -1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    }
+  ],
+  "TaxDeclarationPeriodValueTypes": [
+    {
+      "Title": "None",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 0,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Jan",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Feb",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Mar",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 3,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Apr",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 4,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "May",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 5,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Jun",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 6,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Jul",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 7,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Aug",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 8,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Sep",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 9,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Oct",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 10,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Nov",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 11,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Dec",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 12,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Year",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 13,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "CustomPeriod",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 14,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "FirstQuarter",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 101,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "SecondQuarter",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 102,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "ThirdQuarter",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 103,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "FourthQuarter",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 104,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Semester1",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 201,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Semester2",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 202,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Unkown",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": -1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Unkown",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": -1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Unkown",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": -1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    }
+  ],
+  "MonthTypes": [
+    {
+      "Title": "Jan",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Feb",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Mar",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 3,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Apr",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 4,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "May",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 5,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Jun",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 6,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Jul",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 7,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Aug",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 8,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Sep",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 9,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Oct",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 10,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Nov",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 11,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Dec",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 12,
       "SubGroup": null,
       "HasSubGroup": false,
       "Group": null,

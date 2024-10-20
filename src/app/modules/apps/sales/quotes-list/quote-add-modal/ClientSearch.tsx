@@ -10,10 +10,10 @@ import {
   getClients,
 } from "../../../client/client-search/core/_requests";
 interface Props {
-  setClientSearch: (type: boolean) => void;
-  formik: FormikProps<FormValues>;
+  handleClose: any;
+  formik: FormikProps<FormValues> | null;
 }
-const ClientSearch: FC<Props> = ({ setClientSearch, formik }) => {
+const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
   const intl = useIntl();
   const [localSearchTerm, setLocalSearchTerm] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -42,11 +42,15 @@ const ClientSearch: FC<Props> = ({ setClientSearch, formik }) => {
   };
 
   const setClient = async (client: any) => {
-    formik.setFieldValue("header.clientId", client.id);
-    formik.setFieldValue("header.clientDisplayName", client.displayName);
-    // formik.setFieldValue("header.clientReferenceNr", client.customerNr);
-    // formik.setFieldValue("header.clientContactId", 0);
-    setClientSearch(false);
+    if (formik != null) {
+      formik?.setFieldValue("header.clientId", client.id);
+      formik?.setFieldValue("header.clientDisplayName", client.displayName);
+      // formik.setFieldValue("header.clientReferenceNr", client.customerNr);
+      // formik.setFieldValue("header.clientContactId", 0);
+    } else {
+      localStorage.setItem("storedClient", JSON.stringify(client));
+    }
+    handleClose();
   };
 
   const avatarColors = [
@@ -77,7 +81,7 @@ const ClientSearch: FC<Props> = ({ setClientSearch, formik }) => {
                 </h2>
                 <div
                   className="btn btn-icon btn-sm btn-active-icon-primary"
-                  onClick={() => setClientSearch(false)}
+                  onClick={handleClose}
                   style={{ cursor: "pointer" }}
                 >
                   <KTIcon iconName="cross" className="fs-1 text-white" />
@@ -281,7 +285,7 @@ const ClientSearch: FC<Props> = ({ setClientSearch, formik }) => {
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={() => setClientSearch(false)}
+                onClick={handleClose}
               >
                 {intl.formatMessage({ id: "Fields.ActionClose" })}
               </button>

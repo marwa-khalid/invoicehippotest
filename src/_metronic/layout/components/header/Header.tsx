@@ -21,7 +21,6 @@ const Header: FC = () => {
         fw-semibold
         px-2 px-lg-0
         rounded-lg-6
-        
     "
       id="kt_app_header_menu"
       data-kt-menu="true"

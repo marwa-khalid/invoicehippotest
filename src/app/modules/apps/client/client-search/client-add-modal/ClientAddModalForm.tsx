@@ -138,43 +138,19 @@ const ClientAddModalForm: FC<Props> = ({
         id="kt_tab_pane_4"
         role="tabpanel"
       >
-        <ClientAddStep1
-          formik={formik}
-          isSubmitting={isSubmitting}
-          setAddModalOpen={setAddModalOpen}
-          setResponse={setResponse}
-        />
+       
       </div>
       {/* {showTabs && (
         <> */}
       <div className="tab-pane fade" id="kt_tab_pane_5" role="tabpanel">
-        <ClientAddStep2
-          clientId={response?.id}
-          refresh={refresh}
-          formik={formik}
-          // setDeleteModalOpen={setDeleteModalOpen}
-          // setDeleteModalId={setDeleteModalId}
-          // setIntlMessage={setIntlMessage}
-          // setTitle={setTitle}
-          // deleteModalOpen={deleteModalOpen}
-        />
+       
       </div>
       <div className="tab-pane fade" id="kt_tab_pane_6" role="tabpanel">
-        <ClientAddStep3
-          setIsSubmitting={setIsSubmitting}
-          isSubmitting={isSubmitting}
-          formik={formik}
-          setAddModalOpen={setAddModalOpen}
-        />
+       
       </div>
       <div className="tab-pane fade" id="kt_tab_pane_7" role="tabpanel">
         {/* Add content for Custom Features */}
-        <ClientAddStep4
-          setIsSubmitting={setIsSubmitting}
-          isSubmitting={isSubmitting}
-          formik={formik}
-          setAddModalOpen={setAddModalOpen}
-        />
+       
       </div>
       {/* </>
       )} */}

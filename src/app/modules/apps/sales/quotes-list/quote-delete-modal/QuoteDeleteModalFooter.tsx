@@ -1,6 +1,6 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteFinancialAccount, deleteQuoteList } from "../core/_requests";
+import { deleteQuoteList } from "../core/_requests";
 
 import { handleToast } from "../../../../auth/core/_toast";
 
@@ -8,12 +8,14 @@ interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   deleteModalId: number;
   setRefresh: (type: boolean) => void;
+  refresh: boolean;
 }
 
 const QuoteDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
+  refresh,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
@@ -23,7 +25,7 @@ const QuoteDeleteModalFooter = ({
     setIsSubmitting(true);
     const response = await deleteQuoteList(deleteModalId);
     if (response.isValid) {
-      setRefresh(true);
+      setRefresh(!refresh);
       setDeleteModalOpen(false);
       setIsSubmitting(false);
       localStorage.removeItem("DeleteData");

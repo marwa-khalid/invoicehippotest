@@ -716,7 +716,6 @@ Props) => {
                 />
               )}
             </div>
-            {console.log(formik.values.customizations)!}
             {extraOptionsModal && (
               <>
                 <div

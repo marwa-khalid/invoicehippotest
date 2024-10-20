@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteFinancialAccount, deleteQuoteList } from "../core/_requests";
-
+import { deleteQuoteList } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 import { FormikProps } from "formik";
 import { FormValues } from "../quote-add-modal/QuoteAddStep1";

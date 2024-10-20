@@ -7,12 +7,14 @@ interface ComponentProps {
   quoteNumber: string;
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
+  refresh: boolean;
 }
 const QuoteDeleteModal = ({
   deleteModalId,
   quoteNumber,
   setDeleteModalOpen,
   setRefresh,
+  refresh,
 }: ComponentProps) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -67,6 +69,7 @@ const QuoteDeleteModal = ({
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
+              refresh={refresh}
             />
           </div>
           {/* end::Modal content */}

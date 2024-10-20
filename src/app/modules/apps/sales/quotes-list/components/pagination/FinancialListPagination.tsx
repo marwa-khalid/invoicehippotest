@@ -30,7 +30,7 @@ const FinancialListPagination = ({
       : JSON.parse(import.meta.env.VITE_APP_PAGINATION);
 
     // Update the page in the financial-module
-    pagination["financial-module"].pageIndex = state;
+    pagination["quotes-module"].pageIndex = state;
 
     // Convert the updated object back to a JSON string
     const updatedPaginationString = JSON.stringify(pagination);

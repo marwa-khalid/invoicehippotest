@@ -14,11 +14,4 @@ export const GET_DEFAULT_EMPTY = `${API_URL_V1}/quote/default-empty`;
 export const GET_CONTACTS = `${API_URL_V1}/client/contact`;
 export const UPLOAD_ATTACHMENTS = `${API_HANDLE_V1}/upload/attachment-for-inbox`;
 export const INBOX_SEARCH = `${API_URL_V1}/inbox/search`;
-//Extra
-
-export const GET_LEDGDER_FOR_FINANCIAL = `${API_URL_V1}/lists/ledger-accounts/for/financial-accounts`;
-export const POST_FINANCIAL_ACCOUNT = `${API_URL_V1}/admin/financialaccount`;
-export const SEARCH_FINANCIAL_ACCOUNTS = `${API_URL_V1}/admin/financialaccount/search`;
-export const GET_FINANCIAL_INSTITUTIONS = `${API_URL_V1}/admin/financialaccount/automation/nordigen/financial-institutions`;
-export const POST_ACCOUNT_AUTOMATION = `${API_URL_V1}/admin/financialaccount/automation/nordigen/consent/request`;
-export const UNLINK_ACCOUNT = `${API_URL_V1}/admin/financialaccount/automation/remove-consent`;
+export const MIN_MAX_YEAR = `${API_URL_V1}/lists/company/min-max-year`;

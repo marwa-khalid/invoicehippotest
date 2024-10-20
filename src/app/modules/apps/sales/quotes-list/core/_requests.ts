@@ -15,10 +15,7 @@ import {
   GET_LEDGERS,
   GET_VATS,
   SEARCH_QUOTE_LIST,
-  POST_FINANCIAL_ACCOUNT,
-  GET_LEDGDER_FOR_FINANCIAL,
   QUOTE_API,
-  GET_FINANCIAL_INSTITUTIONS,
   GET_UNIT_TYPES,
   GET_DISCOUNT_TYPES,
   GET_COMPANY_TRADE_NAMES,
@@ -29,18 +26,28 @@ import {
   GET_CONTACTS,
   UPLOAD_ATTACHMENTS,
   INBOX_SEARCH,
+  MIN_MAX_YEAR,
 } from "./constants";
 import { ContactModel } from "../../../client/client-search/core/_models";
 
 interface DeleteResult extends Partial<QuotePostModel> {}
 
-export function getQuotes(searchTerm: string, pageIndex: number) {
+export function getQuotes(
+  searchTerm: string,
+  pageIndex: number,
+  periodType: any,
+  quoteStatusTypes: any,
+  clientId: number
+) {
   return postRequest<QuoteListModel>(
     SEARCH_QUOTE_LIST,
     {
       pageMax: 25,
       pageIndex: searchTerm ? 1 : pageIndex,
       searchTerm: searchTerm,
+      statusTypes: quoteStatusTypes,
+      dateRange: periodType,
+      clientId: clientId,
     },
     true
   );
@@ -135,22 +142,7 @@ export function getInboxAttachments(searchTerm: string, pageIndex: number) {
     true
   );
 }
-//extraaaaaa
 
-export function getLedgerForFinancial(id: number) {
-  return getRequest<PrivateLedgersModel>(
-    `${GET_LEDGDER_FOR_FINANCIAL}/${id}`,
-    true
-  );
-}
-
-export function deleteFinancialAccount(id: number) {
-  return deleteRequest<DeleteResult>(POST_FINANCIAL_ACCOUNT, [id], true);
-}
-
-export function getFinancialInstitutions(countryType: number) {
-  return getRequest<FinancialInstitutionsModel>(
-    `${GET_FINANCIAL_INSTITUTIONS}/${countryType}`,
-    true
-  );
+export function getMinMaxYear() {
+  return getRequest<any>(MIN_MAX_YEAR, true);
 }
