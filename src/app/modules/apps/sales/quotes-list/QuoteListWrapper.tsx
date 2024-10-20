@@ -86,7 +86,6 @@ const QuoteListInnerWrapper = () => {
     }
     setShowClientSearch(false); // Close the modal
   };
-  console.log(clientIdForFilter);
   return (
     <>
       <FinancialListHeader

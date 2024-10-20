@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import clsx from "clsx";
 import { useLayout } from "../../../../../../../_metronic/layout/core";
 import { QuoteFilter } from "./QuoteFilter";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
 interface ComponentProps {
   setSearchTerm: (term: string) => void;
@@ -46,16 +47,22 @@ const QuoteSearchComponent = ({
   const intl = useIntl();
   const [tempYear, setTempYear] = useState<any>(year);
   const [tempQuoteStatus, setTempQuoteStatus] = useState<any>(quoteStatusTypes);
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [tempPeriodType, setTempPeriodType] = useState<any>(periodValueType);
   const [isFilterApplied, setIsFilterApplied] = useState<boolean>(false);
   useEffect(() => {
     if (clientIdForFilter != 0) {
       setClientName(
-        JSON.parse(localStorage.getItem("storedClient")!).displayName
+        JSON.parse(localStorage.getItem("storedClient")!)?.displayName
       );
     }
   }, [clientIdForFilter]);
+  const [isOpen, setIsOpen] = useState(false);
+  console.log(isOpen);
+  const toggleMenu = () => {
+    setIsOpen(true); // Toggle menu open/close
+  };
+
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
       // Update the query state and parent search term when search button is clicked
@@ -145,42 +152,48 @@ const QuoteSearchComponent = ({
               {intl.formatMessage({ id: "Fields.SearchBtn" })}
             </span>
           </button>
-          <div className="m-0">
-            <div
+          <Menu
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+            closeOnBlur={false}
+          >
+            <MenuButton
               className={clsx(
                 "btn btn-secondary btn-icon bg-secondary fw-bold rounded-0",
                 daterangepickerButtonClass,
                 { "bg-warning": isFilterApplied }
               )}
-              data-kt-menu-trigger="{default: 'click'}"
-              data-kt-menu-attach="parent"
-              data-kt-menu-placement="bottom-end"
+              onClick={toggleMenu}
             >
               <i
                 className={`ki-solid ki-filter fs-3 me-1 
-                 ${isFilterApplied ? "text-white" : "text-muted"}
-                 `}
+            ${isFilterApplied ? "text-white" : "text-muted"}
+          `}
               />
-            </div>
-            <QuoteFilter
-              tempYear={tempYear}
-              setYear={setYear}
-              setTempYear={setTempYear}
-              setPeriodValueType={setPeriodValueType}
-              setQuoteStatusTypes={setQuoteStatusTypes}
-              setClientIdForFilter={setClientIdForFilter}
-              tempQuoteStatus={tempQuoteStatus}
-              setTempQuoteStatus={setTempQuoteStatus}
-              tempPeriodType={tempPeriodType}
-              setTempPeriodType={setTempPeriodType}
-              tempClientId={tempClientId}
-              setTempClientId={setTempClientId}
-              setIsFilterApplied={setIsFilterApplied}
-              setShowClientSearch={setShowClientSearch}
-              clientName={clientName}
-              setClientName={setClientName}
-            />
-          </div>
+            </MenuButton>
+            <MenuList className="p-5 bg-body border-0 shadow-sm" zIndex={10}>
+              <QuoteFilter
+                tempYear={tempYear}
+                setYear={setYear}
+                setTempYear={setTempYear}
+                setPeriodValueType={setPeriodValueType}
+                setQuoteStatusTypes={setQuoteStatusTypes}
+                setClientIdForFilter={setClientIdForFilter}
+                tempQuoteStatus={tempQuoteStatus}
+                setTempQuoteStatus={setTempQuoteStatus}
+                tempPeriodType={tempPeriodType}
+                setTempPeriodType={setTempPeriodType}
+                tempClientId={tempClientId}
+                setTempClientId={setTempClientId}
+                setIsFilterApplied={setIsFilterApplied}
+                setShowClientSearch={setShowClientSearch}
+                clientName={clientName}
+                setClientName={setClientName}
+              />
+            </MenuList>
+          </Menu>
+
+          {/* Menu button for filter */}
 
           <button
             className="btn btn-secondary btn-icon"
