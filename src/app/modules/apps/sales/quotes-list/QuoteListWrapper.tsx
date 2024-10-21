@@ -15,7 +15,7 @@ const getPaginationValues = () => {
     const pagination = JSON.parse(storedPaginationString);
 
     const currentPeriodFilter =
-      pagination["quotes-module"].filters.periodType || 0;
+      pagination["quotes-module"].filters.periodType || null;
     const currentQuoteStatusFilter = pagination["quotes-module"].filters
       .quoteStatus || [0];
     const currentClientFilter =
@@ -38,7 +38,7 @@ const getPaginationValues = () => {
   return {
     pageIndex: 1,
     searchTerm: "",
-    periodValueFilter: 0,
+    periodValueFilter: null,
     quoteStatusFilter: [],
     clientFilter: 0,
     yearFilter: 0,

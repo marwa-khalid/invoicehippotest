@@ -47,7 +47,6 @@ const QuoteSearchComponent = ({
   const intl = useIntl();
   const [tempYear, setTempYear] = useState<any>(year);
   const [tempQuoteStatus, setTempQuoteStatus] = useState<any>(quoteStatusTypes);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [tempPeriodType, setTempPeriodType] = useState<any>(periodValueType);
   const [isFilterApplied, setIsFilterApplied] = useState<boolean>(false);
   useEffect(() => {
@@ -89,10 +88,17 @@ const QuoteSearchComponent = ({
   };
 
   useEffect(() => {
-    if (year! - 0) {
+    if (
+      (year! = 0) ||
+      quoteStatusTypes.length > 0 ||
+      clientIdForFilter != 0 ||
+      (periodValueType != null && periodValueType)
+    ) {
       setIsFilterApplied(true);
+    } else {
+      setIsFilterApplied(false);
     }
-  }, [year]);
+  }, [year, periodValueType, clientIdForFilter, quoteStatusTypes]);
   const handleResetClick = () => {
     setLocalSearchTerm("");
     setSearchTerm("");
