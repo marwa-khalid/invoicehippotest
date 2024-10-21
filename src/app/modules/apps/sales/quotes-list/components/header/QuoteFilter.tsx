@@ -292,12 +292,14 @@ export function QuoteFilter({
           <label className="form-label fw-bold">
             {intl.formatMessage({ id: "Fields.SelectOptionDefaultClient" })}:
           </label>
-          <div className="d-flex w-100 ">
+          <div className="d-flex w-100 h-40px">
             <button className="btn btn-primary d-inline-flex align-items-center w-100 rounded-end-0">
               <i className="la la-user-plus fs-2"></i>
               <span className="ms-1">
-                {clientName != ""
-                  ? clientName
+                {clientName !== ""
+                  ? clientName.length > 23
+                    ? `${clientName.slice(0, 23)}...`
+                    : clientName
                   : intl.formatMessage({
                       id: "Fields.SelectOptionDefaultClient",
                     })}
@@ -305,18 +307,18 @@ export function QuoteFilter({
             </button>
             {clientName != "" && (
               <button
-                className="btn btn-icon btn-secondary cursor-pointer rounded-start-0 rounded-end-0 d-flex align-items-center"
+                className="btn btn-icon btn-secondary cursor-pointer rounded-start-0 rounded-end-0 d-flex align-items-center h-40px ms-2"
                 onClick={() => {
                   setClientIdForFilter(0);
                   setClientName("");
                   localStorage.removeItem("storedClient");
                 }}
               >
-                <i className="la la-remove fs-2"></i>
+                <i className="la la-remove fs-2 "></i>
               </button>
             )}
             <button
-              className="btn btn-warning cursor-pointer btn-icon rounded-start-0 d-flex align-items-center"
+              className="btn btn-warning cursor-pointer btn-icon rounded-start-0 d-flex align-items-center h-40px ms-2"
               onClick={() => {
                 setShowClientSearch(true);
               }}
