@@ -297,8 +297,8 @@ export function QuoteFilter({
               <i className="la la-user-plus fs-2"></i>
               <span className="ms-1">
                 {clientName !== ""
-                  ? clientName.length > 23
-                    ? `${clientName.slice(0, 23)}...`
+                  ? clientName?.length > 23
+                    ? `${clientName?.slice(0, 23)}...`
                     : clientName
                   : intl.formatMessage({
                       id: "Fields.SelectOptionDefaultClient",
