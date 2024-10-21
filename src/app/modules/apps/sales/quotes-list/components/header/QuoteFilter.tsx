@@ -23,6 +23,7 @@ interface ComponentProps {
   setShowClientSearch: (type: boolean) => void;
   setClientName: (type: string) => void;
   clientName: string;
+  toggleMenu: any;
 }
 
 export function QuoteFilter({
@@ -42,6 +43,7 @@ export function QuoteFilter({
   setShowClientSearch,
   setClientName,
   clientName,
+  toggleMenu,
 }: ComponentProps) {
   const intl = useIntl();
   const [minMaxYear, setMinMaxYear] = useState<any>();
@@ -161,6 +163,7 @@ export function QuoteFilter({
 
     // You can add more logic to send this data to pagination or handle other states
     setIsFilterApplied(true);
+    toggleMenu();
   };
   const handleReset = () => {
     setIsFilterApplied(false);

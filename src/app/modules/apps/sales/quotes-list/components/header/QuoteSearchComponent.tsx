@@ -60,7 +60,7 @@ const QuoteSearchComponent = ({
   const [isOpen, setIsOpen] = useState(false);
   console.log(isOpen);
   const toggleMenu = () => {
-    setIsOpen(true); // Toggle menu open/close
+    setIsOpen((prev) => !prev); // Toggle menu open/close
   };
 
   const handleSearchClick = () => {
@@ -174,6 +174,7 @@ const QuoteSearchComponent = ({
             </MenuButton>
             <MenuList className="p-5 bg-body border-0 shadow-sm" zIndex={10}>
               <QuoteFilter
+                toggleMenu={toggleMenu}
                 tempYear={tempYear}
                 setYear={setYear}
                 setTempYear={setTempYear}
