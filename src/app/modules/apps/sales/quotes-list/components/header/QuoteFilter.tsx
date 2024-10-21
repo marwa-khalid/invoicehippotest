@@ -62,9 +62,9 @@ export function QuoteFilter({
   ];
 
   const yearList = [
+    enums.TaxDeclarationPeriodValueTypes[13],
     enums.TaxDeclarationPeriodValueTypes[19],
     enums.TaxDeclarationPeriodValueTypes[20],
-    enums.TaxDeclarationPeriodValueTypes[13],
   ];
 
   const [disablePeriodSelect, setDisablePeriodSelect] = useState<any>(false);
@@ -75,6 +75,7 @@ export function QuoteFilter({
       setTempPeriodType(0);
     } else {
       setDisablePeriodSelect(false);
+      setTempPeriodType(13);
     }
   }, [tempYear]);
   // Get date range based on the selected period and year
@@ -199,7 +200,7 @@ export function QuoteFilter({
   const yearOptions = Array.from(
     { length: minMaxYear?.maxYear - minMaxYear?.minYear + 1 },
     (_, i) => {
-      const year = minMaxYear.minYear + i;
+      const year = minMaxYear.maxYear - i;
       return { value: year, label: year.toString() };
     }
   );
@@ -216,7 +217,7 @@ export function QuoteFilter({
 
       <div className="px-7 py-5">
         {/* Year Selection */}
-        <div className="mb-10">
+        <div className="mb-5">
           <label className="form-label fw-bold">
             {intl.formatMessage({ id: "Fields.SelectOptionDefaultYear" })}:
           </label>
@@ -234,15 +235,15 @@ export function QuoteFilter({
             isClearable
           />
         </div>
-        <MenuDivider />
+
         {/* Period Selection */}
-        <div className="mb-10">
+        <div className="mb-5">
           <label className="form-label fw-bold">
             {intl.formatMessage({ id: "Fields.SelectOptionDefaultPeriod" })}:
           </label>
           <Select
             className="react-select-styled"
-            menuPlacement="top"
+            menuPlacement="bottom"
             value={
               renderPeriodOptions()
                 .flatMap((group) => group.options)
@@ -250,19 +251,21 @@ export function QuoteFilter({
             }
             onChange={handlePeriodTypeChange}
             options={renderPeriodOptions()}
-            placeholder="Select Period"
+            placeholder={intl.formatMessage({
+              id: "Fields.SelectOptionDefaultPeriod",
+            })}
             isClearable
             isDisabled={disablePeriodSelect}
           />
         </div>
-        <MenuDivider />
+        <div className="separator border-gray-200 mb-4"></div>
         {/* Quote Status Selection */}
-        <div className="mb-10">
+        <div className="mb-5">
           <label className="form-label fw-bold">
             {intl.formatMessage({ id: "Fields.SelectOptionDefaultStatusType" })}
           </label>
           <Select
-            className="react-select-styled react-select"
+            className="react-select-styled react-select flex flex-wrap w-350px"
             isClearable
             menuPlacement="bottom"
             isMulti
@@ -280,13 +283,13 @@ export function QuoteFilter({
             }))}
           />
         </div>
-        <MenuDivider />
+        <div className="separator border-gray-200 mb-4"></div>
         {/* Client Search Button */}
-        <div className="mb-10">
+        <div className="mb-3">
           <label className="form-label fw-bold">
             {intl.formatMessage({ id: "Fields.SelectOptionDefaultClient" })}:
           </label>
-          <div className="d-flex w-100 h-40px">
+          <div className="d-flex w-100 ">
             <button className="btn btn-primary d-inline-flex align-items-center w-100 rounded-end-0">
               <i className="la la-user-plus fs-2"></i>
               <span className="ms-1">
@@ -299,18 +302,18 @@ export function QuoteFilter({
             </button>
             {clientName != "" && (
               <button
-                className="btn btn-secondary cursor-pointer rounded-start-0 rounded-end-0 d-flex align-items-center"
+                className="btn btn-icon btn-secondary cursor-pointer rounded-start-0 rounded-end-0 d-flex align-items-center"
                 onClick={() => {
                   setClientIdForFilter(0);
                   setClientName("");
                   localStorage.removeItem("storedClient");
                 }}
               >
-                <i className="la la-remove fs-1"></i>
+                <i className="la la-remove fs-2"></i>
               </button>
             )}
             <button
-              className="btn btn-warning cursor-pointer rounded-start-0 d-flex align-items-center"
+              className="btn btn-warning cursor-pointer btn-icon rounded-start-0 d-flex align-items-center"
               onClick={() => {
                 setShowClientSearch(true);
               }}
@@ -319,19 +322,20 @@ export function QuoteFilter({
             </button>
           </div>
         </div>
-        <div className="d-flex justify-content-end">
-          <button
-            type="reset"
-            className="btn btn-sm btn-secondary btn-active-light-primary me-2"
-            onClick={handleReset}
-            data-kt-menu-dismiss="true"
-          >
-            {intl.formatMessage({ id: "Fields.FilterResetBtn" })}
-          </button>
-          <button className="btn btn-primary" onClick={handleApply}>
-            {intl.formatMessage({ id: "Fields.FilterApplyBtn" })}
-          </button>
-        </div>
+      </div>
+      <div className="separator border-gray-200 mb-4"></div>
+      <div className="d-flex justify-content-end">
+        <button
+          type="reset"
+          className="btn btn-sm btn-secondary btn-active-light-primary me-2"
+          onClick={handleReset}
+          data-kt-menu-dismiss="true"
+        >
+          {intl.formatMessage({ id: "Fields.FilterResetBtn" })}
+        </button>
+        <button className="btn btn-primary" onClick={handleApply}>
+          {intl.formatMessage({ id: "Fields.FilterApplyBtn" })}
+        </button>
       </div>
     </div>
   );

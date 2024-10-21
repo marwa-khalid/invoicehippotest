@@ -142,7 +142,7 @@ const QuoteSearchComponent = ({
             }
           }}
         />
-        <div className="btn-group  gap-2">
+        <div className="btn-group gap-2">
           <button
             className="btn btn-primary d-inline-flex align-items-center"
             onClick={handleSearchClick}
@@ -156,6 +156,7 @@ const QuoteSearchComponent = ({
             isOpen={isOpen}
             onClose={() => setIsOpen(false)}
             closeOnBlur={false}
+            flip={false}
           >
             <MenuButton
               className={clsx(
