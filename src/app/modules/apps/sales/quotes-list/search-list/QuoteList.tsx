@@ -84,25 +84,22 @@ const QuoteList = ({
   }
   const fetchQuotes = async () => {
     setIsLoading(true);
-    console.log(periodValueType, quoteStatusTypes, clientIdForFilter);
+
     let value;
     if (periodValueType != 0 && periodValueType != null) {
       const range = getDateRange(periodValueType, year);
       // if (!range) return null;
-      console.log(range);
+
       const [startDate, endDate] = range.split(" - ");
-      console.log(startDate);
-      console.log(endDate);
+
       const start = parseDate(startDate).toISOString();
       const end = parseDate(endDate).toISOString();
-      console.log(start);
-      console.log(end);
+
       value = {
         startDate: start,
         endDate: end,
       };
     }
-    console.log(value);
 
     try {
       const response = await getQuotes(

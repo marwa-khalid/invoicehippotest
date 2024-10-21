@@ -10,7 +10,7 @@ interface Props {
 const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
   const viewer = useRef(null);
   const webViewerInstance = useRef<any>(null);
-  console.log(fileExtension);
+
   useEffect(() => {
     // Initialize WebViewer once
     if (viewer.current && !webViewerInstance.current) {

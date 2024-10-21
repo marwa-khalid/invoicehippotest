@@ -150,7 +150,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
             // Collect all attachments in arrays before updating Formik values
 
             // Check if the total exceeds 5
-            console.log(currentAttachmentCount);
+
             if (currentAttachmentCount < 5) {
               attachmentsToAdd.push(result);
               attachmentsToLink.push({
@@ -552,11 +552,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                                   </i>
                                 </button>
                               </Tooltip>
-                              {
-                                console.log(
-                                  formik.values.attachments.attachments
-                                )!
-                              }
+
                               {/* Pin Button */}
                               {!formik.values.attachments?.attachments?.find(
                                 (item) => item.id === attachment.id

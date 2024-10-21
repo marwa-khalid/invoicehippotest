@@ -79,7 +79,7 @@ const QuoteListInnerWrapper = () => {
   const [showClientSearch, setShowClientSearch] = useState(false);
   const handleClientModalClose = () => {
     const storedClient = JSON.parse(localStorage.getItem("storedClient")!);
-    console.log(storedClient);
+
     if (storedClient) {
       setTempClientId(storedClient.id);
       setClientName(storedClient.displayName);

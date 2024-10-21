@@ -58,7 +58,7 @@ const QuoteSearchComponent = ({
     }
   }, [clientIdForFilter]);
   const [isOpen, setIsOpen] = useState(false);
-  console.log(isOpen);
+
   const toggleMenu = () => {
     setIsOpen((prev) => !prev); // Toggle menu open/close
   };

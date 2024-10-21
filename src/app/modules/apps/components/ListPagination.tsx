@@ -18,9 +18,6 @@ const ListPagination = ({
 }: PaginationProps) => {
   const [state, setState] = useState(pageIndex || 1);
   const intl = useIntl();
-  console.log(pageIndex);
-  console.log(state);
-
   useEffect(() => {
     let storedPaginationString = localStorage.getItem("pagination");
 
