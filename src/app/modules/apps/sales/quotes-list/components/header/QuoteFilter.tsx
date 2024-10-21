@@ -77,7 +77,6 @@ export function QuoteFilter({
       setTempPeriodType(0);
     } else {
       setDisablePeriodSelect(false);
-      setTempPeriodType(13);
     }
   }, [tempYear]);
   // Get date range based on the selected period and year
@@ -120,7 +119,6 @@ export function QuoteFilter({
         value: q.Value,
       })),
     });
-
     periodOptions.push({
       label: "Per Month",
       options: enums.MonthTypes.map((q) => ({
@@ -233,7 +231,12 @@ export function QuoteFilter({
             value={
               yearOptions.find((option) => option.value === tempYear) || null
             }
-            onChange={(option) => setTempYear(option ? option.value : 0)}
+            onChange={(option) => {
+              setTempYear(option ? option.value : 0);
+              if (tempPeriodType === null || tempPeriodType === 0) {
+                setTempPeriodType(13);
+              }
+            }}
             options={yearOptions}
             isClearable
           />
@@ -296,16 +299,17 @@ export function QuoteFilter({
             <button className="btn btn-primary d-inline-flex align-items-center w-100 rounded-end-0">
               <i className="la la-user-plus fs-2"></i>
               <span className="ms-1">
-                {clientName !== ""
-                  ? clientName?.length > 23
-                    ? `${clientName?.slice(0, 23)}...`
-                    : clientName
-                  : intl.formatMessage({
+                {!clientName
+                  ? intl.formatMessage({
                       id: "Fields.SelectOptionDefaultClient",
-                    })}
+                    })
+                  : clientName?.length > 23
+                  ? `${clientName?.slice(0, 23)}...`
+                  : clientName}
               </span>
             </button>
-            {clientName != "" && (
+
+            {clientName && (
               <button
                 className="btn btn-icon btn-secondary cursor-pointer rounded-start-0 rounded-end-0 d-flex align-items-center h-40px ms-2"
                 onClick={() => {

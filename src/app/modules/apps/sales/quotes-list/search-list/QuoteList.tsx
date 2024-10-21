@@ -58,6 +58,19 @@ const QuoteList = ({
 
   const getDateRange = (period: any, tempYear: any) => {
     const periodValue = typeof period === "number" ? period : period?.Value;
+    if (periodValue >= 1 && periodValue <= 12) {
+      const startDate = new Date(tempYear, periodValue - 1, 1); // First day of the month
+      const endDate = new Date(tempYear, periodValue, 0); // Last day of the month
+
+      const formatDate = (date: Date) => {
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`; // Format with "-"
+      };
+
+      return `${formatDate(startDate)} - ${formatDate(endDate)}`;
+    }
 
     switch (periodValue) {
       case 101:
@@ -80,7 +93,7 @@ const QuoteList = ({
   };
   function parseDate(dateString: any) {
     const [day, month, year] = dateString.split("-");
-    return new Date(year, month - 1, day); // Month is 0-indexed in JavaScript
+    return new Date(Date.UTC(year, month - 1, day)); // Use UTC to avoid timezone shifts
   }
   const fetchQuotes = async () => {
     setIsLoading(true);
