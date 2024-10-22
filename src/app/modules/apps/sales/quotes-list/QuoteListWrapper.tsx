@@ -16,13 +16,13 @@ const getPaginationValues = () => {
 
     const currentPeriodFilter =
       pagination["quotes-module"].filters.periodType || null;
-    const currentQuoteStatusFilter = pagination["quotes-module"].filters
-      .quoteStatus || [0];
+    const currentQuoteStatusFilter =
+      pagination["quotes-module"].filters.quoteStatus || [];
     const currentClientFilter =
-      pagination["quotes-module"].filters.clientFilter || 0;
+      pagination["quotes-module"].filters.clientFilter || null;
 
     const currentYearFilter =
-      pagination["quotes-module"].filters.yearFilter || 0;
+      pagination["quotes-module"].filters.yearFilter || null;
     const currentPage = pagination["quotes-module"].pageIndex || 1;
     const searchTerm = pagination["quotes-module"].filters.searchTerm || "";
 
@@ -40,8 +40,8 @@ const getPaginationValues = () => {
     searchTerm: "",
     periodValueFilter: null,
     quoteStatusFilter: [],
-    clientFilter: 0,
-    yearFilter: 0,
+    clientFilter: null,
+    yearFilter: null,
   };
 };
 const QuoteListInnerWrapper = () => {
@@ -68,15 +68,19 @@ const QuoteListInnerWrapper = () => {
   const [refresh, setRefresh] = useState(false);
   const [deleteModalId, setDeleteModalId] = useState<number[]>([0]);
   const [clientName, setClientName] = useState<string>("");
-  const [periodValueType, setPeriodValueType] =
-    useState<number>(periodValueFilter);
+  const [periodValueType, setPeriodValueType] = useState<number | null>(
+    periodValueFilter
+  );
   const [quoteStatusTypes, setQuoteStatusTypes] =
-    useState<number>(quoteStatusFilter);
-  const [clientIdForFilter, setClientIdForFilter] =
-    useState<number>(clientFilter);
-  const [tempClientId, setTempClientId] = useState<number>(clientIdForFilter);
-  const [year, setYear] = useState<number>(yearFilter);
-  const [showClientSearch, setShowClientSearch] = useState(false);
+    useState<any>(quoteStatusFilter);
+  const [clientIdForFilter, setClientIdForFilter] = useState<number | null>(
+    clientFilter
+  );
+  const [tempClientId, setTempClientId] = useState<number | null>(
+    clientIdForFilter
+  );
+  const [year, setYear] = useState<number | null>(yearFilter);
+  const [showClientSearch, setShowClientSearch] = useState<boolean>(false);
   const handleClientModalClose = () => {
     const storedClient = JSON.parse(localStorage.getItem("storedClient")!);
 

@@ -235,7 +235,7 @@ const QuoteAddStep1: FC<Props> = ({
                 {/* Primary button - long */}
                 {formik.values.header.clientDisplayName ? (
                   <button
-                    className="btn btn-primary d-inline-flex align-items-center w-100 rounded-end-0"
+                    className="btn btn-primary d-inline-flex align-items-center w-100 rounded-end-0 flex-grow-1"
                     onClick={(e) => {
                       e.preventDefault();
                       setEditModalId(formik.values.header.clientId);
@@ -244,17 +244,18 @@ const QuoteAddStep1: FC<Props> = ({
                   >
                     <i className="la la-user fs-2"></i>
                     <span className="ms-1">
-                      {formik.values.header.clientDisplayName.length > 38
+                      {formik.values.header.clientDisplayName.length >
+                      (window.innerWidth <= 576 ? 10 : 35)
                         ? `${formik.values.header.clientDisplayName.slice(
                             0,
-                            38
+                            window.innerWidth <= 576 ? 10 : 35
                           )}...`
                         : formik.values.header.clientDisplayName}
                     </span>
                   </button>
                 ) : (
                   <button
-                    className="btn btn-primary d-inline-flex align-items-center w-100 rounded-end-0"
+                    className="btn btn-primary d-inline-flex align-items-center w-100 rounded-end-0 flex-grow-1"
                     onClick={(e) => {
                       e.preventDefault();
                       setEditModalId(0);
@@ -272,14 +273,14 @@ const QuoteAddStep1: FC<Props> = ({
                 {/* Small icon buttons */}
                 {formik.values.header.clientDisplayName && (
                   <button
-                    className="btn btn-secondary btn-icon h-40px rounded-0 ms-1"
+                    className="btn btn-secondary btn-icon h-40px rounded-0 ms-1 flex-shrink-0"
                     onClick={() => reset()}
                   >
                     <i className="fa fa-remove fs-3"></i>
                   </button>
                 )}
                 <button
-                  className="btn btn-warning btn-icon rounded-start-0 mx-1 h-40px"
+                  className="btn btn-warning btn-icon rounded-start-0 mx-1 h-40px flex-shrink-0"
                   onClick={(e) => {
                     e.preventDefault();
                     setClientSearch(true);

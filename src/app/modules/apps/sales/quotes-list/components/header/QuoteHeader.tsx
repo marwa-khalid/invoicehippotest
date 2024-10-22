@@ -5,19 +5,19 @@ interface ComponentProps {
   setSearchTerm: (term: string) => void;
   searchTerm: string;
   setSearchCounter: React.Dispatch<React.SetStateAction<number>>;
-  setPeriodValueType: (type: any) => void;
-  periodValueType: any;
+  setPeriodValueType: (type: number | null) => void;
+  periodValueType: number | null;
   setQuoteStatusTypes: (types: any) => void;
   quoteStatusTypes: any;
-  setClientIdForFilter: (clientId: number) => void;
-  clientIdForFilter: number;
-  year: number;
-  setYear: (year: number) => void;
+  setClientIdForFilter: (type: number | null) => void;
+  clientIdForFilter: number | null;
+  year: number | null;
+  setYear: (year: number | null) => void;
   setShowClientSearch: (type: boolean) => void;
   setClientName: (type: string) => void;
   clientName: string;
-  setTempClientId: (clientId: number) => void;
-  tempClientId: number;
+  setTempClientId: (type: number | null) => void;
+  tempClientId: number | null;
 }
 
 const FinancialListHeader = ({

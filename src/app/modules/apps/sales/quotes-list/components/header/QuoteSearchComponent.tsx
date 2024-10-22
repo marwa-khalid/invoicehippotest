@@ -10,16 +10,16 @@ interface ComponentProps {
   setSearchTerm: (term: string) => void;
   searchTerm: string;
   setSearchCounter: React.Dispatch<React.SetStateAction<number>>;
-  setPeriodValueType: (type: any) => void;
-  periodValueType: any;
+  setPeriodValueType: (type: number | null) => void;
+  periodValueType: number | null;
   setQuoteStatusTypes: (types: any) => void;
   quoteStatusTypes: any;
-  setClientIdForFilter: (clientId: number) => void;
-  clientIdForFilter: number;
-  setTempClientId: (clientId: number) => void;
-  tempClientId: number;
-  year: number;
-  setYear: (year: number) => void;
+  setClientIdForFilter: (clientId: number | null) => void;
+  clientIdForFilter: number | null;
+  setTempClientId: (clientId: number | null) => void;
+  tempClientId: number | null;
+  year: number | null;
+  setYear: (year: number | null) => void;
   setShowClientSearch: (type: boolean) => void;
   setClientName: (type: string) => void;
   clientName: string;
@@ -45,12 +45,14 @@ const QuoteSearchComponent = ({
 }: ComponentProps) => {
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const intl = useIntl();
-  const [tempYear, setTempYear] = useState<any>(year);
+  const [tempYear, setTempYear] = useState<number | null>(year);
   const [tempQuoteStatus, setTempQuoteStatus] = useState<any>(quoteStatusTypes);
-  const [tempPeriodType, setTempPeriodType] = useState<any>(periodValueType);
+  const [tempPeriodType, setTempPeriodType] = useState<number | null>(
+    periodValueType
+  );
   const [isFilterApplied, setIsFilterApplied] = useState<boolean>(false);
   useEffect(() => {
-    if (clientIdForFilter != 0) {
+    if (clientIdForFilter) {
       setClientName(
         JSON.parse(localStorage.getItem("storedClient")!)?.displayName
       );
@@ -89,10 +91,10 @@ const QuoteSearchComponent = ({
 
   useEffect(() => {
     if (
-      (year! = 0) ||
+      year ||
       quoteStatusTypes.length > 0 ||
-      clientIdForFilter != 0 ||
-      (periodValueType != null && periodValueType)
+      clientIdForFilter ||
+      periodValueType
     ) {
       setIsFilterApplied(true);
     } else {
@@ -129,7 +131,7 @@ const QuoteSearchComponent = ({
   return (
     <div className="w-full mb-10">
       {/* Full-width search input */}
-      <div className="d-flex align-items-center position-relative mb-2 gap-2 ">
+      <div className="d-flex align-items-center position-relative mb-2 gap-1 ">
         <KTIcon iconName="magnifier" className="fs-3 position-absolute ms-6" />
 
         <input
@@ -148,7 +150,7 @@ const QuoteSearchComponent = ({
             }
           }}
         />
-        <div className="btn-group gap-2">
+        <div className="btn-group gap-1">
           <button
             className="btn btn-primary d-inline-flex align-items-center"
             onClick={handleSearchClick}
@@ -166,7 +168,7 @@ const QuoteSearchComponent = ({
           >
             <MenuButton
               className={clsx(
-                "btn btn-secondary btn-icon bg-secondary fw-bold rounded-0",
+                "btn bg-secondary btn-icon fw-bold rounded-0",
                 daterangepickerButtonClass,
                 { "bg-warning": isFilterApplied }
               )}

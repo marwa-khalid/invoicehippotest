@@ -35,22 +35,28 @@ interface DeleteResult extends Partial<QuotePostModel> {}
 export function getQuotes(
   searchTerm: string,
   pageIndex: number,
-  periodType: any,
+  dateRange: any,
   quoteStatusTypes: any,
-  clientId: number
+  clientId: number | null
 ) {
-  return postRequest<QuoteListModel>(
-    SEARCH_QUOTE_LIST,
-    {
-      pageMax: 25,
-      pageIndex: searchTerm ? 1 : pageIndex,
-      searchTerm: searchTerm,
-      statusTypes: quoteStatusTypes,
-      dateRange: periodType,
-      clientId: clientId,
-    },
-    true
-  );
+  const payload: any = {
+    pageMax: 25,
+    pageIndex: searchTerm ? 1 : pageIndex,
+    searchTerm: searchTerm,
+    dateRange: dateRange,
+  };
+
+  // Conditionally add statusTypes if not empty
+  if (quoteStatusTypes && quoteStatusTypes.length > 0) {
+    payload.statusTypes = quoteStatusTypes;
+  }
+
+  // Conditionally add clientId if not null
+  if (clientId !== null) {
+    payload.clientId = clientId;
+  }
+
+  return postRequest<QuoteListModel>(SEARCH_QUOTE_LIST, payload, true);
 }
 
 export function getLedgerTypes() {

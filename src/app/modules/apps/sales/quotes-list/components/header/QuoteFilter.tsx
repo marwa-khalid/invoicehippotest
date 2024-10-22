@@ -7,19 +7,19 @@ import { ClientSearch } from "../../quote-add-modal/ClientSearch";
 import { MenuDivider } from "@chakra-ui/react";
 
 interface ComponentProps {
-  tempYear: number;
-  setYear: (year: number) => void;
-  setTempYear: (year: number) => void;
-  setPeriodValueType: (type: any) => void;
+  tempYear: number | null;
+  setYear: (year: number | null) => void;
+  setTempYear: (year: number | null) => void;
+  setPeriodValueType: (type: number | null) => void;
   setQuoteStatusTypes: (types: any) => void;
-  setClientIdForFilter: (clientId: number) => void;
+  setClientIdForFilter: (clientId: number | null) => void;
   tempQuoteStatus: any;
-  tempPeriodType: any;
-  tempClientId: number;
+  tempPeriodType: number | null;
+  tempClientId: number | null;
   setIsFilterApplied: (type: boolean) => void;
   setTempQuoteStatus: (status: any) => void;
-  setTempPeriodType: (type: any) => void;
-  setTempClientId: (clientId: number) => void;
+  setTempPeriodType: (type: number | null) => void;
+  setTempClientId: (clientId: number | null) => void;
   setShowClientSearch: (type: boolean) => void;
   setClientName: (type: string) => void;
   clientName: string;
@@ -72,9 +72,9 @@ export function QuoteFilter({
   const [disablePeriodSelect, setDisablePeriodSelect] = useState<any>(false);
 
   useEffect(() => {
-    if (tempYear == 0) {
+    if (tempYear == null) {
       setDisablePeriodSelect(true);
-      setTempPeriodType(0);
+      setTempPeriodType(null);
     } else {
       setDisablePeriodSelect(false);
     }
@@ -136,7 +136,6 @@ export function QuoteFilter({
 
   const handleApply = () => {
     setQuoteStatusTypes(tempQuoteStatus);
-
     setPeriodValueType(tempPeriodType);
     setClientIdForFilter(tempClientId);
     setYear(tempYear);
@@ -154,8 +153,8 @@ export function QuoteFilter({
       : null;
     pagination["quotes-module"].filters.clientFilter = tempClientId
       ? tempClientId
-      : 0;
-    pagination["quotes-module"].filters.yearFilter = tempYear ? tempYear : 0;
+      : null;
+    pagination["quotes-module"].filters.yearFilter = tempYear ? tempYear : null;
     pagination["quotes-module"].pageIndex = 1;
     localStorage.setItem("pagination", JSON.stringify(pagination));
 
@@ -178,16 +177,17 @@ export function QuoteFilter({
       })
     );
     // Clear selected client ID
-    setTempClientId(0);
+    setTempClientId(null);
     setTempQuoteStatus([]);
     setTempPeriodType(null);
-    setClientIdForFilter(0);
+    setClientIdForFilter(null);
     setQuoteStatusTypes([]);
     setPeriodValueType(null);
-    setTempYear(0);
-    setYear(0);
+    setTempYear(null);
+    setYear(null);
     setClientName("");
     localStorage.removeItem("storedClient");
+    toggleMenu();
     // Default to All Years
   };
 
@@ -232,8 +232,8 @@ export function QuoteFilter({
               yearOptions.find((option) => option.value === tempYear) || null
             }
             onChange={(option) => {
-              setTempYear(option ? option.value : 0);
-              if (tempPeriodType === null || tempPeriodType === 0) {
+              setTempYear(option ? option.value : null);
+              if (tempPeriodType === null || tempPeriodType === null) {
                 setTempPeriodType(13);
               }
             }}
@@ -253,7 +253,7 @@ export function QuoteFilter({
             value={
               renderPeriodOptions()
                 .flatMap((group) => group.options)
-                .find((option) => option.value === tempPeriodType) || 0
+                .find((option) => option.value === tempPeriodType) || null
             }
             onChange={handlePeriodTypeChange}
             options={renderPeriodOptions()}
@@ -291,52 +291,58 @@ export function QuoteFilter({
         </div>
         <div className="separator border-gray-200 mb-4"></div>
         {/* Client Search Button */}
-        <div className="mb-3">
+        <div className="mb-3 ">
           <label className="form-label fw-bold">
             {intl.formatMessage({ id: "Fields.SelectOptionDefaultClient" })}:
           </label>
-          <div className="d-flex w-100 h-40px">
-            <button className="btn btn-primary d-inline-flex align-items-center w-100 rounded-end-0">
+          <div className="d-flex gap-1 w-100">
+            <button
+              className="btn btn-primary d-inline-flex align-items-center flex-grow-1 rounded-end-0 h-40px"
+              onClick={() => {
+                setShowClientSearch(true);
+              }}
+            >
               <i className="la la-user-plus fs-2"></i>
               <span className="ms-1">
                 {!clientName
                   ? intl.formatMessage({
                       id: "Fields.SelectOptionDefaultClient",
                     })
-                  : clientName?.length > 23
-                  ? `${clientName?.slice(0, 23)}...`
+                  : clientName?.length > 25
+                  ? `${clientName?.slice(0, 25)}...`
                   : clientName}
               </span>
             </button>
 
             {clientName && (
               <button
-                className="btn btn-icon btn-secondary cursor-pointer rounded-start-0 rounded-end-0 d-flex align-items-center h-40px ms-2"
+                className="btn btn-icon btn-secondary cursor-pointer rounded-0 h-40px flex-shrink-0"
                 onClick={() => {
-                  setClientIdForFilter(0);
+                  setClientIdForFilter(null);
                   setClientName("");
                   localStorage.removeItem("storedClient");
                 }}
               >
-                <i className="la la-remove fs-2 "></i>
+                <i className="la la-remove fs-3"></i>
               </button>
             )}
+
             <button
-              className="btn btn-warning cursor-pointer btn-icon rounded-start-0 d-flex align-items-center h-40px ms-2"
+              className="btn btn-icon btn-warning cursor-pointer h-40px rounded-end rounded-0 flex-shrink-0"
               onClick={() => {
                 setShowClientSearch(true);
               }}
             >
-              <i className="la la-search-plus fs-1 mt-0"></i>
+              <i className="la la-search-plus fs-3"></i>
             </button>
           </div>
         </div>
       </div>
       <div className="separator border-gray-200 mb-4"></div>
-      <div className="d-flex justify-content-end">
+      <div className="d-flex justify-content-end gap-2">
         <button
           type="reset"
-          className="btn btn-sm btn-secondary btn-active-light-primary me-2"
+          className="btn btn-sm btn-secondary btn-active-light-primary"
           onClick={handleReset}
           data-kt-menu-dismiss="true"
         >

@@ -107,14 +107,14 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
     if (auth && auth.result.token) {
       // Check if the token has expired
       if (auth.result.tokenIsValid) {
-        // const hasRunOnce = localStorage.getItem("hasRunOnce");
+        const hasRunOncee = localStorage.getItem("hasRunOncee");
 
-        // // If it hasn't run, execute the code
-        // if (!hasRunOnce) {
-        //   localStorage.removeItem("pagination"),
-        //     // Set the flag in localStorage to mark it as run
-        //     localStorage.setItem("hasRunOnce", "true");
-        // }
+        // If it hasn't run, execute the code
+        if (!hasRunOncee) {
+          localStorage.removeItem("pagination"),
+            // Set the flag in localStorage to mark it as run
+            localStorage.setItem("hasRunOncee", "true");
+        }
         localStorage.removeItem("clientResponse");
         localStorage.removeItem("contactResponse");
         const expirationDate = new Date(auth.result.expirationDateUtc);

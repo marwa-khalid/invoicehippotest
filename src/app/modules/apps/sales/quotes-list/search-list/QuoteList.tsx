@@ -25,10 +25,10 @@ interface ComponentProps {
   deleteModalOpen: boolean;
   addModalOpen: boolean;
   searchCounter: number;
-  periodValueType: any;
+  periodValueType: number | null;
   quoteStatusTypes: any;
-  clientIdForFilter: number;
-  year: number;
+  clientIdForFilter: number | null;
+  year: number | null;
 }
 const QuoteList = ({
   searchTerm,
@@ -98,8 +98,8 @@ const QuoteList = ({
   const fetchQuotes = async () => {
     setIsLoading(true);
 
-    let value;
-    if (periodValueType != 0 && periodValueType != null) {
+    let dateRange;
+    if (periodValueType) {
       const range = getDateRange(periodValueType, year);
       // if (!range) return null;
 
@@ -108,7 +108,7 @@ const QuoteList = ({
       const start = parseDate(startDate).toISOString();
       const end = parseDate(endDate).toISOString();
 
-      value = {
+      dateRange = {
         startDate: start,
         endDate: end,
       };
@@ -118,7 +118,7 @@ const QuoteList = ({
       const response = await getQuotes(
         searchTerm,
         pageIndex,
-        value,
+        dateRange,
         quoteStatusTypes,
         clientIdForFilter
       );
