@@ -80,7 +80,7 @@ const QuoteAddModalFooter = ({
                 {intl.formatMessage({ id: "Fields.ActionSave" })}
               </a>
             </li>
-            <div className="dropdown-divider"></div>
+            <div className="dropdown-divider border-gray-200"></div>
             <li
               onClick={() => {
                 formik.handleSubmit();
@@ -93,7 +93,7 @@ const QuoteAddModalFooter = ({
                 {intl.formatMessage({ id: "Fields.ActionSaveAndClose" })}
               </a>
             </li>
-            <div className="dropdown-divider"></div>
+            <div className="dropdown-divider border-gray-200"></div>
 
             <li
               onClick={() => {
@@ -106,7 +106,7 @@ const QuoteAddModalFooter = ({
                 {intl.formatMessage({ id: "Fields.ActionSaveAndNew" })}
               </a>
             </li>
-            <div className="dropdown-divider"></div>
+            <div className="dropdown-divider border-gray-200"></div>
             <li
               onClick={() => {
                 formik.handleSubmit();
@@ -139,7 +139,7 @@ const QuoteAddModalFooter = ({
               </a>
             </li>
 
-            <div className="dropdown-divider"></div>
+            <div className="dropdown-divider border-gray-200"></div>
             <li>
               <a className="dropdown-item d-flex align-items-center" href="#">
                 <i className="fa fas fa-cloud-download-alt me-2 fs-3"></i>
@@ -147,7 +147,7 @@ const QuoteAddModalFooter = ({
                 {intl.formatMessage({ id: "Fields.ActionDownload" })}
               </a>
             </li>
-            <div className="dropdown-divider"></div>
+            <div className="dropdown-divider border-gray-200"></div>
             <li>
               <a className="dropdown-item d-flex align-items-center" href="#">
                 <i className="fa fas fa-flag-checkered me-2 fs-3"></i>
