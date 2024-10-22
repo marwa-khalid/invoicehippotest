@@ -747,7 +747,7 @@ Props) => {
                         </div>
                       </div>
                       <div className="modal-body">
-                        {formik.values.status != 1 && (
+                        {formik.values.status === 1 && (
                           <>
                             <div className="row d-flex mb-7 mt-3">
                               <div className="form-check form-switch mt-1 ms-2 d-flex align-items-center">

@@ -159,7 +159,7 @@ export function QuoteFilter({
     localStorage.setItem("pagination", JSON.stringify(pagination));
 
     // You can add more logic to send this data to pagination or handle other states
-    setIsFilterApplied(true);
+    // setIsFilterApplied(true);
     toggleMenu();
   };
   const handleReset = () => {
