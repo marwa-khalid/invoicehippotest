@@ -389,7 +389,7 @@ const QuoteAddStep1: FC<Props> = ({
           <div className="row d-flex">
             <div className="col-6">
               {/* Label for the second field */}
-              <label className="required fw-bold fs-6 mb-3">
+              <label className=" fw-bold fs-6 mb-3">
                 {intl.formatMessage({ id: "Fields.ClientReferenceNr" })}
               </label>
               {/* Input field */}

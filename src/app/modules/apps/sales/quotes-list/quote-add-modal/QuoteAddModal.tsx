@@ -610,14 +610,16 @@ Props) => {
         aria-modal="true"
       >
         <div
-          className="modal-dialog mx-auto"
+          className="modal-dialog "
           style={{
-            maxWidth: "1024px",
-            width: "100%",
-            margin: 0,
+            minWidth: "1200px",
+            maxWidth: "1200px",
+
+            // width: {900},
+            // margin: 0,
           }}
         >
-          <div className="modal-content">
+          <div className="modal-content  ">
             <QuoteAddModalHeader
               businessName={formik.values.header.clientDisplayName}
               tabs={tabs}

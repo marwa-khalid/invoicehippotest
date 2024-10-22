@@ -3,7 +3,6 @@ import { useIntl } from "react-intl";
 import { Tooltip } from "@chakra-ui/react";
 import Select from "react-select";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
 import { FormikProps } from "formik";
 import { FormValues } from "./QuoteAddStep1";
 import { KTIcon, KTSVG } from "../../../../../../_metronic/helpers";
@@ -159,32 +158,34 @@ const QuoteAddStep2: FC<Props> = ({
                           .formatMessage({ id: "Fields.Product" })
                           .toUpperCase()}
                       </th>
-                      <th className="w-100px">
+                      <th className="w-90px">
                         {intl
                           .formatMessage({ id: "Fields.Units" })
                           .toUpperCase()}
                       </th>
-                      <th></th>
+                      <th className="w-150px"></th>
                       <th className="w-100px">
                         {intl
                           .formatMessage({ id: "Fields.UnitPrice" })
                           .toUpperCase()}
                       </th>
-                      <th>
+                      <th className="w-150px">
                         {intl
                           .formatMessage({ id: "Fields.VatTypeId" })
                           .toUpperCase()}
                       </th>
-                      <th>
+                      <th className="w-50px">
                         {intl
                           .formatMessage({ id: "Fields.Total" })
                           .toUpperCase()}
                       </th>
+                      <th></th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tr className="mt-10">
                     <td
-                      colSpan={7}
+                      colSpan={8}
                       style={{
                         borderTop: "1px dotted #d6d4ce",
                         width: "100%",
@@ -407,6 +408,7 @@ const QuoteAddStep2: FC<Props> = ({
                         >
                           {(provided) => (
                             <>
+                              {console.log(product)}
                               <tr
                                 onClick={() => setProductModalIndex(index)}
                                 ref={provided.innerRef}
@@ -464,10 +466,10 @@ const QuoteAddStep2: FC<Props> = ({
                                     </span>
                                   </div>
                                 </td>
-                                <td>
+                                <td className="w-25px">
                                   <input
                                     type="number"
-                                    className="form-control form-control-solid border-0 w-100px"
+                                    className="form-control form-control-solid border-0"
                                     value={product.units}
                                     onChange={(e) =>
                                       handleInputChange(
@@ -500,7 +502,6 @@ const QuoteAddStep2: FC<Props> = ({
                                     placeholder="Select UnitType"
                                   />
                                 </td>
-
                                 <td>
                                   <input
                                     type="number"
@@ -535,7 +536,7 @@ const QuoteAddStep2: FC<Props> = ({
                                     placeholder="Select VAT"
                                   />
                                 </td>
-                                <td className="text-center ">
+                                <td className="text-center">
                                   <div className="d-flex flex-column">
                                     <span className="fw-bold">
                                       {
@@ -550,23 +551,111 @@ const QuoteAddStep2: FC<Props> = ({
                                       ).toFixed(2)}
                                     </span>
 
-                                    {product.discountMarginId != null && (
+                                    {product.discountMarginId && (
                                       <span className="text-danger">
                                         -
                                         {
                                           discountTypes.find(
-                                            (discountType: any) => {
-                                              return (
-                                                discountType.value ===
-                                                product.discountMarginId
-                                              );
-                                            }
+                                            (discountType: any) =>
+                                              discountType.value ===
+                                              product.discountMarginId
                                           )?.label
                                         }
                                       </span>
                                     )}
                                   </div>
                                 </td>
+                                <td className="text-muted fw-bold fs-9 ">
+                                  <div>
+                                    {/* Display Amount title with inclusive or exclusive indication */}
+                                    {intl.formatMessage({
+                                      id: "Fields.Amount",
+                                    })}{" "}
+                                    ({product.btwExclusive ? "inc" : "exc"}):{" "}
+                                    {(() => {
+                                      const vatEntry = vatTypes.find(
+                                        (vat: any) =>
+                                          vat.value === product.vatTypeId
+                                      );
+                                      const vatPercentage = vatEntry
+                                        ? parseFloat(
+                                            vatEntry.label.replace("%", "")
+                                          )
+                                        : NaN;
+
+                                      if (product.btwExclusive) {
+                                        // VAT Inclusive
+                                        const totalInclusive = (
+                                          product.unitPrice +
+                                          product.unitPrice *
+                                            (vatPercentage / 100)
+                                        ).toFixed(2);
+                                        return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${totalInclusive}`;
+                                      } else {
+                                        // VAT Exclusive
+                                        if (isNaN(vatPercentage)) {
+                                          // If VAT is not a valid number, display only unit price
+                                          return `${
+                                            auth.currentUser?.result
+                                              .activeCompanyDefaults
+                                              .defaultValuta.sign
+                                          } ${product.unitPrice.toFixed(2)}`;
+                                        }
+
+                                        // Calculate base price from final price
+                                        const basePriceExclusive = (
+                                          product.unitPrice /
+                                          (1 + vatPercentage / 100)
+                                        ).toFixed(2);
+                                        return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${basePriceExclusive}`;
+                                      }
+                                    })()}
+                                  </div>
+
+                                  <div>
+                                    {/* Display VAT title with calculated VAT value */}
+                                    {intl.formatMessage({
+                                      id: "Fields.VatTitle",
+                                    })}
+                                    :{" "}
+                                    {(() => {
+                                      const vatEntry = vatTypes.find(
+                                        (vat: any) =>
+                                          vat.value === product.vatTypeId
+                                      );
+                                      const vatPercentage = vatEntry
+                                        ? parseFloat(
+                                            vatEntry.label.replace("%", "")
+                                          )
+                                        : NaN;
+
+                                      if (product.btwExclusive) {
+                                        // VAT Inclusive
+                                        const vatAmountInclusive = (
+                                          product.unitPrice *
+                                          (vatPercentage / 100)
+                                        ).toFixed(2);
+                                        return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountInclusive}`;
+                                      } else {
+                                        // VAT Exclusive
+                                        if (isNaN(vatPercentage)) {
+                                          // If VAT is not a valid number, display VAT as 0.00
+                                          return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} 0.00`;
+                                        }
+
+                                        // Calculate VAT amount for exclusive
+                                        const basePriceExclusive =
+                                          product.unitPrice /
+                                          (1 + vatPercentage / 100);
+                                        const vatAmountExclusive = (
+                                          product.unitPrice - basePriceExclusive
+                                        ).toFixed(2);
+                                        return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountExclusive}`;
+                                      }
+                                    })()}
+                                  </div>
+                                </td>
+
                                 <td className="text-end">
                                   {formik.values.products.length === 1 ? (
                                     // Other rows: Only show the remove button
@@ -610,7 +699,7 @@ const QuoteAddStep2: FC<Props> = ({
                               </tr>
                               {product.description && (
                                 <tr>
-                                  <td colSpan={7}>
+                                  <td colSpan={8}>
                                     {" "}
                                     <span
                                       dangerouslySetInnerHTML={{
@@ -622,7 +711,7 @@ const QuoteAddStep2: FC<Props> = ({
                               )}
                               <tr>
                                 <td
-                                  colSpan={7}
+                                  colSpan={8}
                                   style={{
                                     borderTop: "1px dotted #d6d4ce",
                                     width: "100%",
