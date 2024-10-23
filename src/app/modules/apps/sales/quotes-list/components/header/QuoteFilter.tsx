@@ -17,6 +17,7 @@ interface ComponentProps {
   tempPeriodType: number | null;
   tempClientId: number | null;
   setIsFilterApplied: (type: boolean) => void;
+  isFilterApplied: boolean;
   setTempQuoteStatus: (status: any) => void;
   setTempPeriodType: (type: number | null) => void;
   setTempClientId: (clientId: number | null) => void;
@@ -30,6 +31,7 @@ interface ComponentProps {
 
 export function QuoteFilter({
   tempYear,
+  isFilterApplied,
   setYear,
   setTempYear,
   setPeriodValueType,
@@ -167,32 +169,36 @@ export function QuoteFilter({
     toggleMenu();
   };
   const handleReset = () => {
-    setIsFilterApplied(false);
-    localStorage.setItem(
-      "pagination",
-      JSON.stringify({
-        ...JSON.parse(localStorage.getItem("pagination") || "{}"),
-        "quotes-module": {
-          ...JSON.parse(localStorage.getItem("pagination") || "{}")[
-            "quotes-module"
-          ],
-          filters: {},
-        },
-      })
-    );
-    // Clear selected client ID
-    setTempClientId(null);
-    setTempQuoteStatus([]);
-    setTempPeriodType(null);
-    setClientIdForFilter(null);
-    setQuoteStatusTypes([]);
-    setPeriodValueType(null);
-    setTempYear(null);
-    setYear(null);
-    setClientName("");
-    localStorage.removeItem("storedClient");
-    setIsOpen(false);
-
+    if (!isFilterApplied) {
+      setIsOpen(false);
+      return;
+    } else {
+      setIsFilterApplied(false);
+      localStorage.setItem(
+        "pagination",
+        JSON.stringify({
+          ...JSON.parse(localStorage.getItem("pagination") || "{}"),
+          "quotes-module": {
+            ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+              "quotes-module"
+            ],
+            filters: {},
+          },
+        })
+      );
+      // Clear selected client ID
+      setTempClientId(null);
+      setTempQuoteStatus([]);
+      setTempPeriodType(null);
+      setClientIdForFilter(null);
+      setQuoteStatusTypes([]);
+      setPeriodValueType(null);
+      setTempYear(null);
+      setYear(null);
+      setClientName("");
+      localStorage.removeItem("storedClient");
+      setIsOpen(false);
+    }
     // Default to All Years
   };
 

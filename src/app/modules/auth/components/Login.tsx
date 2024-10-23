@@ -146,7 +146,7 @@ const Login = () => {
                   {/* Email Input */}
                   <div className="fv-row mb-8">
                     <input
-                      type="text"
+                      type="email"
                       placeholder={intl.formatMessage({
                         id: "LoginAndRegistration.UserName",
                       })}
@@ -209,7 +209,7 @@ const Login = () => {
                     </Link>
                   </div>
                   {/* Actions */}
-                  <div className="d-flex flex-stack ">
+                  <div className="d-flex flex-stack">
                     <button
                       type="submit"
                       id="kt_sign_in_submit"

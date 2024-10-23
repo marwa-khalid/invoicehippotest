@@ -511,20 +511,145 @@ const QuoteAddStep2: FC<Props> = ({
                                   />
                                 </td>
                                 <td>
-                                  <input
-                                    type="number"
-                                    className="form-control form-control-solid border-0 w-100px"
-                                    value={product.unitPrice}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        index,
-                                        "unitPrice",
-                                        Number(e.target.value)
-                                      )
-                                    }
-                                    min="0.00"
-                                    step="0.01"
-                                  />
+                                  <div className="d-flex align-items-center  position-relative">
+                                    <input
+                                      type="number"
+                                      className="form-control form-control-solid border-0 w-100px"
+                                      value={product.unitPrice}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          index,
+                                          "unitPrice",
+                                          Number(e.target.value)
+                                        )
+                                      }
+                                      min="0.00"
+                                      step="0.01"
+                                    />
+                                    <Tippy
+                                      content={
+                                        <>
+                                          <div>
+                                            {/* Display Amount title with inclusive or exclusive indication */}
+                                            {intl.formatMessage({
+                                              id: "Fields.Amount",
+                                            })}{" "}
+                                            (
+                                            {product.btwExclusive
+                                              ? "inc"
+                                              : "exc"}
+                                            ):{" "}
+                                            {(() => {
+                                              const vatEntry = vatTypes.find(
+                                                (vat: any) =>
+                                                  vat.value ===
+                                                  product.vatTypeId
+                                              );
+                                              const vatPercentage = vatEntry
+                                                ? parseFloat(
+                                                    vatEntry.label.replace(
+                                                      "%",
+                                                      ""
+                                                    )
+                                                  )
+                                                : NaN;
+
+                                              if (product.btwExclusive) {
+                                                // VAT Inclusive
+                                                const totalInclusive = (
+                                                  product.unitPrice +
+                                                  product.unitPrice *
+                                                    (vatPercentage / 100)
+                                                ).toFixed(2);
+                                                return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${totalInclusive}`;
+                                              } else {
+                                                // VAT Exclusive
+                                                if (isNaN(vatPercentage)) {
+                                                  // If VAT is not a valid number, display only unit price
+                                                  return `${
+                                                    auth.currentUser?.result
+                                                      .activeCompanyDefaults
+                                                      .defaultValuta.sign
+                                                  } ${product.unitPrice.toFixed(
+                                                    2
+                                                  )}`;
+                                                }
+
+                                                // Calculate base price from final price
+                                                const basePriceExclusive = (
+                                                  product.unitPrice /
+                                                  (1 + vatPercentage / 100)
+                                                ).toFixed(2);
+                                                return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${basePriceExclusive}`;
+                                              }
+                                            })()}
+                                          </div>
+                                          <div>
+                                            {/* Display VAT title with calculated VAT value */}
+                                            {intl.formatMessage({
+                                              id: "Fields.VatTitle",
+                                            })}
+                                            :{" "}
+                                            {(() => {
+                                              const vatEntry = vatTypes.find(
+                                                (vat: any) =>
+                                                  vat.value ===
+                                                  product.vatTypeId
+                                              );
+                                              const vatPercentage = vatEntry
+                                                ? parseFloat(
+                                                    vatEntry.label.replace(
+                                                      "%",
+                                                      ""
+                                                    )
+                                                  )
+                                                : NaN;
+
+                                              if (product.btwExclusive) {
+                                                // VAT Inclusive
+                                                const vatAmountInclusive = (
+                                                  product.unitPrice *
+                                                  (vatPercentage / 100)
+                                                ).toFixed(2);
+                                                return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountInclusive}`;
+                                              } else {
+                                                // VAT Exclusive
+                                                if (isNaN(vatPercentage)) {
+                                                  // If VAT is not a valid number, display VAT as 0.00
+                                                  return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} 0.00`;
+                                                }
+
+                                                // Calculate VAT amount for exclusive
+                                                const basePriceExclusive =
+                                                  product.unitPrice /
+                                                  (1 + vatPercentage / 100);
+                                                const vatAmountExclusive = (
+                                                  product.unitPrice -
+                                                  basePriceExclusive
+                                                ).toFixed(2);
+                                                return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountExclusive}`;
+                                              }
+                                            })()}
+                                          </div>
+                                        </>
+                                      }
+                                    >
+                                      <div
+                                        className="circle"
+                                        style={{
+                                          position: "absolute",
+                                          top: "-10px",
+                                          right: "-10px",
+                                        }}
+                                      >
+                                        <i className="ki-duotone ki-information-4 fs-2 cursor-pointer text-primary ms-1">
+                                          <span className="path1"></span>
+                                          <span className="path2"></span>
+                                          <span className="path3"></span>
+                                        </i>
+                                      </div>
+                                    </Tippy>
+                                  </div>
                                 </td>
                                 <td>
                                   <Select

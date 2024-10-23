@@ -185,6 +185,7 @@ const QuoteSearchComponent = ({
             <MenuList className="p-5 bg-body border-0 shadow-sm" zIndex={10}>
               <QuoteFilter
                 checkForReset={checkForReset}
+                isFilterApplied={isFilterApplied}
                 toggleMenu={toggleMenu}
                 setIsOpen={setIsOpen}
                 tempYear={tempYear}
