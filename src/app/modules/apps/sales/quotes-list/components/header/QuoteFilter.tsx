@@ -22,8 +22,10 @@ interface ComponentProps {
   setTempClientId: (clientId: number | null) => void;
   setShowClientSearch: (type: boolean) => void;
   setClientName: (type: string) => void;
+  setIsOpen: (type: boolean) => void;
   clientName: string;
   toggleMenu: any;
+  checkForReset: boolean;
 }
 
 export function QuoteFilter({
@@ -34,6 +36,7 @@ export function QuoteFilter({
   setQuoteStatusTypes,
   setClientIdForFilter,
   tempQuoteStatus,
+  setIsOpen,
   tempPeriodType,
   tempClientId,
   setIsFilterApplied,
@@ -44,6 +47,7 @@ export function QuoteFilter({
   setClientName,
   clientName,
   toggleMenu,
+  checkForReset,
 }: ComponentProps) {
   const intl = useIntl();
   const [minMaxYear, setMinMaxYear] = useState<any>();
@@ -187,9 +191,14 @@ export function QuoteFilter({
     setYear(null);
     setClientName("");
     localStorage.removeItem("storedClient");
-    toggleMenu();
+    setIsOpen(false);
+
     // Default to All Years
   };
+
+  useEffect(() => {
+    handleReset();
+  }, [checkForReset]);
 
   const handleQuoteStatusChange = (selectedOptions: any) => {
     const selectedValues = selectedOptions

@@ -59,7 +59,7 @@ const QuoteSearchComponent = ({
     }
   }, [clientIdForFilter]);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [checkForReset, setCheckForReset] = useState<boolean>(false);
   const toggleMenu = () => {
     setIsOpen((prev) => !prev); // Toggle menu open/close
   };
@@ -103,6 +103,7 @@ const QuoteSearchComponent = ({
   }, [year, periodValueType, clientIdForFilter, quoteStatusTypes]);
   const handleResetClick = () => {
     setLocalSearchTerm("");
+    setCheckForReset(!checkForReset);
     setSearchTerm("");
     localStorage.setItem(
       "pagination",
@@ -121,6 +122,7 @@ const QuoteSearchComponent = ({
         },
       })
     );
+    setIsOpen(false);
   };
 
   const { config } = useLayout();
@@ -182,7 +184,9 @@ const QuoteSearchComponent = ({
             </MenuButton>
             <MenuList className="p-5 bg-body border-0 shadow-sm" zIndex={10}>
               <QuoteFilter
+                checkForReset={checkForReset}
                 toggleMenu={toggleMenu}
+                setIsOpen={setIsOpen}
                 tempYear={tempYear}
                 setYear={setYear}
                 setTempYear={setTempYear}
