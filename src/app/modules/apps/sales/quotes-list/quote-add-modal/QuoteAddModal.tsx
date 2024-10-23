@@ -281,6 +281,7 @@ Props) => {
               setEditModalId(0);
               formik.setValues(formik.initialValues);
               setContactResponse(null);
+              setActiveTab(tabs[0]);
 
               break;
             case 3:
