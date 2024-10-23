@@ -6,6 +6,7 @@ import { MasterInit } from "../_metronic/layout/MasterInit";
 import { AuthInit } from "./modules/auth";
 import { ThemeModeProvider } from "../_metronic/partials";
 import { ToastContainer } from "react-toastify";
+import "tippy.js/dist/tippy.css";
 const App = () => {
   return (
     <Suspense fallback={<LayoutSplashScreen />}>

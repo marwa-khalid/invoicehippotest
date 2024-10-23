@@ -9,6 +9,8 @@ import { KTIcon, KTSVG } from "../../../../../../_metronic/helpers";
 import ReactQuill from "react-quill";
 import { ProductPicker } from "./ProductPicker";
 import { useAuth } from "../../../../auth";
+import Tippy from "@tippyjs/react";
+
 type Props = {
   clientId: number;
   refresh: boolean;
@@ -174,18 +176,18 @@ const QuoteAddStep2: FC<Props> = ({
                           .formatMessage({ id: "Fields.VatTypeId" })
                           .toUpperCase()}
                       </th>
-                      <th className="w-50px">
+                      <th className="w-100px">
                         {intl
                           .formatMessage({ id: "Fields.Total" })
                           .toUpperCase()}
                       </th>
-                      <th></th>
-                      <th></th>
+
+                      {/* <th className="w-150px"></th> */}
                     </tr>
                   </thead>
                   <tr className="mt-10">
                     <td
-                      colSpan={8}
+                      colSpan={7}
                       style={{
                         borderTop: "1px dotted #d6d4ce",
                         width: "100%",
@@ -400,7 +402,6 @@ const QuoteAddStep2: FC<Props> = ({
                             <div className="modal-backdrop fade show"></div>
                           </>
                         )}
-
                         <Draggable
                           key={index}
                           draggableId={index.toString()}
@@ -413,20 +414,27 @@ const QuoteAddStep2: FC<Props> = ({
                                 onClick={() => setProductModalIndex(index)}
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
-                                {...provided.dragHandleProps}
                               >
                                 <td>
                                   <div className="d-flex align-items-center mb-2">
-                                    <Tooltip
-                                      label={intl.formatMessage({
+                                    <span
+                                      {...provided.dragHandleProps} // Attach dragHandleProps here
+                                      className="btn btn-icon btn-light btn-sm me-2 drag-handle px-2"
+                                      style={{ cursor: "grab" }}
+                                    >
+                                      <i className="ki-duotone ki-arrow-mix text-muted fs-2">
+                                        <span className="path1"></span>
+                                        <span className="path2"></span>
+                                      </i>
+                                    </span>
+
+                                    <Tippy
+                                      content={intl.formatMessage({
                                         id: "Fields.ToolTipEdit",
                                       })}
-                                      fontSize="sm"
-                                      className="bg-gray-800 text-white p-2 rounded"
-                                      placement="top"
                                     >
                                       <button
-                                        className="btn btn-icon btn-light btn-sm me-2"
+                                        className="btn btn-icon btn-light btn-sm me-2 px-2 "
                                         onClick={(e) => {
                                           e.preventDefault();
                                           setProductModalOpen(true);
@@ -435,7 +443,7 @@ const QuoteAddStep2: FC<Props> = ({
                                       >
                                         <i className="ki-solid ki-pencil text-warning fs-2" />
                                       </button>
-                                    </Tooltip>
+                                    </Tippy>
                                     <input
                                       type="text"
                                       className="form-control form-control-solid border-0 p-3"
@@ -536,127 +544,143 @@ const QuoteAddStep2: FC<Props> = ({
                                     placeholder="Select VAT"
                                   />
                                 </td>
-                                <td className="text-center">
-                                  <div className="d-flex flex-column">
-                                    <span className="fw-bold">
-                                      {
-                                        auth.currentUser?.result
-                                          .activeCompanyDefaults.defaultValuta
-                                          .sign
-                                      }{" "}
-                                      {calculateTotal(
-                                        product.units,
-                                        product.unitPrice,
-                                        product.discountMarginId
-                                      ).toFixed(2)}
-                                    </span>
 
-                                    {product.discountMarginId && (
-                                      <span className="text-danger">
-                                        -
+                                <td>
+                                  <Tippy
+                                    content={
+                                      <>
+                                        <div>
+                                          {/* Display Amount title with inclusive or exclusive indication */}
+                                          {intl.formatMessage({
+                                            id: "Fields.Amount",
+                                          })}{" "}
+                                          (
+                                          {product.btwExclusive ? "inc" : "exc"}
+                                          ):{" "}
+                                          {(() => {
+                                            const vatEntry = vatTypes.find(
+                                              (vat: any) =>
+                                                vat.value === product.vatTypeId
+                                            );
+                                            const vatPercentage = vatEntry
+                                              ? parseFloat(
+                                                  vatEntry.label.replace(
+                                                    "%",
+                                                    ""
+                                                  )
+                                                )
+                                              : NaN;
+
+                                            if (product.btwExclusive) {
+                                              // VAT Inclusive
+                                              const totalInclusive = (
+                                                product.unitPrice +
+                                                product.unitPrice *
+                                                  (vatPercentage / 100)
+                                              ).toFixed(2);
+                                              return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${totalInclusive}`;
+                                            } else {
+                                              // VAT Exclusive
+                                              if (isNaN(vatPercentage)) {
+                                                // If VAT is not a valid number, display only unit price
+                                                return `${
+                                                  auth.currentUser?.result
+                                                    .activeCompanyDefaults
+                                                    .defaultValuta.sign
+                                                } ${product.unitPrice.toFixed(
+                                                  2
+                                                )}`;
+                                              }
+
+                                              // Calculate base price from final price
+                                              const basePriceExclusive = (
+                                                product.unitPrice /
+                                                (1 + vatPercentage / 100)
+                                              ).toFixed(2);
+                                              return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${basePriceExclusive}`;
+                                            }
+                                          })()}
+                                        </div>
+                                        <div>
+                                          {/* Display VAT title with calculated VAT value */}
+                                          {intl.formatMessage({
+                                            id: "Fields.VatTitle",
+                                          })}
+                                          :{" "}
+                                          {(() => {
+                                            const vatEntry = vatTypes.find(
+                                              (vat: any) =>
+                                                vat.value === product.vatTypeId
+                                            );
+                                            const vatPercentage = vatEntry
+                                              ? parseFloat(
+                                                  vatEntry.label.replace(
+                                                    "%",
+                                                    ""
+                                                  )
+                                                )
+                                              : NaN;
+
+                                            if (product.btwExclusive) {
+                                              // VAT Inclusive
+                                              const vatAmountInclusive = (
+                                                product.unitPrice *
+                                                (vatPercentage / 100)
+                                              ).toFixed(2);
+                                              return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountInclusive}`;
+                                            } else {
+                                              // VAT Exclusive
+                                              if (isNaN(vatPercentage)) {
+                                                // If VAT is not a valid number, display VAT as 0.00
+                                                return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} 0.00`;
+                                              }
+
+                                              // Calculate VAT amount for exclusive
+                                              const basePriceExclusive =
+                                                product.unitPrice /
+                                                (1 + vatPercentage / 100);
+                                              const vatAmountExclusive = (
+                                                product.unitPrice -
+                                                basePriceExclusive
+                                              ).toFixed(2);
+                                              return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountExclusive}`;
+                                            }
+                                          })()}
+                                        </div>
+                                      </>
+                                    }
+                                  >
+                                    <div className="d-flex flex-column">
+                                      <span className="fw-bold cursor-pointer mt-2">
                                         {
-                                          discountTypes.find(
-                                            (discountType: any) =>
-                                              discountType.value ===
-                                              product.discountMarginId
-                                          )?.label
-                                        }
+                                          auth.currentUser?.result
+                                            .activeCompanyDefaults.defaultValuta
+                                            .sign
+                                        }{" "}
+                                        {calculateTotal(
+                                          product.units,
+                                          product.unitPrice,
+                                          product.discountMarginId
+                                        ).toFixed(2)}
                                       </span>
-                                    )}
-                                  </div>
-                                </td>
-                                <td className="text-muted fw-bold fs-9 ">
-                                  <div>
-                                    {/* Display Amount title with inclusive or exclusive indication */}
-                                    {intl.formatMessage({
-                                      id: "Fields.Amount",
-                                    })}{" "}
-                                    ({product.btwExclusive ? "inc" : "exc"}):{" "}
-                                    {(() => {
-                                      const vatEntry = vatTypes.find(
-                                        (vat: any) =>
-                                          vat.value === product.vatTypeId
-                                      );
-                                      const vatPercentage = vatEntry
-                                        ? parseFloat(
-                                            vatEntry.label.replace("%", "")
-                                          )
-                                        : NaN;
 
-                                      if (product.btwExclusive) {
-                                        // VAT Inclusive
-                                        const totalInclusive = (
-                                          product.unitPrice +
-                                          product.unitPrice *
-                                            (vatPercentage / 100)
-                                        ).toFixed(2);
-                                        return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${totalInclusive}`;
-                                      } else {
-                                        // VAT Exclusive
-                                        if (isNaN(vatPercentage)) {
-                                          // If VAT is not a valid number, display only unit price
-                                          return `${
-                                            auth.currentUser?.result
-                                              .activeCompanyDefaults
-                                              .defaultValuta.sign
-                                          } ${product.unitPrice.toFixed(2)}`;
-                                        }
-
-                                        // Calculate base price from final price
-                                        const basePriceExclusive = (
-                                          product.unitPrice /
-                                          (1 + vatPercentage / 100)
-                                        ).toFixed(2);
-                                        return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${basePriceExclusive}`;
-                                      }
-                                    })()}
-                                  </div>
-
-                                  <div>
-                                    {/* Display VAT title with calculated VAT value */}
-                                    {intl.formatMessage({
-                                      id: "Fields.VatTitle",
-                                    })}
-                                    :{" "}
-                                    {(() => {
-                                      const vatEntry = vatTypes.find(
-                                        (vat: any) =>
-                                          vat.value === product.vatTypeId
-                                      );
-                                      const vatPercentage = vatEntry
-                                        ? parseFloat(
-                                            vatEntry.label.replace("%", "")
-                                          )
-                                        : NaN;
-
-                                      if (product.btwExclusive) {
-                                        // VAT Inclusive
-                                        const vatAmountInclusive = (
-                                          product.unitPrice *
-                                          (vatPercentage / 100)
-                                        ).toFixed(2);
-                                        return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountInclusive}`;
-                                      } else {
-                                        // VAT Exclusive
-                                        if (isNaN(vatPercentage)) {
-                                          // If VAT is not a valid number, display VAT as 0.00
-                                          return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} 0.00`;
-                                        }
-
-                                        // Calculate VAT amount for exclusive
-                                        const basePriceExclusive =
-                                          product.unitPrice /
-                                          (1 + vatPercentage / 100);
-                                        const vatAmountExclusive = (
-                                          product.unitPrice - basePriceExclusive
-                                        ).toFixed(2);
-                                        return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountExclusive}`;
-                                      }
-                                    })()}
-                                  </div>
+                                      {product.discountMarginId && (
+                                        <small className="text-danger">
+                                          -
+                                          {
+                                            discountTypes.find(
+                                              (discountType: any) =>
+                                                discountType.value ===
+                                                product.discountMarginId
+                                            )?.label
+                                          }
+                                        </small>
+                                      )}
+                                    </div>
+                                  </Tippy>
                                 </td>
 
-                                <td className="text-end">
+                                <td className="w-150px text-end">
                                   {formik.values.products.length === 1 ? (
                                     // Other rows: Only show the remove button
                                     <button
@@ -699,7 +723,7 @@ const QuoteAddStep2: FC<Props> = ({
                               </tr>
                               {product.description && (
                                 <tr>
-                                  <td colSpan={8}>
+                                  <td colSpan={7}>
                                     {" "}
                                     <span
                                       dangerouslySetInnerHTML={{
@@ -711,7 +735,7 @@ const QuoteAddStep2: FC<Props> = ({
                               )}
                               <tr>
                                 <td
-                                  colSpan={8}
+                                  colSpan={7}
                                   style={{
                                     borderTop: "1px dotted #d6d4ce",
                                     width: "100%",

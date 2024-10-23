@@ -602,25 +602,20 @@ Props) => {
   return (
     <>
       <div
-        className={`modal fade show ${
-          attachmentsModalOpen ? "d-block" : "d-block"
-        }`}
-        tabIndex={-1}
+        className="modal fade show d-block"
         role="dialog"
         id="quote_add_modal"
         aria-modal="true"
+        tabIndex={-1}
       >
         <div
           className="modal-dialog "
           style={{
-            minWidth: "1200px",
-            maxWidth: "1200px",
-
-            // width: {900},
-            // margin: 0,
+            maxWidth: "1024px",
+            width: "100%",
           }}
         >
-          <div className="modal-content  ">
+          <div className="modal-content">
             <QuoteAddModalHeader
               businessName={formik.values.header.clientDisplayName}
               tabs={tabs}
