@@ -6,10 +6,7 @@ import { FinancialListPagination } from "../components/pagination/FinancialListP
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
-import { KTSVG } from "../../../../../../_metronic/helpers";
-import { Tooltip } from "@chakra-ui/react";
 import { useAuth } from "../../../../auth";
-import enums from "../../../../../../invoicehippo.enums.json";
 import Tippy from "@tippyjs/react";
 interface ComponentProps {
   searchTerm: string;
@@ -23,13 +20,12 @@ interface ComponentProps {
   refresh: boolean;
   setPageIndex: (type: number) => void;
   pageIndex: number;
-  deleteModalOpen: boolean;
-  addModalOpen: boolean;
   searchCounter: number;
   periodValueType: number | null;
   quoteStatusTypes: any;
   clientIdForFilter: number | null;
   year: number | null;
+  openCopyModal: any;
 }
 const QuoteList = ({
   searchTerm,
@@ -44,12 +40,11 @@ const QuoteList = ({
   refresh,
   setPageIndex,
   pageIndex,
-  deleteModalOpen,
-  addModalOpen,
   periodValueType,
   quoteStatusTypes,
   clientIdForFilter,
   year,
+  openCopyModal,
 }: ComponentProps) => {
   const [quoteLists, setQuoteList] = useState<any>([]);
 
@@ -488,92 +483,111 @@ const QuoteList = ({
                           </button>
                         </Tippy>
                       )}
-                      <div className="btn-group">
-                        <button className="btn btn-icon btn-light btn-sm dropdown-toggle custom-dropdown">
-                          <i className="fa fas fa-list-ul"></i>
-                        </button>
-                      </div>
-
-                      <div className="btn-group dropleft mr-2">
+                      <div className="btn-group drop-left">
                         <button
-                          className="btn btn-icon btn-light dropdown-toggle"
-                          type="button"
-                          data-toggle="dropdown"
-                          aria-haspopup="true"
+                          className="btn btn-icon btn-light btn-sm"
+                          data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <i className="fa fas fa-list-ul"></i>
+                          <i className="fa fas fa-list-ul text-muted fs-2"></i>
                         </button>
-                        <div className="dropdown-menu">
-                          <a
-                            className="dropdown-item hippo-pointer"
-                            data-toggle="modal"
-                            data-target=""
+                        <ul className="dropdown-menu w-content-fit py-4">
+                          <li
+                            onClick={() => {
+                              const link = document.createElement("a");
+                              link.href = quoteList.downloadInfo.downloadUrl;
+                              link.setAttribute(
+                                "download",
+                                quoteList.downloadInfo.fileName
+                              );
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                            }}
                           >
-                            <span>
-                              <i className="fa fas fa-pencil-alt"></i>
-                            </span>
-                            <span>&nbsp;&nbsp;wijzigen</span>
-                          </a>
-                          <div className="dropdown-divider"></div>
-                          <a
-                            className="dropdown-item hippo-pointer"
-                            data-toggle="modal"
-                            data-target="#createCopyModal"
+                            <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                              <i className="fa-solid fa-cloud-arrow-down me-2 fs-3"></i>
+                              {intl.formatMessage({
+                                id: "Fields.ActionDownload",
+                              })}
+                            </a>
+                          </li>
+                          <div className="dropdown-divider border-gray-200"></div>
+                          <li
+                            onClick={() => {
+                              // formik.handleSubmit();
+                              // setAction(1);
+                            }}
                           >
-                            <span>
-                              <i className="fa far fa-copy"></i>
-                            </span>
-                            <span>&nbsp;&nbsp;kopieren</span>
-                          </a>
-                          <div className="dropdown-divider"></div>
-                          <a
-                            className="dropdown-item hippo-pointer"
-                            data-toggle="modal"
-                            data-target="#sendModal"
+                            <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
+                              <i className="ki-duotone ki-send fs-1 me-2">
+                                <span className="path1"></span>
+                                <span className="path2"></span>
+                              </i>
+                              {intl.formatMessage({
+                                id: "Fields.ActionSendEmail",
+                              })}
+                            </a>
+                          </li>
+                          <div className="dropdown-divider border-gray-200"></div>
+
+                          <li
+                            onClick={() => {
+                              openCopyModal();
+                              setQuoteNumber(quoteList.quoteNr);
+                              localStorage.setItem(
+                                "CopyData",
+                                JSON.stringify({
+                                  quoteDateAsString:
+                                    quoteList.quoteDateAsString,
+                                  client: quoteList.client,
+                                  totalPriceWithVat:
+                                    quoteList.totals.totalPriceWithVAT,
+                                  sign: quoteList.valuta.sign,
+                                })
+                              );
+                            }}
                           >
-                            <span>
-                              <i className="fa fas fa-paper-plane"></i>
-                            </span>
-                            <span>&nbsp;&nbsp;verstuur e-mail</span>
-                          </a>
-                          <div className="dropdown-divider"></div>
-                          <a
-                            className="dropdown-item hippo-pointer"
-                            data-toggle="modal"
-                            data-target=""
-                          >
-                            <span>
-                              <i className="fa fas fa-cloud-download-alt"></i>
-                            </span>
-                            <span>&nbsp;&nbsp;downloaden</span>
-                          </a>
-                          <div className="dropdown-divider"></div>
-                          <a
-                            className="dropdown-item hippo-pointer"
-                            data-toggle="modal"
-                            data-target="#quoteValidationModal"
-                          >
-                            <span>
-                              <i className="fa far fa-credit-card"></i>
-                            </span>
-                            <span>&nbsp;&nbsp;goedkeuren-/afkeuren</span>
-                          </a>
-                          <div className="dropdown-divider"></div>
-                          <a
-                            className="dropdown-item hippo-pointer"
-                            data-toggle="modal"
-                            data-target="#deleteModal"
-                          >
-                            <span>
-                              <i className="fa far fa-trash-alt"></i>
-                            </span>
-                            <span>&nbsp;&nbsp;verwijderen</span>
-                          </a>
-                        </div>
+                            <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                              <i className="ki-duotone ki-copy fs-1 me-2" />
+                              {intl.formatMessage({
+                                id: "Fields.ActionCopy",
+                              })}
+                            </a>
+                          </li>
+                          <div className="dropdown-divider border-gray-200"></div>
+                          {quoteList.actions.canDelete && (
+                            <li
+                              onClick={() => {
+                                openDeleteModal(
+                                  quoteList.id,
+                                  quoteList.quoteNr
+                                );
+                                localStorage.setItem(
+                                  "DeleteData",
+                                  JSON.stringify({
+                                    quoteDateAsString:
+                                      quoteList.quoteDateAsString,
+                                    client: quoteList.client,
+                                    totalPriceWithVat:
+                                      quoteList.totals.totalPriceWithVAT,
+                                    sign: quoteList.valuta.sign,
+                                  })
+                                );
+                              }}
+                            >
+                              <a className="dropdown-item  d-flex align-items-center cursor-pointer">
+                                <i className="ki-solid ki-trash fs-1 me-2"></i>
+                                {intl.formatMessage({
+                                  id: "Fields.ActionDelete",
+                                })}
+                              </a>
+                            </li>
+                          )}
+                        </ul>
                       </div>
 
-                      {quoteList.actions.canDelete && (
+                      {/* {quoteList.actions.canDelete && (
                         <Tippy
                           content={intl.formatMessage({
                             id: "Fields.ToolTipDelete",
@@ -599,7 +613,7 @@ const QuoteList = ({
                             <i className="ki-solid ki-trash text-danger fs-2"></i>
                           </button>
                         </Tippy>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>

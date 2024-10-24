@@ -36,12 +36,6 @@ interface Props {
   setRefresh: (type: boolean) => void;
   refresh: boolean;
   setAddModalOpen: (type: boolean) => void;
-  setDeleteModalId: (type: number[]) => void;
-  setDeleteModalOpen: (type: boolean) => void;
-
-  // setTitle: (type: string) => void;
-  // setIntlMessage: (type: string) => void;
-  // deleteModalOpen: boolean;
   editModalId: number;
   setEditModalId: (type: number) => void;
 }
@@ -55,12 +49,7 @@ const QuoteAddModal = ({
   refresh,
   setEditModalId,
   editModalId,
-  setDeleteModalOpen,
-  setDeleteModalId,
-}: // setIntlMessage,
-// setTitle,
-// deleteModalOpen,
-Props) => {
+}: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -383,7 +372,7 @@ Props) => {
         setLedgers(options);
       }
     };
-    if (ledgers.length === 0) {
+    if (ledgers?.length === 0) {
       fetchLedgersForSale();
     }
   }, []);
@@ -399,7 +388,7 @@ Props) => {
         setUnitTypes(options);
       }
     };
-    if (unitTypes.length === 0) {
+    if (unitTypes?.length === 0) {
       fetchUnitTypes();
     }
   }, []);
@@ -416,7 +405,7 @@ Props) => {
         setDiscountTypes(options);
       }
     };
-    if (discountTypes.length === 0) {
+    if (discountTypes?.length === 0) {
       fetchDiscountTypes();
     }
   }, []);
@@ -428,7 +417,7 @@ Props) => {
         setVatTypes(response.result);
       }
     };
-    if (vatTypes.length === 0) {
+    if (vatTypes?.length === 0) {
       fetchVatsForSale();
     }
   }, []);
@@ -445,7 +434,7 @@ Props) => {
         setCompanyTradeNames(options);
       }
     };
-    if (companyTradeNames.length === 0) {
+    if (companyTradeNames?.length === 0) {
       fetchTradeNames();
     }
   }, []);
@@ -462,7 +451,7 @@ Props) => {
         setNotificationCycles(options);
       }
     };
-    if (notificationCycles.length === 0) {
+    if (notificationCycles?.length === 0) {
       fetchNotificationCycles();
     }
   }, []);
