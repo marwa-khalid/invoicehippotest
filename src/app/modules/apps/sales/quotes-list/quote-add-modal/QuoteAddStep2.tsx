@@ -535,7 +535,7 @@ const QuoteAddStep2: FC<Props> = ({
                                             })}{" "}
                                             {(() => {
                                               const vatEntry = vatTypes
-                                                .map((item: any) => ({
+                                                ?.map((item: any) => ({
                                                   value: item.id,
                                                   label: item.title,
                                                 }))
@@ -597,7 +597,7 @@ const QuoteAddStep2: FC<Props> = ({
                                             :{" "}
                                             {(() => {
                                               const vatEntry = vatTypes
-                                                .map((item: any) => ({
+                                                ?.map((item: any) => ({
                                                   value: item.id,
                                                   label: item.title,
                                                 }))
@@ -679,7 +679,7 @@ const QuoteAddStep2: FC<Props> = ({
                                         return vat.value === product.vatTypeId;
                                       })}
                                     className="react-select-styled"
-                                    options={vatTypes.map((item: any) => ({
+                                    options={vatTypes?.map((item: any) => ({
                                       value: item.id,
                                       label: item.title,
                                     }))}
@@ -705,7 +705,7 @@ const QuoteAddStep2: FC<Props> = ({
                                           })}{" "}
                                           {(() => {
                                             const vatEntry = vatTypes
-                                              .map((item: any) => ({
+                                              ?.map((item: any) => ({
                                                 value: item.id,
                                                 label: item.title,
                                               }))
@@ -782,7 +782,7 @@ const QuoteAddStep2: FC<Props> = ({
                                           :{" "}
                                           {(() => {
                                             const vatEntry = vatTypes
-                                              .map((item: any) => ({
+                                              ?.map((item: any) => ({
                                                 value: item.id,
                                                 label: item.title,
                                               }))
