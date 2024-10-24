@@ -167,6 +167,7 @@ const QuoteSearchComponent = ({
             onClose={() => setIsOpen(false)}
             closeOnBlur={false}
             flip={false}
+            placement="bottom-start"
           >
             <MenuButton
               className={clsx(
