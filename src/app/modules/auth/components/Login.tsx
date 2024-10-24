@@ -147,6 +147,7 @@ const Login = () => {
                   <div className="fv-row mb-8">
                     <input
                       type="email"
+                      autoComplete="true"
                       placeholder={intl.formatMessage({
                         id: "LoginAndRegistration.UserName",
                       })}
@@ -174,6 +175,7 @@ const Login = () => {
                   {/* Password Input */}
                   <div className="fv-row mb-7">
                     <input
+                      autoComplete="true"
                       type="password"
                       placeholder={intl.formatMessage({
                         id: "LoginAndRegistration.Password",
