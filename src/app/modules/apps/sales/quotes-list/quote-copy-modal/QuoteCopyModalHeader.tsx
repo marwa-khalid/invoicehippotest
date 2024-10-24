@@ -6,27 +6,27 @@ interface ComponentProps {
   quoteNumber: string;
 }
 
-const QuoteDeleteModalHeader = ({
+const QuoteCopyModalHeader = ({
   setCopyModalOpen,
   quoteNumber,
 }: ComponentProps) => {
   const intl = useIntl();
 
-  const copyParsedData = JSON.parse(localStorage.getItem("CopyData")!);
+  const parsedData = JSON.parse(localStorage.getItem("ModalData")!);
 
   return (
     <div className="modal-header bg-info d-flex flex-column">
       {/* Modal title */}
       <div className="d-flex w-100 justify-content-between align-items-center">
         <h2 className="fw-bolder mb-0 text-white">
-          {intl.formatMessage({ id: "Fields.ModalDeleteTitleQuote" })}
+          {intl.formatMessage({ id: "Fields.ModalCopyQuoteTitle" })}
         </h2>
         <div
           className="btn btn-icon btn-sm btn-active-icon-primary"
           data-kt-users-modal-action="close"
           onClick={() => {
             setCopyModalOpen(false);
-            localStorage.removeItem("CopyData");
+            localStorage.removeItem("ModalData");
           }}
           style={{ cursor: "pointer" }}
         >
@@ -42,7 +42,7 @@ const QuoteDeleteModalHeader = ({
               <td className="fw-bold">
                 {intl.formatMessage({ id: "Fields.QuoteDate" })}
               </td>
-              <td>: {copyParsedData?.quoteDateAsString}</td>
+              <td>: {parsedData?.quoteDateAsString}</td>
             </tr>
             <tr>
               <td className="fw-bold">
@@ -54,14 +54,14 @@ const QuoteDeleteModalHeader = ({
               <td className="fw-bold">
                 {intl.formatMessage({ id: "Fields.Client" })}
               </td>
-              <td>: {copyParsedData?.client}</td>
+              <td>: {parsedData?.client}</td>
             </tr>
             <tr>
               <td className="fw-bold">
                 {intl.formatMessage({ id: "Fields.Total" })}
               </td>
               <td>
-                : {copyParsedData?.sign} {copyParsedData?.totalPriceWithVat}
+                : {parsedData?.sign} {parsedData?.totalPriceWithVat}
               </td>
             </tr>
           </tbody>
@@ -71,4 +71,4 @@ const QuoteDeleteModalHeader = ({
   );
 };
 
-export { QuoteDeleteModalHeader };
+export { QuoteCopyModalHeader };

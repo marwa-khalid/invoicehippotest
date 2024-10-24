@@ -5,15 +5,15 @@ import { deleteQuoteList } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
-  setCopyModalOpen: (type: boolean) => void;
+  setValidateModalOpen: (type: boolean) => void;
   deleteModalId: number;
   setRefresh: (type: boolean) => void;
   refresh: boolean;
 }
 
-const QuoteDeleteModalFooter = ({
+const QuoteEmailModalFooter = ({
   deleteModalId,
-  setCopyModalOpen,
+  setValidateModalOpen,
   setRefresh,
   refresh,
 }: ComponentProps) => {
@@ -26,9 +26,9 @@ const QuoteDeleteModalFooter = ({
     const response = await deleteQuoteList(deleteModalId);
     if (response.isValid) {
       setRefresh(!refresh);
-      setCopyModalOpen(false);
+      setValidateModalOpen(false);
       setIsSubmitting(false);
-      localStorage.removeItem("CopyData");
+      localStorage.removeItem("ModalData");
     }
     handleToast(response);
   };
@@ -39,8 +39,8 @@ const QuoteDeleteModalFooter = ({
         <button
           type="reset"
           onClick={() => {
-            setCopyModalOpen(false);
-            localStorage.removeItem("CopyData");
+            setValidateModalOpen(false);
+            localStorage.removeItem("ModalData");
           }}
           className="btn btn-secondary me-3"
         >
@@ -50,11 +50,12 @@ const QuoteDeleteModalFooter = ({
         {/* Save Button */}
         <button
           type="submit"
-          className="btn btn-info"
+          className="btn btn-success"
           onClick={deleteQuote}
           //   disabled={!isValid || isSubmitting || !touched}
         >
-          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionCopy" })}
+          {!isSubmitting &&
+            intl.formatMessage({ id: "Fields.ActionSendEmail" })}
           {isSubmitting && (
             <span className="indicator-progress" style={{ display: "block" }}>
               {intl.formatMessage({ id: "Common.Busy" })}
@@ -67,4 +68,4 @@ const QuoteDeleteModalFooter = ({
   );
 };
 
-export { QuoteDeleteModalFooter };
+export { QuoteEmailModalFooter };

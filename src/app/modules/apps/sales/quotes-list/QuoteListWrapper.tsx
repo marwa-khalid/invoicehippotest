@@ -9,6 +9,8 @@ import { QuoteViewModal } from "./quote-view-modal/QuoteViewModal";
 import { QuoteAddModal } from "./quote-add-modal/QuoteAddModal";
 import { ClientSearch } from "./quote-add-modal/ClientSearch";
 import { QuoteCopyModal } from "./quote-copy-modal/QuoteCopyModal";
+import { QuoteValidateModal } from "./quote-validate-modal/QuoteValidateModal";
+import { QuoteEmailModal } from "./quote-email-modal/QuoteEmailModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -81,6 +83,8 @@ const QuoteListInnerWrapper = () => {
   const [year, setYear] = useState<number | null>(yearFilter);
   const [showClientSearch, setShowClientSearch] = useState<boolean>(false);
   const [copyModalOpen, setCopyModalOpen] = useState<boolean>(false);
+  const [validateModalOpen, setValidateModalOpen] = useState<boolean>(false);
+  const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
   const handleClientModalClose = () => {
     const storedClient = JSON.parse(localStorage.getItem("storedClient")!);
 
@@ -90,9 +94,7 @@ const QuoteListInnerWrapper = () => {
     }
     setShowClientSearch(false); // Close the modal
   };
-  const openCopyModal = () => {
-    setCopyModalOpen(true);
-  };
+
   return (
     <>
       <FinancialListHeader
@@ -135,7 +137,9 @@ const QuoteListInnerWrapper = () => {
         refresh={refresh}
         pageIndex={pageIndex}
         setPageIndex={setPageIndexState}
-        openCopyModal={openCopyModal}
+        setCopyModalOpen={setCopyModalOpen}
+        setValidateModalOpen={setValidateModalOpen}
+        setEmailModalOpen={setEmailModalOpen}
       />
       {addModalOpen && (
         <QuoteAddModal
@@ -164,6 +168,24 @@ const QuoteListInnerWrapper = () => {
           deleteModalId={editModalId}
           quoteNumber={quoteNumber}
           setCopyModalOpen={setCopyModalOpen}
+          setRefresh={setRefresh}
+          refresh={refresh}
+        />
+      )}
+      {validateModalOpen && (
+        <QuoteValidateModal
+          deleteModalId={editModalId}
+          quoteNumber={quoteNumber}
+          setValidateModalOpen={setValidateModalOpen}
+          setRefresh={setRefresh}
+          refresh={refresh}
+        />
+      )}
+      {emailModalOpen && (
+        <QuoteEmailModal
+          deleteModalId={editModalId}
+          quoteNumber={quoteNumber}
+          setValidateModalOpen={setEmailModalOpen}
           setRefresh={setRefresh}
           refresh={refresh}
         />

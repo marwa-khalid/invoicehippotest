@@ -25,7 +25,9 @@ interface ComponentProps {
   quoteStatusTypes: any;
   clientIdForFilter: number | null;
   year: number | null;
-  openCopyModal: any;
+  setCopyModalOpen: (type: boolean) => void;
+  setValidateModalOpen: (type: boolean) => void;
+  setEmailModalOpen: (type: boolean) => void;
 }
 const QuoteList = ({
   searchTerm,
@@ -44,7 +46,9 @@ const QuoteList = ({
   quoteStatusTypes,
   clientIdForFilter,
   year,
-  openCopyModal,
+  setCopyModalOpen,
+  setValidateModalOpen,
+  setEmailModalOpen,
 }: ComponentProps) => {
   const [quoteLists, setQuoteList] = useState<any>([]);
 
@@ -189,6 +193,31 @@ const QuoteList = ({
         return "bg-default"; // Default case
     }
   };
+  const openCopyModal = (quoteList: any) => {
+    valueSetter(quoteList);
+    setCopyModalOpen(true);
+  };
+  const openValidateModal = (quoteList: any) => {
+    valueSetter(quoteList);
+    setValidateModalOpen(true);
+  };
+
+  const openEmailModal = (quoteList: any) => {
+    valueSetter(quoteList);
+    setEmailModalOpen(true);
+  };
+  const valueSetter = (quoteList: any) => {
+    setQuoteNumber(quoteList.quoteNr);
+    localStorage.setItem(
+      "ModalData",
+      JSON.stringify({
+        quoteDateAsString: quoteList.quoteDateAsString,
+        client: quoteList.client,
+        totalPriceWithVat: quoteList.totals.totalPriceWithVAT,
+        sign: quoteList.valuta.sign,
+      })
+    );
+  };
 
   return (
     <KTCardBody className="py-4">
@@ -215,35 +244,6 @@ const QuoteList = ({
                     <span className="ribbon-inner bg-gray-600"></span>
                   </div>
                 </div>
-
-                {/*center ribbon */}
-                {/* <div
-                  className="ribbon ribbon-top ribbon-vertical position-absolute"
-                  style={{
-                    top: "3px",
-                    width: "100px",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                  }}
-                >
-                  <div
-                    className="ribbon-label fw-bold"
-                    style={{
-                      whiteSpace: "nowrap", // Prevents text wrapping
-                      overflow: "hidden", // Clips overflowing content
-                      textOverflow: "ellipsis",
-                      backgroundColor: "#1BC5BD",
-                      minHeight: "16px", // Adds ellipsis if the text is too long
-                    }}
-                  >
-                    {quoteList.quoteStatus.description}
-                    <span
-                      className={`ribbon-inner ${getStatusClass(
-                        quoteList.quoteStatus.value
-                      )}`}
-                    ></span>
-                  </div>
-                </div> */}
 
                 <div
                   className="ribbon ribbon-start ribbon-clip position-absolute"
@@ -513,10 +513,18 @@ const QuoteList = ({
                             </a>
                           </li>
                           <div className="dropdown-divider border-gray-200"></div>
+                          <li onClick={() => openValidateModal(quoteList)}>
+                            <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                              <i className="fa far fa-credit-card me-2 fs-3"></i>
+                              {intl.formatMessage({
+                                id: "Fields.ActionApprove",
+                              })}
+                            </a>
+                          </li>
+                          <div className="dropdown-divider border-gray-200"></div>
                           <li
                             onClick={() => {
-                              // formik.handleSubmit();
-                              // setAction(1);
+                              openEmailModal(quoteList);
                             }}
                           >
                             <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
@@ -533,19 +541,7 @@ const QuoteList = ({
 
                           <li
                             onClick={() => {
-                              openCopyModal();
-                              setQuoteNumber(quoteList.quoteNr);
-                              localStorage.setItem(
-                                "CopyData",
-                                JSON.stringify({
-                                  quoteDateAsString:
-                                    quoteList.quoteDateAsString,
-                                  client: quoteList.client,
-                                  totalPriceWithVat:
-                                    quoteList.totals.totalPriceWithVAT,
-                                  sign: quoteList.valuta.sign,
-                                })
-                              );
+                              openCopyModal(quoteList);
                             }}
                           >
                             <a className="dropdown-item d-flex align-items-center cursor-pointer">
