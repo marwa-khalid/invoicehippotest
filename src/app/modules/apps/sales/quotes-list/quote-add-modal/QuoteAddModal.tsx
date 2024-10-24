@@ -32,6 +32,7 @@ import ReactQuill from "react-quill";
 import enums from "../../../../../../invoicehippo.enums.json";
 import { QuoteViewModal } from "../quote-view-modal/QuoteViewModal";
 import { QuoteRestorationModal } from "../quote-restoration-modal/QuoteRestorationModal";
+import { ListLoading } from "../../../components/ListLoading";
 interface Props {
   setRefresh: (type: boolean) => void;
   refresh: boolean;
@@ -298,9 +299,10 @@ const QuoteAddModal = ({
       formik.setFieldValue("hasAttachments", true);
     }
   }, [formik.values.attachments?.attachments?.length]);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
     const fetchInitialData = async () => {
+      setIsLoading(true);
       let res;
       if (editModalId != 0 && editModalId != formik.values.id) {
         res = await getQuoteById(editModalId);
@@ -314,6 +316,7 @@ const QuoteAddModal = ({
         ...formik.values,
         ...res.result, // Merge the response with the existing form values
       });
+      setIsLoading(false);
     };
 
     fetchInitialData();
@@ -327,12 +330,12 @@ const QuoteAddModal = ({
   //   }
   // }, [response]);
 
-  const [ledgers, setLedgers] = useState<any>();
-  const [vatTypes, setVatTypes] = useState<any>();
-  const [discountTypes, setDiscountTypes] = useState<any>();
-  const [unitTypes, setUnitTypes] = useState<any>();
-  const [companyTradeNames, setCompanyTradeNames] = useState<any>();
-  const [notificationCycles, setNotificationCycles] = useState<any>();
+  const [ledgers, setLedgers] = useState<any>([]);
+  const [vatTypes, setVatTypes] = useState<any>([]);
+  const [discountTypes, setDiscountTypes] = useState<any>([]);
+  const [unitTypes, setUnitTypes] = useState<any>([]);
+  const [companyTradeNames, setCompanyTradeNames] = useState<any>([]);
+  const [notificationCycles, setNotificationCycles] = useState<any>([]);
   const [extraOptionsModal, setExtraOptionsModal] = useState<boolean>(false);
 
   const tabs = [
@@ -360,7 +363,7 @@ const QuoteAddModal = ({
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);
   };
-
+  console.log(ledgers?.length);
   useEffect(() => {
     const fetchLedgersForSale = async () => {
       const response = await getLedgerTypes();
@@ -1224,6 +1227,7 @@ const QuoteAddModal = ({
           </div>
         </div>
       </div>
+      {isLoading && <ListLoading />}
       <div className="modal-backdrop fade show"></div>
     </>
   );
