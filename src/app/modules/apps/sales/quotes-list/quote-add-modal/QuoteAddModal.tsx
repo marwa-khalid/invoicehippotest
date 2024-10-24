@@ -646,9 +646,9 @@ const QuoteAddModal = ({
                     onClick={() => {
                       handleTabClick(tab);
                     }}
-                    className={`btn btn-light border-0 mx-2 px-4 ${
+                    className={`btn bg-light border-0 mx-2 px-4 ${
                       activeTab.id === tab.id
-                        ? "hippo-selected-tab btn-dark"
+                        ? "hippo-selected-tab text-white bg-dark"
                         : "text-gray bg-body"
                     }  `}
                     data-bs-toggle="tab"

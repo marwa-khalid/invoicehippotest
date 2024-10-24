@@ -61,7 +61,7 @@ const QuoteAddStep2: FC<Props> = ({
     discountMarginId: null | number
   ) => {
     // Find the discount label from discount types
-    let discount = discountTypes.find((discountType: any) => {
+    let discount = discountTypes?.find((discountType: any) => {
       return discountType.value === discountMarginId;
     })?.label;
 
@@ -868,7 +868,7 @@ const QuoteAddStep2: FC<Props> = ({
                                         <small className="text-danger">
                                           -
                                           {
-                                            discountTypes.find(
+                                            discountTypes?.find(
                                               (discountType: any) =>
                                                 discountType.value ===
                                                 product.discountMarginId
