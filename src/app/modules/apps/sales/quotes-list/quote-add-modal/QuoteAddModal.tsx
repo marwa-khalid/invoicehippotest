@@ -309,14 +309,17 @@ Props) => {
       formik.setFieldValue("hasAttachments", true);
     }
   }, [formik.values.attachments?.attachments?.length]);
+
   useEffect(() => {
     const fetchInitialData = async () => {
       let res;
       if (editModalId != 0 && editModalId != formik.values.id) {
         res = await getQuoteById(editModalId);
         // setDisableTabs(false);
-      } else {
+      } else if (editModalId == 0) {
         res = await getDefaultEmpty();
+      } else {
+        return;
       }
       formik.setValues({
         ...formik.values,
@@ -380,7 +383,9 @@ Props) => {
         setLedgers(options);
       }
     };
-    fetchLedgersForSale();
+    if (ledgers.length === 0) {
+      fetchLedgersForSale();
+    }
   }, []);
 
   useEffect(() => {
@@ -394,7 +399,9 @@ Props) => {
         setUnitTypes(options);
       }
     };
-    fetchUnitTypes();
+    if (unitTypes.length === 0) {
+      fetchUnitTypes();
+    }
   }, []);
 
   useEffect(() => {
@@ -409,21 +416,21 @@ Props) => {
         setDiscountTypes(options);
       }
     };
-    fetchDiscountTypes();
+    if (discountTypes.length === 0) {
+      fetchDiscountTypes();
+    }
   }, []);
 
   useEffect(() => {
     const fetchVatsForSale = async () => {
       const response = await getVatList();
       if (response.isValid) {
-        const options = response.result.map((item: any) => ({
-          value: item.id,
-          label: item.title,
-        }));
-        setVatTypes(options);
+        setVatTypes(response.result);
       }
     };
-    fetchVatsForSale();
+    if (vatTypes.length === 0) {
+      fetchVatsForSale();
+    }
   }, []);
 
   useEffect(() => {
@@ -438,7 +445,9 @@ Props) => {
         setCompanyTradeNames(options);
       }
     };
-    fetchTradeNames();
+    if (companyTradeNames.length === 0) {
+      fetchTradeNames();
+    }
   }, []);
 
   useEffect(() => {
@@ -453,7 +462,9 @@ Props) => {
         setNotificationCycles(options);
       }
     };
-    fetchNotificationCycles();
+    if (notificationCycles.length === 0) {
+      fetchNotificationCycles();
+    }
   }, []);
 
   const calculateVatTotals = () => {
@@ -494,28 +505,38 @@ Props) => {
 
       // Calculate VAT if VAT Type is available
       if (product.vatTypeId) {
-        const vatInfo = vatTypes?.find(
-          (vatType: any) => vatType.value === product.vatTypeId
-        );
+        const vatInfo = vatTypes
+          ?.map((item: any) => ({
+            value: item.id,
+            label: item.title,
+            isAlwaysExBtw: item.isAlwaysExBtw, // Include isAlwaysExVat in the mapping
+          }))
+          .find((vatType: any) => vatType.value === product.vatTypeId);
 
         if (vatInfo) {
           const vatRate = parseFloat(vatInfo.label.replace("%", ""));
-          const isBtwExclusive = vatInfo?.isAlwaysExVat ?? product.btwExclusive;
+          const isBtwExclusive = vatInfo?.isAlwaysExBtw ?? product.btwExclusive;
 
-          // VAT calculation logic based on whether the price is exclusive or inclusive of VAT
-          if (isBtwExclusive) {
-            vatAmount = (totalAmount * vatRate) / 100; // Exclusive VAT calculation
-            totalPriceIncVat += totalAmount + vatAmount; // Add VAT to total
+          // Check if VAT should always be excluded (use 0.00 for VAT amount)
+          if (vatInfo.isAlwaysExVat) {
+            vatAmount = 0.0; // Set VAT amount to 0.00
+            totalPriceIncVat += totalAmount || 0.0; // No VAT adjustment for total
           } else {
-            vatAmount = (totalAmount * vatRate) / (100 + vatRate); // Inclusive VAT calculation
-            totalPriceIncVat += totalAmount; // No need to adjust totalAmount for inclusive VAT
+            // Regular VAT calculation logic
+            if (!isBtwExclusive) {
+              vatAmount = (totalAmount * vatRate) / 100; // Exclusive VAT calculation
+              totalPriceIncVat += totalAmount + (vatAmount || 0.0); // Add VAT to total
+            } else {
+              vatAmount = (totalAmount * vatRate) / (100 + vatRate); // Inclusive VAT calculation
+              totalPriceIncVat += totalAmount || 0.0; // No need to adjust totalAmount for inclusive VAT
+            }
           }
 
-          // Track VAT totals for each VAT percentage
+          // Track VAT totals for each VAT percentage, including the 0.00 case
           if (!vatTotals[vatInfo.label]) {
-            vatTotals[vatInfo.label] = { title: vatInfo.label, totalVat: 0 };
+            vatTotals[vatInfo.label] = { title: vatInfo.label, totalVat: 0.0 };
           }
-          vatTotals[vatInfo.label].totalVat += vatAmount;
+          vatTotals[vatInfo.label].totalVat += vatAmount || 0.0;
         }
       }
     });
@@ -1019,7 +1040,9 @@ Props) => {
                                     auth.currentUser?.result
                                       .activeCompanyDefaults.defaultValuta.sign
                                   }{" "}
-                                  {`${vatTotal.totalVat.toFixed(2)}`}
+                                  {isNaN(vatTotal.totalVat)
+                                    ? "0.00"
+                                    : vatTotal.totalVat.toFixed(2)}
                                 </td>
                               </tr>
                             </tbody>
