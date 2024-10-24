@@ -6,8 +6,8 @@ import { UsersPagination } from "../components/pagination/UsersPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
-import { Tooltip } from "@chakra-ui/react";
 import { useAuth } from "../../../../auth";
+import Tippy from "@tippyjs/react";
 interface ComponentProps {
   searchTerm: string;
   searchCounter: number;
@@ -114,13 +114,10 @@ const UsersList = ({
                     </div>
                     <div className="align-items-center my-lg-0 my-1 necessary-icons">
                       {user.actions.canEdit && (
-                        <Tooltip
-                          label={intl.formatMessage({
+                        <Tippy
+                          content={intl.formatMessage({
                             id: "Fields.ToolTipEdit",
                           })}
-                          fontSize="sm"
-                          className="bg-gray-800 text-white p-2 rounded "
-                          placement="top"
                         >
                           <button
                             className="btn btn-icon btn-light btn-sm me-4"
@@ -130,17 +127,14 @@ const UsersList = ({
                           >
                             <i className="ki-solid ki-pencil text-warning fs-2 " />
                           </button>
-                        </Tooltip>
+                        </Tippy>
                       )}
 
                       {user.actions.canDelete && (
-                        <Tooltip
-                          label={intl.formatMessage({
+                        <Tippy
+                          content={intl.formatMessage({
                             id: "Fields.ToolTipDelete",
                           })}
-                          fontSize="sm"
-                          className="bg-gray-800 text-white p-2 rounded "
-                          placement="top"
                         >
                           <button
                             className="btn btn-icon btn-light btn-sm"
@@ -150,7 +144,7 @@ const UsersList = ({
                           >
                             <i className="ki-solid ki-trash text-danger fs-2"></i>
                           </button>
-                        </Tooltip>
+                        </Tippy>
                       )}
                     </div>
                   </div>

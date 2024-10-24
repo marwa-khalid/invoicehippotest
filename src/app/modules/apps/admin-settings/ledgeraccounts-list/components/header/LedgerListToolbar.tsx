@@ -1,6 +1,6 @@
 import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-import { Tooltip } from "@chakra-ui/react";
+import Tippy from "@tippyjs/react";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
@@ -24,13 +24,10 @@ const LedgerListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
       </h5>
 
       {/* begin::Add ledger account*/}
-      <Tooltip
-        label={intl.formatMessage({
+      <Tippy
+        content={intl.formatMessage({
           id: "Fields.ToolTipNew",
         })}
-        fontSize="sm"
-        className="bg-gray-800 text-white p-2 rounded "
-        placement="top"
       >
         <button
           type="button"
@@ -40,7 +37,7 @@ const LedgerListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
           <KTIcon iconName="plus" className="fs-2" />
           {intl.formatMessage({ id: "Fields.ModalNewTitleLedgerAccount" })}
         </button>
-      </Tooltip>
+      </Tippy>
       {/* end::Add ledger account */}
     </div>
   );

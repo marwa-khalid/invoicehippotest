@@ -12,6 +12,7 @@ import { handleToast } from "../../../../auth/core/_toast";
 import { Tooltip } from "@chakra-ui/react";
 import { ListPagination } from "../../../components/ListPagination";
 import { QuoteViewModal } from "../quote-view-modal/QuoteViewModal";
+import Tippy from "@tippyjs/react";
 
 // Set the dropzone container id
 
@@ -523,13 +524,10 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                             {/* Tooltip Buttons */}
                             <div className="text-end">
                               {/* {attachment.actions.ca} */}
-                              <Tooltip
-                                label={intl.formatMessage({
+                              <Tippy
+                                content={intl.formatMessage({
                                   id: "Fields.ToolTipEdit",
                                 })}
-                                fontSize="sm"
-                                className="bg-gray-800 text-white p-2 rounded"
-                                placement="top"
                               >
                                 <button
                                   className="btn btn-icon btn-dark btn-sm me-2 cursor-pointer "
@@ -551,19 +549,16 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                                     <span className="path3"></span>
                                   </i>
                                 </button>
-                              </Tooltip>
+                              </Tippy>
 
                               {/* Pin Button */}
                               {!formik.values.attachments?.attachments?.find(
                                 (item) => item.id === attachment.id
                               ) && (
-                                <Tooltip
-                                  label={intl.formatMessage({
+                                <Tippy
+                                  content={intl.formatMessage({
                                     id: "Fields.ToolTipEdit",
                                   })}
-                                  fontSize="sm"
-                                  className="bg-gray-800 text-white p-2 rounded"
-                                  placement="top"
                                 >
                                   <button
                                     className="btn btn-icon btn-primary btn-sm"
@@ -576,7 +571,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                                       <span className="path2"></span>
                                     </i>
                                   </button>
-                                </Tooltip>
+                                </Tippy>
                               )}
                             </div>
                           </div>

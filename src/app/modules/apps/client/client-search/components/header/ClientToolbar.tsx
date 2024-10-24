@@ -1,6 +1,7 @@
 import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { Tooltip } from "@chakra-ui/react";
+import Tippy from "@tippyjs/react";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
@@ -25,13 +26,10 @@ const ClientToolbar = ({
       </h5>
       <div>
         {/* begin::Add new client */}
-        <Tooltip
-          label={intl.formatMessage({
+        <Tippy
+          content={intl.formatMessage({
             id: "Fields.ToolTipConnect",
           })}
-          fontSize="sm"
-          className="bg-gray-800 text-white p-2 rounded "
-          placement="top"
         >
           <button type="button" className="btn btn-primary mb-3 me-2">
             <i className="ki-duotone ki-cloud-download fs-1">
@@ -40,14 +38,11 @@ const ClientToolbar = ({
             </i>
             {intl.formatMessage({ id: "Fields.ActionDownloadExcel" })}
           </button>
-        </Tooltip>
-        <Tooltip
-          label={intl.formatMessage({
+        </Tippy>
+        <Tippy
+          content={intl.formatMessage({
             id: "Fields.ToolTipNew",
           })}
-          fontSize="sm"
-          className="bg-gray-800 text-white p-2 rounded "
-          placement="top"
         >
           <button
             type="button"
@@ -60,7 +55,7 @@ const ClientToolbar = ({
             <KTIcon iconName="plus" className="fs-1" />
             {intl.formatMessage({ id: "Fields.ModalNewTitleClient" })}
           </button>
-        </Tooltip>
+        </Tippy>
       </div>
       {/* end:: Add new client */}
     </div>

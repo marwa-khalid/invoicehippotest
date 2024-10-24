@@ -14,6 +14,7 @@ import {
 import { checkUsage } from "../../core/_requests";
 import { handleToast } from "../../../../../auth/core/_toast";
 import React, { useState } from "react";
+import Tippy from "@tippyjs/react";
 
 interface ToolbarProps {
   totalRows: number;
@@ -60,13 +61,10 @@ const UsersToolbar = ({
         </h5>
         <div>
           {/* begin::Add user */}
-          <Tooltip
-            label={intl.formatMessage({
+          <Tippy
+            content={intl.formatMessage({
               id: "Fields.ToolTipNew",
             })}
-            fontSize="sm"
-            className="bg-gray-800 text-white p-2 rounded"
-            placement="top"
           >
             <button
               type="button"
@@ -76,7 +74,7 @@ const UsersToolbar = ({
               <KTIcon iconName="plus" className="fs-1" />
               {intl.formatMessage({ id: "Fields.ModalNewTitleUserProfile" })}
             </button>
-          </Tooltip>
+          </Tippy>
         </div>
         {/* end:: Add user */}
       </div>

@@ -7,7 +7,7 @@ import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
-import { Tooltip } from "@chakra-ui/react";
+import Tippy from "@tippyjs/react";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
@@ -163,13 +163,10 @@ const FinancialAccountsList = ({
                       </div>
                       <div className="align-items-center my-lg-0 my-1 necessary-icons">
                         {financialAccount.actions.canEdit && (
-                          <Tooltip
-                            label={intl.formatMessage({
+                          <Tippy
+                            content={intl.formatMessage({
                               id: "Fields.ToolTipEdit",
                             })}
-                            fontSize="sm"
-                            className="bg-gray-800 text-white p-2 rounded "
-                            placement="top"
                           >
                             <button
                               className="btn btn-icon btn-light btn-sm me-4"
@@ -179,31 +176,25 @@ const FinancialAccountsList = ({
                             >
                               <i className="ki-solid ki-pencil text-warning fs-2 " />
                             </button>
-                          </Tooltip>
+                          </Tippy>
                         )}
 
                         {financialAccount.actions.canExtendAutomation && (
-                          <Tooltip
-                            label={intl.formatMessage({
+                          <Tippy
+                            content={intl.formatMessage({
                               id: "Fields.ToolTipReconnect",
                             })}
-                            fontSize="sm"
-                            className="bg-gray-800 text-white p-2 rounded "
-                            placement="top"
                           >
                             <button className="btn btn-icon btn-light btn-sm me-4">
                               <i className="fas fa-wifi text-primary fs-3" />
                             </button>
-                          </Tooltip>
+                          </Tippy>
                         )}
                         {financialAccount.actions.canRevokeAutomation && (
-                          <Tooltip
-                            label={intl.formatMessage({
+                          <Tippy
+                            content={intl.formatMessage({
                               id: "Fields.ToolTipDisonnect",
                             })}
-                            fontSize="sm"
-                            className="bg-gray-800 text-white p-2 rounded "
-                            placement="top"
                           >
                             <button
                               className="btn btn-icon btn-light btn-sm me-4"
@@ -213,16 +204,13 @@ const FinancialAccountsList = ({
                             >
                               <i className="fas fa-wifi text-danger fs-3" />
                             </button>
-                          </Tooltip>
+                          </Tippy>
                         )}
                         {financialAccount.actions.canDelete && (
-                          <Tooltip
-                            label={intl.formatMessage({
+                          <Tippy
+                            content={intl.formatMessage({
                               id: "Fields.ToolTipDelete",
                             })}
-                            fontSize="sm"
-                            className="bg-gray-800 text-white p-2 rounded "
-                            placement="top"
                           >
                             <button
                               className="btn btn-icon btn-light btn-sm"
@@ -235,7 +223,7 @@ const FinancialAccountsList = ({
                             >
                               <i className="ki-solid ki-trash text-danger fs-2"></i>
                             </button>
-                          </Tooltip>
+                          </Tippy>
                         )}
                       </div>
                     </div>

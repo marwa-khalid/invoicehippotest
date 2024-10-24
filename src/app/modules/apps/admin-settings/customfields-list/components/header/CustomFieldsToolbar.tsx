@@ -1,6 +1,6 @@
 import { KTIcon } from "../../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-import { Tooltip } from "@chakra-ui/react";
+import Tippy from "@tippyjs/react";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
@@ -41,13 +41,10 @@ const CustomFieldsToolbar = ({
           })}
         </button>
       ) : (
-        <Tooltip
-          label={intl.formatMessage({
+        <Tippy
+          content={intl.formatMessage({
             id: "Fields.ToolTipNew",
           })}
-          fontSize="sm"
-          className="bg-gray-800 text-white p-2 rounded "
-          placement="top"
         >
           <button
             type="button"
@@ -57,7 +54,7 @@ const CustomFieldsToolbar = ({
             <KTIcon iconName="plus" className="fs-2" />
             {intl.formatMessage({ id: "Fields.ModalNewTitleCustomField" })}
           </button>
-        </Tooltip>
+        </Tippy>
       )}
     </div>
   );

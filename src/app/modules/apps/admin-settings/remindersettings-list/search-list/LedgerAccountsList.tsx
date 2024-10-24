@@ -7,7 +7,7 @@ import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
-import { Tooltip } from "@chakra-ui/react";
+import Tippy from "@tippyjs/react";
 interface ComponentProps {
   searchTerm: string;
   ledgerTypeFilter: number;
@@ -85,33 +85,23 @@ const LedgerAccountsList = ({
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
-      <Tooltip
-        label="open voor handmatige boekingen"
-        fontSize="sm"
-        className="ms-20 bg-gray-800 text-white p-2 rounded "
-        placement="top"
-      >
+      <Tippy content="open voor handmatige boekingen">
         <span>
           <KTSVG
             path="media/icons/duotune/general/gen048.svg"
             className="svg-icon-success svg-icon-2x"
           />
         </span>
-      </Tooltip>
+      </Tippy>
     ) : (
-      <Tooltip
-        label="gesloten voor handmatige boekingen"
-        fontSize="sm"
-        className="ms-20 bg-gray-800 text-white p-2 rounded "
-        placement="top"
-      >
+      <Tippy content="gesloten voor handmatige boekingen">
         <span>
           <KTSVG
             path="media/icons/duotune/general/gen050.svg"
             className="svg-icon-danger svg-icon-2x"
           />
         </span>
-      </Tooltip>
+      </Tippy>
     );
   };
   const openEditModal = (id: number) => {
@@ -150,13 +140,10 @@ const LedgerAccountsList = ({
                       </div>
                       <div className="align-items-center my-lg-0 my-1 necessary-icons">
                         {notification.actions.canEdit && (
-                          <Tooltip
-                            label={intl.formatMessage({
+                          <Tippy
+                            content={intl.formatMessage({
                               id: "Fields.ToolTipEdit",
                             })}
-                            fontSize="sm"
-                            className="bg-gray-800 text-white p-2 rounded "
-                            placement="top"
                           >
                             <button
                               className="btn btn-icon btn-light btn-sm me-4"
@@ -169,17 +156,14 @@ const LedgerAccountsList = ({
                           <span className="path2"></span> */}
                               </i>
                             </button>
-                          </Tooltip>
+                          </Tippy>
                         )}
 
                         {notification.actions.canDelete && (
-                          <Tooltip
-                            label={intl.formatMessage({
+                          <Tippy
+                            content={intl.formatMessage({
                               id: "Fields.ToolTipDelete",
                             })}
-                            fontSize="sm"
-                            className="bg-gray-800 text-white p-2 rounded "
-                            placement="top"
                           >
                             <button
                               className="btn btn-icon btn-light btn-sm"
@@ -198,7 +182,7 @@ const LedgerAccountsList = ({
                           <span className="path5"></span> */}
                               </i>
                             </button>
-                          </Tooltip>
+                          </Tippy>
                         )}
                       </div>
                     </div>

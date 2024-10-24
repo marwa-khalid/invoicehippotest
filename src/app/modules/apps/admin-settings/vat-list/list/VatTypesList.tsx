@@ -7,8 +7,8 @@ import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { KTSVG } from "../../../../../../_metronic/helpers";
-import { Tooltip, Box } from "@chakra-ui/react";
 import { useListView } from "../core/ListViewProvider";
+import Tippy from "@tippyjs/react";
 
 // import { VatEditModal } from "../user-edit-modal/VatEditModal";
 interface UsersTableComponentProps {
@@ -81,33 +81,23 @@ const VatTypesList = ({
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
-      <Tooltip
-        label="actief"
-        fontSize="sm"
-        className="bg-gray-800 text-white p-2 rounded "
-        placement="top"
-      >
+      <Tippy content="actief">
         <span>
           <KTSVG
             path="media/icons/duotune/general/gen037.svg"
             className="svg-icon-success svg-icon-2x"
           />
         </span>
-      </Tooltip>
+      </Tippy>
     ) : (
-      <Tooltip
-        label="inactief"
-        fontSize="sm"
-        className="bg-gray-800 text-white p-2 rounded "
-        placement="top"
-      >
+      <Tippy content="inactief">
         <span>
           <KTSVG
             path="media/icons/duotune/general/gen037.svg"
             className="svg-icon-danger svg-icon-2x"
           />
         </span>
-      </Tooltip>
+      </Tippy>
     );
   };
   const openEditModal = (id: number) => {

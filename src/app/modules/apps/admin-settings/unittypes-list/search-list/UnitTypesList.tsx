@@ -6,6 +6,7 @@ import { UnitTypesPagination } from "../components/pagination/UnitTypesPaginatio
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { Tooltip } from "@chakra-ui/react";
+import Tippy from "@tippyjs/react";
 
 interface ComponentProps {
   searchTerm: string;
@@ -171,13 +172,10 @@ const UnitTypesList = ({
                 </td>
                 <td className="text-end">
                   {unitType.actions.canEdit && (
-                    <Tooltip
-                      label={intl.formatMessage({
+                    <Tippy
+                      content={intl.formatMessage({
                         id: "Fields.ToolTipEdit",
                       })}
-                      fontSize="sm"
-                      className="bg-gray-800 text-white p-2 rounded "
-                      placement="top"
                     >
                       <button
                         className="btn btn-icon btn-light btn-sm me-2"
@@ -185,16 +183,13 @@ const UnitTypesList = ({
                       >
                         <i className="ki-solid ki-pencil text-warning fs-2" />
                       </button>
-                    </Tooltip>
+                    </Tippy>
                   )}
                   {unitType.actions.canDelete && (
-                    <Tooltip
-                      label={intl.formatMessage({
+                    <Tippy
+                      content={intl.formatMessage({
                         id: "Fields.ToolTipDelete",
                       })}
-                      fontSize="sm"
-                      className="bg-gray-800 text-white p-2 rounded "
-                      placement="top"
                     >
                       <button
                         className="btn btn-icon btn-light btn-sm"
@@ -204,7 +199,7 @@ const UnitTypesList = ({
                       >
                         <i className="ki-solid ki-trash text-danger fs-2" />
                       </button>
-                    </Tooltip>
+                    </Tippy>
                   )}
                 </td>
               </tr>

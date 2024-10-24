@@ -9,6 +9,7 @@ import {
   getClientById,
   getClients,
 } from "../../../client/client-search/core/_requests";
+import Tippy from "@tippyjs/react";
 interface Props {
   handleClose: any;
   formik: FormikProps<FormValues> | null;
@@ -225,13 +226,10 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
                               </td>
 
                               <td className="text-end">
-                                <Tooltip
-                                  label={intl.formatMessage({
+                                <Tippy
+                                  content={intl.formatMessage({
                                     id: "Fields.ToolTipEdit",
                                   })}
-                                  fontSize="sm"
-                                  className="bg-gray-800 text-white p-2 rounded "
-                                  placement="top"
                                 >
                                   <button
                                     className="btn btn-icon btn-primary btn-sm me-2"
@@ -245,7 +243,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
                                       <span className="path2"></span>
                                     </i>
                                   </button>
-                                </Tooltip>
+                                </Tippy>
                               </td>
                             </tr>
                             <div className="dropdown-divider"></div>

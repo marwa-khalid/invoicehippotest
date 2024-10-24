@@ -9,6 +9,7 @@ import "react-quill/dist/quill.snow.css";
 import clsx from "clsx";
 import { getChaimberInitialData, searchChaimber } from "../core/_requests";
 import { Tooltip } from "@chakra-ui/react";
+import Tippy from "@tippyjs/react";
 interface FormValues {
   customFields: {
     fieldLabel: string;
@@ -222,23 +223,21 @@ const ClientAddStep1: FC<Props> = ({
               />
 
               <span className="input-group-text">
-                {/* <Tooltip
-                  className="tooltip"
-                  label={intl.formatMessage({
+                <Tippy
+                  content={intl.formatMessage({
                     id: "Fields.PickerClientToolTipSearchChaimberOfCommerce",
                   })}
-                  placement="top" // Adjust the placement if needed
-                > */}
-                <i
-                  className="la la-search-plus fs-1 cursor-pointer text-primary"
-                  onClick={() => handleOpenModal()}
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title={intl.formatMessage({
-                    id: "Fields.PickerClientToolTipSearchChaimberOfCommerce",
-                  })}
-                />
-                {/* </Tooltip> */}
+                >
+                  <i
+                    className="la la-search-plus fs-1 cursor-pointer text-primary"
+                    onClick={() => handleOpenModal()}
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title={intl.formatMessage({
+                      id: "Fields.PickerClientToolTipSearchChaimberOfCommerce",
+                    })}
+                  />
+                </Tippy>
               </span>
             </div>
 
@@ -722,13 +721,10 @@ const ClientAddStep1: FC<Props> = ({
                               </div>
                             </div>
 
-                            <Tooltip
-                              label={intl.formatMessage({
+                            <Tippy
+                              content={intl.formatMessage({
                                 id: "Fields.ToolTipEdit",
                               })}
-                              fontSize="sm"
-                              className="bg-gray-800 text-white p-2 rounded "
-                              placement="top"
                             >
                               <button
                                 className="btn btn-icon btn-primary btn-sm me-2"
@@ -743,7 +739,7 @@ const ClientAddStep1: FC<Props> = ({
                                   <span className="path2"></span>
                                 </i>
                               </button>
-                            </Tooltip>
+                            </Tippy>
                           </div>
 
                           {/* Dotted divider under every row */}

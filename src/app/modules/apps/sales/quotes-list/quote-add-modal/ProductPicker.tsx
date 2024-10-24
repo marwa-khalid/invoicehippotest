@@ -6,6 +6,7 @@ import { Tooltip } from "@chakra-ui/react";
 import { ListPagination } from "../../../components/ListPagination";
 import { FormikProps } from "formik";
 import { FormValues } from "./QuoteAddStep1";
+import Tippy from "@tippyjs/react";
 interface Props {
   setProductPicker: (type: boolean) => void;
   formik: FormikProps<FormValues>;
@@ -281,13 +282,10 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                                 </div>
                               </td>
                               <td className="text-end">
-                                <Tooltip
-                                  label={intl.formatMessage({
+                                <Tippy
+                                  content={intl.formatMessage({
                                     id: "Fields.ToolTipEdit",
                                   })}
-                                  fontSize="sm"
-                                  className="bg-gray-800 text-white p-2 rounded "
-                                  placement="top"
                                 >
                                   <button
                                     className="btn btn-icon btn-primary btn-sm me-2"
@@ -301,7 +299,7 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                                       <span className="path2"></span>
                                     </i>
                                   </button>
-                                </Tooltip>
+                                </Tippy>
                               </td>
                             </tr>
                             <div className="dropdown-divider"></div>

@@ -10,6 +10,7 @@ import { KTSVG } from "../../../../../../_metronic/helpers";
 import { Tooltip } from "@chakra-ui/react";
 import { useAuth } from "../../../../auth";
 import enums from "../../../../../../invoicehippo.enums.json";
+import Tippy from "@tippyjs/react";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
@@ -446,12 +447,7 @@ const QuoteList = ({
                     {/* Buttons Section */}
                     <div className="d-flex align-items-center">
                       {quoteList.actions.canShowPreview && (
-                        <Tooltip
-                          label="view"
-                          fontSize="sm"
-                          className="bg-gray-800 text-white p-2 rounded"
-                          placement="top"
-                        >
+                        <Tippy content="view">
                           <button
                             className="btn btn-icon btn-light btn-sm me-4"
                             data-bs-toggle="offcanvas"
@@ -473,17 +469,14 @@ const QuoteList = ({
                               <span className="path3"></span>
                             </i>
                           </button>
-                        </Tooltip>
+                        </Tippy>
                       )}
 
                       {quoteList.actions.canEdit && (
-                        <Tooltip
-                          label={intl.formatMessage({
+                        <Tippy
+                          content={intl.formatMessage({
                             id: "Fields.ToolTipEdit",
                           })}
-                          fontSize="sm"
-                          className="bg-gray-800 text-white p-2 rounded"
-                          placement="top"
                         >
                           <button
                             className="btn btn-icon btn-light btn-sm me-4"
@@ -493,17 +486,98 @@ const QuoteList = ({
                           >
                             <i className="ki-solid ki-pencil text-warning fs-2"></i>
                           </button>
-                        </Tooltip>
+                        </Tippy>
                       )}
+                      <div className="btn-group">
+                        <button className="btn btn-icon btn-light btn-sm dropdown-toggle custom-dropdown">
+                          <i className="fa fas fa-list-ul"></i>
+                        </button>
+                      </div>
+
+                      <div className="btn-group dropleft mr-2">
+                        <button
+                          className="btn btn-icon btn-light dropdown-toggle"
+                          type="button"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                        >
+                          <i className="fa fas fa-list-ul"></i>
+                        </button>
+                        <div className="dropdown-menu">
+                          <a
+                            className="dropdown-item hippo-pointer"
+                            data-toggle="modal"
+                            data-target=""
+                          >
+                            <span>
+                              <i className="fa fas fa-pencil-alt"></i>
+                            </span>
+                            <span>&nbsp;&nbsp;wijzigen</span>
+                          </a>
+                          <div className="dropdown-divider"></div>
+                          <a
+                            className="dropdown-item hippo-pointer"
+                            data-toggle="modal"
+                            data-target="#createCopyModal"
+                          >
+                            <span>
+                              <i className="fa far fa-copy"></i>
+                            </span>
+                            <span>&nbsp;&nbsp;kopieren</span>
+                          </a>
+                          <div className="dropdown-divider"></div>
+                          <a
+                            className="dropdown-item hippo-pointer"
+                            data-toggle="modal"
+                            data-target="#sendModal"
+                          >
+                            <span>
+                              <i className="fa fas fa-paper-plane"></i>
+                            </span>
+                            <span>&nbsp;&nbsp;verstuur e-mail</span>
+                          </a>
+                          <div className="dropdown-divider"></div>
+                          <a
+                            className="dropdown-item hippo-pointer"
+                            data-toggle="modal"
+                            data-target=""
+                          >
+                            <span>
+                              <i className="fa fas fa-cloud-download-alt"></i>
+                            </span>
+                            <span>&nbsp;&nbsp;downloaden</span>
+                          </a>
+                          <div className="dropdown-divider"></div>
+                          <a
+                            className="dropdown-item hippo-pointer"
+                            data-toggle="modal"
+                            data-target="#quoteValidationModal"
+                          >
+                            <span>
+                              <i className="fa far fa-credit-card"></i>
+                            </span>
+                            <span>&nbsp;&nbsp;goedkeuren-/afkeuren</span>
+                          </a>
+                          <div className="dropdown-divider"></div>
+                          <a
+                            className="dropdown-item hippo-pointer"
+                            data-toggle="modal"
+                            data-target="#deleteModal"
+                          >
+                            <span>
+                              <i className="fa far fa-trash-alt"></i>
+                            </span>
+                            <span>&nbsp;&nbsp;verwijderen</span>
+                          </a>
+                        </div>
+                      </div>
 
                       {quoteList.actions.canDelete && (
-                        <Tooltip
-                          label={intl.formatMessage({
+                        <Tippy
+                          content={intl.formatMessage({
                             id: "Fields.ToolTipDelete",
                           })}
-                          fontSize="sm"
-                          className="bg-gray-800 text-white p-2 rounded"
-                          placement="top"
                         >
                           <button
                             className="btn btn-icon btn-light btn-sm"
@@ -524,7 +598,7 @@ const QuoteList = ({
                           >
                             <i className="ki-solid ki-trash text-danger fs-2"></i>
                           </button>
-                        </Tooltip>
+                        </Tippy>
                       )}
                     </div>
                   </div>
