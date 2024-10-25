@@ -208,6 +208,7 @@ const QuoteList = ({
   };
   const valueSetter = (quoteList: any) => {
     setQuoteNumber(quoteList.quoteNr);
+    setEditModalId(quoteList.id);
     localStorage.setItem(
       "ModalData",
       JSON.stringify({
@@ -537,48 +538,56 @@ const QuoteList = ({
                               })}
                             </a>
                           </li>
-                          <div className="dropdown-divider border-gray-200"></div>
 
-                          <li
-                            onClick={() => {
-                              openCopyModal(quoteList);
-                            }}
-                          >
-                            <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                              <i className="ki-duotone ki-copy fs-1 me-2" />
-                              {intl.formatMessage({
-                                id: "Fields.ActionCopy",
-                              })}
-                            </a>
-                          </li>
-                          <div className="dropdown-divider border-gray-200"></div>
+                          {quoteList.actions.canCreateCopy && (
+                            <>
+                              <div className="dropdown-divider border-gray-200"></div>
+                              <li
+                                onClick={() => {
+                                  openCopyModal(quoteList);
+                                }}
+                              >
+                                <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                  <i className="ki-duotone ki-copy fs-1 me-2" />
+                                  {intl.formatMessage({
+                                    id: "Fields.ActionCopy",
+                                  })}
+                                </a>
+                              </li>
+                            </>
+                          )}
+
                           {quoteList.actions.canDelete && (
-                            <li
-                              onClick={() => {
-                                openDeleteModal(
-                                  quoteList.id,
-                                  quoteList.quoteNr
-                                );
-                                localStorage.setItem(
-                                  "DeleteData",
-                                  JSON.stringify({
-                                    quoteDateAsString:
-                                      quoteList.quoteDateAsString,
-                                    client: quoteList.client,
-                                    totalPriceWithVat:
-                                      quoteList.totals.totalPriceWithVAT,
-                                    sign: quoteList.valuta.sign,
-                                  })
-                                );
-                              }}
-                            >
-                              <a className="dropdown-item  d-flex align-items-center cursor-pointer">
-                                <i className="ki-solid ki-trash fs-1 me-2"></i>
-                                {intl.formatMessage({
-                                  id: "Fields.ActionDelete",
-                                })}
-                              </a>
-                            </li>
+                            <>
+                              {" "}
+                              <div className="dropdown-divider border-gray-200"></div>
+                              <li
+                                onClick={() => {
+                                  openDeleteModal(
+                                    quoteList.id,
+                                    quoteList.quoteNr
+                                  );
+                                  localStorage.setItem(
+                                    "DeleteData",
+                                    JSON.stringify({
+                                      quoteDateAsString:
+                                        quoteList.quoteDateAsString,
+                                      client: quoteList.client,
+                                      totalPriceWithVat:
+                                        quoteList.totals.totalPriceWithVAT,
+                                      sign: quoteList.valuta.sign,
+                                    })
+                                  );
+                                }}
+                              >
+                                <a className="dropdown-item  d-flex align-items-center cursor-pointer">
+                                  <i className="ki-solid ki-trash fs-1 me-2"></i>
+                                  {intl.formatMessage({
+                                    id: "Fields.ActionDelete",
+                                  })}
+                                </a>
+                              </li>
+                            </>
                           )}
                         </ul>
                       </div>

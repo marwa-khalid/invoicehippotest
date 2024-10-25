@@ -1,36 +1,50 @@
 import { useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteQuoteList } from "../core/_requests";
+import { createCopy, deleteQuoteList } from "../core/_requests";
 
 import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
   setCopyModalOpen: (type: boolean) => void;
-  deleteModalId: number;
+  quoteId: number;
   setRefresh: (type: boolean) => void;
   refresh: boolean;
+  copyAttachments: boolean;
+  openDraftSwitch: boolean;
+  setAddModalOpen: (type: boolean) => void;
+  setEditModalId: (type: number) => void;
 }
 
 const QuoteCopyModalFooter = ({
-  deleteModalId,
+  quoteId,
   setCopyModalOpen,
   setRefresh,
   refresh,
+  copyAttachments,
+  openDraftSwitch,
+  setAddModalOpen,
+  setEditModalId,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const deleteQuote = async () => {
+  const copyModal = async () => {
     setIsSubmitting(true);
-    const response = await deleteQuoteList(deleteModalId);
+    const response = await createCopy(quoteId, copyAttachments);
     if (response.isValid) {
       setRefresh(!refresh);
       setCopyModalOpen(false);
       setIsSubmitting(false);
+      console.log(response);
+      if (openDraftSwitch) {
+        setEditModalId(response.result);
+        setAddModalOpen(true);
+      }
       localStorage.removeItem("ModalData");
     }
     handleToast(response);
+    setIsSubmitting(false);
   };
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
@@ -51,7 +65,7 @@ const QuoteCopyModalFooter = ({
         <button
           type="submit"
           className="btn btn-info"
-          onClick={deleteQuote}
+          onClick={copyModal}
           //   disabled={!isValid || isSubmitting || !touched}
         >
           {!isSubmitting && intl.formatMessage({ id: "Fields.ActionCopy" })}

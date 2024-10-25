@@ -27,6 +27,7 @@ import {
   UPLOAD_ATTACHMENTS,
   INBOX_SEARCH,
   MIN_MAX_YEAR,
+  CREATE_COPY,
 } from "./constants";
 import { ContactModel } from "../../../client/client-search/core/_models";
 
@@ -90,6 +91,17 @@ export function pickProduct(searchTerm: string, pageIndex: number) {
       pageMax: 10,
       searchTerm: searchTerm,
       pageIndex: pageIndex,
+    },
+    true
+  );
+}
+
+export function createCopy(quoteId: number, copyAttachments: boolean) {
+  return postRequest<any>(
+    CREATE_COPY,
+    {
+      quoteId: quoteId,
+      copyAttachments: copyAttachments,
     },
     true
   );

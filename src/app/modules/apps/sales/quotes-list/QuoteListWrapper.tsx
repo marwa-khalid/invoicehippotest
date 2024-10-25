@@ -165,11 +165,13 @@ const QuoteListInnerWrapper = () => {
       )}
       {copyModalOpen && (
         <QuoteCopyModal
-          deleteModalId={editModalId}
+          quoteId={editModalId}
           quoteNumber={quoteNumber}
           setCopyModalOpen={setCopyModalOpen}
           setRefresh={setRefresh}
           refresh={refresh}
+          setAddModalOpen={setAddModalOpen}
+          setEditModalId={setEditModalId}
         />
       )}
       {validateModalOpen && (
