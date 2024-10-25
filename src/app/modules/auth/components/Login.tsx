@@ -146,7 +146,7 @@ const Login = () => {
                   {/* Email Input */}
                   <div className="fv-row mb-8">
                     <input
-                      type="email"
+                      type="username"
                       id="username"
                       autoComplete="username"
                       data-np-autofill-field-type="username"
