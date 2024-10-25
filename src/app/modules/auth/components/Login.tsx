@@ -148,6 +148,7 @@ const Login = () => {
                     <input
                       type="email"
                       autoComplete="username"
+                      autofill-field-type="username"
                       placeholder={intl.formatMessage({
                         id: "LoginAndRegistration.UserName",
                       })}
