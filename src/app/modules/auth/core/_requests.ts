@@ -18,11 +18,11 @@ import {
 } from "./constants";
 import { postRequest, getRequest } from "./_apiservice";
 // Login request
-export function login(email: string, password: string) {
+export function login(userName: string, password: string) {
   return postRequest<AuthModel>(
     LOGIN_URL,
     {
-      userName: email,
+      userName: userName,
       password,
       languageType: 2,
       deviceType: 1,

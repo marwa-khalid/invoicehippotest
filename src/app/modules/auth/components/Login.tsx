@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { LanguagesAuth } from "../../../../_metronic/partials/layout/header-menus/LanguagesAuth";
 import { toAbsoluteUrl } from "../../../../_metronic/helpers";
 const initialValues = {
-  email: "",
+  username: "",
   password: "",
 };
 
@@ -21,7 +21,7 @@ const Login = () => {
 
   // Define the validation schema using Yup
   const loginSchema = Yup.object().shape({
-    email: Yup.string()
+    username: Yup.string()
       .email(
         intl
           .formatMessage({ id: "Common.InvalidFormat" })
@@ -75,7 +75,7 @@ const Login = () => {
     onSubmit: async (values, { setStatus, setSubmitting }) => {
       setLoading(true);
       try {
-        const auth = await login(values.email, values.password);
+        const auth = await login(values.username, values.password);
         saveAuth(auth);
       } catch (error) {
         saveAuth(undefined);
@@ -147,26 +147,27 @@ const Login = () => {
                   <div className="fv-row mb-8">
                     <input
                       type="email"
+                      id="username"
                       autoComplete="username"
                       data-np-autofill-field-type="username"
                       placeholder={intl.formatMessage({
                         id: "LoginAndRegistration.UserName",
                       })}
                       style={{ backgroundColor: "#f9f9f9" }}
-                      {...formik.getFieldProps("email")}
+                      {...formik.getFieldProps("username")}
                       className={clsx("form-control form-control-solid", {
                         "is-invalid":
-                          formik.touched.email && formik.errors.email,
+                          formik.touched.username && formik.errors.username,
                         "is-valid":
-                          formik.touched.email && !formik.errors.email,
+                          formik.touched.username && !formik.errors.username,
                       })}
                     />
-                    {formik.touched.email && formik.errors.email && (
+                    {formik.touched.username && formik.errors.username && (
                       <div className="fv-plugins-message-container ms-2">
                         <div className="fv-help-block">
                           <span
                             dangerouslySetInnerHTML={{
-                              __html: formik.errors.email,
+                              __html: formik.errors.username,
                             }}
                           />
                         </div>
