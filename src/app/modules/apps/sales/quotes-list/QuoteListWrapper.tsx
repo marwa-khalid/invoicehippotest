@@ -11,6 +11,7 @@ import { ClientSearch } from "./quote-add-modal/ClientSearch";
 import { QuoteCopyModal } from "./quote-copy-modal/QuoteCopyModal";
 import { QuoteValidateModal } from "./quote-validate-modal/QuoteValidateModal";
 import { QuoteEmailModal } from "./quote-email-modal/QuoteEmailModal";
+import { QuoteActivateModal } from "./quote-activate-modal/QuoteActivateModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -85,6 +86,7 @@ const QuoteListInnerWrapper = () => {
   const [copyModalOpen, setCopyModalOpen] = useState<boolean>(false);
   const [validateModalOpen, setValidateModalOpen] = useState<boolean>(false);
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
+  const [activateModalOpen, setActivateModalOpen] = useState<boolean>(false);
   const handleClientModalClose = () => {
     const storedClient = JSON.parse(localStorage.getItem("storedClient")!);
 
@@ -140,6 +142,7 @@ const QuoteListInnerWrapper = () => {
         setCopyModalOpen={setCopyModalOpen}
         setValidateModalOpen={setValidateModalOpen}
         setEmailModalOpen={setEmailModalOpen}
+        setActivateModalOpen={setActivateModalOpen}
       />
       {addModalOpen && (
         <QuoteAddModal
@@ -176,7 +179,7 @@ const QuoteListInnerWrapper = () => {
       )}
       {validateModalOpen && (
         <QuoteValidateModal
-          deleteModalId={editModalId}
+          quoteId={editModalId}
           quoteNumber={quoteNumber}
           setValidateModalOpen={setValidateModalOpen}
           setRefresh={setRefresh}
@@ -185,9 +188,18 @@ const QuoteListInnerWrapper = () => {
       )}
       {emailModalOpen && (
         <QuoteEmailModal
-          deleteModalId={editModalId}
+          quoteId={editModalId}
           quoteNumber={quoteNumber}
           setValidateModalOpen={setEmailModalOpen}
+          setRefresh={setRefresh}
+          refresh={refresh}
+        />
+      )}
+      {activateModalOpen && (
+        <QuoteActivateModal
+          quoteId={editModalId}
+          quoteNumber={quoteNumber}
+          setActivateModalOpen={setActivateModalOpen}
           setRefresh={setRefresh}
           refresh={refresh}
         />

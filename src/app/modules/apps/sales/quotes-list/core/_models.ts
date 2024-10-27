@@ -289,7 +289,7 @@ export interface FinancialInstitutionsResult {
 export interface AccountAutomationResult {
   requestUrlForConsent: string;
 }
-
+export type GenericBooleanModel = ApiResponse<boolean>;
 export type QuotePostModel = ApiResponse<QuotePostResult>;
 export type QuoteListModel = ApiResponse<QuoteListResult>;
 export type FinancialAccountByIdModel = ApiResponse<FinancialAccountByIdResult>;

@@ -28,6 +28,7 @@ interface ComponentProps {
   setCopyModalOpen: (type: boolean) => void;
   setValidateModalOpen: (type: boolean) => void;
   setEmailModalOpen: (type: boolean) => void;
+  setActivateModalOpen: (type: boolean) => void;
 }
 const QuoteList = ({
   searchTerm,
@@ -49,6 +50,7 @@ const QuoteList = ({
   setCopyModalOpen,
   setValidateModalOpen,
   setEmailModalOpen,
+  setActivateModalOpen,
 }: ComponentProps) => {
   const [quoteLists, setQuoteList] = useState<any>([]);
 
@@ -205,6 +207,11 @@ const QuoteList = ({
   const openEmailModal = (quoteList: any) => {
     valueSetter(quoteList);
     setEmailModalOpen(true);
+  };
+
+  const openActivateModal = (quoteList: any) => {
+    valueSetter(quoteList);
+    setActivateModalOpen(true);
   };
   const valueSetter = (quoteList: any) => {
     setQuoteNumber(quoteList.quoteNr);
@@ -557,6 +564,21 @@ const QuoteList = ({
                             </>
                           )}
 
+                          <div className="dropdown-divider border-gray-200"></div>
+                          {quoteList.actions.canFinalize && (
+                            <li
+                              onClick={() => {
+                                openActivateModal(quoteList);
+                              }}
+                            >
+                              <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                <i className="fa fas fa-flag-checkered fs-1 me-2" />
+                                {intl.formatMessage({
+                                  id: "Fields.ActionActivate",
+                                })}
+                              </a>
+                            </li>
+                          )}
                           {quoteList.actions.canDelete && (
                             <>
                               {" "}

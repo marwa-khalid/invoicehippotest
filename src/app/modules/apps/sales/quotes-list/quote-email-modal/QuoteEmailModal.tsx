@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { QuoteEmailModalHeader } from "./QuoteEmailModalHeader";
 import { QuoteEmailModalFooter } from "./QuoteEmailModalFooter";
 import { useIntl } from "react-intl";
 import ReactQuill from "react-quill";
+import * as Yup from "yup";
 import Select from "react-select";
+import { useFormik } from "formik";
+import Tags from "@yaireo/tagify/dist/react.tagify";
 interface ComponentProps {
-  deleteModalId: number;
+  quoteId: number;
   quoteNumber: string;
   setValidateModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
   refresh: boolean;
 }
 const QuoteEmailModal = ({
-  deleteModalId,
+  quoteId,
   quoteNumber,
   setValidateModalOpen,
   setRefresh,
@@ -25,6 +28,101 @@ const QuoteEmailModal = ({
     };
   }, []);
   const intl = useIntl();
+  const tagifyRef = useRef<any>();
+  const formik = useFormik({
+    initialValues: {
+      quoteId: quoteId,
+      overrideNotificationType: 0,
+      finalizeQuote: true,
+      emailOptions: {
+        sendToClient: false,
+        sendMeAnCopy: false,
+        extraToRecipients: [""],
+        extraCcRecipients: [""],
+        extraBccRecipients: [""],
+      },
+      actionType: 0,
+      adjustQuoteDateToToday: true,
+    },
+
+    validationSchema: Yup.object().shape({
+      //   products: Yup.array()
+      //     .min(1, "At least one product is required.")
+      //     .of(
+      //       Yup.object().shape({
+      //         title: Yup.string()
+      //           .trim()
+      //           .required("Product title is required.")
+      //           .min(1, "Product title cannot be an empty string."),
+      //       })
+      //     ),
+    }),
+    onSubmit: async (values, { setSubmitting }) => {
+      // setIsSubmitting(true);
+      // try {
+      //   if (values.products.length === 0) {
+      //     toast.error("At least one product is required.");
+      //     return; // Stop execution here
+      //   }
+      //   // Loop through products and check for empty titles
+      //   for (let i = 0; i < values.products.length; i++) {
+      //     if (
+      //       !values.products[i].title ||
+      //       values.products[i].title.trim() === ""
+      //     ) {
+      //       toast.error("Product title cannot be empty.");
+      //       return; // Stop execution here
+      //     }
+      //   }
+      //   const response = await postQuote(values);
+      //   if (response.isValid) {
+      //     switch (action) {
+      //       case 1:
+      //         setAddModalOpen(false);
+      //         setContactResponse(null);
+      //         break;
+      //       case 2:
+      //         setEditModalId(0);
+      //         formik.setValues(formik.initialValues);
+      //         setContactResponse(null);
+      //         setActiveTab(tabs[0]);
+      //         break;
+      //       case 3:
+      //         setEditModalId(response.result.id);
+      //         setResponse(response.result);
+      //         break;
+      //       default:
+      //         setEditModalId(response.result.id);
+      //         setResponse(response.result);
+      //         break;
+      //     }
+      //   }
+      //   setRefresh(!refresh);
+      //   handleToast(response);
+      // } catch (error) {
+      //   console.error("Post failed:", error);
+      // } finally {
+      //   setIsSubmitting(false);
+      //   setSubmitting(false);
+      // }
+    },
+  });
+  const handleInvalidEmail = (e: any) => {
+    const tagData = e.detail.data;
+
+    if (!Yup.string().email(tagData.value)) {
+      // Highlight invalid email with red background
+      tagifyRef.current?.tagify.editTag(tagData, false, {
+        className: "tagify__tag--invalid",
+        style: { backgroundColor: "red" },
+      });
+
+      // Remove invalid email after highlighting
+      setTimeout(() => {
+        tagifyRef.current?.tagify.removeTag(tagData);
+      }, 1500);
+    }
+  };
 
   return (
     <>
@@ -50,19 +148,18 @@ const QuoteEmailModal = ({
                 <input
                   className="form-check-input h-25px w-45px me-5"
                   type="checkbox"
-                  id="openDraftSwitch"
-                  checked
-                  // checked={formik.values.customizations.useCustomQuoteNr}
-                  // onChange={(e) => {
-                  //   formik.setFieldValue(
-                  //     "customizations.useCustomQuoteNr",
-                  //     !formik.values.customizations.useCustomQuoteNr
-                  //   );
-                  // }}
+                  id="sendToClientSwitch"
+                  checked={formik.values.emailOptions.sendToClient}
+                  onChange={(e) => {
+                    formik.setFieldValue(
+                      "emailOptions.sendToClient",
+                      !formik.values.emailOptions.sendToClient
+                    );
+                  }}
                 />
                 <label
                   className="form-check-label fs-sm text-muted"
-                  htmlFor="openDraftSwitch"
+                  htmlFor="sendToClientSwitch"
                 >
                   {intl.formatMessage({
                     id: "Fields.ModalSendQuoteOptionSendToClient",
@@ -73,19 +170,18 @@ const QuoteEmailModal = ({
                 <input
                   className="form-check-input h-25px w-45px me-5"
                   type="checkbox"
-                  id="openDraftSwitch"
-                  checked
-                  // checked={formik.values.customizations.useCustomQuoteNr}
-                  // onChange={(e) => {
-                  //   formik.setFieldValue(
-                  //     "customizations.useCustomQuoteNr",
-                  //     !formik.values.customizations.useCustomQuoteNr
-                  //   );
-                  // }}
+                  id="sendMeCopySwitch"
+                  checked={formik.values.emailOptions.sendMeAnCopy}
+                  onChange={(e) => {
+                    formik.setFieldValue(
+                      "emailOptions.sendMeAnCopy",
+                      !formik.values.emailOptions.sendMeAnCopy
+                    );
+                  }}
                 />
                 <label
                   className="form-check-label fs-sm text-muted"
-                  htmlFor="openDraftSwitch"
+                  htmlFor="sendMeCopySwitch"
                 >
                   {intl.formatMessage({
                     id: "Fields.ModalSendQuoteOptionSendMeAnCopy",
@@ -131,20 +227,34 @@ const QuoteEmailModal = ({
 
                       <div className="innerContainer">
                         <div className="row d-flex mb-7">
-                          <input
-                            type="text"
-                            className="form-control form-control-white"
-                            // placeholder={intl.formatMessage({
-                            //   id: "Fields.FirstName",
-                            // })}
-                            // value={contact?.firstName || ""}
-                            // onChange={(e) =>
-                            //   handleAdditionalContactChange(
-                            //     index,
-                            //     "firstName",
-                            //     e.target.value
-                            //   )
-                            // }
+                          <Tags
+                            tagifyRef={tagifyRef}
+                            className="form-control form-control-solid tagify p-3"
+                            placeholder={intl.formatMessage({
+                              id: "Fields.OptionsOrMultipleOptions",
+                            })}
+                            settings={{
+                              dropdown: {
+                                enabled: 0,
+                              },
+                              validate: (tagData: any) =>
+                                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+                                  tagData.value
+                                ),
+                            }}
+                            value={
+                              formik.values.emailOptions.extraToRecipients || []
+                            }
+                            onChange={(e: any) => {
+                              const value = e.detail.tagify.value.map(
+                                (tag: any) => tag.value
+                              ); // Get the clean value from Tagify
+                              formik.setFieldValue(
+                                "emailOptions.extraToRecipients",
+                                value
+                              );
+                            }}
+                            onInvalid={handleInvalidEmail}
                           />
                         </div>
                       </div>
@@ -168,7 +278,7 @@ const QuoteEmailModal = ({
                       Cc
                     </button>
                   </h2>
-
+                  {console.log(formik.values)!}
                   <div
                     id="collapse_email_cc"
                     className="accordion-collapse collapse "
@@ -180,20 +290,34 @@ const QuoteEmailModal = ({
 
                       <div className="innerContainer">
                         <div className="row d-flex mb-7">
-                          <input
-                            type="text"
-                            className="form-control form-control-white"
-                            // placeholder={intl.formatMessage({
-                            //   id: "Fields.FirstName",
-                            // })}
-                            // value={contact?.firstName || ""}
-                            // onChange={(e) =>
-                            //   handleAdditionalContactChange(
-                            //     index,
-                            //     "firstName",
-                            //     e.target.value
-                            //   )
-                            // }
+                          <Tags
+                            tagifyRef={tagifyRef}
+                            className="form-control form-control-solid tagify p-3"
+                            placeholder={intl.formatMessage({
+                              id: "Fields.OptionsOrMultipleOptions",
+                            })}
+                            settings={{
+                              dropdown: {
+                                enabled: 0,
+                              },
+                              validate: (tagData: any) =>
+                                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+                                  tagData.value
+                                ),
+                            }}
+                            value={
+                              formik.values.emailOptions.extraCcRecipients || []
+                            }
+                            onChange={(e: any) => {
+                              const value = e.detail.tagify.value.map(
+                                (tag: any) => tag.value
+                              ); // Get the clean value from Tagify
+                              formik.setFieldValue(
+                                "emailOptions.extraCcRecipients",
+                                value
+                              );
+                            }}
+                            onInvalid={handleInvalidEmail}
                           />
                         </div>
                       </div>
@@ -229,20 +353,35 @@ const QuoteEmailModal = ({
 
                       <div className="innerContainer">
                         <div className="row d-flex mb-7">
-                          <input
-                            type="text"
-                            className="form-control form-control-white"
-                            // placeholder={intl.formatMessage({
-                            //   id: "Fields.FirstName",
-                            // })}
-                            // value={contact?.firstName || ""}
-                            // onChange={(e) =>
-                            //   handleAdditionalContactChange(
-                            //     index,
-                            //     "firstName",
-                            //     e.target.value
-                            //   )
-                            // }
+                          <Tags
+                            tagifyRef={tagifyRef}
+                            className="form-control form-control-solid tagify p-3"
+                            placeholder={intl.formatMessage({
+                              id: "Fields.OptionsOrMultipleOptions",
+                            })}
+                            value={
+                              formik.values.emailOptions.extraBccRecipients ||
+                              []
+                            }
+                            settings={{
+                              dropdown: {
+                                enabled: 0,
+                              },
+                              validate: (tagData: any) =>
+                                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+                                  tagData.value
+                                ),
+                            }}
+                            onChange={(e: any) => {
+                              const value = e.detail.tagify.value.map(
+                                (tag: any) => tag.value
+                              ); // Get the clean value from Tagify
+                              formik.setFieldValue(
+                                "emailOptions.extraBccRecipients",
+                                value
+                              );
+                            }}
+                            onInvalid={handleInvalidEmail}
                           />
                         </div>
                       </div>
@@ -263,11 +402,35 @@ const QuoteEmailModal = ({
                   placeholder="Aanvraag voor goedkeuring"
                 />
               </div>
+
+              <div
+                className="row alert alert-custom alert-default align-items-center mt-8 mx-0 bg-danger-light"
+                style={{ backgroundColor: "#ffe2e6" }}
+                role="alert"
+              >
+                <div className="alert-icon col-1 me-4">
+                  <i className="ki-duotone ki-information-4 fs-3x text-center text-danger">
+                    <span className="path1"></span>
+                    <span className="path2"></span>
+                    <span className="path3"></span>
+                  </i>
+                </div>
+                <div className="alert-text col-10">
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: intl.formatMessage({
+                        id: "Fields.ModalSendOneOrMoreRecipientsAreRequired",
+                      }),
+                    }}
+                    className="text-danger"
+                  />
+                </div>
+              </div>
             </div>
 
             {/* end::Modal body */}
             <QuoteEmailModalFooter
-              deleteModalId={deleteModalId}
+              formik={formik}
               setValidateModalOpen={setValidateModalOpen}
               setRefresh={setRefresh}
               refresh={refresh}

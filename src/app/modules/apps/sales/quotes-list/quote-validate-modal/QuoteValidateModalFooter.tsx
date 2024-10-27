@@ -6,13 +6,13 @@ import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
   setValidateModalOpen: (type: boolean) => void;
-  deleteModalId: number;
+  quoteId: number;
   setRefresh: (type: boolean) => void;
   refresh: boolean;
 }
 
 const QuoteValidateModalFooter = ({
-  deleteModalId,
+  quoteId,
   setValidateModalOpen,
   setRefresh,
   refresh,
@@ -23,7 +23,7 @@ const QuoteValidateModalFooter = ({
 
   const deleteQuote = async () => {
     setIsSubmitting(true);
-    const response = await deleteQuoteList(deleteModalId);
+    const response = await deleteQuoteList(quoteId);
     if (response.isValid) {
       setRefresh(!refresh);
       setValidateModalOpen(false);

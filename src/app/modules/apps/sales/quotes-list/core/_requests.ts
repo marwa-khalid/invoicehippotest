@@ -4,6 +4,7 @@ import {
   FinancialInstitutionsModel,
   AccountAutomationModel,
   QuoteListModel,
+  GenericBooleanModel,
 } from "./_models";
 
 import {
@@ -28,6 +29,8 @@ import {
   INBOX_SEARCH,
   MIN_MAX_YEAR,
   CREATE_COPY,
+  SEND_EMAIL,
+  FINALIZE_QUOTE,
 } from "./constants";
 import { ContactModel } from "../../../client/client-search/core/_models";
 
@@ -102,6 +105,26 @@ export function createCopy(quoteId: number, copyAttachments: boolean) {
     {
       quoteId: quoteId,
       copyAttachments: copyAttachments,
+    },
+    true
+  );
+}
+
+export function sendEmail() {
+  return postRequest<GenericBooleanModel>(SEND_EMAIL, {}, true);
+}
+
+export function finalizeQuote(
+  quoteId: number,
+  dontSendRemindersOnlyTrackStatus: boolean,
+  adjustQuoteDateToToday: boolean
+) {
+  return postRequest<GenericBooleanModel>(
+    FINALIZE_QUOTE,
+    {
+      quoteId: quoteId,
+      adjustQuoteDateToToday: adjustQuoteDateToToday,
+      dontSendRemindersOnlyTrackStatus: dontSendRemindersOnlyTrackStatus,
     },
     true
   );

@@ -4,14 +4,14 @@ import { QuoteValidateModalFooter } from "./QuoteValidateModalFooter";
 import { useIntl } from "react-intl";
 import ReactQuill from "react-quill";
 interface ComponentProps {
-  deleteModalId: number;
+  quoteId: number;
   quoteNumber: string;
   setValidateModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
   refresh: boolean;
 }
 const QuoteValidateModal = ({
-  deleteModalId,
+  quoteId,
   quoteNumber,
   setValidateModalOpen,
   setRefresh,
@@ -126,7 +126,7 @@ const QuoteValidateModal = ({
 
             {/* end::Modal body */}
             <QuoteValidateModalFooter
-              deleteModalId={deleteModalId}
+              quoteId={quoteId}
               setValidateModalOpen={setValidateModalOpen}
               setRefresh={setRefresh}
               refresh={refresh}

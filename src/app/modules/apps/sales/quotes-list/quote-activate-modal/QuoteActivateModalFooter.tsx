@@ -1,41 +1,46 @@
 import { useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteQuoteList } from "../core/_requests";
+import { createCopy, finalizeQuote } from "../core/_requests";
 
 import { handleToast } from "../../../../auth/core/_toast";
-import { FormikProps } from "formik";
 
-interface FormValues {
-  quoteId: number;
-  overrideNotificationType: number;
-  finalizeQuote: boolean;
-  emailOptions: {
-    sendToClient: boolean;
-    sendMeAnCopy: boolean;
-    extraToRecipients: string[];
-    extraCcRecipients: string[];
-    extraBccRecipients: string[];
-  };
-  actionType: number;
-  adjustQuoteDateToToday: boolean;
-}
 interface ComponentProps {
-  setValidateModalOpen: (type: boolean) => void;
+  setActivateModalOpen: (type: boolean) => void;
+  quoteId: number;
   setRefresh: (type: boolean) => void;
   refresh: boolean;
-  formik: FormikProps<FormValues>;
+  dontSendRemindersOnlyTrackStatus: boolean;
+  adjustQuoteDateToToday: boolean;
 }
 
-const QuoteEmailModalFooter = ({
-  setValidateModalOpen,
+const QuoteActivateModalFooter = ({
+  quoteId,
+  setActivateModalOpen,
   setRefresh,
   refresh,
-  formik,
+  dontSendRemindersOnlyTrackStatus,
+  adjustQuoteDateToToday,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const copyModal = async () => {
+    setIsSubmitting(true);
+    const response = await finalizeQuote(
+      quoteId,
+      dontSendRemindersOnlyTrackStatus,
+      adjustQuoteDateToToday
+    );
+    if (response.isValid) {
+      setRefresh(!refresh);
+      setActivateModalOpen(false);
+      setIsSubmitting(false);
+      localStorage.removeItem("ModalData");
+    }
+    handleToast(response);
+    setIsSubmitting(false);
+  };
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
       <div className="d-flex">
@@ -43,7 +48,7 @@ const QuoteEmailModalFooter = ({
         <button
           type="reset"
           onClick={() => {
-            setValidateModalOpen(false);
+            setActivateModalOpen(false);
             localStorage.removeItem("ModalData");
           }}
           className="btn btn-secondary me-3"
@@ -54,12 +59,11 @@ const QuoteEmailModalFooter = ({
         {/* Save Button */}
         <button
           type="submit"
-          className="btn btn-success"
-          onClick={() => formik.handleSubmit()}
+          className="btn btn-info"
+          onClick={copyModal}
           //   disabled={!isValid || isSubmitting || !touched}
         >
-          {!isSubmitting &&
-            intl.formatMessage({ id: "Fields.ActionSendEmail" })}
+          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionActivate" })}
           {isSubmitting && (
             <span className="indicator-progress" style={{ display: "block" }}>
               {intl.formatMessage({ id: "Common.Busy" })}
@@ -72,4 +76,4 @@ const QuoteEmailModalFooter = ({
   );
 };
 
-export { QuoteEmailModalFooter };
+export { QuoteActivateModalFooter };

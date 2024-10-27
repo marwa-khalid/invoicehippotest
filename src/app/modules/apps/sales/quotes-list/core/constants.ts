@@ -16,3 +16,5 @@ export const UPLOAD_ATTACHMENTS = `${API_HANDLE_V1}/upload/attachment-for-inbox`
 export const INBOX_SEARCH = `${API_URL_V1}/inbox/search`;
 export const MIN_MAX_YEAR = `${API_URL_V1}/lists/company/min-max-year`;
 export const CREATE_COPY = `${API_URL_V1}/quote/create-copy`;
+export const SEND_EMAIL = `${API_URL_V1}/quote/send-email`;
+export const FINALIZE_QUOTE = `${API_URL_V1}/quote/finalize`;
