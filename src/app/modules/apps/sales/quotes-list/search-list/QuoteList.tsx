@@ -563,24 +563,25 @@ const QuoteList = ({
                             </>
                           )}
 
-                          <div className="dropdown-divider border-gray-200"></div>
                           {quoteList.actions.canFinalize && (
-                            <li
-                              onClick={() => {
-                                openActivateModal(quoteList);
-                              }}
-                            >
-                              <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                                <i className="fa fas fa-flag-checkered fs-1 me-2" />
-                                {intl.formatMessage({
-                                  id: "Fields.ActionActivate",
-                                })}
-                              </a>
-                            </li>
+                            <>
+                              <div className="dropdown-divider border-gray-200"></div>
+                              <li
+                                onClick={() => {
+                                  openActivateModal(quoteList);
+                                }}
+                              >
+                                <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                  <i className="fa fas fa-flag-checkered fs-1 me-2" />
+                                  {intl.formatMessage({
+                                    id: "Fields.ActionActivate",
+                                  })}
+                                </a>
+                              </li>
+                            </>
                           )}
                           {quoteList.actions.canDelete && (
                             <>
-                              {" "}
                               <div className="dropdown-divider border-gray-200"></div>
                               <li
                                 onClick={() => {
