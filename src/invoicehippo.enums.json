@@ -8156,6 +8156,131 @@
       "HasGroup": false
     }
   ],
+  "QuoteNotificationTypes": [
+    {
+      "Title": "Aanvraag voor goedkeuring",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Aanvraag afgewezen",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Aanvraag goedgekeurd",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 4,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Offerte Geannuleerd",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 8,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Herinnering voor goedkeuring",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 16,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    }
+  ],
+  "QuoteDeclinedReasonTypes": [
+    {
+      "Title": "U bent het niet eens met de totaal prijs van de offerte!",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 1,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "U bent het niet eens met de opgenomen producten-/diensten!",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 2,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "U ziet af van de offerte vanwege een beter aanbod elders.",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 4,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Enkele besproken producten-/diensten missen in de offerte",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 8,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "U ziet af van de gehele offerte",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 16,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    },
+    {
+      "Title": "Offerte is na meerdere notificaties niet geaccepteerd!",
+      "Symbol": null,
+      "HasSymbol": false,
+      "Value": 32,
+      "SubGroup": null,
+      "HasSubGroup": false,
+      "Group": null,
+      "ExtraDescription": null,
+      "HasGroup": false
+    }
+  ],
 
   "TaxDeclarationPeriodTypes": [
     {

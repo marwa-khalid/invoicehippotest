@@ -110,8 +110,8 @@ export function createCopy(quoteId: number, copyAttachments: boolean) {
   );
 }
 
-export function sendEmail() {
-  return postRequest<GenericBooleanModel>(SEND_EMAIL, {}, true);
+export function sendEmail(values: any) {
+  return postRequest<GenericBooleanModel>(SEND_EMAIL, values, true);
 }
 
 export function finalizeQuote(

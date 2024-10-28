@@ -216,6 +216,7 @@ const QuoteList = ({
   const valueSetter = (quoteList: any) => {
     setQuoteNumber(quoteList.quoteNr);
     setEditModalId(quoteList.id);
+    console.log(quoteList);
     localStorage.setItem(
       "ModalData",
       JSON.stringify({
@@ -223,6 +224,7 @@ const QuoteList = ({
         client: quoteList.client,
         totalPriceWithVat: quoteList.totals.totalPriceWithVAT,
         sign: quoteList.valuta.sign,
+        status: quoteList.quoteStatus.value,
       })
     );
   };

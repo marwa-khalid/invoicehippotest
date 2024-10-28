@@ -12,29 +12,27 @@ interface FormValues {
   emailOptions: {
     sendToClient: boolean;
     sendMeAnCopy: boolean;
-    extraToRecipients: string[];
-    extraCcRecipients: string[];
-    extraBccRecipients: string[];
+    extraToRecipients: any;
+    extraCcRecipients: any;
+    extraBccRecipients: any;
   };
   actionType: number;
   adjustQuoteDateToToday: boolean;
 }
 interface ComponentProps {
   setValidateModalOpen: (type: boolean) => void;
-  setRefresh: (type: boolean) => void;
-  refresh: boolean;
+
   formik: FormikProps<FormValues>;
+  isSubmitting: boolean;
 }
 
 const QuoteEmailModalFooter = ({
   setValidateModalOpen,
-  setRefresh,
-  refresh,
   formik,
+  isSubmitting,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
@@ -56,7 +54,7 @@ const QuoteEmailModalFooter = ({
           type="submit"
           className="btn btn-success"
           onClick={() => formik.handleSubmit()}
-          //   disabled={!isValid || isSubmitting || !touched}
+          disabled={!formik.isValid || isSubmitting || !formik.touched}
         >
           {!isSubmitting &&
             intl.formatMessage({ id: "Fields.ActionSendEmail" })}
