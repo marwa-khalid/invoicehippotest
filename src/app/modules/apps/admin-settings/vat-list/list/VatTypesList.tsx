@@ -73,11 +73,16 @@ const VatTypesList = ({
 
   useEffect(() => {
     fetchVatTypes();
-  }, [searchTerm, vatAreaUsageTypeFilter, pageIndex, searchCounter]);
-
-  useEffect(() => {
-    fetchVatTypes();
-  }, [editModalOpen, deleteModalOpen, itemIdForUpdate, refresh]);
+  }, [
+    searchTerm,
+    vatAreaUsageTypeFilter,
+    pageIndex,
+    searchCounter,
+    editModalOpen,
+    deleteModalOpen,
+    itemIdForUpdate,
+    refresh,
+  ]);
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (

@@ -311,7 +311,10 @@ const QuoteEmailModal = ({
                         <span className="path1"></span>
                         <span className="path2"></span>
                       </i>
-                      Aan
+                      Aan{" "}
+                      {formik.values.emailOptions.extraToRecipients.length >
+                        0 &&
+                        `(${formik.values.emailOptions.extraToRecipients.length})`}
                     </button>
                   </h2>
 
@@ -374,10 +377,13 @@ const QuoteEmailModal = ({
                         <span className="path1"></span>
                         <span className="path2"></span>
                       </i>
-                      Cc
+                      Cc{" "}
+                      {formik.values.emailOptions.extraCcRecipients.length >
+                        0 &&
+                        `(${formik.values.emailOptions.extraCcRecipients.length})`}
                     </button>
                   </h2>
-                  {console.log(formik.values)!}
+
                   <div
                     id="collapse_email_cc"
                     className="accordion-collapse collapse "
@@ -437,7 +443,10 @@ const QuoteEmailModal = ({
                         <span className="path1"></span>
                         <span className="path2"></span>
                       </i>
-                      Bcc
+                      Bcc{" "}
+                      {formik.values.emailOptions.extraBccRecipients.length >
+                        0 &&
+                        `(${formik.values.emailOptions.extraBccRecipients.length})`}
                     </button>
                   </h2>
 

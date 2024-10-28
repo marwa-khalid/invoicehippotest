@@ -24,8 +24,8 @@ const LedgerDeleteModalFooter = ({
     if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);
-      setIsSubmitting(false);
     }
+    setIsSubmitting(false);
     handleToast(response);
   };
   return (

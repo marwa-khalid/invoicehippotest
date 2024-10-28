@@ -4,6 +4,7 @@ import { useFormikContext } from "formik";
 import { useListView } from "../core/ListViewProvider";
 import { deleteVatType } from "../core/_requests";
 import { toast } from "react-toastify";
+import { handleToast } from "../../../../auth/core/_toast";
 
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
@@ -28,9 +29,10 @@ const VatDeleteModalFooter = ({
     if (response.isValid) {
       setRefresh(true);
       setDeleteModalOpen(false);
-      setIsSubmitting(false);
-      toast.success(response?.messages?.map((msg) => msg.message));
     }
+
+    setIsSubmitting(false);
+    handleToast(response);
   };
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">

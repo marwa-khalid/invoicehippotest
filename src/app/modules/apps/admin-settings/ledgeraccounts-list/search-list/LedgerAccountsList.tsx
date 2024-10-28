@@ -80,11 +80,10 @@ const LedgerAccountsList = ({
     bearingTypeFilter,
     pageIndex,
     searchCounter,
+    editModalOpen,
+    deleteModalOpen,
+    refresh,
   ]);
-
-  useEffect(() => {
-    fetchLedgers();
-  }, [editModalOpen, deleteModalOpen, refresh]);
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (

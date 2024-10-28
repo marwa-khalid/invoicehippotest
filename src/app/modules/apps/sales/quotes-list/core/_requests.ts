@@ -145,7 +145,7 @@ export function getDefaultEmpty() {
 export function deleteQuoteList(id: number) {
   return deleteRequest<DeleteResult>(
     QUOTE_API,
-    { quoteId: id, keepAttachments: true },
+    { invoiceId: id, keepAttachments: true },
     true
   );
 }

@@ -27,9 +27,9 @@ const QuoteDeleteModalFooter = ({
     if (response.isValid) {
       setRefresh(!refresh);
       setDeleteModalOpen(false);
-      setIsSubmitting(false);
       localStorage.removeItem("DeleteData");
     }
+    setIsSubmitting(false);
     handleToast(response);
   };
   return (
