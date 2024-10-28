@@ -9,6 +9,7 @@ interface ComponentProps {
   deleteModalId: number;
   setRefresh: (type: boolean) => void;
   refresh: boolean;
+  keepAttachments: boolean;
 }
 
 const QuoteDeleteModalFooter = ({
@@ -16,6 +17,7 @@ const QuoteDeleteModalFooter = ({
   setDeleteModalOpen,
   setRefresh,
   refresh,
+  keepAttachments,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
@@ -23,11 +25,11 @@ const QuoteDeleteModalFooter = ({
 
   const deleteQuote = async () => {
     setIsSubmitting(true);
-    const response = await deleteQuoteList(deleteModalId);
+    const response = await deleteQuoteList(deleteModalId, keepAttachments);
     if (response.isValid) {
       setRefresh(!refresh);
       setDeleteModalOpen(false);
-      localStorage.removeItem("DeleteData");
+      localStorage.removeItem("ModalData");
     }
     setIsSubmitting(false);
     handleToast(response);
@@ -40,7 +42,7 @@ const QuoteDeleteModalFooter = ({
           type="reset"
           onClick={() => {
             setDeleteModalOpen(false);
-            localStorage.removeItem("DeleteData");
+            localStorage.removeItem("ModalData");
           }}
           className="btn btn-light me-3"
         >

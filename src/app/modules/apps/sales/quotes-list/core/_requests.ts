@@ -142,10 +142,10 @@ export function getDefaultEmpty() {
   );
 }
 
-export function deleteQuoteList(id: number) {
+export function deleteQuoteList(id: number, keepAttachments: boolean) {
   return deleteRequest<DeleteResult>(
     QUOTE_API,
-    { invoiceId: id, keepAttachments: true },
+    { invoiceId: id, keepAttachments: keepAttachments },
     true
   );
 }

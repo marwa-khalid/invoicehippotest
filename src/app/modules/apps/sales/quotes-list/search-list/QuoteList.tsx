@@ -151,16 +151,14 @@ const QuoteList = ({
     refresh,
   ]);
 
-
   const openEditModal = (id: number) => {
     setEditModalId(id);
     setAddModalOpen(true);
   };
 
-  const openDeleteModal = (id: number, quoteNr: string) => {
-    setEditModalId(id);
+  const openDeleteModal = (quoteList: any) => {
     setDeleteModalOpen(true);
-    setQuoteNumber(quoteNr);
+    valueSetter(quoteList);
   };
   // Assuming enums.QuoteStatusTypes is available and properly imported
 
@@ -223,6 +221,7 @@ const QuoteList = ({
         totalPriceWithVat: quoteList.totals.totalPriceWithVAT,
         sign: quoteList.valuta.sign,
         status: quoteList.quoteStatus.value,
+        attachmentsCount: quoteList.attachmentsCount,
       })
     );
   };
@@ -585,21 +584,7 @@ const QuoteList = ({
                               <div className="dropdown-divider border-gray-200"></div>
                               <li
                                 onClick={() => {
-                                  openDeleteModal(
-                                    quoteList.id,
-                                    quoteList.quoteNr
-                                  );
-                                  localStorage.setItem(
-                                    "DeleteData",
-                                    JSON.stringify({
-                                      quoteDateAsString:
-                                        quoteList.quoteDateAsString,
-                                      client: quoteList.client,
-                                      totalPriceWithVat:
-                                        quoteList.totals.totalPriceWithVAT,
-                                      sign: quoteList.valuta.sign,
-                                    })
-                                  );
+                                  openDeleteModal(quoteList);
                                 }}
                               >
                                 <a className="dropdown-item  d-flex align-items-center cursor-pointer">

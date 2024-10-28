@@ -22,15 +22,15 @@ const QuoteValidateModalFooter = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const deleteQuote = async () => {
-    setIsSubmitting(true);
-    const response = await deleteQuoteList(quoteId);
-    if (response.isValid) {
-      setRefresh(!refresh);
-      setValidateModalOpen(false);
-      setIsSubmitting(false);
-      localStorage.removeItem("ModalData");
-    }
-    handleToast(response);
+    // setIsSubmitting(true);
+    // const response = await deleteQuoteList(quoteId);
+    // if (response.isValid) {
+    //   setRefresh(!refresh);
+    //   setValidateModalOpen(false);
+    //   setIsSubmitting(false);
+    //   localStorage.removeItem("ModalData");
+    // }
+    // handleToast(response);
   };
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">

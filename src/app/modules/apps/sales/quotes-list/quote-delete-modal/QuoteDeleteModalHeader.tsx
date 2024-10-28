@@ -4,16 +4,15 @@ import { useIntl } from "react-intl";
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   quoteNumber: string;
+  delParsedData: any;
 }
 
 const QuoteDeleteModalHeader = ({
   setDeleteModalOpen,
   quoteNumber,
+  delParsedData,
 }: ComponentProps) => {
   const intl = useIntl();
-
-  //const delData = localStorage.getItem("DeleteData");
-  const delParsedData = JSON.parse(localStorage.getItem("DeleteData")!);
 
   return (
     <div className="modal-header bg-danger d-flex flex-column">
@@ -27,7 +26,7 @@ const QuoteDeleteModalHeader = ({
           data-kt-users-modal-action="close"
           onClick={() => {
             setDeleteModalOpen(false);
-            localStorage.removeItem("DeleteData");
+            localStorage.removeItem("ModalData");
           }}
           style={{ cursor: "pointer" }}
         >
