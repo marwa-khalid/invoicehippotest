@@ -102,6 +102,7 @@ const CustomFieldsInnerWrapper = () => {
       {addModalOpen && (
         <CustomFieldsAddModal
           setRefresh={setRefresh}
+          refresh={refresh}
           setAddModalOpen={setAddModalOpen}
           editModalId={editModalId}
           setEditModalId={setEditModalId}
@@ -114,6 +115,7 @@ const CustomFieldsInnerWrapper = () => {
           discountMarginTitle={discountMarginTitle}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
+          refresh={refresh}
           setDeleteModalId={setDeleteModalId}
         />
       )}

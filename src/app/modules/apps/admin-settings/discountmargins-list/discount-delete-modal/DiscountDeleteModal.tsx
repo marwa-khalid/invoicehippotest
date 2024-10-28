@@ -7,6 +7,7 @@ interface ComponentProps {
   deleteModalId: number[];
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
+  refresh: boolean;
   setDeleteModalId: (type: number[]) => void;
 }
 const DiscountDeleteModal = ({
@@ -15,6 +16,7 @@ const DiscountDeleteModal = ({
   setDeleteModalOpen,
   setDeleteModalId,
   setRefresh,
+  refresh,
 }: ComponentProps) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -59,6 +61,7 @@ const DiscountDeleteModal = ({
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
+              refresh={refresh}
               setDeleteModalId={setDeleteModalId}
             />
           </div>

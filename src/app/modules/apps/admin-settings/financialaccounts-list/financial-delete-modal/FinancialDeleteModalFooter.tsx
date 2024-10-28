@@ -7,12 +7,14 @@ interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   deleteModalId: number;
   setRefresh: (type: boolean) => void;
+  refresh: boolean;
 }
 
 const FinancialDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
+  refresh,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
@@ -22,10 +24,10 @@ const FinancialDeleteModalFooter = ({
     setIsSubmitting(true);
     const response = await deleteFinancialAccount(deleteModalId);
     if (response.isValid) {
-      setRefresh(true);
+      setRefresh(!refresh);
       setDeleteModalOpen(false);
-      setIsSubmitting(false);
     }
+    setIsSubmitting(false);
     handleToast(response);
   };
   return (

@@ -7,6 +7,7 @@ interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   deleteModalId: number[];
   setRefresh: (type: boolean) => void;
+  refresh: boolean;
   setDeleteModalId: (type: number[]) => void;
 }
 
@@ -14,6 +15,7 @@ const CustomFieldsDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
+  refresh,
   setDeleteModalId,
 }: ComponentProps) => {
   // For localization support
@@ -26,10 +28,9 @@ const CustomFieldsDeleteModalFooter = ({
     const response = await deleteDiscountMargin(deleteModalId);
 
     if (response.isValid) {
-      setRefresh(true);
+      setRefresh(!refresh);
       setDeleteModalOpen(false);
       setDeleteModalId([]);
-      setIsSubmitting(false);
     }
 
     setIsSubmitting(false);

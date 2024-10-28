@@ -9,12 +9,14 @@ import { handleToast } from "../../../../auth/core/_toast";
 import { getCustomFieldById, postCustomField } from "../core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
+  refresh: boolean;
   setAddModalOpen: (type: boolean) => void;
   editModalId: number;
   setEditModalId: (type: number) => void;
 }
 const CustomFieldsAddModal = ({
   setRefresh,
+  refresh,
   setAddModalOpen,
   editModalId,
   setEditModalId,
@@ -53,7 +55,7 @@ const CustomFieldsAddModal = ({
       uniqueId: "",
       areaUsageType: 0,
       title: "",
-      customData: "" || [],
+      customData: [],
       usageInfo: "",
       fieldType: 0,
       editOptions: {
@@ -160,7 +162,7 @@ const CustomFieldsAddModal = ({
         if (response.isValid) {
           formik.resetForm();
           setAddModalOpen(false);
-          setRefresh(true);
+          setRefresh(!refresh);
           setEditModalId(0);
         }
         handleToast(response);

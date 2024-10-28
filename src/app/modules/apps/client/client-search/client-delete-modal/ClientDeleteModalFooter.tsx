@@ -33,8 +33,8 @@ const ClientDeleteModalFooter = ({
     if (response.isValid) {
       setRefresh(!refresh);
       setDeleteModalOpen(false);
-      setIsSubmitting(false);
     }
+    setIsSubmitting(false);
     handleToast(response);
   };
   return (

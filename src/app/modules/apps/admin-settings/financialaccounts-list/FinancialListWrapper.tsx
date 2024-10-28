@@ -70,6 +70,7 @@ const FinancialListInnerWrapper = () => {
       {addModalOpen && (
         <FinancialAddModal
           setRefresh={setRefresh}
+          refresh={refresh}
           setAddModalOpen={setAddModalOpen}
         />
       )}
@@ -77,6 +78,7 @@ const FinancialListInnerWrapper = () => {
         <BankLinkModal
           setRefresh={setRefresh}
           setLinkModalOpen={setLinkModalOpen}
+          refresh={refresh}
         />
       )}
       {unlinkModalOpen && (
@@ -84,12 +86,14 @@ const FinancialListInnerWrapper = () => {
           deleteModalId={editModalId}
           setUnlinkModalOpen={setUnlinkModalOpen}
           setRefresh={setRefresh}
+          refresh={refresh}
         />
       )}
       {editModalOpen && (
         <FinancialEditModal
           editModalId={editModalId}
           setRefresh={setRefresh}
+          refresh={refresh}
           setEditModalOpen={setEditModalOpen}
         />
       )}
@@ -99,6 +103,7 @@ const FinancialListInnerWrapper = () => {
           ledgerAccountTitle={ledgerAccountTitle}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
+          refresh={refresh}
         />
       )}
     </>

@@ -70,7 +70,14 @@ const CustomFieldsList = ({
   };
   useEffect(() => {
     fetchCustomFields();
-  }, [searchTerm, areaTypeFilter, fieldTypeFilter, pageIndex, searchCounter]);
+  }, [
+    searchTerm,
+    areaTypeFilter,
+    fieldTypeFilter,
+    pageIndex,
+    searchCounter,
+    refresh,
+  ]);
 
   const handlePageChange = (page: number) => {
     setPageIndex(page);
@@ -81,10 +88,6 @@ const CustomFieldsList = ({
       setDeleteSelectedButton(false);
     }
   }, [deleteModalId]);
-
-  useEffect(() => {
-    fetchCustomFields();
-  }, [addModalOpen, deleteModalOpen, refresh]);
 
   const toggleRowSelection = (id: number) => {
     setDeleteModalId((prevSelected: number[]) => {

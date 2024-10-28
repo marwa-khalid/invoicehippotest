@@ -7,12 +7,14 @@ interface ComponentProps {
   deleteModalId: number;
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
+  refresh: boolean;
 }
 const FinancialDeleteModal = ({
   deleteModalId,
   ledgerAccountTitle,
   setDeleteModalOpen,
   setRefresh,
+  refresh,
 }: ComponentProps) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -64,6 +66,7 @@ const FinancialDeleteModal = ({
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
+              refresh={refresh}
             />
           </div>
           {/* end::Modal content */}

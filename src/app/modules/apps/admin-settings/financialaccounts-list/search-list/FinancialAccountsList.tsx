@@ -33,12 +33,12 @@ const FinancialAccountsList = ({
   setDeleteModalOpen,
   setUnlinkModalOpen,
   searchCounter,
-  refresh,
   setPageIndex,
   pageIndex,
   editModalOpen,
   deleteModalOpen,
   addModalOpen,
+  refresh,
 }: ComponentProps) => {
   const [financialAccounts, setFinancialAccounts] = useState<any>([]);
 
@@ -66,11 +66,7 @@ const FinancialAccountsList = ({
 
   useEffect(() => {
     fetchFinancialAccounts();
-  }, [searchTerm, pageIndex, searchCounter]);
-
-  useEffect(() => {
-    fetchFinancialAccounts();
-  }, [refresh, editModalOpen, deleteModalOpen, addModalOpen]);
+  }, [searchTerm, pageIndex, searchCounter, refresh]);
 
   const renderWifiIcon = () => {
     return <i className="fas fa-wifi text-success fs-2" />;

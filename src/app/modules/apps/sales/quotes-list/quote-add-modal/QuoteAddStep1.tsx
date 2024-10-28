@@ -5,12 +5,8 @@ import { FormikProps } from "formik";
 import "react-quill/dist/quill.snow.css";
 import Flatpickr from "react-flatpickr";
 import { ClientAddModal } from "../../../client/client-search/client-add-modal/ClientAddModal";
-import {
-  getClientById,
-  getContactListById,
-} from "../../../client/client-search/core/_requests";
+import { getContactListById } from "../../../client/client-search/core/_requests";
 import { ClientSearch } from "./ClientSearch";
-import { getClientContacts } from "../core/_requests";
 
 export interface FormValues {
   id: number;
@@ -135,10 +131,7 @@ const QuoteAddStep1: FC<Props> = ({
   const intl = useIntl();
   const [clientModal, openClientModal] = useState<boolean>(false);
   const [editModalId, setEditModalId] = useState<number>(0);
-  const [deleteModalId, setDeleteModalId] = useState<number[]>([0]);
-  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>("");
-  const [intlMessage, setIntlMessage] = useState<string>("");
+
   const [refresh, setRefresh] = useState(false);
 
   const [clientSearch, setClientSearch] = useState<any>();
@@ -413,12 +406,7 @@ const QuoteAddStep1: FC<Props> = ({
             refresh={refresh}
             setEditModalId={setEditModalId}
             setAddModalOpen={openClientModal}
-            setDeleteModalId={setDeleteModalId}
-            setDeleteModalOpen={setDeleteModalOpen}
-            setIntlMessage={setIntlMessage}
-            setTitle={setTitle}
             editModalId={editModalId}
-            deleteModalOpen={deleteModalOpen}
           />
         )}
         {clientSearch && (

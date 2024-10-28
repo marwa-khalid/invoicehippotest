@@ -10,7 +10,6 @@ import {
   postClient,
   postContact,
 } from "../core/_requests";
-import { ClientAddModalForm } from "./ClientAddModalForm";
 import { handleToast } from "../../../../auth/core/_toast";
 import { useAuth } from "../../../../auth";
 import { toast } from "react-toastify";
@@ -22,11 +21,6 @@ interface Props {
   setRefresh: (type: boolean) => void;
   refresh: boolean;
   setAddModalOpen: (type: boolean) => void;
-  setDeleteModalId: (type: number[]) => void;
-  setDeleteModalOpen: (type: boolean) => void;
-  setTitle: (type: string) => void;
-  setIntlMessage: (type: string) => void;
-  deleteModalOpen: boolean;
   editModalId: number;
   setEditModalId: (type: number) => void;
 }
@@ -35,12 +29,7 @@ const ClientAddModal = ({
   refresh,
   setEditModalId,
   setAddModalOpen,
-  setDeleteModalId,
-  setDeleteModalOpen,
-  setIntlMessage,
-  setTitle,
   editModalId,
-  deleteModalOpen,
 }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -349,29 +338,31 @@ const ClientAddModal = ({
               businessName={response?.businessName}
               customerNr={response?.customerNr}
               setAddModalOpen={setAddModalOpen}
-              disableTabs={disableTabs}
-              hideTab4={hideTab4}
             />
             <div className="hippo-tab-manager d-flex justify-content-between p-5 flex-grow-1 bg-secondary">
               <div className="d-flex justify-content-start">
                 {tabs.map((tab: any) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => {
-                      handleTabClick(tab);
-                    }}
-                    className={`btn btn-light border-0 mx-2 px-4 ${
-                      activeTab.id === tab.id
-                        ? "hippo-selected-tab btn-dark"
-                        : "text-gray bg-body"
-                    }  `}
-                    data-bs-toggle="tab"
-                    style={{ borderBottomColor: "1px solid black" }}
-                  >
-                    {tab.icon}
-                    <span className="me-1">|</span>
-                    {tab.label}
-                  </button>
+                  <>
+                    {!(tab.id === "tab4" && hideTab4) && (
+                      <button
+                        key={tab.id}
+                        onClick={() => {
+                          handleTabClick(tab);
+                        }}
+                        className={`btn bg-light border-0 mx-2 px-4 ${
+                          activeTab.id === tab.id
+                            ? "hippo-selected-tab text-white bg-dark"
+                            : "text-gray bg-body"
+                        }  `}
+                        data-bs-toggle="tab"
+                        style={{ borderBottomColor: "1px solid black" }}
+                      >
+                        {tab.icon}
+                        <span className="me-1">|</span>
+                        {tab.label}
+                      </button>
+                    )}
+                  </>
                 ))}
               </div>
             </div>
@@ -406,7 +397,7 @@ const ClientAddModal = ({
                 />
               )}
 
-              {activeTab.id === "tab4" && (
+              {activeTab.id === "tab4" && !hideTab4 && (
                 <ClientAddStep4
                   setIsSubmitting={setIsSubmitting}
                   isSubmitting={isSubmitting}

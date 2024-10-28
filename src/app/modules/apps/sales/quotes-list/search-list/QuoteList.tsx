@@ -148,11 +148,9 @@ const QuoteList = ({
     quoteStatusTypes,
     clientIdForFilter,
     searchCounter,
+    refresh,
   ]);
 
-  useEffect(() => {
-    fetchQuotes();
-  }, [refresh]);
 
   const openEditModal = (id: number) => {
     setEditModalId(id);

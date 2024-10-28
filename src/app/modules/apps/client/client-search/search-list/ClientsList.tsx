@@ -67,11 +67,7 @@ const ClientsList = ({
 
   useEffect(() => {
     fetchClients();
-  }, [searchTerm, pageIndex, searchCounter]);
-
-  useEffect(() => {
-    fetchClients();
-  }, [addModalOpen, deleteModalOpen, refresh]);
+  }, [searchTerm, pageIndex, searchCounter, refresh]);
 
   const openEditModal = (id: number) => {
     setEditModalId(id);

@@ -40,10 +40,8 @@ const ClientDeleteModal = ({
           {/* begin::Modal content */}
           <div className="modal-content">
             <ClientDeleteModalHeader
-              setRefresh={setRefresh}
               setDeleteModalOpen={setDeleteModalOpen}
               intlMessage={intlMessage}
-              refresh={refresh}
             />
             {/* begin::Modal body */}
             <div className="modal-body p-10">

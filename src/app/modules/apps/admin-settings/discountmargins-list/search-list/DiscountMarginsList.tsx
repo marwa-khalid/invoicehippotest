@@ -71,11 +71,7 @@ const DiscountMarginsList = ({
   }, [deleteModalId]);
   useEffect(() => {
     fetchDiscountTypes();
-  }, [searchTerm, pageIndex, searchCounter]);
-
-  useEffect(() => {
-    fetchDiscountTypes();
-  }, [editModalOpen, deleteModalOpen, refresh]);
+  }, [searchTerm, pageIndex, searchCounter, refresh]);
 
   const toggleRowSelection = (id: number) => {
     setDeleteModalId((prevSelected: number[]) => {

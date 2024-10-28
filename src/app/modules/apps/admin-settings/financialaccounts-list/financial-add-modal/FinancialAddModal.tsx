@@ -10,8 +10,9 @@ import { handleToast } from "../../../../auth/core/_toast";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
+  refresh: boolean;
 }
-const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const FinancialAddModal = ({ setRefresh, setAddModalOpen, refresh }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -86,7 +87,7 @@ const FinancialAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         );
 
         if (response.isValid) {
-          setRefresh(true);
+          setRefresh(!refresh);
           formik.resetForm();
           setAddModalOpen(false);
         }

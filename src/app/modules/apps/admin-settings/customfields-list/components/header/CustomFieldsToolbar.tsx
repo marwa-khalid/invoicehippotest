@@ -45,6 +45,7 @@ const CustomFieldsToolbar = ({
           content={intl.formatMessage({
             id: "Fields.ToolTipNew",
           })}
+          
         >
           <button
             type="button"

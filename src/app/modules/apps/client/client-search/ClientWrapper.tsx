@@ -69,13 +69,8 @@ const ClientInnerWrapper = () => {
           setRefresh={setRefresh}
           refresh={refresh}
           setAddModalOpen={setAddModalOpen}
-          setDeleteModalOpen={setDeleteModalOpen}
           setEditModalId={setEditModalId}
-          setDeleteModalId={setDeleteModalId}
-          setTitle={setTitle}
           editModalId={editModalId}
-          setIntlMessage={setIntlMessage}
-          deleteModalOpen={deleteModalOpen}
         />
       )}
 

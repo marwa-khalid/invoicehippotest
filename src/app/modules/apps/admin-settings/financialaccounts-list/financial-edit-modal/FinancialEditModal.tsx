@@ -14,11 +14,13 @@ interface Props {
   setRefresh: (type: boolean) => void;
   setEditModalOpen: (type: boolean) => void;
   editModalId: number;
+  refresh: boolean;
 }
 const FinancialEditModal = ({
   setRefresh,
   setEditModalOpen,
   editModalId,
+  refresh,
 }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -97,7 +99,7 @@ const FinancialEditModal = ({
         if (response.isValid) {
           formik.resetForm();
           setEditModalOpen(false);
-          setRefresh(true);
+          setRefresh(!refresh);
         }
         handleToast(response);
       } catch (error) {
@@ -113,7 +115,7 @@ const FinancialEditModal = ({
     const fetchInitialData = async () => {
       try {
         const response = await getFinancialAccountById(editModalId);
-    
+
         formik.setValues({
           id: response.result.id,
           accountName: response.result.accountName,

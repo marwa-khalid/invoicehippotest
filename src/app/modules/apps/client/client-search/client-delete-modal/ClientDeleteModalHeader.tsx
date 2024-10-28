@@ -4,15 +4,12 @@ import { useIntl } from "react-intl";
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   intlMessage: string;
-  setRefresh: (type: boolean) => void;
-  refresh: boolean;
 }
 
 const ClientDeleteModalHeader = ({
   setDeleteModalOpen,
-  setRefresh,
+
   intlMessage,
-  refresh,
 }: ComponentProps) => {
   const intl = useIntl();
   return (
@@ -35,7 +32,6 @@ const ClientDeleteModalHeader = ({
         data-kt-users-modal-action="close"
         onClick={() => {
           setDeleteModalOpen(false);
-          setRefresh(!refresh);
         }}
         style={{ cursor: "pointer" }}
       >

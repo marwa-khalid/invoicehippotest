@@ -10,8 +10,9 @@ import { postDiscountMargin } from "../core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
+  refresh: boolean;
 }
-const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
+const DiscountAddModal = ({ setRefresh, setAddModalOpen, refresh }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -84,7 +85,7 @@ const DiscountAddModal = ({ setRefresh, setAddModalOpen }: Props) => {
         if (response.isValid) {
           formik.resetForm();
           setAddModalOpen(false);
-          setRefresh(true);
+          setRefresh(!refresh);
         }
         handleToast(response);
       } catch (error) {

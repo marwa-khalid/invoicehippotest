@@ -11,8 +11,9 @@ import { useAuth } from "../../../../auth";
 interface Props {
   setRefresh: (type: boolean) => void;
   setLinkModalOpen: (type: boolean) => void;
+  refresh: boolean;
 }
-const BankLinkModal = ({ setRefresh, setLinkModalOpen }: Props) => {
+const BankLinkModal = ({ setRefresh, setLinkModalOpen, refresh }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -66,7 +67,7 @@ const BankLinkModal = ({ setRefresh, setLinkModalOpen }: Props) => {
         if (response.isValid) {
           // formik.resetForm();
           // setLinkModalOpen(false);
-          // setRefresh(true);
+          setRefresh(!refresh);
           window.location.href = response.result.requestUrlForConsent;
         }
         handleToast(response);

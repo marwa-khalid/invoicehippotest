@@ -75,6 +75,7 @@ const DiscountMarginsInnerWrapper = () => {
       {addModalOpen && (
         <DiscountAddModal
           setRefresh={setRefresh}
+          refresh={refresh}
           setAddModalOpen={setAddModalOpen}
         />
       )}
@@ -82,6 +83,7 @@ const DiscountMarginsInnerWrapper = () => {
         <DiscountEditModal
           editModalId={editModalId}
           setRefresh={setRefresh}
+          refresh={refresh}
           setEditModalOpen={setEditModalOpen}
         />
       )}
@@ -91,6 +93,7 @@ const DiscountMarginsInnerWrapper = () => {
           discountMarginTitle={discountMarginTitle}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
+          refresh={refresh}
           setDeleteModalId={setDeleteModalId}
         />
       )}

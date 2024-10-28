@@ -12,11 +12,13 @@ interface Props {
   setRefresh: (type: boolean) => void;
   setEditModalOpen: (type: boolean) => void;
   editModalId: number;
+  refresh:boolean
 }
 const DiscountEditModal = ({
   setRefresh,
   setEditModalOpen,
   editModalId,
+  refresh,
 }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -90,7 +92,7 @@ const DiscountEditModal = ({
         if (response.isValid) {
           formik.resetForm();
           setEditModalOpen(false);
-          setRefresh(true);
+          setRefresh(!refresh);
         }
         handleToast(response);
       } catch (error) {
