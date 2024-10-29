@@ -6,12 +6,9 @@ import { useFormik } from "formik";
 import { useIntl } from "react-intl";
 import { toast } from "react-toastify";
 import {
-  // getClientById,
   getDefaultEmpty,
   getQuoteById,
   postQuote,
-  // postClient,
-  // postContact,
   getNotificationCycles,
 } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
@@ -28,8 +25,6 @@ import {
 import Select from "react-select";
 import { useAuth } from "../../../../auth";
 import { KTSVG } from "../../../../../../_metronic/helpers";
-import ReactQuill from "react-quill";
-import enums from "../../../../../../invoicehippo.enums.json";
 import { QuoteViewModal } from "../quote-view-modal/QuoteViewModal";
 import { QuoteRestorationModal } from "../quote-restoration-modal/QuoteRestorationModal";
 import { ListLoading } from "../../../components/ListLoading";
@@ -57,35 +52,6 @@ const QuoteAddModal = ({
       document.body.classList.remove("modal-open");
     };
   }, []);
-  const getStatusClass = (quoteStatusValue: number) => {
-    switch (quoteStatusValue) {
-      case 1: // Concept
-        return "bg-light";
-      case 2: // Wachten op goedkeuring (Waiting for approval)
-        return "bg-info";
-      case 4: // Geaccepteerd door de klant (Accepted by the client)
-        return "bg-success";
-      case 8: // Afgekeurd door de klant (Rejected by the client)
-        return "bg-danger";
-      case 16: // Verlopen-/1e Herinnering (Overdue/1st reminder)
-        return "bg-warning";
-      case 32: // Verlopen-/2e Herinnering (Overdue/2nd reminder)
-      case 64: // Verlopen-/Laatste Herinnering (Overdue/Last reminder)
-        return "bg-danger";
-      case 128: // Geannuleerd (Cancelled)
-        return "bg-dark";
-      case 256: // Gepauzeerd (Paused)
-        return "bg-warning";
-      case 512: // Planning
-        return "bg-primary";
-      case 1024: // Realisatie (Realization)
-        return "bg-info";
-      case 2048: // Afgerond (Completed)
-        return "bg-success";
-      default:
-        return "bg-default"; // Default case
-    }
-  };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const intl = useIntl();
@@ -226,18 +192,7 @@ const QuoteAddModal = ({
       hasAttachments: false,
     },
 
-    validationSchema: Yup.object().shape({
-      //   products: Yup.array()
-      //     .min(1, "At least one product is required.")
-      //     .of(
-      //       Yup.object().shape({
-      //         title: Yup.string()
-      //           .trim()
-      //           .required("Product title is required.")
-      //           .min(1, "Product title cannot be an empty string."),
-      //       })
-      //     ),
-    }),
+    validationSchema: Yup.object().shape({}),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
 
@@ -321,14 +276,6 @@ const QuoteAddModal = ({
 
     fetchInitialData();
   }, [editModalId]);
-  // useEffect(() => {
-  //   if (response) {
-  //     formik.setValues({
-  //       ...formik.values,
-  //       ...response, // Merge the response with the existing form values
-  //     });
-  //   }
-  // }, [response]);
 
   const [ledgers, setLedgers] = useState<any>([]);
   const [vatTypes, setVatTypes] = useState<any>([]);
@@ -363,7 +310,6 @@ const QuoteAddModal = ({
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);
   };
-  console.log(ledgers?.length);
   useEffect(() => {
     const fetchLedgersForSale = async () => {
       const response = await getLedgerTypes();

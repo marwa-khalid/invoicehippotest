@@ -9,6 +9,10 @@ interface ComponentProps {
   quoteId: number;
   setRefresh: (type: boolean) => void;
   refresh: boolean;
+  setActiveTab: any;
+  tabs: any;
+  mode: number;
+  activeTab: any;
 }
 
 const QuoteValidateModalFooter = ({
@@ -16,6 +20,10 @@ const QuoteValidateModalFooter = ({
   setValidateModalOpen,
   setRefresh,
   refresh,
+  setActiveTab,
+  tabs,
+  mode,
+  activeTab,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
@@ -32,6 +40,20 @@ const QuoteValidateModalFooter = ({
     // }
     // handleToast(response);
   };
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleContinue = () => {
+    setActiveTab((prevTab: any) => {
+      const currentIndex = tabs.findIndex((tab: any) => tab.id === prevTab.id);
+      // setCurrentIndex(currentIndex);
+      const nextIndex =
+        currentIndex < tabs.length - 1 ? currentIndex + 1 : currentIndex;
+      return tabs[nextIndex];
+    });
+  };
+  console.log(currentIndex);
+
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
       <div className="d-flex">
@@ -47,8 +69,36 @@ const QuoteValidateModalFooter = ({
           {intl.formatMessage({ id: "Fields.ActionClose" })}
         </button>
 
+        {/* Continue Button */}
+
+        {activeTab.id === 4 ? (
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={handleContinue}
+          >
+            Approve
+          </button>
+        ) : activeTab.id === 2 && mode === 2 ? (
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={handleContinue}
+          >
+            Decline
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleContinue}
+          >
+            Continue
+          </button>
+        )}
+
         {/* Save Button */}
-        <button
+        {/* <button
           type="submit"
           className="btn btn-primary"
           onClick={deleteQuote}
@@ -61,7 +111,9 @@ const QuoteValidateModalFooter = ({
               <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
           )}
-        </button>
+
+
+        </button> */}
       </div>
     </div>
   );

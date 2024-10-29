@@ -272,7 +272,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                   id="kt_tab_pane_1"
                   role="tabpanel"
                 >
-                  <form className="form ">
+                  <form className="form">
                     <div className="form-group row px-10">
                       <div className="dropzone dropzone-queue mb-2">
                         <input {...getInputProps()} />

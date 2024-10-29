@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { QuoteValidateModalHeader } from "./QuoteValidateModalHeader";
 import { QuoteValidateModalFooter } from "./QuoteValidateModalFooter";
 import { useIntl } from "react-intl";
-import ReactQuill from "react-quill";
+import { QuoteValidateStep1 } from "./QuoteValidateStep1";
+import { QuoteValidateStep2 } from "./QuoteValidateStep2";
+import { QuoteValidateStep3 } from "./QuoteValidateStep3";
+import { QuoteValidateStep4 } from "./QuoteValidateStep4";
 interface ComponentProps {
   quoteId: number;
   quoteNumber: string;
@@ -24,6 +27,41 @@ const QuoteValidateModal = ({
     };
   }, []);
   const intl = useIntl();
+  const [mode, setMode] = useState<number>(1);
+  const tabs = [
+    {
+      id: 1,
+      label: "Selection",
+      icon: <i className="fa-regular fa-address-book fs-3 hippo-tab-icon"></i>,
+    },
+    {
+      id: 2,
+      label: "Comments-/Reason",
+      icon: <i className="fa-solid fa-file-invoice fs-3 hippo-tab-icon"></i>,
+    },
+    {
+      id: 3,
+      label: "Personal Details",
+      icon: (
+        <i className="fa-regular fa-closed-captioning fs-3 hippo-tab-icon"></i>
+      ),
+    },
+    {
+      id: 4,
+      label: "Sign Document",
+      icon: (
+        <i className="fa-regular fa-closed-captioning fs-3 hippo-tab-icon"></i>
+      ),
+    },
+  ];
+
+  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
+  const handleTabClick = (tab: any) => {
+    setActiveTab(tab);
+    setCurrentIndex(tab.id - 1);
+  };
 
   return (
     <>
@@ -35,16 +73,56 @@ const QuoteValidateModal = ({
         aria-modal="true"
       >
         {/* begin::Modal dialog */}
-        <div className="modal-dialog modal-dialog-centered ">
+        <div className="modal-dialog mw-750px">
           {/* begin::Modal content */}
           <div className="modal-content">
             <QuoteValidateModalHeader
               setValidateModalOpen={setValidateModalOpen}
               quoteNumber={quoteNumber}
             />
+
+            <div className="hippo-tab-manager d-flex justify-content-between p-5 flex-grow-1 bg-secondary">
+              <div className="d-flex justify-content-start">
+                {tabs.map((tab: any) => (
+                  <>
+                    {mode === 2 && (tab.id === 3 || tab.id === 4) ? (
+                      <></>
+                    ) : (
+                      <button
+                        key={tab.id}
+                        onClick={() => {
+                          handleTabClick(tab);
+                        }}
+                        className={`btn bg-light border-0 mx-2 px-4 ${
+                          activeTab.id === tab.id
+                            ? "hippo-selected-tab text-white bg-dark"
+                            : "text-gray bg-body"
+                        }  `}
+                        data-bs-toggle="tab"
+                        style={{ borderBottomColor: "1px solid black" }}
+                      >
+                        {tab.icon}
+                        <span className="me-1">|</span>
+                        {tab.label}
+                      </button>
+                    )}
+                  </>
+                ))}
+              </div>
+            </div>
+
+            <div className="hippo-tab-content" id="myTabContent">
+              {activeTab.id === 1 && (
+                <QuoteValidateStep1 mode={mode} setMode={setMode} />
+              )}
+              {activeTab.id === 2 && <QuoteValidateStep2 />}
+              {activeTab.id === 3 && <QuoteValidateStep3 />}
+              {activeTab.id === 4 && <QuoteValidateStep4 />}
+            </div>
+
             {/* begin::Modal body */}
 
-            <div className="modal-body p-10">
+            {/* <div className="modal-body p-10">
               <div className="row d-flex form-wrapper bg-secondary p-5 rounded mb-7">
                 <div className="col-2">
                   <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
@@ -122,7 +200,7 @@ const QuoteValidateModal = ({
                   verstuur de klant een notificatie van deze actie
                 </label>
               </div>
-            </div>
+            </div> */}
 
             {/* end::Modal body */}
             <QuoteValidateModalFooter
@@ -130,6 +208,10 @@ const QuoteValidateModal = ({
               setValidateModalOpen={setValidateModalOpen}
               setRefresh={setRefresh}
               refresh={refresh}
+              tabs={tabs}
+              setActiveTab={setActiveTab}
+              mode={mode}
+              activeTab={activeTab}
             />
           </div>
           {/* end::Modal content */}
