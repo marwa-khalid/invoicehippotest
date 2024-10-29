@@ -36,7 +36,7 @@ const QuoteValidateStep1 = ({ mode, setMode }: Props) => {
             checked={mode === 1}
           />
           <label
-            className="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-10"
+            className="btn btn-outline btn-outline-dashed btn-outline-success p-7 d-flex align-items-center mb-10"
             htmlFor="kt_create_account_form_account_type_personal"
           >
             <KTSVG
@@ -66,7 +66,7 @@ const QuoteValidateStep1 = ({ mode, setMode }: Props) => {
             checked={mode === 2}
           />
           <label
-            className="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center "
+            className="btn btn-outline btn-outline-dashed btn-outline-danger p-7 d-flex align-items-center "
             htmlFor="kt_create_account_form_account_type_corporate"
           >
             <KTSVG

@@ -36,7 +36,7 @@ const QuoteValidateModal = ({
     },
     {
       id: 2,
-      label: "Comments-/Reason",
+      label: mode === 1 ? "Comments" : "Reason",
       icon: <i className="fa-solid fa-file-invoice fs-3 hippo-tab-icon"></i>,
     },
     {
