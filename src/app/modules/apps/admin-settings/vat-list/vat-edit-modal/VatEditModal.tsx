@@ -13,6 +13,7 @@ interface ComponentProps {
   editModalId: number;
   setEditModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
+  refresh: boolean;
 }
 interface ledgerAccount {
   value: number;
@@ -22,6 +23,7 @@ const VatEditModal = ({
   editModalId,
   setRefresh,
   setEditModalOpen,
+  refresh,
 }: ComponentProps) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -149,7 +151,7 @@ const VatEditModal = ({
           values.isNoneVatType
         );
         if (response) {
-          setRefresh(true);
+          setRefresh(!refresh);
           formik.resetForm();
           setEditModalOpen(false);
         }

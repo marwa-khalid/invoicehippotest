@@ -18,24 +18,21 @@ import {
   GET_LEDGDER_FOR_VAT,
 } from "./constants";
 import { VatTypesModel, VatTypeByIdModel, LedgerForVatModel } from "./_models";
-// export function getUsers(query: string): Promise<UsersQueryResponse> => {
-//   return axios
-//     .get(`${GET_USERS_URL}?${query}`)
-//     .then((d: AxiosResponse<UsersQueryResponse>) => d.data);
-// };
 
 export function getVatTypes(
   searchTerm: string,
   pageIndex: number,
-  vatAreaUsageTypeFilter: number
+  vatAreaUsageTypeFilter: number | undefined
 ) {
+  if (vatAreaUsageTypeFilter === 0) {
+    vatAreaUsageTypeFilter = undefined;
+  }
   return postRequest<VatTypesModel>(
     SEARCH_VAT_TYPES,
     {
       pageMax: 25,
       pageIndex: searchTerm ? 1 : pageIndex,
       searchTerm: searchTerm,
-      templateIdFilter: 0,
       vatAreaUsageTypeFilter: vatAreaUsageTypeFilter,
     },
     true
@@ -45,7 +42,6 @@ export function getVatTypes(
 export function postVatType(
   id: number,
   ledgerAccountId: number,
-
   title: string,
   value: number,
   vatAreaUsageType: number,

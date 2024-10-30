@@ -11,6 +11,7 @@ interface ComponentProps {
   deleteModalId: number;
   setRefresh: (type: boolean) => void;
   vatTitle: string;
+  refresh: boolean;
 }
 
 const VatDeleteModalFooter = ({
@@ -18,6 +19,7 @@ const VatDeleteModalFooter = ({
   setDeleteModalOpen,
   setRefresh,
   vatTitle,
+  refresh,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
@@ -27,7 +29,7 @@ const VatDeleteModalFooter = ({
     setIsSubmitting(true);
     const response = await deleteVatType(deleteModalId);
     if (response.isValid) {
-      setRefresh(true);
+      setRefresh(!refresh);
       setDeleteModalOpen(false);
     }
 

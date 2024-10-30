@@ -63,7 +63,11 @@ export function getDefaultEmpty() {
   );
 }
 
-export function searchChaimber(searchTerm: string) {
+export function searchChaimber(searchTerm: string | undefined) {
+  if (searchTerm === "") {
+    searchTerm = undefined;
+  }
+
   return postRequest<any>(
     `${CHAIMBER_SEARCH}`,
     {

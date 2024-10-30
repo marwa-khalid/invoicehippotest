@@ -12,8 +12,9 @@ import { useListView } from "../core/ListViewProvider";
 import { toast } from "react-toastify";
 interface Props {
   setRefresh: (type: boolean) => void;
+  refresh: boolean;
 }
-const VatAddModal = ({ setRefresh }: Props) => {
+const VatAddModal = ({ setRefresh, refresh }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => {
@@ -114,7 +115,7 @@ const VatAddModal = ({ setRefresh }: Props) => {
 
         formik.resetForm();
         setItemIdForUpdate(undefined);
-        setRefresh(true);
+        setRefresh(!refresh);
         toast.success(intl.formatMessage({ id: "System.NewSuccessVatType" }));
       } catch (error) {
         console.error("Post failed:", error);

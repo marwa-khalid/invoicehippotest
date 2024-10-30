@@ -36,6 +36,7 @@ const BankLinkModalForm: FC<Props> = ({ formik, isSubmitting }) => {
   const generateMonthOptions = () => {
     const options = [];
     const now = new Date();
+    console.log(now);
 
     for (let i = 0; i < 12; i++) {
       const year = now.getFullYear();
@@ -49,15 +50,9 @@ const BankLinkModalForm: FC<Props> = ({ formik, isSubmitting }) => {
         "0" +
         (firstDay.getMonth() + 1)
       ).slice(-2)}-${firstDay.getFullYear()}`;
-
       // Use current time for the ISO string
-      const isoDateString = new Date(
-        `${firstDay.getFullYear()}-${("0" + (firstDay.getMonth() + 1)).slice(
-          -2
-        )}-${("0" + firstDay.getDate()).slice(
-          -2
-        )}T${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}Z`
-      ).toISOString();
+
+      const isoDateString = firstDay?.toISOString();
 
       // Add to options array
       options.push({
@@ -69,13 +64,13 @@ const BankLinkModalForm: FC<Props> = ({ formik, isSubmitting }) => {
       now.setMonth(now.getMonth() - 1);
     }
 
-    return options;
+    setOptions(options);
   };
 
   const [options, setOptions] = useState<any>();
 
   useEffect(() => {
-    setOptions(generateMonthOptions());
+    generateMonthOptions();
   }, []);
 
   return (

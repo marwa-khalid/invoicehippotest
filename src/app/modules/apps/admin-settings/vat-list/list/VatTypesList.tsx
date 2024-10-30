@@ -73,16 +73,7 @@ const VatTypesList = ({
 
   useEffect(() => {
     fetchVatTypes();
-  }, [
-    searchTerm,
-    vatAreaUsageTypeFilter,
-    pageIndex,
-    searchCounter,
-    editModalOpen,
-    deleteModalOpen,
-    itemIdForUpdate,
-    refresh,
-  ]);
+  }, [searchTerm, vatAreaUsageTypeFilter, pageIndex, searchCounter, refresh]);
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (

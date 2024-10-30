@@ -242,7 +242,7 @@ const ClientAddModal = ({
         const response = await postClient(values);
         if (response.isValid) {
           // formik.resetForm();
-          setRefresh(!refresh);
+
           // formik.resetForm();
           setEditModalId(response.result.id);
 
@@ -262,7 +262,7 @@ const ClientAddModal = ({
           }
           if (postContactsPromise?.isValid) {
             // formik.resetForm();
-            setRefresh(!refresh);
+
             // formik.resetForm();
             localStorage.setItem(
               "contactResponse",
@@ -277,6 +277,7 @@ const ClientAddModal = ({
 
           if (close) {
             setAddModalOpen(false);
+            setRefresh(!refresh);
           }
         }
         handleToast(response);
@@ -307,7 +308,7 @@ const ClientAddModal = ({
     };
 
     fetchInitialData();
-  }, [formik.values.id, refresh]);
+  }, []);
   useEffect(() => {
     if (response) {
       formik.setValues({

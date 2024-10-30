@@ -33,7 +33,7 @@ const VatListInnerWrapper = () => {
   const { itemIdForUpdate } = useListView();
   const [isFilterApplied, setIsFilterApplied] = useState(false);
   const { filter, pageIndex, searchTerm } = getPaginationValues();
-const [searchCounter, setSearchCounter] = useState(0);
+  const [searchCounter, setSearchCounter] = useState(0);
   const [vatAreaUsageTypeFilter, setVatAreaUsageTypeFilter] =
     useState<number>(filter);
   const [pageIndexState, setPageIndexState] = useState<number>(pageIndex);
@@ -54,7 +54,7 @@ const [searchCounter, setSearchCounter] = useState(0);
   return (
     <>
       <VatListHeader
-      setSearchCounter={setSearchCounter}
+        setSearchCounter={setSearchCounter}
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
         setVatAreaUsageTypeFilter={setVatAreaUsageTypeFilter}
@@ -66,7 +66,7 @@ const [searchCounter, setSearchCounter] = useState(0);
       <VatListToolbar totalRows={totalRows} />
 
       <VatTypesList
-      searchCounter={searchCounter}
+        searchCounter={searchCounter}
         searchTerm={searchTerm}
         vatAreaUsageTypeFilter={vatAreaUsageTypeFilter}
         setTotalRows={setTotalRows}
@@ -81,11 +81,14 @@ const [searchCounter, setSearchCounter] = useState(0);
         deleteModalOpen={deleteModalOpen}
       />
 
-      {itemIdForUpdate !== undefined && <VatAddModal setRefresh={setRefresh} />}
+      {itemIdForUpdate !== undefined && (
+        <VatAddModal setRefresh={setRefresh} refresh={refresh} />
+      )}
       {editModalOpen && (
         <VatEditModal
           editModalId={editModalId}
           setRefresh={setRefresh}
+          refresh={refresh}
           setEditModalOpen={setEditModalOpen}
         />
       )}
@@ -95,6 +98,7 @@ const [searchCounter, setSearchCounter] = useState(0);
           vatTitle={vatTitle}
           setDeleteModalOpen={setDeleteModalOpen}
           setRefresh={setRefresh}
+          refresh={refresh}
         />
       )}
     </>

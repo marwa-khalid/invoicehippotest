@@ -8,12 +8,14 @@ interface ComponentProps {
   deleteModalId: number;
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
+  refresh: boolean;
 }
 const VatDeleteModal = ({
   deleteModalId,
   vatTitle,
   setDeleteModalOpen,
   setRefresh,
+  refresh,
 }: ComponentProps) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -63,6 +65,7 @@ const VatDeleteModal = ({
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
+              refresh={refresh}
               vatTitle={vatTitle}
             />
           </div>

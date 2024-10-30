@@ -63,16 +63,16 @@ const ClientAddStep3: FC<Props> = ({
     };
     fetchLedgers();
   }, []);
-  useEffect(() => {
-    const fetchVats = async () => {
-      const response = await getVatForClient();
+  // useEffect(() => {
+  //   const fetchVats = async () => {
+  //     const response = await getVatForClient();
 
-      if (response.isValid) {
-        setVats(response.result.listForSales);
-      }
-    };
-    fetchVats();
-  }, []);
+  //     if (response.isValid) {
+  //       setVats(response.result.listForSales);
+  //     }
+  //   };
+  //   fetchVats();
+  // }, []);
 
   const [bearingGroups, setBearingGroups] = useState<GroupedOption[]>([]);
   const [vatTypes, setVatTypes] = useState<vatType | any>();
@@ -131,25 +131,47 @@ const ClientAddStep3: FC<Props> = ({
       try {
         const response = await getVatTypesForLedger();
         if (response.isValid) {
+          setVats(response.result.listForSales);
           let options = [];
 
-          options = [
-            {
-              label: response.result.listForSalesGroupTitle,
-              options: response.result.listForSales.map((item) => ({
-                value: item.id,
-                label: item.title,
-              })),
-            },
-            {
-              label: response.result.listForCostsGroupTitle,
-              options: response.result.listForCosts.map((item) => ({
-                value: item.id,
-                label: item.title,
-              })),
-            },
-          ];
-
+          if (selectedBearingTypeOption.IsAccountTypeOmzet) {
+            options = [
+              {
+                label: response.result.listForSalesGroupTitle,
+                options: response.result.listForSales.map((item) => ({
+                  value: item.id,
+                  label: item.title,
+                })),
+              },
+            ];
+          } else if (selectedBearingTypeOption.IsAccountTypeCost) {
+            options = [
+              {
+                label: response.result.listForCostsGroupTitle,
+                options: response.result.listForCosts.map((item) => ({
+                  value: item.id,
+                  label: item.title,
+                })),
+              },
+            ];
+          } else {
+            options = [
+              {
+                label: response.result.listForSalesGroupTitle,
+                options: response.result.listForSales.map((item) => ({
+                  value: item.id,
+                  label: item.title,
+                })),
+              },
+              {
+                label: response.result.listForCostsGroupTitle,
+                options: response.result.listForCosts.map((item) => ({
+                  value: item.id,
+                  label: item.title,
+                })),
+              },
+            ];
+          }
           setVatTypes(options);
         }
       } catch (error) {
@@ -384,7 +406,7 @@ const ClientAddStep3: FC<Props> = ({
                 </div>
               </div>
               <div className="fv-row col-6">
-                {/* KvkNr Field */}
+                {/* Vat Field */}
                 <label className="   fw-bold fs-6 mb-3">
                   {intl.formatMessage({
                     id: "Fields.DefaultTax",
