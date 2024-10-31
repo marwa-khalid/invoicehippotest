@@ -32,10 +32,12 @@ const ClientAddStep2: FC<Props> = ({
     const fetchSpecificContacts = async () => {
       try {
         const response = await getContactListById(clientId);
+        console.log(response.result.length);
         const contacts = response.result?.length > 0 ? response.result : [];
         // Separate primary contact and additional contacts
         const primary =
           contacts.find((contact) => contact.isDefaultContact) || {};
+        console.log(primary);
         const others = contacts.filter((contact) => !contact.isDefaultContact);
         setPrimaryContact(primary);
         setAdditionalContacts(others);
@@ -165,9 +167,7 @@ const ClientAddStep2: FC<Props> = ({
                 type="text"
                 className="form-control form-control-white"
                 placeholder={intl.formatMessage({ id: "Fields.FirstName" })}
-                value={
-                  formik.values?.contactlist?.contacts?.[0]?.firstName || ""
-                }
+                value={primaryContact.firstName || ""}
                 onChange={(e) =>
                   handlePrimaryContactChange("firstName", e.target.value)
                 }
@@ -178,9 +178,7 @@ const ClientAddStep2: FC<Props> = ({
                 type="text"
                 className="form-control form-control-white"
                 placeholder={intl.formatMessage({ id: "Fields.BetweenName" })}
-                value={
-                  formik.values?.contactlist?.contacts?.[0]?.betweenName || ""
-                }
+                value={primaryContact.betweenName || ""}
                 onChange={(e) =>
                   handlePrimaryContactChange("betweenName", e.target.value)
                 }
@@ -191,9 +189,7 @@ const ClientAddStep2: FC<Props> = ({
                 type="text"
                 className="form-control form-control-white"
                 placeholder={intl.formatMessage({ id: "Fields.LastName" })}
-                value={
-                  formik.values?.contactlist?.contacts?.[0]?.lastName || ""
-                }
+                value={primaryContact.lastName || ""}
                 onChange={(e) =>
                   handlePrimaryContactChange("lastName", e.target.value)
                 }
@@ -239,9 +235,7 @@ const ClientAddStep2: FC<Props> = ({
                 type="text"
                 className="form-control form-control-white"
                 placeholder={intl.formatMessage({ id: "Fields.Department" })}
-                value={
-                  formik.values?.contactlist?.contacts?.[0]?.department || ""
-                }
+                value={primaryContact.department || ""}
                 onChange={(e) =>
                   handlePrimaryContactChange("department", e.target.value)
                 }
@@ -259,9 +253,7 @@ const ClientAddStep2: FC<Props> = ({
                   name="phoneNr"
                   placeholder={intl.formatMessage({ id: "Fields.PhoneNr" })}
                   className="form-control form-control-white"
-                  value={
-                    formik.values?.contactlist?.contacts?.[0]?.phoneNr || ""
-                  }
+                  value={primaryContact.phoneNr || ""}
                   onChange={(e) =>
                     handlePrimaryContactChange("phoneNr", e.target.value)
                   }
@@ -294,9 +286,7 @@ const ClientAddStep2: FC<Props> = ({
                   name="mobileNr"
                   placeholder={intl.formatMessage({ id: "Fields.MobileNr" })}
                   className="form-control form-control-white"
-                  value={
-                    formik.values?.contactlist?.contacts?.[0]?.mobileNr || ""
-                  }
+                  value={primaryContact.mobileNr || ""}
                   onChange={(e) =>
                     handlePrimaryContactChange("mobileNr", e.target.value)
                   }

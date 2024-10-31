@@ -18,3 +18,4 @@ export const MIN_MAX_YEAR = `${API_URL_V1}/lists/company/min-max-year`;
 export const CREATE_COPY = `${API_URL_V1}/quote/create-copy`;
 export const SEND_EMAIL = `${API_URL_V1}/quote/send-email`;
 export const FINALIZE_QUOTE = `${API_URL_V1}/quote/finalize`;
+export const VALIDATE_QUOTE = `${API_URL_V1}/quote/validate`;

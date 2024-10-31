@@ -31,6 +31,7 @@ import {
   CREATE_COPY,
   SEND_EMAIL,
   FINALIZE_QUOTE,
+  VALIDATE_QUOTE,
 } from "./constants";
 import { ContactModel } from "../../../client/client-search/core/_models";
 
@@ -112,6 +113,10 @@ export function createCopy(quoteId: number, copyAttachments: boolean) {
 
 export function sendEmail(values: any) {
   return postRequest<GenericBooleanModel>(SEND_EMAIL, values, true);
+}
+
+export function validateQuote(values: any) {
+  return postRequest<GenericBooleanModel>(VALIDATE_QUOTE, values, true);
 }
 
 export function finalizeQuote(

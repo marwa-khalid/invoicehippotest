@@ -270,9 +270,6 @@ const ClientAddModal = ({
               "contactResponse",
               JSON.stringify(postContactsPromise.result)
             );
-            // setEditModalId(response.result.id);
-            // setResponse(response.result);
-            // setDisableTabs(false);
           } else {
             handleToast(postContactsPromise);
           }
