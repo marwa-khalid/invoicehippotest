@@ -4,9 +4,25 @@ import { KTIcon } from "../../../../../../_metronic/helpers";
 import Tippy from "@tippyjs/react";
 
 import { KTSVG } from "../../../../../../_metronic/helpers";
-type Props = { setMode: (type: number) => void; mode: number };
+import { FormikProps } from "formik";
 
-const QuoteValidateStep1 = ({ mode, setMode }: Props) => {
+export interface FormValues {
+  quoteId: number;
+  validationStateType: number;
+  declinedReasonType: number;
+  comments: string;
+  notifyClient: boolean;
+  quoteValidationSignee: {
+    validatedByFullName: string;
+    validatedByCity: string;
+    validatedByEmailAddress: string;
+    validatedBySignatureBase64: string;
+    validatedBySignatureId: number;
+  };
+}
+type Props = { formik: FormikProps<FormValues> };
+
+const QuoteValidateStep1 = ({ formik }: Props) => {
   const intl = useIntl();
 
   return (
@@ -32,8 +48,8 @@ const QuoteValidateStep1 = ({ mode, setMode }: Props) => {
             name="accountType"
             value="approve"
             id="kt_create_account_form_account_type_personal"
-            onChange={() => setMode(1)}
-            checked={mode === 1}
+            onChange={() => formik.setFieldValue("validationStateType", 1)}
+            checked={formik.values.validationStateType === 1}
           />
           <label
             className="btn btn-outline btn-outline-dashed btn-outline-success p-7 d-flex align-items-center mb-10"
@@ -62,8 +78,8 @@ const QuoteValidateStep1 = ({ mode, setMode }: Props) => {
             name="accountType"
             value="decline"
             id="kt_create_account_form_account_type_corporate"
-            onChange={() => setMode(2)}
-            checked={mode === 2}
+            onChange={() => formik.setFieldValue("validationStateType", 2)}
+            checked={formik.values.validationStateType === 2}
           />
           <label
             className="btn btn-outline btn-outline-dashed btn-outline-danger p-7 d-flex align-items-center "

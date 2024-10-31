@@ -3,6 +3,8 @@ import { useIntl } from "react-intl";
 import { deleteQuoteList } from "../core/_requests";
 
 import { handleToast } from "../../../../auth/core/_toast";
+import { FormValues } from "./QuoteValidateStep1";
+import { FormikProps } from "formik";
 
 interface ComponentProps {
   setValidateModalOpen: (type: boolean) => void;
@@ -11,8 +13,9 @@ interface ComponentProps {
   refresh: boolean;
   setActiveTab: any;
   tabs: any;
-  mode: number;
   activeTab: any;
+  formik: FormikProps<FormValues>;
+  isSubmitting: boolean;
 }
 
 const QuoteValidateModalFooter = ({
@@ -22,27 +25,12 @@ const QuoteValidateModalFooter = ({
   refresh,
   setActiveTab,
   tabs,
-  mode,
+  formik,
   activeTab,
+  isSubmitting,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const deleteQuote = async () => {
-    // setIsSubmitting(true);
-    // const response = await deleteQuoteList(quoteId);
-    // if (response.isValid) {
-    //   setRefresh(!refresh);
-    //   setValidateModalOpen(false);
-    //   setIsSubmitting(false);
-    //   localStorage.removeItem("ModalData");
-    // }
-    // handleToast(response);
-  };
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-
   const handleContinue = () => {
     setActiveTab((prevTab: any) => {
       const currentIndex = tabs.findIndex((tab: any) => tab.id === prevTab.id);
@@ -69,20 +57,22 @@ const QuoteValidateModalFooter = ({
         </button>
 
         {/* Continue Button */}
-
+        {console.log(formik.values)!}
         {activeTab.id === 4 ? (
           <button
             type="button"
             className="btn btn-success"
-            onClick={handleContinue}
+            onClick={() => formik.handleSubmit()}
+            disabled={isSubmitting || !formik.isValid}
           >
             Approve
           </button>
-        ) : activeTab.id === 2 && mode === 2 ? (
+        ) : activeTab.id === 2 && formik.values.validationStateType === 2 ? (
           <button
             type="button"
             className="btn btn-danger"
-            onClick={handleContinue}
+            onClick={() => formik.handleSubmit()}
+            disabled={isSubmitting || !formik.isValid}
           >
             Decline
           </button>
@@ -91,6 +81,7 @@ const QuoteValidateModalFooter = ({
             type="button"
             className="btn btn-primary"
             onClick={handleContinue}
+            disabled={formik.values.validationStateType === 0}
           >
             Continue
           </button>

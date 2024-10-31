@@ -6,6 +6,10 @@ import { QuoteValidateStep1 } from "./QuoteValidateStep1";
 import { QuoteValidateStep2 } from "./QuoteValidateStep2";
 import { QuoteValidateStep3 } from "./QuoteValidateStep3";
 import { QuoteValidateStep4 } from "./QuoteValidateStep4";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { validateQuote } from "../core/_requests";
+import { handleToast } from "../../../../auth/core/_toast";
 interface ComponentProps {
   quoteId: number;
   quoteNumber: string;
@@ -27,7 +31,103 @@ const QuoteValidateModal = ({
     };
   }, []);
   const intl = useIntl();
-  const [mode, setMode] = useState<number>(1);
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const formik = useFormik({
+    initialValues: {
+      quoteId: quoteId,
+      validationStateType: 0,
+      declinedReasonType: 0,
+      comments: "",
+      notifyClient: true,
+      quoteValidationSignee: {
+        validatedByFullName: "",
+        validatedByCity: "",
+        validatedByEmailAddress: "",
+        validatedBySignatureBase64: "",
+        validatedBySignatureId: 0,
+      },
+    },
+
+    validationSchema: Yup.object().shape({
+      validationStateType: Yup.number(),
+      quoteValidationSignee: Yup.object().shape({
+        validatedByFullName: Yup.string().when("validationStateType", {
+          is: (state: any) => state === 1,
+          then: (schema) =>
+            schema.required(
+              intl
+                .formatMessage({ id: "Common.RequiredFieldHint2" })
+                .replace("{0}", intl.formatMessage({ id: "Fields.FullName" }))
+            ),
+          otherwise: (schema) => schema.nullable(),
+        }),
+        validatedByCity: Yup.string().when("validationStateType", {
+          is: (state: any) => state === 1,
+          then: (schema) =>
+            schema.required(
+              intl.formatMessage({ id: "Common.RequiredFieldHint2" }).replace(
+                "{0}",
+                `${intl.formatMessage({
+                  id: "Fields.Location",
+                })}-/ ${intl.formatMessage({ id: "Fields.City" })}`
+              )
+            ),
+          otherwise: (schema) => schema.nullable(),
+        }),
+        validatedByEmailAddress: Yup.string().when("validationStateType", {
+          is: (state: any) => state === 1,
+          then: (schema) =>
+            schema
+              .required(
+                intl
+                  .formatMessage({ id: "Common.RequiredFieldHint2" })
+                  .replace(
+                    "{0}",
+                    intl.formatMessage({ id: "Fields.EmailAddress" })
+                  )
+              )
+              .email(
+                intl
+                  .formatMessage({ id: "Common.InvalidFormat" })
+                  .replace(
+                    "{0}",
+                    intl.formatMessage({ id: "Fields.EmailAddress" })
+                  )
+              ),
+          otherwise: (schema) => schema.nullable(),
+        }),
+      }),
+    }),
+
+    onSubmit: async (values, { setSubmitting }) => {
+      setIsSubmitting(true);
+
+      try {
+        // let filteredValues = { ...values }; // Start with a copy of values
+
+        // // Remove quoteValidationSignee if validationStateType is 2
+        // if (values.validationStateType === 2) {
+        //   const { quoteValidationSignee, ...restValues } = values;
+        //   filteredValues = restValues; // Exclude quoteValidationSignee
+        // }
+        
+        const response = await validateQuote(values);
+        if (response.isValid) {
+          setRefresh(!refresh);
+          setValidateModalOpen(false);
+        }
+        setIsSubmitting(false);
+        handleToast(response);
+      } catch (error) {
+        console.error("Post failed:", error);
+      } finally {
+        setIsSubmitting(false);
+        setSubmitting(false);
+      }
+    },
+  });
+  console.log(formik.values);
   const tabs = [
     {
       id: 1,
@@ -36,7 +136,7 @@ const QuoteValidateModal = ({
     },
     {
       id: 2,
-      label: mode === 1 ? "Comments" : "Reason",
+      label: formik.values.validationStateType === 1 ? "Comments" : "Reason",
       icon: <i className="fa-solid fa-file-invoice fs-3 hippo-tab-icon"></i>,
     },
     {
@@ -85,7 +185,11 @@ const QuoteValidateModal = ({
               <div className="d-flex justify-content-start">
                 {tabs.map((tab: any) => (
                   <div key={tab.id}>
-                    {mode === 2 && (tab.id === 3 || tab.id === 4) ? (
+                    {formik.values.validationStateType === 0 &&
+                    (tab.id === 2 || tab.id === 3 || tab.id === 4) ? (
+                      <></>
+                    ) : formik.values.validationStateType === 2 &&
+                      (tab.id === 3 || tab.id === 4) ? (
                       <></>
                     ) : (
                       <button
@@ -110,97 +214,13 @@ const QuoteValidateModal = ({
                 ))}
               </div>
             </div>
-
+            {/* start::Modal body */}
             <div className="hippo-tab-content" id="myTabContent">
-              {activeTab.id === 1 && (
-                <QuoteValidateStep1 mode={mode} setMode={setMode} />
-              )}
-              {activeTab.id === 2 && <QuoteValidateStep2 />}
-              {activeTab.id === 3 && <QuoteValidateStep3 />}
-              {activeTab.id === 4 && <QuoteValidateStep4 />}
+              {activeTab.id === 1 && <QuoteValidateStep1 formik={formik} />}
+              {activeTab.id === 2 && <QuoteValidateStep2 formik={formik} />}
+              {activeTab.id === 3 && <QuoteValidateStep3 formik={formik} />}
+              {activeTab.id === 4 && <QuoteValidateStep4 formik={formik} />}
             </div>
-
-            {/* begin::Modal body */}
-
-            {/* <div className="modal-body p-10">
-              <div className="row d-flex form-wrapper bg-secondary p-5 rounded mb-7">
-                <div className="col-2">
-                  <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
-                    <span className="path1"></span>
-                    <span className="path2"></span>
-                    <span className="path3"></span>
-                  </i>
-                </div>
-                <span
-                  className="col-10"
-                  dangerouslySetInnerHTML={{
-                    __html: intl.formatMessage({
-                      id: "Fields.ValidateQuoteInfo",
-                    }),
-                  }}
-                />
-              </div>
-
-              <div className="form-check form-check-custom form-check-success form-check-solid">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  value=""
-                  checked
-                  id="flexCheckboxSm"
-                />
-                <label className="form-check-label">
-                  {intl.formatMessage({
-                    id: "Fields.SelectOptionQuoteValidationStateTypeApproved",
-                  })}
-                </label>
-              </div>
-              <div className="form-check form-check-custom form-check-danger form-check-solid mt-5">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  value=""
-                  id="flexCheckboxLg"
-                />
-                <label className="form-check-label">
-                  {intl.formatMessage({
-                    id: "Fields.SelectOptionQuoteValidationStateTypeDeclined",
-                  })}
-                </label>
-              </div>
-
-              <div className="separator border-gray-300 my-10"></div>
-              <div className="row">
-                <ReactQuill
-                  theme="snow"
-                  placeholder="Jouw tekst hier..."
-                  style={{ height: "300px" }}
-                  // onChange={handleQuillChange1}
-                  // value={formik.values.comments.quoteComments}
-                />
-              </div>
-              <div className="separator border-gray-300 mt-20 mb-10"></div>
-              <div className="form-check form-switch mt-1 ms-2 d-flex align-items-center">
-                <input
-                  className="form-check-input h-25px w-45px me-5"
-                  type="checkbox"
-                  id="openDraftSwitch"
-                  // checked={formik.values.customizations.useCustomQuoteNr}
-                  // onChange={(e) => {
-                  //   formik.setFieldValue(
-                  //     "customizations.useCustomQuoteNr",
-                  //     !formik.values.customizations.useCustomQuoteNr
-                  //   );
-                  // }}
-                />
-                <label
-                  className="form-check-label fs-sm text-muted"
-                  htmlFor="openDraftSwitch"
-                >
-                  verstuur de klant een notificatie van deze actie
-                </label>
-              </div>
-            </div> */}
 
             {/* end::Modal body */}
             <QuoteValidateModalFooter
@@ -210,8 +230,9 @@ const QuoteValidateModal = ({
               refresh={refresh}
               tabs={tabs}
               setActiveTab={setActiveTab}
-              mode={mode}
+              formik={formik}
               activeTab={activeTab}
+              isSubmitting={isSubmitting}
             />
           </div>
           {/* end::Modal content */}
