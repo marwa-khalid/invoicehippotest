@@ -87,6 +87,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "mini-css-extract-plugin": "2.6.1",
+    "parcel-plugin-static-files-copy": "^2.6.0",
     "remove-files-webpack-plugin": "^1.5.0",
     "rtlcss-webpack-plugin": "4.0.7",
     "sass": "^1.55.0",

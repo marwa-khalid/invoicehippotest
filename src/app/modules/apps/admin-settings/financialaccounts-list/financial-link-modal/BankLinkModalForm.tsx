@@ -36,7 +36,7 @@ const BankLinkModalForm: FC<Props> = ({ formik, isSubmitting }) => {
   const generateMonthOptions = () => {
     const options = [];
     const now = new Date();
-    console.log(now);
+   
 
     for (let i = 0; i < 12; i++) {
       const year = now.getFullYear();

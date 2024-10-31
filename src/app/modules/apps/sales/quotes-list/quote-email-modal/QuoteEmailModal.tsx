@@ -66,7 +66,6 @@ const QuoteEmailModal = ({
 
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
-      console.log(values);
       // Filter out empty email arrays
       const filteredEmailOptions = {
         ...values.emailOptions,
@@ -80,7 +79,6 @@ const QuoteEmailModal = ({
           extraBccRecipients: undefined,
         }),
       };
-      console.log(filteredEmailOptions);
       // return;
       // Use the filtered emailOptions
       const filteredValues = {
@@ -122,7 +120,7 @@ const QuoteEmailModal = ({
   };
 
   const modalData = JSON.parse(localStorage.getItem("ModalData")!);
-  console.log(modalData);
+  
   const formatExpirationDate = () => {
     const today = new Date();
 

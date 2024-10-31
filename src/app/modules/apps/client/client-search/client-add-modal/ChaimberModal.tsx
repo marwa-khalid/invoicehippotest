@@ -40,7 +40,6 @@ const ChaimberModal = ({ setModalOpen, formik }: Props) => {
     setSearchTerm(localSearchTerm);
     setCounter(!counter);
   };
-  console.log(chaimbers);
   const fetchChaimberInitialData = async (nr: string) => {
     const response = await getChaimberInitialData(nr);
     if (response.isValid) {

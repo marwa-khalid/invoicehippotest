@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useIntl } from "react-intl";
-import { createCopy, deleteQuoteList } from "../core/_requests";
+import { createCopy } from "../core/_requests";
 
 import { handleToast } from "../../../../auth/core/_toast";
 
@@ -36,7 +36,6 @@ const QuoteCopyModalFooter = ({
       setRefresh(!refresh);
       setCopyModalOpen(false);
       setIsSubmitting(false);
-      console.log(response);
       if (openDraftSwitch) {
         setEditModalId(response.result);
         setAddModalOpen(true);

@@ -13,97 +13,101 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
 
   useEffect(() => {
     // Initialize WebViewer once
-    if (viewer.current && !webViewerInstance.current) {
-      WebViewer.WebComponent(
-        {
-          path: "/WebViewer/lib", // Adjust this path as needed for your project structure
-          licenseKey: VIEWER_LICENSE_KEY,
-          ui: "beta",
-          initialDoc: downloadUrl,
-          fullAPI: true, // Add this to enable full API support, including image format
-        },
-        viewer.current
-      ).then((instance) => {
-        const { UI, Core } = instance;
-        const { documentViewer } = instance.Core;
-        webViewerInstance.current = instance;
-        webViewerInstance.current.UI.disableAnnotations();
-        webViewerInstance.current.UI.disableDownload();
-        webViewerInstance.current.UI.disableFilePicker();
+    if (downloadUrl != "") {
+      if (viewer.current && !webViewerInstance.current) {
+        WebViewer.WebComponent(
+          {
+            path: "/WebViewer/lib", // Adjust this path as needed for your project structure
+            licenseKey: VIEWER_LICENSE_KEY,
+            ui: "beta",
+            initialDoc: downloadUrl,
+            fullAPI: true, // Add this to enable full API support, including image format
+          },
+          viewer.current
+        ).then((instance) => {
+          const { UI, Core } = instance;
+          const { documentViewer } = instance.Core;
+          webViewerInstance.current = instance;
+          webViewerInstance.current.UI.disableAnnotations();
+          webViewerInstance.current.UI.disableDownload();
+          webViewerInstance.current.UI.disableFilePicker();
 
-        webViewerInstance.current.UI.disableElements([
-          "saveAsButton",
-          "settingsButton",
-        ]);
+          webViewerInstance.current.UI.disableElements([
+            "saveAsButton",
+            "settingsButton",
+          ]);
 
-        // @ts-ignore comment.
+          // @ts-ignore comment.
 
-        const mainMenu = new instance.UI.Components.MainMenu();
+          const mainMenu = new instance.UI.Components.MainMenu();
 
-        // @ts-ignore comment.
-        const errorModalCloseButton = new instance.UI.Components.CustomButton({
-          dataElement: "errorModalCloseButton",
-          label: "close",
-          title: "this is a close button",
-          onClick: () => webViewerInstance.current.UI.closeDocument(),
-          img: "/media/auth/bg1.jpg",
-        });
-        const topHeader =
-          new webViewerInstance.current.UI.Components.ModularHeader({
-            dataElement: "default-top-header",
-
-            placement: "left",
-
-            grow: 0,
-
-            gap: 12,
-
-            position: "start",
-
-            justifyContent: "center",
-
-            style: {},
-            additionalItems: [errorModalCloseButton],
-
-            items: [mainMenu],
-            alwaysVisible: true,
-          });
-
-        instance.UI.setModularHeaders([topHeader]);
-
-        // Load the initial document
-        if (downloadUrl) {
-          // ... previous code remains the same
-
-          webViewerInstance.current.UI.loadDocument(downloadUrl, {
-            extension: fileExtension.replace(".", ""),
-            onError: function (e: any) {
-              console.error("Failed to load document: ", e);
-            },
-          });
-
-          // ... the rest of the component
-          documentViewer.addEventListener("documentLoaded", () => {
-            instance.UI.setFitMode(instance.UI.FitMode.FitWidth);
-          });
-        }
-      });
-    } else if (webViewerInstance.current && downloadUrl) {
-      // If instance already exists, load the new document
-      webViewerInstance.current.UI.loadDocument(downloadUrl, {
-        extension: fileExtension.replace(".", ""),
-        onError: function (e: any) {
-          console.error("Failed to load document: ", e);
-        },
-      });
-      webViewerInstance.current.Core.documentViewer.addEventListener(
-        "documentLoaded",
-        () => {
-          webViewerInstance.current.UI.setFitMode(
-            webViewerInstance.current.UI.FitMode.FitWidth
+          // @ts-ignore comment.
+          const errorModalCloseButton = new instance.UI.Components.CustomButton(
+            {
+              dataElement: "errorModalCloseButton",
+              label: "close",
+              title: "this is a close button",
+              onClick: () => webViewerInstance.current.UI.closeDocument(),
+              img: "/media/auth/bg1.jpg",
+            }
           );
-        }
-      );
+          const topHeader =
+            new webViewerInstance.current.UI.Components.ModularHeader({
+              dataElement: "default-top-header",
+
+              placement: "left",
+
+              grow: 0,
+
+              gap: 12,
+
+              position: "start",
+
+              justifyContent: "center",
+
+              style: {},
+              additionalItems: [errorModalCloseButton],
+
+              items: [mainMenu],
+              alwaysVisible: true,
+            });
+
+          instance.UI.setModularHeaders([topHeader]);
+
+          // Load the initial document
+          if (downloadUrl) {
+            // ... previous code remains the same
+
+            webViewerInstance.current.UI.loadDocument(downloadUrl, {
+              extension: fileExtension.replace(".", ""),
+              onError: function (e: any) {
+                console.error("Failed to load document: ", e);
+              },
+            });
+
+            // ... the rest of the component
+            documentViewer.addEventListener("documentLoaded", () => {
+              instance.UI.setFitMode(instance.UI.FitMode.FitWidth);
+            });
+          }
+        });
+      } else if (webViewerInstance.current && downloadUrl) {
+        // If instance already exists, load the new document
+        webViewerInstance.current.UI.loadDocument(downloadUrl, {
+          extension: fileExtension.replace(".", ""),
+          onError: function (e: any) {
+            console.error("Failed to load document: ", e);
+          },
+        });
+        webViewerInstance.current.Core.documentViewer.addEventListener(
+          "documentLoaded",
+          () => {
+            webViewerInstance.current.UI.setFitMode(
+              webViewerInstance.current.UI.FitMode.FitWidth
+            );
+          }
+        );
+      }
     }
 
     // Cleanup on component unmount (optional)

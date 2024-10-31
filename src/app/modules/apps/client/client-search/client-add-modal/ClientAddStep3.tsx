@@ -23,6 +23,16 @@ type Props = {
   setAddModalOpen: (value: boolean) => void;
   setIsSubmitting: (value: boolean) => void;
   formik: any;
+  hasFetchedLedger: any;
+  hasFetchedVat: any;
+  vats: any;
+  ledgers: any;
+  vatTypes: any;
+  vatOptions: any;
+  setVatOptions: any;
+  setVatTypes: any;
+  setVats: any;
+  setLedgers: any;
 };
 interface vatType {
   value: number;
@@ -47,35 +57,22 @@ const ClientAddStep3: FC<Props> = ({
   formik,
   setAddModalOpen,
   isSubmitting,
+  hasFetchedLedger,
+  hasFetchedVat,
+  vats,
+  ledgers,
+  vatTypes,
+  vatOptions,
+  setVatOptions,
+  setVatTypes,
+  setVats,
+  setLedgers,
 }) => {
   const intl = useIntl();
   const tagifyRef = useRef<any>();
 
-  const [ledgers, setLedgers] = useState<any>([]);
-  const [vats, setVats] = useState<any>([]);
-  useEffect(() => {
-    const fetchLedgers = async () => {
-      const response = await getLedgerForClient();
-
-      if (response.isValid) {
-        setLedgers(response.result);
-      }
-    };
-    fetchLedgers();
-  }, []);
-  // useEffect(() => {
-  //   const fetchVats = async () => {
-  //     const response = await getVatForClient();
-
-  //     if (response.isValid) {
-  //       setVats(response.result.listForSales);
-  //     }
-  //   };
-  //   fetchVats();
-  // }, []);
-
   const [bearingGroups, setBearingGroups] = useState<GroupedOption[]>([]);
-  const [vatTypes, setVatTypes] = useState<vatType | any>();
+
   useEffect(() => {
     const toTitleCase = (str: string) => {
       return str.replace(/\w\S*/g, (txt) => {
@@ -127,6 +124,19 @@ const ClientAddStep3: FC<Props> = ({
   const [selectedBearingTypeOption, setSelectedBearingTypeOption] =
     useState<any>();
   useEffect(() => {
+    const fetchLedgers = async () => {
+      const response = await getLedgerForClient();
+
+      if (response.isValid) {
+        setLedgers(response.result);
+        hasFetchedLedger.current = true;
+      }
+    };
+    if (!hasFetchedLedger.current) {
+      fetchLedgers();
+    }
+  }, []);
+  useEffect(() => {
     const fetchVatTypes = async () => {
       try {
         const response = await getVatTypesForLedger();
@@ -134,52 +144,85 @@ const ClientAddStep3: FC<Props> = ({
           setVats(response.result.listForSales);
           let options = [];
 
-          if (selectedBearingTypeOption.IsAccountTypeOmzet) {
-            options = [
-              {
-                label: response.result.listForSalesGroupTitle,
-                options: response.result.listForSales.map((item) => ({
-                  value: item.id,
-                  label: item.title,
-                })),
-              },
-            ];
-          } else if (selectedBearingTypeOption.IsAccountTypeCost) {
-            options = [
-              {
-                label: response.result.listForCostsGroupTitle,
-                options: response.result.listForCosts.map((item) => ({
-                  value: item.id,
-                  label: item.title,
-                })),
-              },
-            ];
-          } else {
-            options = [
-              {
-                label: response.result.listForSalesGroupTitle,
-                options: response.result.listForSales.map((item) => ({
-                  value: item.id,
-                  label: item.title,
-                })),
-              },
-              {
-                label: response.result.listForCostsGroupTitle,
-                options: response.result.listForCosts.map((item) => ({
-                  value: item.id,
-                  label: item.title,
-                })),
-              },
-            ];
-          }
-          setVatTypes(options);
+          options = [
+            {
+              label: response.result.listForSalesGroupTitle,
+              options: response.result.listForSales.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+            {
+              label: response.result.listForCostsGroupTitle,
+              options: response.result.listForCosts.map((item) => ({
+                value: item.id,
+                label: item.title,
+              })),
+            },
+          ];
+
+          setVatTypes(response.result);
+          setVatOptions(options);
+          hasFetchedVat.current = true;
         }
       } catch (error) {
         console.error("Error fetching vats :", error);
       }
     };
 
-    fetchVatTypes();
+    if (!hasFetchedVat.current) {
+      fetchVatTypes();
+    }
+  }, []);
+
+ 
+
+  const setVatOptionss = () => {
+    let options = [];
+    if (selectedBearingTypeOption?.IsAccountTypeOmzet) {
+      options = [
+        {
+          label: vatTypes.listForSalesGroupTitle,
+          options: vatTypes.listForSales.map((item: any) => ({
+            value: item.id,
+            label: item.title,
+          })),
+        },
+      ];
+    } else if (selectedBearingTypeOption?.IsAccountTypeCost) {
+      options = [
+        {
+          label: vatTypes?.listForCostsGroupTitle,
+          options: vatTypes?.listForCosts.map((item: any) => ({
+            value: item.id,
+            label: item.title,
+          })),
+        },
+      ];
+    } else {
+      options = [
+        {
+          label: vatTypes?.listForSalesGroupTitle,
+          options: vatTypes?.listForSales.map((item: any) => ({
+            value: item.id,
+            label: item.title,
+          })),
+        },
+        {
+          label: vatTypes?.listForCostsGroupTitle,
+          options: vatTypes?.listForCosts.map((item: any) => ({
+            value: item.id,
+            label: item.title,
+          })),
+        },
+      ];
+    }
+    setVatOptions(options);
+  };
+  useEffect(() => {
+    if (selectedBearingTypeOption) {
+      setVatOptionss();
+    }
   }, [selectedBearingTypeOption]);
 
   // Function to handle invalid tags and remove them
@@ -618,7 +661,7 @@ const ClientAddStep3: FC<Props> = ({
                   placeholder={intl.formatMessage({
                     id: "Fields.SelectOptionDefaultVatType",
                   })}
-                  options={vatTypes}
+                  options={vatOptions}
                   onChange={(selectedOption: any) => {
                     formik.setFieldValue(
                       "invoiceAndQuoteSettings.costDefaultVatTypeId",
@@ -629,8 +672,8 @@ const ClientAddStep3: FC<Props> = ({
                     formik.values.invoiceAndQuoteSettings
                       .costDefaultVatTypeId === 0
                       ? null
-                      : vatTypes?.map((item: any) =>
-                          item.options.find(
+                      : vatOptions?.map((item: any) =>
+                          item?.options?.find(
                             (option: any) =>
                               option.value ===
                               formik.values.invoiceAndQuoteSettings

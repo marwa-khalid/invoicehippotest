@@ -167,7 +167,7 @@ const QuoteAddStep1: FC<Props> = ({
   useEffect(() => {
     const fetchContacts = async () => {
       const response = await getContactListById(formik.values.header.clientId);
-      console.log(response);
+
       if (response.isValid) {
         setContactResponse(response.result);
         const defaultContact = response.result.find(
@@ -180,7 +180,6 @@ const QuoteAddStep1: FC<Props> = ({
       fetchContacts();
     }
   }, [formik.values.header.clientId]);
-  console.log(formik.values.header.clientId);
   const reset = () => {
     localStorage.removeItem("contactResponse");
     localStorage.removeItem("clientResponse");
@@ -212,7 +211,6 @@ const QuoteAddStep1: FC<Props> = ({
   //     formik.setFieldValue("header.clientContactId", singleContact.value);
   //   }
   // }, [contactsArray]);
-  console.log(contactOptions);
   return (
     <>
       <div className="modal-body" id="#kt_tab_pane_4">

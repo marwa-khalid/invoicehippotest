@@ -140,10 +140,11 @@ const LedgerAccountsList = ({
                       </div>
                       <div className="align-items-center my-lg-0 my-1 necessary-icons">
                         {notification.actions.canEdit && (
-                          <Tippy
+                            <Tippy
                             content={intl.formatMessage({
                               id: "Fields.ToolTipEdit",
                             })}
+                           
                           >
                             <button
                               className="btn btn-icon btn-light btn-sm me-4"
@@ -160,10 +161,11 @@ const LedgerAccountsList = ({
                         )}
 
                         {notification.actions.canDelete && (
-                          <Tippy
+                         <Tippy
                             content={intl.formatMessage({
                               id: "Fields.ToolTipDelete",
                             })}
+                           
                           >
                             <button
                               className="btn btn-icon btn-light btn-sm"

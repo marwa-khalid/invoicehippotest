@@ -1,17 +1,31 @@
 import React, { FC, useState, useEffect } from "react";
 import { useIntl } from "react-intl";
 import { getContactListById } from "../core/_requests";
+import { FormikProps } from "formik";
+import { FormValues } from "./ClientAddStep1";
 
 type Props = {
   clientId: number;
   refresh: boolean;
-  formik: any; // Consider using a more specific type if available
+  formik: any;
+  additionalContacts: any;
+  hasFetchedContacts: any;
+  setPrimaryContact: (contact: any) => void;
+  setAdditionalContacts: (contacts: any) => void;
+  primaryContact: any;
 };
 
-const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
+const ClientAddStep2: FC<Props> = ({
+  clientId,
+  refresh,
+  formik,
+  additionalContacts,
+  primaryContact,
+  setAdditionalContacts,
+  setPrimaryContact,
+  hasFetchedContacts,
+}) => {
   const intl = useIntl();
-  const [primaryContact, setPrimaryContact] = useState<any>({}); // State for primary contact
-  const [additionalContacts, setAdditionalContacts] = useState<any[]>([]); // State for additional contacts
 
   // Fetch contacts for the client
   useEffect(() => {
@@ -25,6 +39,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
         const others = contacts.filter((contact) => !contact.isDefaultContact);
         setPrimaryContact(primary);
         setAdditionalContacts(others);
+        hasFetchedContacts.current = true;
         formik.setFieldValue("contactlist.contacts", contacts); // Initialize Formik with contacts
       } catch (error) {
         console.error("Failed to fetch contacts:", error);
@@ -33,7 +48,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
       }
     };
 
-    if (clientId !== undefined) {
+    if (clientId !== undefined && !hasFetchedContacts.current) {
       fetchSpecificContacts();
     }
   }, [clientId, refresh]);
@@ -97,7 +112,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
     };
 
     // Update the additionalContacts first before updating Formik
-    setAdditionalContacts((prev) => {
+    setAdditionalContacts((prev: any) => {
       const updatedContacts = [...prev, newContact];
       formik.setFieldValue("contactlist.contacts", [
         primaryContact, // Ensure the primary contact is always included
@@ -109,7 +124,9 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
 
   // Handle removing contact
   const handleRemoveContact = (id: number, index: number) => {
-    const updatedContacts = additionalContacts.filter((_, i) => i !== index);
+    const updatedContacts = additionalContacts.filter(
+      (_: any, i: any) => i !== index
+    );
 
     const deletedIds =
       formik.values.contactlist.listOfDeletedClientContactIDs || [];
@@ -133,10 +150,10 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
 
   return (
     <div className="modal-body">
-      <form className="form p-3" noValidate>
+      <form className="form p-3" id="formContact">
         {/* Primary Contact Form */}
+
         <div className="p-6 rounded bg-secondary">
-          {/* Primary Contact Form Fields */}
           <h4 className="mb-2 text-start text-gray-600">
             {intl.formatMessage({ id: "Fields.PrimarContactPerson" })}
           </h4>
@@ -303,9 +320,8 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
           </div>
         </div>
 
-        {/* Dynamic Accordions for Additional Contacts */}
         <div className="accordion pt-4 " id="contactAccordion">
-          {additionalContacts.map((contact, index) => (
+          {additionalContacts.map((contact: any, index: any) => (
             <div className="accordion-item mb-7" key={index}>
               <h2 className="accordion-header" id={`heading_${index}`}>
                 <button
@@ -329,6 +345,7 @@ const ClientAddStep2: FC<Props> = ({ clientId, refresh, formik }) => {
 
               <div
                 id={`collapse_${index}`}
+                data-bs-parent="#contactAccordion"
                 className="accordion-collapse collapse "
                 aria-labelledby={`heading_${index}`}
               >

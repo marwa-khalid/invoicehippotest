@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ClientAddModalHeader } from "./ClientAddModalHeader";
 import { ClientAddModalFooter } from "./ClientAddModalFooter";
 import * as Yup from "yup";
@@ -7,6 +7,7 @@ import { useIntl } from "react-intl";
 import {
   getClientById,
   getDefaultEmpty,
+  getLedgerForClient,
   postClient,
   postContact,
 } from "../core/_requests";
@@ -17,6 +18,7 @@ import { ClientAddStep4 } from "./ClientAddStep4";
 import { ClientAddStep3 } from "./ClientAddStep3";
 import { ClientAddStep2 } from "./ClientAddStep2";
 import { ClientAddStep1 } from "./ClientAddStep1";
+import { getVatTypesForLedger } from "../../../admin-settings/ledgeraccounts-list/core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
   refresh: boolean;
@@ -277,8 +279,8 @@ const ClientAddModal = ({
 
           if (close) {
             setAddModalOpen(false);
-            setRefresh(!refresh);
           }
+          setRefresh(!refresh);
         }
         handleToast(response);
       } catch (error) {
@@ -324,6 +326,17 @@ const ClientAddModal = ({
       setDisableTabs(false);
     }
   }, [formik.errors.businessName]);
+  const hasFetchedLedger = useRef(false);
+  const hasFetchedVat = useRef(false);
+  const hasFetchedContacts = useRef(false);
+  const [vatOptions, setVatOptions] = useState<any>();
+
+  const [vatTypes, setVatTypes] = useState<any>([]);
+  const [ledgers, setLedgers] = useState<any>([]);
+  const [vats, setVats] = useState<any>([]);
+  const [primaryContact, setPrimaryContact] = useState<any>({}); // State for primary contact
+  const [additionalContacts, setAdditionalContacts] = useState<any[]>([]); // State for additional contacts
+
   return (
     <>
       <div
@@ -343,10 +356,10 @@ const ClientAddModal = ({
             <div className="hippo-tab-manager d-flex justify-content-between p-5 flex-grow-1 bg-secondary">
               <div className="d-flex justify-content-start">
                 {tabs.map((tab: any) => (
-                  <>
+                  <div key={tab.id}>
                     {!(tab.id === "tab4" && hideTab4) && (
                       <button
-                        key={tab.id}
+                        // key={tab.id}
                         onClick={() => {
                           handleTabClick(tab);
                         }}
@@ -363,7 +376,7 @@ const ClientAddModal = ({
                         {tab.label}
                       </button>
                     )}
-                  </>
+                  </div>
                 ))}
               </div>
             </div>
@@ -382,11 +395,11 @@ const ClientAddModal = ({
                   clientId={response?.id}
                   refresh={refresh}
                   formik={formik}
-                  // setDeleteModalOpen={setDeleteModalOpen}
-                  // setDeleteModalId={setDeleteModalId}
-                  // setIntlMessage={setIntlMessage}
-                  // setTitle={setTitle}
-                  // deleteModalOpen={deleteModalOpen}
+                  additionalContacts={additionalContacts}
+                  primaryContact={primaryContact}
+                  setAdditionalContacts={setAdditionalContacts}
+                  setPrimaryContact={setPrimaryContact}
+                  hasFetchedContacts={hasFetchedContacts}
                 />
               )}
               {activeTab.id === "tab3" && (
@@ -395,6 +408,16 @@ const ClientAddModal = ({
                   isSubmitting={isSubmitting}
                   formik={formik}
                   setAddModalOpen={setAddModalOpen}
+                  hasFetchedLedger={hasFetchedLedger}
+                  hasFetchedVat={hasFetchedVat}
+                  vats={vats}
+                  ledgers={ledgers}
+                  vatTypes={vatTypes}
+                  vatOptions={vatOptions}
+                  setVatOptions={setVatOptions}
+                  setVatTypes={setVatTypes}
+                  setLedgers={setLedgers}
+                  setVats={setVats}
                 />
               )}
 

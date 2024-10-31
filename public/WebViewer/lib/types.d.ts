@@ -10,6 +10,12 @@ declare namespace Core.PDFNet {
      */
     class Convert {
         /**
+         * Method to create an OfficeToPDFOptions object
+         * @param [json] - options in JSON format.
+         * @returns A promise that resolves to a PDFNet.Convert.OfficeToPDFOptions.
+         */
+        static createOfficeToPDFOptions(json?: string): Promise<PDFNet.Convert.OfficeToPDFOptions>;
+        /**
          * Method to create an XPSOutputOptions object
          * @returns A promise that resolves to a PDFNet.Convert.XPSOutputOptions.
          */
@@ -40,14 +46,8 @@ declare namespace Core.PDFNet {
          */
         static createSVGOutputOptions(): Promise<PDFNet.Convert.SVGOutputOptions>;
         /**
-         * Method to create a OfficeToPDFOptions object
-         * @param JSON - data containing options values for OfficeToPDFOptions.
-         * @returns A promise that resolves to a PDFNet.Convert.OfficeToPDFOptions.
-         */
-        static createOfficeToPDFOptions(JSON: string): Promise<PDFNet.Convert.OfficeToPDFOptions>;
-        /**
          * Convert the specified XPS document contained in memory to PDF
-        and append converted pages to the specified PDF document.
+         * and append converted pages to the specified PDF document.
          * @param in_pdfdoc - the PDFDoc to append to
          * @param buf - the buffer containing the xps document
          */
@@ -116,11 +116,11 @@ declare namespace Core.PDFNet {
         static toXodBuffer(in_pdfdoc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, options?: PDFNet.Obj | PDFNet.Convert.XODOutputOptions): Promise<Uint8Array>;
         /**
          * Convert the an office document (in .docx, .xlsx, pptx, or .doc format) to pdf and append to the specified PDF document.
-        This conversion is performed entirely within PDFNet, and does not rely on Word
-        interop or any other external functionality.
-        
-        Note: Font requirements: on some systems you may need to specify extra font resources to aid
-        in conversion. Please see http://www.pdftron.com/kb_fonts_and_builtin_office_conversion
+         * This conversion is performed entirely within PDFNet, and does not rely on Word
+         * interop or any other external functionality.
+         *
+         * Note: Font requirements: on some systems you may need to specify extra font resources to aid
+         * in conversion. Please see http://www.pdftron.com/kb_fonts_and_builtin_office_conversion
          * @param in_pdfdoc - the conversion result will be appended to this pdf.
          * @param in_stream - the source document data.
          * @param [options] - the conversion options
@@ -176,20 +176,6 @@ declare namespace Core.PDFNet {
          * @returns A promise that resolves to the TIFF file in an buffer
          */
         static toTiffBuffer(in_pdfdoc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, options?: PDFNet.Obj | PDFNet.Convert.TiffOutputOptions): Promise<Uint8Array>;
-        /**
-         * Convert a file to multipage TIFF and write to the provided filter
-         * @param in_filename - the file to convert to multipage TIFF
-         * @param [options] - the conversion options
-         * @returns A promise that resolves to an object of type: "PDFNet.Filter"
-         */
-        static fileToTiffWithFilterWithBuffer(in_filename: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray, options?: PDFNet.Obj | PDFNet.Convert.TiffOutputOptions): Promise<PDFNet.Filter>;
-        /**
-         * Convert the PDF to multipage TIFF and write to the provided filter
-         * @param in_pdfdoc - the PDF doc to convert to multipage TIFF
-         * @param [options] - the conversion options
-         * @returns A promise that resolves to an object of type: "PDFNet.Filter"
-         */
-        static toTiffWithFilter(in_pdfdoc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, options?: PDFNet.Obj | PDFNet.Convert.TiffOutputOptions): Promise<PDFNet.Filter>;
         /**
          * Convert the an office document (in .docx, .xlsx, pptx, or .doc format) to pdf.
          * @param input - Either a url from which to download the file or an ArrayBuffer containing the file data.
@@ -274,7 +260,7 @@ declare namespace Core.PDFNet {
      */
     class Action {
         /**
-         * Creates a new 'GoTo'action. GoTo action takes the user to the
+         * creates a new 'GoTo'action. GoTo action takes the user to the
          * specified Destination view located in the same document.
          * @param dest - A Destination for the new Action.
          *
@@ -289,7 +275,7 @@ declare namespace Core.PDFNet {
          */
         static createGotoWithKey(key: string, dest: PDFNet.Destination): Promise<PDFNet.Action>;
         /**
-         * Creates a new 'GoToR'action. A remote go-to action is similar to an
+         * creates a new 'GoToR'action. A remote go-to action is similar to an
          * ordinary go-to action but jumps to a destination in another PDF file
          * instead of the current file.
          * @param file - The file referred to by the action.
@@ -335,7 +321,7 @@ declare namespace Core.PDFNet {
          */
         static createURIWithUString(sdfdoc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, uri: string): Promise<PDFNet.Action>;
         /**
-         * Creates a new 'SubmitForm'action. A submit-form action transmits the names
+         * creates a new 'SubmitForm'action. A submit-form action transmits the names
          * and values of selected interactive form fields to a specified uniform
          * resource locator (URL), presumably the address of a Web server that will
          * process them and send back a response.
@@ -553,10 +539,10 @@ declare namespace Core.PDFNet {
     }
     /**
      * ActionParameter is a class used to describe all the information needed to
-    execute an action. In most cases only the action itself is necessary since
-    the document can be inferred from associated SDF::Obj, however some actions
-    particularly JavaScript actions on Field or Annot objects need access to
-    the associated Field or Annot object.
+     * execute an action. In most cases only the action itself is necessary since
+     * the document can be inferred from associated SDF::Obj, however some actions
+     * particularly JavaScript actions on Field or Annot objects need access to
+     * the associated Field or Annot object.
      */
     class ActionParameter extends PDFNet.Destroyable {
         /**
@@ -568,122 +554,6 @@ declare namespace Core.PDFNet {
          * @returns A promise that resolves to an object of type: "PDFNet.Action"
          */
         getAction(): Promise<PDFNet.Action>;
-    }
-    /**
-     * The class AdvancedImagingModule.
-     * static interface to PDFTron SDKs AdvancedImaging functionality
-     */
-    class AdvancedImagingModule {
-    }
-    /**
-     * This class represents an algorithm identifier, as defined by ITU and
-     * used in X.509.
-     */
-    class AlgorithmIdentifier extends PDFNet.Destroyable {
-        /**
-         * Constructs an AlgorithmIdentifier from a Predefined enum.
-         * @param oid_type - <pre>
-         * PDFNet.ObjectIdentifier.Predefined = {
-         * 	e_commonName : 0
-         * 	e_surname : 1
-         * 	e_countryName : 2
-         * 	e_localityName : 3
-         * 	e_stateOrProvinceName : 4
-         * 	e_streetAddress : 5
-         * 	e_organizationName : 6
-         * 	e_organizationalUnitName : 7
-         * 	e_SHA1 : 8
-         * 	e_SHA256 : 9
-         * 	e_SHA384 : 10
-         * 	e_SHA512 : 11
-         * 	e_RIPEMD160 : 12
-         * 	e_RSA_encryption_PKCS1 : 13
-         * 	e_RSASSA_PSS : 14
-         * 	e_MGF1 : 15
-         * }
-         * </pre>
-         * The Predefined enumerated value to use.
-         * @returns A promise that resolves to an object of type: "PDFNet.AlgorithmIdentifier"
-         */
-        static createFromPredefined(oid_type: number): Promise<PDFNet.AlgorithmIdentifier>;
-        /**
-         * Constructs an AlgorithmIdentifier from an ObjectIdentifier.
-         * @param oid - The ObjectIdentifier object to use.
-         * @returns A promise that resolves to an object of type: "PDFNet.AlgorithmIdentifier"
-         */
-        static createFromObjectIdentifier(oid: PDFNet.ObjectIdentifier): Promise<PDFNet.AlgorithmIdentifier>;
-        /**
-         * Constructs an AlgorithmIdentifier from a DigestAlgorithm enum.
-         * @param digest_algorithm_type - <pre>
-         * PDFNet.DigestAlgorithm.Type = {
-         * 	e_SHA1 : 0
-         * 	e_SHA256 : 1
-         * 	e_SHA384 : 2
-         * 	e_SHA512 : 3
-         * 	e_RIPEMD160 : 4
-         * 	e_unknown_digest_algorithm : 5
-         * }
-         * </pre>
-         * The enumeration value corresponding to your desired digest algorithm.
-         * @returns A promise that resolves to an object of type: "PDFNet.AlgorithmIdentifier"
-         */
-        static createFromDigestAlgorithm(digest_algorithm_type: number): Promise<PDFNet.AlgorithmIdentifier>;
-        /**
-         * Constructs an AlgorithmIdentifier from a Predefined enum and an AlgorithmParams object.
-         * @param oid_type - <pre>
-         * PDFNet.ObjectIdentifier.Predefined = {
-         * 	e_commonName : 0
-         * 	e_surname : 1
-         * 	e_countryName : 2
-         * 	e_localityName : 3
-         * 	e_stateOrProvinceName : 4
-         * 	e_streetAddress : 5
-         * 	e_organizationName : 6
-         * 	e_organizationalUnitName : 7
-         * 	e_SHA1 : 8
-         * 	e_SHA256 : 9
-         * 	e_SHA384 : 10
-         * 	e_SHA512 : 11
-         * 	e_RIPEMD160 : 12
-         * 	e_RSA_encryption_PKCS1 : 13
-         * 	e_RSASSA_PSS : 14
-         * 	e_MGF1 : 15
-         * }
-         * </pre>
-         * The Predefined enumerated value to use.
-         * @param params - The AlgorithmParams object to use.
-         * @returns A promise that resolves to an object of type: "PDFNet.AlgorithmIdentifier"
-         */
-        static createFromPredefinedAndParams(oid_type: number, params: PDFNet.AlgorithmParams): Promise<PDFNet.AlgorithmIdentifier>;
-        /**
-         * Constructs an AlgorithmIdentifier from an ObjectIdentifier and an AlgorithmParams object.
-         * @param oid - The ObjectIdentifier object to use.
-         * @param params - The AlgorithmParams object to use.
-         * @returns A promise that resolves to an object of type: "PDFNet.AlgorithmIdentifier"
-         */
-        static createFromObjectIdentifierAndParams(oid: PDFNet.ObjectIdentifier, params: PDFNet.AlgorithmParams): Promise<PDFNet.AlgorithmIdentifier>;
-        /**
-         * Constructs an AlgorithmIdentifier from a DigestAlgorithm enum and an AlgorithmParams object.
-         * @param digest_algorithm_type - <pre>
-         * PDFNet.DigestAlgorithm.Type = {
-         * 	e_SHA1 : 0
-         * 	e_SHA256 : 1
-         * 	e_SHA384 : 2
-         * 	e_SHA512 : 3
-         * 	e_RIPEMD160 : 4
-         * 	e_unknown_digest_algorithm : 5
-         * }
-         * </pre>
-         * The enumeration value corresponding to your desired digest algorithm.
-         * @param params - The AlgorithmParams object to use.
-         * @returns A promise that resolves to an object of type: "PDFNet.AlgorithmIdentifier"
-         */
-        static createFromDigestAlgorithmAndParams(digest_algorithm_type: number, params: PDFNet.AlgorithmParams): Promise<PDFNet.AlgorithmIdentifier>;
-    }
-    /**
-     * Base class for AlgorithmIdentifier parameters.
-     */
-    class AlgorithmParams extends PDFNet.Destroyable {
     }
     /**
      * Annot is a base class for different types of annotations. For annotation
@@ -920,7 +790,7 @@ declare namespace Core.PDFNet {
          */
         getPage(): Promise<PDFNet.Page>;
         /**
-         * Sets the reference to a page the annotation is associated with.
+         * sets the reference to a page the annotation is associated with.
          * (Optional PDF 1.3; not used in FDF files)
          * @param page - The page object user wants the annotation to be associated with.
          *
@@ -974,7 +844,7 @@ declare namespace Core.PDFNet {
          */
         getFlag(flag: number): Promise<boolean>;
         /**
-         * Sets the value of given Flag.
+         * sets the value of given Flag.
          * @param flag - <pre>
          * PDFNet.Annot.Flag = {
          * 	e_invisible : 0
@@ -1156,7 +1026,7 @@ declare namespace Core.PDFNet {
          */
         getStructParent(): Promise<number>;
         /**
-         * Sets the struct parent of an annotation.
+         * sets the struct parent of an annotation.
          * (Required if the annotation is a structural content item; PDF 1.3)
          * @param parkeyval - An integer which is the integer key of the
          * annotation's entry in the structural parent tree.
@@ -1516,7 +1386,7 @@ declare namespace Core.PDFNet {
          */
         addNewChild(in_title: string): Promise<PDFNet.Bookmark>;
         /**
-         * Adds the specified Bookmark as the new last child of this Bookmark.
+         * adds the specified Bookmark as the new last child of this Bookmark.
          * @param in_bookmark - The Bookmark object to be added as a last child of this Bookmark.
          *
          * Note: Parameter in_bookmark must not be linked to a bookmark tree.
@@ -1532,7 +1402,7 @@ declare namespace Core.PDFNet {
          */
         addNewNext(in_title: string): Promise<PDFNet.Bookmark>;
         /**
-         * Adds the specified Bookmark as the new right sibling to this Bookmark,
+         * adds the specified Bookmark as the new right sibling to this Bookmark,
          * adjusting the tree containing this Bookmark appropriately.
          * @param in_bookmark - The Bookmark object to be added to this Bookmark.
          *
@@ -1547,7 +1417,7 @@ declare namespace Core.PDFNet {
          */
         addNewPrev(in_title: string): Promise<PDFNet.Bookmark>;
         /**
-         * Adds the specified Bookmark as the new left sibling to this Bookmark,
+         * adds the specified Bookmark as the new left sibling to this Bookmark,
          * adjusting the tree containing this Bookmark appropriately.
          * @param in_bookmark - The Bookmark object to be added to this Bookmark.
          *
@@ -1555,11 +1425,11 @@ declare namespace Core.PDFNet {
          */
         addPrev(in_bookmark: PDFNet.Bookmark): Promise<void>;
         /**
-         * Removes the Bookmark's subtree from the bookmark tree containing it.
+         * removes the Bookmark's subtree from the bookmark tree containing it.
          */
         delete(): Promise<void>;
         /**
-         * Unlinks this Bookmark from the bookmark tree that contains it, and
+         * unlinks this Bookmark from the bookmark tree that contains it, and
          * adjusts the tree appropriately.
          *
          * Note: After the bookmark is unlinked is can be moved to another place
@@ -1617,12 +1487,12 @@ declare namespace Core.PDFNet {
          */
         getAction(): Promise<PDFNet.Action>;
         /**
-         * Sets the Bookmark's action.
+         * sets the Bookmark's action.
          * @param in_action - The new Action for the Bookmark.
          */
         setAction(in_action: PDFNet.Action): Promise<void>;
         /**
-         * Removes the Bookmark's action.
+         * removes the Bookmark's action.
          */
         removeAction(): Promise<void>;
         /**
@@ -1700,27 +1570,12 @@ declare namespace Core.PDFNet {
         m_size: number;
     }
     /**
-     * Optional data for CMS creation.
-     */
-    class CMSSignatureOptions extends PDFNet.Destroyable {
-        /**
-         * Constructor
-         * @returns A promise that resolves to an object of type: "PDFNet.CMSSignatureOptions"
-         */
-        static create(): Promise<PDFNet.CMSSignatureOptions>;
-        /**
-         * Add a timestamp token to the CMS.
-         * @param token_buf - The timestamp token.
-         */
-        addTimestampToken(token_buf: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray): Promise<void>;
-    }
-    /**
      * A Caret annotation (PDF 1.5) is a visual symbol that indicates
      * the presence of text edits.
      */
     class CaretAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates an Caret annotation and initializes it using given Cos/SDF object.
+         * creates an Caret annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -1728,7 +1583,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.CaretAnnot>;
         /**
-         * Creates an Caret annotation and initializes it using given annotation object.
+         * creates an Caret annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Caret annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -1751,7 +1606,7 @@ declare namespace Core.PDFNet {
          */
         getSymbol(): Promise<string>;
         /**
-         * Sets the caret symbol.
+         * sets the caret symbol.
          * @param symbol - The name of the symbol. This can be either "P" (Use a new
          * paragraph symbol) or "None" (Don't use any symbol).
          * Default value: None.
@@ -1766,7 +1621,7 @@ declare namespace Core.PDFNet {
          * Creates a new Check Box Widget annotation, in the specified document.
          * @param doc - The document to which the annotation is to be added.
          * @param pos - A rectangle specifying the annotation's bounds, specified in
-        user space coordinates.
+         * user space coordinates.
          * @param [field_name] - The name of the field for which to create a CheckBox widget.
          * @returns A promise that resolves to a newly created blank Check Box Widget annotation.
          */
@@ -1777,27 +1632,27 @@ declare namespace Core.PDFNet {
          * Creates a new Check Box Widget annotation, in the specified document.
          * @param doc - The document to which the annotation is to be added.
          * @param pos - A rectangle specifying the annotation's bounds, specified in
-        user space coordinates.
+         * user space coordinates.
          * @param field - the field for which to create a CheckBox widget
          * @returns A promise that resolves to a newly created blank Check Box Widget annotation.
          */
         static createWithField(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, pos: PDFNet.Rect, field: PDFNet.Field): Promise<PDFNet.CheckBoxWidget>;
         /**
          * Creates a Check Box Widget annotation and initialize it using given Cos/SDF object.
-        
-        <p>
-        <b> Note: </b> The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         *
+         * <p>
+         * <b> Note: </b> The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @param [d] - the object to use to initialize the Check Box Widget
          * @returns A promise that resolves to an object of type: "PDFNet.CheckBoxWidget"
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.CheckBoxWidget>;
         /**
          * Creates a Check Box Widget annotation and initialize it using given annotation object.
-        
-        <p>
-        <b> Note: </b>  The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         *
+         * <p>
+         * <b> Note: </b>  The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @param annot - The annotation object to use.
          * @returns A promise that resolves to an object of type: "PDFNet.CheckBoxWidget"
          */
@@ -1826,7 +1681,7 @@ declare namespace Core.PDFNet {
      */
     class CircleAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates an Circle annotation and initializes it using given Cos/SDF object.
+         * creates an Circle annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -1834,7 +1689,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.CircleAnnot>;
         /**
-         * Creates a Circle annotation and initializes it using given annotation object.
+         * creates a Circle annotation and initializes it using given annotation object.
          * @param circle - Annot object used to initialize the Circle annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -2211,7 +2066,7 @@ declare namespace Core.PDFNet {
          * Creates a new Combo Box Widget annotation, in the specified document.
          * @param doc - The document to which the annotation is added.
          * @param pos - A rectangle specifying the annotation's bounds, specified in
-        user space coordinates.
+         * user space coordinates.
          * @param [field_name] - The name of the field for which to create a ComboBox widget
          * @returns A promise that resolves to a newly created blank Combo Box Widget annotation.
          */
@@ -2222,27 +2077,27 @@ declare namespace Core.PDFNet {
          * Creates a new Widget annotation, in the specified document.
          * @param doc - The document to which the annotation is added.
          * @param pos - A rectangle specifying the annotation's bounds, specified in
-        user space coordinates.
+         * user space coordinates.
          * @param field - The field for which to create a Text widget
          * @returns A promise that resolves to a newly created blank Widget annotation.
          */
         static createWithField(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, pos: PDFNet.Rect, field: PDFNet.Field): Promise<PDFNet.ComboBoxWidget>;
         /**
          * Creates a Combo Box Widget annotation and initialize it using given Cos/SDF object.
-        
-        <p>
-        <b> Note: </b> The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         *
+         * <p>
+         * <b> Note: </b> The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @param [d] - the object to use to initialize the ComboBoxWidget
          * @returns A promise that resolves to an object of type: "PDFNet.ComboBoxWidget"
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.ComboBoxWidget>;
         /**
          * Creates a Combo Box Widget annotation and initialize it using given annotation object.
-        
-        <p>
-        <b> Note: </b>  The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         *
+         * <p>
+         * <b> Note: </b>  The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @param annot - The annotation to use.
          * @returns A promise that resolves to an object of type: "PDFNet.ComboBoxWidget"
          */
@@ -2258,7 +2113,7 @@ declare namespace Core.PDFNet {
          */
         addOptions(opts: string[]): Promise<void>;
         /**
-         * Selects the given option in the Combo Box widget
+         * selects the given option in the Combo Box widget
          * @param value - The option to select
          */
         setSelectedOption(value: string): Promise<void>;
@@ -2353,12 +2208,12 @@ declare namespace Core.PDFNet {
          */
         getType(): Promise<number>;
         /**
-         * Find the parent structure element.
+         * find the parent structure element.
          * @returns A promise that resolves to an object of type: "PDFNet.SElement"
          */
         getParent(): Promise<PDFNet.SElement>;
         /**
-         * The page on which the marked content is drawn, whether directly as part of
+         * the page on which the marked content is drawn, whether directly as part of
          * page content or indirectly by being in a Form XObject or annotation drawn
          * on that page.
          * @returns A promise that resolves to an object of type: "PDFNet.Page"
@@ -2416,93 +2271,93 @@ declare namespace Core.PDFNet {
     }
     /**
      * ContentReplacer is a utility class for replacing content (text and images)
-    in existing PDF (template) documents.
-    
-    Users can replace content in a PDF page using the following operations:
-    - Replace an image that exists in a target rectangle with a replacement image.
-    - Replace text that exists in a target rectangle with replacement text.
-    - Replace all instances of a specially marked string with replacement string.
-    
-    The following code replaces an image in a target region. This code also
-    replaces the text "[NAME]" and "[JOB_TITLE]" with "John Smith"
-    and "Software Developer" respectively. Notice the square braces ('[' and ']') on
-    the target strings in the original PDFDoc. These square braces are not included in
-    the actual function calls below, as they're implicitly added.
-    
-    <pre>
-    PDFDoc doc("../../TestFiles/BusinessCardTemplate.pdf");
-    doc.InitSecurityHandler();
-    ContentReplacer replacer;
-    Page page = doc.GetPage(1);
-    Image img = Image::Create(doc, "../../TestFiles/peppers.jpg");
-    replacer.AddImage(page.GetMediaBox(), img.GetSDFObj());
-    replacer.AddString("NAME", "John Smith");
-    replacer.AddString("JOB_TITLE", "Software Developer");
-    replacer.Process(page);
-    </pre>
+     * in existing PDF (template) documents.
+     *
+     * Users can replace content in a PDF page using the following operations:
+     * - Replace an image that exists in a target rectangle with a replacement image.
+     * - Replace text that exists in a target rectangle with replacement text.
+     * - Replace all instances of a specially marked string with replacement string.
+     *
+     * The following code replaces an image in a target region. This code also
+     * replaces the text "[NAME]" and "[JOB_TITLE]" with "John Smith"
+     * and "Software Developer" respectively. Notice the square braces ('[' and ']') on
+     * the target strings in the original PDFDoc. These square braces are not included in
+     * the actual function calls below, as they're implicitly added.
+     *
+     * <pre>
+     * PDFDoc doc("../../TestFiles/BusinessCardTemplate.pdf");
+     * doc.InitSecurityHandler();
+     * ContentReplacer replacer;
+     * Page page = doc.GetPage(1);
+     * Image img = Image::Create(doc, "../../TestFiles/peppers.jpg");
+     * replacer.AddImage(page.GetMediaBox(), img.GetSDFObj());
+     * replacer.AddString("NAME", "John Smith");
+     * replacer.AddString("JOB_TITLE", "Software Developer");
+     * replacer.Process(page);
+     * </pre>
      */
     class ContentReplacer extends PDFNet.Destroyable {
         /**
          * Create a new ContentReplacer object, to which replacement rules will be added.
-        The same object can be used to 'Process' multiple pages.
+         * The same object can be used to 'Process' multiple pages.
          * @returns A promise that resolves to an object of type: "PDFNet.ContentReplacer"
          */
         static create(): Promise<PDFNet.ContentReplacer>;
         /**
          * Replace the image that best fits into 'target_region' with 'replacement_image'.
          * @param target_region - The rectangle defining the area in which an image
-        that best fits the rectangle will be replaced by 'replacement_image'.
+         * that best fits the rectangle will be replaced by 'replacement_image'.
          * @param replacement_image - The 'SDF.Obj' of a 'PDF.Image' object.
-        
-        Note: The best fit is the image that closest matches 'target_region'. For example if
-        there are two images on the page, one taking up all of the page, and the other
-        smaller, and the smaller one has similar dimensions and position of
-        'target_region', then the smaller image would be replaced, not the larger.
-        Furthermore, if 'target_region' encloses multiple images, then only the image
-        with the largest area in 'target_region' will be replaced.
+         *
+         * Note: The best fit is the image that closest matches 'target_region'. For example if
+         * there are two images on the page, one taking up all of the page, and the other
+         * smaller, and the smaller one has similar dimensions and position of
+         * 'target_region', then the smaller image would be replaced, not the larger.
+         * Furthermore, if 'target_region' encloses multiple images, then only the image
+         * with the largest area in 'target_region' will be replaced.
          */
         addImage(target_region: PDFNet.Rect, replacement_image: PDFNet.Obj): Promise<void>;
         /**
          * All text inside 'target_region' will be deleted and replaced with 'replacement_text'.
          * @param target_region - The rectangle defining the area in which all text will
-        be replaced by 'replacement_text'.
+         * be replaced by 'replacement_text'.
          * @param replacement_text - The new text that will replace the existing text
-        in 'target_region'.
-        
-        Note: The 'replacement_text' will be styled in the same font/color/style that is used
-        by the original text. If there are multiple font styles, the most prevalent style will
-        be used. Also, the 'replacement_text' will wrap within the 'target_region',
-        but if it is too long, the overflow text will not be visible, and no surrounding
-        content will be affected.
+         * in 'target_region'.
+         *
+         * Note: The 'replacement_text' will be styled in the same font/color/style that is used
+         * by the original text. If there are multiple font styles, the most prevalent style will
+         * be used. Also, the 'replacement_text' will wrap within the 'target_region',
+         * but if it is too long, the overflow text will not be visible, and no surrounding
+         * content will be affected.
          */
         addText(target_region: PDFNet.Rect, replacement_text: string): Promise<void>;
         /**
          * Any text of the form "[template_text]" will be replaced by "replacement_text".
          * @param template_text - The text to remove.
          * @param replacement_text - The new text that will appear in place of 'template_text'.
-        
-        Note: Only text wrapped in '[' and ']' will be checked, and if it matches 'template_text',
-        then 'template_text' and the surrounding square braces will be replaced
-        by 'replacement_text'. For example AddString("TITLE", "Doctor") will replace any
-        text consisting of "[TITLE]" with "Doctor".
+         *
+         * Note: Only text wrapped in '[' and ']' will be checked, and if it matches 'template_text',
+         * then 'template_text' and the surrounding square braces will be replaced
+         * by 'replacement_text'. For example AddString("TITLE", "Doctor") will replace any
+         * text consisting of "[TITLE]" with "Doctor".
          */
         addString(template_text: string, replacement_text: string): Promise<void>;
         /**
          * Change the delimiters from '[' and ']' to arbitary strings.
          * @param start_str - The starting delimiter string.
          * @param end_str - The ending delimiter string.
-        
-        Note: While empty strings are allowed as delimiters, a warning is displayed.
-        Otherwise there are no restrictions.  For example, after SetMatchStrings("<<", ">>"),
-        AddString("TITLE", "Doctor") will replace any text consisting of "<<TITLE>>" with
-        "Doctor".  Similarly, after SetMatchStrings("Beginning...", "...ending."),
-        AddString("TITLE", "Doctor") will replace "Beginning...TITLE...ending." with
-        "Doctor".
+         *
+         * Note: While empty strings are allowed as delimiters, a warning is displayed.
+         * Otherwise there are no restrictions.  For example, after SetMatchStrings("<<", ">>"),
+         * AddString("TITLE", "Doctor") will replace any text consisting of "<<TITLE>>" with
+         * "Doctor".  Similarly, after SetMatchStrings("Beginning...", "...ending."),
+         * AddString("TITLE", "Doctor") will replace "Beginning...TITLE...ending." with
+         * "Doctor".
          */
         setMatchStrings(start_str: string, end_str: string): Promise<void>;
         /**
          * Apply the replacement instructions to the target page. Subsequent calls
-        to 'Process' can be made on other pages, and it will apply the same rules.
+         * to 'Process' can be made on other pages, and it will apply the same rules.
          * @param page - The page to apply the content replacement instructions to.
          */
         process(page: PDFNet.Page): Promise<void>;
@@ -2564,7 +2419,7 @@ declare namespace Core.PDFNet {
          */
         isValid(): Promise<boolean>;
         /**
-         * Attach the Cos/SDF object to the Date.
+         * attach the Cos/SDF object to the Date.
          * @param d - underlying Cos/SDF object. Must be an SDF::Str containing
          *  a PDF date object.
          */
@@ -2582,14 +2437,6 @@ declare namespace Core.PDFNet {
          * associated SDF object.
          */
         setCurrentTime(): Promise<void>;
-        /**
-         * Set the relationship of local time to Universal Time(UT), denoted by one
-         * of the characters +, -, or Z
-         * @param ut - the relationship of local time to Universal Time(UT),
-         */
-        setUT(ut: number): Promise<void>;
-        setUTHour(ut_hour: number): Promise<void>;
-        setUTMinutes(ut_minutes: number): Promise<void>;
         year: number;
         month: number;
         day: number;
@@ -2845,45 +2692,6 @@ declare namespace Core.PDFNet {
          * @returns A promise that resolves to an object of type: "Uint8Array"
          */
         static calculateDigest(in_algorithm: number, in_buffer: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray): Promise<Uint8Array>;
-        /**
-         * Sign the digest of arbitrary data with private key in the provided PKCS #12 key file (.pfx). This function is part of the low-level custom signing API, and works with GenerateESSSigningCertPAdESAttribute, GenerateCMSSignedAttributes, and GenerateCMSSignature.
-         * @param digest_buf - - The digest to sign.
-         * @param digest_algorithm_type - <pre>
-         * PDFNet.DigestAlgorithm.Type = {
-         * 	e_SHA1 : 0
-         * 	e_SHA256 : 1
-         * 	e_SHA384 : 2
-         * 	e_SHA512 : 3
-         * 	e_RIPEMD160 : 4
-         * 	e_unknown_digest_algorithm : 5
-         * }
-         * </pre>
-         * -- The digest algorithm used to generate the digest.
-         * @param pkcs12_buf - - The buffer containing the PKCS #12 key (as usually stored in .pfx files) to use for signing.
-         * @param pkcs12_password - - The password to use to parse the PKCS 12 key.
-         * @returns A promise that resolves to the DER-serialized bytes of the signature.
-         */
-        static signDigestWithKeyfileBuffer(digest_buf: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray, digest_algorithm_type: number, pkcs12_buf: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray, pkcs12_password: string): Promise<Uint8Array>;
-        /**
-         * Sign the digest of arbitrary data with private key in the provided PKCS #12 key file (.pfx). This function is part of the low-level custom signing API, and works with GenerateESSSigningCertPAdESAttribute, GenerateCMSSignedAttributes, and GenerateCMSSignature.
-         * @param digest_buf - - The digest to sign.
-         * @param digest_algorithm_type - <pre>
-        PDFNet.DigestAlgorithm.Type = {
-            e_SHA1 : 0
-            e_SHA256 : 1
-            e_SHA384 : 2
-            e_SHA512 : 3
-            e_RIPEMD160 : 4
-            e_unknown_digest_algorithm : 5
-        }
-        </pre>
-        -- The digest algorithm used to generate the digest.
-         * @param pkcs12_keyfile_url - - The url to the PKCS #12 keyfile (usually has a .pfx extension) to use for signing.
-         * @param pkcs12_password - - The password to use to parse the PKCS #12 keyfile.
-         * @param [options] - Additional options to download the keyfile.
-         * @returns A promise that resolves to the DER-serialized bytes of the signature.
-         */
-        static signDigestWithKeyfileFromURL(digest_buf: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray, digest_algorithm_type: number, pkcs12_keyfile_url: string, pkcs12_password: string, options?: any): Promise<Uint8Array>;
     }
     /**
      * A class representing a digital signature form field.
@@ -3015,9 +2823,9 @@ declare namespace Core.PDFNet {
         static createFromField(in_field: PDFNet.Field): Promise<PDFNet.DigitalSignatureField>;
         /**
          * Should not be called when SubFilter is ETSI.RFC3161 (i.e. on a DocTimeStamp).
-        Returns the "M" entry from the digital signature dictionary, which represents the
-        signing date/time. Must call HasCryptographicSignature first and use it to check whether the
-        signature is signed.
+         * Returns the "M" entry from the digital signature dictionary, which represents the
+         * signing date/time. Must call HasCryptographicSignature first and use it to check whether the
+         * signature is signed.
          * @returns A promise that resolves to a PDF::Date object holding the signing date/time from within the digital signature dictionary. Returns a default-constructed PDF::Date if no date is present.
          */
         getSigningTime(): Promise<PDFNet.Date>;
@@ -3086,125 +2894,125 @@ declare namespace Core.PDFNet {
         /**
          * Returns the signing certificate. Must only be called on signed adbe.pkcs7.detached or ETSI.CAdES.detached signatures.
          * @returns A promise that resolves to an X509Certificate object.
-        
-        Note: This function does not verify the signature. It merely extracts the claimed signing certificate.
-        This function only works when the build has support for verification-related APIs.
+         *
+         * Note: This function does not verify the signature. It merely extracts the claimed signing certificate.
+         * This function only works when the build has support for verification-related APIs.
          */
         getSignerCertFromCMS(): Promise<PDFNet.X509Certificate>;
         /**
          * Retrieves the ranges of byte indices within the document over which this signature is intended to apply/be verifiable.
          * @returns A promise that resolves to a container of byte range objects
-        
-        Note: This function does not verify that the signature is valid over its byte
-        ranges. It merely returns them. This can be useful when a document consists of
-        multiple incremental revisions, the latter of which may or may not have been
-        signed, for telling which revisions were actually signed by which signature.
-        The outputs of this function can also be used to truncate the document at the
-        end of a signed byte range, in order that the signed document revision may
-        be retrieved from a document with later incremental revisions. Of course, to
-        be certain that the signature is valid, it must also then be verified using the
-        verification API. Also, the caller is responsible for making sure that the
-        byte ranges returned from this function actually make sense (i.e. fit inside
-        the document).
+         *
+         * Note: This function does not verify that the signature is valid over its byte
+         * ranges. It merely returns them. This can be useful when a document consists of
+         * multiple incremental revisions, the latter of which may or may not have been
+         * signed, for telling which revisions were actually signed by which signature.
+         * The outputs of this function can also be used to truncate the document at the
+         * end of a signed byte range, in order that the signed document revision may
+         * be retrieved from a document with later incremental revisions. Of course, to
+         * be certain that the signature is valid, it must also then be verified using the
+         * verification API. Also, the caller is responsible for making sure that the
+         * byte ranges returned from this function actually make sense (i.e. fit inside
+         * the document).
          */
         getByteRanges(): Promise<PDFNet.ByteRange[]>;
         /**
          * Given a successful verification result that required online information to verify trust
-        (trust verification must have been enabled and successful during the verification),
-        embeds data into the PDF document that allows the signature to be verified offline.
-        (This is accomplished using DSS and VRI dictionaries.) When this operation is
-        successfully completed, one of the two components of secure long term validation (LTV)
-        will be in place. The other necessary component of secure long term validation is
-        to make sure to timestamp the document appropriately while the signature
-        is still verifiable to maintain a chain of unexpired secure timestamps
-        attesting to the integrity of the document. The verifiability of the signature
-        should thereafter be maintainable in such a fashion despite any possible
-        certificate expiry, algorithm compromise, or key compromise that would
-        have otherwise rendered it invalid if it were to be verified using a time in
-        the future rather than a securely-signed timestamp-derived time nearer the time
-        of signing (at which which the signature was verifiable without extra data).
-        This function, if given a good verification result, is also capable of making timestamp
-        (DocTimeStamp ETSI.RFC3161) signatures LTV-enabled, which is necessary to do first when
-        you intend to add another timestamp around an already-timestamped document to extend
-        or enhance its verifiability (as described above), as per the PDF 2.0 and
-        ETSI TS 102 778-4 (PAdES Level 4) specifications.
+         * (trust verification must have been enabled and successful during the verification),
+         * embeds data into the PDF document that allows the signature to be verified offline.
+         * (This is accomplished using DSS and VRI dictionaries.) When this operation is
+         * successfully completed, one of the two components of secure long term validation (LTV)
+         * will be in place. The other necessary component of secure long term validation is
+         * to make sure to timestamp the document appropriately while the signature
+         * is still verifiable to maintain a chain of unexpired secure timestamps
+         * attesting to the integrity of the document. The verifiability of the signature
+         * should thereafter be maintainable in such a fashion despite any possible
+         * certificate expiry, algorithm compromise, or key compromise that would
+         * have otherwise rendered it invalid if it were to be verified using a time in
+         * the future rather than a securely-signed timestamp-derived time nearer the time
+         * of signing (at which which the signature was verifiable without extra data).
+         * This function, if given a good verification result, is also capable of making timestamp
+         * (DocTimeStamp ETSI.RFC3161) signatures LTV-enabled, which is necessary to do first when
+         * you intend to add another timestamp around an already-timestamped document to extend
+         * or enhance its verifiability (as described above), as per the PDF 2.0 and
+         * ETSI TS 102 778-4 (PAdES Level 4) specifications.
          * @param in_verification_result - - a successful verification result containing a successful
-        TrustVerificationResult
+         * TrustVerificationResult
          * @returns A promise that resolves to a boolean status that reflects whether offline verification information was added successfully
-        
-        Note: It is necessary to save the document incrementally after this function completes successfully
-        in order to actually write the LTV data into the document.
+         *
+         * Note: It is necessary to save the document incrementally after this function completes successfully
+         * in order to actually write the LTV data into the document.
          */
         enableLTVOfflineVerification(in_verification_result: PDFNet.VerificationResult): Promise<boolean>;
         /**
          * Must be called to prepare a secure PDF-embedded timestamp signature (RFC 3161
-        DocTimeStamp) for signing, which is done afterwards by calling Save on the
-        document with an e_incremental flag. Throws if document is locked by other
-        signatures,  if signature is already signed, or if another signature has already
-        been prepared for signing on the next save (because only one signing operation
-        can be done per incremental save). Default document permission level is
-        e_annotating_formfilling_signing_allowed.
+         * DocTimeStamp) for signing, which is done afterwards by calling Save on the
+         * document with an e_incremental flag. Throws if document is locked by other
+         * signatures,  if signature is already signed, or if another signature has already
+         * been prepared for signing on the next save (because only one signing operation
+         * can be done per incremental save). Default document permission level is
+         * e_annotating_formfilling_signing_allowed.
          * @param in_timestamping_config - - Configuration options to store for timestamping.
-        These will include various items related to contacting a timestamping authority.
-        Incorrect configuration will result in document Save throwing an exception.
-        The usability of a combination of a TimestampingConfiguration and VerificationOptions
-        can be checked ahead of time to prevent exceptions by calling TestConfiguration on
-        TimestampingConfiguration and passing VerificationOptions.
+         * These will include various items related to contacting a timestamping authority.
+         * Incorrect configuration will result in document Save throwing an exception.
+         * The usability of a combination of a TimestampingConfiguration and VerificationOptions
+         * can be checked ahead of time to prevent exceptions by calling TestConfiguration on
+         * TimestampingConfiguration and passing VerificationOptions.
          * @param in_timestamp_response_verification_options - - Options for the timestamp
-        response verification step (which is required by RFC 3161 to be done as part of
-        timestamping). These response verification options should include the root certificate
-        of the timestamp authority, so that the trust status of the timestamp signature
-        can be verified. The options that should be passed are the same ones that one expects
-        the timestamp to be verifiable with in the future (once it is embedded in the document),
-        except the response verification requires online revocation information whereas
-        the later verification may not (depending on whether LTV offline verification
-        information for the timestamp signature gets embedded into the document by that
-        time). The timestamp response verification step makes sure that (a) the
-        timestamp response has a success status, which is the only time that this is
-        verified in the entire workflow, which prevents embedding an unsuccessful
-        response; (b) that it digests the document correctly and is otherwise generally
-        verifiable; and (c) that the nonce is correct (which is the only time that this
-        is verifiable in the entire workflow) to prevent replay attacks (if it was not
-        requested in the TimestampingConfiguration that the nonce mechanism should be
-        disabled).
-        
-        Note: A failure in timestamp response verification will result in document Save
-        throwing an exception. It is recommended to use TimestampingConfiguration.TestConfiguration
-        with the VerificationOptions ahead of time to avoid this.
+         * response verification step (which is required by RFC 3161 to be done as part of
+         * timestamping). These response verification options should include the root certificate
+         * of the timestamp authority, so that the trust status of the timestamp signature
+         * can be verified. The options that should be passed are the same ones that one expects
+         * the timestamp to be verifiable with in the future (once it is embedded in the document),
+         * except the response verification requires online revocation information whereas
+         * the later verification may not (depending on whether LTV offline verification
+         * information for the timestamp signature gets embedded into the document by that
+         * time). The timestamp response verification step makes sure that (a) the
+         * timestamp response has a success status, which is the only time that this is
+         * verified in the entire workflow, which prevents embedding an unsuccessful
+         * response; (b) that it digests the document correctly and is otherwise generally
+         * verifiable; and (c) that the nonce is correct (which is the only time that this
+         * is verifiable in the entire workflow) to prevent replay attacks (if it was not
+         * requested in the TimestampingConfiguration that the nonce mechanism should be
+         * disabled).
+         *
+         * Note: A failure in timestamp response verification will result in document Save
+         * throwing an exception. It is recommended to use TimestampingConfiguration.TestConfiguration
+         * with the VerificationOptions ahead of time to avoid this.
          */
         timestampOnNextSave(in_timestamping_config: PDFNet.TimestampingConfiguration, in_timestamp_response_verification_options: PDFNet.VerificationOptions): Promise<void>;
         /**
          * Contacts a remote timestamp authority over network, sends CMS digest, receives and verifies
-        timestamp token, combines the timestamp token and the data of an existing CMS-type (adbe.pkcs7.detached or
-        ETSI.CAdES.detached subfilter) main document signature, and then returns that data to the user.
-        At least one signing time, whether "M" (see SetSigDictTimeOfSigning) or
-        a secure embedded timestamp, is required to be added in order to create a PAdES signature.
-        
-        Note: This function does not insert the final CMS-type document signature into the document.
-        You must retrieve it from the result using GetData and then pass that to PDFDoc SaveCustomSignature.
+         * timestamp token, combines the timestamp token and the data of an existing CMS-type (adbe.pkcs7.detached or
+         * ETSI.CAdES.detached subfilter) main document signature, and then returns that data to the user.
+         * At least one signing time, whether "M" (see SetSigDictTimeOfSigning) or
+         * a secure embedded timestamp, is required to be added in order to create a PAdES signature.
+         *
+         * Note: This function does not insert the final CMS-type document signature into the document.
+         * You must retrieve it from the result using GetData and then pass that to PDFDoc SaveCustomSignature.
          * @param in_timestamping_config - - Configuration options to store for timestamping.
-        These will include various items related to contacting a timestamping authority.
-        Incorrect configuration will result in an exception being thrown.
-        The usability of a combination of a TimestampingConfiguration and VerificationOptions
-        can be checked ahead of time to prevent exceptions by calling TestConfiguration on
-        TimestampingConfiguration and passing VerificationOptions.
+         * These will include various items related to contacting a timestamping authority.
+         * Incorrect configuration will result in an exception being thrown.
+         * The usability of a combination of a TimestampingConfiguration and VerificationOptions
+         * can be checked ahead of time to prevent exceptions by calling TestConfiguration on
+         * TimestampingConfiguration and passing VerificationOptions.
          * @param in_timestamp_response_verification_options - - Options for the timestamp
-        response verification step (which is required by RFC 3161 to be done as part of
-        timestamping). These response verification options should include the root certificate
-        of the timestamp authority, so that the trust status of the timestamp signature
-        can be verified. The options that should be passed are the same ones that one expects
-        the timestamp to be verifiable with in the future (once it is embedded in the document),
-        except the response verification requires online revocation information whereas
-        the later verification may not (depending on whether LTV offline verification
-        information for the embedded timestamp gets embedded into the document by that
-        time). The timestamp response verification step makes sure that (a) the
-        timestamp response has a success status, which is the only time that this is
-        verified in the entire workflow, which prevents embedding an unsuccessful
-        response; (b) that it digests the main signature digest correctly and is otherwise generally
-        verifiable; and (c) that the nonce is correct (which is the only time that this
-        is verifiable in the entire workflow) to prevent replay attacks (if it was not
-        requested in the TimestampingConfiguration that the nonce mechanism should be
-        disabled).
+         * response verification step (which is required by RFC 3161 to be done as part of
+         * timestamping). These response verification options should include the root certificate
+         * of the timestamp authority, so that the trust status of the timestamp signature
+         * can be verified. The options that should be passed are the same ones that one expects
+         * the timestamp to be verifiable with in the future (once it is embedded in the document),
+         * except the response verification requires online revocation information whereas
+         * the later verification may not (depending on whether LTV offline verification
+         * information for the embedded timestamp gets embedded into the document by that
+         * time). The timestamp response verification step makes sure that (a) the
+         * timestamp response has a success status, which is the only time that this is
+         * verified in the entire workflow, which prevents embedding an unsuccessful
+         * response; (b) that it digests the main signature digest correctly and is otherwise generally
+         * verifiable; and (c) that the nonce is correct (which is the only time that this
+         * is verifiable in the entire workflow) to prevent replay attacks (if it was not
+         * requested in the TimestampingConfiguration that the nonce mechanism should be
+         * disabled).
          * @returns A promise that resolves to the result of the timestamp request, including the final document signature as DER-encoded CMS with a timestamp embedded
          */
         generateContentsWithEmbeddedTimestamp(in_timestamping_config: PDFNet.TimestampingConfiguration, in_timestamp_response_verification_options: PDFNet.VerificationOptions): Promise<PDFNet.TimestampingResult>;
@@ -3227,10 +3035,10 @@ declare namespace Core.PDFNet {
         useSubFilter(in_subfilter_type: number, in_make_mandatory?: boolean): Promise<void>;
         /**
          * Calculates the digest of the relevant bytes of the document for this signature field, in order to allow
-        the caller to perform custom signing/processing. Signature field must first be prepared using one of the
-        non-sign overloads (CreateSigDictForCustomSigning/Certification), and then the document must be saved; after that, this function can be called.
-        The ByteRanges that the most recent save has entered into the signature dictionary within this signature field
-        will be used to calculate the digest.
+         * the caller to perform custom signing/processing. Signature field must first be prepared using one of the
+         * non-sign overloads (CreateSigDictForCustomSigning/Certification), and then the document must be saved; after that, this function can be called.
+         * The ByteRanges that the most recent save has entered into the signature dictionary within this signature field
+         * will be used to calculate the digest.
          * @param [in_digest_algorithm_type] - <pre>
          * PDFNet.DigestAlgorithm.Type = {
          * 	e_SHA1 : 0
@@ -3247,7 +3055,7 @@ declare namespace Core.PDFNet {
         calculateDigest(in_digest_algorithm_type?: number): Promise<Uint8Array>;
         /**
          * Sets the preferred digest algorithm to use when signing this field. This is done by setting DigestMethod
-        in the Seed Value dictionary. This function can be called before a signature field is even prepared for signing.
+         * in the Seed Value dictionary. This function can be called before a signature field is even prepared for signing.
          * @param in_digest_algorithm_type - <pre>
          * PDFNet.DigestAlgorithm.Type = {
          * 	e_SHA1 : 0
@@ -3264,8 +3072,8 @@ declare namespace Core.PDFNet {
         setPreferredDigestAlgorithm(in_digest_algorithm_type: number, in_make_mandatory?: boolean): Promise<void>;
         /**
          * Prepares the field for certification without actually performing certification.
-        Useful for custom signing workflows. It is not necessary to call HasCryptographicSignature
-        before calling this function.
+         * Useful for custom signing workflows. It is not necessary to call HasCryptographicSignature
+         * before calling this function.
          * @param in_filter_name - the Filter name to use, representing the name of the signature handler that will be used to sign and verify the signature (e.g. Adobe.PPKLite)
          * @param in_subfilter_type - <pre>
          * PDFNet.DigitalSignatureField.SubFilterType = {
@@ -3284,8 +3092,8 @@ declare namespace Core.PDFNet {
         createSigDictForCustomCertification(in_filter_name: string, in_subfilter_type: number, in_contents_size_to_reserve: number): Promise<void>;
         /**
          * Prepares the field for approval signing without actually performing signing.
-        Useful for custom signing workflows. It is not necessary to call HasCryptographicSignature
-        before calling this function.
+         * Useful for custom signing workflows. It is not necessary to call HasCryptographicSignature
+         * before calling this function.
          * @param in_filter_name - the Filter name to use, representing the name of the signature handler that will be used to sign and verify the signature (e.g. Adobe.PPKLite)
          * @param in_subfilter_type - <pre>
          * PDFNet.DigitalSignatureField.SubFilterType = {
@@ -3304,26 +3112,26 @@ declare namespace Core.PDFNet {
         createSigDictForCustomSigning(in_filter_name: string, in_subfilter_type: number, in_contents_size_to_reserve: number): Promise<void>;
         /**
          * Adds the "M" key and value, representing the PDF-time-of-signing (not to be confused with
-        embedded timestamps, DocTimeStamps, or CMS signing time), to the digital signature dictionary.
-        The digital signature field must have been prepared for signing first. This function should
-        only be used if no secure embedded timestamping support is available from your signing provider.
-        Useful for custom signing workflows, where signing time is not set automatically by the Apryse SDK,
-        unlike in the usual standard handler signing workflow. A secure embedded timestamp can also be added
-        later and should override this "M" date entry when the signature is read by signature-verifying PDF processor applications.
-        At least one signing time, whether "M" or a secure embedded timestamp (see GenerateContentsWithEmbeddedTimestamp),
-        is required to be added in order to create a PAdES signature.
+         * embedded timestamps, DocTimeStamps, or CMS signing time), to the digital signature dictionary.
+         * The digital signature field must have been prepared for signing first. This function should
+         * only be used if no secure embedded timestamping support is available from your signing provider.
+         * Useful for custom signing workflows, where signing time is not set automatically by the Apryse SDK,
+         * unlike in the usual standard handler signing workflow. A secure embedded timestamp can also be added
+         * later and should override this "M" date entry when the signature is read by signature-verifying PDF processor applications.
+         * At least one signing time, whether "M" or a secure embedded timestamp (see GenerateContentsWithEmbeddedTimestamp),
+         * is required to be added in order to create a PAdES signature.
          * @param in_date - the PDF Date datetime value to set
          */
         setSigDictTimeOfSigning(in_date: PDFNet.Date): Promise<void>;
         /**
          * Returns a CMS detached signature incorporating a digest that is provided using the provided PKCS #12 key buffer (.pfx).
-        This function is part of the custom signing API, but cannot be used for workflows where the key is not in PFX format
-        or when the signature comes from a source that cannot generate CMS signatures (e.g. Hardware Security Modules (HSM) devices,
-        cloud signing services). In such cases, the low-level parts of the custom signing API should be used instead of this function
-        (e.g. GenerateESSSigningCertPAdESAttribute, GenerateCMSSignedAttributes, GenerateCMSSignature).
-        This function is a shortcut for situations in which use of more low-level custom signing functions is unnecessary.
-        Therefore, this function will generate necessary CMS components, such as signedAttrs, internally.
-        Note: This function does not change the DigitalSignatureField. Call SaveCustomSignature to write a signature to its PDFDoc.
+         * This function is part of the custom signing API, but cannot be used for workflows where the key is not in PFX format
+         * or when the signature comes from a source that cannot generate CMS signatures (e.g. Hardware Security Modules (HSM) devices,
+         * cloud signing services). In such cases, the low-level parts of the custom signing API should be used instead of this function
+         * (e.g. GenerateESSSigningCertPAdESAttribute, GenerateCMSSignedAttributes, GenerateCMSSignature).
+         * This function is a shortcut for situations in which use of more low-level custom signing functions is unnecessary.
+         * Therefore, this function will generate necessary CMS components, such as signedAttrs, internally.
+         * Note: This function does not change the DigitalSignatureField. Call SaveCustomSignature to write a signature to its PDFDoc.
          * @param in_digest - - the document digest value to use
          * @param in_pkcs12_buffer - - a buffer containing the PKCS #12 key (as usually stored in .pfx files) to use for signing
          * @param in_keyfile_password - - the password to use to decrypt the PKCS #12 key file data in the buffer
@@ -3344,18 +3152,18 @@ declare namespace Core.PDFNet {
         static signDigestBuffer(in_digest: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray, in_pkcs12_buffer: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray, in_keyfile_password: string, in_pades_mode: boolean, in_digest_algorithm_type: number): Promise<Uint8Array>;
         /**
          * Low-level optional function belonging to custom-signing APIs allowing creation of PAdES signatures
-        with key elsewhere, allowing CMS to be generated automatically later.
-        Represents one the components of the functionality of SignDigest which are not key-related.
-        Creates the necessary attribute for a PAdES signature (ETSI.CAdES.detached subfilter type).
-        The result of this function can be passed as a contiguous part of the
-        custom attributes buffer parameter of GenerateCMSSignedAttributes.
-        At least one signing time, whether "M" (see SetSigDictTimeOfSigning) or
-        a secure embedded timestamp (see GenerateContentsWithEmbeddedTimestamp),
-        is also required to be added in order to create a PAdES signature.
-        
-        The result will be either the BER-serialized bytes of an ESS_signing_cert or ESS_signing_cert_V2 CMS Attribute
-        (an ASN.1 SEQUENCE containing the correct OID and ESSCertID or ESSCertIDv2), as is appropriate,
-        depending on what digest algorithm type is provided (see RFC 5035).
+         * with key elsewhere, allowing CMS to be generated automatically later.
+         * Represents one the components of the functionality of SignDigest which are not key-related.
+         * Creates the necessary attribute for a PAdES signature (ETSI.CAdES.detached subfilter type).
+         * The result of this function can be passed as a contiguous part of the
+         * custom attributes buffer parameter of GenerateCMSSignedAttributes.
+         * At least one signing time, whether "M" (see SetSigDictTimeOfSigning) or
+         * a secure embedded timestamp (see GenerateContentsWithEmbeddedTimestamp),
+         * is also required to be added in order to create a PAdES signature.
+         *
+         * The result will be either the BER-serialized bytes of an ESS_signing_cert or ESS_signing_cert_V2 CMS Attribute
+         * (an ASN.1 SEQUENCE containing the correct OID and ESSCertID or ESSCertIDv2), as is appropriate,
+         * depending on what digest algorithm type is provided (see RFC 5035).
          * @param in_signer_cert - - the X509 public-key certificate of the signature's signer (mathematically associated with private key to be used)
          * @param in_digest_algorithm_type - <pre>
          * PDFNet.DigestAlgorithm.Type = {
@@ -3373,23 +3181,23 @@ declare namespace Core.PDFNet {
         static generateESSSigningCertPAdESAttribute(in_signer_cert: PDFNet.X509Certificate, in_digest_algorithm_type: number): Promise<Uint8Array>;
         /**
          * Low-level function belonging to custom-signing APIs. Creates the signedAttributes component of
-        Cryptographic Message Syntax (CMS). The result of this function can then be encrypted by a remote
-        private key (cloud service, Hardware Security Module (HSM) device, etc.), using some external API that returns
-        the bytes of a not-already-CMS-embedded signature value (e.g. RSA PKCS #1 v1.5 format). Following that,
-        CMS generation can be performed using GenerateCMSSignature, after which the resulting signature can be
-        inserted into a resulting signed version of the PDF document using the PDFDoc function SaveCustomSignature.
+         * Cryptographic Message Syntax (CMS). The result of this function can then be encrypted by a remote
+         * private key (cloud service, Hardware Security Module (HSM) device, etc.), using some external API that returns
+         * the bytes of a not-already-CMS-embedded signature value (e.g. RSA PKCS #1 v1.5 format). Following that,
+         * CMS generation can be performed using GenerateCMSSignature, after which the resulting signature can be
+         * inserted into a resulting signed version of the PDF document using the PDFDoc function SaveCustomSignature.
          * @param in_digest_buf - - a buffer containing the digest of the document within ByteRanges of this DigitalSignatureField (see CalculateDigest)
          * @param [in_custom_signedattributes_buf] - - a buffer containing any optional custom BER-encoded signedAttributes to add,
-        including potentially the PAdES one (see GenerateESSSigningCertPAdESAttribute). (Do not place an ASN.1 constructed type around all of the attributes.)
-        Do not pass any of the normal attributes (content type or message digest) as custom attributes because otherwise they will be duplicated.
+         * including potentially the PAdES one (see GenerateESSSigningCertPAdESAttribute). (Do not place an ASN.1 constructed type around all of the attributes.)
+         * Do not pass any of the normal attributes (content type or message digest) as custom attributes because otherwise they will be duplicated.
          * @returns A promise that resolves to the BER-encoded bytes of the future signedAttrs component of a CMS signature, with no surrounding constructed type
          */
         static generateCMSSignedAttributes(in_digest_buf: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray, in_custom_signedattributes_buf?: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray): Promise<Uint8Array>;
         /**
          * Low-level function belonging to custom-signing APIs. Using low-level inputs that permit incorporation of
-        remote key usage (cloud keystore, Hardware Security Module (HSM) device, etc.), generates bytes representing
-        a Cryptographic Message Syntax (CMS)-format signature encoded in DER. The resulting data can be passed to
-        SaveCustomSignature.
+         * remote key usage (cloud keystore, Hardware Security Module (HSM) device, etc.), generates bytes representing
+         * a Cryptographic Message Syntax (CMS)-format signature encoded in DER. The resulting data can be passed to
+         * SaveCustomSignature.
          * @param in_signer_cert - - the X509 public-key certificate of the signature's signer (mathematically associated with private key used)
          * @param in_chain_certs_list - - the intermediate and root certificates to include in the CMS to allow verifiers to establish the chain/path of trust
          * @param in_digest_algorithm_oid - - the OID of the digest algorithm used, for embedding in the CMS
@@ -3399,21 +3207,6 @@ declare namespace Core.PDFNet {
          * @returns A promise that resolves to finished CMS data for embedding into the document using SaveCustomSignature
          */
         static generateCMSSignature(in_signer_cert: PDFNet.X509Certificate, in_chain_certs_list: PDFNet.X509Certificate[], in_digest_algorithm_oid: PDFNet.ObjectIdentifier, in_signature_algorithm_oid: PDFNet.ObjectIdentifier, in_signature_value_buf: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray, in_signedattributes_buf: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray): Promise<Uint8Array>;
-        /**
-         * Low-level function belonging to custom-signing APIs. Using low-level inputs that permit incorporation of
-        remote key usage (cloud keystore, Hardware Security Module (HSM) device, etc.), generates bytes representing
-        a Cryptographic Message Syntax (CMS)-format signature encoded in DER. The resulting data can be passed to
-        SaveCustomSignature.
-         * @param signer_cert - The X509 public-key certificate of the signature's signer (mathematically associated with private key used).
-         * @param chain_certs_list - The intermediate and root certificates to include in the CMS to allow verifiers to establish the chain/path of trust.
-         * @param digest_algorithm_id - The digest algorithm used, for embedding in the CMS.
-         * @param signature_algorithm_id - The signature algorithm used, for embedding in the CMS.
-         * @param signature_value_buf - A buffer containing the signature value to embed in the CMS.
-         * @param signedattributes_buf - A buffer containing signedAttributes for embedding into the CMS (must exactly match those used when creating signature value).
-         * @param [cms_options] - Optional extra data to store in the CMS.
-         * @returns A promise that resolves to the finished CMS data for embedding into the document using SaveCustomSignature.
-         */
-        static generateCMSSignatureWithAlgoId(signer_cert: PDFNet.X509Certificate, chain_certs_list: PDFNet.X509Certificate[], digest_algorithm_id: PDFNet.AlgorithmIdentifier, signature_algorithm_id: PDFNet.AlgorithmIdentifier, signature_value_buf: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray, signedattributes_buf: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray, cms_options?: PDFNet.CMSSignatureOptions): Promise<Uint8Array>;
         /**
          * Must be called to prepare a signature for certification, which is done afterwards by calling Save. Throws if document already certified.
         Default document permission level is e_annotating_formfilling_signing_allowed. Throws if signature field already has a digital signature dictionary.
@@ -3621,28 +3414,28 @@ declare namespace Core.PDFNet {
          */
         isClipWindingFill(): Promise<boolean>;
         /**
-         * Indicate whether the path is a clipping path or non-clipping path
+         * indicate whether the path is a clipping path or non-clipping path
          * @param clip - true to set path to clipping path. False for non-clipping path.
          */
         setPathClip(clip: boolean): Promise<void>;
         /**
-         * Indicate whether the path should be stroked
+         * indicate whether the path should be stroked
          * @param stroke - true to set path to be stroked. False for no stroke path.
          */
         setPathStroke(stroke: boolean): Promise<void>;
         /**
-         * Indicate whether the path should be filled
+         * indicate whether the path should be filled
          * @param fill - true to set path to be filled. False for no fill path.
          */
         setPathFill(fill: boolean): Promise<void>;
         /**
-         * Sets path's fill rule.
+         * sets path's fill rule.
          * @param winding_rule - if winding_rule is true path will be filled using non-zero
          * winding fill rule, otherwise even-odd fill will be used.
          */
         setWindingFill(winding_rule: boolean): Promise<void>;
         /**
-         * Sets clipping path's fill rule.
+         * sets clipping path's fill rule.
          * @param winding_rule - if winding_rule is true clipping should use non-zero
          * winding rule, or false for even-odd rule.
          */
@@ -3803,7 +3596,7 @@ declare namespace Core.PDFNet {
          */
         getPosAdjustment(): Promise<number>;
         /**
-         * Returns the offset (out_x, out_y) to the start of the current line relative to
+         * returns the offset (out_x, out_y) to the start of the current line relative to
          * the beginning of the previous line.
          *
          * out_x and out_y are numbers expressed in unscaled text space units.
@@ -3818,7 +3611,7 @@ declare namespace Core.PDFNet {
          */
         hasTextMatrix(): Promise<boolean>;
         /**
-         * Set the text data for the current e_text Element.
+         * set the text data for the current e_text Element.
          * @param buf_text_data - a pointer to a buffer containing text.
          */
         setTextData(buf_text_data: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray): Promise<void>;
@@ -3864,7 +3657,7 @@ declare namespace Core.PDFNet {
          */
         updateTextMetrics(): Promise<void>;
         /**
-         * Sets the offset (dx, dy) to the start of the current line relative to the beginning
+         * sets the offset (dx, dy) to the start of the current line relative to the beginning
          * of the previous line.
          * @param dx - horizontal offset to the start of the curret line
          * @param dy - vertical offset to the start of the current line
@@ -4292,7 +4085,7 @@ declare namespace Core.PDFNet {
          */
         static create(): Promise<PDFNet.ElementReader>;
         /**
-         * Begin processing a page.
+         * begin processing a page.
          * @param page - A page to start processing.
          * @param [ctx] - An optional parameter used to specify the Optional Content (OC)
          * Context that should be used when processing the page. When the OCG::Context is specified,
@@ -4303,7 +4096,7 @@ declare namespace Core.PDFNet {
          */
         beginOnPage(page: PDFNet.Page, ctx?: PDFNet.OCGContext): Promise<void>;
         /**
-         * Begin processing given content stream. The content stream may be
+         * begin processing given content stream. The content stream may be
          * a Form XObject, Type3 glyph stream, pattern stream or any other content stream.
          * @param content_stream - A stream object representing the content stream (usually
          * a Form XObject).
@@ -4341,7 +4134,7 @@ declare namespace Core.PDFNet {
          */
         current(): Promise<PDFNet.Element>;
         /**
-         * When the current element is a form XObject you have the option to skip form
+         * when the current element is a form XObject you have the option to skip form
          * processing (by not calling FormBegin()) or to open the form stream and
          * continue Element traversal into the form.
          *
@@ -4354,7 +4147,7 @@ declare namespace Core.PDFNet {
          */
         formBegin(): Promise<void>;
         /**
-         * A method used to spawn the sub-display list representing the tiling pattern
+         * a method used to spawn the sub-display list representing the tiling pattern
          * of the current element in the ElementReader. You can call this method at any
          * point as long as the current element is valid.
          * @param fill_pattern - If true, the filling pattern of the current element will
@@ -4518,7 +4311,7 @@ declare namespace Core.PDFNet {
          */
         static create(): Promise<PDFNet.ElementWriter>;
         /**
-         * Begin writing to the given page.
+         * begin writing to the given page.
          *
          * By default, new content will be appended to the page, as foreground graphics.
          * It is possible to add new page content as background graphics by setting the
@@ -4547,7 +4340,7 @@ declare namespace Core.PDFNet {
          */
         beginOnPage(page: PDFNet.Page, placement?: number, page_coord_sys?: boolean, compress?: boolean, resources?: PDFNet.Obj): Promise<void>;
         /**
-         * Begin writing an Element sequence to a new stream. Use this function to write
+         * begin writing an Element sequence to a new stream. Use this function to write
          * Elements to a content stream other than the page. For example, you can create
          * Form XObjects (See Section '4.9 Form XObjects' in PDF Reference for more details)
          * pattern streams, Type3 font glyph streams, etc.
@@ -4563,7 +4356,7 @@ declare namespace Core.PDFNet {
          */
         begin(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, compress?: boolean): Promise<void>;
         /**
-         * Begin writing an Element sequence to a stream. Use this function to write
+         * begin writing an Element sequence to a stream. Use this function to write
          * Elements to a content stream which will replace an existing content stream in an
          * object passed as a parameter.
          * @param stream_obj_to_update - A low-level SDF stream object that will contain the new stream.
@@ -4606,7 +4399,7 @@ declare namespace Core.PDFNet {
          */
         writePlacedElement(element: PDFNet.Element): Promise<void>;
         /**
-         * The Flush method flushes all pending Element writing operations.
+         * the Flush method flushes all pending Element writing operations.
          * This method is typically only required to be called when intermixing
          * direct content writing (i.e. WriteBuffer/WriteString) with Element writing.
          */
@@ -4976,7 +4769,7 @@ declare namespace Core.PDFNet {
     class FDFField {
         constructor(mp_leaf_node?: PDFNet.Obj, mp_root_array?: PDFNet.Obj);
         /**
-         * Construct a FDF::FDFField from a SDF dictionary representing a terminal field node.
+         * construct a FDF::FDFField from a SDF dictionary representing a terminal field node.
          * @returns A promise that resolves to an object of type: "PDFNet.FDFField"
          */
         static create(field_dict?: PDFNet.Obj, fdf_dict?: PDFNet.Obj): Promise<PDFNet.FDFField>;
@@ -4987,7 +4780,7 @@ declare namespace Core.PDFNet {
          */
         getValue(): Promise<PDFNet.Obj>;
         /**
-         * Sets the value of the FDFField (the value of the field's /V key).
+         * sets the value of the FDFField (the value of the field's /V key).
          * @param value - the value to set the FDFField to
          *
          * Note: in order to remove/erase the existing value use SetValue(SDF::Null)
@@ -5069,7 +4862,7 @@ declare namespace Core.PDFNet {
     class Field {
         constructor(leaf_node?: PDFNet.Obj, builder?: PDFNet.ElementBuilder);
         /**
-         * Construct a PDF::Field from a SDF dictionary representing a terminal field node.
+         * construct a PDF::Field from a SDF dictionary representing a terminal field node.
          * @param field_dict - the SDF dictionary to construct the field from.
          * @returns A promise that resolves to an object of type: "PDFNet.Field"
          */
@@ -5120,7 +4913,7 @@ declare namespace Core.PDFNet {
          */
         getDefaultValueAsString(): Promise<string>;
         /**
-         * Sets the value of the field (i.e. the value of the field's /V key).
+         * sets the value of the field (i.e. the value of the field's /V key).
          * The format of field's value varies depending on the field type.
          * @param value - the new field value.
          *
@@ -5172,7 +4965,7 @@ declare namespace Core.PDFNet {
          */
         setValue(value: PDFNet.Obj): Promise<PDFNet.ViewChangeCollection>;
         /**
-         * Sets the value of a check-box or radio-button field.
+         * sets the value of a check-box or radio-button field.
          * @param value - If true, the filed will be set to 'True', if false the field will
          * be set to 'False'.
          *
@@ -5200,7 +4993,7 @@ declare namespace Core.PDFNet {
          */
         getValueAsBool(): Promise<boolean>;
         /**
-         * Regenerates the appearance stream for the Widget Annotation containing
+         * regenerates the appearance stream for the Widget Annotation containing
          * variable text. Call this method if you modified field's value and would
          * like to update field's appearance.
          *
@@ -5215,7 +5008,7 @@ declare namespace Core.PDFNet {
          */
         refreshAppearance(): Promise<void>;
         /**
-         * Removes any appearances associated with the field.
+         * removes any appearances associated with the field.
          */
         eraseAppearance(): Promise<void>;
         /**
@@ -5236,7 +5029,7 @@ declare namespace Core.PDFNet {
          */
         getPartialName(): Promise<string>;
         /**
-         * Modifies the field name.
+         * modifies the field name.
          * @param field_name - a string representing the fully qualified name of
          * the field (e.g. "employee.name.first").
          */
@@ -5406,7 +5199,7 @@ declare namespace Core.PDFNet {
          */
         getJustification(): Promise<number>;
         /**
-         * Sets the justification to be used in displaying the text field.
+         * sets the justification to be used in displaying the text field.
          * @param j - <pre>
          * PDFNet.Field.TextJustification = {
          * 	e_left_justified : 0
@@ -5419,7 +5212,7 @@ declare namespace Core.PDFNet {
          */
         setJustification(j: number): Promise<void>;
         /**
-         * Sets the maximum length of the field's text, in characters.
+         * sets the maximum length of the field's text, in characters.
          * @param max_len - maximum length of a field's text.
          * Note: This method is specific to a text field.
          */
@@ -5500,7 +5293,7 @@ declare namespace Core.PDFNet {
      */
     class FileAttachmentAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates an FileAttachment annotation and initializes it using given Cos/SDF object.
+         * creates an FileAttachment annotation and initializes it using given Cos/SDF object.
          * d Cos/SDF object used to initialize the FileAttachment annotation
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
@@ -5565,7 +5358,7 @@ declare namespace Core.PDFNet {
          */
         getFileSpec(): Promise<PDFNet.FileSpec>;
         /**
-         * Sets the file specification.
+         * sets the file specification.
          * @param file - The file specification to associate with this annotation..
          * The file specification contains a file reference or the embedded file data stream.
          */
@@ -5586,7 +5379,7 @@ declare namespace Core.PDFNet {
          */
         getIcon(): Promise<number>;
         /**
-         * Sets the icon style associated with FileAttachment annotation.
+         * sets the icon style associated with FileAttachment annotation.
          * (Optional)
          * @param [type] - <pre>
          * PDFNet.FileAttachmentAnnot.Icon = {
@@ -5606,7 +5399,7 @@ declare namespace Core.PDFNet {
          */
         getIconName(): Promise<string>;
         /**
-         * Sets the name of the icon associated with the FileAttachment annotation.
+         * sets the name of the icon associated with the FileAttachment annotation.
          * (Optional)
          * @param iname - A string.denoting the name of the icon.
          * Note: this method should be used to assign non-standard icon type to the annotation.
@@ -5713,7 +5506,7 @@ declare namespace Core.PDFNet {
          */
         getFilePath(): Promise<string>;
         /**
-         * The functions sets the descriptive text associated with the file specification.
+         * the functions sets the descriptive text associated with the file specification.
          * This test is typically used in the EmbeddedFiles name tree.
          */
         setDesc(desc: string): Promise<void>;
@@ -6179,28 +5972,28 @@ declare namespace Core.PDFNet {
     }
     /**
      * Flattener is a optional PDFNet add-on that can be used to simplify and optimize
-    existing PDF's to render faster on devices with lower memory and speeds.
-    
-    PDF documents can frequently contain very complex page description (e.g.
-    thousands of paths, different shadings, color spaces, blend modes, large images
-    etc.) that may not be suitable for interactive viewing on mobile devices.
-    Flattener can be used to speed-up PDF rendering on mobile devices and on the Web
-    by simplifying page content (e.g. flattening complex graphics into images) while
-    maintaining vector text whenever possible.
-    
-    By using the FlattenMode::e_simple option each page in the PDF will be
-    reduced to a single background image, with the remaining text over top in vector
-    format. Some text may still get flattened, in particular any text that is clipped,
-    or underneath, other content that will be flattened.
-    
-    On the other hand the FlattenMode::e_fast will not flatten simple content, such
-    as simple straight lines, nor will it flatten Type3 fonts.
-    
-    Note: 'Flattener' is available as a separately licensable add-on to PDFNet
-    core license.
-    
-    Note: See 'pdftron.PDF.Optimizer' for alternate approach to optimize PDFs with
-    focus on file size reduction.
+     * existing PDF's to render faster on devices with lower memory and speeds.
+     *
+     * PDF documents can frequently contain very complex page description (e.g.
+     * thousands of paths, different shadings, color spaces, blend modes, large images
+     * etc.) that may not be suitable for interactive viewing on mobile devices.
+     * Flattener can be used to speed-up PDF rendering on mobile devices and on the Web
+     * by simplifying page content (e.g. flattening complex graphics into images) while
+     * maintaining vector text whenever possible.
+     *
+     * By using the FlattenMode::e_simple option each page in the PDF will be
+     * reduced to a single background image, with the remaining text over top in vector
+     * format. Some text may still get flattened, in particular any text that is clipped,
+     * or underneath, other content that will be flattened.
+     *
+     * On the other hand the FlattenMode::e_fast will not flatten simple content, such
+     * as simple straight lines, nor will it flatten Type3 fonts.
+     *
+     * Note: 'Flattener' is available as a separately licensable add-on to PDFNet
+     * core license.
+     *
+     * Note: See 'pdftron.PDF.Optimizer' for alternate approach to optimize PDFs with
+     * focus on file size reduction.
      */
     class Flattener extends PDFNet.Destroyable {
         /**
@@ -6210,14 +6003,14 @@ declare namespace Core.PDFNet {
         static create(): Promise<PDFNet.Flattener>;
         /**
          * The output resolution, from 1 to 1000, in Dots Per Inch (DPI) at which to
-        render elements which cannot be directly converted.
-        the default value is 150 Dots Per Inch
+         * render elements which cannot be directly converted.
+         * the default value is 150 Dots Per Inch
          * @param dpi - the resolution in Dots Per Inch
          */
         setDPI(dpi: number): Promise<void>;
         /**
          * Used to control how precise or relaxed text flattening is. When some text is
-        preserved (not flattened to image) the visual appearance of the document may be altered.
+         * preserved (not flattened to image) the visual appearance of the document may be altered.
          * @param threshold - <pre>
          * PDFNet.Flattener.Threshold = {
          * 	e_very_strict : 0
@@ -6248,8 +6041,8 @@ declare namespace Core.PDFNet {
         /**
          * Enable or disable path hinting.
          * @param hinting - if true path hinting is enabled. Path hinting is used to slightly
-        adjust paths in order to avoid or alleviate artifacts of hair line cracks between
-        certain graphical elements. This option is turned on by default.
+         * adjust paths in order to avoid or alleviate artifacts of hair line cracks between
+         * certain graphical elements. This option is turned on by default.
          */
         setPathHinting(hinting: boolean): Promise<void>;
         /**
@@ -6371,7 +6164,7 @@ declare namespace Core.PDFNet {
      */
     class Font extends PDFNet.Destroyable {
         /**
-         * Create a PDF::Font object from an existing SDF font object that is embedded
+         * create a PDF::Font object from an existing SDF font object that is embedded
          * in the document. If font_dict is null, a non valid font is created.
          * @param [font_dict] - The Cos/SDF object to create the Font object with.
          * @returns A promise that resolves to an object of type: "PDFNet.Font"
@@ -6805,7 +6598,7 @@ declare namespace Core.PDFNet {
      */
     class FreeTextAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates a FreeText annotation and initializes it using given Cos/SDF object.
+         * creates a FreeText annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -6813,7 +6606,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.FreeTextAnnot>;
         /**
-         * Creates a FreeText annotation and initializes it using given annotation object.
+         * creates a FreeText annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the FreeText annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -6838,7 +6631,7 @@ declare namespace Core.PDFNet {
          */
         getDefaultAppearance(): Promise<string>;
         /**
-         * Sets the default appearance of the FreeText annotation.
+         * sets the default appearance of the FreeText annotation.
          * @param app_str - A string representing the default appearance of the annotation.
          * Note: The default appearance string is used to format the text.
          * The annotation dictionary's Appearance entry, if present,
@@ -6873,7 +6666,7 @@ declare namespace Core.PDFNet {
          */
         getCalloutLinePoints(): Promise<object>;
         /**
-         * Sets the callout line points of the FreeText annotation.
+         * sets the callout line points of the FreeText annotation.
          * (Optional; meaningful only if IT is FreeTextCallout; PDF 1.6)
          * @param p1 - The target point. (where the ending style is used)
          * @param p2 - The knee point.
@@ -6882,7 +6675,7 @@ declare namespace Core.PDFNet {
          */
         setCalloutLinePoints(p1: PDFNet.Point, p2: PDFNet.Point, p3: PDFNet.Point): Promise<void>;
         /**
-         * Sets the callout line points of the FreeText annotation.
+         * sets the callout line points of the FreeText annotation.
          * (Optional; meaningful only if IT is FreeTextCallout; PDF 1.6)
          * @param p1 - The target point. (where the ending style is used)
          * @param p2 - The ending point.
@@ -6977,7 +6770,7 @@ declare namespace Core.PDFNet {
          */
         setEndingStyle(style: number): Promise<void>;
         /**
-         * Sets the ending style of the callout line of the FreeText Annotation.
+         * sets the ending style of the callout line of the FreeText Annotation.
          * (Optional; meaningful only if CL is present; PDF 1.6)
          * @param est - The ending style represented using a string.
          * Note: The ending style specifies the line ending style that
@@ -6988,7 +6781,7 @@ declare namespace Core.PDFNet {
          */
         setEndingStyleName(est: string): Promise<void>;
         /**
-         * Sets the text color of the FreeText Annotation.
+         * sets the text color of the FreeText Annotation.
          * @param color - ColorPt object representing the color.
          * @param col_comp - number of colorant components in ColorPt object.
          *
@@ -7000,15 +6793,16 @@ declare namespace Core.PDFNet {
          */
         setTextColor(color: PDFNet.ColorPt, col_comp: number): Promise<void>;
         /**
-         * Returns the text color of the FreeText Annotation.
+         * returns the text color of the FreeText Annotation.
          *
-         * Note: Note: In rich text annotations, some or all of the text may have
-         * a different color than the default text color.
+         * Note: Current implementation of this method uses a non-standard
+         * entry in the annotation dictionary and will not return meaningful
+         * results when called on annotations not created with PDFTron software.
          * @returns A promise that resolves to an object of type: "Object"
          */
         getTextColor(): Promise<object>;
         /**
-         * Sets the line and border color of the FreeText Annotation.
+         * sets the line and border color of the FreeText Annotation.
          * @param color - ColorPt object representing the color.
          * @param col_comp - number of colorant components in ColorPt object.
          *
@@ -7059,7 +6853,7 @@ declare namespace Core.PDFNet {
      */
     class Function extends PDFNet.Destroyable {
         /**
-         * Create a PDF::Function object from an existing SDF function dictionary. If funct_dict
+         * create a PDF::Function object from an existing SDF function dictionary. If funct_dict
          * is null, a non valid Function object is created.
          * @returns A promise that resolves to an object of type: "PDFNet.Function"
          */
@@ -7712,7 +7506,7 @@ declare namespace Core.PDFNet {
          */
         setStrokeOpacity(ca: number): Promise<void>;
         /**
-         * Specifies if the alpha is to be interpreted as a shape or opacity mask.
+         * specifies if the alpha is to be interpreted as a shape or opacity mask.
          * The alpha source flag ('alpha is shape'), specifies whether the
          * current soft mask and alpha constant are to be interpreted as shape values
          * (true) or opacity values (false).
@@ -7726,13 +7520,13 @@ declare namespace Core.PDFNet {
          */
         setSoftMask(SM: PDFNet.Obj): Promise<void>;
         /**
-         * Specifies if overprint is enabled for stroke operations. Corresponds to the /OP
+         * specifies if overprint is enabled for stroke operations. Corresponds to the /OP
          * key within the ExtGState's dictionary.
          * @param OP - true to enable overprint for stroke, false to disable.
          */
         setStrokeOverprint(OP: boolean): Promise<void>;
         /**
-         * Specifies if overprint is enabled for fill operations. Corresponds to the /op
+         * specifies if overprint is enabled for fill operations. Corresponds to the /op
          * key within the ExtGState's dictionary.
          * @param op - true to enable overprint for fill, false to disable.
          */
@@ -7814,7 +7608,7 @@ declare namespace Core.PDFNet {
      */
     class HighlightAnnot extends PDFNet.TextMarkupAnnot {
         /**
-         * Creates a Highlight annotation and initializes it using given Cos/SDF object.
+         * creates a Highlight annotation and initializes it using given Cos/SDF object.
          * @param d - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -7822,7 +7616,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d: PDFNet.Obj): Promise<PDFNet.HighlightAnnot>;
         /**
-         * Creates a Highlight annotation and initializes it using given annotation object.
+         * creates a Highlight annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Highlight annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -7840,37 +7634,37 @@ declare namespace Core.PDFNet {
     }
     /**
      * Highlights is used to store the necessary information and perform certain
-    tasks in accordance with Adobe's Highlight standard, whose details can be
-    found at:
-    
-    http://partners.adobe.com/public/developer/en/pdf/HighlightFileFormat.pdf
-    
-    In a nutshell, the Highlights class maintains a set of highlights.
-    Each highlight contains three pieces of information:
-    
-    page: the number of the page this Highlight is on;
-    position: the start position (text offset) of this Highlight;
-    length: the length of this Highlight.
-       
-    Possible use case scenarios for Highlights include:
-     - Load a Highlight file (in XML format) and highlight the corresponding
-       texts in the viewer (e.g., if the viewer is implemented using PDFViewCtrl,
-       it can be achieved simply by calling PDFViewCtrl::SelectByHighlights()
-       method);
-     - Save the Highlight information (e.g., constructed by the TextSearch
-       class) to an XML file for external uses.
-    
-    Note:
-     - The Highlights class does not maintain the corresponding PDF document for
-       its highlights. It is the user's responsibility to match them up.
-     - The Highlights class ensures that each highlight it maintains is
-       unique (no two highlights have the same page, position and length values).
-     - The current implementation of Highlights only supports the 'characters'
-       encoding for 'units' as described in the format; the 'words' encoding is
-       not supported at this point.
-    
-    
-    For a sample code, please take a look at the TextSearchTest sample project.
+     * tasks in accordance with Adobe's Highlight standard, whose details can be
+     * found at:
+     *
+     * http://partners.adobe.com/public/developer/en/pdf/HighlightFileFormat.pdf
+     *
+     * In a nutshell, the Highlights class maintains a set of highlights.
+     * Each highlight contains three pieces of information:
+     *
+     * page: the number of the page this Highlight is on;
+     * position: the start position (text offset) of this Highlight;
+     * length: the length of this Highlight.
+     *
+     * Possible use case scenarios for Highlights include:
+     *  - Load a Highlight file (in XML format) and highlight the corresponding
+     *    texts in the viewer (e.g., if the viewer is implemented using PDFViewCtrl,
+     *    it can be achieved simply by calling PDFViewCtrl::SelectByHighlights()
+     *    method);
+     *  - Save the Highlight information (e.g., constructed by the TextSearch
+     *    class) to an XML file for external uses.
+     *
+     * Note:
+     *  - The Highlights class does not maintain the corresponding PDF document for
+     *    its highlights. It is the user's responsibility to match them up.
+     *  - The Highlights class ensures that each highlight it maintains is
+     *    unique (no two highlights have the same page, position and length values).
+     *  - The current implementation of Highlights only supports the 'characters'
+     *    encoding for 'units' as described in the format; the 'words' encoding is
+     *    not supported at this point.
+     *
+     *
+     * For a sample code, please take a look at the TextSearchTest sample project.
      */
     class Highlights extends PDFNet.Destroyable {
         /**
@@ -7899,9 +7693,9 @@ declare namespace Core.PDFNet {
         /**
          * Rewind the internal pointer to the first highlight.
          * @param doc - the PDF document to which the highlights correspond.
-        
-        Note: the PDF document can be a dummy document unless GetCurrentQuads()
-        is to be called.
+         *
+         * Note: the PDF document can be a dummy document unless GetCurrentQuads()
+         * is to be called.
          */
         begin(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc): Promise<void>;
         /**
@@ -8010,7 +7804,7 @@ declare namespace Core.PDFNet {
          */
         static createImageMaskFromStream(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, image_data: PDFNet.FilterReader, width: number, height: number, encoder_hints?: PDFNet.Obj): Promise<PDFNet.Image>;
         /**
-         * Create and embed a Soft Mask. Embed the raw image data taking into account
+         * create and embed a Soft Mask. Embed the raw image data taking into account
          * specified compression hints.
          * A soft-mask image (see "Soft-Mask Images" in PDF Reference Manual) is
          * used as a source of mask shape or mask opacity values in the transparent
@@ -8166,7 +7960,7 @@ declare namespace Core.PDFNet {
          */
         getMask(): Promise<PDFNet.Obj>;
         /**
-         * Set an Explicit Image Mask.
+         * set an Explicit Image Mask.
          * @param image_mask - An Image object which serves as an explicit mask for the
          * base (this) image. The base image and the image mask need not have the
          * same resolution (Width and Height values), but since all images are defined on
@@ -8181,7 +7975,7 @@ declare namespace Core.PDFNet {
          */
         setMask(image_mask: PDFNet.Image): Promise<void>;
         /**
-         * Set a Color Key Mask.
+         * set a Color Key Mask.
          * @param mask - is an Cos/SDF array specifying a range of colors to be masked
          * out. Samples in the image that fall within this range are not painted, allowing
          * the existing background to show through. The effect is similar to that of the
@@ -8198,7 +7992,7 @@ declare namespace Core.PDFNet {
          */
         getSoftMask(): Promise<PDFNet.Obj>;
         /**
-         * Set a Soft Mask.
+         * set a Soft Mask.
          * @param soft_mask - is a subsidiary Image object defining a soft-mask image
          * (See section 7.5.4 'Soft-Mask Images' in PDF Reference Manual) to be used
          * as a source of mask shape or mask opacity values in the transparent imaging
@@ -8261,7 +8055,7 @@ declare namespace Core.PDFNet {
      */
     class InkAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates an Ink annotation and initializes it using given Cos/SDF object.
+         * creates an Ink annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -8269,7 +8063,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.InkAnnot>;
         /**
-         * Creates an Ink annotation and initializes it using given annotation object.
+         * creates an Ink annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Ink annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -8310,7 +8104,7 @@ declare namespace Core.PDFNet {
          */
         getPoint(pathindex: number, pointindex: number): Promise<PDFNet.Point>;
         /**
-         * Sets the specific point in the Ink List, adding it if needed.
+         * sets the specific point in the Ink List, adding it if needed.
          * @param pathindex - An unsigned integer indicating the index of the path.
          * @param pointindex - An unsigned integer indicating the index of the point
          * within the stroked path indicated by the parameter "pathindex".
@@ -8400,14 +8194,14 @@ declare namespace Core.PDFNet {
      */
     class LineAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates a Line annotation and initializes it using given Cos/SDF object.
+         * creates a Line annotation and initializes it using given Cos/SDF object.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
          * @returns A promise that resolves to an object of type: "PDFNet.LineAnnot"
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.LineAnnot>;
         /**
-         * Creates a Line annotation and initializes it using given annotation object.
+         * creates a Line annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Line annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -8428,7 +8222,7 @@ declare namespace Core.PDFNet {
          */
         getStartPoint(): Promise<PDFNet.Point>;
         /**
-         * Sets the coordinates of the start of a line.
+         * sets the coordinates of the start of a line.
          * @param sp - A point specifying the coordinates of the end of the line.
          */
         setStartPoint(sp: PDFNet.Point): Promise<void>;
@@ -8438,7 +8232,7 @@ declare namespace Core.PDFNet {
          */
         getEndPoint(): Promise<PDFNet.Point>;
         /**
-         * Sets the coordinates of the end of a line.
+         * sets the coordinates of the end of a line.
          * @param ep - A point specifying the coordinates of the end of the line.
          */
         setEndPoint(ep: PDFNet.Point): Promise<void>;
@@ -8466,7 +8260,7 @@ declare namespace Core.PDFNet {
          */
         getStartStyle(): Promise<number>;
         /**
-         * Sets the ending style that applies to the first point of the line.
+         * sets the ending style that applies to the first point of the line.
          * (Optional; PDF 1.4.)
          * @param ss - <pre>
          * PDFNet.LineAnnot.EndingStyle = {
@@ -8511,7 +8305,7 @@ declare namespace Core.PDFNet {
          */
         getEndStyle(): Promise<number>;
         /**
-         * Sets the ending style  that applies to the second point of the line.
+         * sets the ending style  that applies to the second point of the line.
          * (Optional; PDF 1.4)
          * @param es - <pre>
          * PDFNet.LineAnnot.EndingStyle = {
@@ -8612,7 +8406,7 @@ declare namespace Core.PDFNet {
          */
         getIntentType(): Promise<number>;
         /**
-         * Sets the intent type of the line.
+         * sets the intent type of the line.
          * (For PDF 1.6)
          * @param it - <pre>
          * PDFNet.LineAnnot.IntentType = {
@@ -8655,7 +8449,7 @@ declare namespace Core.PDFNet {
          */
         getLeaderLineOffset(): Promise<number>;
         /**
-         * Sets the leader line offset length of a line.
+         * sets the leader line offset length of a line.
          * (PDF 1.7)
          * @param length - A number denoting the length of the leader line offset in default user space units.
          * Note: Leader line offset number is a non-negative number that shall represent the length of the leader
@@ -8672,7 +8466,7 @@ declare namespace Core.PDFNet {
          */
         getTextHOffset(): Promise<number>;
         /**
-         * Sets the horizontal offset of the caption.
+         * sets the horizontal offset of the caption.
          * (For PDF 1.7 )
          * @param offset - A number denoting the horizontal offset of the caption in default user space units.
          * Note: The horizontal offset specifies the offset of the caption text from the line's midpoint,
@@ -8689,7 +8483,7 @@ declare namespace Core.PDFNet {
          */
         getTextVOffset(): Promise<number>;
         /**
-         * Sets the vertical offset of the caption.
+         * sets the vertical offset of the caption.
          * (For PDF 1.7 )
          * @param offset - A number denoting the vertical offset of the caption in default user space units.
          * Note: The vertical offset specifies the offset of the caption text perpendicular to the annotation line,
@@ -8704,7 +8498,7 @@ declare namespace Core.PDFNet {
      */
     class LinkAnnot extends PDFNet.Annot {
         /**
-         * Creates a Link annotation and initializes it using given Cos/SDF object.
+         * creates a Link annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -8712,7 +8506,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.LinkAnnot>;
         /**
-         * Creates a Link annotation and initializes it using given annotation object.
+         * creates a Link annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Link annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -8728,7 +8522,7 @@ declare namespace Core.PDFNet {
         static create(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, pos: PDFNet.Rect): Promise<PDFNet.LinkAnnot>;
         static create(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, type: number, pos: PDFNet.Rect): Promise<PDFNet.Annot>;
         /**
-         * Removes this annotation's action.
+         * removes this annotation's action.
          */
         removeAction(): Promise<void>;
         /**
@@ -8739,7 +8533,7 @@ declare namespace Core.PDFNet {
          */
         getAction(): Promise<PDFNet.Action>;
         /**
-         * Sets the Action of the Link Annotation.
+         * sets the Action of the Link Annotation.
          * (Optional; PDF 1.1 )
          * @param action - An Action object that shall be associated with this Link annotation.
          * Note: The parameter is an action that shall be performed when the
@@ -8802,7 +8596,7 @@ declare namespace Core.PDFNet {
          */
         getQuadPoint(idx: number): Promise<PDFNet.QuadPoint>;
         /**
-         * Set the QuadPoint to be located at a certain index of the QuadPoint array of the Link annotation.
+         * set the QuadPoint to be located at a certain index of the QuadPoint array of the Link annotation.
          * (Optional; PDF 1.6 )
          * @param idx - The index of the QuadPoint, starts at zero and should be less than the return value of GetQuadPointCount().
          * @param qp - The QuadPoint to be stored in the annotation.
@@ -8899,7 +8693,7 @@ declare namespace Core.PDFNet {
          * Creates a new List Box Widget annotation, in the specified document.
          * @param doc - The document to which the annotation is added.
          * @param pos - A rectangle specifying the annotation's bounds, specified in
-        user space coordinates.
+         * user space coordinates.
          * @param [field_name] - The name of the field for which to create a List Box Widget
          * @returns A promise that resolves to a newly created blank List Box Widget annotation.
          */
@@ -8910,27 +8704,27 @@ declare namespace Core.PDFNet {
          * Creates a new List Box Widget annotation, in the specified document.
          * @param doc - The document to which the annotation is added.
          * @param pos - A rectangle specifying the annotation's bounds, specified in
-        user space coordinates.
+         * user space coordinates.
          * @param field - the field for which to create a List Box Widget
          * @returns A promise that resolves to a newly created blank List Box Widget annotation.
          */
         static createWithField(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, pos: PDFNet.Rect, field: PDFNet.Field): Promise<PDFNet.ListBoxWidget>;
         /**
          * Creates a List Box Widget annotation and initialize it using given Cos/SDF object.
-        
-        <p>
-        <b> Note: </b> The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         *
+         * <p>
+         * <b> Note: </b> The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @param [d] - the object to use to initialize the List Box Widget
          * @returns A promise that resolves to an object of type: "PDFNet.ListBoxWidget"
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.ListBoxWidget>;
         /**
          * Creates a List Box Widget annotation and initialize it using given annotation object.
-        
-        <p>
-        <b> Note: </b>  The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         *
+         * <p>
+         * <b> Note: </b>  The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @param annot - The annotation to use.
          * @returns A promise that resolves to an object of type: "PDFNet.ListBoxWidget"
          */
@@ -9045,7 +8839,7 @@ declare namespace Core.PDFNet {
      */
     class MarkupAnnot extends PDFNet.Annot {
         /**
-         * Creates a markup annotation and initializes it using given Cos/SDF object.
+         * creates a markup annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -9053,7 +8847,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.MarkupAnnot>;
         /**
-         * Creates a markup annotation and initializes it using given annotation object.
+         * creates a markup annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Markup annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -9073,7 +8867,7 @@ declare namespace Core.PDFNet {
          */
         getTitle(): Promise<string>;
         /**
-         * Sets the title of the markup annotation.
+         * sets the title of the markup annotation.
          * (Optional; PDF 1.1)
          * @param title - A string.
          * Note: The title is The text label that is displayed in the
@@ -9084,7 +8878,7 @@ declare namespace Core.PDFNet {
          */
         setTitle(title: string): Promise<void>;
         /**
-         * Sets the title of the markup annotation.
+         * sets the title of the markup annotation.
          * (Optional; PDF 1.1)
          * @param title - A string.
          * Note: The title is The text label that is displayed in the
@@ -9206,7 +9000,7 @@ declare namespace Core.PDFNet {
          */
         getBorderEffectIntensity(): Promise<number>;
         /**
-         * Sets the border effect intensity of the markup annotation.
+         * sets the border effect intensity of the markup annotation.
          * (Optional; valid only if Border effect is Cloudy)
          *
          * Beginning with PDF 1.5, some annotations (square, circle, and polygon) may have a 'BE' entry,
@@ -9283,7 +9077,7 @@ declare namespace Core.PDFNet {
          */
         getContentRect(): Promise<PDFNet.Rect>;
         /**
-         * Sets the inner bounding rectangle of the Markup annotation. (Optional)
+         * sets the inner bounding rectangle of the Markup annotation. (Optional)
          * @param cr - A Rect struct to be assign to the 'RD' entry of the annotation dictionary.
          * Note: This rectangle can be same as or inside of  the annotation's rectangle.
          * If it is smaller, such a difference may occur in
@@ -9313,7 +9107,7 @@ declare namespace Core.PDFNet {
          */
         getPadding(): Promise<PDFNet.Rect>;
         /**
-         * Sets the rectangle difference between overall annotation rectangle and content rectangle. (Optional)
+         * sets the rectangle difference between overall annotation rectangle and content rectangle. (Optional)
          * @param rd - A set of four numbers represented as a Rect struct
          * Note: The four numbers of rd specify the difference
          * between two rectangles: the Rect entry of the annotation and the actual
@@ -9415,7 +9209,7 @@ declare namespace Core.PDFNet {
          */
         set(a: number, b: number, c: number, d: number, h: number, v: number): Promise<void>;
         /**
-         * The Concat method updates this matrix with the product of itself and another matrix
+         * the Concat method updates this matrix with the product of itself and another matrix
          * specified through an argument list.
          * @param a - the matrix element in the first row, first column.
          * @param b - the matrix element in the first row, second column.
@@ -9515,7 +9309,7 @@ declare namespace Core.PDFNet {
      */
     class MovieAnnot extends PDFNet.Annot {
         /**
-         * Creates a Movie annotation and initializes it using given Cos/SDF object.
+         * creates a Movie annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -9523,7 +9317,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.MovieAnnot>;
         /**
-         * Creates a Movie annotation and initializes it using given annotation object.
+         * creates a Movie annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Movie annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -9545,7 +9339,7 @@ declare namespace Core.PDFNet {
          */
         getTitle(): Promise<string>;
         /**
-         * Sets the title of the Movie Annotation.
+         * sets the title of the Movie Annotation.
          * (Optional)
          * @param title - A string representing the title of the Movie Annotation.
          * Note: Movie actions may use this title to reference the movie annotation.
@@ -9561,7 +9355,7 @@ declare namespace Core.PDFNet {
          */
         isToBePlayed(): Promise<boolean>;
         /**
-         * Sets the option of whether the Movie is to be played.
+         * sets the option of whether the Movie is to be played.
          * (Optional)
          * @param [isplay] - A boolean value telling if the movie is to be played.
          * Default value: true.
@@ -9791,7 +9585,7 @@ declare namespace Core.PDFNet {
          */
         getName(): Promise<string>;
         /**
-         * Sets the name of this optional-content group (OCG).
+         * sets the name of this optional-content group (OCG).
          * @param value - The new name.
          */
         setName(value: string): Promise<void>;
@@ -9830,7 +9624,7 @@ declare namespace Core.PDFNet {
          */
         getCurrentState(ctx: PDFNet.OCGContext): Promise<boolean>;
         /**
-         * Sets the current ON-OFF state of the optional-content group (OCG) object in a given context.
+         * sets the current ON-OFF state of the optional-content group (OCG) object in a given context.
          * @param ctx - The context for which to set the group's state.
          * @param state - The new state.
          */
@@ -9845,7 +9639,7 @@ declare namespace Core.PDFNet {
          */
         getInitialState(cfg: PDFNet.OCGConfig): Promise<boolean>;
         /**
-         * Sets the initial state (ON or OFF) of the optional-content group (OCG)
+         * sets the initial state (ON or OFF) of the optional-content group (OCG)
          * object in a given configuration.
          * @param cfg - The configuration for which to set the group's initial state.
          * @param state - The new initial state, true if the state is ON, false if it is OFF.
@@ -9928,7 +9722,7 @@ declare namespace Core.PDFNet {
          */
         getName(): Promise<string>;
         /**
-         * Sets the name of an optional-content configuration (suitable for presentation
+         * sets the name of an optional-content configuration (suitable for presentation
          * in a user interface). The method stores the specified string as the Name entry
          * in the configuration's SDF/Cos dictionary.
          * @param value - The new name string.
@@ -9941,7 +9735,7 @@ declare namespace Core.PDFNet {
          */
         getCreator(): Promise<string>;
         /**
-         * Sets the creator property of an optional-content configuration. Stores the
+         * sets the creator property of an optional-content configuration. Stores the
          * specified string as the Creator entry in the configuration's SDF/Cos dictionary.
          * @param value - The new creator string.
          */
@@ -9961,7 +9755,7 @@ declare namespace Core.PDFNet {
          */
         getInitBaseState(): Promise<string>;
         /**
-         * Sets the base initialization state. For more info, please see GetInitBaseState().
+         * sets the base initialization state. For more info, please see GetInitBaseState().
          * @param [value] - new base state ("ON", "OFF", or "Unchanged").
          */
         setInitBaseState(value?: string): Promise<void>;
@@ -9973,7 +9767,7 @@ declare namespace Core.PDFNet {
          */
         getInitOnStates(): Promise<PDFNet.Obj>;
         /**
-         * Sets the 'ON' initialization array in the configuration dictionary.
+         * sets the 'ON' initialization array in the configuration dictionary.
          * @param value - the initialization array to be used
          * Note: For more info, please see SetInitOnStates() and section 4.10.3 in PDF Reference.
          */
@@ -9986,7 +9780,7 @@ declare namespace Core.PDFNet {
          */
         getInitOffStates(): Promise<PDFNet.Obj>;
         /**
-         * Sets the 'OFF' initialization array in the configuration dictionary.
+         * sets the 'OFF' initialization array in the configuration dictionary.
          * @param value - the initialization array to be used.
          * Note: For more info, please see SetInitOffStates() and section 4.10.3 in PDF Reference.
          */
@@ -10014,7 +9808,7 @@ declare namespace Core.PDFNet {
          */
         getLockedOCGs(): Promise<PDFNet.Obj>;
         /**
-         * Sets the array of locked OCGs. The on/off state of a locked OCG cannot be
+         * sets the array of locked OCGs. The on/off state of a locked OCG cannot be
          * toggled by the user through the user interface.
          * @param value - An SDF/Cos array of OCG objects to be locked in this
          * configuration, or an empty array if the configuration should not contain
@@ -10049,7 +9843,7 @@ declare namespace Core.PDFNet {
      */
     class OCGContext extends PDFNet.Destroyable {
         /**
-         * Create a context object that represents an optional-content state of the
+         * create a context object that represents an optional-content state of the
          * document from a given configuration.
          * @param cfg - A configuration from which to take initial OCG states.
          * @returns A promise that resolves to an object of type: "PDFNet.OCGContext"
@@ -10067,14 +9861,14 @@ declare namespace Core.PDFNet {
          */
         getState(grp: PDFNet.OCG): Promise<boolean>;
         /**
-         * Sets the ON-OFF states for the given optional-content group (OCG) in this
+         * sets the ON-OFF states for the given optional-content group (OCG) in this
          * context.
          * @param grp - The optional-content group (OCG) that is queried.
          * @param state - true for 'ON' and false for 'OFF'.
          */
         setState(grp: PDFNet.OCG, state: boolean): Promise<void>;
         /**
-         * Sets the sates of all OCGs in the context to ON or OFF.
+         * sets the sates of all OCGs in the context to ON or OFF.
          * @param all_on - A flag used to specify whether the OCG states should be set
          * to ON (if true), or OFF (if false).
          */
@@ -10094,7 +9888,7 @@ declare namespace Core.PDFNet {
          */
         getNonOCDrawing(): Promise<boolean>;
         /**
-         * Sets the drawing and enumeration type for this context. This type, together
+         * sets the drawing and enumeration type for this context. This type, together
          * with the visibility determined by the OCG and OCMD states, controls whether
          * content that is marked as optional content is drawn or enumerated.
          * @param oc_draw_mode - <pre>
@@ -10344,12 +10138,18 @@ declare namespace Core.PDFNet {
          */
         isString(): Promise<boolean>;
         /**
-         * @returns A promise that resolves to a vector containing the encrypted string buffer.
+         * @returns A promise that resolves to a pointer to the string buffer. Please note that the string may not
+         * be NULL terminated and that it may not be represented in ASCII or Unicode
+         * encoding. For more information on SDF/Cos String objects, please refer to
+         * section 3.2.3 'String Objects' in PDF Reference Manual.
          *
-         * Note: Similar in behaviour to GetBuffer except that no decryption is done.
-         * If the file is not encrypted the result should be the same as GetBuffer
+         * Note: if SDF/Cos String object is represented as 'PDF Text' (Section 3.8.1
+         * 'Text Strings' in PDF Reference) you can use GetAsPDFText method to obtain
+         * Unicode representation of the string.
+         *
+         * Note: use Size() member function in order to obtain the number of bytes in string buffer.
          */
-        getRawBuffer(): Promise<Uint8Array>;
+        getBuffer(): Promise<number>;
         setString(value: string): Promise<void>;
         /**
          * Sets the string object value.
@@ -10841,18 +10641,6 @@ declare namespace Core.PDFNet {
          * @returns A promise that resolves to the Unicode string of the SDF/Cos String object
          */
         getAsPDFText(): Promise<string>;
-        /**
-         * @returns A promise that resolves to a Uint8Array
-        containing the string buffer. Please note that the string may not
-        be NULL terminated and that it may not be represented in ASCII or Unicode
-        encoding. For more information on SDF/Cos String objects, please refer to
-        section 3.2.3 'String Objects' in PDF Reference Manual.
-        
-        Note: if SDF/Cos String object is represented as 'PDF Text' (Section 3.8.1
-        'Text Strings' in PDF Reference) you can use GetAsPDFText method to obtain
-        Unicode representation of the string.
-         */
-        getBuffer(): Promise<Uint8Array>;
     }
     /**
      * ObjSet is a lightweight container that can hold a collection of SDF objects.
@@ -10916,27 +10704,7 @@ declare namespace Core.PDFNet {
     class ObjectIdentifier extends PDFNet.Destroyable {
         /**
          * Constructs an ObjectIdentifier from an enum.
-         * @param in_oid_enum - <pre>
-         * PDFNet.ObjectIdentifier.Predefined = {
-         * 	e_commonName : 0
-         * 	e_surname : 1
-         * 	e_countryName : 2
-         * 	e_localityName : 3
-         * 	e_stateOrProvinceName : 4
-         * 	e_streetAddress : 5
-         * 	e_organizationName : 6
-         * 	e_organizationalUnitName : 7
-         * 	e_SHA1 : 8
-         * 	e_SHA256 : 9
-         * 	e_SHA384 : 10
-         * 	e_SHA512 : 11
-         * 	e_RIPEMD160 : 12
-         * 	e_RSA_encryption_PKCS1 : 13
-         * 	e_RSASSA_PSS : 14
-         * 	e_MGF1 : 15
-         * }
-         * </pre>
-         * the enumerated value to use
+         * @param in_oid_enum - the enumerated value to use
          *
          * Note: Not all possible OID values are available as enum values.
          * @returns A promise that resolves to an object of type: "PDFNet.ObjectIdentifier"
@@ -12125,11 +11893,6 @@ declare namespace Core.PDFNet {
      */
     class PDFDoc extends PDFNet.Destroyable {
         /**
-         * Method to create a ViewerOptimizedOptions object
-         * @returns A promise that resolves to a PDFNet.PDFDoc.ViewerOptimizedOptions.
-         */
-        static createViewerOptimizedOptions(): Promise<PDFNet.PDFDoc.ViewerOptimizedOptions>;
-        /**
          * Method to create a RefreshOptions object
          * @returns A promise that resolves to a PDFNet.PDFDoc.RefreshOptions.
          */
@@ -12154,6 +11917,11 @@ declare namespace Core.PDFNet {
          * @returns A promise that resolves to a PDFNet.PDFDoc.MergeXFDFOptions.
          */
         static createMergeXFDFOptions(): Promise<PDFNet.PDFDoc.MergeXFDFOptions>;
+        /**
+         * Method to create a ViewerOptimizedOptions object
+         * @returns A promise that resolves to a PDFNet.PDFDoc.ViewerOptimizedOptions.
+         */
+        static createViewerOptimizedOptions(): Promise<PDFNet.PDFDoc.ViewerOptimizedOptions>;
         /**
          * Get the Action associated with the selected Doc Trigger event.
          * @param trigger - <pre>
@@ -12838,7 +12606,7 @@ declare namespace Core.PDFNet {
          */
         getPageLabel(page_num: number): Promise<PDFNet.PageLabel>;
         /**
-         * Attaches a label to a page. This establishes the numbering scheme
+         * attaches a label to a page. This establishes the numbering scheme
          * for that page and all following it, until another page label is
          * encountered. This label allows PDF producers to define a page
          * numbering system other than the default.
@@ -12848,7 +12616,7 @@ declare namespace Core.PDFNet {
          */
         setPageLabel(page_num: number, label: PDFNet.PageLabel): Promise<void>;
         /**
-         * Removes the page label that is attached to the specified page,
+         * removes the page label that is attached to the specified page,
          * effectively merging the specified range with the previous page
          * label sequence.
          * @param page_num - The page from which the page label is removed.
@@ -12981,7 +12749,7 @@ declare namespace Core.PDFNet {
          */
         unlockRead(): Promise<void>;
         /**
-         * AddHighlights is used to highlight text in a document using 'Adobe's Highlight
+         * addHighlights is used to highlight text in a document using 'Adobe's Highlight
          * File Format' (Technical Note #5172 ). The method will parse the character offset data
          * and modify the current document by adding new highlight annotations.
          * @param hilite - a string representing the filename for the highlight file or
@@ -13098,36 +12866,8 @@ declare namespace Core.PDFNet {
          * @returns A promise that resolves to an enumeration value representing the state of the document's signatures
          */
         verifySignedDigitalSignatures(opts: PDFNet.VerificationOptions): Promise<number>;
-        /**
-         * Merge existing form and annotation data with those imported from the XFDF file. It will
-         * replace annotations from pdfdocument with matching annotations from XFDF.
-         * In order for the annotations to be considered matching, "name" of the xfdf annotation needs to match "NM"
-         * of that in pdf.
-         * XFDF annotations that don't have a match in the pdf document will be added.
-         * For regular xfdf files, no deletions will be made
-         * This method also supports command form of xfdf, for those files, deletions will be performed for
-         * annotations in "delete" section
-         * Since this method avoids updating annotations unnecessarily it works well with incremental save.
-         * Note: This method is suitable for realtime collaboration.
-         * @param stream - Input Filter which provides the xfdf contents
-         * @param [opts] - MergeXFDFOptions object for finer control
-         */
-        mergeXFDF(stream: PDFNet.Filter, opts?: PDFNet.PDFDoc.MergeXFDFOptions): Promise<void>;
-        /**
-         * Merge existing form and annotation data with those imported from the XFDF file. It will
-         * replace annotations from pdfdocument with matching annotations from XFDF.
-         * In order for the annotations to be considered matching, "name" of the xfdf annotation needs to match "NM"
-         * of that in pdf.
-         * XFDF annotations that don't have a match in the pdf document will be added.
-         * For regular xfdf files, no deletions will be made
-         * This method also supports command form of xfdf, for those files, deletions will be performed for
-         * annotations in "delete" section
-         * Since this method avoids updating annotations unnecessarily it works well with incremental save.
-         * Note: This method is suitable for realtime collaboration.
-         * @param xfdf - xfdf contents in string form or the path to the xfdf file
-         * @param [opts] - MergeXFDFOptions object for finer control
-         */
-        mergeXFDFString(xfdf: string, opts?: PDFNet.PDFDoc.MergeXFDFOptions): Promise<void>;
+        mergeXFDF(stream: PDFNet.Filter, options?: PDFNet.PDFDoc.MergeXFDFOptions): Promise<void>;
+        mergeXFDFString(xfdf: string, options?: PDFNet.PDFDoc.MergeXFDFOptions): Promise<void>;
         /**
          * Open a PDF document from a url. This function will fully download the file as a memory buffer and create a PDFDoc object.
          * @param url - The url from which to download the file
@@ -13385,7 +13125,7 @@ declare namespace Core.PDFNet {
          */
         getSDFObj(): Promise<PDFNet.Obj>;
         /**
-         * PDFDocInfo constructor. Typically this constructor is
+         * PdFDocInfo constructor. Typically this constructor is
          * never used since it is easier to obtain DocInfo using
          * PDFDoc.GetDocInfo()
          * @returns A promise that resolves to an object of type: "PDFNet.PDFDocInfo"
@@ -13494,7 +13234,7 @@ declare namespace Core.PDFNet {
          */
         getLayoutMode(): Promise<number>;
         /**
-         * Sets the value of given ViewerPref property.
+         * sets the value of given ViewerPref property.
          * @param pref - <pre>
          * PDFNet.PDFDocViewPrefs.ViewerPref = {
          * 	e_HideToolbar : 0
@@ -13525,7 +13265,7 @@ declare namespace Core.PDFNet {
          */
         getPref(pref: number): Promise<boolean>;
         /**
-         * Set the document's page mode, specifying how to display the
+         * set the document's page mode, specifying how to display the
          * document on exiting full-screen mode.
          * @param mode - <pre>
          * PDFNet.PDFDocViewPrefs.PageMode = {
@@ -13563,7 +13303,7 @@ declare namespace Core.PDFNet {
          */
         getNonFullScreenPageMode(): Promise<number>;
         /**
-         * Sets the predominant reading order for text.
+         * sets the predominant reading order for text.
          *
          * This flag has no direct effect on the document's contents
          * or page numbering but can be used to determine the relative
@@ -13618,7 +13358,7 @@ declare namespace Core.PDFNet {
          */
         getViewArea(): Promise<number>;
         /**
-         * Sets the page boundary to which the contents of a page are
+         * sets the page boundary to which the contents of a page are
          * to be clipped when viewing the document on the screen.
          * @param box - <pre>
          * PDFNet.Page.Box = {
@@ -13652,7 +13392,7 @@ declare namespace Core.PDFNet {
          */
         getViewClip(): Promise<number>;
         /**
-         * Sets the page boundary representing the area of a page to
+         * sets the page boundary representing the area of a page to
          * be rendered when printing the document.
          * @param box - <pre>
          * PDFNet.Page.Box = {
@@ -13686,7 +13426,7 @@ declare namespace Core.PDFNet {
          */
         getPrintArea(): Promise<number>;
         /**
-         * Sets the page boundary to which the contents of a page are
+         * sets the page boundary to which the contents of a page are
          * to be clipped when printing the document.
          * @param box - <pre>
          * PDFNet.Page.Box = {
@@ -13725,7 +13465,7 @@ declare namespace Core.PDFNet {
          */
         getSDFObj(): Promise<PDFNet.Obj>;
         /**
-         * PDFDocViewPrefs constructor. Typically this constructor is
+         * PdFDocViewPrefs constructor. Typically this constructor is
          * never used since it is easier to obtain PDFDocViewPrefs using
          * PDFDoc.GetViewPrefs()
          * @returns A promise that resolves to an object of type: "PDFNet.PDFDocViewPrefs"
@@ -13746,7 +13486,7 @@ declare namespace Core.PDFNet {
      */
     class PDFDraw extends PDFNet.Destroyable {
         /**
-         * Sets the Optional Content Group (OCG) context that should be used when
+         * sets the Optional Content Group (OCG) context that should be used when
          * rendering the page. This function can be used to selectively render optional
          * content (such as PDF layers) based on the states of optional content groups
          * in the given context.
@@ -13755,7 +13495,7 @@ declare namespace Core.PDFNet {
          */
         setOCGContext(ctx: PDFNet.OCGContext): Promise<void>;
         /**
-         * PDFDraw constructor and destructor
+         * PdFDraw constructor and destructor
          * @param [dpi] - Default resolution used to rasterize pages. If the parameter is not
          * specified, the initial resolution is 92 dots per inch. DPI parameter can be
          * modified at any time using PDFDraw::SetDPI() method.
@@ -13918,7 +13658,7 @@ declare namespace Core.PDFNet {
          */
         setGamma(exp: number): Promise<void>;
         /**
-         * Tells the rasterizer to render the page 'print' mode. Certain page elements
+         * tells the rasterizer to render the page 'print' mode. Certain page elements
          * (such as annotations or OCG-s) are meant to be visible either on the screen or
          * on the printed paper but not both. A common example, is the "Submit" button on
          * electronic forms.
@@ -13926,7 +13666,7 @@ declare namespace Core.PDFNet {
          */
         setPrintMode(is_printing: boolean): Promise<void>;
         /**
-         * Sets the page color to transparent.
+         * sets the page color to transparent.
          * @param is_transparent - If true, page's backdrop color will be transparent.
          * If false, the page's backdrop will be a opaque white.
          *
@@ -13935,7 +13675,7 @@ declare namespace Core.PDFNet {
          */
         setPageTransparent(is_transparent: boolean): Promise<void>;
         /**
-         * Sets the default color of the page backdrop.
+         * sets the default color of the page backdrop.
          * @param r - the red component of the page backdrop color.
          * @param g - the green component of the page backdrop color.
          * @param b - the blue component of the page backdrop color.
@@ -13945,7 +13685,7 @@ declare namespace Core.PDFNet {
          */
         setDefaultPageColor(r: number, g: number, b: number): Promise<void>;
         /**
-         * Enable or disable support for overprint and overprint simulation.
+         * enable or disable support for overprint and overprint simulation.
          * Overprint is a device dependent feature and the results will vary depending on
          * the output color space and supported colorants (i.e. CMYK, CMYK+spot, RGB, etc).
          * @param op - <pre>
@@ -13972,7 +13712,7 @@ declare namespace Core.PDFNet {
          */
         setImageSmoothing(smoothing_enabled?: boolean, hq_image_resampling?: boolean): Promise<void>;
         /**
-         * Enables or disables caching. Caching can improve the rendering performance in cases
+         * enables or disables caching. Caching can improve the rendering performance in cases
          * where the same page will be drawn multiple times.
          * @param [enabled] - if true PDFRasterizer will cache frequently used graphics objects.
          */
@@ -14099,7 +13839,7 @@ declare namespace Core.PDFNet {
      */
     class PDFRasterizer extends PDFNet.Destroyable {
         /**
-         * PDFRasterizer constructor and destructor
+         * PdFRasterizer constructor and destructor
          * @param [type] - <pre>
          * PDFNet.PDFRasterizer.Type = {
          * 	e_BuiltIn : 0
@@ -14158,16 +13898,7 @@ declare namespace Core.PDFNet {
          */
         setThinLineScaling(scaling: number): Promise<void>;
         /**
-         * This setting controls the contrast, saturation and flipness of a rendered PDF when night mode is set.
-         * By default no additional tuning is done.
-         * @param contrast - change the difference in luminance or color that makes an object distinguishable from other objects.
-         * @param saturation - change the color intensity.
-         * @param flipness - controls the inversion of colors when rendered.
-         * Note: values range from 0.0 to 1.0
-         */
-        setNightModeTuning(contrast: number, saturation: number, flipness: number): Promise<void>;
-        /**
-         * Sets the gamma factor used for anti-aliased rendering.
+         * sets the gamma factor used for anti-aliased rendering.
          * @param expgamma - is the exponent value of gamma function. Typical values
          * are in the range from 0.1 to 3.
          *
@@ -14179,7 +13910,7 @@ declare namespace Core.PDFNet {
          */
         setGamma(expgamma: number): Promise<void>;
         /**
-         * Sets the Optional Content Group (OCG) context that should be used when
+         * sets the Optional Content Group (OCG) context that should be used when
          *  rendering the page. This function can be used to selectively render optional
          * content (such as PDF layers) based on the states of optional content groups
          * in the given context.
@@ -14188,7 +13919,7 @@ declare namespace Core.PDFNet {
          */
         setOCGContext(ctx: PDFNet.OCGContext): Promise<void>;
         /**
-         * Tells the rasterizer to render the page 'print' mode. Certain page elements
+         * tells the rasterizer to render the page 'print' mode. Certain page elements
          * (such as annotations or OCG-s) are meant to be visible either on the screen or
          * on the printed paper but not both. A common example, is the "Submit" button on
          * electronic forms.
@@ -14209,7 +13940,7 @@ declare namespace Core.PDFNet {
          */
         setImageSmoothing(smoothing_enabled?: boolean, hq_image_resampling?: boolean): Promise<void>;
         /**
-         * Enable or disable support for overprint and overprint simulation.
+         * enable or disable support for overprint and overprint simulation.
          * Overprint is a device dependent feature and the results will vary depending on
          * the output color space and supported colorants (i.e. CMYK, CMYK+spot, RGB, etc).
          * @param op - <pre>
@@ -14223,7 +13954,7 @@ declare namespace Core.PDFNet {
          */
         setOverprint(op: number): Promise<void>;
         /**
-         * Enables or disables caching. Caching can improve the rendering performance in cases
+         * enables or disables caching. Caching can improve the rendering performance in cases
          * where the same page will be drawn multiple times.
          * @param [enabled] - if true PDFRasterizer will cache frequently used graphics objects.
          */
@@ -14302,7 +14033,7 @@ declare namespace Core.PDFNet {
         getColorPostProcessMode(): Promise<number>;
         enableDisplayListCaching(enabled: boolean): Promise<void>;
         /**
-         * This function is typically called for progressive rendering, in which
+         * this function is typically called for progressive rendering, in which
          *  we don't want to stop the main rendering thread. Since the rendering thread may
          *  modify separation channels, we don't consider separations in progressive rendering.
          */
@@ -14349,8 +14080,8 @@ declare namespace Core.PDFNet {
          * @param [clip] - Optional parameter defining the clip region for the page. If the parameter
          is null or is not specified, PDFRasterizer uses page's crop box as a default clip region.
          * @param [scrl_clp_regions] - Optional parameter reserved for a future use.
-         * @returns A promise that resolves to a Uint8Array containing the memory buffer.
-        The buffer must contain at least (stride * height) bytes.
+         * @returns a memory buffer. The buffer must contain
+        at least (stride * height) bytes.
          */
         rasterize(page: PDFNet.Page, width: number, height: number, stride: number, num_comps: number, demult: boolean, device_mtx: PDFNet.Matrix2D, clip?: PDFNet.Rect, scrl_clp_regions?: PDFNet.Rect): Promise<Uint8Array>;
     }
@@ -14773,7 +14504,7 @@ declare namespace Core.PDFNet {
          */
         flattenField(field_to_flatten: PDFNet.Field): Promise<void>;
         /**
-         * Tests whether this page has a transition.
+         * tests whether this page has a transition.
          * @returns A promise that resolves to an object of type: "boolean"
          */
         hasTransition(): Promise<boolean>;
@@ -15036,9 +14767,9 @@ declare namespace Core.PDFNet {
     }
     /**
      * PageSet is a container of page numbers ordered following a linear sequence.
-    The page numbers are integers and must be greater than zero. Duplicates are allowed.
-    
-    (NOTE: This is not a mathematical set)
+     * The page numbers are integers and must be greater than zero. Duplicates are allowed.
+     *
+     * (NOTE: This is not a mathematical set)
      */
     class PageSet extends PDFNet.Destroyable {
         /**
@@ -15084,9 +14815,9 @@ declare namespace Core.PDFNet {
          * }
          * </pre>
          *
-                -e_all: Default, includes all pages in the range
-                -e_odd: Includes odd numbers in the range (discards even numbers)
-                -e_even: Includes even numbers in the range (discards odd numbers)
+         * 		-e_all: Default, includes all pages in the range
+         * 		-e_odd: Includes odd numbers in the range (discards even numbers)
+         * 		-e_even: Includes even numbers in the range (discards odd numbers)
          */
         addRange(range_start: number, range_end: number, filter?: number): Promise<void>;
     }
@@ -15362,7 +15093,7 @@ declare namespace Core.PDFNet {
      */
     class PolyLineAnnot extends PDFNet.LineAnnot {
         /**
-         * Creates a PolyLine annotation and initializes it using given Cos/SDF object.
+         * creates a PolyLine annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -15370,7 +15101,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.PolyLineAnnot>;
         /**
-         * Creates a PolyLine annotation and initializes it using given annotation object.
+         * creates a PolyLine annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the PolyLine annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -15402,7 +15133,7 @@ declare namespace Core.PDFNet {
          */
         getVertex(idx: number): Promise<PDFNet.Point>;
         /**
-         * Sets the vertex(in Point object form) corresponding to the index
+         * sets the vertex(in Point object form) corresponding to the index
          * within the Vertices array.
          * @param idx - The index of the vertex.
          * @param pt - A Point object corresponding to the vertex to be added to the array.
@@ -15519,7 +15250,7 @@ declare namespace Core.PDFNet {
      */
     class PolygonAnnot extends PDFNet.PolyLineAnnot {
         /**
-         * Creates a Polygon annotation and initializes it using given Cos/SDF object.
+         * creates a Polygon annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -15527,7 +15258,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.PolygonAnnot>;
         /**
-         * Creates a Polygon annotation and initializes it using given annotation object.
+         * creates a Polygon annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Polygon annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -15552,7 +15283,7 @@ declare namespace Core.PDFNet {
      */
     class PopupAnnot extends PDFNet.Annot {
         /**
-         * Creates a Popup annotation and initializes it using given Cos/SDF object.
+         * creates a Popup annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -15560,7 +15291,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.PopupAnnot>;
         /**
-         * Creates a Popup annotation and initializes it using given annotation object.
+         * creates a Popup annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Popup annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -15585,7 +15316,7 @@ declare namespace Core.PDFNet {
          */
         getParent(): Promise<PDFNet.Annot>;
         /**
-         * Sets the Parent annotation of the Popup annotation.
+         * sets the Parent annotation of the Popup annotation.
          * (Optional)
          * @param parent - An annot object which is the parent annotation of the Popup annotation.
          * Note: This annotation object represents the parent annotation with which this
@@ -15603,7 +15334,7 @@ declare namespace Core.PDFNet {
          */
         isOpen(): Promise<boolean>;
         /**
-         * Sets the initial opening condition of Popup.
+         * sets the initial opening condition of Popup.
          * (Optional)
          * @param isopen - A bool indicating whether the Popup is initially open.
          * Note: This is a flag specifying whether the pop-up
@@ -15642,73 +15373,16 @@ declare namespace Core.PDFNet {
         static createFromAnnot(annot: PDFNet.Annot): Promise<PDFNet.PushButtonWidget>;
     }
     /**
-     * The parameters for RSASSA-PSS algorithm
-     */
-    class RSASSAPSSParams extends PDFNet.AlgorithmParams {
-        /**
-         * Initialize RSASSA-PSS parameters with default values specified in RFC 4055.
-         * @returns A promise that resolves to an object of type: "PDFNet.RSASSAPSSParams"
-         */
-        static create(): Promise<PDFNet.RSASSAPSSParams>;
-        /**
-         * Initialize RSASSA-PSS parameters with MGF1 for a given digest algorithm and salt length.
-         * @param digest_algorithm_id - The digest algorithm.
-         * @param salt_length - The salt length.
-         * @returns A promise that resolves to an object of type: "PDFNet.RSASSAPSSParams"
-         */
-        static createFromAlgoIdAndSaltLen(digest_algorithm_id: PDFNet.AlgorithmIdentifier, salt_length: number): Promise<PDFNet.RSASSAPSSParams>;
-        /**
-         * Get the digest algorithm parameter value.
-         * @returns A promise that resolves to the digest algorithm.
-         */
-        getDigestAlgorithm(): Promise<PDFNet.AlgorithmIdentifier>;
-        /**
-         * Set the digest algorithm parameter value.
-         * @param value - The digest algorithm.
-         */
-        setDigestAlgorithm(value: PDFNet.AlgorithmIdentifier): Promise<void>;
-        /**
-         * Get the mask generation function parameter value.
-         * @returns A promise that resolves to the mask generation function.
-         */
-        getMaskGenAlgorithm(): Promise<PDFNet.AlgorithmIdentifier>;
-        /**
-         * Set the mask generation function parameter value.
-         * @param value - The mask generation function.
-         */
-        setMaskGenAlgorithm(value: PDFNet.AlgorithmIdentifier): Promise<void>;
-        /**
-         * Get the salt length parameter value.
-         * @returns A promise that resolves to the salt length.
-         */
-        getSaltLength(): Promise<number>;
-        /**
-         * Set the salt length parameter value.
-         * @param value - The salt length.
-         */
-        setSaltLength(value: number): Promise<void>;
-        /**
-         * Get the trailer field parameter value.
-         * @returns A promise that resolves to the trailer field.
-         */
-        getTrailerField(): Promise<number>;
-        /**
-         * Set the trailer field parameter value.
-         * @param value - The trailer field.
-         */
-        setTrailerField(value: number): Promise<void>;
-    }
-    /**
      * An object representing a Group of Radio Buttons that can be used to create new Radio Buttons.
-    If a group contains multiple buttons they will be connected.
+     * If a group contains multiple buttons they will be connected.
      */
     class RadioButtonGroup extends PDFNet.Destroyable {
         /**
          * Creates a RadioButtonGroup and initialize it using given Field object.
-        
-        <p>
-        <b> Note: </b> The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         *
+         * <p>
+         * <b> Note: </b> The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @param field - The field with which to initialize the RadioButtonGroup
          * @returns A promise that resolves to an object of type: "PDFNet.RadioButtonGroup"
          */
@@ -15728,9 +15402,9 @@ declare namespace Core.PDFNet {
         /**
          * Adds a new RadioButtonWidget to the RadioButtonGroup
          * @param pos - A rectangle specifying the annotation's bounds, specified in
-        user space coordinates.
+         * user space coordinates.
          * @param [onstate] - The onstate for this button. This will rarely need to be explicitly set. However, it can be used to allow
-        multiple radiobuttons in a group to be on at once if they have the same onstate.
+         * multiple radiobuttons in a group to be on at once if they have the same onstate.
          * @returns A promise that resolves to a newly created default RadioButtonWidget.
          */
         add(pos: PDFNet.Rect, onstate?: string): Promise<PDFNet.RadioButtonWidget>;
@@ -15762,20 +15436,20 @@ declare namespace Core.PDFNet {
     class RadioButtonWidget extends PDFNet.WidgetAnnot {
         /**
          * Creates a Radio Button Widget annotation and initialize it using given Cos/SDF object.
-        
-        <p>
-        <b> Note: </b> The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         *
+         * <p>
+         * <b> Note: </b> The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @param [d] - the object to use to initialize the Radio Button Widget
          * @returns A promise that resolves to an object of type: "PDFNet.RadioButtonWidget"
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.RadioButtonWidget>;
         /**
          * Creates a Radio Button Widget annotation and initialize it using given annotation object.
-        
-        <p>
-        <b> Note: </b>  The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         *
+         * <p>
+         * <b> Note: </b>  The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @param annot - The annotation to use.
          * @returns A promise that resolves to an object of type: "PDFNet.RadioButtonWidget"
          */
@@ -15825,7 +15499,7 @@ declare namespace Core.PDFNet {
          */
         static init(x1: number, y1: number, x2: number, y2: number): Promise<PDFNet.Rect>;
         /**
-         * Attach the Cos/SDF object to the Rect.
+         * attach the Cos/SDF object to the Rect.
          * @param obj - underlying Cos/SDF object. Must be an SDF::Array with four
          *  SDF::Number elements.
          */
@@ -15974,7 +15648,7 @@ declare namespace Core.PDFNet {
      */
     class RedactionAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates a Redaction annotation and initializes it using given Cos/SDF object.
+         * creates a Redaction annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -15982,7 +15656,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.RedactionAnnot>;
         /**
-         * Creates an Redaction annotation and initializes it using given annotation object.
+         * creates an Redaction annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Redaction annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -16026,7 +15700,7 @@ declare namespace Core.PDFNet {
          */
         setQuadPoint(idx: number, qp: PDFNet.QuadPoint): Promise<void>;
         /**
-         * Sets Overlay appearance of the Redaction annotation.
+         * sets Overlay appearance of the Redaction annotation.
          * (Optional)
          * @param formxo - An SDF object that represents the overlay appearance of the Redaction annotation.
          * Note: This object is a form XObject specifying the overlay appearance for this
@@ -16047,7 +15721,7 @@ declare namespace Core.PDFNet {
          */
         getOverlayText(): Promise<string>;
         /**
-         * Sets Overlay text of the Redaction annotation.
+         * sets Overlay text of the Redaction annotation.
          * @param title - A string containing the overlay text of the annotation.
          * Note: The OverlayText string is a text string specifying the
          * overlay text that should be drawn over the redacted region
@@ -16066,7 +15740,7 @@ declare namespace Core.PDFNet {
          */
         getUseRepeat(): Promise<boolean>;
         /**
-         * Sets the option of whether to use repeat for the Redaction annotation.
+         * sets the option of whether to use repeat for the Redaction annotation.
          * @param [userepeat] - A bool indicating whether to repeat for the Redaction annotation.
          * Note: If userepeat value is true, then the text specified by OverlayText
          * should be repeated to fill the redacted region after the affected content
@@ -16084,7 +15758,7 @@ declare namespace Core.PDFNet {
          */
         getOverlayTextAppearance(): Promise<string>;
         /**
-         * Sets Overlay text appearance of the Redaction annotation.
+         * sets Overlay text appearance of the Redaction annotation.
          * @param app - A string containing the overlay text appearance of the annotation.
          * Note: The overlay text appearance is the appearance string to be used
          * in formatting the overlay text when it is drawn after the affected content
@@ -16109,7 +15783,7 @@ declare namespace Core.PDFNet {
          */
         getQuadForm(): Promise<number>;
         /**
-         * Sets Overlay text quadding (justification) format of the Redaction annotation.
+         * sets Overlay text quadding (justification) format of the Redaction annotation.
          * @param [form] - <pre>
          * PDFNet.RedactionAnnot.QuadForm = {
          * 	e_LeftJustified : 0
@@ -16138,33 +15812,33 @@ declare namespace Core.PDFNet {
     }
     /**
      * PDF Redactor is a separately licensable Add-on that offers options to remove
-    (not just covering or obscuring) content within a region of PDF.
-    With printed pages, redaction involves blacking-out or cutting-out areas of
-    the printed page. With electronic documents that use formats such as PDF,
-    redaction typically involves removing sensitive content within documents for
-    safe distribution to courts, patent and government institutions, the media,
-    customers, vendors or any other audience with restricted access to the content.
-    
-    The redaction process in PDFNet consists of two steps:
-    
-     a) Content identification: A user applies redact annotations that specify the
-    pieces or regions of content that should be removed. The content for redaction
-    can be identified either interactively (e.g. using 'pdftron.PDF.PDFViewCtrl'
-    as shown in PDFView sample) or programmatically (e.g. using 'pdftron.PDF.TextSearch'
-    or 'pdftron.PDF.TextExtractor'). Up until the next step is performed, the user
-    can see, move and redefine these annotations.
-     b) Content removal: Using 'pdftron.PDF.Redactor.Redact()' the user instructs
-    PDFNet to apply the redact regions, after which the content in the area specified
-    by the redact annotations is removed. The redaction function includes number of
-    options to control the style of the redaction overlay (including color, text,
-    font, border, transparency, etc.).
-    
-    PDFTron Redactor makes sure that if a portion of an image, text, or vector graphics
-    is contained in a redaction region, that portion of the image or path data is
-    destroyed and is not simply hidden with clipping or image masks. PDFNet API can also
-    be used to review and remove metadata and other content that can exist in a PDF
-    document, including XML Forms Architecture (XFA) content and Extensible Metadata
-    Platform (XMP) content.
+     * (not just covering or obscuring) content within a region of PDF.
+     * With printed pages, redaction involves blacking-out or cutting-out areas of
+     * the printed page. With electronic documents that use formats such as PDF,
+     * redaction typically involves removing sensitive content within documents for
+     * safe distribution to courts, patent and government institutions, the media,
+     * customers, vendors or any other audience with restricted access to the content.
+     *
+     * The redaction process in PDFNet consists of two steps:
+     *
+     *  a) Content identification: A user applies redact annotations that specify the
+     * pieces or regions of content that should be removed. The content for redaction
+     * can be identified either interactively (e.g. using 'pdftron.PDF.PDFViewCtrl'
+     * as shown in PDFView sample) or programmatically (e.g. using 'pdftron.PDF.TextSearch'
+     * or 'pdftron.PDF.TextExtractor'). Up until the next step is performed, the user
+     * can see, move and redefine these annotations.
+     *  b) Content removal: Using 'pdftron.PDF.Redactor.Redact()' the user instructs
+     * PDFNet to apply the redact regions, after which the content in the area specified
+     * by the redact annotations is removed. The redaction function includes number of
+     * options to control the style of the redaction overlay (including color, text,
+     * font, border, transparency, etc.).
+     *
+     * PDFTron Redactor makes sure that if a portion of an image, text, or vector graphics
+     * is contained in a redaction region, that portion of the image or path data is
+     * destroyed and is not simply hidden with clipping or image masks. PDFNet API can also
+     * be used to review and remove metadata and other content that can exist in a PDF
+     * document, including XML Forms Architecture (XFA) content and Extensible Metadata
+     * Platform (XMP) content.
      */
     class Redactor {
         /**
@@ -16422,7 +16096,7 @@ declare namespace Core.PDFNet {
      */
     class RubberStampAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates a RubberStamp annotation and initializes it using given Cos/SDF object.
+         * creates a RubberStamp annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -16430,7 +16104,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.RubberStampAnnot>;
         /**
-         * Creates a RubberStamp annotation and initializes it using given annotation object.
+         * creates a RubberStamp annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the RubberStamp annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -16494,7 +16168,7 @@ declare namespace Core.PDFNet {
          */
         getIcon(): Promise<number>;
         /**
-         * Sets the type of the icon associated with the RubberStamp annotation.
+         * sets the type of the icon associated with the RubberStamp annotation.
          * @param [type] - <pre>
          * PDFNet.RubberStampAnnot.Icon = {
          * 	e_Approved : 0
@@ -16545,7 +16219,7 @@ declare namespace Core.PDFNet {
          */
         getIconName(): Promise<string>;
         /**
-         * Sets the name of the icon associated with the RubberStamp annotation.
+         * sets the name of the icon associated with the RubberStamp annotation.
          * @param iconstring - the name of the icon associated with
          * the RubberStamp annotation.
          * Note: The following icon names are equivalent
@@ -17188,7 +16862,7 @@ declare namespace Core.PDFNet {
      */
     class ScreenAnnot extends PDFNet.Annot {
         /**
-         * Creates a Screen annotation and initializes it using given Cos/SDF object.
+         * creates a Screen annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -17196,7 +16870,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.ScreenAnnot>;
         /**
-         * Creates a Screen annotation and initializes it using given annotation object.
+         * creates a Screen annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Screen annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -17209,7 +16883,7 @@ declare namespace Core.PDFNet {
          */
         getTitle(): Promise<string>;
         /**
-         * Sets the title of the Annotation.
+         * sets the title of the Annotation.
          * (Optional)
          * @param title - A string representing the title of the annotation.
          */
@@ -17229,7 +16903,7 @@ declare namespace Core.PDFNet {
          */
         getAction(): Promise<PDFNet.Action>;
         /**
-         * Sets the action of the Screen annotation
+         * sets the action of the Screen annotation
          * (Optional; PDF 1.1 )
          * @param action - An action object representing the action of the annotation.
          * Note: The action is an action that shall be performed when the annotation is activated.
@@ -17243,7 +16917,7 @@ declare namespace Core.PDFNet {
          */
         getBorderColor(): Promise<PDFNet.ColorPt>;
         /**
-         * Sets the border color of the annotation.
+         * sets the border color of the annotation.
          * (Optional)
          * @param col - A color object that denotes the color of the screen border.
          * @param numcomp - An integer which value indicates the color space used for the parameter c.
@@ -17273,7 +16947,7 @@ declare namespace Core.PDFNet {
          */
         getBackgroundColor(): Promise<PDFNet.ColorPt>;
         /**
-         * Sets the background color of the annotation.
+         * sets the background color of the annotation.
          * (Optional)
          * @param col - A color point that denotes the color of the screen background.
          * @param numcomp - An integer which value indicates the color space used for the parameter c.
@@ -17287,7 +16961,7 @@ declare namespace Core.PDFNet {
          */
         getStaticCaptionText(): Promise<string>;
         /**
-         * Sets static caption text of the annotation.
+         * sets static caption text of the annotation.
          * (Optional; button fields only)
          * @param contents - A string containing the static caption text of the annotation.
          * Note: The static caption is the annotation's normal caption, which
@@ -17302,7 +16976,7 @@ declare namespace Core.PDFNet {
          */
         getRolloverCaptionText(): Promise<string>;
         /**
-         * Sets the roll over caption text of the annotation.
+         * sets the roll over caption text of the annotation.
          * (Optional; button fields only)
          * @param contents - A string containing the roll over caption text of the annotation.
          * Note: The rollover caption shall be displayed when the user rolls the cursor
@@ -17317,7 +16991,7 @@ declare namespace Core.PDFNet {
          */
         getMouseDownCaptionText(): Promise<string>;
         /**
-         * Sets the button down caption text of the annotation.
+         * sets the button down caption text of the annotation.
          * (Optional; button fields only)
          * @param contents - A string containing the button down text of the annotation.
          * Note: The button down caption shall be displayed when the mouse button is
@@ -17334,7 +17008,7 @@ declare namespace Core.PDFNet {
          */
         getStaticIcon(): Promise<PDFNet.Obj>;
         /**
-         * Sets the static icon associated with the annotation.
+         * sets the static icon associated with the annotation.
          * (Optional; button fields only)
          * @param icon - An SDF object that represents the static icon
          * associated with the annotation.
@@ -17354,7 +17028,7 @@ declare namespace Core.PDFNet {
          */
         getRolloverIcon(): Promise<PDFNet.Obj>;
         /**
-         * Sets the rollover icon associated with the annotation.
+         * sets the rollover icon associated with the annotation.
          * (Optional; button fields only)
          * @param icon - An SDF object that represents the rollover icon
          * associated with the annotation.
@@ -17374,7 +17048,7 @@ declare namespace Core.PDFNet {
          */
         getMouseDownIcon(): Promise<PDFNet.Obj>;
         /**
-         * Sets the Mouse Down icon associated with the annotation.
+         * sets the Mouse Down icon associated with the annotation.
          * (Optional; button fields only)
          * @param icon - An SDF object that represents the Mouse Down icon
          * associated with the annotation.
@@ -17398,7 +17072,7 @@ declare namespace Core.PDFNet {
          */
         getScaleType(): Promise<number>;
         /**
-         * Sets the Scale Type of the annotation.
+         * sets the Scale Type of the annotation.
          * (Optional)
          * @param st - <pre>
          * PDFNet.ScreenAnnot.ScaleType = {
@@ -17430,7 +17104,7 @@ declare namespace Core.PDFNet {
          */
         getIconCaptionRelation(): Promise<number>;
         /**
-         * Sets the Icon and caption relationship of the  annotation.
+         * sets the Icon and caption relationship of the  annotation.
          * (Optional; pushbutton fields only)
          * @param icr - <pre>
          * PDFNet.ScreenAnnot.IconCaptionRelation = {
@@ -17464,7 +17138,7 @@ declare namespace Core.PDFNet {
          */
         getScaleCondition(): Promise<number>;
         /**
-         * Sets the condition under which the icon should be scaled.
+         * sets the condition under which the icon should be scaled.
          * (Optional)
          * @param sc - <pre>
          * PDFNet.ScreenAnnot.ScaleCondition = {
@@ -17489,7 +17163,7 @@ declare namespace Core.PDFNet {
          */
         getFitFull(): Promise<boolean>;
         /**
-         * Sets the "fit full" flag.
+         * sets the "fit full" flag.
          * (Optional)
          * @param ff - A boolean value indicating the "fit full" flag value.
          * Note: the fit full flag, if true, indicates that the button
@@ -17511,7 +17185,7 @@ declare namespace Core.PDFNet {
          */
         getHIconLeftOver(): Promise<number>;
         /**
-         * Sets the horizontal leftover space of the icon within the annotation.
+         * sets the horizontal leftover space of the icon within the annotation.
          * (Optional)
          * @param hl - A number indicating the horizontal
          * leftover space of the icon within the annotation.
@@ -17539,7 +17213,7 @@ declare namespace Core.PDFNet {
          */
         getVIconLeftOver(): Promise<number>;
         /**
-         * Sets the vertical leftover space of the icon within the annotation.
+         * sets the vertical leftover space of the icon within the annotation.
          * (Optional)
          * @param vl - A number indicating the vertical
          * leftover space of the icon within the annotation.
@@ -17617,7 +17291,7 @@ declare namespace Core.PDFNet {
          */
         setModified(is_modified?: boolean): Promise<void>;
         /**
-         * Create a Standard Security Handler.
+         * create a Standard Security Handler.
          * @param crypt_type - <pre>
          * PDFNet.SecurityHandler.AlgorithmType = {
          * 	e_RC4_40 : 1
@@ -17631,7 +17305,7 @@ declare namespace Core.PDFNet {
          */
         static create(crypt_type: number): Promise<PDFNet.SecurityHandler>;
         /**
-         * Create a Standard Security Handler.
+         * create a Standard Security Handler.
          * @param name - The name of the Standard Security Handler.
          * @param key_len - The bit length of the encryption key (40 or 128 bit).
          * @param enc_code - The encryption algorithm identifier. The number corresponds
@@ -17752,12 +17426,12 @@ declare namespace Core.PDFNet {
          */
         changeMasterPasswordBuffer(password_buf: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray): Promise<void>;
         /**
-         * This method can be called in GetAuthorizationData() callback to
+         * this method can be called in GetAuthorizationData() callback to
          * specify user supplied password.
          */
         initPasswordUString(password: string): Promise<void>;
         /**
-         * This method can be called in GetAuthorizationData() callback to
+         * this method can be called in GetAuthorizationData() callback to
          * specify user supplied password.
          */
         initPasswordBuffer(password_buf: ArrayBuffer | Int8Array | Uint8Array | Uint8ClampedArray): Promise<void>;
@@ -18081,14 +17755,14 @@ declare namespace Core.PDFNet {
     class SignatureHandler {
         /**
          * Gets the name of this SignatureHandler. The name of the SignatureHandler is what identifies this SignatureHandler
-        from all others. This name is also added to the PDF as the value of /Filter entry in the signature dictionary.
+         * from all others. This name is also added to the PDF as the value of /Filter entry in the signature dictionary.
          * @returns A promise that resolves to the name of this SignatureHandler.
          */
         getName(): Promise<string>;
         /**
          * Resets any data appending and signature calculations done so far. This method should allow PDFNet to restart the
-        whole signature calculation process. It is important that when this method is invoked, any data processed with
-        the AppendData method should be discarded.
+         * whole signature calculation process. It is important that when this method is invoked, any data processed with
+         * the AppendData method should be discarded.
          * @returns A promise that resolves to true if there are no errors, otherwise false.
          */
         reset(): Promise<boolean>;
@@ -18130,22 +17804,22 @@ declare namespace Core.PDFNet {
         /**
          * Creates a SignatureWidget annotation and initializes it using given Cos/SDF object.
          * @param [d] - the input Cos/SDF object
-        Note: The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         * Note: The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @returns A promise that resolves to an object of type: "PDFNet.SignatureWidget"
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.SignatureWidget>;
         /**
          * Creates a Widget annotation and initializes it using given annotation object.
          * @param annot - the annot
-        Note: The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         * Note: The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @returns A promise that resolves to an object of type: "PDFNet.SignatureWidget"
          */
         static createFromAnnot(annot: PDFNet.Annot): Promise<PDFNet.SignatureWidget>;
         /**
-         * A function that will create and add an appearance to this widget
-        by centering an image within it.
+         * a function that will create and add an appearance to this widget
+         * by centering an image within it.
          * @param img - A PDF::Image object representing the image to use.
          */
         createSignatureAppearance(img: PDFNet.Image): Promise<void>;
@@ -18164,7 +17838,7 @@ declare namespace Core.PDFNet {
      */
     class SoundAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates a Sound annotation and initializes it using given Cos/SDF object.
+         * creates a Sound annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -18172,7 +17846,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.SoundAnnot>;
         /**
-         * Creates a Sound annotation and initializes it using given annotation object.
+         * creates a Sound annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Sound annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -18201,7 +17875,7 @@ declare namespace Core.PDFNet {
          */
         getSoundStream(): Promise<PDFNet.Obj>;
         /**
-         * Sets the sound object of the Sound annotation.
+         * sets the sound object of the Sound annotation.
          * @param icon - An SDF object representing a sound stream.
          * Note: The sound stream is to be played when the Sound
          * annotation is activated.
@@ -18226,7 +17900,7 @@ declare namespace Core.PDFNet {
          */
         getIcon(): Promise<number>;
         /**
-         * Sets the Icon of the Sound annotation.
+         * sets the Icon of the Sound annotation.
          * (Optional)
          * @param [type] - <pre>
          * PDFNet.SoundAnnot.Icon = {
@@ -18257,7 +17931,7 @@ declare namespace Core.PDFNet {
          */
         getIconName(): Promise<string>;
         /**
-         * Sets the Icon name of the Sound annotation.
+         * sets the Icon name of the Sound annotation.
          * (Optional)
          * @param type - A string denoting the Icon name of the Sound annotation.
          * Note: The following Icon names are equivalent
@@ -18280,7 +17954,7 @@ declare namespace Core.PDFNet {
      */
     class SquareAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates an Square annotation and initializes it using given Cos/SDF object.
+         * creates an Square annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -18288,7 +17962,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.SquareAnnot>;
         /**
-         * Creates a Square annotation and initializes it using given annotation object.
+         * creates a Square annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Square annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -18330,7 +18004,7 @@ declare namespace Core.PDFNet {
      */
     class SquigglyAnnot extends PDFNet.TextMarkupAnnot {
         /**
-         * Creates a Squiggly annotation and initializes it using given Cos/SDF object.
+         * creates a Squiggly annotation and initializes it using given Cos/SDF object.
          * @param d - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -18338,7 +18012,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d: PDFNet.Obj): Promise<PDFNet.SquigglyAnnot>;
         /**
-         * Creates a Squiggly annotation and initializes it using given annotation object.
+         * creates a Squiggly annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Squiggly annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -18356,12 +18030,12 @@ declare namespace Core.PDFNet {
     }
     /**
      * Stamper is a utility class that can be used to stamp PDF pages with text, images,
-    or vector art (including another PDF page) in only a few lines of code.
-    
-    Although Stamper is very simple to use compared to ElementBuilder/ElementWriter
-    it is not as powerful or flexible. In case you need full control over PDF creation
-    use ElementBuilder/ElementWriter to add new content to existing PDF pages as
-    shown in the ElementBuilder sample project.
+     * or vector art (including another PDF page) in only a few lines of code.
+     *
+     * Although Stamper is very simple to use compared to ElementBuilder/ElementWriter
+     * it is not as powerful or flexible. In case you need full control over PDF creation
+     * use ElementBuilder/ElementWriter to add new content to existing PDF pages as
+     * shown in the ElementBuilder sample project.
      */
     class Stamper extends PDFNet.Destroyable {
         /**
@@ -18374,19 +18048,19 @@ declare namespace Core.PDFNet {
          * }
          * </pre>
          * Specifies how the stamp will be sized
-                -e_relative_scale: Stamp size is relative to the size of the crop box of
-                the destination page. 'a' is a percentage of the width of the crop box
-                (e.g.: 0.5 is 50% of the width of the crop box) 'b' is a percentage of the
-                height of the crop box. If 'a' <= 0 then only b will be used. If 'b' <= 0
-                then only 'a' will be used.
-        
-                -e_absolute_scale: Stamp size is explicitly set. 'a' sets the width of
-                of the stamp's bounding box. 'b' sets the height of the stamp's bounding
-                box. The width and height are constant, regardless of the size of the
-                destination page's bounding box.
-        
-                -e_font_size: This type only applies to text stamps. 'a' sets the font
-                size. 'b' is ignored.
+         * 		-e_relative_scale: Stamp size is relative to the size of the crop box of
+         * 		the destination page. 'a' is a percentage of the width of the crop box
+         * 		(e.g.: 0.5 is 50% of the width of the crop box) 'b' is a percentage of the
+         * 		height of the crop box. If 'a' <= 0 then only b will be used. If 'b' <= 0
+         * 		then only 'a' will be used.
+         *
+         * 		-e_absolute_scale: Stamp size is explicitly set. 'a' sets the width of
+         * 		of the stamp's bounding box. 'b' sets the height of the stamp's bounding
+         * 		box. The width and height are constant, regardless of the size of the
+         * 		destination page's bounding box.
+         *
+         * 		-e_font_size: This type only applies to text stamps. 'a' sets the font
+         * 		size. 'b' is ignored.
          * @param a - @see size_type
          * @param b - @see size_type
          * @returns A promise that resolves to an object of type: "PDFNet.Stamper"
@@ -18448,16 +18122,16 @@ declare namespace Core.PDFNet {
         /**
          * Specifies if the stamp is to be stamped in the background or the foreground.
          * @param background - A flag specifying if the stamp should be added
-        as a background layer to the destination page
+         * as a background layer to the destination page
          */
         setAsBackground(background: boolean): Promise<void>;
         /**
          * Specifies if the stamp is to be stamped as an annotation.
          * @param annotation - A flag specifying if the stamp should be added
-        as an annotation or not
-        
-        Note: Stamps created with this setting do not work with SetAsBackground,
-        HasStamps, and DeleteStamps, if annotation is true.
+         * as an annotation or not
+         *
+         * Note: Stamps created with this setting do not work with SetAsBackground,
+         * HasStamps, and DeleteStamps, if annotation is true.
          */
         setAsAnnotation(annotation: boolean): Promise<void>;
         /**
@@ -18478,12 +18152,12 @@ declare namespace Core.PDFNet {
          * }
          * </pre>
          * Can be set to e_left, e_center or e_right
-                e_left:	horizontal_distance measures the distance between the left edge of the stamp's
-                    bounding box and the left edge of the crop box
-                e_center: horizontal_distance measures the distance between the horizontal bisector of the
-                    stamp's bounding box and the horizontal bisector of the crop box
-                e_right: horizontal_distance measures the distance between the right edge of the stamp's
-                    bounding box and the right edge of the crop box
+         * 		e_left:	horizontal_distance measures the distance between the left edge of the stamp's
+         * 			bounding box and the left edge of the crop box
+         * 		e_center: horizontal_distance measures the distance between the horizontal bisector of the
+         * 			stamp's bounding box and the horizontal bisector of the crop box
+         * 		e_right: horizontal_distance measures the distance between the right edge of the stamp's
+         * 			bounding box and the right edge of the crop box
          * @param vertical_alignment - <pre>
          * PDFNet.Stamper.VerticalAlignment = {
          * 	e_vertical_bottom : -1
@@ -18492,12 +18166,12 @@ declare namespace Core.PDFNet {
          * }
          * </pre>
          * Can be set to e_top, e_center or e_bottom
-                e_bottom: vertical_distance measures the distance between the bottom edge of the stamp's
-                    bounding box and the bottom edge of the crop box
-                e_center: vertical_distance measures the distance between the vertical bisector of the
-                    stamp's bounding box and the vertical bisector of the crop box
-                e_top: vertical_distance measures the distance between the top edge of the stamp's
-                    bounding box and the top edge of the crop box
+         * 		e_bottom: vertical_distance measures the distance between the bottom edge of the stamp's
+         * 			bounding box and the bottom edge of the crop box
+         * 		e_center: vertical_distance measures the distance between the vertical bisector of the
+         * 			stamp's bounding box and the vertical bisector of the crop box
+         * 		e_top: vertical_distance measures the distance between the top edge of the stamp's
+         * 			bounding box and the top edge of the crop box
          */
         setAlignment(horizontal_alignment: number, vertical_alignment: number): Promise<void>;
         /**
@@ -18505,13 +18179,13 @@ declare namespace Core.PDFNet {
          * @param horizontal_distance - Horizontal distance from left, right or center of crop box
          * @param vertical_distance - Vertical distance from top, bottom or center of crop box
          * @param [use_percentage] - If true, horizontal_distance is a percentage of the crop
-        box width (e.g.: 0.5 is 50% of the width of the crop box) and vertical_distance
-        is a percentage of the crop box height. If false, horizontal_distance and
-        vertical_distance is measured in points.
+         * box width (e.g.: 0.5 is 50% of the width of the crop box) and vertical_distance
+         * is a percentage of the crop box height. If false, horizontal_distance and
+         * vertical_distance is measured in points.
          */
         setPosition(horizontal_distance: number, vertical_distance: number, use_percentage?: boolean): Promise<void>;
         /**
-         * Sets the size of the stamp
+         * sets the size of the stamp
          * @param size_type - <pre>
          * PDFNet.Stamper.SizeType = {
          * 	e_relative_scale : 1
@@ -18520,19 +18194,19 @@ declare namespace Core.PDFNet {
          * }
          * </pre>
          * Specifies how the stamp will be sized
-                -e_relative_scale: Stamp size is relative to the size of the crop box of
-                the destination page. 'a' is a percentage of the width of the crop box
-                (e.g.: 0.5 is 50% of the width of the crop box) 'b' is a percentage of the
-                height of the crop box. If 'a' <= 0 then only b will be used. If 'b' <= 0
-                then only 'a' will be used.
-        
-                -e_absolute_scale: Stamp size is explicitly set. 'a' sets the width of
-                of the stamp's bounding box. 'b' sets the height of the stamp's bounding
-                box. The width and height are constant, regardless of the size of the
-                destination page's bounding box.
-        
-                -e_font_size: This type only applies to text stamps. 'a' sets the font
-                size. 'b' is ignored.
+         * 		-e_relative_scale: Stamp size is relative to the size of the crop box of
+         * 		the destination page. 'a' is a percentage of the width of the crop box
+         * 		(e.g.: 0.5 is 50% of the width of the crop box) 'b' is a percentage of the
+         * 		height of the crop box. If 'a' <= 0 then only b will be used. If 'b' <= 0
+         * 		then only 'a' will be used.
+         *
+         * 		-e_absolute_scale: Stamp size is explicitly set. 'a' sets the width of
+         * 		of the stamp's bounding box. 'b' sets the height of the stamp's bounding
+         * 		box. The width and height are constant, regardless of the size of the
+         * 		destination page's bounding box.
+         *
+         * 		-e_font_size: This type only applies to text stamps. 'a' sets the font
+         * 		size. 'b' is ignored.
          * @param a - Generally the horizontal component of the size. See size_type for more details.
          * @param b - Generally the vertical component of the size. See size_type for more details.
          */
@@ -18557,7 +18231,7 @@ declare namespace Core.PDFNet {
      */
     class StrikeOutAnnot extends PDFNet.TextMarkupAnnot {
         /**
-         * Creates a StrikeOut annotation and initializes it using given Cos/SDF object.
+         * creates a StrikeOut annotation and initializes it using given Cos/SDF object.
          * @param d - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -18565,7 +18239,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d: PDFNet.Obj): Promise<PDFNet.StrikeOutAnnot>;
         /**
-         * Creates a StrikeOut annotation and initializes it using given annotation object.
+         * creates a StrikeOut annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the StrikeOut annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -18795,7 +18469,7 @@ declare namespace Core.PDFNet {
      */
     class TextAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates a Text annotation and initializes it using given Cos/SDF object.
+         * creates a Text annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -18803,7 +18477,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.TextAnnot>;
         /**
-         * Creates a Text annotation and initializes it using given annotation object.
+         * creates a Text annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Text annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -18828,7 +18502,7 @@ declare namespace Core.PDFNet {
          */
         isOpen(): Promise<boolean>;
         /**
-         * Sets the initial status of the Text annotation.
+         * sets the initial status of the Text annotation.
          * (Optional)
          * @param isopen - A boolean value that specifies whether the annotation shall
          * initially be displayed as opened.
@@ -18858,7 +18532,7 @@ declare namespace Core.PDFNet {
          */
         getIcon(): Promise<number>;
         /**
-         * Sets the type of the icon associated with the Text annotation.
+         * sets the type of the icon associated with the Text annotation.
          * (Optional)
          * @param [icon] - <pre>
          * PDFNet.TextAnnot.Icon = {
@@ -18898,7 +18572,7 @@ declare namespace Core.PDFNet {
          */
         getIconName(): Promise<string>;
         /**
-         * Sets the name of the icon associated with the Text annotation.
+         * sets the name of the icon associated with the Text annotation.
          * (Optional)
          * @param icon - A string denoting the name of the icon.
          * Note: The following icon names are equivalent
@@ -19069,7 +18743,7 @@ declare namespace Core.PDFNet {
          */
         getRightToLeftLanguage(): Promise<boolean>;
         /**
-         * Get all words in the current selection as a single string.
+         * get all words in the current selection as a single string.
          * @param [dehyphen] - If true, finds and removes hyphens that split words
          * across two lines. Hyphens are often used a the end of lines as an
          * indicator that a word spans two lines. Hyphen detection enables removal
@@ -19085,7 +18759,7 @@ declare namespace Core.PDFNet {
          */
         getTextUnderAnnot(annot: PDFNet.Annot): Promise<string>;
         /**
-         * Get text content in a form of an XML string.
+         * get text content in a form of an XML string.
          * @param [xml_output_flags] - flags controlling XML output. For more
          * information, please see TextExtract::XMLOutputFlags.
          *
@@ -19384,7 +19058,7 @@ declare namespace Core.PDFNet {
      */
     class TextMarkupAnnot extends PDFNet.MarkupAnnot {
         /**
-         * Creates a TextMarkup annotation and initializes it using given Cos/SDF object.
+         * creates a TextMarkup annotation and initializes it using given Cos/SDF object.
          * @param d - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -19392,7 +19066,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d: PDFNet.Obj): Promise<PDFNet.TextMarkupAnnot>;
         /**
-         * Creates a TextMarkup annotation and initializes it using given annotation object.
+         * creates a TextMarkup annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the TextMarkup annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -19425,7 +19099,7 @@ declare namespace Core.PDFNet {
          */
         getQuadPoint(idx: number): Promise<PDFNet.QuadPoint>;
         /**
-         * Sets the QuadPoint to be located at a certain index of the QuadPoint array.
+         * sets the QuadPoint to be located at a certain index of the QuadPoint array.
          * (Optional; PDF 1.6 )
          * @param idx - The index where the QuadPoint is to be located (the index is counted from 0).
          * @param qp - The QuadPoint to be located at a certain index of the QuadPoint array of the TextMarkup annotation.
@@ -19462,91 +19136,91 @@ declare namespace Core.PDFNet {
     }
     /**
      * TextSearch searches through a PDF document for a user-given search pattern.
-    The current implementation supports both verbatim search and the search
-    using regular expressions, whose detailed syntax can be found at:
-    
-    http://www.boost.org/doc/libs/release/libs/regex/doc/html/boost_regex/syntax/perl_syntax.html
-    
-    TextSearch also provides users with several useful search modes and extra
-    information besides the found string that matches the pattern. TextSearch
-    can either keep running until a matched string is found or be set to return
-    periodically in order for the caller to perform any necessary updates
-    (e.g., UI updates). It is also worth mentioning that the search modes can be
-    changed on the fly while searching through a document.
-    
-    Possible use case scenarios for TextSearch include:
-     - Guide users of a PDF viewer (e.g. implemented by PDFViewCtrl) to places
-       where they are intersted in;
-     - Find interested PDF documents which contain certain patterns;
-     - Extract interested information (e.g., credit card numbers) from a set of files;
-     - Extract Highlight information (refer to the Highlights class for details) from
-       files for external use.
-    
-    Note:
-     - Since hyphens ('-') are frequently used in PDF documents to concatenate the two
-       broken pieces of a word at the end of a line, for example
-    
-          "TextSearch is powerful for finding patterns in PDF files; yes, it is really pow-
-        erful."
-    
-       a search for "powerful" should return both instances. However, not all end-of-line
-       hyphens are hyphens added to connect a broken word; some of them could be "real"
-       hyphens. In addition, an input search pattern may also contain hyphens that complicate
-       the situation. To tackle this problem, the following conventions are adopted:
-    
-       a)When in the verbatim search mode and the pattern contains no hyphen, a matching
-         string is returned if it is exactly the same or it contains end-of-line
-         or start-of-line hyphens. For example, as mentioned above, a search for "powerful"
-         would return both instances.
-       b)When in verbatim search mode and the pattern contains one or multiple hyphens, a
-         matching string is returned only if the string matches the pattern exactly. For
-         example, a search for "pow-erful" will only return the second instance, and a search
-         for "power-ful" will return nothing.
-       c)When searching using regular expressions, hyphens are not taken care implicitly.
-         Users should take care of it themselves. For example, in order to find both the
-         "powerful" instances, the input pattern can be "pow-{0,1}erful".
-        
-    A sample use case (in C++):
-    
-    <pre>
-    //... Initialize PDFNet ...
-    PDFDoc doc(filein);
-    doc.InitSecurityHandler();
-    int page_num;
-    char buf[32];
-    UString result_str, ambient_string;
-    Highlights hlts;
-    TextSearch txt_search;
-    TextSearch::Mode mode = TextSearch::e_whole_word | TextSearch::e_page_stop;
-    UString pattern( "joHn sMiTh" );
-    
-    //PDFDoc doesn't allow simultaneous access from different threads. If this
-    //document could be used from other threads (e.g., the rendering thread inside
-    //PDFView/PDFViewCtrl, if used), it is good practice to lock it.
-    //Notice: don't forget to call doc.Unlock() to avoid deadlock.
-    doc.Lock();
-    
-    txt_search.Begin( doc, pattern, mode );
-    while ( true )
-    {
-           SearchResult result = code = txt_search.Run(page_num, result_str, ambient_string, hlts );
-           if ( code == TextSearch::e_found )
-           {
-               result_str.ConvertToAscii(buf, 32, true);
-               cout << "found one instance: " << char_buf << endl;
-           }
-           else
-           {
-               break;
-           }
-    }
-    
-    //unlock the document to avoid deadlock.
-    doc.UnLock();
-    </pre>
-    
-    
-    For a full sample, please take a look at the TextSearch sample project.
+     * The current implementation supports both verbatim search and the search
+     * using regular expressions, whose detailed syntax can be found at:
+     *
+     * http://www.boost.org/doc/libs/release/libs/regex/doc/html/boost_regex/syntax/perl_syntax.html
+     *
+     * TextSearch also provides users with several useful search modes and extra
+     * information besides the found string that matches the pattern. TextSearch
+     * can either keep running until a matched string is found or be set to return
+     * periodically in order for the caller to perform any necessary updates
+     * (e.g., UI updates). It is also worth mentioning that the search modes can be
+     * changed on the fly while searching through a document.
+     *
+     * Possible use case scenarios for TextSearch include:
+     *  - Guide users of a PDF viewer (e.g. implemented by PDFViewCtrl) to places
+     *    where they are intersted in;
+     *  - Find interested PDF documents which contain certain patterns;
+     *  - Extract interested information (e.g., credit card numbers) from a set of files;
+     *  - Extract Highlight information (refer to the Highlights class for details) from
+     *    files for external use.
+     *
+     * Note:
+     *  - Since hyphens ('-') are frequently used in PDF documents to concatenate the two
+     *    broken pieces of a word at the end of a line, for example
+     *
+     * 	  "TextSearch is powerful for finding patterns in PDF files; yes, it is really pow-
+     *     erful."
+     *
+     *    a search for "powerful" should return both instances. However, not all end-of-line
+     *    hyphens are hyphens added to connect a broken word; some of them could be "real"
+     *    hyphens. In addition, an input search pattern may also contain hyphens that complicate
+     *    the situation. To tackle this problem, the following conventions are adopted:
+     *
+     *    a)When in the verbatim search mode and the pattern contains no hyphen, a matching
+     *      string is returned if it is exactly the same or it contains end-of-line
+     *      or start-of-line hyphens. For example, as mentioned above, a search for "powerful"
+     *      would return both instances.
+     *    b)When in verbatim search mode and the pattern contains one or multiple hyphens, a
+     *      matching string is returned only if the string matches the pattern exactly. For
+     *      example, a search for "pow-erful" will only return the second instance, and a search
+     *      for "power-ful" will return nothing.
+     *    c)When searching using regular expressions, hyphens are not taken care implicitly.
+     *      Users should take care of it themselves. For example, in order to find both the
+     *      "powerful" instances, the input pattern can be "pow-{0,1}erful".
+     *
+     * A sample use case (in C++):
+     *
+     * <pre>
+     * //... Initialize PDFNet ...
+     * PDFDoc doc(filein);
+     * doc.InitSecurityHandler();
+     * int page_num;
+     * char buf[32];
+     * UString result_str, ambient_string;
+     * Highlights hlts;
+     * TextSearch txt_search;
+     * TextSearch::Mode mode = TextSearch::e_whole_word | TextSearch::e_page_stop;
+     * UString pattern( "joHn sMiTh" );
+     *
+     * //PDFDoc doesn't allow simultaneous access from different threads. If this
+     * //document could be used from other threads (e.g., the rendering thread inside
+     * //PDFView/PDFViewCtrl, if used), it is good practice to lock it.
+     * //Notice: don't forget to call doc.Unlock() to avoid deadlock.
+     * doc.Lock();
+     *
+     * txt_search.Begin( doc, pattern, mode );
+     * while ( true )
+     * {
+     * 	   SearchResult result = code = txt_search.Run(page_num, result_str, ambient_string, hlts );
+     * 	   if ( code == TextSearch::e_found )
+     * 	   {
+     * 		   result_str.ConvertToAscii(buf, 32, true);
+     * 		   cout << "found one instance: " << char_buf << endl;
+     * 	   }
+     * 	   else
+     * 	   {
+     * 		   break;
+     * 	   }
+     * }
+     *
+     * //unlock the document to avoid deadlock.
+     * doc.UnLock();
+     * </pre>
+     *
+     *
+     * For a full sample, please take a look at the TextSearch sample project.
      */
     class TextSearch extends PDFNet.Destroyable {
         /**
@@ -19556,22 +19230,22 @@ declare namespace Core.PDFNet {
         static create(): Promise<PDFNet.TextSearch>;
         /**
          * Initialize for search process. This should be called before starting the actual search
-        with method Run().
+         * with method Run().
          * @param doc - the PDF document to search in.
          * @param pattern - the pattern to search for. When regular expression is used, it contains
-               the expression, and in verbatim mode, it is the exact string to search for.
+         *        the expression, and in verbatim mode, it is the exact string to search for.
          * @param mode - the mode of the search process.
          * @param [start_page] - the start page of the page range to search in. The default value is -1
-               indicating the range starts from the first page.
+         *        indicating the range starts from the first page.
          * @param [end_page] - the end page of the page range to search in. The default value is -1
-               indicating the range ends at the last page.
+         *        indicating the range ends at the last page.
          * @returns A promise that resolves to true if the initialization has succeeded.
          */
         begin(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, pattern: string, mode: number, start_page?: number, end_page?: number): Promise<boolean>;
         /**
          * Set the current search pattern. Note that it is not necessary to call this method since
-        the search pattern is already set when calling the Begin() method. This method is provided
-        for users to change the search pattern while searching through a document.
+         * the search pattern is already set when calling the Begin() method. This method is provided
+         * for users to change the search pattern while searching through a document.
          * @param pattern - the search pattern to set.
          * @returns A promise that resolves to true if the setting has succeeded.
          */
@@ -19582,15 +19256,15 @@ declare namespace Core.PDFNet {
          */
         getMode(): Promise<number>;
         /**
-         * Set the current search mode. For example, the following code turns on the regular
-        expressions:
-        
-            TextSearch ts;
-          ...
-          TextSearch::Mode mode = ts.GetMode();
-          mode |= TextSearch::e_reg_expression;
-          ts.SetMode(mode);
-          ...
+         * set the current search mode. For example, the following code turns on the regular
+         * expressions:
+         *
+         * 	TextSearch ts;
+         *   ...
+         *   TextSearch::Mode mode = ts.GetMode();
+         *   mode |= TextSearch::e_reg_expression;
+         *   ts.SetMode(mode);
+         *   ...
          * @param mode - the search mode to set.
          */
         setMode(mode: number): Promise<void>;
@@ -19601,20 +19275,20 @@ declare namespace Core.PDFNet {
         setRightToLeftLanguage(flag: boolean): Promise<void>;
         /**
          * Retrieve the number of the current page that is searched in.
-        If the returned value is -1, it indicates the search process has not been initialized
-        (e.g., Begin() is not called yet); if the returned value is 0, it indicates the search
-        process has finished, and if the returned value is positive, it is a valid page number.
+         * If the returned value is -1, it indicates the search process has not been initialized
+         * (e.g., Begin() is not called yet); if the returned value is 0, it indicates the search
+         * process has finished, and if the returned value is positive, it is a valid page number.
          * @returns A promise that resolves to the current page number.
          */
         getCurrentPage(): Promise<number>;
         /**
          * Sets the Optional Content Group (OCG) context that should be used when
-        processing the document. This function can be used to change the current
-        OCG context. Optional content (such as PDF layers) will be selectively
-        processed based on the states of optional content groups in the given
-        context.
+         * processing the document. This function can be used to change the current
+         * OCG context. Optional content (such as PDF layers) will be selectively
+         * processed based on the states of optional content groups in the given
+         * context.
          * @param ctx - Optional Content Group (OCG) context, or NULL if TextSearch
-        should process all content on the page.
+         * should process all content on the page.
          */
         setOCGContext(ctx: PDFNet.OCGContext): Promise<void>;
         /**
@@ -19724,7 +19398,7 @@ declare namespace Core.PDFNet {
          * Creates a new Text Widget annotation, in the specified document.
          * @param doc - The document to which the annotation is added.
          * @param pos - A rectangle specifying the annotation's bounds, specified in
-        user space coordinates.
+         * user space coordinates.
          * @param [field_name] - The name of the field for which to create a Text widget.
          * @returns A promise that resolves to a newly created blank Text Widget annotation.
          */
@@ -19735,26 +19409,26 @@ declare namespace Core.PDFNet {
          * Creates a new Text Widget annotation, in the specified document.
          * @param doc - The document to which the annotation is added.
          * @param pos - A rectangle specifying the annotation's bounds, specified in
-        user space coordinates.
+         * user space coordinates.
          * @param field - the field for which to create a Text Widget.
          * @returns A promise that resolves to a newly created blank Widget annotation.
          */
         static createWithField(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, pos: PDFNet.Rect, field: PDFNet.Field): Promise<PDFNet.TextWidget>;
         /**
          * Creates a Text Widget annotation and initialize it using given Cos/SDF object.
-        
-        <p>
-        <b> Note: </b> The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         *
+         * <p>
+         * <b> Note: </b> The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @param [d] - The object to use to initialize the Text Widget
          * @returns A promise that resolves to an object of type: "PDFNet.TextWidget"
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.TextWidget>;
         /**
          * Creates a Text Widget annotation and initialize it using given annotation object.
-        
-        <b> Note: </b>  The constructor does not copy any data, but is instead the logical
-        equivalent of a type cast.
+         *
+         * <b> Note: </b>  The constructor does not copy any data, but is instead the logical
+         * equivalent of a type cast.
          * @param annot - The annotation object to use.
          * @returns A promise that resolves to an object of type: "PDFNet.TextWidget"
          */
@@ -19913,7 +19587,7 @@ declare namespace Core.PDFNet {
      */
     class UnderlineAnnot extends PDFNet.TextMarkupAnnot {
         /**
-         * Creates an Underline annotation and initializes it using given Cos/SDF object.
+         * creates an Underline annotation and initializes it using given Cos/SDF object.
          * @param d - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -19921,7 +19595,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d: PDFNet.Obj): Promise<PDFNet.UnderlineAnnot>;
         /**
-         * Creates an Underline annotation and initializes it using given annotation object.
+         * creates an Underline annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Underline annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -20076,7 +19750,7 @@ declare namespace Core.PDFNet {
          */
         enableOnlineOCSPRevocationChecking(in_on_or_off: boolean): Promise<void>;
         /**
-         * Enables/disables all online revocation checking modes. The default settings are that
+         * enables/disables all online revocation checking modes. The default settings are that
          * online OCSP is turned on and online CRL is turned off, but the default CRL setting may change in
          * future versions.
          *
@@ -20091,17 +19765,6 @@ declare namespace Core.PDFNet {
          * @param in_on_or_off - - what setting to use
          */
         enableOnlineRevocationChecking(in_on_or_off: boolean): Promise<void>;
-        /**
-         * Get the number of trusted certificates that have been added.
-         * @returns A promise that resolves to the number of trusted certificates.
-         */
-        getTrustedCertificateCount(): Promise<number>;
-        /**
-         * Get the certificate at a specific position in the current list of trusted certificates.
-         * @param index - - the index of the certificate in the current list.
-         * @returns A promise that resolves to the certificate at position index in the list.
-         */
-        getTrustedCertificate(index: number): Promise<PDFNet.X509Certificate>;
         /**
          * Adds a certificate from a url to the store of trusted certificates inside this options object.
          * @param url - The url from which to download the file
@@ -20127,10 +19790,10 @@ declare namespace Core.PDFNet {
         getDigitalSignatureField(): Promise<PDFNet.DigitalSignatureField>;
         /**
          * Retrieves the main verification status. The main status is determined based on the other statuses.
-        Verification may fail for many reasons; some of these reasons are the presence of features that are
-        not supported yet. It may be desirable for you to report unsupported signatures differently (for example,
-        using a question mark rather than an X mark). Any unsupported features encountered can be retrieved
-        by the use of the function GetUnsupportedFeatures on this class.
+         * Verification may fail for many reasons; some of these reasons are the presence of features that are
+         * not supported yet. It may be desirable for you to report unsupported signatures differently (for example,
+         * using a question mark rather than an X mark). Any unsupported features encountered can be retrieved
+         * by the use of the function GetUnsupportedFeatures on this class.
          * @returns A promise that resolves to a boolean representing whether or not the verification operation was completely successful.
          */
         getVerificationStatus(): Promise<boolean>;
@@ -20201,8 +19864,8 @@ declare namespace Core.PDFNet {
         /**
          * Retrieves the detailed result associated with the trust step of the verification operation that returned this VerificationResult, if such a detailed trust result is available. Must call HasTrustVerificationResult first and check for a true result.
          * @returns A promise that resolves to a TrustVerificationResult object
-        
-        Note: This function will throw if no TrustVerificationResult is available.
+         *
+         * Note: This function will throw if no TrustVerificationResult is available.
          */
         getTrustVerificationResult(): Promise<PDFNet.TrustVerificationResult>;
         /**
@@ -20217,7 +19880,7 @@ declare namespace Core.PDFNet {
         getDisallowedChanges(): Promise<PDFNet.DisallowedChange[]>;
         /**
          * Retrieves an enumeration value representing the digest algorithm used to sign the signature that is associated with this verification result.
-        For DocTimeStamp signatures, returns the weakest algorithm found (between the CMS and message imprint digests).
+         * For DocTimeStamp signatures, returns the weakest algorithm found (between the CMS and message imprint digests).
          * @example
          * Return value enum:
          * <pre>
@@ -20255,15 +19918,15 @@ declare namespace Core.PDFNet {
         getPermissionsStatusAsString(): Promise<string>;
         /**
          * Retrieves reports about unsupported features encountered during verification.
-        This function is the canonical source of information about all unsupported features encountered.
-        Current possible values:
-            "unsupported signature encoding",
-            "usage rights signature",
-            "legal content attestations",
-            "unsupported digest algorithm"
+         * This function is the canonical source of information about all unsupported features encountered.
+         * Current possible values:
+         * 	"unsupported signature encoding",
+         * 	"usage rights signature",
+         * 	"legal content attestations",
+         * 	"unsupported digest algorithm"
          * @returns A promise that resolves to a container of strings representing unsupported features encountered during verification
-        
-        Note: Output may change in future versions.
+         *
+         * Note: Output may change in future versions.
          */
         getUnsupportedFeatures(): Promise<string[]>;
     }
@@ -20283,7 +19946,7 @@ declare namespace Core.PDFNet {
      */
     class WatermarkAnnot extends PDFNet.Annot {
         /**
-         * Creates a Watermark annotation and initializes it using given Cos/SDF object.
+         * creates a Watermark annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -20291,7 +19954,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.WatermarkAnnot>;
         /**
-         * Creates a Watermark annotation and initializes it using given annotation object.
+         * creates a Watermark annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Watermark annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -20338,10 +20001,6 @@ declare namespace Core.PDFNet {
          * @param url - - The root path into which the web font downloader will make requests.
          */
         static setCustomWebFontURL(url: string): Promise<void>;
-        /**
-         * @returns A promise that resolves to an object of type: "string"
-         */
-        static selectWebFont(font_req_string: string, charset: string): Promise<string>;
     }
     /**
      * Interactive forms use widget annotations (PDF 1.2) to represent the appearance
@@ -20363,7 +20022,7 @@ declare namespace Core.PDFNet {
         static create(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, pos: PDFNet.Rect, field: PDFNet.Field): Promise<PDFNet.WidgetAnnot>;
         static create(doc: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, type: number, pos: PDFNet.Rect): Promise<PDFNet.Annot>;
         /**
-         * Creates a widget annotation and initializes it using given Cos/SDF object.
+         * creates a widget annotation and initializes it using given Cos/SDF object.
          * @param [d] - The Cos/SDF object to initialze the annotation with.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -20371,7 +20030,7 @@ declare namespace Core.PDFNet {
          */
         static createFromObj(d?: PDFNet.Obj): Promise<PDFNet.WidgetAnnot>;
         /**
-         * Creates a widget annotation and initializes it using given annotation object.
+         * creates a widget annotation and initializes it using given annotation object.
          * @param ann - Annot object used to initialize the Widget annotation.
          * Note: The constructor does not copy any data, but is instead the logical
          * equivalent of a type cast.
@@ -20403,7 +20062,7 @@ declare namespace Core.PDFNet {
          */
         getHighlightingMode(): Promise<number>;
         /**
-         * Sets the HighlightingMode for the widget annotation.
+         * sets the HighlightingMode for the widget annotation.
          * Note: The annotation's highlighting mode is the visual effect that shall be used
          * when the mouse button is pressed or held down inside its active area
          * @param [value] - <pre>
@@ -20442,7 +20101,7 @@ declare namespace Core.PDFNet {
          */
         getBorderColor(): Promise<PDFNet.ColorPt>;
         /**
-         * Sets the border color of the annotation.
+         * sets the border color of the annotation.
          * (Optional)
          * @param col - A color object that denotes the color of the screen border.
          * @param compnum - An integer which value indicates the color space used for the parameter c.
@@ -20472,7 +20131,7 @@ declare namespace Core.PDFNet {
          */
         getBackgroundColor(): Promise<PDFNet.ColorPt>;
         /**
-         * Sets the background color of the annotation.
+         * sets the background color of the annotation.
          * (Optional)
          * @param col - A color point that denotes the color of the screen background.
          * @param compnum - An integer which value indicates the color space used for the parameter c.
@@ -20492,7 +20151,7 @@ declare namespace Core.PDFNet {
          */
         getStaticCaptionText(): Promise<string>;
         /**
-         * Sets static caption text of the annotation.
+         * sets static caption text of the annotation.
          * (Optional; button fields only)
          * @param contents - A string containing the static caption text of the annotation.
          * Note: The static caption is the annotation's normal caption, which
@@ -20513,7 +20172,7 @@ declare namespace Core.PDFNet {
          */
         getRolloverCaptionText(): Promise<string>;
         /**
-         * Sets the roll over caption text of the annotation.
+         * sets the roll over caption text of the annotation.
          * (Optional; button fields only)
          * @param contents - A string containing the roll over caption text of the annotation.
          * Note: The rollover caption shall be displayed when the user rolls the cursor
@@ -20528,7 +20187,7 @@ declare namespace Core.PDFNet {
          */
         getMouseDownCaptionText(): Promise<string>;
         /**
-         * Sets the button down caption text of the annotation.
+         * sets the button down caption text of the annotation.
          * (Optional; button fields only)
          * @param contents - A string containing the button down text of the annotation.
          * Note: The button down caption shall be displayed when the mouse button is
@@ -20545,7 +20204,7 @@ declare namespace Core.PDFNet {
          */
         getStaticIcon(): Promise<PDFNet.Obj>;
         /**
-         * Sets the static icon associated with the annotation.
+         * sets the static icon associated with the annotation.
          * (Optional; button fields only)
          * @param icon - An SDF object that represents the static icon
          * associated with the annotation.
@@ -20565,7 +20224,7 @@ declare namespace Core.PDFNet {
          */
         getRolloverIcon(): Promise<PDFNet.Obj>;
         /**
-         * Sets the rollover icon associated with the annotation.
+         * sets the rollover icon associated with the annotation.
          * (Optional; button fields only)
          * @param icon - An SDF object that represents the rollover icon
          * associated with the annotation.
@@ -20585,7 +20244,7 @@ declare namespace Core.PDFNet {
          */
         getMouseDownIcon(): Promise<PDFNet.Obj>;
         /**
-         * Sets the Mouse Down icon associated with the annotation.
+         * sets the Mouse Down icon associated with the annotation.
          * (Optional; button fields only)
          * @param icon - An SDF object that represents the Mouse Down icon
          * associated with the annotation.
@@ -20609,7 +20268,7 @@ declare namespace Core.PDFNet {
          */
         getScaleType(): Promise<number>;
         /**
-         * Sets the Scale Type of the annotation.
+         * sets the Scale Type of the annotation.
          * (Optional)
          * @param st - <pre>
          * PDFNet.WidgetAnnot.ScaleType = {
@@ -20641,7 +20300,7 @@ declare namespace Core.PDFNet {
          */
         getIconCaptionRelation(): Promise<number>;
         /**
-         * Sets the Icon and caption relationship of the  annotation.
+         * sets the Icon and caption relationship of the  annotation.
          * (Optional; pushbutton fields only)
          * @param icr - <pre>
          * PDFNet.WidgetAnnot.IconCaptionRelation = {
@@ -20675,7 +20334,7 @@ declare namespace Core.PDFNet {
          */
         getScaleCondition(): Promise<number>;
         /**
-         * Sets the condition under which the icon should be scaled.
+         * sets the condition under which the icon should be scaled.
          * (Optional)
          * @param sd - <pre>
          * PDFNet.WidgetAnnot.ScaleCondition = {
@@ -20700,7 +20359,7 @@ declare namespace Core.PDFNet {
          */
         getFitFull(): Promise<boolean>;
         /**
-         * Sets the "fit full" flag.
+         * sets the "fit full" flag.
          * (Optional)
          * @param ff - A boolean value indicating the "fit full" flag value.
          * Note: the fit full flag, if true, indicates that the button
@@ -20722,7 +20381,7 @@ declare namespace Core.PDFNet {
          */
         getHIconLeftOver(): Promise<number>;
         /**
-         * Sets the horizontal leftover space of the icon within the annotation.
+         * sets the horizontal leftover space of the icon within the annotation.
          * (Optional)
          * @param hl - A number indicating the horizontal
          * leftover space of the icon within the annotation.
@@ -20750,7 +20409,7 @@ declare namespace Core.PDFNet {
          */
         getVIconLeftOver(): Promise<number>;
         /**
-         * Sets the vertical leftover space of the icon within the annotation.
+         * sets the vertical leftover space of the icon within the annotation.
          * (Optional)
          * @param vl - A number indicating the vertical
          * leftover space of the icon within the annotation.
@@ -20930,13 +20589,6 @@ declare namespace Core.PDFNet {
          * @returns A promise that resolves to a container of bytes representing the certificate, encoded as binary DER.
          */
         getData(): Promise<Uint8Array>;
-        /**
-         * Constructor from URL. The input must be in DER, BER, or PEM encoding. The certificate must be in X.509 format.
-         * @param url - The url to the file containing the certificate.
-         * @param [options] - Additional options
-         * @returns A promise that resolves to an object of type: "X509Certificate"
-         */
-        static createFromURL(url: string, options?: any): Promise<PDFNet.X509Certificate>;
     }
     /**
      * This class represents an X509v3 certificate extension. See RFC 5280 as a specification.
@@ -20965,1283 +20617,7 @@ declare namespace Core.PDFNet {
          */
         getData(): Promise<Uint8Array>;
     }
-    /**
-     * QuadPoint
-    
-    A QuadpPoint struct contains 8 values representing the (x,y) coordinates of four points in a rectangle..
-    
-    --------------------
-    Since QuadPoint is a struct, it can be created manually by calling "new PDFNet.QuadPoint(p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y)"
-    eg. var myfoo = new PDFNet.QuadPoint(1, 2, 3, 4, 5, 6, 7, 8)
-    
-    Default values for a Point struct are:
-    p1x = 0
-    p1y = 0
-    p2x = 0
-    p2y = 0
-    p3x = 0
-    p3y = 0
-    p4x = 0
-    p4y = 0
-     */
-    class QuadPoint {
-        constructor(p1x?: number, p1y?: number, p2x?: number, p2y?: number, p3x?: number, p3y?: number, p4x?: number, p4y?: number);
-        p1x: number;
-        p1y: number;
-        p2x: number;
-        p2y: number;
-        p3x: number;
-        p3y: number;
-        p4x: number;
-        p4y: number;
-    }
-    /**
-     * 2D Point
-    
-    A Point represents an (x,y) coordinate point.
-    
-    --------------------
-    Since Point is a struct, it can be created manually by calling "new PDFNet.Point(x, y)"
-    eg. var myfoo = new PDFNet.Point(1,2);
-    
-    Default values for a Point struct are:
-    x = 0
-    y = 0
-     */
-    class Point {
-        constructor(x?: number, y?: number);
-        x: number;
-        y: number;
-    }
-    /**
-     * CharData is a data structure returned by PDFNet.Iterator<CharData>.current() that is
-    used to provide extra information about a character within a text run. The extra
-    information includes positioning information, the character data and a number of
-    bytes taken by the character.
-     * @property char_code - 'Char code' For SimpleFonts char_code := char_data[0],
-    for composite fonts char_code is the numeric value of data stored in char_data buffer.
-     * @property x - glyph horizontal position
-     * @property y - glyph vertical position
-     * @property char_data - the buffer containing character data. For simple fonts
-    each character is represented by a single byte. For multi-byte (CID or Type0) fonts
-    each character may take more than one byte.
-     * @property bytes - Number of bytes representing this character in char_data buffer.
-    For simple fonts 'bytes' will equal 1. For multi-byte (CID or Type0) fonts 'bytes' may
-    be larger than 1. Should not be less than 0.
-     * @param charData - An object to construct PDFNet.CharData with
-     */
-    class CharData {
-        constructor(charData: any);
-        /**
-         * 'Char code' For SimpleFonts char_code := char_data[0],
-         * for composite fonts char_code is the numeric value of data stored in char_data buffer.
-        */
-        char_code: number;
-        /**
-         * glyph horizontal position
-        */
-        x: number;
-        /**
-         * glyph vertical position
-        */
-        y: number;
-        /**
-         * the buffer containing character data. For simple fonts
-         * each character is represented by a single byte. For multi-byte (CID or Type0) fonts
-         * each character may take more than one byte.
-        */
-        char_data: Uint8Array;
-        /**
-         * Number of bytes representing this character in char_data buffer.
-         * For simple fonts 'bytes' will equal 1. For multi-byte (CID or Type0) fonts 'bytes' may
-         * be larger than 1. Should not be less than 0.
-        */
-        bytes: number;
-    }
-    /**
-     * This class is used to store separations in PDFRasterize and PDFDraw
-     * @property data - the buffer containing separation data.
-     * @property data_size - number of bytes in data buffer.
-     * @property separation_name - name of the separation.
-     * @property c - separation cyan value
-     * @property m - separation magenta value
-     * @property y - separation yellow value
-     * @property k - separation key value
-     */
-    class Separation {
-        /**
-         * the buffer containing separation data.
-        */
-        data: Uint8Array;
-        /**
-         * number of bytes in data buffer.
-        */
-        data_size: number;
-        /**
-         * name of the separation.
-        */
-        separation_name: string;
-        /**
-         * separation cyan value
-        */
-        c: number;
-        /**
-         * separation magenta value
-        */
-        m: number;
-        /**
-         * separation yellow value
-        */
-        y: number;
-        /**
-         * separation key value
-        */
-        k: number;
-    }
-    namespace Optimizer {
-        /**
-         * An object that stores downsampling/recompression settings for color and grayscale images.
-         */
-        class ImageSettings {
-            /**
-             * Sets the maximum and resampling dpi for images.
-            By default these are set to 225 and 150 respectively.
-             * @param maximum - the highest dpi of an image before it will be resampled
-             * @param resampling - the image dpi to resample to if an image is encountered over the maximum dpi
-             * @returns this object, for call chaining
-             */
-            setImageDPI(maximum: number, resampling: number): PDFNet.Optimizer.ImageSettings;
-            /**
-             * Sets the output compression mode for this type of image
-            The default value is e_retain
-             * @param mode - the compression mode to set
-            <pre>
-            PDFNet.Optimizer.ImageSettings.CompressionMode = {
-             e_retain : 0,
-             e_flate : 1,
-             e_jpeg : 2,
-             e_jpeg2000 : 3,
-             e_none : 4
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setCompressionMode(mode: number): PDFNet.Optimizer.ImageSettings;
-            /**
-             * Sets the downsample mode for this type of image
-            The default value is e_default which will allow downsampling of images
-             * @param mode - the compression mode to set
-            <pre>
-            PDFNet.Optimizer.ImageSettings.DownsampleMode = {
-             e_off : 0,
-                e_default : 1
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setDownsampleMode(mode: number): PDFNet.Optimizer.ImageSettings;
-            /**
-             * Sets the quality for lossy compression modes.
-            from 1 to 10 where 10 is lossless (if possible)
-            the default value is 5
-             * @param quality - the quality for lossy compression modes.
-             * @returns this object, for call chaining
-             */
-            setQuality(quality: number): PDFNet.Optimizer.ImageSettings;
-            /**
-             * Sets whether recompression to the specified compression method, should be forced when the image is not downsampled.
-            By default the compression method for these images will not be changed.
-             * @param force - if true the compression method for all
-             * @returns this object, for call chaining
-             */
-            forceRecompression(force: boolean): PDFNet.Optimizer.ImageSettings;
-            /**
-             * Sets whether image changes that grow the PDF file should be kept.
-            This is off by default.
-             * @param force - if true all image changes will be kept.
-             * @returns this object, for call chaining
-             */
-            forceChanges(force: boolean): PDFNet.Optimizer.ImageSettings;
-        }
-        /**
-         * An object that stores downsampling/recompression settings for monochrome images.
-         */
-        class MonoImageSettings {
-            /**
-             * Sets the maximum and resampling dpi for monochrome images.
-            By default these are set to 450 and 300 respectively.
-             * @param maximum - the highest dpi of an image before it will be resampled
-             * @param resampling - the image dpi to resample to if an image is encountered over the maximum dpi
-             * @returns this object, for call chaining
-             */
-            setImageDPI(maximum: number, resampling: number): PDFNet.Optimizer.MonoImageSettings;
-            /**
-             * Sets the output compression mode for monochrome images
-            The default value is e_jbig2
-             * @param mode - the compression mode to set
-            <pre>
-            PDFNet.Optimizer.MonoImageSettings.CompressionMode = {
-                e_jbig2 : 0,
-                e_flate : 1,
-                e_none : 2,
-                e_ccitt: 3
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setCompressionMode(mode: number): PDFNet.Optimizer.MonoImageSettings;
-            /**
-             * Sets the downsample mode for monochrome images
-            The default value is e_default
-             * @param mode - the compression mode to set
-            <pre>
-            PDFNet.Optimizer.MonoImageSettings.DownsampleMode = {
-             e_off : 0,
-                e_default : 1
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setDownsampleMode(mode: number): PDFNet.Optimizer.MonoImageSettings;
-            /**
-             * Sets the quality for lossy JBIG2Decode compression mode.
-            The threshold is a floating point number in the range from 4 to 9
-            The default value for JBIG2 is 8.5.  The setting is ignored for FLATE.
-             * @param jbig2_threshold - the quality for lossy compression modes.
-             * @returns this object, for call chaining
-             */
-            setJBIG2Threshold(jbig2_threshold: number): PDFNet.Optimizer.MonoImageSettings;
-            /**
-             * Sets whether recompression to the specified compression method, should be forced when the image is not downsampled.
-            By default the compression method for these images will not be changed.
-             * @param force - if true the compression method for all
-             * @returns this object, for call chaining
-             */
-            forceRecompression(force: boolean): PDFNet.Optimizer.MonoImageSettings;
-            /**
-             * Sets whether image changes that grow the PDF file should be kept.
-            This is off by default.
-             * @param force - if true all image changes will be kept.
-             * @returns this object, for call chaining
-             */
-            forceChanges(force: boolean): PDFNet.Optimizer.MonoImageSettings;
-        }
-        /**
-         * An object that stores image text optimization settings.
-         */
-        class TextSettings {
-            /**
-             * Sets whether embedded fonts will be subset. This will generally reduce the size of fonts,
-            but will strip font hinting.
-            Subsetting is off by default.
-             * @param subset - if true all embedded fonts will be subsetted.
-             * @returns this object, for call chaining
-             */
-            subsetFonts(subset: boolean): PDFNet.Optimizer.TextSettings;
-            /**
-             * Sets whether fonts should be embedded. This will generally increase the size of the file,
-            but will make the file appear the same on different machines.
-            Font embedding is off by default.
-             * @param embed - if true all fonts will be embedded.
-             * @returns this object, for call chaining
-             */
-            embedFonts(embed: boolean): PDFNet.Optimizer.TextSettings;
-        }
-        /**
-         * An object that stores settings for the optimizer
-         */
-        class OptimizerSettings {
-            /**
-             * updates the settings for color image processing
-             * @param settings - settings for color image processing
-             * @returns this object, for call chaining
-             */
-            setColorImageSettings(settings: PDFNet.Optimizer.ImageSettings): PDFNet.Optimizer.OptimizerSettings;
-            /**
-             * updates the settings for grayscale image processing
-             * @param settings - settings for grayscale image processing
-             * @returns this object, for call chaining
-             */
-            setGrayscaleImageSettings(settings: PDFNet.Optimizer.ImageSettings): PDFNet.Optimizer.OptimizerSettings;
-            /**
-             * updates the settings for monochrome image processing
-             * @param settings - settings for monochrome image processing
-             * @returns this object, for call chaining
-             */
-            setMonoImageSettings(settings: PDFNet.Optimizer.MonoImageSettings): PDFNet.Optimizer.OptimizerSettings;
-            /**
-             * updates the settings for text processing
-             * @param settings - settings for text processing
-             * @returns this object, for call chaining
-             */
-            setTextSettings(settings: PDFNet.Optimizer.TextSettings): PDFNet.Optimizer.OptimizerSettings;
-            /**
-             * Enable or disable removal of custom entries in the PDF.
-            By default custom entries are removed.
-             * @param should_remove - if true custom entries will be removed.
-             * @returns this object, for call chaining
-             */
-            removeCustomEntries(should_remove: boolean): PDFNet.Optimizer.OptimizerSettings;
-        }
-        namespace ImageSettings {
-            enum CompressionMode {
-                e_retain,
-                e_flate,
-                e_jpeg,
-                e_jpeg2000,
-                e_none
-            }
-            enum DownsampleMode {
-                e_off,
-                e_default
-            }
-        }
-        namespace MonoImageSettings {
-            enum CompressionMode {
-                e_jbig2,
-                e_flate,
-                e_none
-            }
-            enum DownsampleMode {
-                e_off,
-                e_default
-            }
-        }
-    }
-    namespace Convert {
-        /**
-         * An object containing options for wordToPdf functions
-         * @param [json] - options in JSON format.
-         */
-        class ConversionOptions {
-            constructor(json?: string);
-            /**
-             * Sets the value for FileExtension in the options object
-            Override file extension used to determine conversion type.
-             * @param value - the new value for FileExtension
-             * @returns this object, for call chaining
-             */
-            setFileExtension(value: string): PDFNet.Convert.ConversionOptions;
-            /**
-             * Sets the value for EnableExternalMediaDownloads in the options object
-            Determines if downloading external resources is allowed during conversion.
-             * @param value - the new value for EnableExternalMediaDownloads
-             * @returns this object, for call chaining
-             */
-            setEnableExternalMediaDownloads(value: boolean): PDFNet.Convert.ConversionOptions;
-        }
-        enum OverprintPreviewMode {
-            e_op_off,
-            e_op_on,
-            e_op_pdfx_on
-        }
-        /**
-         * An object containing options common to ToXps and ToXod functions
-         */
-        class XPSOutputCommonOptions {
-            /**
-             * Sets whether ToXps should be run in print mode.
-            Default is false.
-             * @param print_mode - if true print mode is enabled
-             * @returns this object, for call chaining
-             */
-            setPrintMode(print_mode: boolean): PDFNet.Convert.XPSOutputCommonOptions;
-            /**
-             * The output resolution, from 1 to 1000, in Dots Per Inch (DPI) at which to
-            render elements which cannot be directly converted.
-            Default is 140.
-             * @param dpi - the resolution in Dots Per Inch
-             * @returns this object, for call chaining
-             */
-            setDPI(dpi: number): PDFNet.Convert.XPSOutputCommonOptions;
-            /**
-             * Sets whether rendering of pages should be permitted when necessary to guarantee output.
-            Default is true.
-             * @param render - if false rendering is not permitted under any circumstance
-             * @returns this object, for call chaining
-             */
-            setRenderPages(render: boolean): PDFNet.Convert.XPSOutputCommonOptions;
-            /**
-             * Sets whether thin lines should be thickened.
-            Default is true for XPS and false for XOD.
-             * @param thicken - if true then thin lines will be thickened
-             * @returns this object, for call chaining
-             */
-            setThickenLines(thicken: boolean): PDFNet.Convert.XPSOutputCommonOptions;
-            /**
-             * Sets whether links should be generated from urls found in the document.
-            Default is false.
-             * @param generate - if true links will be generated from urls
-             * @returns this object, for call chaining
-             */
-            generateURLLinks(generate: boolean): PDFNet.Convert.XPSOutputCommonOptions;
-            /**
-             * Enable or disable support for overprint and overprint simulation.
-            Overprint is a device dependent feature and the results will vary depending on
-            the output color space and supported colorants (i.e. CMYK, CMYK+spot, RGB, etc).
-            Default is e_op_pdfx_on.
-             * @param mode - <pre>
-            PDFNet.Convert.OverprintPreviewMode = {
-                e_op_off : 0
-                e_op_on : 1
-                e_op_pdfx_on : 2
-            }
-            </pre>
-            e_op_on: always enabled; e_op_off: always disabled; e_op_pdfx_on: enabled for PDF/X files only.
-             * @returns this object, for call chaining
-             */
-            setOverprint(mode: number): PDFNet.Convert.XPSOutputCommonOptions;
-        }
-        /**
-         * An object containing options for ToXps functions
-         */
-        class XPSOutputOptions extends PDFNet.Convert.XPSOutputCommonOptions {
-            /**
-             * Sets whether the output format should be open xps.
-            Default is Microsoft xps output.
-             * @param openxps - if true open xps output is used
-             * @returns this object, for call chaining
-             */
-            setOpenXps(openxps: boolean): PDFNet.Convert.XPSOutputOptions;
-        }
-        enum FlattenFlag {
-            e_off,
-            e_simple,
-            e_fast,
-            e_high_quality
-        }
-        enum FlattenThresholdFlag {
-            e_very_strict,
-            e_strict,
-            e_default,
-            e_keep_most,
-            e_keep_all
-        }
-        enum AnnotationOutputFlag {
-            e_internal_xfdf,
-            e_external_xfdf,
-            e_flatten
-        }
-        /**
-         * An object containing options for ToXod functions
-         */
-        class XODOutputOptions extends PDFNet.Convert.XPSOutputCommonOptions {
-            /**
-             * Sets whether text extraction uses Z-order as reading order.
-            Default is false.
-             * @param use_zorder - if true text extraction uses Z-order as reading order.
-             * @returns this object, for call chaining
-             */
-            setExtractUsingZorder(use_zorder: boolean): PDFNet.Convert.XODOutputOptions;
-            /**
-             * Sets whether per page thumbnails should be included in the file.
-            Default is true.
-             * @param include_thumbs - if true thumbnails will be included
-             * @returns this object, for call chaining
-             */
-            setOutputThumbnails(include_thumbs: boolean): PDFNet.Convert.XODOutputOptions;
-            /**
-             * The width and height of a square in which thumbnails will be contained.
-            Default is 400 for normal pages and 1500 for large pages.
-            Note: A large page is a page larger than twice the area of the standard page size (8.5 X 11).
-             * @param regular_size - the maximum dimension that thumbnails for regular size pages will have.
-             * @param [large_size = regular_size] - the maximum dimension that thumbnails for large pages will have.
-             * @returns this object, for call chaining
-             */
-            setThumbnailSize(regular_size: number, large_size?: number): PDFNet.Convert.XODOutputOptions;
-            /**
-             * If rendering is permitted, sets the maximum number of page elements before that page will be rendered.
-            Default is 2000000000 which will never cause pages to be completely rendered in this manner.
-             * @param element_limit - the maximum number of elements before a given page will be rendered
-             * @returns this object, for call chaining
-             */
-            setElementLimit(element_limit: number): PDFNet.Convert.XODOutputOptions;
-            /**
-             * If rendering is permitted, sets whether pages containing opacity masks should be rendered.
-            This option is used as a workaround to a bug in Silverlight where opacity masks are transformed incorrectly.
-            Default is false.
-             * @param opacity_render - if true pages with opacity masks will be rendered
-             * @returns this object, for call chaining
-             */
-            setOpacityMaskWorkaround(opacity_render: boolean): PDFNet.Convert.XODOutputOptions;
-            /**
-             * Specifies the maximum image slice size in pixels.
-            Default is 2000000.
-            Note: This setting now will no longer reduce the total number of image pixels.
-            Instead a lower value will just produce more slices and vice versa.
-            Note: Since image compression works better with more pixels a larger
-            max pixels should generally create smaller files.
-             * @param max_pixels - the maximum number of pixels an image can have
-             * @returns this object, for call chaining
-             */
-            setMaximumImagePixels(max_pixels: number): PDFNet.Convert.XODOutputOptions;
-            /**
-             * Flatten images and paths into a single background image overlaid with
-            vector text. This option can be used to improve speed on devices with
-            little processing power such as iPads. Default is e_high_quality.
-             * @param flatten - <pre>
-            PDFNet.Convert.FlattenFlag = {
-                e_off : 0
-                e_simple : 1
-                e_fast : 2
-                e_high_quality : 3
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setFlattenContent(flatten: number): PDFNet.Convert.XODOutputOptions;
-            /**
-             * Used to control how precise or relaxed text flattening is. When some text is
-            preserved (not flattened to image) the visual appearance of the document may be altered.
-             * @param threshold - <pre>
-            PDFNet.PDFNet.Convert.FlattenThresholdFlag = {
-                e_very_strict : 0
-                e_strict : 1
-                e_default : 2
-                e_keep_most : 3
-                e_keep_all : 4
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setFlattenThreshold(threshold: number): PDFNet.Convert.XODOutputOptions;
-            /**
-             * Where possible output JPG files rather than PNG. This will apply to both thumbnails and document images.
-            Default is true.
-             * @param prefer_jpg - if true JPG images will be used whenever possible.
-             * @returns this object, for call chaining
-             */
-            setPreferJPG(prefer_jpg: boolean): PDFNet.Convert.XODOutputOptions;
-            /**
-             * Specifies the compression quality to use when generating JPEG images.
-             * @param quality - the JPEG compression quality, from 0(highest compression) to 100(best quality).
-             * @returns this object, for call chaining
-             */
-            setJPGQuality(quality: number): PDFNet.Convert.XODOutputOptions;
-            /**
-             * Outputs rotated text as paths. This option is used as a workaround to a bug in Silverlight
-            where pages with rotated text could cause the plugin to crash.
-            Default is false.
-             * @param workaround - if true rotated text will be changed to paths
-             * @returns this object, for call chaining
-             */
-            setSilverlightTextWorkaround(workaround: boolean): PDFNet.Convert.XODOutputOptions;
-            /**
-             * Choose how to output annotations.
-            Default is e_internal_xfdf.
-             * @param annot_output - <pre>
-            PDFNet.PDFNet.Convert.AnnotationOutputFlag = {
-                e_internal_xfdf : 0
-                e_external_xfdf : 1
-                e_flatten : 2
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setAnnotationOutput(annot_output: number): PDFNet.Convert.XODOutputOptions;
-            /**
-             * Output XOD as a collection of loose files rather than a zip archive.
-            This option should be used when using the external part retriever in Webviewer.
-            Default is false.
-             * @param generate - if true XOD is output as a collection of loose files
-             * @returns this object, for call chaining
-             */
-            setExternalParts(generate: boolean): PDFNet.Convert.XODOutputOptions;
-            /**
-             * Encrypt XOD parts with AES 128 encryption using the supplied password.
-            This option is not available when using setExternalParts(true)
-             * @param pass - the encryption password
-             * @returns this object, for call chaining
-             */
-            setEncryptPassword(pass: string): PDFNet.Convert.XODOutputOptions;
-            /**
-             * The latest XOD format is only partially supported in Silverlight and Flash
-            due to various optimizations in the text format and the addition of blend mode support.
-            This option forces the converter to use an older version of XOD that is Silverlight/Flash
-            compatible but does not have these improvements.
-            By default the latest XOD format is generated.
-             * @param compatible - if true will use the older XOD format which is not compatible with Silverlight/Flash
-             * @returns this object, for call chaining
-             */
-            useSilverlightFlashCompatible(compatible: boolean): PDFNet.Convert.XODOutputOptions;
-        }
-        /**
-         * An object containing options for ToTiff functions
-         */
-        class TiffOutputOptions {
-            /**
-             * Specifies the page box/region to rasterize.
-            By default, page crop region will be rasterized.
-             * @param type - <pre>
-            PDFNet.Page.Box = {
-                e_media : 0
-                e_crop : 1
-                e_bleed : 2
-                e_trim : 3
-                e_art : 4
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setBox(type: number): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Rotates all pages by a given number of degrees counterclockwise. The allowed
-            values are 0, 90, 180, and 270. The default value is 0.
-             * @param rotation - <pre>
-            PDFNet.Page.Rotate = {
-                e_0 : 0
-                e_90 : 1
-                e_180 : 2
-                e_270 : 3
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setRotate(rotation: number): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * User definable clip box.
-            By default, the clip region is identical to current page 'box'.
-             * @returns this object, for call chaining
-             */
-            setClip(x1: number, y1: number, x2: number, y2: number): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Specifies the list of pages to convert. "1" for only the first page.
-            "1-5" for pages 1 to 5. "1, 5, 7" for pages 1, 5, and 7. "odd" for all odd pages.
-            "even" for all even pages. By default, all pages are converted.
-             * @returns this object, for call chaining
-             */
-            setPages(page_desc: string): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Enable or disable support for overprint and overprint simulation.
-            Overprint is a device dependent feature and the results will vary depending on
-            the output color space and supported colorants (i.e. CMYK, CMYK+spot, RGB, etc).
-            Default is e_op_pdfx_on.
-             * @param mode - <pre>
-            PDFNet.PDFRasterizer.OverprintPreviewMode = {
-                e_op_off : 0
-                e_op_on : 1
-                e_op_pdfx_on : 2
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setOverprint(mode: number): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Render and export the image in CMYK mode.
-            By default, the image is rendered and exported in RGB color space.
-             * @returns this object, for call chaining
-             */
-            setCMYK(enable: boolean): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Enables dithering when the image is exported in palletized or monochrome mode.
-            This option is disabled by default.
-             * @returns this object, for call chaining
-             */
-            setDither(enable: boolean): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Render and export the image in grayscale mode. Sets pixel format to 8 bits per pixel grayscale.
-            By default, the image is rendered and exported in RGB color space.
-             * @returns this object, for call chaining
-             */
-            setGray(enable: boolean): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Export the rendered image as 1 bit per pixel (monochrome) image. The image will be
-            compressed using G4 CCITT compression algorithm. By default, the image is not dithered.
-            To enable dithering use 'SetDither' option.
-            This option is disabled by default.
-             * @returns this object, for call chaining
-             */
-            setMono(enable: boolean): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Enables or disables drawing of annotations.
-            This option is enabled by default.
-             * @returns this object, for call chaining
-             */
-            setAnnots(enable: boolean): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Enables or disables image smoothing (default: enabled).
-             * @returns this object, for call chaining
-             */
-            setSmooth(enable: boolean): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Renders annotations in the print mode. This option can be used to render 'Print Only'
-            annotations and to hide 'Screen Only' annotations.
-            This option is disabled by default.
-             * @returns this object, for call chaining
-             */
-            setPrintmode(enable: boolean): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Sets the page color to transparent. By default, Convert assumes that the page
-            is drawn directly on an opaque white surface. Some applications may need to
-            draw the page on a different backdrop. In this case any pixels that are not
-            covered during rendering will be transparent.
-            This option is disabled by default.
-             * @returns this object, for call chaining
-             */
-            setTransparentPage(enable: boolean): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Enabled the output of palettized TIFFs.
-            This option is disabled by default.
-             * @returns this object, for call chaining
-             */
-            setPalettized(enable: boolean): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * The output resolution, from 1 to 1000, in Dots Per Inch (DPI). The higher
-            the DPI, the larger the image. Resolutions larger than 1000 DPI can be
-            achieved by rendering image in tiles or stripes. The default resolution is 92 DPI.
-             * @returns this object, for call chaining
-             */
-            setDPI(dpi: number): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Sets the gamma factor used for anti-aliased rendering. Typical values are in
-            the range from 0.1 to 3. Gamma correction can be used to improve the quality
-            of anti-aliased image output and can (to some extent) decrease the appearance
-            common anti-aliasing artifacts (such as pixel width lines between polygons).
-            The default gamma is 0.
-             * @returns this object, for call chaining
-             */
-            setGamma(gamma: number): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Sets the width of the output image, in pixels.
-             * @returns this object, for call chaining
-             */
-            setHRes(hres: number): PDFNet.Convert.TiffOutputOptions;
-            /**
-             * Sets the height of the output image, in pixels.
-             * @returns this object, for call chaining
-             */
-            setVRes(vres: number): PDFNet.Convert.TiffOutputOptions;
-        }
-        /**
-         * An object containing options common to ToHtml and ToEpub functions
-         */
-        class HTMLOutputOptions {
-            /**
-             * Use JPG files rather than PNG. This will apply to all generated images.
-            Default is true.
-            Note: This option is only available for e_fixed_position and e_reflow_paragraphs modes.
-             * @param prefer_jpg - if true JPG images will be used whenever possible.
-             * @returns this object, for call chaining
-             */
-            setPreferJPG(prefer_jpg: boolean): PDFNet.Convert.HTMLOutputOptions;
-            /**
-             * Specifies the compression quality to use when generating JPEG images.
-            Note: This option is only available for e_fixed_position and e_reflow_paragraphs modes.
-            In e_reflow_full mode, the optimal JPEG quality is chosen automatically for best balance between size and quality.
-             * @param quality - the JPEG compression quality, from 0(highest compression) to 100(best quality).
-             * @returns this object, for call chaining
-             */
-            setJPGQuality(quality: number): PDFNet.Convert.HTMLOutputOptions;
-            /**
-             * The output resolution, from 1 to 1000, in Dots Per Inch (DPI) at which to render elements which cannot be directly converted.
-            Default is 140.
-            Note: This option is only available for e_fixed_position mode.
-             * @param dpi - the resolution in Dots Per Inch
-             * @returns this object, for call chaining
-             */
-            setDPI(dpi: number): PDFNet.Convert.HTMLOutputOptions;
-            /**
-             * Specifies the maximum image slice size in pixels. Default is 2000000.
-            Note: This setting now will no longer reduce the total number of image pixels.
-            Instead a lower value will just produce more slices and vice versa.
-            Note: Since image compression works better with more pixels a larger
-            max pixels should generally create smaller files.
-            Note: This option is only available for e_fixed_position mode.
-             * @param max_pixels - the maximum number of pixels an image can have
-             * @returns this object, for call chaining
-             */
-            setMaximumImagePixels(max_pixels: number): PDFNet.Convert.HTMLOutputOptions;
-            /**
-             * Set an overall scaling of the generated HTML pages. Default is 1.0.
-            Note: This option is only available for e_fixed_position mode.
-             * @param scale - a number greater than 0 which is used as a scale factor.
-            For example, calling SetScale(0.5) will reduce the HTML body of the page to half
-            its original size, whereas SetScale(2) will double the HTML body dimensions of
-            the page and will rescale all page content appropriately.
-             * @returns this object, for call chaining
-             */
-            setScale(scale: number): PDFNet.Convert.HTMLOutputOptions;
-            /**
-             * Enable the conversion of external URL navigation.
-            Default is false.
-            Note: This option is only available for e_fixed_position mode.
-             * @param enable - if true, links that specify external URL's are converted into HTML.
-             * @returns this object, for call chaining
-             */
-            setExternalLinks(enable: boolean): PDFNet.Convert.HTMLOutputOptions;
-            /**
-             * Enable the conversion of internal document navigation.
-            Default is false.
-            Note: This option is only available for e_fixed_position mode.
-             * @param enable - if true, links that specify page jumps are converted into HTML.
-             * @returns this object, for call chaining
-             */
-            setInternalLinks(enable: boolean): PDFNet.Convert.HTMLOutputOptions;
-            /**
-             * Controls whether converter optimizes DOM or preserves text placement accuracy.
-            Default is false.
-            Note: This option is only available for e_fixed_position mode.
-             * @param enable - If true, converter will try to reduce DOM complexity at the expense of text placement accuracy.
-             * @returns this object, for call chaining
-             */
-            setSimplifyText(enable: boolean): PDFNet.Convert.HTMLOutputOptions;
-        }
-        /**
-         * An object containing options common to ToEpub functions
-         */
-        class EPUBOutputOptions {
-            /**
-             * Create the EPUB in expanded format.
-            Default is false.
-             * @param expanded - if false a single EPUB file will be generated,
-            otherwise, the generated EPUB will be in unzipped (expanded) format
-             * @returns this object, for call chaining
-             */
-            setExpanded(expanded: boolean): PDFNet.Convert.EPUBOutputOptions;
-            /**
-             * Set whether the first content page in the EPUB uses the cover image or not. If this
-            is set to true, then the first content page will simply wrap the cover image in HTML.
-            Otherwise, the page will be converted the same as all other pages in the EPUB.
-            Default is false.
-             * @param reuse - if true the first page will simply be EPUB cover image,
-            otherwise, the first page will be converted the same as the other pages
-             * @returns this object, for call chaining
-             */
-            setReuseCover(reuse: boolean): PDFNet.Convert.EPUBOutputOptions;
-        }
-        /**
-         * An object containing options for ToSvg functions
-         */
-        class SVGOutputOptions {
-            /**
-             * Sets whether to embed all images
-             * @param embed_images - if true, images will be embedded.
-            Default is false.
-             * @returns this object, for call chaining
-             */
-            setEmbedImages(embed_images: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Sets whether to disable conversion of font data to SVG
-             * @param no_fonts - if true, font data conversion is disabled.
-            Default is false.
-             * @returns this object, for call chaining
-             */
-            setNoFonts(no_fonts: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Sets whether to convert all fonts to SVG or not.
-             * @param svg_fonts - if true, fonts are converted to SVG. Otherwise they are converted to OpenType.
-            Default is false.
-             * @returns this object, for call chaining
-             */
-            setSvgFonts(svg_fonts: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Sets whether to embed fonts into each SVG page file, or to have them shared.
-             * @param embed_fonts - if true, fonts are injected into each SVG page.
-            Otherwise they are created as separate files that are shared between SVG pages.
-            Default is false.
-             * @returns this object, for call chaining
-             */
-            setEmbedFonts(embed_fonts: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Sets whether to disable mapping of text to public Unicode region.
-            Instead text will be converted using a custom encoding
-             * @param no_unicode - if true, mapping of text to public Unicode region is disabled
-             * @returns this object, for call chaining
-             */
-            setNoUnicode(no_unicode: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Some viewers do not support the default text positioning correctly.
-            This option works around this issue to place text correctly,
-            but produces verbose output. This option will override SetRemoveCharPlacement
-             * @param individual_char_placement - if true, text will be positioned correctly
-             * @returns this object, for call chaining
-             */
-            setIndividualCharPlacement(individual_char_placement: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Sets whether to disable the output of character positions.
-            This will produce slightly smaller output files than the default
-            setting, but many viewers do not support the output correctly
-             * @param remove_char_placement - if true, the output of character positions is disabled
-             * @returns this object, for call chaining
-             */
-            setRemoveCharPlacement(remove_char_placement: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Flatten images and paths into a single background image overlaid with
-            vector text. This option can be used to improve speed on devices with
-            little processing power such as iPads. Default is e_fast.
-             * @param flatten - <pre>
-            PDFNet.Convert.FlattenFlag = {
-                e_off : 0
-                e_simple : 1
-                e_fast : 2
-                e_high_quality : 3
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setFlattenContent(flatten: number): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Used to control how precise or relaxed text flattening is. When some text is
-            preserved (not flattened to image) the visual appearance of the document may be altered.
-             * @param threshold - <pre>
-            PDFNet.PDFNet.Convert.FlattenThresholdFlag = {
-                e_very_strict : 0
-                e_strict : 1
-                e_default : 2
-                e_keep_most : 3
-                e_keep_all : 4
-            }
-            </pre>
-             * @returns this object, for call chaining
-             */
-            setFlattenThreshold(threshold: number): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * The output resolution, from 1 to 1000, in Dots Per Inch (DPI) at which to render elements which cannot be directly converted.
-            Default is 140.
-             * @param dpi - the resolution in Dots Per Inch
-             * @returns this object, for call chaining
-             */
-            setFlattenDPI(dpi: number): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Specifies the maximum image slice size in pixels. Default is 2000000.
-            Note: This setting now will no longer reduce the total number of image pixels.
-            Instead a lower value will just produce more slices and vice versa.
-            Note: Since image compression works better with more pixels a larger
-            max pixels should generally create smaller files.
-             * @param max_pixels - the maximum number of pixels an image can have
-             * @returns this object, for call chaining
-             */
-            setFlattenMaximumImagePixels(max_pixels: number): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Compress output SVG files using SVGZ.
-             * @param svgz - if true, SVG files are written in compressed format.
-            Default is false.
-             * @returns this object, for call chaining
-             */
-            setCompress(svgz: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Sets whether per page thumbnails should be included in the file.
-            Default is true.
-             * @param include_thumbs - if true thumbnails will be included
-             * @returns this object, for call chaining
-             */
-            setOutputThumbnails(include_thumbs: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * The maximum dimension for thumbnails.
-             * @param size - the maximum dimension (width or height) that thumbnails will have.
-            Default is 400.
-             * @returns this object, for call chaining
-             */
-            setThumbnailSize(size: number): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Create a XML document that contains metadata of the SVG document created.
-             * @param xml - if true, XML wrapper is created. Default is true.
-             * @returns this object, for call chaining
-             */
-            setCreateXmlWrapper(xml: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Set whether the DTD declaration is included in the SVG files.
-             * @param dtd - if false, no DTD is added to SVG files.
-            Default is true.
-             * @returns this object, for call chaining
-             */
-            setDtd(dtd: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Control generation of form fields and annotations in SVG.
-             * @param annots - if false, no form fields or annotations are converted.
-            Default is true
-             * @returns this object, for call chaining
-             */
-            setAnnots(annots: boolean): PDFNet.Convert.SVGOutputOptions;
-            /**
-             * Enable or disable support for overprint and overprint simulation.
-            Overprint is a device dependent feature and the results will vary depending on
-            the output color space and supported colorants (i.e. CMYK, CMYK+spot, RGB, etc).
-            Default is e_op_pdfx_on.
-             * @param op - <pre>
-            PDFNet.PDFRasterizer.OverprintPreviewMode = {
-                e_op_off : 0
-                e_op_on : 1
-                e_op_pdfx_on : 2
-            }
-            </pre>
-            e_op_on: always enabled; e_op_off: always disabled; e_op_pdfx_on: enabled for PDF/X files only.
-             * @returns this object, for call chaining
-             */
-            setOverprint(op: number): PDFNet.Convert.SVGOutputOptions;
-        }
-        /**
-         * An object containing options for wordToPdf functions.
-         * @param JSON - data containing options values for OfficeToPDFOptions.
-         */
-        class OfficeToPDFOptions {
-            constructor(JSON: string);
-            /**
-             * Gets the value ApplyPageBreaksToSheet from the options object
-             * Whether we should split Excel worksheets into pages so that the output resembles print output. If set to false (the default), Excel sheets will be placed one per page, except in the case where the sheets are very large
-             * @returns the current value for ApplyPageBreaksToSheet.
-             */
-            getApplyPageBreaksToSheet(): boolean;
-            /**
-             * Sets the value for ApplyPageBreaksToSheet in the options object
-             * Whether we should split Excel worksheets into pages so that the output resembles print output. If set to false (the default), Excel sheets will be placed one per page, except in the case where the sheets are very large
-             * @param value - the new value for ApplyPageBreaksToSheet
-             * @returns this object, for call chaining
-             */
-            setApplyPageBreaksToSheet(value: boolean): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value DisplayChangeTracking from the options object
-             * If this option is true, will display office change tracking markup present in the document (i.e, red strikethrough of deleted content and underlining of new content). Otherwise displays the resolved document content, with no markup. Defaults to true.
-             * @returns the current value for DisplayChangeTracking.
-             */
-            getDisplayChangeTracking(): boolean;
-            /**
-             * Sets the value for DisplayChangeTracking in the options object
-             * If this option is true, will display office change tracking markup present in the document (i.e, red strikethrough of deleted content and underlining of new content). Otherwise displays the resolved document content, with no markup. Defaults to true.
-             * @param value - the new value for DisplayChangeTracking
-             * @returns this object, for call chaining
-             */
-            setDisplayChangeTracking(value: boolean): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value DisplayHiddenText from the options object
-             * Display any hidden text that is present in the document (i.e., text that has been marked as 'Hidden' in the font style). By default, hidden text will not be displayed.
-             * @returns the current value for DisplayHiddenText.
-             */
-            getDisplayHiddenText(): boolean;
-            /**
-             * Sets the value for DisplayHiddenText in the options object
-             * Display any hidden text that is present in the document (i.e., text that has been marked as 'Hidden' in the font style). By default, hidden text will not be displayed.
-             * @param value - the new value for DisplayHiddenText
-             * @returns this object, for call chaining
-             */
-            setDisplayHiddenText(value: boolean): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value ExcelDefaultCellBorderWidth from the options object
-             * Cell border width for table cells that would normally be drawn with no border. In units of points. Can be used to achieve a similar effect to the "show gridlines" display option within Microsoft Excel.
-             * @returns the current value for ExcelDefaultCellBorderWidth.
-             */
-            getExcelDefaultCellBorderWidth(): number;
-            /**
-             * Sets the value for ExcelDefaultCellBorderWidth in the options object
-             * Cell border width for table cells that would normally be drawn with no border. In units of points. Can be used to achieve a similar effect to the "show gridlines" display option within Microsoft Excel.
-             * @param value - the new value for ExcelDefaultCellBorderWidth
-             * @returns this object, for call chaining
-             */
-            setExcelDefaultCellBorderWidth(value: number): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value ExcelMaxAllowedCellCount from the options object
-             * Conversion will throw an exception if the number of cells in a Microsoft Excel document is above the set MaxAllowedCellCount. Used for early termination of resource intensive conversions. Setting this value to 250000 will allow the vast majority of Excel documents to convert without issue, while keeping RAM usage to a reasonable level. By default there is no limit to the number of allowed cells.
-             * @returns the current value for ExcelMaxAllowedCellCount.
-             */
-            getExcelMaxAllowedCellCount(): number;
-            /**
-             * Sets the value for ExcelMaxAllowedCellCount in the options object
-             * Conversion will throw an exception if the number of cells in a Microsoft Excel document is above the set MaxAllowedCellCount. Used for early termination of resource intensive conversions. Setting this value to 250000 will allow the vast majority of Excel documents to convert without issue, while keeping RAM usage to a reasonable level. By default there is no limit to the number of allowed cells.
-             * @param value - the new value for ExcelMaxAllowedCellCount
-             * @returns this object, for call chaining
-             */
-            setExcelMaxAllowedCellCount(value: number): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value HideTotalNumberOfPages from the options object
-             * If the document has an element that displays the total number of pages and the total number of pages is unknown beforehand, remove those elements from the document.
-             * @returns the current value for HideTotalNumberOfPages.
-             */
-            getHideTotalNumberOfPages(): boolean;
-            /**
-             * Sets the value for HideTotalNumberOfPages in the options object
-             * If the document has an element that displays the total number of pages and the total number of pages is unknown beforehand, remove those elements from the document.
-             * @param value - the new value for HideTotalNumberOfPages
-             * @returns this object, for call chaining
-             */
-            setHideTotalNumberOfPages(value: boolean): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value IncludeBookmarks from the options object
-             * When this option is set to false, Word document bookmarks will not be converted into PDF bookmarks. However, Word headings will still be automatically converted into PDF bookmarks. By default, both Word bookmarks and headings are converted into PDF bookmarks, providing a comprehensive navigation structure within the converted PDF.
-             * @returns the current value for IncludeBookmarks.
-             */
-            getIncludeBookmarks(): boolean;
-            /**
-             * Sets the value for IncludeBookmarks in the options object
-             * When this option is set to false, Word document bookmarks will not be converted into PDF bookmarks. However, Word headings will still be automatically converted into PDF bookmarks. By default, both Word bookmarks and headings are converted into PDF bookmarks, providing a comprehensive navigation structure within the converted PDF.
-             * @param value - the new value for IncludeBookmarks
-             * @returns this object, for call chaining
-             */
-            setIncludeBookmarks(value: boolean): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value IncrementalSave from the options object
-             * If this option is true, the document will be saved incrementally during the conversion, thus reducing the peak memory usage. Save an empty PDFDoc to the target location before the conversion so the incremental saving is done directly to the target location. Otherwise, a temporary file will be used. PDFDoc.Save still has to be called after the conversion is done to finalize the file. Doing PDFDoc.Save with e_incremental flag will reduce the saving time but increase the PDF file size.
-             * @returns the current value for IncrementalSave.
-             */
-            getIncrementalSave(): boolean;
-            /**
-             * Sets the value for IncrementalSave in the options object
-             * If this option is true, the document will be saved incrementally during the conversion, thus reducing the peak memory usage. Save an empty PDFDoc to the target location before the conversion so the incremental saving is done directly to the target location. Otherwise, a temporary file will be used. PDFDoc.Save still has to be called after the conversion is done to finalize the file. Doing PDFDoc.Save with e_incremental flag will reduce the saving time but increase the PDF file size.
-             * @param value - the new value for IncrementalSave
-             * @returns this object, for call chaining
-             */
-            setIncrementalSave(value: boolean): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value Locale from the options object
-             * ISO 639-1 code of the locale to be applied during conversion. For example: 'en-US', 'ar-SA', 'de-DE', etc. Currently only applied during xls/xlsx conversions.
-             * @returns the current value for Locale.
-             */
-            getLocale(): string;
-            /**
-             * Sets the value for Locale in the options object
-             * ISO 639-1 code of the locale to be applied during conversion. For example: 'en-US', 'ar-SA', 'de-DE', etc. Currently only applied during xls/xlsx conversions.
-             * @param value - the new value for Locale
-             * @returns this object, for call chaining
-             */
-            setLocale(value: string): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value Password from the options object
-             * Password used to decrypt password-protected office documents.
-             * @returns the current value for Password.
-             */
-            getPassword(): string;
-            /**
-             * Sets the value for Password in the options object
-             * Password used to decrypt password-protected office documents.
-             * @param value - the new value for Password
-             * @returns this object, for call chaining
-             */
-            setPassword(value: string): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value StructureTagLevel from the options object
-             * Specifies the level of document structure tags to include in the PDF for accessibility purposes.
-             * @returns the current value for StructureTagLevel.
-             */
-            getStructureTagLevel(): number;
-            /**
-             * Sets the value for StructureTagLevel in the options object
-             * Specifies the level of document structure tags to include in the PDF for accessibility purposes.
-             * @param value - the new value for StructureTagLevel
-             * @returns this object, for call chaining
-             */
-            setStructureTagLevel(value: number): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value TemplateLeftDelimiter from the options object
-             * Left delimiter for template tags.  Defaults to '{{'.
-             * @returns the current value for TemplateLeftDelimiter.
-             */
-            getTemplateLeftDelimiter(): string;
-            /**
-             * Sets the value for TemplateLeftDelimiter in the options object
-             * Left delimiter for template tags.  Defaults to '{{'.
-             * @param value - the new value for TemplateLeftDelimiter
-             * @returns this object, for call chaining
-             */
-            setTemplateLeftDelimiter(value: string): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value TemplateParamsJson from the options object
-             * JSON string representing the data to be merged into a PDFTron office template.  For a more featureful template API, see CreateOfficeTemplate.
-             * @returns the current value for TemplateParamsJson.
-             */
-            getTemplateParamsJson(): string;
-            /**
-             * Sets the value for TemplateParamsJson in the options object
-             * JSON string representing the data to be merged into a PDFTron office template.  For a more featureful template API, see CreateOfficeTemplate.
-             * @param value - the new value for TemplateParamsJson
-             * @returns this object, for call chaining
-             */
-            setTemplateParamsJson(value: string): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value TemplateRightDelimiter from the options object
-             * Right delimiter for template tags.  Defaults to '}}'.
-             * @returns the current value for TemplateRightDelimiter.
-             */
-            getTemplateRightDelimiter(): string;
-            /**
-             * Sets the value for TemplateRightDelimiter in the options object
-             * Right delimiter for template tags.  Defaults to '}}'.
-             * @param value - the new value for TemplateRightDelimiter
-             * @returns this object, for call chaining
-             */
-            setTemplateRightDelimiter(value: string): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value TemplateStrictMode from the options object
-             * If "Strict Mode" is enabled, when a template key is missing from the json data an exception will be thrown.  If "Strict Mode" is disabled (default), the tag will be replaced with no content.
-             * @returns the current value for TemplateStrictMode.
-             */
-            getTemplateStrictMode(): boolean;
-            /**
-             * Sets the value for TemplateStrictMode in the options object
-             * If "Strict Mode" is enabled, when a template key is missing from the json data an exception will be thrown.  If "Strict Mode" is disabled (default), the tag will be replaced with no content.
-             * @param value - the new value for TemplateStrictMode
-             * @returns this object, for call chaining
-             */
-            setTemplateStrictMode(value: boolean): PDFNet.Convert.OfficeToPDFOptions;
-            /**
-             * Gets the value UpdateTableOfContents from the options object
-             * Updates the table of contents in the document so it matches the actual locations of headings/bookmarks. By default, the table of contents is not updated. Enabling this option may negatively affect conversion speed.
-             * @returns the current value for UpdateTableOfContents.
-             */
-            getUpdateTableOfContents(): boolean;
-            /**
-             * Sets the value for UpdateTableOfContents in the options object
-             * Updates the table of contents in the document so it matches the actual locations of headings/bookmarks. By default, the table of contents is not updated. Enabling this option may negatively affect conversion speed.
-             * @param value - the new value for UpdateTableOfContents
-             * @returns this object, for call chaining
-             */
-            setUpdateTableOfContents(value: boolean): PDFNet.Convert.OfficeToPDFOptions;
-        }
-        enum PrinterMode {
-            e_auto,
-            e_interop_only,
-            e_printer_only,
-            e_prefer_builtin_converter
-        }
-    }
     namespace PDFDoc {
-        /**
-         * An object containing options for PDFDoc.saveViewerOptimized function
-         */
-        class ViewerOptimizedOptions {
-            /**
-             * For any pages that are not forced to include thumbnails this
-            function adjusts whether we should include them depending on the
-            complexity of the page. This can be used to include fewer or more thumbnails
-            as required by the use case. In particular reducing this value
-            will tend to increase the number of page thumbnails included and vice versa.
-             * @param threshold - A number from 0 (include all thumbnails) to 100
-            (include only the first thumbnail) representing the complexity at which
-            SaveViewerOptimized would include the thumbnail. The default value is 50.
-             * @returns this object, for call chaining
-             */
-            setThumbnailRenderingThreshold(threshold: number): PDFNet.PDFDoc.ViewerOptimizedOptions;
-            /**
-             * Set the number of pages starting from the first for which to guarantee thumbnails regardless of page complexity.
-            This can help improve the viewing experience on the first few pages without increasing the file size dramatically.
-            If this number is greater than the number of pages in the document all of the pages will have thumbnails.
-             * @param initial_thumbs - The number of pages starting with the first which are guaranteed to have thumbnails. The default value is 1,
-            which means only the first page is guaranteed to have a thumbnail.
-             * @returns this object, for call chaining
-             */
-            setMinimumInitialThumbnails(initial_thumbs: number): PDFNet.PDFDoc.ViewerOptimizedOptions;
-            /**
-             * The maximum allowed length for the thumbnail's height/width.
-            The default thumbnail size is 1024.
-             * @param size - the maximum dimension (width or height) that thumbnails will have.
-             * @returns this object, for call chaining
-             */
-            setThumbnailSize(size: number): PDFNet.PDFDoc.ViewerOptimizedOptions;
-            /**
-             * Enable or disable support for overprint and overprint simulation in generated thumbnails.
-            Overprint is a device dependent feature and the results will vary depending on
-            the output color space and supported colorants (i.e. CMYK, CMYK+spot, RGB, etc).
-            Default is e_op_pdfx_on.
-             * @param mode - <pre>
-            PDFNet.PDFRasterizer.OverprintPreviewMode = {
-                e_op_off : 0
-                e_op_on : 1
-                e_op_pdfx_on : 2
-            }
-            </pre>
-            e_op_on: always enabled; e_op_off: always disabled; e_op_pdfx_on: enabled for PDF/X files only.
-             * @returns this object, for call chaining
-             */
-            setOverprint(mode: number): PDFNet.PDFDoc.ViewerOptimizedOptions;
-        }
         /**
          * Options for PDFNet.PDFDoc.RefreshAnnotAppearances or PDFNet.Annot.refreshAppearanceRefreshOptions
          */
@@ -22579,35 +20955,71 @@ declare namespace Core.PDFNet {
             setShapeLimit(value: number): PDFNet.PDFDoc.SnapToOptions;
         }
         /**
-         * Options for PDFNet.PDFDoc.mergeXFDF and PDFNet.PDFDoc.mergeXFDFString.
+         * Options for PDFNet.PDFDoc.MergeXFDFOptions and PDFNet.PDFDoc.mergeXFDFString
          */
         class MergeXFDFOptions {
             /**
-             * Gets the value Force from the options object.
+             * Gets the value Force from the options object
              * If true, merge will be performed even if the conditions below are true. If false, the MergeXFDF operation will be aborted with exception if one of these conditions is true: 1)xfdf contains annotations with no 'name' attribute 2)annotations in pdf or xfdf have names that are not unique, i.e. multiple annotations in the same document have the same name. In order for the merge operation to work correctly, all the annotations in xfdf need to have a unique 'name' attribute. If pdf document has unnamed annotatations (no 'NM' attribute), xfdf files generated using Apryse SDK will still have names that will allow the MergeXFDF algorithm to work.
-             * @returns The current value for Force.
+             * @returns the current value for Force.
              */
             getForce(): boolean;
             /**
-             * Sets the value for Force in the options object.
+             * Sets the value for Force in the options object
              * If true, merge will be performed even if the conditions below are true. If false, the MergeXFDF operation will be aborted with exception if one of these conditions is true: 1)xfdf contains annotations with no 'name' attribute 2)annotations in pdf or xfdf have names that are not unique, i.e. multiple annotations in the same document have the same name. In order for the merge operation to work correctly, all the annotations in xfdf need to have a unique 'name' attribute. If pdf document has unnamed annotatations (no 'NM' attribute), xfdf files generated using Apryse SDK will still have names that will allow the MergeXFDF algorithm to work.
-             * @param value - The new value for Force
-             * @returns This object, for call chaining.
+             * @param value - the new value for Force
+             * @returns this object, for call chaining
              */
             setForce(value: boolean): PDFNet.PDFDoc.MergeXFDFOptions;
+        }
+        /**
+         * An object containing options for PDFDoc.saveViewerOptimized function
+         */
+        class ViewerOptimizedOptions {
             /**
-             * Gets the value UseNonStandardRotation from the options object.
-             * Whether we should use rotation in the annotation even if it is not a multiple of 90. Off by default.
-             * @returns The current value for UseNonStandardRotation.
+             * For any pages that are not forced to include thumbnails this
+            function adjusts whether we should include them depending on the
+            complexity of the page. This can be used to include fewer or more thumbnails
+            as required by the use case. In particular reducing this value
+            will tend to increase the number of page thumbnails included and vice versa.
+             * @param threshold - A number from 0 (include all thumbnails) to 100
+            (include only the first thumbnail) representing the complexity at which
+            SaveViewerOptimized would include the thumbnail. The default value is 50.
+             * @returns this object, for call chaining
              */
-            getUseNonStandardRotation(): boolean;
+            setThumbnailRenderingThreshold(threshold: number): PDFNet.PDFDoc.ViewerOptimizedOptions;
             /**
-             * Sets the value for UseNonStandardRotation in the options object.
-             * Whether we should use rotation in the annotation even if it is not a multiple of 90. Off by default.
-             * @param value - The new value for UseNonStandardRotation
-             * @returns This object, for call chaining.
+             * Set the number of pages starting from the first for which to guarantee thumbnails regardless of page complexity.
+            This can help improve the viewing experience on the first few pages without increasing the file size dramatically.
+            If this number is greater than the number of pages in the document all of the pages will have thumbnails.
+             * @param initial_thumbs - The number of pages starting with the first which are guaranteed to have thumbnails. The default value is 1,
+            which means only the first page is guaranteed to have a thumbnail.
+             * @returns this object, for call chaining
              */
-            setUseNonStandardRotation(value: boolean): PDFNet.PDFDoc.MergeXFDFOptions;
+            setMinimumInitialThumbnails(initial_thumbs: number): PDFNet.PDFDoc.ViewerOptimizedOptions;
+            /**
+             * The maximum allowed length for the thumbnail's height/width.
+            The default thumbnail size is 1024.
+             * @param size - the maximum dimension (width or height) that thumbnails will have.
+             * @returns this object, for call chaining
+             */
+            setThumbnailSize(size: number): PDFNet.PDFDoc.ViewerOptimizedOptions;
+            /**
+             * Enable or disable support for overprint and overprint simulation in generated thumbnails.
+            Overprint is a device dependent feature and the results will vary depending on
+            the output color space and supported colorants (i.e. CMYK, CMYK+spot, RGB, etc).
+            Default is e_op_pdfx_on.
+             * @param mode - <pre>
+            PDFNet.PDFRasterizer.OverprintPreviewMode = {
+                e_op_off : 0
+                e_op_on : 1
+                e_op_pdfx_on : 2
+            }
+            </pre>
+            e_op_on: always enabled; e_op_off: always disabled; e_op_pdfx_on: enabled for PDF/X files only.
+             * @returns this object, for call chaining
+             */
+            setOverprint(mode: number): PDFNet.PDFDoc.ViewerOptimizedOptions;
         }
         enum EventType {
             e_action_trigger_doc_will_close,
@@ -22984,6 +21396,1073 @@ declare namespace Core.PDFNet {
             e_PDFA_4_6_2_10_6_1,
             e_PDFA_4_6_2_10_6_4,
             e_PDFA_LAST
+        }
+    }
+    /**
+     * QuadPoint
+    
+    A QuadpPoint struct contains 8 values representing the (x,y) coordinates of four points in a rectangle..
+    
+    --------------------
+    Since QuadPoint is a struct, it can be created manually by calling "new PDFNet.QuadPoint(p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y)"
+    eg. var myfoo = new PDFNet.QuadPoint(1, 2, 3, 4, 5, 6, 7, 8)
+    
+    Default values for a Point struct are:
+    p1x = 0
+    p1y = 0
+    p2x = 0
+    p2y = 0
+    p3x = 0
+    p3y = 0
+    p4x = 0
+    p4y = 0
+     */
+    class QuadPoint {
+        constructor(p1x?: number, p1y?: number, p2x?: number, p2y?: number, p3x?: number, p3y?: number, p4x?: number, p4y?: number);
+        p1x: number;
+        p1y: number;
+        p2x: number;
+        p2y: number;
+        p3x: number;
+        p3y: number;
+        p4x: number;
+        p4y: number;
+    }
+    /**
+     * 2D Point
+    
+    A Point represents an (x,y) coordinate point.
+    
+    --------------------
+    Since Point is a struct, it can be created manually by calling "new PDFNet.Point(x, y)"
+    eg. var myfoo = new PDFNet.Point(1,2);
+    
+    Default values for a Point struct are:
+    x = 0
+    y = 0
+     */
+    class Point {
+        constructor(x?: number, y?: number);
+        x: number;
+        y: number;
+    }
+    /**
+     * CharData is a data structure returned by PDFNet.Iterator<CharData>.current() that is
+    used to provide extra information about a character within a text run. The extra
+    information includes positioning information, the character data and a number of
+    bytes taken by the character.
+     * @property char_code - 'Char code' For SimpleFonts char_code := char_data[0],
+    for composite fonts char_code is the numeric value of data stored in char_data buffer.
+     * @property x - glyph horizontal position
+     * @property y - glyph vertical position
+     * @property char_data - the buffer containing character data. For simple fonts
+    each character is represented by a single byte. For multi-byte (CID or Type0) fonts
+    each character may take more than one byte.
+     * @property bytes - Number of bytes representing this character in char_data buffer.
+    For simple fonts 'bytes' will equal 1. For multi-byte (CID or Type0) fonts 'bytes' may
+    be larger than 1. Should not be less than 0.
+     * @param charData - An object to construct PDFNet.CharData with
+     */
+    class CharData {
+        constructor(charData: any);
+        /**
+         * 'Char code' For SimpleFonts char_code := char_data[0],
+         * for composite fonts char_code is the numeric value of data stored in char_data buffer.
+        */
+        char_code: number;
+        /**
+         * glyph horizontal position
+        */
+        x: number;
+        /**
+         * glyph vertical position
+        */
+        y: number;
+        /**
+         * the buffer containing character data. For simple fonts
+         * each character is represented by a single byte. For multi-byte (CID or Type0) fonts
+         * each character may take more than one byte.
+        */
+        char_data: Uint8Array;
+        /**
+         * Number of bytes representing this character in char_data buffer.
+         * For simple fonts 'bytes' will equal 1. For multi-byte (CID or Type0) fonts 'bytes' may
+         * be larger than 1. Should not be less than 0.
+        */
+        bytes: number;
+    }
+    /**
+     * This class is used to store separations in PDFRasterize and PDFDraw
+     * @property data - the buffer containing separation data.
+     * @property data_size - number of bytes in data buffer.
+     * @property separation_name - name of the separation.
+     * @property c - separation cyan value
+     * @property m - separation magenta value
+     * @property y - separation yellow value
+     * @property k - separation key value
+     */
+    class Separation {
+        /**
+         * the buffer containing separation data.
+        */
+        data: Uint8Array;
+        /**
+         * number of bytes in data buffer.
+        */
+        data_size: number;
+        /**
+         * name of the separation.
+        */
+        separation_name: string;
+        /**
+         * separation cyan value
+        */
+        c: number;
+        /**
+         * separation magenta value
+        */
+        m: number;
+        /**
+         * separation yellow value
+        */
+        y: number;
+        /**
+         * separation key value
+        */
+        k: number;
+    }
+    namespace Optimizer {
+        /**
+         * An object that stores downsampling/recompression settings for color and grayscale images.
+         */
+        class ImageSettings {
+            /**
+             * Sets the maximum and resampling dpi for images.
+            By default these are set to 225 and 150 respectively.
+             * @param maximum - the highest dpi of an image before it will be resampled
+             * @param resampling - the image dpi to resample to if an image is encountered over the maximum dpi
+             * @returns this object, for call chaining
+             */
+            setImageDPI(maximum: number, resampling: number): PDFNet.Optimizer.ImageSettings;
+            /**
+             * Sets the output compression mode for this type of image
+            The default value is e_retain
+             * @param mode - the compression mode to set
+            <pre>
+            PDFNet.Optimizer.ImageSettings.CompressionMode = {
+             e_retain : 0,
+             e_flate : 1,
+             e_jpeg : 2,
+             e_jpeg2000 : 3,
+             e_none : 4
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setCompressionMode(mode: number): PDFNet.Optimizer.ImageSettings;
+            /**
+             * Sets the downsample mode for this type of image
+            The default value is e_default which will allow downsampling of images
+             * @param mode - the compression mode to set
+            <pre>
+            PDFNet.Optimizer.ImageSettings.DownsampleMode = {
+             e_off : 0,
+                e_default : 1
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setDownsampleMode(mode: number): PDFNet.Optimizer.ImageSettings;
+            /**
+             * Sets the quality for lossy compression modes.
+            from 1 to 10 where 10 is lossless (if possible)
+            the default value is 5
+             * @param quality - the quality for lossy compression modes.
+             * @returns this object, for call chaining
+             */
+            setQuality(quality: number): PDFNet.Optimizer.ImageSettings;
+            /**
+             * Sets whether recompression to the specified compression method, should be forced when the image is not downsampled.
+            By default the compression method for these images will not be changed.
+             * @param force - if true the compression method for all
+             * @returns this object, for call chaining
+             */
+            forceRecompression(force: boolean): PDFNet.Optimizer.ImageSettings;
+            /**
+             * Sets whether image changes that grow the PDF file should be kept.
+            This is off by default.
+             * @param force - if true all image changes will be kept.
+             * @returns this object, for call chaining
+             */
+            forceChanges(force: boolean): PDFNet.Optimizer.ImageSettings;
+        }
+        /**
+         * An object that stores downsampling/recompression settings for monochrome images.
+         */
+        class MonoImageSettings {
+            /**
+             * Sets the maximum and resampling dpi for monochrome images.
+            By default these are set to 450 and 300 respectively.
+             * @param maximum - the highest dpi of an image before it will be resampled
+             * @param resampling - the image dpi to resample to if an image is encountered over the maximum dpi
+             * @returns this object, for call chaining
+             */
+            setImageDPI(maximum: number, resampling: number): PDFNet.Optimizer.MonoImageSettings;
+            /**
+             * Sets the output compression mode for monochrome images
+            The default value is e_jbig2
+             * @param mode - the compression mode to set
+            <pre>
+            PDFNet.Optimizer.MonoImageSettings.CompressionMode = {
+                e_jbig2 : 0,
+                e_flate : 1,
+                e_none : 2
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setCompressionMode(mode: number): PDFNet.Optimizer.MonoImageSettings;
+            /**
+             * Sets the downsample mode for monochrome images
+            The default value is e_default
+             * @param mode - the compression mode to set
+            <pre>
+            PDFNet.Optimizer.MonoImageSettings.DownsampleMode = {
+             e_off : 0,
+                e_default : 1
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setDownsampleMode(mode: number): PDFNet.Optimizer.MonoImageSettings;
+            /**
+             * Sets the quality for lossy JBIG2Decode compression mode.
+            The threshold is a floating point number in the range from 4 to 9
+            The default value for JBIG2 is 8.5.  The setting is ignored for FLATE.
+             * @param jbig2_threshold - the quality for lossy compression modes.
+             * @returns this object, for call chaining
+             */
+            setJBIG2Threshold(jbig2_threshold: number): PDFNet.Optimizer.MonoImageSettings;
+            /**
+             * Sets whether recompression to the specified compression method, should be forced when the image is not downsampled.
+            By default the compression method for these images will not be changed.
+             * @param force - if true the compression method for all
+             * @returns this object, for call chaining
+             */
+            forceRecompression(force: boolean): PDFNet.Optimizer.MonoImageSettings;
+            /**
+             * Sets whether image changes that grow the PDF file should be kept.
+            This is off by default.
+             * @param force - if true all image changes will be kept.
+             * @returns this object, for call chaining
+             */
+            forceChanges(force: boolean): PDFNet.Optimizer.MonoImageSettings;
+        }
+        /**
+         * An object that stores image text optimization settings.
+         */
+        class TextSettings {
+            /**
+             * Sets whether embedded fonts will be subset. This will generally reduce the size of fonts,
+            but will strip font hinting.
+            Subsetting is off by default.
+             * @param subset - if true all embedded fonts will be subsetted.
+             * @returns this object, for call chaining
+             */
+            subsetFonts(subset: boolean): PDFNet.Optimizer.TextSettings;
+            /**
+             * Sets whether fonts should be embedded. This will generally increase the size of the file,
+            but will make the file appear the same on different machines.
+            Font embedding is off by default.
+             * @param embed - if true all fonts will be embedded.
+             * @returns this object, for call chaining
+             */
+            embedFonts(embed: boolean): PDFNet.Optimizer.TextSettings;
+        }
+        /**
+         * An object that stores settings for the optimizer
+         */
+        class OptimizerSettings {
+            /**
+             * updates the settings for color image processing
+             * @param settings - settings for color image processing
+             * @returns this object, for call chaining
+             */
+            setColorImageSettings(settings: PDFNet.Optimizer.ImageSettings): PDFNet.Optimizer.OptimizerSettings;
+            /**
+             * updates the settings for grayscale image processing
+             * @param settings - settings for grayscale image processing
+             * @returns this object, for call chaining
+             */
+            setGrayscaleImageSettings(settings: PDFNet.Optimizer.ImageSettings): PDFNet.Optimizer.OptimizerSettings;
+            /**
+             * updates the settings for monochrome image processing
+             * @param settings - settings for monochrome image processing
+             * @returns this object, for call chaining
+             */
+            setMonoImageSettings(settings: PDFNet.Optimizer.MonoImageSettings): PDFNet.Optimizer.OptimizerSettings;
+            /**
+             * updates the settings for text processing
+             * @param settings - settings for text processing
+             * @returns this object, for call chaining
+             */
+            setTextSettings(settings: PDFNet.Optimizer.TextSettings): PDFNet.Optimizer.OptimizerSettings;
+            /**
+             * Enable or disable removal of custom entries in the PDF.
+            By default custom entries are removed.
+             * @param should_remove - if true custom entries will be removed.
+             * @returns this object, for call chaining
+             */
+            removeCustomEntries(should_remove: boolean): PDFNet.Optimizer.OptimizerSettings;
+        }
+        namespace ImageSettings {
+            enum CompressionMode {
+                e_retain,
+                e_flate,
+                e_jpeg,
+                e_jpeg2000,
+                e_none
+            }
+            enum DownsampleMode {
+                e_off,
+                e_default
+            }
+        }
+        namespace MonoImageSettings {
+            enum CompressionMode {
+                e_jbig2,
+                e_flate,
+                e_none
+            }
+            enum DownsampleMode {
+                e_off,
+                e_default
+            }
+        }
+    }
+    namespace Convert {
+        /**
+         * An object containing options for wordToPdf functions
+         * @param [json] - options in JSON format.
+         */
+        class ConversionOptions {
+            constructor(json?: string);
+            /**
+             * Sets the value for FileExtension in the options object
+            Override file extension used to determine conversion type.
+             * @param value - the new value for FileExtension
+             * @returns this object, for call chaining
+             */
+            setFileExtension(value: string): PDFNet.Convert.ConversionOptions;
+            /**
+             * Sets the value for EnableExternalMediaDownloads in the options object
+            Determines if downloading external resources is allowed during conversion.
+             * @param value - the new value for EnableExternalMediaDownloads
+             * @returns this object, for call chaining
+             */
+            setEnableExternalMediaDownloads(value: boolean): PDFNet.Convert.ConversionOptions;
+        }
+        /**
+         * An object containing options for wordToPdf functions
+         * @param [json] - options in JSON format.
+         */
+        class OfficeToPDFOptions extends ConversionOptions {
+            constructor(json?: string);
+            /**
+             * Sets the value for ApplyPageBreaksToSheet in the options object
+            Whether we should split Excel workheets into pages so that the output resembles print output.
+             * @param value - the new value for ApplyPageBreaksToSheet
+             * @returns this object, for call chaining
+             */
+            setApplyPageBreaksToSheet(value: boolean): PDFNet.Convert.OfficeToPDFOptions;
+            /**
+             * Sets the value for DisplayChangeTracking in the options object
+            If this option is true, will display office change tracking markup present in the
+            document (i.e, red strikethrough of deleted content and underlining of new content).
+            Otherwise displays the resolved document content, with no markup. Defaults to true.
+             * @param value - the new value for DisplayChangeTracking
+             * @returns this object, for call chaining
+             */
+            setDisplayChangeTracking(value: boolean): PDFNet.Convert.OfficeToPDFOptions;
+            /**
+             * Sets the value for ExcelDefaultCellBorderWidth in the options object
+            Cell border width for table cells that would normally be drawn with no border.
+            In units of points. Can be used to achieve a similar effect to the "show gridlines"
+            display option within Microsoft Excel.
+             * @param width - the new value for ExcelDefaultCellBorderWidth
+             * @returns this object, for call chaining
+             */
+            setExcelDefaultCellBorderWidth(width: number): PDFNet.Convert.OfficeToPDFOptions;
+            /**
+             * Sets the value for ExcelMaxAllowedCellCount in the options object
+            Conversion will throw an exception if the number of cells in a Microsoft Excel
+            document is above the set MaxAllowedCellCount. Used for early termination of resource
+            intensive conversions. Setting this value to 250000 will allow the vast majority of
+            Excel documents to convert without issue, while keeping RAM usage to a reasonable level.
+            By default there is no limit to the number of allowed cells.
+             * @param value - the new value for ExcelMaxAllowedCellCount
+             * @returns this object, for call chaining
+             */
+            setExcelMaxAllowedCellCount(value: number): PDFNet.Convert.OfficeToPDFOptions;
+            /**
+             * Sets the value for Locale in the options object
+            ISO 639-1 code of the current system locale. For example: 'en-US', 'ar-SA', 'de-DE', etc.
+             * @param value - the new value for Locale
+             * @returns this object, for call chaining
+             */
+            setLocale(value: string): PDFNet.Convert.OfficeToPDFOptions;
+            /**
+             * Sets the value for TemplateParamsJson in the options object
+            JSON string representing the data to be merged into a PDFTron office template
+             * @param value - the new value for TemplateParamsJson
+             * @returns this object, for call chaining
+             */
+            setTemplateParamsJson(value: string): PDFNet.Convert.OfficeToPDFOptions;
+        }
+        enum OverprintPreviewMode {
+            e_op_off,
+            e_op_on,
+            e_op_pdfx_on
+        }
+        /**
+         * An object containing options common to ToXps and ToXod functions
+         */
+        class XPSOutputCommonOptions {
+            /**
+             * Sets whether ToXps should be run in print mode.
+            Default is false.
+             * @param print_mode - if true print mode is enabled
+             * @returns this object, for call chaining
+             */
+            setPrintMode(print_mode: boolean): PDFNet.Convert.XPSOutputCommonOptions;
+            /**
+             * The output resolution, from 1 to 1000, in Dots Per Inch (DPI) at which to
+            render elements which cannot be directly converted.
+            Default is 140.
+             * @param dpi - the resolution in Dots Per Inch
+             * @returns this object, for call chaining
+             */
+            setDPI(dpi: number): PDFNet.Convert.XPSOutputCommonOptions;
+            /**
+             * Sets whether rendering of pages should be permitted when necessary to guarantee output.
+            Default is true.
+             * @param render - if false rendering is not permitted under any circumstance
+             * @returns this object, for call chaining
+             */
+            setRenderPages(render: boolean): PDFNet.Convert.XPSOutputCommonOptions;
+            /**
+             * Sets whether thin lines should be thickened.
+            Default is true for XPS and false for XOD.
+             * @param thicken - if true then thin lines will be thickened
+             * @returns this object, for call chaining
+             */
+            setThickenLines(thicken: boolean): PDFNet.Convert.XPSOutputCommonOptions;
+            /**
+             * Sets whether links should be generated from urls found in the document.
+            Default is false.
+             * @param generate - if true links will be generated from urls
+             * @returns this object, for call chaining
+             */
+            generateURLLinks(generate: boolean): PDFNet.Convert.XPSOutputCommonOptions;
+            /**
+             * Enable or disable support for overprint and overprint simulation.
+            Overprint is a device dependent feature and the results will vary depending on
+            the output color space and supported colorants (i.e. CMYK, CMYK+spot, RGB, etc).
+            Default is e_op_pdfx_on.
+             * @param mode - <pre>
+            PDFNet.Convert.OverprintPreviewMode = {
+                e_op_off : 0
+                e_op_on : 1
+                e_op_pdfx_on : 2
+            }
+            </pre>
+            e_op_on: always enabled; e_op_off: always disabled; e_op_pdfx_on: enabled for PDF/X files only.
+             * @returns this object, for call chaining
+             */
+            setOverprint(mode: number): PDFNet.Convert.XPSOutputCommonOptions;
+        }
+        /**
+         * An object containing options for ToXps functions
+         */
+        class XPSOutputOptions extends PDFNet.Convert.XPSOutputCommonOptions {
+            /**
+             * Sets whether the output format should be open xps.
+            Default is Microsoft xps output.
+             * @param openxps - if true open xps output is used
+             * @returns this object, for call chaining
+             */
+            setOpenXps(openxps: boolean): PDFNet.Convert.XPSOutputOptions;
+        }
+        enum FlattenFlag {
+            e_off,
+            e_simple,
+            e_fast,
+            e_high_quality
+        }
+        enum FlattenThresholdFlag {
+            e_very_strict,
+            e_strict,
+            e_default,
+            e_keep_most,
+            e_keep_all
+        }
+        enum AnnotationOutputFlag {
+            e_internal_xfdf,
+            e_external_xfdf,
+            e_flatten
+        }
+        /**
+         * An object containing options for ToXod functions
+         */
+        class XODOutputOptions extends PDFNet.Convert.XPSOutputCommonOptions {
+            /**
+             * Sets whether text extraction uses Z-order as reading order.
+            Default is false.
+             * @param use_zorder - if true text extraction uses Z-order as reading order.
+             * @returns this object, for call chaining
+             */
+            setExtractUsingZorder(use_zorder: boolean): PDFNet.Convert.XODOutputOptions;
+            /**
+             * Sets whether per page thumbnails should be included in the file.
+            Default is true.
+             * @param include_thumbs - if true thumbnails will be included
+             * @returns this object, for call chaining
+             */
+            setOutputThumbnails(include_thumbs: boolean): PDFNet.Convert.XODOutputOptions;
+            /**
+             * The width and height of a square in which thumbnails will be contained.
+            Default is 400 for normal pages and 1500 for large pages.
+            Note: A large page is a page larger than twice the area of the standard page size (8.5 X 11).
+             * @param regular_size - the maximum dimension that thumbnails for regular size pages will have.
+             * @param [large_size = regular_size] - the maximum dimension that thumbnails for large pages will have.
+             * @returns this object, for call chaining
+             */
+            setThumbnailSize(regular_size: number, large_size?: number): PDFNet.Convert.XODOutputOptions;
+            /**
+             * If rendering is permitted, sets the maximum number of page elements before that page will be rendered.
+            Default is 2000000000 which will never cause pages to be completely rendered in this manner.
+             * @param element_limit - the maximum number of elements before a given page will be rendered
+             * @returns this object, for call chaining
+             */
+            setElementLimit(element_limit: number): PDFNet.Convert.XODOutputOptions;
+            /**
+             * If rendering is permitted, sets whether pages containing opacity masks should be rendered.
+            This option is used as a workaround to a bug in Silverlight where opacity masks are transformed incorrectly.
+            Default is false.
+             * @param opacity_render - if true pages with opacity masks will be rendered
+             * @returns this object, for call chaining
+             */
+            setOpacityMaskWorkaround(opacity_render: boolean): PDFNet.Convert.XODOutputOptions;
+            /**
+             * Specifies the maximum image slice size in pixels.
+            Default is 2000000.
+            Note: This setting now will no longer reduce the total number of image pixels.
+            Instead a lower value will just produce more slices and vice versa.
+            Note: Since image compression works better with more pixels a larger
+            max pixels should generally create smaller files.
+             * @param max_pixels - the maximum number of pixels an image can have
+             * @returns this object, for call chaining
+             */
+            setMaximumImagePixels(max_pixels: number): PDFNet.Convert.XODOutputOptions;
+            /**
+             * Flatten images and paths into a single background image overlaid with
+            vector text. This option can be used to improve speed on devices with
+            little processing power such as iPads. Default is e_high_quality.
+             * @param flatten - <pre>
+            PDFNet.Convert.FlattenFlag = {
+                e_off : 0
+                e_simple : 1
+                e_fast : 2
+                e_high_quality : 3
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setFlattenContent(flatten: number): PDFNet.Convert.XODOutputOptions;
+            /**
+             * Used to control how precise or relaxed text flattening is. When some text is
+            preserved (not flattened to image) the visual appearance of the document may be altered.
+             * @param threshold - <pre>
+            PDFNet.PDFNet.Convert.FlattenThresholdFlag = {
+                e_very_strict : 0
+                e_strict : 1
+                e_default : 2
+                e_keep_most : 3
+                e_keep_all : 4
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setFlattenThreshold(threshold: number): PDFNet.Convert.XODOutputOptions;
+            /**
+             * Where possible output JPG files rather than PNG. This will apply to both thumbnails and document images.
+            Default is true.
+             * @param prefer_jpg - if true JPG images will be used whenever possible.
+             * @returns this object, for call chaining
+             */
+            setPreferJPG(prefer_jpg: boolean): PDFNet.Convert.XODOutputOptions;
+            /**
+             * Specifies the compression quality to use when generating JPEG images.
+             * @param quality - the JPEG compression quality, from 0(highest compression) to 100(best quality).
+             * @returns this object, for call chaining
+             */
+            setJPGQuality(quality: number): PDFNet.Convert.XODOutputOptions;
+            /**
+             * Outputs rotated text as paths. This option is used as a workaround to a bug in Silverlight
+            where pages with rotated text could cause the plugin to crash.
+            Default is false.
+             * @param workaround - if true rotated text will be changed to paths
+             * @returns this object, for call chaining
+             */
+            setSilverlightTextWorkaround(workaround: boolean): PDFNet.Convert.XODOutputOptions;
+            /**
+             * Choose how to output annotations.
+            Default is e_internal_xfdf.
+             * @param annot_output - <pre>
+            PDFNet.PDFNet.Convert.AnnotationOutputFlag = {
+                e_internal_xfdf : 0
+                e_external_xfdf : 1
+                e_flatten : 2
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setAnnotationOutput(annot_output: number): PDFNet.Convert.XODOutputOptions;
+            /**
+             * Output XOD as a collection of loose files rather than a zip archive.
+            This option should be used when using the external part retriever in Webviewer.
+            Default is false.
+             * @param generate - if true XOD is output as a collection of loose files
+             * @returns this object, for call chaining
+             */
+            setExternalParts(generate: boolean): PDFNet.Convert.XODOutputOptions;
+            /**
+             * Encrypt XOD parts with AES 128 encryption using the supplied password.
+            This option is not available when using setExternalParts(true)
+             * @param pass - the encryption password
+             * @returns this object, for call chaining
+             */
+            setEncryptPassword(pass: string): PDFNet.Convert.XODOutputOptions;
+            /**
+             * The latest XOD format is only partially supported in Silverlight and Flash
+            due to various optimizations in the text format and the addition of blend mode support.
+            This option forces the converter to use an older version of XOD that is Silverlight/Flash
+            compatible but does not have these improvements.
+            By default the latest XOD format is generated.
+             * @param compatible - if true will use the older XOD format which is not compatible with Silverlight/Flash
+             * @returns this object, for call chaining
+             */
+            useSilverlightFlashCompatible(compatible: boolean): PDFNet.Convert.XODOutputOptions;
+        }
+        /**
+         * An object containing options for ToTiff functions
+         */
+        class TiffOutputOptions {
+            /**
+             * Specifies the page box/region to rasterize.
+            By default, page crop region will be rasterized.
+             * @param type - <pre>
+            PDFNet.Page.Box = {
+                e_media : 0
+                e_crop : 1
+                e_bleed : 2
+                e_trim : 3
+                e_art : 4
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setBox(type: number): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Rotates all pages by a given number of degrees counterclockwise. The allowed
+            values are 0, 90, 180, and 270. The default value is 0.
+             * @param rotation - <pre>
+            PDFNet.Page.Rotate = {
+                e_0 : 0
+                e_90 : 1
+                e_180 : 2
+                e_270 : 3
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setRotate(rotation: number): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * User definable clip box.
+            By default, the clip region is identical to current page 'box'.
+             * @returns this object, for call chaining
+             */
+            setClip(x1: number, y1: number, x2: number, y2: number): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Specifies the list of pages to convert.
+            By default, all pages are converted.
+             * @returns this object, for call chaining
+             */
+            setPages(page_desc: string): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Enable or disable support for overprint and overprint simulation.
+            Overprint is a device dependent feature and the results will vary depending on
+            the output color space and supported colorants (i.e. CMYK, CMYK+spot, RGB, etc).
+            Default is e_op_pdfx_on.
+             * @param mode - <pre>
+            PDFNet.PDFRasterizer.OverprintPreviewMode = {
+                e_op_off : 0
+                e_op_on : 1
+                e_op_pdfx_on : 2
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setOverprint(mode: number): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Render and export the image in CMYK mode.
+            By default, the image is rendered and exported in RGB color space.
+             * @returns this object, for call chaining
+             */
+            setCMYK(enable: boolean): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Enables dithering when the image is exported in palletized or monochrome mode.
+            This option is disabled by default.
+             * @returns this object, for call chaining
+             */
+            setDither(enable: boolean): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Render and export the image in grayscale mode. Sets pixel format to 8 bits per pixel grayscale.
+            By default, the image is rendered and exported in RGB color space.
+             * @returns this object, for call chaining
+             */
+            setGray(enable: boolean): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Export the rendered image as 1 bit per pixel (monochrome) image. The image will be
+            compressed using G4 CCITT compression algorithm. By default, the image is not dithered.
+            To enable dithering use 'SetDither' option.
+            This option is disabled by default.
+             * @returns this object, for call chaining
+             */
+            setMono(enable: boolean): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Enables or disables drawing of annotations.
+            This option is enabled by default.
+             * @returns this object, for call chaining
+             */
+            setAnnots(enable: boolean): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Enables or disables image smoothing (default: enabled).
+             * @returns this object, for call chaining
+             */
+            setSmooth(enable: boolean): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Renders annotations in the print mode. This option can be used to render 'Print Only'
+            annotations and to hide 'Screen Only' annotations.
+            This option is disabled by default.
+             * @returns this object, for call chaining
+             */
+            setPrintmode(enable: boolean): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Sets the page color to transparent. By default, Convert assumes that the page
+            is drawn directly on an opaque white surface. Some applications may need to
+            draw the page on a different backdrop. In this case any pixels that are not
+            covered during rendering will be transparent.
+            This option is disabled by default.
+             * @returns this object, for call chaining
+             */
+            setTransparentPage(enable: boolean): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Enabled the output of palettized TIFFs.
+            This option is disabled by default.
+             * @returns this object, for call chaining
+             */
+            setPalettized(enable: boolean): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * The output resolution, from 1 to 1000, in Dots Per Inch (DPI). The higher
+            the DPI, the larger the image. Resolutions larger than 1000 DPI can be
+            achieved by rendering image in tiles or stripes. The default resolution is 92 DPI.
+             * @returns this object, for call chaining
+             */
+            setDPI(dpi: number): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Sets the gamma factor used for anti-aliased rendering. Typical values are in
+            the range from 0.1 to 3. Gamma correction can be used to improve the quality
+            of anti-aliased image output and can (to some extent) decrease the appearance
+            common anti-aliasing artifacts (such as pixel width lines between polygons).
+            The default gamma is 0.
+             * @returns this object, for call chaining
+             */
+            setGamma(gamma: number): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Sets the width of the output image, in pixels.
+             * @returns this object, for call chaining
+             */
+            setHRes(hres: number): PDFNet.Convert.TiffOutputOptions;
+            /**
+             * Sets the height of the output image, in pixels.
+             * @returns this object, for call chaining
+             */
+            setVRes(vres: number): PDFNet.Convert.TiffOutputOptions;
+        }
+        /**
+         * An object containing options common to ToHtml and ToEpub functions
+         */
+        class HTMLOutputOptions {
+            /**
+             * Use JPG files rather than PNG. This will apply to all generated images.
+            Default is true.
+            Note: This option is only available for e_fixed_position and e_reflow_paragraphs modes.
+             * @param prefer_jpg - if true JPG images will be used whenever possible.
+             * @returns this object, for call chaining
+             */
+            setPreferJPG(prefer_jpg: boolean): PDFNet.Convert.HTMLOutputOptions;
+            /**
+             * Specifies the compression quality to use when generating JPEG images.
+            Note: This option is only available for e_fixed_position and e_reflow_paragraphs modes.
+            In e_reflow_full mode, the optimal JPEG quality is chosen automatically for best balance between size and quality.
+             * @param quality - the JPEG compression quality, from 0(highest compression) to 100(best quality).
+             * @returns this object, for call chaining
+             */
+            setJPGQuality(quality: number): PDFNet.Convert.HTMLOutputOptions;
+            /**
+             * The output resolution, from 1 to 1000, in Dots Per Inch (DPI) at which to render elements which cannot be directly converted.
+            Default is 140.
+            Note: This option is only available for e_fixed_position mode.
+             * @param dpi - the resolution in Dots Per Inch
+             * @returns this object, for call chaining
+             */
+            setDPI(dpi: number): PDFNet.Convert.HTMLOutputOptions;
+            /**
+             * Specifies the maximum image slice size in pixels. Default is 2000000.
+            Note: This setting now will no longer reduce the total number of image pixels.
+            Instead a lower value will just produce more slices and vice versa.
+            Note: Since image compression works better with more pixels a larger
+            max pixels should generally create smaller files.
+            Note: This option is only available for e_fixed_position mode.
+             * @param max_pixels - the maximum number of pixels an image can have
+             * @returns this object, for call chaining
+             */
+            setMaximumImagePixels(max_pixels: number): PDFNet.Convert.HTMLOutputOptions;
+            /**
+             * Set an overall scaling of the generated HTML pages. Default is 1.0.
+            Note: This option is only available for e_fixed_position mode.
+             * @param scale - a number greater than 0 which is used as a scale factor.
+            For example, calling SetScale(0.5) will reduce the HTML body of the page to half
+            its original size, whereas SetScale(2) will double the HTML body dimensions of
+            the page and will rescale all page content appropriately.
+             * @returns this object, for call chaining
+             */
+            setScale(scale: number): PDFNet.Convert.HTMLOutputOptions;
+            /**
+             * Enable the conversion of external URL navigation.
+            Default is false.
+            Note: This option is only available for e_fixed_position mode.
+             * @param enable - if true, links that specify external URL's are converted into HTML.
+             * @returns this object, for call chaining
+             */
+            setExternalLinks(enable: boolean): PDFNet.Convert.HTMLOutputOptions;
+            /**
+             * Enable the conversion of internal document navigation.
+            Default is false.
+            Note: This option is only available for e_fixed_position mode.
+             * @param enable - if true, links that specify page jumps are converted into HTML.
+             * @returns this object, for call chaining
+             */
+            setInternalLinks(enable: boolean): PDFNet.Convert.HTMLOutputOptions;
+            /**
+             * Controls whether converter optimizes DOM or preserves text placement accuracy.
+            Default is false.
+            Note: This option is only available for e_fixed_position mode.
+             * @param enable - If true, converter will try to reduce DOM complexity at the expense of text placement accuracy.
+             * @returns this object, for call chaining
+             */
+            setSimplifyText(enable: boolean): PDFNet.Convert.HTMLOutputOptions;
+        }
+        /**
+         * An object containing options common to ToEpub functions
+         */
+        class EPUBOutputOptions {
+            /**
+             * Create the EPUB in expanded format.
+            Default is false.
+             * @param expanded - if false a single EPUB file will be generated,
+            otherwise, the generated EPUB will be in unzipped (expanded) format
+             * @returns this object, for call chaining
+             */
+            setExpanded(expanded: boolean): PDFNet.Convert.EPUBOutputOptions;
+            /**
+             * Set whether the first content page in the EPUB uses the cover image or not. If this
+            is set to true, then the first content page will simply wrap the cover image in HTML.
+            Otherwise, the page will be converted the same as all other pages in the EPUB.
+            Default is false.
+             * @param reuse - if true the first page will simply be EPUB cover image,
+            otherwise, the first page will be converted the same as the other pages
+             * @returns this object, for call chaining
+             */
+            setReuseCover(reuse: boolean): PDFNet.Convert.EPUBOutputOptions;
+        }
+        /**
+         * An object containing options for ToSvg functions
+         */
+        class SVGOutputOptions {
+            /**
+             * Sets whether to embed all images
+             * @param embed_images - if true, images will be embedded.
+            Default is false.
+             * @returns this object, for call chaining
+             */
+            setEmbedImages(embed_images: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Sets whether to disable conversion of font data to SVG
+             * @param no_fonts - if true, font data conversion is disabled.
+            Default is false.
+             * @returns this object, for call chaining
+             */
+            setNoFonts(no_fonts: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Sets whether to convert all fonts to SVG or not.
+             * @param svg_fonts - if true, fonts are converted to SVG. Otherwise they are converted to OpenType.
+            Default is false.
+             * @returns this object, for call chaining
+             */
+            setSvgFonts(svg_fonts: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Sets whether to embed fonts into each SVG page file, or to have them shared.
+             * @param embed_fonts - if true, fonts are injected into each SVG page.
+            Otherwise they are created as separate files that are shared between SVG pages.
+            Default is false.
+             * @returns this object, for call chaining
+             */
+            setEmbedFonts(embed_fonts: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Sets whether to disable mapping of text to public Unicode region.
+            Instead text will be converted using a custom encoding
+             * @param no_unicode - if true, mapping of text to public Unicode region is disabled
+             * @returns this object, for call chaining
+             */
+            setNoUnicode(no_unicode: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Some viewers do not support the default text positioning correctly.
+            This option works around this issue to place text correctly,
+            but produces verbose output. This option will override SetRemoveCharPlacement
+             * @param individual_char_placement - if true, text will be positioned correctly
+             * @returns this object, for call chaining
+             */
+            setIndividualCharPlacement(individual_char_placement: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Sets whether to disable the output of character positions.
+            This will produce slightly smaller output files than the default
+            setting, but many viewers do not support the output correctly
+             * @param remove_char_placement - if true, the output of character positions is disabled
+             * @returns this object, for call chaining
+             */
+            setRemoveCharPlacement(remove_char_placement: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Flatten images and paths into a single background image overlaid with
+            vector text. This option can be used to improve speed on devices with
+            little processing power such as iPads. Default is e_fast.
+             * @param flatten - <pre>
+            PDFNet.Convert.FlattenFlag = {
+                e_off : 0
+                e_simple : 1
+                e_fast : 2
+                e_high_quality : 3
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setFlattenContent(flatten: number): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Used to control how precise or relaxed text flattening is. When some text is
+            preserved (not flattened to image) the visual appearance of the document may be altered.
+             * @param threshold - <pre>
+            PDFNet.PDFNet.Convert.FlattenThresholdFlag = {
+                e_very_strict : 0
+                e_strict : 1
+                e_default : 2
+                e_keep_most : 3
+                e_keep_all : 4
+            }
+            </pre>
+             * @returns this object, for call chaining
+             */
+            setFlattenThreshold(threshold: number): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * The output resolution, from 1 to 1000, in Dots Per Inch (DPI) at which to render elements which cannot be directly converted.
+            Default is 140.
+             * @param dpi - the resolution in Dots Per Inch
+             * @returns this object, for call chaining
+             */
+            setFlattenDPI(dpi: number): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Specifies the maximum image slice size in pixels. Default is 2000000.
+            Note: This setting now will no longer reduce the total number of image pixels.
+            Instead a lower value will just produce more slices and vice versa.
+            Note: Since image compression works better with more pixels a larger
+            max pixels should generally create smaller files.
+             * @param max_pixels - the maximum number of pixels an image can have
+             * @returns this object, for call chaining
+             */
+            setFlattenMaximumImagePixels(max_pixels: number): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Compress output SVG files using SVGZ.
+             * @param svgz - if true, SVG files are written in compressed format.
+            Default is false.
+             * @returns this object, for call chaining
+             */
+            setCompress(svgz: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Sets whether per page thumbnails should be included in the file.
+            Default is true.
+             * @param include_thumbs - if true thumbnails will be included
+             * @returns this object, for call chaining
+             */
+            setOutputThumbnails(include_thumbs: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * The maximum dimension for thumbnails.
+             * @param size - the maximum dimension (width or height) that thumbnails will have.
+            Default is 400.
+             * @returns this object, for call chaining
+             */
+            setThumbnailSize(size: number): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Create a XML document that contains metadata of the SVG document created.
+             * @param xml - if true, XML wrapper is created. Default is true.
+             * @returns this object, for call chaining
+             */
+            setCreateXmlWrapper(xml: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Set whether the DTD declaration is included in the SVG files.
+             * @param dtd - if false, no DTD is added to SVG files.
+            Default is true.
+             * @returns this object, for call chaining
+             */
+            setDtd(dtd: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Control generation of form fields and annotations in SVG.
+             * @param annots - if false, no form fields or annotations are converted.
+            Default is true
+             * @returns this object, for call chaining
+             */
+            setAnnots(annots: boolean): PDFNet.Convert.SVGOutputOptions;
+            /**
+             * Enable or disable support for overprint and overprint simulation.
+            Overprint is a device dependent feature and the results will vary depending on
+            the output color space and supported colorants (i.e. CMYK, CMYK+spot, RGB, etc).
+            Default is e_op_pdfx_on.
+             * @param op - <pre>
+            PDFNet.PDFRasterizer.OverprintPreviewMode = {
+                e_op_off : 0
+                e_op_on : 1
+                e_op_pdfx_on : 2
+            }
+            </pre>
+            e_op_on: always enabled; e_op_off: always disabled; e_op_pdfx_on: enabled for PDF/X files only.
+             * @returns this object, for call chaining
+             */
+            setOverprint(op: number): PDFNet.Convert.SVGOutputOptions;
+        }
+        enum PrinterMode {
+            e_auto,
+            e_interop_only,
+            e_printer_only,
+            e_prefer_builtin_converter
         }
     }
     namespace PrinterMode {
@@ -23761,9 +23240,7 @@ declare namespace Core.PDFNet {
             e_SHA384,
             e_SHA512,
             e_RIPEMD160,
-            e_RSA_encryption_PKCS1,
-            e_RSASSA_PSS,
-            e_MGF1
+            e_RSA_encryption_PKCS1
         }
     }
     namespace DigitalSignatureField {
@@ -24083,6 +23560,17 @@ declare namespace Core.PDFNet {
     function getNormalizedUrl(url: string): Promise<string>;
     function rubberStampAnnotSetOpacity(stamp: PDFNet.Annot, opacity: number): Promise<void>;
     /**
+     * @param annot_state - <pre>
+     * PDFNet.Annot.State = {
+     * 	e_normal : 0
+     * 	e_rollover : 1
+     * 	e_down : 2
+     * }
+     * </pre>
+     * @returns A promise that resolves to an unknown type
+     */
+    function convertPageToAnnotAppearance(docWithAppearance: PDFNet.PDFDoc | PDFNet.SDFDoc | PDFNet.FDFDoc, objNum: number, annot_state: number, appearance_state: string): any;
+    /**
      * A switch that can be used to turn on/off JavaScript engine
      * @param enable - true to enable JavaScript engine, false to disable.
      */
@@ -24093,7 +23581,7 @@ declare namespace Core.PDFNet {
      */
     function isJavaScriptEnabled(): Promise<boolean>;
     /**
-     * Terminates PDFNet library.
+     * terminates PDFNet library.
      * Terminate() is usually called once, when the process is terminated.
      * @param termination_level - Optional termination level used to decide what operations need to be included
      *
@@ -24102,7 +23590,7 @@ declare namespace Core.PDFNet {
      */
     function terminateEx(termination_level: number): Promise<void>;
     /**
-     * Used to set a specific Color Management System (CMS) for
+     * used to set a specific Color Management System (CMS) for
      * use during color conversion operators, image rendering, etc.
      * @param [t] - <pre>
      * PDFNet.CMSType = {
@@ -24115,7 +23603,7 @@ declare namespace Core.PDFNet {
      */
     function setColorManagement(t?: number): Promise<void>;
     /**
-     * Sets the default ICC color profile for DeviceCMYK color space.
+     * sets the default ICC color profile for DeviceCMYK color space.
      *
      * Note: You can use this method to override default PDFNet settings.
      * For more information on default color spaces please refer to
@@ -24123,7 +23611,7 @@ declare namespace Core.PDFNet {
      */
     function setDefaultDeviceCMYKProfileFromFilter(stream: PDFNet.Filter): Promise<void>;
     /**
-     * Sets the default ICC color profile for DeviceRGB color space.
+     * sets the default ICC color profile for DeviceRGB color space.
      *
      * Note: You can use this method to override default PDFNet settings.
      * For more information on default color spaces please refer to
@@ -24131,7 +23619,7 @@ declare namespace Core.PDFNet {
      */
     function setDefaultDeviceRGBProfileFromFilter(stream: PDFNet.Filter): Promise<void>;
     /**
-     * Sets the default compression level for Flate (ZLib).
+     * sets the default compression level for Flate (ZLib).
      * @param level - An integer in range 0-9 representing the compression value to use as
      *  a default for any Flate streams (e.g used to compress content streams, PNG images, etc).
      *  The library normally uses the default compression level (Z_DEFAULT_COMPRESSION).
@@ -24295,159 +23783,6 @@ declare namespace Core.PDFNet {
 
     
     declare namespace CursorGeometry { }
-
-declare namespace GlyphLocation { }
-
-/**
- * Represents an item in a flyout with optional submenu.
- */
-declare type FlyoutItem = {
-    /**
-     * A unique string that identifies the flyout item.
-     */
-    dataElement?: string;
-    /**
-     * The label of the flyout item.
-     */
-    label?: string;
-    /**
-     * A function that is called when the item is clicked.
-     */
-    onClick?: (...params: any[]) => any;
-    /**
-     * Path to an image or base64 data. Can also be the filename of a .svg from the WebViewer icons folder found here:
-      {@link https://github.com/PDFTron/webviewer-ui/tree/master/assets/icons/ assets/icons/} (i.e. `icon-save` to use `icon-save.svg`).
-     */
-    icon?: string;
-    /**
-     * An array of objects that represents the items in a sub-menu, has the same properties as the parent items property and can be infinitely nested.
-     */
-    children?: FlyoutItem[];
-};
-
-/**
- * Item options
- */
-declare type ItemProperties = {
-    /**
-     * The data element of the item.
-     */
-    dataElement?: string;
-    /**
-     * The tooltip of the item.
-     */
-    title?: string;
-    /**
-     * Whether the item is disabled or not.
-     */
-    disabled?: boolean;
-    /**
-     * The type of the item.
-     */
-    type?: string;
-};
-
-/**
- */
-declare type ContainerProperties = {
-    /**
-     * The label of the container.
-     */
-    label?: string;
-    /**
-     * The data element of the container.
-     */
-    dataElement?: string;
-    /**
-     * A string that determines the placement of the header.
-     */
-    placement?: 'top' | 'bottom' | 'left' | 'right';
-    /**
-     * A string that determines the flex justify content value of the container.
-     */
-    justifyContent?: 'start' | 'end' | 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
-    /**
-     * The flex grow value of the container.
-     */
-    grow?: number;
-    /**
-     * The gap between the items in the container.
-     */
-    gap?: number;
-    /**
-     * A string that determines the position of the container.
-     */
-    position?: 'start' | 'center' | 'end';
-    /**
-     * The items or other containers within the container.
-     */
-    items?: object[];
-    /**
-     * An object that can set the CSS style of the container.
-     */
-    style?: any;
-};
-
-/**
- * Description of allowable item types.
- */
-declare type ItemType = 'modularHeader' | 'customButton' | 'statefulButton' | 'groupedItems' | 'ribbonItem' | 'divider' | 'toggleButton' | 'ribbonGroup' | 'toolButton' | 'zoom' | 'flyout' | 'pageControls' | 'presetButton' | 'viewControls' | 'menu' | 'tabPanel';
-
-/**
- */
-declare type TabPanelItemProperties = {
-    /**
-     * Unique dataElement name for the panel.
-     */
-    dataElement?: string;
-    /**
-     * Path to an image or base64 data. Can also be the filename of a .svg from the WebViewer icons folder found here:
-      {@link https://github.com/PDFTron/webviewer-ui/tree/master/assets/icons/ assets/icons/} (i.e. `icon-save` to use `icon-save.svg`).
-     */
-    icon?: string;
-    /**
-     * The label to be displayed for the panel in the Tab Panel.
-     */
-    label?: string;
-    /**
-     * The function that renders the panel or the name of the preset panel.
-     */
-    render: ((...params: any[]) => any) | string;
-};
-
-/**
- */
-declare type TabPanelProperties = {
-    /**
-     * Unique dataElement name for the tab panel.
-     */
-    dataElement: string;
-    /**
-     * The list of panels to be displayed in the tab panel.
-     */
-    panelsList: TabPanelItemProperties[];
-    /**
-     * The location of the panel. It can be either 'left' or 'right'
-     */
-    location?: string;
-};
-
-/**
- */
-declare type PanelProperties = {
-    /**
-     * The data-element for panel.
-     */
-    dataElement: string;
-    /**
-     * Location of the panel in UI, left or right.
-     */
-    location: string;
-    /**
-     * Either the name of a predefined panel to render or a function that returns a panel element.
-     */
-    render: string | UI.renderCustomPanel;
-};
 
 /**
  * The style tab in the annotation style popup window. See {@link UI.AnnotationStylePopupTabs} for valid style tabs.
@@ -25139,11 +24474,9 @@ declare namespace Core {
              *     'color': '#ff0000',
              *   },
              *   10: {
-             *     'font-style': 'italic',
+             *     'font-style': 'italic'
              *     'font-weight': 'bold',
              *     'color': '#0000ff',
-             *     'font-family': 'Arial',
-             *     'font-size': '20pt',
              *   },
              *   12: {
              *     'text-decoration': 'underline',
@@ -25196,8 +24529,6 @@ declare namespace Core {
                  * text-decoration: 'word' is equivalent to text-decoration: 'underline'. Values of text-decorations can also be joined by a space. For example, text-decoration: 'word line-through'
                  */
                 'text-decoration'?: 'word' | 'line-through' | 'underline' | string;
-                'font-family'?: string;
-                'font-size'?: string;
                 /**
                  * color in RGB hex format
                  */
@@ -25275,12 +24606,6 @@ declare namespace Core {
              * The name of the tool that is used to create this annotation.
              */
             ToolName: string;
-            /**
-             * Gets or sets the annotation blend mode.<br>
-             * <b>THIS PROPERTY IS EXPERIMENTAL, NOT CURRENTLY PERSISTED AND ONLY WORKS WITHIN WEBVIEWER</b><b
-             * Blend mode will not be retained when dragging annotation across pages. You can call annotationManager.disableDraggingAcrossPages() to prevent movement between pages.
-             */
-            BlendMode: string;
             /**
              * Draws the annotation on the provide canvas context, relative to the page.
              * The point (0,0) coresponds to the top left corner of the page.
@@ -25440,16 +24765,6 @@ declare namespace Core {
              */
             deleteCustomData(key: string): void;
             /**
-             * Checks if the annotation is a full signature
-             * @returns Returns whether the annotation is a full signature or not
-             */
-            isFullSignature(): boolean;
-            /**
-             * Checks if the annotation is initials
-             * @returns Returns whether the annotation is initials or not
-             */
-            isInitials(): boolean;
-            /**
              * Checks if a content edit annotation is being edited and has focus.
              * @param contentEditManager - An instance of contentEditManager
              * @returns Returns whether an annotation is on content edit focus mode or not
@@ -25530,15 +24845,10 @@ declare namespace Core {
              */
             isFormFieldPlaceholder(): boolean;
             /**
-             * Returns what type of form field placeholder it is, if it is a form field placeholder.
-             * @returns Form field placeholder type as described by the Form Field Annotations enum
+             * Returns what type of form field place holder it is, if it is a form field place holder
+             * @returns Form field place holder type as described by the Form Field Annotations enum
              */
             getFormFieldPlaceHolderType(): string;
-            /**
-             * Returns what type of form field placeholder it is, if it is a form field placeholder.
-             * @returns Form field placeholder type as described by the Form Field Annotations enum
-             */
-            getFormFieldPlaceholderType(): string;
             /**
              * Returns whether the annotation is a content editing placeholder,
              * which are annotations used as placeholders for content edit boxes when the content editing tool is active
@@ -26086,7 +25396,6 @@ declare namespace Core {
         }
         /**
          * Represents a PDF Link annotation with associated actions.
-         * @property URI - The URI to launch when the link is clicked
          * @param options - A map of properties to set on the new Link
          */
         class Link extends Core.Annotations.HTMLAnnotation {
@@ -26104,10 +25413,6 @@ declare namespace Core {
              * Gets or sets the stroke thickness of the link annotation.
              */
             StrokeThickness: number;
-            /**
-             * The URI to launch when the link is clicked
-            */
-            URI: string;
         }
         /**
          * Creates a box selection model.
@@ -26377,11 +25682,6 @@ declare namespace Core {
         class ArcAnnotation extends Core.Annotations.IPathAnnotation {
             constructor(initializer?: any);
             /**
-             * Returns the measurement text for the annotation with the associated scale and units
-             * @returns the measurement text
-             */
-            getMeasurementTextWithScaleAndUnits(): string;
-            /**
              * Gets the current Radius.
              */
             Radius: string;
@@ -26523,11 +25823,6 @@ declare namespace Core {
          */
         class EllipseAnnotation extends Core.Annotations.MarkupAnnotation {
             constructor(initializer?: any);
-            /**
-             * Returns the measurement text for the annotation with the associated scale and units
-             * @returns the measurement text
-             */
-            getMeasurementTextWithScaleAndUnits(): string;
             /**
              * Sets the measurement annotation's caption options.
              * @param options - The measurement caption options.
@@ -26850,10 +26145,6 @@ declare namespace Core {
              */
             switchToAutoFontSize(): void;
             /**
-             * Returns whether the current font is Automatically sized
-             */
-            isAutoSizeFont(): boolean;
-            /**
              * Gets the calculated font size when auto-sizing the text font size to fit the free text annotation's bounding box.
              *
              * This method retrieves the font size that has been dynamically calculated to fit the content within the bounding box of the free text annotation when {@link Core.Annotations.FreeTextAnnotation#switchToAutoFontSize} is used to enable auto-sizing of the font size. If {@link Core.Annotations.FreeTextAnnotation#switchToAutoFontSize} has not been called, it will return the current font size.
@@ -27042,11 +26333,6 @@ declare namespace Core {
              */
             getEndStyle(): Core.Annotations.LineEndType;
             /**
-             * Returns the measurement text for the annotation with the associated scale and units
-             * @returns the measurement text
-             */
-            getMeasurementTextWithScaleAndUnits(): string;
-            /**
              * Returns the leader points of this line
              * @returns An object containing the two leader points
              */
@@ -27182,10 +26468,6 @@ declare namespace Core {
              */
             IsHoverable: boolean;
             /**
-             * If the annotation is hoverable then this property gets whether the annotation is currently being hovered or not (if the mouse is over top of the annotation). If it is not hoverable then this will always return false.
-             */
-            IsHovering: boolean;
-            /**
              * Sets the annotation's styles for stroke, fill and opacity on the canvas context
              * @param ctx - A canvas context
              * @param pageMatrix - The transformation matrix for the page that the annotation is on
@@ -27258,11 +26540,6 @@ declare namespace Core {
          */
         class PolylineAnnotation extends Core.Annotations.IPathAnnotation {
             constructor(initializer?: any);
-            /**
-             * Returns the measurement text for the annotation with the associated scale and units
-             * @returns the measurement text
-             */
-            getMeasurementTextWithScaleAndUnits(): string;
             /**
              * Sets the start style of the polyline
              * @param startStyle - The starting style
@@ -27349,11 +26626,6 @@ declare namespace Core {
          */
         class PolygonAnnotation extends Core.Annotations.IPathAnnotation {
             constructor(initializer?: any);
-            /**
-             * Returns the measurement text for the annotation with the associated scale and units
-             * @returns the measurement text
-             */
-            getMeasurementTextWithScaleAndUnits(): string;
             /**
              * Gets whether the polygon annotation is rectangular and behaves the same as a rectangle annotation.
              * @returns true if the polygon annotation is rectangular and behaves the same as a rectangle annotation.
@@ -27526,7 +26798,6 @@ declare namespace Core {
          * @param [options.StrokeColor] - The color of the redaction border before it been applied. This default to red
          * @param [options.FillColor] - The color of the redaction after it been applied. This default to black
          * @param [options.TextColor] - The color of the redaction overlay text. The default is red
-         * @param [options.FillDisplayColor] - The color of the redaction shown when the mouse is not hovering over it. The default is transparent
          * @param options.PageNumber - The page number of the redaction
          * @param [options.Rect] - The bounding rectangle of the redaction
          * @param [options.Quads] - The individual rectangles of a redaction. For text redactions there might be muliple of these
@@ -27538,7 +26809,6 @@ declare namespace Core {
                 StrokeColor?: Core.Annotations.Color;
                 FillColor?: Core.Annotations.Color;
                 TextColor?: Core.Annotations.Color;
-                FillDisplayColor?: Core.Annotations.Color;
                 PageNumber: number;
                 Rect?: Core.Math.Rect;
                 Quads?: Core.Math.Quad[];
@@ -28030,78 +27300,6 @@ declare namespace Core {
          * @property getContainerCustomStyles - A function that receives the widget object and should return any CSS styles that you want to override for its parent container
          */
         class WidgetAnnotation extends Core.Annotations.HTMLAnnotation {
-            /**
-             * Triggered when the widget value is committed to its associated field.
-             */
-            on(event: 'commit', callback: () => void): void;
-            /**
-             * Triggered when the widget value is committed to its associated field.
-             */
-            one(event: 'commit', callback: () => void): void;
-            off(event?: 'commit', callback?: () => void): void;
-            /**
-             * Triggered when the value of a widget has changed.
-             */
-            on(event: 'change', callback: () => void): void;
-            /**
-             * Triggered when the value of a widget has changed.
-             */
-            one(event: 'change', callback: () => void): void;
-            off(event?: 'change', callback?: () => void): void;
-            /**
-             * Triggered when a widget has lost focus.
-             */
-            on(event: 'blur', callback: () => void): void;
-            /**
-             * Triggered when a widget has lost focus.
-             */
-            one(event: 'blur', callback: () => void): void;
-            off(event?: 'blur', callback?: () => void): void;
-            /**
-             * Triggered when a widget has received focus.
-             */
-            on(event: 'focus', callback: () => void): void;
-            /**
-             * Triggered when a widget has received focus.
-             */
-            one(event: 'focus', callback: () => void): void;
-            off(event?: 'focus', callback?: () => void): void;
-            /**
-             * Triggered when a pointing device moves within the widget.
-             */
-            on(event: 'mouseenter', callback: () => void): void;
-            /**
-             * Triggered when a pointing device moves within the widget.
-             */
-            one(event: 'mouseenter', callback: () => void): void;
-            off(event?: 'mouseenter', callback?: () => void): void;
-            /**
-             * Triggered when a pointing device moves out of the widget.
-             */
-            on(event: 'mouseleave', callback: () => void): void;
-            /**
-             * Triggered when a pointing device moves out of the widget.
-             */
-            one(event: 'mouseleave', callback: () => void): void;
-            off(event?: 'mouseleave', callback?: () => void): void;
-            /**
-             * Triggered when a button on a pointing device is released while the pointer is located inside it.
-             */
-            on(event: 'mouseup', callback: () => void): void;
-            /**
-             * Triggered when a button on a pointing device is released while the pointer is located inside it.
-             */
-            one(event: 'mouseup', callback: () => void): void;
-            off(event?: 'mouseup', callback?: () => void): void;
-            /**
-             * Triggered when a pointing device button is pressed while the pointer is inside the element.
-             */
-            on(event: 'mousedown', callback: () => void): void;
-            /**
-             * Triggered when a pointing device button is pressed while the pointer is inside the element.
-             */
-            one(event: 'mousedown', callback: () => void): void;
-            off(event?: 'mousedown', callback?: () => void): void;
             /**
              * Set all properties on this widget.
              * @param options - The set of parameters to set
@@ -29074,10 +28272,6 @@ declare namespace Core {
                      * [WARNING: this is not fully supported by WebViewer and may result in unexpected behavior] {@link https://quilljs.com/docs/themes/ Themes} to use for the editor.
                      */
                     theme: string;
-                    /**
-                     * Whether to scroll the container when text exceeds the Text Box.
-                     */
-                    shouldScrollContainer: boolean;
                 };
             }
             /**
@@ -29650,13 +28844,11 @@ declare namespace Core {
          * @param options - Options for this function
          * @param [options.copyAssociatedLink] - Whether to make a deep copy of an associated link
          * @param [options.copyReplies] - Whether to make a deep copy of replies associated with the annotation
-         * @param [options.copyWithSameId] - Whether to copy the annotation with the same Id
          * @returns a copy of the annotation, null if annotation cannot be copied
          */
         getAnnotationCopy(annotation: Core.Annotations.Annotation, options: {
             copyAssociatedLink?: boolean;
             copyReplies?: boolean;
-            copyWithSameId?: boolean;
         }): Core.Annotations.Annotation;
         /**
          * Gets the annotation associated with the popup object.
@@ -29731,10 +28923,9 @@ declare namespace Core {
         /**
          * Gets the annotations underneath the cursor using a DOM mouse event. This method can be used to test if a mouse point will hit annotations on pages.
          * @param event - A DOM mouse event.
-         * @param [includeWidgetsAndLinks = false] - Indicates whether to include widget and link annotations under the mouse event.
          * @returns An array of annotation objects.
          */
-        getAnnotationsByMouseEvent(event: MouseEvent, includeWidgetsAndLinks?: boolean): Core.Annotations.Annotation[];
+        getAnnotationsByMouseEvent(event: MouseEvent): Core.Annotations.Annotation[];
         /**
          * Exports all annotations as an XFDF (XML) string
          * @param [options] - Options for the export. Set options.widgets or options.links or options.fields to false to disable exporting of them.
@@ -30274,71 +29465,6 @@ declare namespace Core {
             source: string;
         };
         /**
-         * Subcomponent dedicated to the AnnotationManager's specific functions for annotation alignment.
-         */
-        class Alignment {
-            constructor(documentViewer: Core.DocumentViewer, annotationManager: Core.AnnotationManager);
-            /**
-             * Aligns a list of annotations based on the requested StandardAlignmentType.
-             * Annotations will be oriented based on the computed page rotation (Viewer Rotation + Page Rotation).
-             * Annotations from the TextMarkupAnnotation class will be excluded from alignment.
-             * @example
-             * WebViewer(...).then(function(instance) {
-             *  const annotations = instance.Core.annotationManager.getAnnotationsList();
-             *  instance.Core.annotationManager.Alignment.alignAnnotations(annotations, instance.Core.AnnotationManager.Alignment.StandardAlignmentTypes.LEFT);
-             * });
-             * @param annotations - The annotations to align.
-             * @param alignment - The alignment to perform.
-             */
-            alignAnnotations(annotations: Core.Annotations.Annotation[], alignment: Core.AnnotationManager.StandardAlignmentTypes): void;
-            /**
-             * Centers a list of annotations based on the provided center alignment.
-             * @example
-             * WebViewer(...).then(function(instance) {
-             *  const annotations = instance.Core.annotationManager.getAnnotationsList();
-             *  instance.Core.annotationManager.Alignment.centerAnnotations(annotations, instance.Core.AnnotationManager.Alignment.CenterAlignmentTypes.CENTER_HORIZONTAL);
-             * });
-             * @param annotations - The annotations to align.
-             * @param alignment - The center alignment to perform.
-             */
-            centerAnnotations(annotations: Core.Annotations.Annotation[], alignment: Core.AnnotationManager.CenterAlignmentTypes): void;
-            /**
-             * Distributes a list of annotations based on the requested distribution alignment.
-             * @example
-             * WebViewer(...).then(function(instance) {
-             *  const annotations = instance.Core.annotationManager.getAnnotationsList();
-             *  instance.Core.annotationManager.Alignment.distributeAnnotations(annotations, instance.Core.AnnotationManager.Alignment.DistributeAlignmentTypes.DISTRIBUTE_VERTICAL);
-             * });
-             * @param annotations - The annotations to distribute.
-             * @param distribution - The distribution to perform.
-             */
-            distributeAnnotations(annotations: Core.Annotations.Annotation[], distribution: DistributeAlignmentTypes): void;
-        }
-        /**
-         * Enum representing standard alignment types.
-         */
-        enum StandardAlignmentTypes {
-            LEFT,
-            TOP,
-            RIGHT,
-            BOTTOM
-        }
-        /**
-         * Enum representing center alignment types.
-         */
-        enum CenterAlignmentTypes {
-            CENTER_HORIZONTAL,
-            CENTER_VERTICAL,
-            CENTER
-        }
-        /**
-         * Enum representing distribute alignment types.
-         */
-        enum DistributeAlignmentTypes {
-            DISTRIBUTE_HORIZONTAL,
-            DISTRIBUTE_VERTICAL
-        }
-        /**
          * Sources for what triggered the annotationChanged event
          */
         type AnnotationChangedSources = string;
@@ -30371,34 +29497,19 @@ declare namespace Core {
     namespace ContentEdit {
         /**
          * Content Edit types.
+         * @property TEXT - Text type content.
+         * @property OBJECT - Object type content.
          */
-        enum Types {
-            TEXT,
-            OBJECT
-        }
-        /**
-         * Set the location of the ContentEdit workers for InfixServerModule.js, InfixServerWasm.br.js.mem,
-         * InfixServerWasm.br.wasm, and InfixServerWasm.gz.js.mem files. This will override the location
-         * specified by Core.setWorkerPath for ContentEdit worker files.
-         * @param workerPath - the URL for InfixServerModule.js, InfixServerWasm.br.js.mem, InfixServerWasm.br.wasm, and InfixServerWasm.gz.js.mem files
-         */
-        function setWorkerPath(workerPath: string): void;
-        /**
-         * Get the location of the ContentEdit worker files InfixServerModule.js, InfixServerWasm.br.js.mem, InfixServerWasm.br.wasm, and InfixServerWasm.gz.js.mem
-         * @returns the URL for InfixServerModule.js, InfixServerWasm.br.js.mem, InfixServerWasm.br.wasm, and InfixServerWasm.gz.js.mem files
-         */
-        function getWorkerPath(): string;
-        /**
-         * Set the location of the ContentEdit worker resource file InfixServerWasm.br.mem
-         * This will override the location specified by Core.setWorkerPath for InfixServerWasm.br.mem file.
-         * @param workerPath - the URL for InfixServerWasm.br.mem file
-         */
-        function setResourcePath(workerPath: string): void;
-        /**
-         * Get the location of the ContentEdit worker resource file InfixServerWasm.br.mem
-         * @returns the URL for InfixServerWasm.br.mem file
-         */
-        function getResourcePath(): string;
+        var Types: {
+            /**
+             * Text type content.
+             */
+            TEXT: string;
+            /**
+             * Object type content.
+             */
+            OBJECT: string;
+        };
         /**
          * Preloads the content editing worker. If this function isn't called then the worker will be loaded when the content editing tool is enabled.
          * @param contentEditManager - The contentEditManager to use as context for the page editing.
@@ -30415,10 +29526,9 @@ declare namespace Core {
          * @example
          * instance.Core.ContentEdit.updateDocumentContent(contentEditPlaceholderAnnotation, 'New content');
          * @param content - The new content
-         * @param isInheritingContentBoxStyles - A flag that specifies if the font size and font family from the content box will be applied. Defaults to true.
          * @returns Resolves after the content has been updated
          */
-        function updateDocumentContent(contentEditPlaceholderAnnotation: Core.Annotations.RectangleAnnotation, content: string, isInheritingContentBoxStyles: boolean): Promise<void>;
+        function updateDocumentContent(contentEditPlaceholderAnnotation: Core.Annotations.RectangleAnnotation, content: string): Promise<void>;
         /**
          * Gets the content box data for the passed in annotation.
          * The passed in annotation must be a content edit placeholder annotation.
@@ -30433,13 +29543,11 @@ declare namespace Core {
          * instance.Core.ContentEdit.searchAndReplaceText({
          *    toReplace: 'PDF',
          *    replaceWith: 'DOCX',
-         *    documentViewer: instance.Core.documentViewer,
-         *    searchResults: instance.Core.documentViewer.getPageSearchResults([1])
+         *    documentViewer: instance.Core.documentViewer
          * });
          * @param options.toReplace - A string or global RegExp object that will be replaced on the page.
          * @param options.replaceWith - The string that replaces the string or RegExp provided in the first parameter.
          * @param options.documentViewer - DocumentViewer instance.
-         * @param options.searchResults - the array of search results.
          * @param [options.caseSensitive] - Is case sensitive search.
          * @param [options.wholeWord] - Is serching the whole word.
          * @param [options.wildcard] - Is searching with wildcard word.
@@ -30451,7 +29559,6 @@ declare namespace Core {
             toReplace: string | RegExp;
             replaceWith: string;
             documentViewer: Core.DocumentViewer;
-            searchResults: Core.Search.SearchResult[];
             caseSensitive?: boolean;
             wholeWord?: boolean;
             wildcard?: boolean;
@@ -30472,7 +29579,7 @@ declare namespace Core {
         /**
          * Set font of text content
          * @param contentEditPlaceholderAnnotation - The annotation that represents the content where the font should be set
-         * @param font - The font family to set
+         * @param font - The font to set
          * @returns Resolves after the content has been updated
          */
         function setContentFont(contentEditPlaceholderAnnotation: Core.Annotations.Annotation, font: string): Promise<void>;
@@ -30486,7 +29593,7 @@ declare namespace Core {
         /**
          * Align text content
          * @param contentEditPlaceholderAnnotation - The annotation that represents the content where the text alignment should be set
-         * @param alignment - The text alignment to set. Must be one of the following values: 'START', 'CENTER', or 'END'.
+         * @param alignment - The text alignment to set
          * @returns Resolves after the content has been updated
          */
         function alignContents(contentEditPlaceholderAnnotation: Core.Annotations.Annotation, alignment: string): Promise<void>;
@@ -30527,6 +29634,20 @@ declare namespace Core {
          */
         function getContentEditingFonts(): Promise<string[]>;
         /**
+         * Begins the editing of a page already loaded into InfixServer.
+         * @param webFontURL - The web font URL
+         */
+        function beginEditing(webFontURL: string): void;
+        /**
+         * Gets the web font URL.
+         * @returns The web font URL
+         */
+        function getWebFontURL(): string;
+        /**
+         * Draws the content box galley canvas
+         */
+        function drawContentBoxCanvas(): void;
+        /**
          * Sets the active text attributes to be applied to new text
          * @param attributes - The attributes to set
          * @param [attributes.fontName] - The font name
@@ -30543,17 +29664,7 @@ declare namespace Core {
             italic?: boolean;
             underline?: boolean;
             fontColor?: string;
-        }): Promise<void>;
-        /**
-         * Sets the feature flag that enables / disables the reflow of long text when editing a content box.
-         * @param textReflow - A boolean that specifies if the long text reflow feature should be enabled.
-         */
-        function setTextReflow(textReflow: boolean): Promise<void>;
-        /**
-         * Gets the feature flag that enabled / disabled the reflow of long text when editing a content box.
-         * @returns A promise that resolves to a boolean which indicates if long text reflow feature is enabled.
-         */
-        function getTextReflow(): Promise<boolean>;
+        }): void;
         /**
          * The ContentBox class which includes a control handle and an HTML text edit element.
          */
@@ -30579,7 +29690,7 @@ declare namespace Core {
              * Gets the attributes pulled at the content box level
              * @returns The attributes pulled at the content box level
              */
-            getBoxAttributes(): TextAttributes;
+            getBoxAttributes(): any;
         }
         /**
          * The ContentBoxEditor class which contains action applied when edit content box
@@ -30590,50 +29701,6 @@ declare namespace Core {
              * @returns The current text attributes
              */
             getTextAttributes(): Promise<object>;
-        }
-        /**
-         * TextAttributes types.
-         * @property boldStyles - Array of objects representing bold styles and their character counts.
-         * @property boldStyles[].bold - Bold style value.
-         * @property boldStyles[].characterCount - Character count for the bold style.
-         * @property fontColors - Array of objects representing font colors, their character counts, and color indices.
-         * @property fontColors[].fontColor - Font color value.
-         * @property fontColors[].characterCount - Character count for the font color.
-         * @property fontColors[].colorIndex - Color index value.
-         * @property fontNames - Array of objects representing font names and their character counts.
-         * @property fontNames[].fontName - Font name value.
-         * @property fontNames[].characterCount - Character count for the font name.
-         * @property fontSizes - Array of objects representing font sizes and their character counts.
-         * @property fontSizes[].fontSize - Font size value.
-         * @property fontSizes[].characterCount - Character count for the font size.
-         * @property italicStyles - Array of objects representing italic styles and their character counts.
-         * @property italicStyles[].italic - Italic style value.
-         * @property italicStyles[].characterCount - Character count for the italic style.
-         * @property underlineStyles - Array of objects representing underline styles and their character counts.
-         * @property underlineStyles[].underline - Underline style value.
-         * @property underlineStyles[].characterCount - Character count for the underline style.
-         * @property leadings - Array of objects representing leadings.
-         * @property leadings[].leading - Leading value.
-         * @property textAligns - Array of objects representing text alignments.
-         * @property textAligns[].textAlign - Text alignment value.
-         */
-        interface TextAttributes extends Core.ContentEdit.TextStyle {
-        }
-        /**
-         * TextStyle types.
-         * @property bold - Indicates whether the text is bold.
-         * @property fontColor - The color of the font.
-         * @property fontName - The name of the font.
-         * @property fontSize - The size of the font.
-         * @property italic - Indicates whether the text is italicized.
-         * @property leading - The leading (line spacing) value.
-         * @property textAlign - The text alignment (e.g., left, right, center).
-         * @property underline - Indicates whether the text is underlined.
-         * @property strike - Indicates whether the text has a strikethrough.
-         * @property valign - The vertical alignment of the text.
-         * @property autofit - Indicates whether the text should automatically fit within its container.
-         */
-        interface TextStyle {
         }
         /**
          * @property TEXT_CONTENT_UPDATED - {@link Core.ContentEdit#event:textContentUpdated Core.ContentEdit.textContentUpdated }
@@ -30666,10 +29733,28 @@ declare namespace Core {
         };
     }
     /**
-     * A manager class that controls document content editing.
+     * Set the location of the ContentEdit workers for InfixServerModule.js, InfixServerWasm.br.js.mem,
+     * InfixServerWasm.br.wasm, and InfixServerWasm.gz.js.mem files. This will override the location
+     * specified by Core.setWorkerPath for ContentEdit worker files.
+     */
+    var setWorkerPath: any;
+    /**
+     * Get the location of the ContentEdit worker files InfixServerModule.js, InfixServerWasm.br.js.mem, InfixServerWasm.br.wasm, and InfixServerWasm.gz.js.mem
+     */
+    var getWorkerPath: any;
+    /**
+     * Set the location of the ContentEdit worker resource file InfixServerWasm.br.mem
+     * This will override the location specified by Core.setWorkerPath for InfixServerWasm.br.mem file.
+     */
+    var setResourcePath: any;
+    /**
+     * Get the location of the ContentEdit worker resource file InfixServerWasm.br.mem
+     */
+    var getResourcePath: any;
+    /**
+     * A manager class that controls document content editing
      */
     class ContentEditManager extends EventHandler {
-        constructor(documentViewer: Core.DocumentViewer);
         /**
          * Triggered when Content Edit mode is started.
          */
@@ -30679,15 +29764,6 @@ declare namespace Core {
          */
         one(event: 'contentEditModeStarted', callback: () => void): void;
         off(event?: 'contentEditModeStarted', callback?: () => void): void;
-        /**
-         * Triggered when a document is digitally signed in Content Edit mode.
-         */
-        on(event: 'contentEditDocumentDigitallySigned', callback: () => void): void;
-        /**
-         * Triggered when a document is digitally signed in Content Edit mode.
-         */
-        one(event: 'contentEditDocumentDigitallySigned', callback: () => void): void;
-        off(event?: 'contentEditDocumentDigitallySigned', callback?: () => void): void;
         /**
          * Triggered when Content Edit mode is ended.
          */
@@ -30741,78 +29817,22 @@ declare namespace Core {
         one(event: 'contentEditSelectionChange', callback: (selectionChangeEvent: any) => void): void;
         off(event?: 'contentEditSelectionChange', callback?: (selectionChangeEvent: any) => void): void;
         /**
-         * Triggered when a content box (text or image) is added while in content edit mode.
-         * @example
-         * const { Core } = instance;
-         * const { documentViewer } = Core;
-         * const contentEditManager = documentViewer.getContentEditManager();
-         * contentEditManager.addEventListener('contentBoxAdded', (contentBox) => {
-         *   console.log(contentBox.id);
-         *   console.log(contentBox.type);
-         *   console.log(contentBox.pageNumber);
-         *   console.log(contentBox.position);
-         *   console.log(contentBox.data);
-         * });
-         * @param contentBoxProperties - An object containing information about the added content box.
-         */
-        on(event: 'contentBoxAdded', callback: (contentBoxProperties: Core.ContentEditManager.ContentBoxProperties) => void): void;
-        /**
-         * Triggered when a content box (text or image) is added while in content edit mode.
-         * @example
-         * const { Core } = instance;
-         * const { documentViewer } = Core;
-         * const contentEditManager = documentViewer.getContentEditManager();
-         * contentEditManager.addEventListener('contentBoxAdded', (contentBox) => {
-         *   console.log(contentBox.id);
-         *   console.log(contentBox.type);
-         *   console.log(contentBox.pageNumber);
-         *   console.log(contentBox.position);
-         *   console.log(contentBox.data);
-         * });
-         * @param contentBoxProperties - An object containing information about the added content box.
-         */
-        one(event: 'contentBoxAdded', callback: (contentBoxProperties: Core.ContentEditManager.ContentBoxProperties) => void): void;
-        off(event?: 'contentBoxAdded', callback?: (contentBoxProperties: Core.ContentEditManager.ContentBoxProperties) => void): void;
-        /**
-         * Triggered when a content box (text or image) is deleted while in content edit mode.
-         * @example
-         * const { Core } = instance;
-         * const { documentViewer } = Core;
-         * const contentEditManager = documentViewer.getContentEditManager();
-         * contentEditManager.addEventListener('contentBoxDeleted', (contentBox) => {
-         *   console.log(contentBox.id);
-         *   console.log(contentBox.type);
-         *   console.log(contentBox.pageNumber);
-         * });
-         * @param contentBoxProperties - An object containing information about the deleted content box.
-         */
-        on(event: 'contentBoxDeleted', callback: (contentBoxProperties: Core.ContentEditManager.ContentBoxProperties) => void): void;
-        /**
-         * Triggered when a content box (text or image) is deleted while in content edit mode.
-         * @example
-         * const { Core } = instance;
-         * const { documentViewer } = Core;
-         * const contentEditManager = documentViewer.getContentEditManager();
-         * contentEditManager.addEventListener('contentBoxDeleted', (contentBox) => {
-         *   console.log(contentBox.id);
-         *   console.log(contentBox.type);
-         *   console.log(contentBox.pageNumber);
-         * });
-         * @param contentBoxProperties - An object containing information about the deleted content box.
-         */
-        one(event: 'contentBoxDeleted', callback: (contentBoxProperties: Core.ContentEditManager.ContentBoxProperties) => void): void;
-        off(event?: 'contentBoxDeleted', callback?: (contentBoxProperties: Core.ContentEditManager.ContentBoxProperties) => void): void;
-        /**
          * Gets if the Content Edit manager is currently in content edit mode
          */
         isInContentEditMode(): boolean;
+        /**
+         * Gets the text attributes applied to the content edit box.
+         * @param contentBoxId - The id of the content box.
+         * @returns Resolves to an object of text attrbutes.
+         */
+        getContentBoxAttributes(contentBoxId: string): Promise<object>;
         /**
          * Starts the Content Edit mode, a mode in which links are disabled
          * and boxes are drawn around all editable content so users can edit them
          */
         startContentEditMode(): void;
         /**
-         * Ends the Content Edit mode and removes content edit
+         * Ends the Content Edit mode, re-enabling links and removing content edit
          * boxes from the document.
          */
         endContentEditMode(): void;
@@ -30827,25 +29847,10 @@ declare namespace Core {
          */
         toggleInvisibleCharacters(): void;
     }
-    namespace ContentEditManager {
-        /**
-         * An event object of content box properties.
-         */
-        type ContentBoxProperties = {
-            ContentBoxProperties: {
-                id: string;
-                type: Core.ContentEdit.Types;
-                pageNumber: number;
-                position?: Core.Math.Rect;
-                data?: ArrayBuffer | string;
-            };
-        };
-    }
     /**
      * Provides methods for adding history, undoing, and redoing edits.
      */
     class ContentEditHistoryManager {
-        constructor(documentViewer: Core.DocumentViewer);
         /**
          * Checks if there are any actions that can be undone.
          * @returns True if there are actions to undo, false otherwise.
@@ -30998,10 +30003,6 @@ declare namespace Core {
          */
         showInvalidBookmarks?: boolean;
         /**
-         * Default is false. If true, will limit the downloading of linearized PDFs to download data needed for the current and nearby pages.
-         */
-        shouldUseMinimumDownloads?: boolean;
-        /**
          * An object that contains the options for an Office document.
          */
         officeOptions?: {
@@ -31013,7 +30014,6 @@ declare namespace Core {
                 hideTotalNumberOfPages?: boolean;
                 applyPageBreaksToSheet?: boolean;
                 displayChangeTracking?: boolean;
-                displayHiddenText?: boolean;
                 excelDefaultCellBorderWidth?: number;
                 excelMaxAllowedCellCount?: number;
                 locale?: string;
@@ -31205,10 +30205,9 @@ declare namespace Core {
      * @param [objNum] - The PDF object number of the bookmark
      * @param [xfdfActions] - The XFDF of the actions associated with the bookmark
      * @param [color] - The color of the bookmark
-     * @param [documentViewer] - The documentViewer object, this is required for XFDF actions to be parsed properly
      */
     class Bookmark {
-        constructor(children: Core.Bookmark[], name: string, pageNumber: number, parent: Core.Bookmark, verticalOffset: number, horizontalOffset: number, url?: string, index?: number, objNum?: number, xfdfActions?: string, color?: number[], documentViewer?: Core.DocumentViewer);
+        constructor(children: Core.Bookmark[], name: string, pageNumber: number, parent: Core.Bookmark, verticalOffset: number, horizontalOffset: number, url?: string, index?: number, objNum?: number, xfdfActions?: string, color?: number[]);
         /**
          * Gets the children of the bookmark.
          * @returns The children of the bookmark
@@ -31264,12 +30263,12 @@ declare namespace Core {
          * Currently only JavaScript actions are supported
          * @param action - The action that will be triggered when the bookmark is clicked
          */
-        setAction(action: Core.Actions.Action): void;
+        setAction(action: Core.Actions.JavaScript): void;
         /**
          * Gets the Action for the bookmark
          * @returns The action for the bookmark
          */
-        getAction(): Core.Actions.Action;
+        getAction(): Core.Actions.JavaScript;
         /**
          * Gets the color of the bookmark
          * @returns An object with RGB values (r, g, b)
@@ -31463,9 +30462,6 @@ declare namespace Core {
          * @param [options.thinLinePixelGridFit = false] - If true (horizontal/vertical) thin lines will be snapped to integer pixel positions.
          * @param [options.thinLineStrokeAdjust = true] - Enable or disable auto stroke adjustment.
          * @param [options.thinLineScaling = 1.0] - Controls the thickness of zero-width lines when rendered. Default is 1.0.
-         * @param [options.nightModeTuningContrast] - Controls the contrast for night mode rendering. Values range from 0.0 to 1.0. By default, night mode tuning is off. If contrast is specified, saturation defaults to 0.8, flipness to 1.0.
-         * @param [options.nightModeTuningSaturation] - Controls the saturation for night mode rendering. Values range from 0.0 to 1.0. By default, night mode tuning is off. If saturation is specified, contrast defaults to 0.9, flipness to 1.0.
-         * @param [options.nightModeTuningFlipness] - Controls the inversion of colors for night mode rendering. Values range from 0.0 to 1.0. By default, night mode tuning is off. If flipness is specified, contrast defaults to 0.9, saturation to 0.8.
          * @param [options.imageSmoothing = true] - Enable or disable image smoothing.
          * @param [options.hqImageResampling = false] - Whether use a higher quality (but slower) smoothing algorithm.
          * @param [options.caching = true] - Enables or disables caching. Caching can improve the rendering performance in cases where the same page will be drawn multiple times.
@@ -31484,9 +30480,6 @@ declare namespace Core {
             thinLinePixelGridFit?: boolean;
             thinLineStrokeAdjust?: boolean;
             thinLineScaling?: number;
-            nightModeTuningContrast?: number;
-            nightModeTuningSaturation?: number;
-            nightModeTuningFlipness?: number;
             imageSmoothing?: boolean;
             hqImageResampling?: boolean;
             caching?: boolean;
@@ -31967,24 +30960,24 @@ declare namespace Core {
          * Triggered only in an Office Editor Document. Triggered when the main cursor properties are updated.
          * @param cursorProperties - The cursor properties.
          */
-        on(event: 'cursorPropertiesUpdated', callback: (cursorProperties: Core.Document.OfficeEditorCursorStyle) => void): void;
+        on(event: 'cursorPropertiesUpdated', callback: (cursorProperties: Core.Document.OfficeEditorTextStyle) => void): void;
         /**
          * Triggered only in an Office Editor Document. Triggered when the main cursor properties are updated.
          * @param cursorProperties - The cursor properties.
          */
-        one(event: 'cursorPropertiesUpdated', callback: (cursorProperties: Core.Document.OfficeEditorCursorStyle) => void): void;
-        off(event?: 'cursorPropertiesUpdated', callback?: (cursorProperties: Core.Document.OfficeEditorCursorStyle) => void): void;
+        one(event: 'cursorPropertiesUpdated', callback: (cursorProperties: Core.Document.OfficeEditorTextStyle) => void): void;
+        off(event?: 'cursorPropertiesUpdated', callback?: (cursorProperties: Core.Document.OfficeEditorTextStyle) => void): void;
         /**
          * Triggered only in an Office Editor Document. Triggered when the text selection properties are updated.
          * @param selectionProperties - The selection properties.
          */
-        on(event: 'selectionPropertiesUpdated', callback: (selectionProperties: Core.Document.OfficeEditorSelectionStyle) => void): void;
+        on(event: 'selectionPropertiesUpdated', callback: (selectionProperties: Core.Document.OfficeEditorTextStyle) => void): void;
         /**
          * Triggered only in an Office Editor Document. Triggered when the text selection properties are updated.
          * @param selectionProperties - The selection properties.
          */
-        one(event: 'selectionPropertiesUpdated', callback: (selectionProperties: Core.Document.OfficeEditorSelectionStyle) => void): void;
-        off(event?: 'selectionPropertiesUpdated', callback?: (selectionProperties: Core.Document.OfficeEditorSelectionStyle) => void): void;
+        one(event: 'selectionPropertiesUpdated', callback: (selectionProperties: Core.Document.OfficeEditorTextStyle) => void): void;
+        off(event?: 'selectionPropertiesUpdated', callback?: (selectionProperties: Core.Document.OfficeEditorTextStyle) => void): void;
         /**
          * Triggered only in an Office Editor Document. Triggered when the document has been edited.
          */
@@ -32091,10 +31084,10 @@ declare namespace Core {
             /**
              * Set the style of the cursor.
              * @example
-             * officeEditor.setMainCursorStyle({ pointSize: 24, italic: false, bold: false});
+             * officeEditor.setCursorStyle({ pointSize: 24, italic: false, bold: false});
              * @param style - The style object
              */
-            setMainCursorStyle(style: Core.Document.OfficeEditorCursorStyle): void;
+            setCursorStyle(style: Core.Document.OfficeEditorTextStyle): void;
             /**
              * Set the indent style of the selected text
              * @example
@@ -32118,7 +31111,7 @@ declare namespace Core {
              * @param style - The styles to apply.
              * @returns Returns a promise that resolves when the action finishes.
              */
-            updateSelectionStyle(style: Core.Document.OfficeEditorSelectionStyle): Promise<void>;
+            updateSelectionStyle(style: Core.Document.OfficeEditorTextStyle): Promise<void>;
             /**
              * Toggle the list selection.
              * @param listType - The type of the list.
@@ -32163,41 +31156,17 @@ declare namespace Core {
          */
         type OfficeEditorParagraphStyle = {
             /**
-             * The text style of the paragraph.
+             * The text style of the selected lines.
              */
-            paragraphTextStyle?: OfficeEditorTextStyle;
+            textStyle?: OfficeEditorTextStyle;
             /**
-             * The justification of the paragraph.
+             * The justification of the selected lines.
              */
             justification?: any;
             /**
-             * The line height of the paragraph.
+             * The spacing of the selected lines.
              */
-            lineHeight?: number;
-            /**
-             * The list type of the paragraph.
-             */
-            listType?: any;
-            /**
-             * The line height multiplier of the paragraph.
-             */
-            lineHeightMultiplier?: number;
-        };
-        /**
-         */
-        type OfficeEditorCursorStyle = {
-            /**
-             * The properties of the paragraph
-             */
-            paragraphProperties?: any;
-        };
-        /**
-         */
-        type OfficeEditorSelectionStyle = {
-            /**
-             * The properties of the paragraph
-             */
-            paragraphProperties?: any;
+            lineSpacing?: number;
         };
         /**
          * An enum representing the toggleable text styles in Office Editor.
@@ -32249,7 +31218,7 @@ declare namespace Core {
             /**
              * The font color of the text, e.g. { r: 255, g: 0, b: 0, a: 255 }
              */
-            color?: any;
+            fontColor?: any;
         };
     }
     /**
@@ -32342,7 +31311,7 @@ declare namespace Core {
      * The expected type of input data for a template tag.
      * The type can be read from the typeId property.
      */
-    type TemplateSchemaValue = Core.TemplateSchemaContent | Core.TemplateSchemaString | Core.TemplateSchemaBool | Core.TemplateSchemaLoop | Core.TemplateSchemaObject;
+    type TemplateSchemaValue = Core.TemplateSchemaContent | Core.TemplateSchemaBool | Core.TemplateSchemaLoop | Core.TemplateSchemaObject;
     /**
      * This indicates there is a template tag for this key that will be replaced with content, such as text or an image.
      */
@@ -32360,16 +31329,6 @@ declare namespace Core {
      */
     type TemplateSchemaBool = {
         typeId: 'TemplateSchemaBool';
-        /**
-         * An index representing this template key's first occurrence in the natural flow order of the document's keys (left-to-right, top-to-bottom).
-         */
-        docOrder: number;
-    };
-    /**
-     * This indicates all usages of the key are used in a context that require a string.
-     */
-    type TemplateSchemaString = {
-        typeId: 'TemplateSchemaString';
         /**
          * An index representing this template key's first occurrence in the natural flow order of the document's keys (left-to-right, top-to-bottom).
          */
@@ -32642,10 +31601,6 @@ declare namespace Core {
          */
         webviewerServerURL?: string;
         /**
-         * If set to false then HTTP range requests will not be made to WebViewer Server. Default is true.
-         */
-        webviewerServerRangeRequests?: boolean;
-        /**
          * A boolean indicating whether to fall back to client side rendering when WebViewer server fails
          */
         fallbackToClientSide?: boolean;
@@ -32682,10 +31637,6 @@ declare namespace Core {
          */
         showInvalidBookmarks?: boolean;
         /**
-         * Default is false. If true, will limit the downloading of linearized PDFs to download data needed for the current and nearby pages.
-         */
-        shouldUseMinimumDownloads?: boolean;
-        /**
          * An object that contains the options for an Office document.
          */
         officeOptions?: {
@@ -32697,7 +31648,6 @@ declare namespace Core {
                 hideTotalNumberOfPages?: boolean;
                 applyPageBreaksToSheet?: boolean;
                 displayChangeTracking?: boolean;
-                displayHiddenText?: boolean;
                 excelDefaultCellBorderWidth?: number;
                 excelMaxAllowedCellCount?: number;
                 locale?: string;
@@ -32720,9 +31670,8 @@ declare namespace Core {
         scrollViewUpdated(): void;
         /**
          * Reinitializes data and clears the viewer area content.
-         * @returns A promise that resolves when the document is finished closing
          */
-        closeDocument(): Promise<void>;
+        closeDocument(): void;
         /**
          * Request a recalculation of page layout and rerender all pages. For use when
          * modifying the underlying Document without using the provided page
@@ -32730,14 +31679,6 @@ declare namespace Core {
          * @param pagesToRecalculate - An array of page numbers (1-indexed) that should be recalculated
          */
         recalculateLayout(pagesToRecalculate: number[]): void;
-        /**
-         * DocumentViewer starts downloading annotations in the background page by page.
-         * Calling this function will cause it to immediately request all annotations that have
-         * not been downloaded yet which speeds up the annotation loading at the cost of some up front extra processing.
-         * Note that after calling this function the annotations will not have finished downloadeding yet.
-         * Use the getAnnotationsLoadedPromise function which resolves when all annotation have been downloaded.
-         */
-        downloadRemainingAnnotations(): void;
         /**
          * Returns whether add automatic link is enabled.
          * @returns Whether add automatic link is enabled.
@@ -32766,15 +31707,15 @@ declare namespace Core {
         loadDocument(src: string | File | ArrayBuffer | Blob | Core.Document | Core.PDFNet.PDFDoc, options?: Core.LoadDocumentOptions): Promise<void>;
         /**
          * Opens the given URI.
-         * @param uri - The uri to open
-         * @param isOpenInNewWindow - Whether to open the uri in a new window
+         * @param uri - the uri to open
+         * @param isOpenInNewWindow - whether to open the uri in a new window
          */
         openURI(uri: string, isOpenInNewWindow: boolean): void;
         /**
          * Sets the open URI handler.
-         * @param openURIHandler - Function that takes in a uri and a boolean indicating whether to open in a new window
+         * @param openURIHandler - openURIHandler function that takes in a uri and a boolean indicating whether to open in a new window
          */
-        setOpenURIHandler(openURIHandler: (...params: any[]) => any): void;
+        setOpenURIHandler(openURIHandler: any): void;
         /**
          * Gets a promise that resolves when the annotations in the current document have all been loaded
          * @returns Promise that resolves when the annotations in the current document have loaded.
@@ -32804,10 +31745,6 @@ declare namespace Core {
          * Disposes the current document's data
          */
         dispose(): void;
-        /**
-         * Unmount the documentViewer from the DOM and clean up any related events and resources
-         */
-        unmount(): void;
         /**
          * Get the current height of the specified page, taking into account rotation.
          * @param pageNumber - The page number
@@ -32844,7 +31781,7 @@ declare namespace Core {
          * Returns the ContentEditHistoryManager used by this DocumentViewer
          * @returns An instance of ContentEditHistoryManager
          */
-        getContentEditHistoryManager(): Core.ContentEditHistoryManager;
+        getContentEditHistoryManager(): Core.AnnotationHistoryManager;
         /**
          * Set the options that are used when importing annotations from a document asynchronously.
          * These are the options that will be passed to AnnotationManager.importAnnotations.
@@ -33101,7 +32038,7 @@ declare namespace Core {
          * @param [searchOptions.onError] - (result) The callback function that is called when search failed or regex has syntax error.
          * @param [searchOptions.startPage] - Page to start the search on (1-indexed).
          * @param [searchOptions.endPage] - Page to end the search on inclusively (1-indexed).
-         * The search may complete when the search term is found, when the entire document has been searched, and, depending on the search options, at the end of every page.
+         * The search may complete when the search term is found, when the entire document has been searched, and, depending on the search options, at the end of every page. Parameter result: {@link DocumentViewer.SearchResults}.
          */
         textSearchInit(pattern: string, modeOptions: number | number[], searchOptions?: {
             fullSearch?: boolean;
@@ -33123,31 +32060,71 @@ declare namespace Core {
          */
         setSearchPageBatchSize(searchBatchSize: number): void;
         /**
+         * The code indicating the reason that the search process concluded.
+         * @property ambientStr - The text surrounding the result string.
+         * @property resultStr - The found text.
+         * @property resultStrStart - The index in ambient string where the result string starts.
+         * @property resultStrEnd - The index in ambient string where the result string end.
+         * @property pageNum - The page number which the search was conducted on.
+         * @property resultCode - The reason the search completed.
+         * @property quads - A list of Quads, representing the bounding box(es) of the found text. Useful for highlighting the text.
+         */
+        static SearchResults: {
+            /**
+             * The text surrounding the result string.
+             */
+            ambientStr: string;
+            /**
+             * The found text.
+             */
+            resultStr: string;
+            /**
+             * The index in ambient string where the result string starts.
+             */
+            resultStrStart: number;
+            /**
+             * The index in ambient string where the result string end.
+             */
+            resultStrEnd: number;
+            /**
+             * The page number which the search was conducted on.
+             */
+            pageNum: number;
+            /**
+             * The reason the search completed.
+             */
+            resultCode: number;
+            /**
+             * A list of Quads, representing the bounding box(es) of the found text. Useful for highlighting the text.
+             */
+            quads: any;
+        };
+        /**
          * Scrolls the viewer so that the position of the search result is in the middle of the viewer.
-         * @param result - The result of a search, {@link Core.Search.SearchResult}. Returned by onResult in {@link Core.DocumentViewer#textSearchInit}.
+         * @param result - The result of a search, {@link Core.DocumentViewer.SearchResult}. Returned by onResult in {@link Core.DocumentViewer#textSearchInit}.
          * @param [jump] - The callback for navigating to the found result. This is optional and will jump to the correct location in the DocumentViewer if no parameter is passed.
          */
         displaySearchResult(result: any, jump?: (...params: any[]) => any): void;
         /**
          * Displays the new search result without clearing previous results
-         * @param result - The result of a search, {@link Core.Search.SearchResult} Returned by onResult in {@link Core.DocumentViewer#textSearchInit}.
+         * @param result - The result of a search, {@link Core.DocumentViewer.SearchResult} Returned by onResult in {@link Core.DocumentViewer#textSearchInit}.
          */
         displayAdditionalSearchResult(result: any): void;
         /**
          * Displays the new search results without clearing previous results
          * If you need to display many results at the same time this can be much
          * more efficient than calling displayAdditionalSearchResult for each result
-         * @param results - An array of search results {@link Core.Search.SearchResult}. Returned by onResult in {@link Core.DocumentViewer#textSearchInit}.
+         * @param results - An array of search results {@link Core.DocumentViewer.SearchResult}. Returned by onResult in {@link Core.DocumentViewer#textSearchInit}.
          */
         displayAdditionalSearchResults(results: object[]): void;
         /**
          * Sets the active search result, causing it to be displayed as a different color and visible on the screen.
-         * @param result - The result of a search, {@link Core.Search.SearchResult}. Returned by onResult in {@link Core.DocumentViewer#textSearchInit}.
+         * @param result - The result of a search, {@link Core.DocumentViewer.SearchResult}. Returned by onResult in {@link Core.DocumentViewer#textSearchInit}.
          */
         setActiveSearchResult(result: any): void;
         /**
          * Gets the currently active search result
-         * @returns SearchResult {@link Core.Search.SearchResult}
+         * @returns SearchResult {@link Core.DocumentViewer.SearchResult}
          */
         getActiveSearchResult(): any;
         /**
@@ -33157,9 +32134,9 @@ declare namespace Core {
         /**
          * Get results of the current search
          * @param [pageNumber] - page number indicating to return the search hits from a specific page. If it's not given, the function will return search hits from all document pages.
-         * @returns Returns an array of {@link Core.Search.SearchResult}
+         * @returns SearchResult array {@link Core.DocumentViewer.SearchResult}
          */
-        getPageSearchResults(pageNumber?: number): Core.Search.SearchResult[];
+        getPageSearchResults(pageNumber?: number): any;
         /**
          * Draws the text selection for the specified page. Should be called after calling
          * AnnotationManager's drawAnnotations function if the selection should still be shown.
@@ -33896,23 +32873,23 @@ declare namespace Core {
         off(event?: 'pagesUpdated', callback?: (changes: Core.DocumentViewer.pagesUpdatedChanges) => void): void;
         /**
          * Triggered when the search results list has changed
-         * @param results - The new search results, {@link Core.Search.SearchResult}.
+         * @param results - The new search results, {@link Core.DocumentViewer.SearchResult}.
          */
         on(event: 'searchResultsChanged', callback: (results: object[]) => void): void;
         /**
          * Triggered when the search results list has changed
-         * @param results - The new search results, {@link Core.Search.SearchResult}.
+         * @param results - The new search results, {@link Core.DocumentViewer.SearchResult}.
          */
         one(event: 'searchResultsChanged', callback: (results: object[]) => void): void;
         off(event?: 'searchResultsChanged', callback?: (results: object[]) => void): void;
         /**
          * Triggered when the active search result has changed
-         * @param result - The new active search result, {@link Core.Search.SearchResult}.
+         * @param result - The new active search result, {@link Core.DocumentViewer.SearchResult}.
          */
         on(event: 'activeSearchResultChanged', callback: (result: any) => void): void;
         /**
          * Triggered when the active search result has changed
-         * @param result - The new active search result, {@link Core.Search.SearchResult}.
+         * @param result - The new active search result, {@link Core.DocumentViewer.SearchResult}.
          */
         one(event: 'activeSearchResultChanged', callback: (result: any) => void): void;
         off(event?: 'activeSearchResultChanged', callback?: (result: any) => void): void;
@@ -33931,35 +32908,6 @@ declare namespace Core {
          */
         one(event: 'compareAnnotationsLoaded', callback: (doc1Annotations: any, doc2Annotations: any, diffCount: any) => void): void;
         off(event?: 'compareAnnotationsLoaded', callback?: (doc1Annotations: any, doc2Annotations: any, diffCount: any) => void): void;
-        /**
-         * Triggered when snap mode has successfully finished initializing.
-         */
-        on(event: 'snapModeInitialized', callback: () => void): void;
-        /**
-         * Triggered when snap mode has successfully finished initializing.
-         */
-        one(event: 'snapModeInitialized', callback: () => void): void;
-        off(event?: 'snapModeInitialized', callback?: () => void): void;
-        /**
-         * Triggered when tool.setSnapMode() gets called the first time with a loaded document, or when a new document is loaded with a snap mode set on the active tool.
-         */
-        on(event: 'beforeSnapModeInitialized', callback: () => void): void;
-        /**
-         * Triggered when tool.setSnapMode() gets called the first time with a loaded document, or when a new document is loaded with a snap mode set on the active tool.
-         */
-        one(event: 'beforeSnapModeInitialized', callback: () => void): void;
-        off(event?: 'beforeSnapModeInitialized', callback?: () => void): void;
-        /**
-         * Triggered when a Widget is clicked that triggers the Embedded JavaScript popUpMenu API
-         * @param popUpMenuData - Data provided from the Embedded JavaScript popUpMenu API being called
-         */
-        on(event: 'embeddedPopUpMenu', callback: (popUpMenuData: Core.DocumentViewer.embeddedPopUpMenuData) => void): void;
-        /**
-         * Triggered when a Widget is clicked that triggers the Embedded JavaScript popUpMenu API
-         * @param popUpMenuData - Data provided from the Embedded JavaScript popUpMenu API being called
-         */
-        one(event: 'embeddedPopUpMenu', callback: (popUpMenuData: Core.DocumentViewer.embeddedPopUpMenuData) => void): void;
-        off(event?: 'embeddedPopUpMenu', callback?: (popUpMenuData: Core.DocumentViewer.embeddedPopUpMenuData) => void): void;
         /**
          * @property ACTIVE_SEARCH_RESULT_CHANGED - {@link Core.DocumentViewer#event:activeSearchResultChanged Core.DocumentViewer.activeSearchResultChanged }
          * @property MOUSE_LEFT_UP - {@link Core.DocumentViewer#event:mouseLeftUp Core.DocumentViewer.mouseLeftUp }
@@ -33994,9 +32942,6 @@ declare namespace Core {
          * @property BEGIN_RENDERING - {@link Core.DocumentViewer#event:beginRendering Core.DocumentViewer.beginRendering }
          * @property FINISHED_RENDERING - {@link Core.DocumentViewer#event:finishedRendering Core.DocumentViewer.finishedRendering }
          * @property TOOL_UPDATED - {@link Core.DocumentViewer#event:toolUpdated Core.DocumentViewer.toolUpdated }
-         * @property SNAP_MODE_INITIALIZED - {@link Core.DocumentViewer#event:toolUpdated Core.DocumentViewer.snapModeInitialized }
-         * @property BEFORE_SNAP_MODE_INITIALIZED - {@link Core.DocumentViewer#event:toolUpdated Core.DocumentViewer.beforeSnapModeInitialized }
-         * @property EMBEDDED_POP_UP_MENU - {@link Core.DocumentViewer#event:embeddedPopUpMenu Core.DocumentViewer.embeddedPopUpMenu }
          */
         static Events: {
             /**
@@ -34131,18 +33076,6 @@ declare namespace Core {
              * {@link Core.DocumentViewer#event:toolUpdated Core.DocumentViewer.toolUpdated }
              */
             TOOL_UPDATED: string;
-            /**
-             * {@link Core.DocumentViewer#event:toolUpdated Core.DocumentViewer.snapModeInitialized }
-             */
-            SNAP_MODE_INITIALIZED: string;
-            /**
-             * {@link Core.DocumentViewer#event:toolUpdated Core.DocumentViewer.beforeSnapModeInitialized }
-             */
-            BEFORE_SNAP_MODE_INITIALIZED: string;
-            /**
-             * {@link Core.DocumentViewer#event:embeddedPopUpMenu Core.DocumentViewer.embeddedPopUpMenu }
-             */
-            EMBEDDED_POP_UP_MENU: string;
         };
         /**
          * Default values for document viewer. Set FitMode, DisplayMode or Zoom.
@@ -34214,29 +33147,9 @@ declare namespace Core {
              */
             annotationsChanged: number[];
             /**
-             * Array of page numbers that had their rotation change
-             */
-            rotationChanged: number[];
-            /**
              * Boolean representing whether this page update was from the initial download of the file when the proper page sizes are loaded. This will only happen for linearized PDFs.
              */
             linearizedUpdate: boolean;
-        };
-        /**
-         */
-        type embeddedPopUpMenuData = {
-            /**
-             * An array where each element is a string corresponding to a menu item, or an Array<string> meant for rendering a separate sub-menu
-             */
-            popUpMenuItems: (string | string[])[];
-            /**
-             * The name of the field where the popUpMenu API was called
-             */
-            fieldName: string;
-            /**
-             * Function that accepts the user's chosen selection in the popUpMenu as a parameter, and resolves the promise instantiated when popUpMenu was called
-             */
-            onSelect: (...params: any[]) => any;
         };
     }
     /**
@@ -34319,7 +33232,6 @@ declare namespace Core {
         /**
          * @property FORM_CREATION_STARTED - {@link Core.FormFieldCreationManager#event:formFieldCreationModeStarted Core.FormFieldCreationManager.formFieldCreationModeStarted }
          * @property FORM_CREATION_ENDED - {@link Core.FormFieldCreationManager#event:formFieldCreationModeEnded Core.FormFieldCreationManager.formFieldCreationModeEnded }
-         * @property FORM_CREATION_EMPTY_FIELD_NAMES - {@link Core.FormFieldCreationManager#event:formFieldEmptyFieldNames Core.FormFieldCreationManager.formFieldEmptyFieldNames }
          */
         static Events: {
             /**
@@ -34330,10 +33242,6 @@ declare namespace Core {
              * {@link Core.FormFieldCreationManager#event:formFieldCreationModeEnded Core.FormFieldCreationManager.formFieldCreationModeEnded }
              */
             FORM_CREATION_ENDED: string;
-            /**
-             * {@link Core.FormFieldCreationManager#event:formFieldEmptyFieldNames Core.FormFieldCreationManager.formFieldEmptyFieldNames }
-             */
-            FORM_CREATION_EMPTY_FIELD_NAMES: string;
         };
         /**
          * Triggered when form field creation mode is started
@@ -34353,16 +33261,6 @@ declare namespace Core {
          */
         one(event: 'formFieldCreationModeEnded', callback: () => void): void;
         off(event?: 'formFieldCreationModeEnded', callback?: () => void): void;
-        /**
-         * Adds tools to the list of tools that are allowed to be used in form field creation mode
-         * @param tools - The names of the tools to be added
-         */
-        allowToolsInFormFieldCreationMode(tools: any): void;
-        /**
-         * Removes tools from the list of tools that are allowed to be used in form field creation mode
-         * @param tools - the names of the tools to be removed
-         */
-        disallowToolsInFormFieldCreationMode(tools: any): void;
         /**
          * Starts the Form Field Creation mode, a mode in which all annotations are hidden
         and only form field place holder annotations can be added
@@ -34482,12 +33380,6 @@ declare namespace Core {
          * @returns WidgetFlags
          */
         getAnnotationFlags(formfieldPlaceHolder: any): any;
-        /**
-         * Gets the associated widget from the given placeholder annotation.
-         * @param placeholderAnnotation - The placeholder annotation that appears in form builder mode.
-         * @returns The associated widget annotation if it exists.
-         */
-        getWidgetFromPlaceholder(placeholderAnnotation: Annotations.Annotation): Annotations.Annotation | null;
         /**
          * Disables the display of markup annotations during form field creation.
          */
@@ -34738,17 +33630,10 @@ declare namespace Core {
              */
             translate(x: number, y: number): void;
             /**
-             * Rotates this point around another point clockwise. By default, this will rotate around the origin.
-             * @param angle - The angle to rotate by
-             * @param [inRadians = false] - Whether the amount is in radians. Default: false
-             * @param [withRespectTo] - The point to rotate around. Default: (0, 0)
-             */
-            rotate(angle: number, inRadians?: boolean, withRespectTo?: Core.Math.Point): void;
-            /**
              * Scales the point by a scaling factor.
              * @param s - The amount to scale by
              */
-            scale(s: any): void;
+            rotate(s: any): void;
             /**
              * Gets a matrix that represents this point. You can include additional rows to add to the final matrix.
              * @param [vecs] - Additional rows to add.
@@ -34902,18 +33787,6 @@ declare namespace Core {
              */
             static createFromDimensions(x: number, y: number, width: number, height: number): Core.Math.Rect;
             /**
-             * Creates a Rect based on the combined bounding box of the provided annotations.
-             * @param annotations - The set of annotations to create the rect from
-             * @returns A rect at the designated position of the defined size
-             */
-            static createEncapsulatingBoundingBox(annotations: Annotations.Annotation[]): Core.Math.Rect;
-            /**
-             * Creates a Rect based on the combined bounding box of the provided rects.
-             * @param rectArray - The set of rects to create the rect from
-             * @returns A rect at the designated position of the defined size
-             */
-            static combineRects(rectArray: Rect[]): Core.Math.Rect;
-            /**
              * Returns the most left X value.
              */
             getLeft(): number;
@@ -34978,10 +33851,6 @@ declare namespace Core {
              * Normalizes the rect to ensure point (x1, y1) is the upper left point and width and height are non-negative.
              */
             normalize(): void;
-            /**
-             * Joins two Rects together into one Rect that contains both.
-             */
-            join(rect: Core.Math.Rect): void;
             /**
              * Normalizes the rect to ensure point (x1, y1) is the bottom left point as expected by xfdf output
              */
@@ -35070,11 +33939,11 @@ declare namespace Core {
             pop(): Core.Math.TransformationBuilder;
             /**
              * Creates a translation transform and adds it to the list.
-             * @param dx - The amount to translate by horizontally
-             * @param dy - The amount to translate by vertically
+             * @param x - The amount to translate by horizontally
+             * @param y - The amount to translate by vertically
              * @returns This instance
              */
-            translate(dx: number, dy: number): Core.Math.TransformationBuilder;
+            translate(x: number, y: number): Core.Math.TransformationBuilder;
             /**
              * Creates a translation transform from a source to a destination and adds it to the list.
              * @param sx - The source X value
@@ -35086,18 +33955,18 @@ declare namespace Core {
             translateTo(sx: number, sy: number, dx: number, dy: number): Core.Math.TransformationBuilder;
             /**
              * Creates a scale transform and adds it to the list.
-             * @param sx - The amount to scale by horizontally. Expects a decimal value. ex. 0.5 for 50%
-             * @param sy - The amount to scale by vertically. Expects a decimal value. ex. 0.5 for 50%
+             * @param x - The amount to scale by horizontally
+             * @param y - The amount to scale by vertically
              * @returns This instance
              */
-            scale(sx: number, sy: number): Core.Math.TransformationBuilder;
+            scale(x: number, y: number): Core.Math.TransformationBuilder;
             /**
-             * Creates a skew transform and adds it to the list.
-             * @param sx - The amount to skew by horizontally. Expects a decimal value. ex. 0.5 for 50%
-             * @param sy - The amount to skew by vertically. Expects a decimal value. ex. 0.5 for 50%
+             * Creates a scale transform and adds it to the list.
+             * @param x - The amount to scale by horizontally
+             * @param y - The amount to scale by vertically
              * @returns This instance
              */
-            skew(sx: number, sy: number): Core.Math.TransformationBuilder;
+            skew(x: number, y: number): Core.Math.TransformationBuilder;
             /**
              * Creates a rotation transform and adds it to the list.
              * @param angle - The amount to rotate by
@@ -39815,19 +38684,6 @@ declare namespace Core {
         }
         namespace SignatureCreateTool {
             /**
-             * Object that has information about a Coordinate Point
-             */
-            type XYCoords = {
-                /**
-                 * Represents the x-value of the coordinates
-                 */
-                x: number;
-                /**
-                 * Represents the y-value of the coordinates
-                 */
-                y: number;
-            };
-            /**
              * An enum that defines the SigningModes that are available in this tool
              */
             enum SigningModes {
@@ -40036,38 +38892,32 @@ declare namespace Core {
             deleteSavedInitials(index: number): void;
             /**
              * Loads signature data into the signature tool
-             * @param signatureData - An array contains arrays of path points or base64 image data or XFDF string
-             * If the element is a base64 string, a stamp annotation will be saved and the string will be the value of its ImageData property
-             * If the element is an XFDF string the annotation represented by the XFDF will be saved
+             * @param signatureData - An array contains arrays of path points or base64 image data
+             * If the element is a string, a stamp annotation will be saved and the string will be the value of its ImageData property
+             * If the element is an array of objects, a freehand annotation will be saved and the array will be its paths
              * @returns Promise<void>
              */
-            importSignatures(signatureData: string | (string | Core.Tools.SignatureCreateTool.XYCoords[])[]): any;
+            importSignatures(signatureData: (string | Core.Math.Point[][])[]): any;
             /**
              * Loads initials data into the signature tool
-             * @param initialsData - An array contains arrays of path points or base64 image data or XFDF string
-             * If the element is a base64 string, a stamp annotation will be saved and the string will be the value of its ImageData property
-             * If the element is an XFDF string the annotation represented by the XFDF will be saved
+             * @param initialsData - An array contains arrays of path points or base64 image data
+             * If the element is a string, a stamp annotation will be saved and the string will be the value of its ImageData property
+             * If the element is an array of objects, a freehand annotation will be saved and the array will be its paths
              * @returns Promise<void> Resolves when the initials data has been loaded
              */
-            importInitials(initialsData: string | (string | Core.Tools.SignatureCreateTool.XYCoords[])[]): any;
+            importInitials(initialsData: (string | Core.Math.Point[][])[]): any;
             /**
-             * Exports all saved signatures as an array or an XFDF string
+             * Exports all saved signatures as an array
              * The array can be stringified using JSON.stringify and saved for later use
-             * @param [exportFreeHandPaths] - A boolean when true will export only the paths for the Signature, false to export the annotation in the XFDF
-             * @returns Returns a promise that resolves an array that contains arrays of path points
-             * or XFDF string if exportFreeHandPaths is true
-             * or a base64 image data
+             * @returns Returns a promise that resolves an array that contains arrays of path points or a base64 image data
              */
-            exportSignatures(exportFreeHandPaths?: boolean): Promise<(string | Core.Math.Point[][])[]>;
+            exportSignatures(): Promise<(string | Core.Math.Point[][])[]>;
             /**
-             * Exports all saved initials as an array or an XFDF string
+             * Exports all saved initials as an array
              * The array can be stringified using JSON.stringify and saved for later use
-             * @param [exportFreeHandPaths] - A boolean when true will export only the paths for the Initials, false to export the annotation in the XFDF
-             * @returns Returns a promise that resolves an array that contains arrays of path points
-             * or XFDF string if exportFreeHandPaths is true
-             * or a base64 image data
+             * @returns Returns a promise that resolves an array that contains arrays of path points or a base64 image data
              */
-            exportInitials(exportFreeHandPaths?: boolean): Promise<(string | Core.Math.Point[][])[]>;
+            exportInitials(): Promise<(string | Core.Math.Point[][])[]>;
             /**
              * Sets the underlying annotation used by the tool as a full signature
              * If a base64 string is passed, the underlying annotation will be a stamp annotation with the string being its ImageData
@@ -40616,7 +39466,7 @@ declare namespace Core {
          * @property defaults.StrokeColor - The stroke color of the tool
          * @property defaults.Opacity - The opacity of the tool
          * @param docViewer - An instance of DocumentViewer.
-         * @param textAnnotationPrototype - The prototype of the text-based annotation to create.
+         * @param textAnnotationPrototype - The prototype the text-based annotation to create.
          */
         class TextAnnotationCreateTool extends Core.Tools.TextTool {
             constructor(docViewer: Core.DocumentViewer, textAnnotationPrototype: (...params: any[]) => any);
@@ -41296,10 +40146,6 @@ declare namespace Core {
          * Represents the names for the built-in tools
          */
         enum ToolNames {
-            ARC,
-            ARC2,
-            ARC3,
-            ARC4,
             ARROW,
             ARROW2,
             ARROW3,
@@ -41324,7 +40170,6 @@ declare namespace Core {
             FREETEXT2,
             FREETEXT3,
             FREETEXT4,
-            DATE_FREETEXT,
             MARK_INSERT_TEXT,
             MARK_INSERT_TEXT2,
             MARK_INSERT_TEXT3,
@@ -41377,18 +40222,6 @@ declare namespace Core {
             COUNT_MEASUREMENT2,
             COUNT_MEASUREMENT3,
             COUNT_MEASUREMENT4,
-            ARC_MEASUREMENT,
-            ARC_MEASUREMENT2,
-            ARC_MEASUREMENT3,
-            ARC_MEASUREMENT4,
-            ELLIPSE_MEASUREMENT,
-            ELLIPSE_MEASUREMENT2,
-            ELLIPSE_MEASUREMENT3,
-            ELLIPSE_MEASUREMENT4,
-            RECTANGULAR_AREA_MEASUREMENT,
-            RECTANGULAR_AREA_MEASUREMENT2,
-            RECTANGULAR_AREA_MEASUREMENT3,
-            RECTANGULAR_AREA_MEASUREMENT4,
             SIGNATURE,
             STAMP,
             FILEATTACHMENT,
@@ -41418,11 +40251,9 @@ declare namespace Core {
             REDACTION3,
             REDACTION4,
             TEXT_SELECT,
-            OFFICE_EDITOR_CONTENT_SELECT,
             EDIT,
             PAN,
             CROP,
-            SNIPPING,
             MARQUEE,
             ERASER,
             CONTENT_EDIT,
@@ -41602,17 +40433,15 @@ declare namespace Core {
      */
     function initPDFWorkerTransports(pdfBackendType: string, workerHandlers: any, l: string): any;
     /**
-     * Gets the path to the Web Worker JavaScript file
-     * @returns The path to the worker
+     * Get the location of the ContentEdit worker files InfixServerModule.js, InfixServerWasm.br.js.mem, InfixServerWasm.br.wasm, and InfixServerWasm.gz.js.mem
      */
-    function getWorkerPath(): string;
+    var getWorkerPath: any;
     /**
-     * Sets the path to the Web Worker JavaScript file.
-     * By default the file is expected to be in the same directory as the html file of the viewer
-     * and the path should be specified relative to the html file
-     * @param path - Path to the Web Worker JS file relative to the html file of the viewer
+     * Set the location of the ContentEdit workers for InfixServerModule.js, InfixServerWasm.br.js.mem,
+     * InfixServerWasm.br.wasm, and InfixServerWasm.gz.js.mem files. This will override the location
+     * specified by Core.setWorkerPath for ContentEdit worker files.
      */
-    function setWorkerPath(path: string): void;
+    var setWorkerPath: any;
     /**
      * Returns whether demo mode is active or not. Must be called after the document is loaded
      * or after the call to Core.initPDFWorkerTransports if you're calling it directly.
@@ -41629,18 +40458,6 @@ declare namespace Core {
      * @returns A hashed commit id
      */
     function getBuild(): string;
-    /**
-     * Enable strict annotation font matching. When enabled, the font of freetext annotation in WebViewer should be matched with the font in the saved file.
-     * This is to handle the case that browser fallback font is not the same as the fallback font selected by Core in the saved file.
-     * @param annotationManager - The annotationManager of current documentViewer
-     */
-    function enableStrictAnnotationFontMatching(annotationManager: Core.AnnotationManager): void;
-    /**
-     * Disable strict annotation font matching. When disabled, the font of freetext annotation in WebViewer will use the fallback font selected by browser if the font cannot be applied to the text.
-     * This could cause inconsistency between the font of freetext annotation in WebViewer and the font in the saved file.
-     * @param annotationManager - The annotationManager of current documentViewer
-     */
-    function disableStrictAnnotationFontMatching(annotationManager: Core.AnnotationManager): void;
     /**
      * Set the location of the OfficeEditor workers for OfficeEditorModule.js, OfficeEditorWorkerWasm.br.js.mem
      * and OfficeEditorWorkerWasm.br.wasm files. This will override the location
@@ -42050,6 +40867,11 @@ declare namespace Core {
      */
     function unsetCanvasMultiplier(): void;
     /**
+     * Converts hexadecimal string to a number array.
+     * @param hexString - String of hexadecimal characters
+     */
+    function hexStringToNumberArray(hexString: string): void;
+    /**
      * Returns if the URI is valid
      * @param uri - The URI to check
      * @returns True if the URI is valid, false otherwise
@@ -42069,39 +40891,6 @@ declare namespace Core {
      * The namespace containing constants for search related APIs.
      */
     namespace Search {
-        /**
-         * The code indicating the reason that the search process concluded.
-         */
-        type SearchResult = {
-            /**
-             * The text surrounding the result string.
-             */
-            ambientStr: string;
-            /**
-             * The found text.
-             */
-            resultStr: string;
-            /**
-             * The index in ambient string where the result string starts.
-             */
-            resultStrStart: number;
-            /**
-             * The index in ambient string where the result string end.
-             */
-            resultStrEnd: number;
-            /**
-             * The page number which the search was conducted on.
-             */
-            pageNum: number;
-            /**
-             * The reason the search completed.
-             */
-            resultCode: number;
-            /**
-             * A list of Quads, representing the bounding box(es) of the found text. Useful for highlighting the text.
-             */
-            quads: any;
-        };
         /**
          * Search result code that indicates the search status.
          * @property DONE - Search has been completed
@@ -42169,21 +40958,6 @@ declare namespace Core {
         };
     }
     /**
-     * Set the path of fonts used in UI
-     * @example
-     * WebViewer(...)
-     *   .then(function(instance) {
-     *     instance.UI.setFontPath('path/to/font');
-     *   });
-     * @param path - the prefix url for font path.
-     */
-    function setFontPath(path: string): void;
-    /**
-     * Get the path of the font used in UI.
-     * @returns the prefix url for font path.
-     */
-    function getFontPath(): string;
-    /**
      * The types of backend workers.
      * @property ASM - 'asm' Use of ASM.js worker.
      * @property WASM - 'ems' Use of the WebAssembly worker (or ASM.js on non-wasm browsers).
@@ -42242,77 +41016,6 @@ declare namespace Core {
  * webViewerInstance.UI.someAPI()
  */
 declare namespace UI {
-    /**
-     * Namespace used to add, remove, and interact with flyouts in the UI
-     * @example
-     * WebViewer(...).then(function(instance) {
-     *  instance.UI.Flyouts.setActiveFlyout('customFlyout');
-     * });
-     */
-    namespace Flyouts {
-        /**
-         * Adds a list of UI.Components.Flyout instances to the UI
-         * @example
-         * WebViewer(...).then(function(instance) {
-         *  const flyout = new instance.UI.Components.Flyout({
-         *    dataElement: 'customFlyout',
-         *    draggable: true,
-         *    items: [{
-         *      label: 'Custom Flyout Item',
-         *      onClick: () => console.log('Custom Flyout Item clicked'),
-         *      icon: 'icon-save',
-         *    }],
-         *  });
-         *  instance.UI.Flyouts.addFlyouts([ flyout ]);
-         * });
-         * @param flyoutList - Array of flyouts to add
-         */
-        function addFlyouts(flyoutList: UI.Components.Flyout[]): void;
-        /**
-         * Removes flyout from the Flyout List
-         * @example
-         * WebViewer(...).then(function(instance) {
-         *  instance.UI.Flyouts.removeFlyout('customFlyout');
-         * });
-         * @param dataElement - Data element of the flyout to remove
-         */
-        function removeFlyout(dataElement: string): void;
-        /**
-         * Sets the active flyout, set to null to hide the flyout
-         * @example
-         * WebViewer(...).then(function(instance) {
-         *  instance.UI.Flyouts.setActiveFlyout('customFlyout');
-         * });
-         * @param dataElement - Data element of the flyout to set as active, or null to hide the active flyout
-         */
-        function setActiveFlyout(dataElement: string): void;
-        /**
-         * Sets the position of the active flyout, (use UI.Flyouts.setActiveFlyout to show the flyout)
-         * Position is relative to the root element of WebViewer
-         * Coordinates going out of the WebViewer UI will be clamped
-         * @example
-         * WebViewer(...).then(function(instance) {
-         *  instance.UI.Flyouts.setFlyoutPosition({ x: 100, y: 100 });
-         *  instance.UI.Flyouts.setActiveFlyout('customFlyout');
-         * });
-         * @param position - Position of the flyout
-         * @param position.x - X position of the flyout
-         * @param position.y - Y position of the flyout
-         */
-        function setFlyoutPosition(position: {
-            x: number;
-            y: number;
-        }): void;
-        /**
-         * @param dataElement - Data element of the flyout to get
-         * @returns Flyout with the given data element
-         */
-        function getFlyout(dataElement: string): UI.Components.Flyout;
-        /**
-         * @returns Array of all flyouts registered with the UI
-         */
-        function getAllFlyouts(): UI.Components.Flyout[];
-    }
     /**
      * An instance of TabManager that can be used to edit the open document Tabs **Only Multi-Tab Mode**.
      * @example
@@ -42382,7 +41085,6 @@ declare namespace UI {
          * @param [options.officeOptions.formatOptions.hideTotalNumberOfPages] - If true will hide total number of pages from page number labels (i.e, Page 1, Page 2, vs Page 1 of 2, Page 2 of 2)
          * @param [options.officeOptions.formatOptions.applyPageBreaksToSheet] - If true will split Excel worksheets into pages so that the output resembles print output.
          * @param [options.officeOptions.formatOptions.displayChangeTracking] - If true will display office change tracking markup present in the document (i.e, red strikethrough of deleted content and underlining of new content). Otherwise displays the resolved document content, with no markup. Defaults to true.
-         * @param [officeOptions.formatOptions.displayHiddenText] - If true will display hidden text in document. Otherwise hidden text will not be shown. Defaults to false.
          * @param [options.officeOptions.formatOptions.excelDefaultCellBorderWidth] - Cell border width for table cells that would normally be drawn with no border. In units of points. Can be used to achieve a similar effect to the "show gridlines" display option within Microsoft Excel.
          * @param [options.officeOptions.formatOptions.excelMaxAllowedCellCount] - An exception will be thrown if the number of cells in an Excel document is above the value. Used for early termination of resource intensive documents. Setting this value to 250000 will allow the vast majority of Excel documents to convert without issue, while keeping RAM usage to a reasonable level. By default there is no limit to the number of allowed cells.
          * @param [options.officeOptions.formatOptions.locale] - Sets the value for Locale in the options object ISO 639-1 code of the current system locale. For example: 'en-US', 'ar-SA', 'de-DE', etc.
@@ -42562,20 +41264,6 @@ declare namespace UI {
      */
     function addEventListener(eventName: string, listener: (...params: any[]) => any): void;
     /**
-     * Adds new custom Header(s) to the Header list
-     * @example
-     * WebViewer(...)
-     *   .then(function (instance) {
-     *     const newHeader = new instance.UI.Components.ModularHeader({
-     *       dataElement: 'top-header',
-     *       location: 'top'
-     *     });
-     *
-     *     instance.UI.addModularHeaders([newHeader]);
-     * @param headerList - The list of headers to be added on the application
-     */
-    function addModularHeaders(headerList: UI.Components.ModularHeader[]): void;
-    /**
      * Adds a custom panel in left or right side of the UI.
      * @example
      * WebViewer(...)
@@ -42585,7 +41273,7 @@ declare namespace UI {
      *       render: instance.UI.Panels.OUTLINE,
      *     })
      *
-     *     instance.UI.openElements(['myNewOutlinesPanel']);
+     *     instance.openElement('myNewOutlinesPanel');
      *   });
      * @example
      * WebViewer(...)
@@ -42600,12 +41288,16 @@ declare namespace UI {
      *       }
      *     });
      *
-     *     instance.UI.openElements(['fooBarElement']);
+     *     instance.openElement('fooBarElement');
      *   });
-     * @param panel - The panel object to be added in the UI.
+     * @param options.dataElement - data-element for panel.
+     * @param options.location - Location of the panel in UI, left or right.
+     * @param options.render - Either the name of a predefined panel to render or a function that returns a panel element.
      */
-    function addPanel(panel: {
-        [key: string]: any;
+    function addPanel(options: {
+        dataElement: string;
+        location: string;
+        render: string | UI.renderCustomPanel;
     }): void;
     /**
      * Callback that gets passed to `options.panel.render` in {@link UI.setCustomPanel setCustomPanel}.
@@ -42750,26 +41442,6 @@ declare namespace UI {
      */
     var annotationPopup: UI.Popup;
     /**
-     * Enables syncing of annotation style updates to the associated tool that created the annotation.
-     * Note that this is disabled by default.
-     * @example
-     * WebViewer(...)
-     *   .then(function(instance) {
-     *     instance.UI.enableAnnotationToolStyleSyncing();
-     *   });
-     */
-    function enableAnnotationToolStyleSyncing(): void;
-    /**
-     * Disables syncing of annotation style updates to the associated tool that created the annotation.
-     * So if an annotation's style is changed the tool default styles will not be updated.
-     * @example
-     * WebViewer(...)
-     *   .then(function(instance) {
-     *     instance.UI.disableAnnotationToolStyleSyncing();
-     *   });
-     */
-    function disableAnnotationToolStyleSyncing(): void;
-    /**
      * Stops on-going page processing to cancel a print job.
      * @example
      * WebViewer(...)
@@ -42813,18 +41485,6 @@ declare namespace UI {
      * @param dataElements - Array of data-element attribute values for DOM elements. To find data-element of a DOM element, refer to <a href='https://docs.apryse.com/documentation/web/guides/hiding-elements/#finding-dataelement-attribute-values' target='_blank'>Finding data-element attribute values</a>.
      */
     function closeElements(dataElements: string[]): void;
-    /**
-     * Closes the tooltip that is currently being hovered over
-     * @example
-     * WebViewer(...)
-     *  .then(function(instance) {
-     *  // call close after tooltip opens
-     *  instance.UI.addEventListener('tooltipOpened', function() {
-     *  instance.UI.closeTooltip();
-     *  });
-     *  });
-     */
-    function closeTooltip(): void;
     /**
      * An instance of Popup that can be used to edit items in the context menu popup component
      * @example
@@ -43229,16 +41889,6 @@ declare namespace UI {
      */
     function enableFadePageNavigationComponent(): void;
     /**
-     * Enables a specified feature flag.
-     * @example
-     * WebViewer(...)
-     *   .then(function(instance) {
-     *     instance.UI.enableFeatureFlag(instance.UI.FeatureFlags.CUSTOMIZABLE_UI);
-     *   });
-     * @param featureFlag - The feature flag to enable. To find feature flag names, refer to <a href='https://docs.apryse.com/documentation/web/guides/feature-flags/#feature-flags' target='_blank'>Feature flags</a>.
-     */
-    function enableFeatureFlag(featureFlag: string): void;
-    /**
      * Enable certain features in the WebViewer UI.
      * @example
      * WebViewer(...)
@@ -43329,15 +41979,6 @@ declare namespace UI {
      * @returns A dictionary with page indices as keys and the bookmark text as the values. ex: {"0":"Bookmark 1","2":"Bookmark 2"}
      */
     function exportBookmarks(): any;
-    /**
-     * Exports the current state of the modular components, headers, and panels in the UI as JSON data. Removes any invalid items after validation. Also removes any prebuilt flyouts and overflow flyouts. Functions found in components such as onClick cannot be exported in JSON data. Use a Function Map to redefine them on import. See https://docs.apryse.com/api/web/UI.html#.importModularComponents__anchor for more information.
-     * @example
-     * WebViewer(...)
-     *  .then(function (instance) {
-     *     instance.UI.exportModularComponents();
-     * @returns JSON object containing maps of components, headers, panels, and flyouts to be used in the UI. ex: { modularComponents: { ... }, modularHeaders: { ... }, panels: { ... }, flyouts: { ... } }
-     */
-    function exportModularComponents(): any;
     /**
      * Extract pages from the current document
      * @example
@@ -43455,17 +42096,6 @@ declare namespace UI {
          */
         function setSignatureFonts(fonts: String[]): void;
     }
-    /**
-     * Returns the active Ribbon Item in the modular UI.
-     * @example
-     * WebViewer(...)
-     *     .then(function(instance) {
-     *         console.log(instance.UI.getActiveRibbonItem());
-     *       );
-     *     });
-     * @returns The dataElement of the active Ribbon Item.
-     */
-    function getActiveRibbonItem(): string;
     /**
      * Return the read/unread state of an annotation. True for read, false for unread.
      * @example
@@ -43607,38 +42237,6 @@ declare namespace UI {
      */
     function getMinZoomLevel(): number;
     /**
-     * Returns a modular header component with the given dataElement.
-     * @example
-     * WebViewer(...)
-     *   .then(function(instance) {
-     *     const header = instance.UI.getModularHeader('custom-header')
-     *   });
-     * @param dataElement - The dataElement of the header to be returned
-     * @returns Custom Header
-     */
-    function getModularHeader(dataElement: string): UI.Components.ModularHeader;
-    /**
-     * Return the list of Custom Headers.
-     * @example
-     * WebViewer(...)
-     *   .then(function(instance) {
-     *     const headerList = instance.UI.getModularHeaderList()
-     *   });
-     * @returns Custom Header List
-     */
-    function getModularHeaderList(): UI.Components.ModularHeader;
-    /**
-     * Returns a list of panels that are currently in the UI
-     * @example
-     * WebViewer(...)
-     *  .then(function(instance) {
-     *  const panelList = instance.UI.getPanels();
-     *  console.log(panelList);
-     *  });
-     * @returns Array of Panel objects
-     */
-    function getPanels(): UI.Components.Panel[];
-    /**
      * Gets the multiplier used when creating typed, text signatures.
      * @example
      * WebViewer(...)
@@ -43721,37 +42319,6 @@ declare namespace UI {
      * @param bookmarks - A dictionary with page indices as keys and the bookmark text as the values. ex: {"0":"Bookmark 1","2":"Bookmark 2"}. Behaviour is undefined otherwise.
      */
     function importBookmarks(bookmarks: any): void;
-    /**
-     * Creates a new modular UI using the provided JSON data and function map. The data is validated and will throw an error if a part of its structure is not valid. Existing UI components will be replaced with the new components provided in the JSON data.
-     * @example
-     * WebViewer(...)
-     *  .then(function (instance) {
-     *     const response = await fetch('./modular-components.json');
-     *     const data = await response.json();
-     *
-     *       const functionMap = {
-     *       'alertClick': () => alert("Alert triggered!"),
-     *       'singlePageOnClick': (update) => {
-     *         update('DoublePage');
-     *       },
-     *       'doublePageOnClick': (update) => {
-     *         update('SinglePage');
-     *       },
-     *       'statefulButtonMount': () => {},
-     *       'statefulButtonUnmount': () => {},
-     *       };
-     *
-     *     instance.UI.importModularComponents(data, functionMap);
-     * @property modularComponents - The map of components to be used in the UI. Refer to: {@link ItemProperties} for properties of modularComponents
-     * @property modularHeaders - The map of headers to be used in the UI. Refer to: {@link ContainerProperties} for properties of modularHeaders
-     * @property panels - The map of panels to be used in the UI. Refer to: {@link PanelProperties} for properties of panels
-     * @property flyouts - The map of flyouts to be used in the UI.
-     * @property flyouts.dataElement - A unique string that identifies the flyout.
-     * @property flyouts.items - An array of strings that represent the items in the flyout. Each string should be the dataElement of a component in the modularComponents map.
-     * @param data - The JSON data containing maps of components, headers, and panels to be used in the UI. If any of the properties are not provided, they will not be used in the UI. ex: { modularComponents: { ... }, modularHeaders: { ... }, panels: { ... } }
-     * @param functionMap - A map of functions to be used in the components. The keys should match the function names used in the components. The values should be the actual functions to be called.
-     */
-    function importModularComponents(data: any, functionMap: any): void;
     /**
      * Returns whether the element is disabled.
      * @example
@@ -43871,7 +42438,6 @@ declare namespace UI {
                 hideTotalNumberOfPages?: boolean;
                 applyPageBreaksToSheet?: boolean;
                 displayChangeTracking?: boolean;
-                displayHiddenText?: boolean;
                 excelDefaultCellBorderWidth?: number;
                 excelMaxAllowedCellCount?: number;
                 locale?: string;
@@ -44745,8 +43311,6 @@ declare namespace UI {
     }): void;
     /**
      * Registers tool in the document viewer tool mode map, and adds a button object to be used in the header. See <a href='https://docs.apryse.com/documentation/web/guides/customizing-tools/' target='_blank'>Customizing tools</a> to learn how to make a tool.
-     * <br/><br/>
-     * If you are using using multiviewer mode, you will have to register the tool to each document viewer.
      * @example
      * WebViewer(...)
      *   .then(function(instance) {
@@ -44769,7 +43333,6 @@ declare namespace UI {
      * @param [properties.buttonName] - Name of the tool button that will be used in data-element.
      * @param [properties.buttonGroup] - Group of the tool button belongs to.
      * @param [properties.tooltip] - Tooltip of the tool button.
-     * @param [properties.documentViewerNumber] - The document viewer number when there are multiple viewers. Default is 1.
      * @param [properties.showColor] - Controls when the tool button should show the color.
      * @param [properties.showPresets] - Option to whether show or hide preset styles. Default is true.
      * @param [annotationConstructor] - Deprecated Please use customAnnotationCheckFunc instead. Will be removed in the future.
@@ -44782,7 +43345,6 @@ declare namespace UI {
         buttonName?: string;
         buttonGroup?: string;
         tooltip?: string;
-        documentViewerNumber?: number;
         showColor?: 'always' | 'active' | 'never';
         showPresets?: boolean;
     }, annotationConstructor?: (...params: any[]) => any, customAnnotationCheckFunc?: (...params: any[]) => any): void;
@@ -44797,7 +43359,7 @@ declare namespace UI {
      *     documentViewer.addEventListener('documentLoaded', async () => {
      *       const doc = documentViewer.getDocument();
      *       const pdfDoc = await doc.getPDFDoc();
-     *       const firstBookmark = await pdfDoc.getFirstBookmark();
+     *       const firstBookmark = await doc.getFirstBookmark();
      *
      *       const bookmarkToDelete = await firstBookmark.find('bookmark-to-delete');
      *       if (bookmarkToDelete !== null && await bookmarkToDelete.isValid()) {
@@ -44961,16 +43523,6 @@ declare namespace UI {
      */
     function setActivePalette(toolName: string, colorPalette: 'text' | 'border' | 'fill'): void;
     /**
-     * Sets a Ribbon Item as active in the Modular UI.
-     * @example
-     * WebViewer(...)
-     *   .then(function(instance) {
-     *     instance.UI.setActiveRibbonItem('toolbarGroup-Annotate');
-     *   });
-     * @param ribbonItem - dataElement of the ribbon item to set as active.
-     */
-    function setActiveRibbonItem(ribbonItem: string): void;
-    /**
      * Adds a custom overlay to annotations on mouseHover, overriding the existing overlay.
      * @example
      * WebViewer(...)
@@ -45055,10 +43607,6 @@ declare namespace UI {
          * An array of hex colors. Use 'transparency' for a transparent color.
          */
         colors: string[];
-        /**
-         * An array of palette types. Can be 'fill' | 'stroke' | 'text'. (Only for StylePanel)
-         */
-        palleteTypes?: string[];
     };
     /**
      * Sets the colors in the palette globally or for specific tools and their associated annotations
@@ -45228,22 +43776,16 @@ declare namespace UI {
      * @example
      * WebViewer(...) .then(function(instance) {
      *   instance.UI.setDefaultPrintOptions({ includeComments: true, includeAnnotations: true });
-     * instance.UI.setDefaultPrintOptions({ margins: "0.5in"});  // Set all sides to 0.5 inch margin
-     * instance.UI.setDefaultPrintOptions({ margins: "2cm" }); // Set all sides to 2cm margin
-     * // Set top margin to 0.5 inches right margin to 0.4 inches bottom margin to 0.3 inches and left margin to 0.2 inches
-     * instance.UI.setDefaultPrintOptions({ margins: "0.5in 0.4in 0.3in 0.2in" });
      * });
      * @param options - The default print options of the document to print. Must be an object.
      * @param [options.includeComments] - Whether or not will print the documents with the comments
      * @param [options.includeAnnotations] - Whether or not will print the documents with the annotations
      * @param [options.maintainPageOrientation] - Whether or not will maintain the pages orientation as set in the webviewer
-     * @param [options.margins] - CSS value that will be used as the default margin for printing
      */
     function setDefaultPrintOptions(options: {
         includeComments?: boolean;
         includeAnnotations?: boolean;
         maintainPageOrientation?: boolean;
-        margins?: string;
     }): void;
     /**
      * @param annotation - A signature annotation found in the SignatureCreateTool saved signatures list
@@ -45261,20 +43803,6 @@ declare namespace UI {
      * @param filterFunction - The function that will be used to filter signatrues displayed in the preset
      */
     function setDisplayedSignaturesFilter(filterFunction: UI.SignatureFilterFunction): void;
-    /**
-     * Set a custom style for menus displayed through embedded JavaScript.
-     * @example
-     * WebViewer(...)
-     *   .then(function(instance) {
-     *     // Size width to fit content and let menu flow off the screen
-     *     instance.UI.setEmbeddedPopupMenuStyle({
-     *       minWidth: 'fit-content',
-     *       minHeight: 'inheirit',
-     *     });
-     *   });
-     * @param customStyle - A style object that overrides the existing embedded JS menu style. Properties/keys must follow the React style naming convention.
-     */
-    function setEmbeddedPopupMenuStyle(customStyle: any): void;
     /**
      * Sets the fit mode of the viewer.
      * @example
@@ -45301,105 +43829,6 @@ declare namespace UI {
      * @param darknessFactor - Default is '1', '0' is fully black and white
      */
     function setGrayscaleDarknessFactor(darknessFactor: number): void;
-    /**
-     * Sets the gap of Grouped Items
-     * @example
-     * WebViewer(...)
-     *   .then(function (instance) {
-     *     const myToolsGroup = new instance.UI.Components.GroupedItems({
-     *       dataElement: 'group-1',
-     *       items: [
-     *         myButton,
-     *         myToolButton,
-     *         highlightToolButton,
-     *       ],
-     *     });
-     *
-     *     // Group must be added to a header, and then the header must be added to the UI
-     *     const newHeader = new instance.UI.Components.ModularHeader({
-     *       dataElement: 'top-header',
-     *       location: 'top',
-     *       items: [myToolsGroup]
-     *     });
-     *     instance.UI.addModularHeaders([newHeader]);
-     *
-     *     // Setting the gap of all Grouped Items
-     *     instance.UI.setGroupedItemsGap(20);
-     *
-     *     // Setting the gap of all Grouped Items with a specific data element
-     *     instance.UI.setGroupedItemsGap(30, {
-     *       groupedItemsDataElement: 'group-1'
-     *     });
-     * @param gap - The gap in pixels between the items in the group.
-     * @param [selectors] - An object that contains selectors for the Grouped Items.
-     */
-    function setGroupedItemsGap(gap: number, selectors?: any): void;
-    /**
-     * Sets the grow of Grouped Items
-     * @example
-     * WebViewer(...)
-     *   .then(function (instance) {
-     *     const myToolsGroup = new instance.UI.Components.GroupedItems({
-     *       dataElement: 'group-1',
-     *       items: [
-     *         myButton,
-     *         myToolButton,
-     *         highlightToolButton,
-     *       ],
-     *     });
-     *
-     *     // Group must be added to a header, and then the header must be added to the UI
-     *     const newHeader = new instance.UI.Components.ModularHeader({
-     *       dataElement: 'top-header',
-     *       location: 'top',
-     *       items: [myToolsGroup]
-     *     });
-     *     instance.UI.addModularHeaders([newHeader]);
-     *
-     *     // Setting the grow property of all Grouped Items
-     *     instance.UI.setGroupedItemsGrow(1);
-     *
-     *     // Setting the grow property of all Grouped Items with a specific data element
-     *     instance.UI.setGroupedItemsGrow(1, {
-     *       groupedItemsDataElement: 'group-1'
-     *     });
-     * @param grow - The flex grow value of the group
-     * @param [selectors] - An object that contains the selectors to filter the Grouped Items to set the grow property on.
-     */
-    function setGroupedItemsGrow(grow: number, selectors?: any): void;
-    /**
-     * Sets the justifyContent property of Grouped Items. This property is analogous to the CSS justify-content property.
-     * @example
-     * WebViewer(...)
-     *   .then(function (instance) {
-     *     const myToolsGroup = new instance.UI.Components.GroupedItems({
-     *       dataElement: 'group-1',
-     *       items: [
-     *         myButton,
-     *         myToolButton,
-     *         highlightToolButton,
-     *       ],
-     *     });
-     *
-     *     // Group must be added to a header, and then the header must be added to the UI
-     *     const newHeader = new instance.UI.Components.ModularHeader({
-     *       dataElement: 'top-header',
-     *       location: 'top',
-     *       items: [myToolsGroup]
-     *     });
-     *     instance.UI.addModularHeaders([newHeader]);
-     *
-     *     // Setting the justifyContent property of all Grouped Items
-     *     instance.UI.setGroupedItemsJustifyContent('start');
-     *
-     *     // Setting the justifyContent property of all Grouped Items with a specific data element
-     *     instance.UI.setGroupedItemsJustifyContent('space-between', {
-     *       groupedItemsDataElement: 'group-1'
-     *     });
-     * @param justifyContent - A string that determines the flex justify content value of the group
-     * @param [selectors] - An object that contains the selectors to filter the Grouped Items to set the justify content property on.
-     */
-    function setGroupedItemsJustifyContent(justifyContent: 'start' | 'end' | 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly', selectors?: any): void;
     /**
      * Customize header. Refer to <a href='https://docs.apryse.com/documentation/web/guides/customizing-header/' target='_blank'>Customizing header</a> for details.
      * @example
@@ -45640,20 +44069,6 @@ declare namespace UI {
      */
     function setMinZoomLevel(zoomLevel: string | number): void;
     /**
-     * Adds new custom Header(s) to the Header list
-     * @example
-     * WebViewer(...)
-     *  .then(function (instance) {
-     *  const newHeader = new instance.UI.Components.ModularHeader({
-     *  dataElement: 'top-header',
-     *  placement: 'top'
-     *  });
-     *
-     *  instance.UI.setModularHeaders([newHeader]);
-     * @param headerList - The new list of headers to be used in the UI
-     */
-    function setModularHeaders(headerList: UI.Components.ModularHeader[]): void;
-    /**
      * Set the scrolling behavior of sync scrolling in semantic compare mode.
      * Must be one of the following values:
      * - 'SYNC': scroll synchronously in both documents
@@ -45667,8 +44082,7 @@ declare namespace UI {
      */
     function setMultiViewerSyncScrollingMode(multiViewerSyncScrollingMode: string): void;
     /**
-     * Sets the format for displaying the date when a note is create/modified. The default format is 'MMM D, LT'.
-     * A list of formats can be found {@link https://day.js.org/docs/en/display/format dayjs API}.
+     * Sets the format for displaying the date when a note is create/modified. A list of formats can be found {@link https://github.com/iamkun/dayjs/blob/master/docs/en/API-reference.md#format-formatstringwithtokens-string dayjs API}.
      * @example
      * WebViewer(...)
      *   .then(function(instance) {
@@ -45796,43 +44210,6 @@ declare namespace UI {
      */
     function setPageReplacementModalFileList(list: any[]): void;
     /**
-     * Sets the current width of a panel
-     * @example
-     * WebViewer(...)
-     *  .then(function(instance) {
-     *  // open left panel
-     *  instance.UI.openElements([ 'leftPanel' ]);
-     *  // Set the width of the left panel to 238px
-     *  instance.UI.setPanelWidth('leftPanel', 238);
-     * @param dataElement - Panel element to set width of
-     * @param width - Width to set the panel to
-     */
-    function setPanelWidth(dataElement: string, width: number): void;
-    /**
-     * Sets the list of panels to be used in the UI
-     * @example
-     * WebViewer(...)
-     *  .then(function (instance) {
-     *  instance.UI.setPanels([
-     *  {
-     *  dataElement: 'fooBarElement',
-     *  location: 'left',
-     *  render: function() {
-     *  var div = document.createElement('div');
-     *  div.innerHTML = 'Hello World, foobar panel';
-     *  return div;
-     *  }
-     *  },
-     *  {
-     *  dataElement: 'myNewOutlinesPanel',
-     *  location: 'right',
-     *  render: instance.UI.Panels.OUTLINE,
-     *  }
-     *  ]);
-     * @param panelList - The new list of panels to be used in the UI
-     */
-    function setPanels(panelList: any[]): void;
-    /**
      * Sets preset crop dimensions to be used when selecting a preset crop in the document cropping popup
      * @example
      * WebViewer(...)
@@ -45888,16 +44265,6 @@ declare namespace UI {
      * @param format - The format of date to display
      */
     function setPrintedNoteDateFormat(format: string): void;
-    /**
-     * Sets the position of the scale overlay.
-     * @example
-     * WebViewer(...)
-     *  .then(function(instance) {
-     *  instance.UI.setScaleOverlayPosition('bottom-right')
-     *  });
-     * @param newPosition - Must be one of the following: 'top-left', 'top-right', 'bottom-left', 'bottom-right'
-     */
-    function setScaleOverlayPosition(newPosition: string): void;
     /**
      * Sets the currently selected tab of a Tabs component.
      * @example
@@ -46497,18 +44864,8 @@ declare namespace UI {
         tooltip?: string;
     }): void;
     /**
-     * Use/not use embedded or rasterized printing options when connected to a WebViewer Server.
-     * @example
-     * WebViewer(...)
-     *   .then(function(instance) {
-     *     instance.UI.useClientSidePrint(false); // disable embedded printing
-     *   });
-     * @param [use = true] - Whether or not to use embedded printing
-     */
-    function useClientSidePrint(use?: boolean): void;
-    /**
-     * Use/not use embedded printing. Currently unavailable on Android.
-     * The printing process will be faster and the quality might be higher when using browsers native printing.
+     * Use/not use embedded printing. Only applicable to Chrome.
+     * The printing process will be faster and the quality might be higher when using Chrome's native printing.
      * You may not want to use embedded printing if there are custom annotations in your document.
      * @example
      * WebViewer(...)
@@ -46651,9 +45008,7 @@ declare namespace UI {
          * });
          * @param proxy_server_url - The URL (including the protocol such as 'https://') to use as a prefix for
          * making online revocation requests through a proxy server to avoid CORS
-         * related issues. This can be suppressed by passing an empty string.
-         * If null is provided, or if this API is not called, the default value
-         * (https://proxy.pdftron.com) is used.
+         * related issues
          */
         function setRevocationProxyPrefix(proxy_server_url: string): void;
     }
@@ -46667,98 +45022,6 @@ declare namespace UI {
      *   });
      */
     function willUseEmbeddedPrinting(): void;
-    /**
-     * Contains string enums for preset button types.
-     * @example
-     * const undoButton = new UI.Components.PresetButton({ buttonType: UI.PRESET_BUTTON_TYPES.UNDO });
-     * @property UNDO - {@link UI.Components.PresetButton.undoButton}
-     * @property REDO - {@link UI.Components.PresetButton.redoButton}
-     * @property NEW_DOCUMENT - {@link UI.Components.PresetButton.newDocumentButton}
-     * @property FILE_PICKER - {@link UI.Components.PresetButton.filePickerButton}
-     * @property DOWNLOAD - {@link UI.Components.PresetButton.downloadButton}
-     * @property FULLSCREEN - {@link UI.Components.PresetButton.fullscreenButton}
-     * @property SAVE_AS - {@link UI.Components.PresetButton.saveAsButton}
-     * @property PRINT - {@link UI.Components.PresetButton.printButton}
-     * @property CREATE_PORTFOLIO - {@link UI.Components.PresetButton.createPortfolioButton}
-     * @property SETTINGS - {@link UI.Components.PresetButton.settingsButton}
-     * @property FORM_FIELD_EDIT - {@link UI.Components.PresetButton.formFieldEditButton}
-     * @property CONTENT_EDIT - {@link UI.Components.PresetButton.contentEditButton}
-     * @property BOLD - {@link UI.Components.PresetButton.boldButton}
-     * @property ITALIC - {@link UI.Components.PresetButton.italicButton}
-     * @property UNDERLINE - {@link UI.Components.PresetButton.underlineButton}
-     * @property ORDERED_LIST - {@link UI.Components.PresetButton.orderedListButton}
-     * @property UNORDERED_LIST - {@link UI.Components.PresetButton.unorderedListButton}
-     */
-    var PRESET_BUTTON_TYPES: {
-        /**
-         * {@link UI.Components.PresetButton.undoButton}
-         */
-        UNDO: string;
-        /**
-         * {@link UI.Components.PresetButton.redoButton}
-         */
-        REDO: string;
-        /**
-         * {@link UI.Components.PresetButton.newDocumentButton}
-         */
-        NEW_DOCUMENT: string;
-        /**
-         * {@link UI.Components.PresetButton.filePickerButton}
-         */
-        FILE_PICKER: string;
-        /**
-         * {@link UI.Components.PresetButton.downloadButton}
-         */
-        DOWNLOAD: string;
-        /**
-         * {@link UI.Components.PresetButton.fullscreenButton}
-         */
-        FULLSCREEN: string;
-        /**
-         * {@link UI.Components.PresetButton.saveAsButton}
-         */
-        SAVE_AS: string;
-        /**
-         * {@link UI.Components.PresetButton.printButton}
-         */
-        PRINT: string;
-        /**
-         * {@link UI.Components.PresetButton.createPortfolioButton}
-         */
-        CREATE_PORTFOLIO: string;
-        /**
-         * {@link UI.Components.PresetButton.settingsButton}
-         */
-        SETTINGS: string;
-        /**
-         * {@link UI.Components.PresetButton.formFieldEditButton}
-         */
-        FORM_FIELD_EDIT: string;
-        /**
-         * {@link UI.Components.PresetButton.contentEditButton}
-         */
-        CONTENT_EDIT: string;
-        /**
-         * {@link UI.Components.PresetButton.boldButton}
-         */
-        BOLD: string;
-        /**
-         * {@link UI.Components.PresetButton.italicButton}
-         */
-        ITALIC: string;
-        /**
-         * {@link UI.Components.PresetButton.underlineButton}
-         */
-        UNDERLINE: string;
-        /**
-         * {@link UI.Components.PresetButton.orderedListButton}
-         */
-        ORDERED_LIST: string;
-        /**
-         * {@link UI.Components.PresetButton.unorderedListButton}
-         */
-        UNORDERED_LIST: string;
-    };
     /**
      * Contains string enums for WebViewer UI events.
      * @example
@@ -46775,7 +45038,7 @@ declare namespace UI {
      * @property FILE_DOWNLOADED - {@link UI#event:fileDownloaded UI.Events.fileDownloaded}
      * @property LOAD_ERROR - {@link UI#event:loaderror UI.Events.loaderror}
      * @property DRAG_OUTLINE - {@link UI#event:dragOutline UI.Events.dragOutline}
-     * @property DROP_OUTLINE - {@link UI#event:dropOutline UI.Events.dropOutline}
+     * @property DROP_OUTLINE - {@link UI#event:dragOutline UI.Events.dragOutline}
      * @property PANEL_RESIZED - {@link UI#event:panelResized UI.Events.panelResized}
      * @property THEME_CHANGED - {@link UI#event:themeChanged UI.Events.themeChanged}
      * @property TOOLBAR_GROUP_CHANGED - {@link UI#event:toolbarGroupChanged UI.Events.toolbarGroupChanged}
@@ -46795,7 +45058,6 @@ declare namespace UI {
      * @property MULTI_VIEWER_READY - {@link UI#event:multiViewerReady  UI.Events.multiViewerReady }
      * @property COMPARE_ANNOTATIONS_LOADED - {@link UI#event:compareAnnotationsLoaded  UI.Events.compareAnnotationsLoaded }
      * @property TAB_MANAGER_READY - {@link UI#event:onTabManagerReady  UI.Events.onTabManagerReady }
-     * @property TOOLTIP_OPENED - {@link UI#event:tooltipOpened  UI.Events.tooltipOpened }
      */
     var Events: {
         /**
@@ -46823,7 +45085,7 @@ declare namespace UI {
          */
         DRAG_OUTLINE: string;
         /**
-         * {@link UI#event:dropOutline UI.Events.dropOutline}
+         * {@link UI#event:dragOutline UI.Events.dragOutline}
          */
         DROP_OUTLINE: string;
         /**
@@ -46902,10 +45164,6 @@ declare namespace UI {
          * {@link UI#event:onTabManagerReady  UI.Events.onTabManagerReady }
          */
         TAB_MANAGER_READY: string;
-        /**
-         * {@link UI#event:tooltipOpened  UI.Events.tooltipOpened }
-         */
-        TOOLTIP_OPENED: string;
     };
     /**
      * Contains string enums for all features for WebViewer UI
@@ -47093,16 +45351,6 @@ declare namespace UI {
          * Toggle feature to create PDF portfolio and the portfolio panel
          */
         Portfolio: string;
-    };
-    /**
-     * Contains string enums for WebViewer feature flags
-     * @property CUSTOMIZABLE_UI - Feature flag for the new customizable UI
-     */
-    var FeatureFlags: {
-        /**
-         * Feature flag for the new customizable UI
-         */
-        CUSTOMIZABLE_UI: string;
     };
     /**
      * Contains all possible modes for fitting/zooming pages to the viewer. The behavior may vary depending on the LayoutMode.
@@ -47320,7 +45568,7 @@ declare namespace UI {
      * @property DISTANCE_MEASUREMENT - The key represents the distance measurement annotation
      * @property PERIMETER_MEASUREMENT - The key represents the perimeter measurement annotation
      * @property ARC_MEASUREMENT - The key represents the arc measurement annotation
-     * @property RECTANGULAR_AREA_MEASUREMENT - The key represents the rectangular area measurement annotation
+     * @property RECTANGULAR_AREA_MEASUREMENT - The key represents the rectangualr area measurement annotation
      * @property CLOUDY_RECTANGULAR_AREA_MEASUREMENT - The key represents the cloudy rectangular area measurement annotation
      * @property AREA_MEASUREMENT - The key represents the area measurement annotation
      * @property ELLIPSE_MEASUREMENT - The key represents the ellipse measurement annotation
@@ -47394,7 +45642,7 @@ declare namespace UI {
          */
         ARC_MEASUREMENT: string;
         /**
-         * The key represents the rectangular area measurement annotation
+         * The key represents the rectangualr area measurement annotation
          */
         RECTANGULAR_AREA_MEASUREMENT: string;
         /**
@@ -47571,91 +45819,6 @@ declare namespace UI {
         FILL_COLOR: string;
     };
     /**
-     * The different available pre-built panels options.
-     * @property OUTLINE - Represents the OUTLINE panel.
-     * @property SIGNATURE - Represents the SIGNATURE panel.
-     * @property BOOKMARKS - Represents the BOOKMARKS panel.
-     * @property FILE_ATTACHMENT - Represents the FILE_ATTACHMENT panel.
-     * @property THUMBNAIL - Represents the THUMBNAIL panel.
-     * @property LAYERS - Represents the LAYERS panel.
-     * @property TEXT_EDITING - Represents the TEXT_EDITING panel.
-     * @property CHANGE_LIST - Represents the CHANGE_LIST panel.
-     * @property STYLE - Represents the STYLE panel.
-     * @property REDACTION - Represents the REDACTION panel.
-     * @property SEARCH - Represents the SEARCH panel.
-     * @property NOTES - Represents the NOTES panel.
-     * @property TABS - Represents the TABS panel.
-     * @property SIGNATURE_LIST - Represents the SIGNATURE_LIST panel.
-     * @property RUBBER_STAMP - Represents the RUBBER_STAMP panel.
-     * @property PORTFOLIO - Represents the PORTFOLIO panel.
-     */
-    var Panels: {
-        /**
-         * Represents the OUTLINE panel.
-         */
-        OUTLINE: string;
-        /**
-         * Represents the SIGNATURE panel.
-         */
-        SIGNATURE: string;
-        /**
-         * Represents the BOOKMARKS panel.
-         */
-        BOOKMARKS: string;
-        /**
-         * Represents the FILE_ATTACHMENT panel.
-         */
-        FILE_ATTACHMENT: string;
-        /**
-         * Represents the THUMBNAIL panel.
-         */
-        THUMBNAIL: string;
-        /**
-         * Represents the LAYERS panel.
-         */
-        LAYERS: string;
-        /**
-         * Represents the TEXT_EDITING panel.
-         */
-        TEXT_EDITING: string;
-        /**
-         * Represents the CHANGE_LIST panel.
-         */
-        CHANGE_LIST: string;
-        /**
-         * Represents the STYLE panel.
-         */
-        STYLE: string;
-        /**
-         * Represents the REDACTION panel.
-         */
-        REDACTION: string;
-        /**
-         * Represents the SEARCH panel.
-         */
-        SEARCH: string;
-        /**
-         * Represents the NOTES panel.
-         */
-        NOTES: string;
-        /**
-         * Represents the TABS panel.
-         */
-        TABS: string;
-        /**
-         * Represents the SIGNATURE_LIST panel.
-         */
-        SIGNATURE_LIST: string;
-        /**
-         * Represents the RUBBER_STAMP panel.
-         */
-        RUBBER_STAMP: string;
-        /**
-         * Represents the PORTFOLIO panel.
-         */
-        PORTFOLIO: string;
-    };
-    /**
      * Available search patterns that can be passed to {@link UI.replaceRedactionSearchPattern UI.replaceRedactionSearchPattern}. <br/><br/>
      */
     enum RedactionSearchPatterns {
@@ -47717,10 +45880,8 @@ declare namespace UI {
      *     const theme = instance.UI.Theme;
      *     instance.UI.setTheme(theme.DARK);
      *   });
-     * @property DARK - The theme where the WebViewer will be dark.
-     * @property LIGHT - The theme where the WebViewer will be light.
      */
-    var Theme: {
+    type Theme = {
         /**
          * The theme where the WebViewer will be dark.
          */
@@ -48025,8 +46186,7 @@ declare namespace UI {
             G,
             H,
             K,
-            U,
-            X
+            U
         }
         /**
          * Add an event handler for the given hotkey
@@ -48072,553 +46232,6 @@ declare namespace UI {
          * @param [handler] - An optional function. If not passed, all handlers of the given key will be removed
          */
         function off(key?: string | UI.Hotkeys.Keys, handler?: (...params: any[]) => any): void;
-    }
-    /**
-     * A namespace which contains APIs Modular UI components.
-     * @example
-     * webViewerInstance.UI.Components.someComponent
-     * webViewerInstance.UI.Components.someAPI()
-     */
-    namespace Components {
-        /**
-         * Creates a new instance of CustomButton.
-         * @example
-         * const testButton = new instance.UI.Components.CustomButton({
-         *   label: 'test',
-         *   title: 'this is a test button',
-         *   onClick: () => console.log('button clicked!'),
-         *   img: 'icon-save',
-         * });
-         * @param options - An object that contains the properties of the CustomButton.
-         * @param [options.dataElement] - The data element of the button.
-         * @param [options.label] - The label of the button.
-         * @param [options.title] - The title of the button.
-         * @param [options.img] - The icon of the button.
-         * @param [options.onClick] - The function that is called when the button is clicked.
-         */
-        class CustomButton extends UI.Components.Item {
-            constructor(options: {
-                dataElement?: string;
-                label?: string;
-                title?: string;
-                img?: string;
-                onClick?: (...params: any[]) => any;
-            });
-        }
-        /**
-         * UI.Components.Flyout
-         * @param options - An object that contains the properties of the flyout.
-         * @param options.dataElement - A unique string that identifies the flyout.
-         * @param options.items - An array of objects that represent the items in the flyout.
-         */
-        class Flyout {
-            constructor(options: {
-                dataElement: string;
-                items: FlyoutItem[];
-            });
-            /**
-             * Sets the items of the flyout.
-             * @example
-             * const flyout = new UI.Components.Flyout({
-             *    dataElement: 'exampleFlyout',
-             *    label: 'Flyout',
-             *  });
-             *  flyout.setItems([
-             *    {
-             *      label: 'Item 1',
-             *      onClick: () => {
-             *        console.log('Item 1 clicked');
-             *      },
-             *    },
-             *  ]);
-             * @param items - An array of objects that represent the items to be added to the flyout.
-             */
-            setItems(items: FlyoutItem[]): void;
-            /**
-             * A unique string that identifies the flyout. This property is ReadOnly.
-             */
-            dataElement: string;
-            /**
-             * An array of objects that represent the items in the flyout. This property can be used both as a getter and setter.
-             */
-            items: object[];
-        }
-        /**
-         * Creates a new instance of GroupedItems.
-         * @example
-         * const groupedLeftHeaderButtons = new instance.UI.Components.GroupedItems({
-         *   dataElement: 'groupedLeftHeaderButtons',
-         *   grow: 0,
-         *   gap: 12,
-         *   position: 'start',
-         *   style: {},
-         *   items: [
-         *     // these items would need to be defined in your code
-         *     leftHeaderButton1,
-         *     leftHeaderButton2,
-         *     leftHeaderButton3
-         *   ],
-         *   alwaysVisible: true,
-         *   });
-         * @param properties - An object that contains the properties of the grouped items.
-         * @param [properties.dataElement] - The data element of the grouped item.
-         * @param [properties.placement] - A string that determines the placement of the header.
-         * @param [properties.justifyContent] - A string that determines the flex justify content value of the grouped items container.
-         * @param [properties.grow] - The flex grow value of the grouped items container.
-         * @param [properties.gap] - The gap between the items in the grouped items container.
-         * @param [properties.position] - A string that determines the position of the grouped items container.
-         * @param [properties.alwaysVisible] - Whether the group should always be visible or not. Default is false. Alternatively, visibility can be toggled by changing the active grouped item using a Ribbon Item.
-         * @param [properties.style] - An object that can set the CSS style of the grouped items.
-         * @param [properties.items] - The items within the grouped items container. The valid items are: {@link UI.Components.ModularHeader}, {@link UI.Components.CustomButton}, {@link UI.Components.StatefulButton}, {@link UI.Components.GroupedItems}, {@link UI.Components.RibbonItem}, {@link UI.Components.ToggleElementButton}, {@link UI.Components.RibbonGroup}, {@link UI.Components.ToolButton}, {@link UI.Components.Zoom}, {@link UI.Components.Flyout}, {@link UI.Components.PageControls}, {@link UI.Components.PresetButton}, {@link UI.Components.ViewControls}, {@link UI.Components.TabPanel}.
-         */
-        class GroupedItems {
-            constructor(properties: {
-                dataElement?: string;
-                placement?: 'top' | 'bottom' | 'left' | 'right';
-                justifyContent?: 'start' | 'end' | 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
-                grow?: number;
-                gap?: number;
-                position?: 'start' | 'center' | 'end';
-                alwaysVisible?: boolean;
-                style?: any;
-                items?: object[];
-            });
-            /**
-             * Sets the gap between items in the GroupedItems
-             * @param gap - The gap in pixels between the items in the group.
-             */
-            setGap(gap: number): void;
-            /**
-             * Sets the style of the GroupedItems (padding, border, background, etc.)
-             * @example
-             * groupedItems.setStyle({
-             *       background: 'aliceblue',
-             *       border: '8px dashed',
-             *       padding: '8px 12px'
-             *     });
-             * @param style - An object that can change the CSS style of the group.
-             */
-            setStyle(style: any): void;
-            /**
-             * Sets the flex justifyContent property of the GroupedItems
-             * @param justifyContent - A string that determines the flex justify content value of the group
-             */
-            setJustifyContent(justifyContent: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'): void;
-            /**
-             * Sets the flex grow property of the GroupedItems
-             * @param grow - The flex grow value of the group
-             */
-            setGrow(grow: number): void;
-            /**
-             * Sets the items in the GroupedItems
-             * @param items - The items to set in the group.
-             */
-            setItems(items: object[]): void;
-        }
-        /**
-         * An abstract class for creating WebViewer Modular UI items.
-         * @param [properties] - An object that contains the properties of the item.
-         */
-        class Item {
-            constructor(properties?: ItemProperties);
-        }
-        /**
-         * @param [options] - An object that contains the properties of the main menu
-         * @param [options.additionalItems] - An array of extra items to add to the main menu
-         * @param [options.dataElement] - The data element for the main menu flyout
-         */
-        class MainMenu extends UI.Components.Flyout {
-            constructor(options?: {
-                additionalItems?: object[];
-                dataElement?: any;
-            });
-        }
-        /**
-         * Creates a new instance of ModularHeader.
-         * @example
-         * const defaultTopHeader = new instance.UI.Components.ModularHeader({
-         *   dataElement: 'default-top-header',
-         *   placement: 'top',
-         *   grow: 0,
-         *   gap: 12,
-         *   position: 'start',
-         *   stroke: true,
-         *   dimension: {
-         *     paddingTop: 8,
-         *     paddingBottom: 8,
-         *     borderWidth: 1
-         *   },
-         *   style: {},
-         *   items: [
-         *     // these items would need to be defined in your code
-         *     groupedLeftHeaderButtons,
-         *     ribbonGroup,
-         *   ]
-         * });
-         * @param properties - An object that contains the properties of the header
-         */
-        class ModularHeader {
-            constructor(...properties: ContainerProperties[]);
-            /**
-             * Sets the style of the ModularHeader (padding, border, background, etc.)
-             * @param style - An object that can change the CSS style of the ModularHeader
-             */
-            setStyle(style: any): void;
-            /**
-             * Sets the gap between items in the ModularHeader
-             * @param gap - The gap between items in the header
-             */
-            setGap(gap: number): void;
-            /**
-             * Returns the grouped items contained in the ModularHeader
-             * @returns The items of the ModularHeader
-             */
-            getGroupedItems(): UI.Components.GroupedItems[];
-            /**
-             * Returns the items contained in the ModularHeader.
-             * @param [type] - Optional type of the items to be returned.
-             * @returns The items of the ModularHeader.
-             */
-            getItems(type?: ItemType): object[];
-            /**
-             * Sets the items in the ModularHeader
-             * @param items - The items to set in the header
-             */
-            setItems(items: object[]): void;
-            /**
-             * Changes the flex justifyContent property of the ModularHeader
-             * @param justifyContent - A string that determines the flex justify content value of the header
-             */
-            setJustifyContent(justifyContent: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'): void;
-        }
-        /**
-         * Creates a new instance of PageControls. A prebuilt component that allows users to change the page of the document.
-         */
-        class PageControls extends UI.Components.Item {
-        }
-        /**
-         * Creates a new instance of PresetButton.
-         * @example
-         * const presetButton = new instance.UI.Components.PresetButton({
-         *   buttonType: 'saveAsButton',
-         *   dataElement: 'presetButton-save'
-         * });
-         * @param properties - An object that contains the properties of the PresetButton.
-         * @param [properties.dataElement] - The data element of the preset button.
-         * @param [properties.buttonType] - The type of the button. Refer to: {@link UI.PRESET_BUTTON_TYPES}
-         */
-        class PresetButton extends UI.Components.Item {
-            constructor(properties: {
-                dataElement?: string;
-                buttonType?: string;
-            });
-            /**
-             * A button that toggles Content Edit Mode.
-             */
-            static contentEditButton: any;
-            /**
-             * A button that downloads the current document.
-             */
-            static downloadButton: any;
-            /**
-             * A button that allows the opening of a file as the document in the UI.
-             */
-            static filePickerButton: any;
-            /**
-             * A button that toggles form field edit mode.
-             */
-            static formFieldEditButton: any;
-            /**
-             * A button that toggles fullscreen mode.
-             */
-            static fullscreenButton: any;
-            /**
-             * A button that creates a new document.
-             */
-            static newDocumentButton: any;
-            /**
-             * A button that opens the create portfolio modal.
-             */
-            static createPortfolioButton: any;
-            /**
-             * A button that prints the document.
-             */
-            static printButton: any;
-            /**
-             * A button that performs the redo action.
-             */
-            static redoButton: any;
-            /**
-             * A button that opens the save as modal.
-             */
-            static saveAsButton: any;
-            /**
-             * A button that opens the settings modal.
-             */
-            static settingsButton: any;
-            /**
-             * A button that performs the undo action.
-             */
-            static undoButton: any;
-        }
-        /**
-         * Creates a new instance of RibbonGroup.
-         * @example
-         * const ribbonGroup = new instance.UI.Components.RibbonGroup({
-         *   dataElement: 'default-ribbon-group',
-         *   grow: 2,
-         *   justifyContent: 'start',
-         *   title: 'Default Ribbon Group',
-         *   type: 'ribbonGroup',
-         *   items: [
-         *   // these items would need to be defined in your code
-         *     viewRibbonItem,
-         *     annotateRibbonItem,
-         *     shapesRibbomItem,
-         *     insertRibbonItem,
-         *     redactionRibbonItem,
-         *     measureRibbonItem,
-         *     editRibbonItem,
-         *     contentEditRibbonItem,
-         *     fillAndSignRibbonItem,
-         *     formsRibbonItem,
-         *   ]
-         * });
-         * @param properties - An object that contains the properties of the ribbon group.
-         * @param [properties.dataElement] - A string representing the data element of the ribbon group.
-         * @param properties.items - The items in the ribbon group. Non-ribbon items will be ignored.
-         * @param [properties.headerDirection] - A string describing the direction of the header in which the ribbon will be placed.
-         * @param [properties.placement] - A string describing the placement of the header in which the ribbon will be placed.
-         * @param [properties.justifyContent] - A string that determines the flex justify content value of the container.
-         * @param [properties.grow] - The flex grow value of the ribbon group.
-         */
-        class RibbonGroup extends UI.Components.GroupedItems {
-            constructor(properties: {
-                dataElement?: string;
-                items: UI.Components.RibbonItem[];
-                headerDirection?: 'column' | 'row';
-                placement?: 'top' | 'bottom' | 'left' | 'right';
-                justifyContent?: 'start' | 'end' | 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
-                grow?: number;
-            });
-        }
-        /**
-         * Creates a new instance of RibbonItem.
-         * @example
-         * const ribbonItem = new instance.UI.Components.RibbonItem({
-         *   dataElement: 'toolbarGroup-Annotate',
-         *   title: 'Annotate',
-         *   type: 'ribbonItem',
-         *   label: 'Annotate',
-         *   groupedItems: [
-         *     'annotateGroupedItems'
-         *   ],
-         *   toolbarGroup: 'toolbarGroup-Annotate'
-         * });
-         * @param properties - An object that contains the properties of the Ribbon Item.
-         * @param [properties.dataElement] - The data element of the ribbon item.
-         * @param [properties.title] - The tooltip of the ribbon item.
-         * @param [properties.disabled] - Whether the item is disabled or not.
-         * @param [properties.label] - The label of the item.
-         * @param [properties.img] - The icon of the item.
-         * @param [properties.toolbarGroup] - The group that the item belongs to.
-         * @param [properties.groupedItems] - Grouped Items to be contained by the RibbonItem.
-         */
-        class RibbonItem extends UI.Components.Item {
-            constructor(properties: {
-                dataElement?: string;
-                title?: string;
-                disabled?: boolean;
-                label?: string;
-                img?: string;
-                toolbarGroup?: string;
-                groupedItems?: UI.Components.Item[];
-            });
-        }
-        /**
-         * Creates a new instance of StatefulButton.
-         * @example
-         * const myButton = new instance.UI.Components.StatefulButton({
-         *   initialState: 'SinglePage',
-         *   states: {
-         *     SinglePage: {
-         *       img: 'icon-header-page-manipulation-page-layout-single-page-line',
-         *       onClick: (update) => {
-         *         update('DoublePage');
-         *       },
-         *       title: 'Single Page',
-         *     },
-         *     DoublePage: {
-         *       img: 'icon-header-page-manipulation-page-layout-double-page-line',
-         *       onClick: (update) => {
-         *         update('SinglePage');
-         *       },
-         *       title: 'Double Page',
-         *     },
-         *   },
-         *   mount: () => {},
-         * });
-         * @param properties - An object that contains the properties of the StatefulButton.
-         * @param [properties.states] - An object that contains the states of the button.
-         * @param [properties.initialState] - The initial state of the button.
-         * @param [properties.mount] - The function that is called when the button is mounted.
-         * @param [properties.unmount] - The function that is called when the button is unmounted.
-         * @param [properties.dataElement] - The data element of the button.
-         * @param [properties.title] - The title of the button which appears in a tooltip.
-         * @param [properties.hidden] - Whether the button is hidden or not.
-         */
-        class StatefulButton extends UI.Components.Item {
-            constructor(properties: {
-                states?: any;
-                initialState?: string;
-                mount?: (...params: any[]) => any;
-                unmount?: (...params: any[]) => any;
-                dataElement?: string;
-                title?: string;
-                hidden?: boolean;
-            });
-        }
-        /**
-         * Creates a new instance of TabPanel.
-         * @example
-         * const tabPanel = new UI.Components.TabPanel({
-         *     dataElement: 'tabPanel',
-         *     panelsList: [
-         *       {
-         *         render: UI.Panels.THUMBNAIL
-         *       },
-         *       {
-         *         render: UI.Panels.OUTLINE
-         *       },
-         *       {
-         *         render: UI.Panels.BOOKMARKS
-         *       },
-         *       {
-         *         render: UI.Panels.LAYERS
-         *       },
-         *       {
-         *         render: UI.Panels.SIGNATURE
-         *       },
-         *       {
-         *         render: UI.Panels.FILE_ATTACHMENT
-         *       },
-         *       {
-         *         render: UI.Panels.PORTFOLIO
-         *       }
-         *     ],
-         *     location: 'left'
-         *   });
-         * @param options - An object that contains the properties of the tab panel.
-         */
-        class TabPanel {
-            constructor(options: TabPanelProperties);
-            /**
-             * The panels to be displayed in the tab panel.
-             */
-            panelsList: Panel[];
-        }
-        /**
-         * Creates a new instance of ToggleElementButton.
-         * @example
-         * const toggleButton = new instance.UI.Components.ToggleElementButton({
-         *   label: 'Toggle',
-         *   title: 'Toggle the visibility of the element',
-         *   img: 'icon-save',
-         *   toggleElement: 'elementToToggle',
-         * });
-         * @param properties - An object that contains the properties of the ToggleElementButton.
-         * @param [properties.dataElement] - The dataElement of toggle button.
-         * @param properties.toggleElement - The dataElement of the element to toggle.
-         * @param [properties.title] - The tooltip text to be displayed when hovering over the toggle button.
-         * @param [properties.label] - The label of the button.
-         * @param [properties.img] - The title of the button which appears in a tooltip.
-         */
-        class ToggleElementButton extends UI.Components.Item {
-            constructor(properties: {
-                dataElement?: string;
-                toggleElement: string;
-                title?: string;
-                label?: string;
-                img?: string;
-            });
-        }
-        /**
-         * Creates a new instance of ToolButton.
-         * @example
-         * const toolButton = new instance.UI.Components.ToolButton({
-         *   label: 'Pan',
-         *   title: 'Pan the document',
-         *   img: 'icon-header-pan',
-         *   toolName: 'Pan',
-         * });
-         * @param properties - An object that contains the properties of the ToolButton.
-         * @param [properties.dataElement] - The data element of the button.
-         * @param [properties.label] - The label of the button.
-         * @param [properties.img] - The icon of the button.
-         * @param [properties.toolName] - The name of the tool that the button activates. Refer to: {@link Core.Tools.ToolNames}
-         */
-        class ToolButton extends UI.Components.Item {
-            constructor(properties: {
-                dataElement?: string;
-                label?: string;
-                img?: string;
-                toolName?: Core.Tools.ToolNames | string;
-            });
-        }
-        /**
-         * Creates a new instance of ViewControls. A prebuilt feature that allows users to change the Page Transition, Orientation, and Layout of the document.
-         * @example
-         * const viewControlsToggle = new UI.Components.ViewControls();
-         */
-        class ViewControls extends UI.Components.Item {
-        }
-        /**
-         * Creates a new instance of Zoom. A prebuilt feature that allows users to zoom in and out of the document.
-         * @example
-         * const zoomControls = new UI.Components.Zoom();
-         */
-        class Zoom extends UI.Components.Item {
-        }
-        /**
-         * Represents a panel abstraction that can be used to manipulate a panel in the UI
-         * @example
-         * WebViewer(...)
-         *  .then(function(instance) {
-         *  // Returns a list of instances of the panel, each instance can be used to manipulate the panel in the UI using the methods below
-         *  const panelList = instance.UI.getPanels();
-         *  });
-         */
-        class Panel {
-            /**
-             * The data element string for the panel.
-             */
-            dataElement: string;
-            /**
-             * Sets the location of the panel in the UI
-             * @example
-             * WebViewer(...)
-             *  .then(function(instance) {
-             *  const panelList = instance.UI.getPanels();
-             *  panelList[0].setLocation('right');
-             *  });
-             * @param location - The location of the panel, setting this will update the panel in the UI. It can be either 'left' or 'right'
-             */
-            setLocation(location: string): void;
-            /**
-             * Deletes the panel from the UI
-             * @example
-             * WebViewer(...)
-             * .then(function(instance) {
-             * const panelList = instance.UI.getPanels();
-             * panelList[0].delete();
-             * });
-             */
-            delete(): void;
-            /**
-             * The location of the panel ('left' or 'right').
-             */
-            location: string;
-        }
     }
     /**
      * Cleans up listeners and data from the WebViewer instance. Should be called when removing the WebViewer instance from the DOM.
@@ -48668,6 +46281,7 @@ declare class WebViewerInstance {
 }
 
 /**
+ * @param [options.fallbackToClientSide] - A boolean indicating whether to fall back to client side rendering when WebViewer server fails
  */
 declare type WebViewerOptions = {
     /**
@@ -48800,18 +46414,9 @@ declare type WebViewerOptions = {
      */
     webviewerServerURL?: string;
     /**
-     * A boolean indicating whether to fall back to client side rendering when WebViewer server fails
-     */
-    fallbackToClientSide?: boolean;
-    /**
      * Set server to ignore health failures. For usage with setups using a single server
      */
     singleServerMode?: boolean;
-    /**
-     * If set to false then HTTP range requests will not be made to WebViewer Server. Default is true.
-     * @defaultValue true
-     */
-    webviewerServerRangeRequests?: boolean;
     /**
      * Disables console logs coming from WebViewer, including the version and build numbers
      */
@@ -48878,11 +46483,6 @@ declare type WebViewerOptions = {
      * If true, then uncompressed JavaScript files will be loaded without instantiating a Blob. If false, then the URL.createObjectUrl API will be used to instantiate an uncompressed Blob instance of the appropriate PDF worker file (Note that this goes against the Content-Security-Policy (CSP) rule "script-src blob:").
      */
     disableObjectURLBlobs?: boolean;
-    /**
-     * Type of UI to be used. Accepts `default`|`beta`. Toggle the beta UI to check out the new modular UI.
-     * @defaultValue default
-     */
-    ui?: string;
 };
 
 /**

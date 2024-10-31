@@ -138,11 +138,18 @@ const ClientAddStep1: FC<Props> = ({
               >
                 {intl.formatMessage({ id: "Fields.IsPrivateClient" })}
               </label>
+
               <input
                 className="form-check-input h-20px w-40px"
                 type="checkbox"
                 id="isPrivateClientSwitch"
                 {...formik.getFieldProps("isPrivateClient")}
+                onChange={(e) =>
+                  formik.setFieldValue(
+                    "isPrivateClient",
+                    !formik.values.isPrivateClient
+                  )
+                }
               />
             </div>
           </div>

@@ -27,7 +27,6 @@ const QuoteCopyModal = ({
     };
   }, []);
   const intl = useIntl();
-  console.log(quoteId);
   const [copyAttachments, setCopyAttachments] = useState<boolean>(false);
   const [openDraftSwitch, setOpenDraftSwitch] = useState<boolean>(false);
   return (

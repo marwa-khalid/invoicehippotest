@@ -212,7 +212,6 @@ const QuoteList = ({
   const valueSetter = (quoteList: any) => {
     setQuoteNumber(quoteList.quoteNr);
     setEditModalId(quoteList.id);
-    console.log(quoteList);
     localStorage.setItem(
       "ModalData",
       JSON.stringify({
@@ -452,9 +451,6 @@ const QuoteList = ({
                         <Tippy content="view">
                           <button
                             className="btn btn-icon btn-light btn-sm me-4"
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"
                             onClick={() => {
                               setQuoteNumber(quoteList.quoteNr);
                               setDownloadUrl(
@@ -464,6 +460,9 @@ const QuoteList = ({
                                 quoteList.downloadInfo.fileExtension
                               );
                             }}
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight"
+                            aria-controls="offcanvasRight"
                           >
                             <i className="ki-duotone ki-eye fs-2">
                               <span className="path1"></span>

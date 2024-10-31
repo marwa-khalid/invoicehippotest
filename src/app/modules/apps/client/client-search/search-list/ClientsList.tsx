@@ -84,8 +84,8 @@ const ClientsList = ({
   return (
     <KTCardBody className="py-4">
       <div className="row row-cols-1 row-cols-md-1 g-4">
-        {clients?.result?.map((client: ClientResult) => (
-          <div className="col" key={client.id}>
+        {clients?.result?.map((clientList: ClientResult) => (
+          <div className="col" key={clientList.id}>
             <div className="card h-100 py-6 ">
               <div className="card-body">
                 {/* First Row: Checkbox, Divider, Value */}
@@ -93,16 +93,16 @@ const ClientsList = ({
                   <div
                     className="d-flex flex-column gap-3 cursor-pointer title-clickable"
                     onClick={() => {
-                      openEditModal(client.id);
+                      openEditModal(clientList.id);
                     }}
                   >
                     <small className="text-muted fs-9">
-                      {client.customerNr}
+                      {clientList.customerNr}
                     </small>
-                    <strong>{client.businessName}</strong>
+                    <strong>{clientList.businessName}</strong>
                   </div>
                   <div className="align-items-center my-lg-0 my-1 necessary-icons">
-                    {client.actions.canEdit && (
+                    {clientList.actions.canEdit && (
                       <Tippy
                         content={intl.formatMessage({
                           id: "Fields.ToolTipEdit",
@@ -111,7 +111,7 @@ const ClientsList = ({
                         <button
                           className="btn btn-icon btn-light btn-sm me-4"
                           onClick={() => {
-                            openEditModal(client.id);
+                            openEditModal(clientList.id);
                           }}
                         >
                           <i className="ki-solid ki-pencil text-warning fs-1 " />
@@ -119,12 +119,12 @@ const ClientsList = ({
                       </Tippy>
                     )}
 
-                    {client.actions.canView && (
+                    {clientList.actions.canView && (
                       <Tippy content="view">
                         <button
                           className="btn btn-icon btn-light btn-sm me-4"
                           onClick={() => {
-                            openEditModal(client.id);
+                            openEditModal(clientList.id);
                           }}
                         >
                           <i className="ki-duotone ki-eye text-dark fs-1">
@@ -135,12 +135,12 @@ const ClientsList = ({
                         </button>
                       </Tippy>
                     )}
-                    {client.actions.canCreateInvoice && (
+                    {clientList.actions.canCreateInvoice && (
                       <Tippy content="create invoice">
                         <button
                           className="btn btn-icon btn-light btn-sm me-4"
                           onClick={() => {
-                            openEditModal(client.id);
+                            openEditModal(clientList.id);
                           }}
                         >
                           <i className="ki-duotone ki-cheque text-info fs-1">
@@ -156,12 +156,12 @@ const ClientsList = ({
                       </Tippy>
                     )}
 
-                    {client.actions.canTakeOverAccount && (
+                    {clientList.actions.canTakeOverAccount && (
                       <Tippy content="takeover">
                         <button
                           className="btn btn-icon btn-light btn-sm me-4"
                           onClick={() => {
-                            openEditModal(client.id);
+                            openEditModal(clientList.id);
                           }}
                         >
                           <i className="ki-duotone ki-profile-user fs-1 text-danger">
@@ -173,12 +173,12 @@ const ClientsList = ({
                         </button>
                       </Tippy>
                     )}
-                    {client.actions.canCreateQuote && (
+                    {clientList.actions.canCreateQuote && (
                       <Tippy content="create quote">
                         <button
                           className="btn btn-icon btn-light btn-sm me-4"
                           onClick={() => {
-                            openEditModal(client.id);
+                            openEditModal(clientList.id);
                           }}
                         >
                           <i className="ki-duotone ki-add-item text-success fs-1">
@@ -190,7 +190,7 @@ const ClientsList = ({
                       </Tippy>
                     )}
 
-                    {client.actions.canExtendAutomation && (
+                    {clientList.actions.canExtendAutomation && (
                       <Tippy
                         content={intl.formatMessage({
                           id: "Fields.ToolTipReconnect",
@@ -201,7 +201,7 @@ const ClientsList = ({
                         </button>
                       </Tippy>
                     )}
-                    {client.actions.canRevokeAutomation && (
+                    {clientList.actions.canRevokeAutomation && (
                       <Tippy
                         content={intl.formatMessage({
                           id: "Fields.ToolTipDisonnect",
@@ -212,7 +212,7 @@ const ClientsList = ({
                         </button>
                       </Tippy>
                     )}
-                    {client.actions.canDelete && (
+                    {clientList.actions.canDelete && (
                       <Tippy
                         content={intl.formatMessage({
                           id: "Fields.ToolTipDelete",
@@ -221,7 +221,10 @@ const ClientsList = ({
                         <button
                           className="btn btn-icon btn-light btn-sm"
                           onClick={() => {
-                            openDeleteModal(client.id, client.businessName);
+                            openDeleteModal(
+                              clientList.id,
+                              clientList.businessName
+                            );
                           }}
                         >
                           <i className="ki-solid ki-trash text-danger fs-1"></i>
@@ -231,7 +234,7 @@ const ClientsList = ({
                   </div>
                 </div>
 
-                {client?.primaryContact?.fullName && (
+                {clientList?.primaryContact?.fullName && (
                   <div className="mb-4">
                     <div className="separator separator-solid mb-3"></div>
                     <ul className="breadcrumb breadcrumb-black breadcrumb-dot">
@@ -242,12 +245,12 @@ const ClientsList = ({
                             <span className="path2"></span>
                           </i>
                           <small>
-                            {client?.primaryContact?.fullName.toLowerCase()}
+                            {clientList?.primaryContact?.fullName.toLowerCase()}
                           </small>
                         </div>
                       </li>
 
-                      {client?.primaryContact?.emailAddress && (
+                      {clientList?.primaryContact?.emailAddress && (
                         <li className="breadcrumb-item">
                           <div className="breadcrumb-item bg-secondary py-1 px-2 rounded align-items-center">
                             <i className="ki-duotone ki-sms text-dark fs-2 me-2">
@@ -256,22 +259,24 @@ const ClientsList = ({
                             </i>
 
                             <small>
-                              {client?.primaryContact?.emailAddress}
+                              {clientList?.primaryContact?.emailAddress}
                             </small>
                           </div>
                         </li>
                       )}
-                      {client?.primaryContact?.phoneNrs.length > 0 && (
+                      {clientList?.primaryContact?.phoneNrs.length > 0 && (
                         <li className="breadcrumb-item align-items-center bg-secondary ms-2 py-1 px-2 rounded">
                           <i className="ki-duotone ki-phone text-dark fs-2 me-2">
                             <span className="path1"></span>
                             <span className="path2"></span>
                           </i>
                           <small>
-                            {client?.primaryContact?.phoneNrs.map(
-                              (phoneNumber) => {
+                            {clientList?.primaryContact?.phoneNrs.map(
+                              (phoneNumber, index) => {
                                 return (
-                                  <span className="me-2">{phoneNumber}</span>
+                                  <span className="me-2" key={index}>
+                                    {phoneNumber}
+                                  </span>
                                 );
                               }
                             )}
@@ -281,17 +286,17 @@ const ClientsList = ({
                     </ul>
                   </div>
                 )}
-                {client.contacts.length > 0 && (
+                {clientList.contacts.length > 0 && (
                   <div
                     className="d-flex flex-column justify-content-end pe-0"
-                    key={client.id}
+                    key={clientList.id}
                   >
                     <div className="separator separator-solid mb-3"></div>
                     <strong className="mb-3">
                       {intl.formatMessage({ id: "Fields.Contacts" })}
                     </strong>
                     <div className="symbol-group symbol-hover flex-nowrap">
-                      {client.contacts.map((contact, index) => {
+                      {clientList.contacts.map((contact, index) => {
                         const initials = contact.fullName
                           ? contact.fullName
                               .split(" ")
@@ -313,6 +318,7 @@ const ClientsList = ({
                         return (
                           <Tippy
                             content={contact.fullName || contact.emailAddress}
+                            key={contact.id}
                           >
                             <div
                               className="symbol symbol-40px symbol-circle"

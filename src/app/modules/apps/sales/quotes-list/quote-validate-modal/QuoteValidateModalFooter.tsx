@@ -52,7 +52,6 @@ const QuoteValidateModalFooter = ({
       return tabs[nextIndex];
     });
   };
-  console.log(currentIndex);
 
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">

@@ -37,9 +37,7 @@ const QuoteActivateModal = ({
   const formattedToday = `${String(today.getDate()).padStart(2, "0")}-${String(
     today.getMonth() + 1
   ).padStart(2, "0")}-${today.getFullYear()}`;
-  console.log(formattedToday);
 
-  console.log(formattedToday);
   // Format as "YYYY-MM-DD"
   useEffect(() => {
     if (quoteDateAsString === formattedToday) {

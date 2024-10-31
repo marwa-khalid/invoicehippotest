@@ -73,7 +73,7 @@ const QuoteValidateModal = ({
         aria-modal="true"
       >
         {/* begin::Modal dialog */}
-        <div className="modal-dialog mw-750px">
+        <div className="modal-dialog mw-700px">
           {/* begin::Modal content */}
           <div className="modal-content">
             <QuoteValidateModalHeader
@@ -84,7 +84,7 @@ const QuoteValidateModal = ({
             <div className="hippo-tab-manager d-flex justify-content-between p-5 flex-grow-1 bg-secondary">
               <div className="d-flex justify-content-start">
                 {tabs.map((tab: any) => (
-                  <>
+                  <div key={tab.id}>
                     {mode === 2 && (tab.id === 3 || tab.id === 4) ? (
                       <></>
                     ) : (
@@ -106,7 +106,7 @@ const QuoteValidateModal = ({
                         {tab.label}
                       </button>
                     )}
-                  </>
+                  </div>
                 ))}
               </div>
             </div>

@@ -118,6 +118,7 @@ const UsersList = ({
                           content={intl.formatMessage({
                             id: "Fields.ToolTipEdit",
                           })}
+                         
                         >
                           <button
                             className="btn btn-icon btn-light btn-sm me-4"
@@ -135,6 +136,7 @@ const UsersList = ({
                           content={intl.formatMessage({
                             id: "Fields.ToolTipDelete",
                           })}
+                         
                         >
                           <button
                             className="btn btn-icon btn-light btn-sm"
