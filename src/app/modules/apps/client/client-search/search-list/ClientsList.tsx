@@ -8,6 +8,7 @@ import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import Tippy from "@tippyjs/react";
 import clsx from "clsx";
+import { useAuth } from "../../../../auth";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
@@ -41,7 +42,7 @@ const ClientsList = ({
   setIntlMessage,
 }: ComponentProps) => {
   const [clients, setClients] = useState<any>([]);
-
+  const auth = useAuth();
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -271,7 +272,6 @@ const ClientsList = ({
                     </div>
                   </div>
                 </div>
-
                 {clientList?.primaryContact?.fullName && (
                   <div className="mb-4">
                     <div className="separator separator-solid mb-3"></div>
@@ -373,6 +373,36 @@ const ClientsList = ({
                       })}
                     </div>
                   </div>
+                )}
+
+                {clientList.hasTotals && (
+                  <>
+                    <div className="separator separator-solid my-5"></div>
+                    <div className="d-flex gap-10">
+                      {clientList.totals.totalQuotesCount > 0 && (
+                        <span className="d-flex align-items-center fw-bold">
+                          <i className="ki-duotone ki-add-item text-muted fs-3x me-2">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                            <span className="path3"></span>
+                          </i>
+                          {intl.formatMessage({ id: "Fields.Quotes" })}:{" "}
+                          {clientList.totals.totalQuotesCount}
+                        </span>
+                      )}
+                      {clientList.totals.totalIncomeAmount > 0 && (
+                        <span className="d-flex align-items-center fw-bold">
+                          <i className=" la la-file-invoice-dollar fs-2x text-success me-2" />
+                          {intl.formatMessage({ id: "Fields.Revenue" })}:{" "}
+                          {
+                            auth.currentUser?.result.activeCompanyDefaults
+                              .defaultValuta.sign
+                          }
+                          {clientList.totals.totalIncomeAmount}
+                        </span>
+                      )}
+                    </div>
+                  </>
                 )}
               </div>
             </div>
