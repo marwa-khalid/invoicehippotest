@@ -54,13 +54,17 @@ const QuoteEmailModal = ({
         .shape({
           sendToClient: Yup.boolean(),
           sendMeAnCopy: Yup.boolean(),
+          extraToRecipients: Yup.array(),
         })
         .test(
           "at-least-one-true",
           intl.formatMessage({
             id: "Fields.ModalSendOneOrMoreRecipientsAreRequired",
           }),
-          (value) => value?.sendToClient || value?.sendMeAnCopy
+          (value) =>
+            value?.sendToClient ||
+            value?.sendMeAnCopy ||
+            (value?.extraToRecipients && value.extraToRecipients.length > 0)
         ),
     }),
 
@@ -120,7 +124,7 @@ const QuoteEmailModal = ({
   };
 
   const modalData = JSON.parse(localStorage.getItem("ModalData")!);
-  
+
   const formatExpirationDate = () => {
     const today = new Date();
 

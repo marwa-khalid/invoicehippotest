@@ -85,7 +85,7 @@ const ClientsList = ({
     <KTCardBody className="py-4">
       <div className="row row-cols-1 row-cols-md-1 g-4">
         {clients?.result?.map((clientList: ClientResult) => (
-          <div className="col" key={clientList.id}>
+          <div className="col-md-6" key={clientList.id}>
             <div className="card h-100 py-6 ">
               <div className="card-body">
                 {/* First Row: Checkbox, Divider, Value */}
@@ -101,136 +101,158 @@ const ClientsList = ({
                     </small>
                     <strong>{clientList.businessName}</strong>
                   </div>
-                  <div className="align-items-center my-lg-0 my-1 necessary-icons">
-                    {clientList.actions.canEdit && (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ToolTipEdit",
-                        })}
-                      >
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => {
-                            openEditModal(clientList.id);
-                          }}
-                        >
-                          <i className="ki-solid ki-pencil text-warning fs-1 " />
-                        </button>
-                      </Tippy>
-                    )}
 
-                    {clientList.actions.canView && (
-                      <Tippy content="view">
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => {
-                            openEditModal(clientList.id);
-                          }}
+                  <div className="d-flex">
+                    <div className="text-end">
+                      {clientList.actions.canEdit && (
+                        <Tippy
+                          content={intl.formatMessage({
+                            id: "Fields.ToolTipEdit",
+                          })}
                         >
-                          <i className="ki-duotone ki-eye text-dark fs-1">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                            <span className="path3"></span>
-                          </i>
-                        </button>
-                      </Tippy>
-                    )}
-                    {clientList.actions.canCreateInvoice && (
-                      <Tippy content="create invoice">
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => {
-                            openEditModal(clientList.id);
-                          }}
-                        >
-                          <i className="ki-duotone ki-cheque text-info fs-1">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                            <span className="path3"></span>
-                            <span className="path4"></span>
-                            <span className="path5"></span>
-                            <span className="path6"></span>
-                            <span className="path7"></span>
-                          </i>
-                        </button>
-                      </Tippy>
-                    )}
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-4"
+                            onClick={() => {
+                              openEditModal(clientList.id);
+                            }}
+                          >
+                            <i className="ki-solid ki-pencil text-warning fs-1 " />
+                          </button>
+                        </Tippy>
+                      )}
+                    </div>
+                    <div className="btn-group drop-left">
+                      <button
+                        className="btn btn-icon btn-light btn-sm"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <i className="fa fas fa-list-ul text-muted fs-2"></i>
+                      </button>
+                      <ul className="dropdown-menu ">
+                        {clientList.actions.canView && (
+                          <li
+                            onClick={() => {
+                              openEditModal(clientList.id);
+                            }}
+                          >
+                            <i className="ki-duotone ki-eye text-dark fs-1">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                              <span className="path3"></span>
+                            </i>
+                            <span>View</span>
+                          </li>
+                        )}
 
-                    {clientList.actions.canTakeOverAccount && (
-                      <Tippy content="takeover">
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => {
-                            openEditModal(clientList.id);
-                          }}
-                        >
-                          <i className="ki-duotone ki-profile-user fs-1 text-danger">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                            <span className="path3"></span>
-                            <span className="path4"></span>
-                          </i>
-                        </button>
-                      </Tippy>
-                    )}
-                    {clientList.actions.canCreateQuote && (
-                      <Tippy content="create quote">
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => {
-                            openEditModal(clientList.id);
-                          }}
-                        >
-                          <i className="ki-duotone ki-add-item text-success fs-1">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                            <span className="path3"></span>
-                          </i>
-                        </button>
-                      </Tippy>
-                    )}
-
-                    {clientList.actions.canExtendAutomation && (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ToolTipReconnect",
-                        })}
-                      >
-                        <button className="btn btn-icon btn-light btn-sm me-4">
-                          <i className="fas fa-wifi text-primary fs-3" />
-                        </button>
-                      </Tippy>
-                    )}
-                    {clientList.actions.canRevokeAutomation && (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ToolTipDisonnect",
-                        })}
-                      >
-                        <button className="btn btn-icon btn-light btn-sm me-4">
-                          <i className="fas fa-wifi text-danger fs-3" />
-                        </button>
-                      </Tippy>
-                    )}
-                    {clientList.actions.canDelete && (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ToolTipDelete",
-                        })}
-                      >
-                        <button
-                          className="btn btn-icon btn-light btn-sm"
-                          onClick={() => {
-                            openDeleteModal(
-                              clientList.id,
-                              clientList.businessName
-                            );
-                          }}
-                        >
-                          <i className="ki-solid ki-trash text-danger fs-1"></i>
-                        </button>
-                      </Tippy>
-                    )}
+                        <li>
+                          {clientList.actions.canCreateInvoice && (
+                            <Tippy content="create invoice">
+                              <button
+                                className="btn btn-icon btn-light btn-sm me-4"
+                                onClick={() => {
+                                  openEditModal(clientList.id);
+                                }}
+                              >
+                                <i className="ki-duotone ki-cheque text-info fs-1">
+                                  <span className="path1"></span>
+                                  <span className="path2"></span>
+                                  <span className="path3"></span>
+                                  <span className="path4"></span>
+                                  <span className="path5"></span>
+                                  <span className="path6"></span>
+                                  <span className="path7"></span>
+                                </i>
+                              </button>
+                            </Tippy>
+                          )}
+                        </li>
+                        <li>
+                          {clientList.actions.canTakeOverAccount && (
+                            <Tippy content="takeover">
+                              <button
+                                className="btn btn-icon btn-light btn-sm me-4"
+                                onClick={() => {
+                                  openEditModal(clientList.id);
+                                }}
+                              >
+                                <i className="ki-duotone ki-profile-user fs-1 text-danger">
+                                  <span className="path1"></span>
+                                  <span className="path2"></span>
+                                  <span className="path3"></span>
+                                  <span className="path4"></span>
+                                </i>
+                              </button>
+                            </Tippy>
+                          )}
+                        </li>
+                        <li>
+                          {clientList.actions.canCreateQuote && (
+                            <Tippy content="create quote">
+                              <button
+                                className="btn btn-icon btn-light btn-sm me-4"
+                                onClick={() => {
+                                  openEditModal(clientList.id);
+                                }}
+                              >
+                                <i className="ki-duotone ki-add-item text-success fs-1">
+                                  <span className="path1"></span>
+                                  <span className="path2"></span>
+                                  <span className="path3"></span>
+                                </i>
+                              </button>
+                            </Tippy>
+                          )}
+                        </li>
+                        <li>
+                          {clientList.actions.canExtendAutomation && (
+                            <Tippy
+                              content={intl.formatMessage({
+                                id: "Fields.ToolTipReconnect",
+                              })}
+                            >
+                              <button className="btn btn-icon btn-light btn-sm me-4">
+                                <i className="fas fa-wifi text-primary fs-3" />
+                              </button>
+                            </Tippy>
+                          )}
+                        </li>
+                        <li>
+                          {clientList.actions.canRevokeAutomation && (
+                            <Tippy
+                              content={intl.formatMessage({
+                                id: "Fields.ToolTipDisonnect",
+                              })}
+                            >
+                              <button className="btn btn-icon btn-light btn-sm me-4">
+                                <i className="fas fa-wifi text-danger fs-3" />
+                              </button>
+                            </Tippy>
+                          )}
+                        </li>
+                        <li>
+                          {clientList.actions.canDelete && (
+                            <Tippy
+                              content={intl.formatMessage({
+                                id: "Fields.ToolTipDelete",
+                              })}
+                            >
+                              <button
+                                className="btn btn-icon btn-light btn-sm"
+                                onClick={() => {
+                                  openDeleteModal(
+                                    clientList.id,
+                                    clientList.businessName
+                                  );
+                                }}
+                              >
+                                <i className="ki-solid ki-trash text-danger fs-1"></i>
+                              </button>
+                            </Tippy>
+                          )}
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
 
