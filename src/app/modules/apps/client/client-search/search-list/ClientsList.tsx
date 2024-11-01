@@ -100,6 +100,15 @@ const ClientsList = ({
                       {clientList.customerNr}
                     </small>
                     <strong>{clientList.businessName}</strong>
+                    {clientList.clientTypes.map((client) => (
+                      <span
+                        className="badge bg-gray-300 fw-normal"
+                        key={client}
+                        style={{ width: "fit-content" }}
+                      >
+                        {client.toLowerCase()}
+                      </span>
+                    ))}
                   </div>
 
                   <div className="d-flex">
@@ -129,32 +138,35 @@ const ClientsList = ({
                       >
                         <i className="fa fas fa-list-ul text-muted fs-2"></i>
                       </button>
-                      <ul className="dropdown-menu ">
-                        {clientList.actions.canView && (
+                      <ul className="dropdown-menu w-content-fit py-4">
+                        {clientList.actions.canCreateQuote && (
                           <li
                             onClick={() => {
                               openEditModal(clientList.id);
                             }}
                           >
-                            <i className="ki-duotone ki-eye text-dark fs-1">
-                              <span className="path1"></span>
-                              <span className="path2"></span>
-                              <span className="path3"></span>
-                            </i>
-                            <span>View</span>
+                            <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                              <i className="ki-duotone ki-add-item text-success fs-1 me-2">
+                                <span className="path1"></span>
+                                <span className="path2"></span>
+                                <span className="path3"></span>
+                              </i>
+                              {intl.formatMessage({
+                                id: "Fields.ActionQuoteNew",
+                              })}
+                            </a>
                           </li>
                         )}
-
-                        <li>
-                          {clientList.actions.canCreateInvoice && (
-                            <Tippy content="create invoice">
-                              <button
-                                className="btn btn-icon btn-light btn-sm me-4"
-                                onClick={() => {
-                                  openEditModal(clientList.id);
-                                }}
-                              >
-                                <i className="ki-duotone ki-cheque text-info fs-1">
+                        {clientList.actions.canCreateInvoice && (
+                          <>
+                            <div className="dropdown-divider border-gray-200"></div>
+                            <li
+                              onClick={() => {
+                                openEditModal(clientList.id);
+                              }}
+                            >
+                              <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                <i className="ki-duotone ki-cheque text-info fs-1 me-2">
                                   <span className="path1"></span>
                                   <span className="path2"></span>
                                   <span className="path3"></span>
@@ -163,10 +175,15 @@ const ClientsList = ({
                                   <span className="path6"></span>
                                   <span className="path7"></span>
                                 </i>
-                              </button>
-                            </Tippy>
-                          )}
-                        </li>
+                                {intl.formatMessage({
+                                  id: "Fields.ActionInvoiceNew",
+                                })}
+                              </a>
+                            </li>
+                          </>
+                        )}
+                        {/* 
+                        
                         <li>
                           {clientList.actions.canTakeOverAccount && (
                             <Tippy content="takeover">
@@ -229,28 +246,27 @@ const ClientsList = ({
                               </button>
                             </Tippy>
                           )}
-                        </li>
-                        <li>
-                          {clientList.actions.canDelete && (
-                            <Tippy
-                              content={intl.formatMessage({
-                                id: "Fields.ToolTipDelete",
-                              })}
+                        </li> */}
+
+                        {clientList.actions.canDelete && (
+                          <>
+                            {" "}
+                            <div className="dropdown-divider border-gray-200"></div>
+                            <li
+                              onClick={() => {
+                                openDeleteModal(
+                                  clientList.id,
+                                  clientList.businessName
+                                );
+                              }}
                             >
-                              <button
-                                className="btn btn-icon btn-light btn-sm"
-                                onClick={() => {
-                                  openDeleteModal(
-                                    clientList.id,
-                                    clientList.businessName
-                                  );
-                                }}
-                              >
-                                <i className="ki-solid ki-trash text-danger fs-1"></i>
-                              </button>
-                            </Tippy>
-                          )}
-                        </li>
+                              <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                <i className="ki-solid ki-trash text-danger fs-1 me-2"></i>
+                                Delete
+                              </a>
+                            </li>
+                          </>
+                        )}
                       </ul>
                     </div>
                   </div>
@@ -259,53 +275,50 @@ const ClientsList = ({
                 {clientList?.primaryContact?.fullName && (
                   <div className="mb-4">
                     <div className="separator separator-solid mb-3"></div>
-                    <ul className="breadcrumb breadcrumb-black breadcrumb-dot">
-                      <li className="breadcrumb-item">
-                        <div className="breadcrumb-item bg-primary py-1 px-2 rounded text-white align-items-center">
-                          <i className="ki-duotone ki-user fs-2 text-white me-2">
+                    <div className="d-flex gap-2">
+                      <div className="d-flex rounded align-items-center text-muted">
+                        <i className="ki-duotone ki-user fs-3 me-1">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
+                        </i>
+                        <small>
+                          {clientList?.primaryContact?.fullName.toLowerCase()}
+                        </small>
+                      </div>
+
+                      {clientList?.primaryContact?.emailAddress && (
+                        <div className="d-flex rounded align-items-center text-muted">
+                          <i className="ki-duotone ki-sms fs-3 me-1">
                             <span className="path1"></span>
                             <span className="path2"></span>
                           </i>
+
                           <small>
-                            {clientList?.primaryContact?.fullName.toLowerCase()}
+                            {clientList?.primaryContact?.emailAddress}
                           </small>
                         </div>
-                      </li>
-
-                      {clientList?.primaryContact?.emailAddress && (
-                        <li className="breadcrumb-item">
-                          <div className="breadcrumb-item bg-secondary py-1 px-2 rounded align-items-center">
-                            <i className="ki-duotone ki-sms text-dark fs-2 me-2">
+                      )}
+                    </div>
+                  </div>
+                )}
+                {clientList?.primaryContact?.phoneNrs.length > 0 && (
+                  <div className="mb-5">
+                    {clientList?.primaryContact?.phoneNrs.map(
+                      (phoneNumber, index) => {
+                        return (
+                          <small
+                            className="badge me-2 bg-secondary"
+                            key={index}
+                          >
+                            <i className="ki-duotone ki-phone text-dark fs-4 me-1">
                               <span className="path1"></span>
                               <span className="path2"></span>
                             </i>
-
-                            <small>
-                              {clientList?.primaryContact?.emailAddress}
-                            </small>
-                          </div>
-                        </li>
-                      )}
-                      {clientList?.primaryContact?.phoneNrs.length > 0 && (
-                        <li className="breadcrumb-item align-items-center bg-secondary ms-2 py-1 px-2 rounded">
-                          <i className="ki-duotone ki-phone text-dark fs-2 me-2">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          <small>
-                            {clientList?.primaryContact?.phoneNrs.map(
-                              (phoneNumber, index) => {
-                                return (
-                                  <span className="me-2" key={index}>
-                                    {phoneNumber}
-                                  </span>
-                                );
-                              }
-                            )}
+                            {phoneNumber}
                           </small>
-                        </li>
-                      )}
-                    </ul>
+                        );
+                      }
+                    )}
                   </div>
                 )}
                 {clientList.contacts.length > 0 && (
@@ -313,10 +326,10 @@ const ClientsList = ({
                     className="d-flex flex-column justify-content-end pe-0"
                     key={clientList.id}
                   >
-                    <div className="separator separator-solid mb-3"></div>
+                    {/* <div className="separator separator-solid mb-3"></div>
                     <strong className="mb-3">
                       {intl.formatMessage({ id: "Fields.Contacts" })}
-                    </strong>
+                    </strong> */}
                     <div className="symbol-group symbol-hover flex-nowrap">
                       {clientList.contacts.map((contact, index) => {
                         const initials = contact.fullName
@@ -348,7 +361,7 @@ const ClientsList = ({
                             >
                               <span
                                 className={clsx(
-                                  "symbol-label fw-bold",
+                                  "symbol-label ",
                                   backgroundColor
                                 )}
                               >
