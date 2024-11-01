@@ -27,7 +27,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
   };
 
   const fetchClients = async () => {
-    const response = await getClients(searchTerm, pageIndex, 10);
+    const response = await getClients(searchTerm, pageIndex, 5);
 
     if (response.isValid) {
       setClients(response);
@@ -194,17 +194,19 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
                                 {client.primaryContact && (
                                   <ul className="breadcrumb breadcrumb-secondary breadcrumb-dot mb-3 text-muted ">
                                     <li className="breadcrumb-item align-items-center">
-                                      <i className="far fa-user fs-8 me-1" />
-                                      <small>
+                                      <i className="far fa-user fs-6 me-2" />
+                                      <span className="fs-6">
                                         {client.primaryContact.fullName}
-                                      </small>
+                                      </span>
                                     </li>
-                                    <li className="breadcrumb-item align-items-center">
-                                      <i className="fa fa-envelope fs-8 me-1" />
-                                      <small>
-                                        {client.primaryContact.emailAddress}
-                                      </small>
-                                    </li>
+                                    {client.primaryContact.emailAddress && (
+                                      <li className="breadcrumb-item align-items-center">
+                                        <i className="fa fa-envelope fs-7 me-2" />
+                                        <span className="fs-6">
+                                          {client.primaryContact.emailAddress}
+                                        </span>
+                                      </li>
+                                    )}
                                   </ul>
                                 )}
                                 {client.clientTypes.length > 0 && (

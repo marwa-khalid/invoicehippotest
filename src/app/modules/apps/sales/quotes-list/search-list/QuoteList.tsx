@@ -517,16 +517,20 @@ const QuoteList = ({
                                 id: "Fields.ActionDownload",
                               })}
                             </a>
-                          </li>
-                          <div className="dropdown-divider border-gray-200"></div>
-                          <li onClick={() => openValidateModal(quoteList)}>
-                            <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                              <i className="fa far fa-credit-card me-2 fs-3"></i>
-                              {intl.formatMessage({
-                                id: "Fields.ActionApprove",
-                              })}
-                            </a>
-                          </li>
+                          </li>{" "}
+                          {quoteList.actions.canApprove && (
+                            <>
+                              <div className="dropdown-divider border-gray-200"></div>
+                              <li onClick={() => openValidateModal(quoteList)}>
+                                <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                  <i className="fa far fa-credit-card me-2 fs-3"></i>
+                                  {intl.formatMessage({
+                                    id: "Fields.ActionApprove",
+                                  })}
+                                </a>
+                              </li>
+                            </>
+                          )}
                           <div className="dropdown-divider border-gray-200"></div>
                           <li
                             onClick={() => {
@@ -543,7 +547,6 @@ const QuoteList = ({
                               })}
                             </a>
                           </li>
-
                           {quoteList.actions.canCreateCopy && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
@@ -561,7 +564,6 @@ const QuoteList = ({
                               </li>
                             </>
                           )}
-
                           {quoteList.actions.canFinalize && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
