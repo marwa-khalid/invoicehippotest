@@ -57,17 +57,9 @@ const ClientAddStep2: FC<Props> = ({
   // Handle primary contact change
   const handlePrimaryContactChange = (field: string, value: any) => {
     const updatedPrimaryContact = {
-      id: primaryContact.id || 0,
-      clientId: clientId || 0,
-      firstName: primaryContact.firstName || "",
-      betweenName: primaryContact.betweenName || "",
-      lastName: primaryContact.lastName || "",
-      emailAddress: primaryContact.emailAddress || "",
-      department: primaryContact.department || "",
-      phoneNr: primaryContact.phoneNr || "",
-      mobileNr: primaryContact.mobileNr || "",
+      ...primaryContact,
+      [field]: value,
       isDefaultContact: true,
-      [field]: value, // Update the specific field with the new value
     };
 
     setPrimaryContact(updatedPrimaryContact);
@@ -76,6 +68,23 @@ const ClientAddStep2: FC<Props> = ({
     formik.setFieldValue("contactlist.contacts", [
       updatedPrimaryContact,
       ...additionalContacts,
+    ]);
+  };
+
+  const handleSetPrimaryContact = (index: number) => {
+    const newPrimaryContact = additionalContacts[index];
+    const updatedAdditionalContacts = [
+      ...additionalContacts.slice(0, index),
+      ...additionalContacts.slice(index + 1),
+      { ...primaryContact, isDefaultContact: false },
+    ];
+    const updatedPrimary = { ...newPrimaryContact, isDefaultContact: true };
+    setPrimaryContact(updatedPrimary);
+    setAdditionalContacts(updatedAdditionalContacts);
+
+    formik.setFieldValue("contactlist.contacts", [
+      updatedPrimary,
+      ...updatedAdditionalContacts,
     ]);
   };
 
@@ -509,15 +518,30 @@ const ClientAddStep2: FC<Props> = ({
                         </div>
                       </div>
                     </div>
-                    <div className="text-end ">
-                      <button
-                        type="button"
-                        className="btn btn-icon btn-danger"
-                        onClick={() => handleRemoveContact(contact.id, index)}
-                      >
-                        <i className="ki-solid ki-trash text-white fs-2 "></i>
-                        {/* {intl.formatMessage({ id: "Fields.ActionDelete" })} */}
-                      </button>
+                    <div className="d-flex justify-content-between">
+                      <div>
+                        <button
+                          type="button"
+                          className="btn btn-icon btn-success"
+                          onClick={() => handleSetPrimaryContact(index)}
+                        >
+                          <i className="ki-duotone ki-verify fs-2x">
+                            <span className="path1"></span>
+                            <span className="path2"></span>
+                          </i>
+                          {/* {intl.formatMessage({ id: "Fields.ActionDelete" })} */}
+                        </button>
+                      </div>
+                      <div>
+                        <button
+                          type="button"
+                          className="btn btn-icon btn-danger"
+                          onClick={() => handleRemoveContact(contact.id, index)}
+                        >
+                          <i className="ki-solid ki-trash text-white fs-2 "></i>
+                          {/* {intl.formatMessage({ id: "Fields.ActionDelete" })} */}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

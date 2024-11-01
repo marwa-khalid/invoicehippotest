@@ -92,7 +92,7 @@ export function pickProduct(searchTerm: string, pageIndex: number) {
   return postRequest<any>(
     PICK_PRODUCT,
     {
-      pageMax: 10,
+      pageMax: 5,
       searchTerm: searchTerm,
       pageIndex: pageIndex,
     },
@@ -181,7 +181,7 @@ export function getInboxAttachments(searchTerm: string, pageIndex: number) {
   return postRequest<any>(
     INBOX_SEARCH,
     {
-      pageMax: 10,
+      pageMax: 5,
       searchTerm: searchTerm,
       pageIndex: pageIndex,
     },
