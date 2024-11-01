@@ -49,7 +49,7 @@ const ClientsList = ({
     setIsLoading(true);
 
     try {
-      const response = await getClients(searchTerm, pageIndex, 25);
+      const response = await getClients(searchTerm, pageIndex, 24);
 
       setClients(response);
       setPageIndex(response.pageIndex);
