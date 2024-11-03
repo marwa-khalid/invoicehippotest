@@ -165,7 +165,11 @@ const ClientAddStep2: FC<Props> = ({
         {/* Primary Contact Form */}
 
         <div className="p-6 rounded bg-secondary">
-          <h4 className="mb-2 text-start text-gray-600">
+          <h4 className="d-flex mb-2 text-start text-gray-600 align-items-center">
+            <i className="ki-duotone ki-verify fs-2x text-success me-2">
+              <span className="path1"></span>
+              <span className="path2"></span>
+            </i>
             {intl.formatMessage({ id: "Fields.PrimarContactPerson" })}
           </h4>
           <div className="separator border-gray-300 my-6"></div>
@@ -519,23 +523,27 @@ const ClientAddStep2: FC<Props> = ({
                       </div>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <div>
-                        <button
+                      <div
+                        className="d-flex align-items-center cursor-pointer"
+                        onClick={() => handleSetPrimaryContact(index)}
+                      >
+                        {/* <button
                           type="button"
-                          className="btn btn-icon btn-success"
-                          onClick={() => handleSetPrimaryContact(index)}
-                        >
-                          <i className="ki-duotone ki-verify fs-2x">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          {/* {intl.formatMessage({ id: "Fields.ActionDelete" })} */}
-                        </button>
+                          className="btn btn-icon btn-success btn-sm"
+                        > */}
+                        <i className="ki-duotone ki-verify fs-2x text-success">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
+                        </i>
+                        {/* </button> */}
+                        <span className="ms-4 text-muted fw-bold">
+                          Set as Primary Contact
+                        </span>
                       </div>
                       <div>
                         <button
                           type="button"
-                          className="btn btn-icon btn-danger"
+                          className="btn btn-icon btn-danger btn-sm"
                           onClick={() => handleRemoveContact(contact.id, index)}
                         >
                           <i className="ki-solid ki-trash text-white fs-2 "></i>

@@ -40,11 +40,10 @@ const ProductGroupsToolbar = ({
           })}
         </button>
       ) : (
-         <Tippy
-                            content={intl.formatMessage({
+        <Tippy
+          content={intl.formatMessage({
             id: "Fields.ToolTipNew",
           })}
-          
         >
           <button
             type="button"

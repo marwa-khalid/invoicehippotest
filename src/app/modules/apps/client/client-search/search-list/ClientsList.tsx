@@ -3,7 +3,7 @@ import { getClients } from "../core/_requests";
 import { ClientResult } from "../core/_models";
 import { ListLoading } from "../../../components/ListLoading";
 import { ClientPagination } from "../components/pagination/ClientPagination";
-import { KTCardBody } from "../../../../../../_metronic/helpers";
+import { KTCardBody, KTSVG } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import Tippy from "@tippyjs/react";
@@ -87,7 +87,7 @@ const ClientsList = ({
       <div className="row row-cols-1 row-cols-md-1 g-4">
         {clients?.result?.map((clientList: ClientResult) => (
           <div className="col-md-6" key={clientList.id}>
-            <div className="card h-100 py-6 ">
+            <div className="card h-100">
               <div className="card-body">
                 {/* First Row: Checkbox, Divider, Value */}
                 <div className="d-flex align-items-center justify-content-between mb-3">
@@ -101,15 +101,17 @@ const ClientsList = ({
                       {clientList.customerNr}
                     </small>
                     <strong>{clientList.businessName}</strong>
-                    {clientList.clientTypes.map((client) => (
-                      <span
-                        className="badge bg-gray-300 fw-normal"
-                        key={client}
-                        style={{ width: "fit-content" }}
-                      >
-                        {client.toLowerCase()}
-                      </span>
-                    ))}
+                    <div className="d-flex flex-row gap-3">
+                      {clientList.clientTypes.map((client) => (
+                        <span
+                          className="badge bg-gray-300 fw-normal"
+                          key={client}
+                          style={{ width: "fit-content" }}
+                        >
+                          {client.toLowerCase()}
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
                   <div className="d-flex">
@@ -272,7 +274,7 @@ const ClientsList = ({
                     </div>
                   </div>
                 </div>
-                {clientList?.primaryContact?.fullName && (
+                {/* {clientList?.primaryContact?.fullName && (
                   <div className="mb-4">
                     <div className="separator separator-solid mb-3"></div>
                     <div className="d-flex gap-2">
@@ -320,16 +322,13 @@ const ClientsList = ({
                       }
                     )}
                   </div>
-                )}
+                )} */}
                 {clientList.contacts.length > 0 && (
                   <div
                     className="d-flex flex-column justify-content-end pe-0"
                     key={clientList.id}
                   >
-                    {/* <div className="separator separator-solid mb-3"></div>
-                    <strong className="mb-3">
-                      {intl.formatMessage({ id: "Fields.Contacts" })}
-                    </strong> */}
+                    <div className="separator separator-solid mb-3"></div>
                     <div className="symbol-group symbol-hover flex-nowrap">
                       {clientList.contacts.map((contact, index) => {
                         const initials = contact.fullName
@@ -342,9 +341,9 @@ const ClientsList = ({
                         // Define a list of colors
                         const colors = [
                           "bg-warning",
-                          "bg-primary",
-                          "bg-success",
                           "bg-danger",
+                          "bg-success",
+                          "bg-primary",
                           "bg-info",
                         ];
                         // Choose a color based on the index
@@ -352,7 +351,44 @@ const ClientsList = ({
 
                         return (
                           <Tippy
-                            content={contact.fullName || contact.emailAddress}
+                            content={
+                              <div>
+                                <div className="d-flex rounded align-items-center mb-2">
+                                  <i className="ki-duotone ki-user fs-3 me-1">
+                                    <span className="path1"></span>
+                                    <span className="path2"></span>
+                                  </i>
+                                  <small>
+                                    {contact.fullName.toLowerCase()}
+                                  </small>
+                                </div>
+
+                                {contact.emailAddress && (
+                                  <div className="d-flex rounded align-items-center mb-2 ">
+                                    <i className="ki-duotone ki-sms fs-3 me-1">
+                                      <span className="path1"></span>
+                                      <span className="path2"></span>
+                                    </i>
+
+                                    <small>{contact.emailAddress}</small>
+                                  </div>
+                                )}
+                                {contact.phoneNrs.map((phoneNumber, index) => {
+                                  return (
+                                    <div
+                                      className="d-flex rounded align-items-center mb-2 "
+                                      key={index}
+                                    >
+                                      <i className="ki-duotone ki-phone fs-4 me-1">
+                                        <span className="path1"></span>
+                                        <span className="path2"></span>
+                                      </i>
+                                      <small>{phoneNumber}</small>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            }
                             key={contact.id}
                           >
                             <div
@@ -375,11 +411,12 @@ const ClientsList = ({
                   </div>
                 )}
 
-                {clientList.hasTotals && (
-                  <>
-                    <div className="separator separator-solid my-5"></div>
-                    <div className="d-flex gap-10">
-                      {clientList.totals.totalQuotesCount > 0 && (
+                {clientList.totals.totalIncomeAmount > 0 &&
+                  clientList.totals.totalCostAmount > 0 && (
+                    <>
+                      <div className="separator separator-solid my-5"></div>
+                      <div className="d-flex gap-10">
+                        {/* {clientList.totals.totalQuotesCount > 0 && (
                         <span className="d-flex align-items-center fw-bold">
                           <i className="ki-duotone ki-add-item text-muted fs-3x me-2">
                             <span className="path1"></span>
@@ -389,21 +426,79 @@ const ClientsList = ({
                           {intl.formatMessage({ id: "Fields.Quotes" })}:{" "}
                           {clientList.totals.totalQuotesCount}
                         </span>
-                      )}
-                      {clientList.totals.totalIncomeAmount > 0 && (
-                        <span className="d-flex align-items-center fw-bold">
-                          <i className=" la la-file-invoice-dollar fs-2x text-success me-2" />
-                          {intl.formatMessage({ id: "Fields.Revenue" })}:{" "}
-                          {
-                            auth.currentUser?.result.activeCompanyDefaults
-                              .defaultValuta.sign
-                          }
-                          {clientList.totals.totalIncomeAmount}
-                        </span>
-                      )}
-                    </div>
-                  </>
-                )}
+                      )} */}
+
+                        {clientList.totals.totalIncomeAmount > 0 && (
+                          <span className="d-flex align-items-center fw-bold">
+                            <KTSVG
+                              className="svg-icon svg-icon-3x me-2"
+                              path="media/svg/general/income3.svg"
+                            />
+                            <div className="d-flex flex-column">
+                              <span className="text-muted">Income:</span>
+                              <span>
+                                {
+                                  auth.currentUser?.result.activeCompanyDefaults
+                                    .defaultValuta.sign
+                                }
+                                {clientList.totals.totalIncomeAmount}
+                              </span>
+                            </div>
+                          </span>
+                        )}
+
+                        {clientList.totals.totalCostAmount > 0 && (
+                          <>
+                            <span className="h-37px bg-gray-400 w-1px me-3"></span>
+                            <span className="d-flex align-items-center fw-bold">
+                              <KTSVG
+                                className="svg-icon svg-icon-3x me-2"
+                                path="media/svg/general/cost3.svg"
+                              />
+                              <div className="d-flex flex-column">
+                                <span className="text-muted">
+                                  {intl.formatMessage({ id: "Fields.Costs" })}:
+                                </span>
+                                <span>
+                                  {
+                                    auth.currentUser?.result
+                                      .activeCompanyDefaults.defaultValuta.sign
+                                  }
+                                  {clientList.totals.totalCostAmount}
+                                </span>
+                              </div>
+                            </span>
+                          </>
+                        )}
+                        {clientList.totals.totalProfitAmount > 0 && (
+                          <>
+                            <span className="h-37px bg-gray-400 w-1px me-3"></span>
+                            <span className="d-flex align-items-center fw-bold">
+                              <KTSVG
+                                className="svg-icon svg-icon-3x me-2"
+                                path="media/svg/general/profit3.svg"
+                              />
+                              <div className="d-flex flex-column">
+                                <span className="text-muted">
+                                  {intl.formatMessage({
+                                    id: "Fields.Revenue",
+                                  })}
+                                  :
+                                </span>
+                                <span>
+                                  {
+                                    auth.currentUser?.result
+                                      .activeCompanyDefaults.defaultValuta.sign
+                                  }
+                                  {clientList.totals.totalProfitAmount}
+                                </span>
+                              </div>
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </>
+                  )}
               </div>
             </div>
           </div>

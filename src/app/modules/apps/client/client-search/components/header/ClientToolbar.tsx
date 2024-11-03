@@ -28,7 +28,7 @@ const ClientToolbar = ({
         {/* begin::Add new client */}
         <Tippy
           content={intl.formatMessage({
-            id: "Fields.ToolTipConnect",
+            id: "Fields.ToolTipDownloadExcel",
           })}
         >
           <button type="button" className="btn btn-primary mb-3 me-2">

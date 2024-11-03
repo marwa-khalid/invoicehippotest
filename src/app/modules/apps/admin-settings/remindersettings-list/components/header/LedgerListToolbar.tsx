@@ -24,11 +24,10 @@ const LedgerListToolbar = ({ totalRows, setAddModalOpen }: ToolbarProps) => {
       </h5>
 
       {/* begin::Add ledger account*/}
-       <Tippy
-                            content={intl.formatMessage({
+      <Tippy
+        content={intl.formatMessage({
           id: "Fields.ToolTipNew",
         })}
-      
       >
         <button
           type="button"

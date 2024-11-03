@@ -517,7 +517,7 @@ const QuoteList = ({
                                 id: "Fields.ActionDownload",
                               })}
                             </a>
-                          </li>{" "}
+                          </li>
                           {quoteList.actions.canApprove && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>

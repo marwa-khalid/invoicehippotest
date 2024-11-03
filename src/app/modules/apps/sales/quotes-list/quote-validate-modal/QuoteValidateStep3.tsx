@@ -57,7 +57,7 @@ const QuoteValidateStep3 = ({ formik }: Props) => {
               </div>
             )}
         </div>
-        {console.log(formik.errors)!}
+
         <div className="fv-row col-6">
           <label className="required fw-bold fs-6 mb-3">
             {intl.formatMessage({ id: "Fields.EmailAddress" })}
@@ -103,7 +103,7 @@ const QuoteValidateStep3 = ({ formik }: Props) => {
             )}
         </div>
       </div>
-      <div className="row">
+      <div className="row mt-md-5 mt-sm-5">
         <div className="fv-row">
           <label className="required fw-bold fs-6 mb-3">
             {intl.formatMessage({ id: "Fields.Location" })}-/

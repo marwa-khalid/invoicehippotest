@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { QuoteValidateModalHeader } from "./QuoteValidateModalHeader";
 import { QuoteValidateModalFooter } from "./QuoteValidateModalFooter";
 import { useIntl } from "react-intl";
-import { QuoteValidateStep1 } from "./QuoteValidateStep1";
+import { FormValues, QuoteValidateStep1 } from "./QuoteValidateStep1";
 import { QuoteValidateStep2 } from "./QuoteValidateStep2";
 import { QuoteValidateStep3 } from "./QuoteValidateStep3";
 import { QuoteValidateStep4 } from "./QuoteValidateStep4";
@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { validateQuote } from "../core/_requests";
 import { handleToast } from "../../../../auth/core/_toast";
+import { useAuth } from "../../../../auth";
 interface ComponentProps {
   quoteId: number;
   quoteNumber: string;
@@ -31,13 +32,14 @@ const QuoteValidateModal = ({
     };
   }, []);
   const intl = useIntl();
+  const auth = useAuth();
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues: {
       quoteId: quoteId,
       validationStateType: 0,
-      declinedReasonType: 0,
+      declinedReasonType: 1,
       comments: "",
       notifyClient: true,
       quoteValidationSignee: {
@@ -51,73 +53,88 @@ const QuoteValidateModal = ({
 
     validationSchema: Yup.object().shape({
       validationStateType: Yup.number(),
-      quoteValidationSignee: Yup.object().shape({
-        validatedByFullName: Yup.string().when("validationStateType", {
-          is: (state: any) => state === 1,
-          then: (schema) =>
-            schema.required(
-              intl
-                .formatMessage({ id: "Common.RequiredFieldHint2" })
-                .replace("{0}", intl.formatMessage({ id: "Fields.FullName" }))
-            ),
-          otherwise: (schema) => schema.nullable(),
-        }),
-        validatedByCity: Yup.string().when("validationStateType", {
-          is: (state: any) => state === 1,
-          then: (schema) =>
-            schema.required(
-              intl.formatMessage({ id: "Common.RequiredFieldHint2" }).replace(
-                "{0}",
-                `${intl.formatMessage({
-                  id: "Fields.Location",
-                })}-/ ${intl.formatMessage({ id: "Fields.City" })}`
-              )
-            ),
-          otherwise: (schema) => schema.nullable(),
-        }),
-        validatedByEmailAddress: Yup.string().when("validationStateType", {
-          is: (state: any) => state === 1,
-          then: (schema) =>
-            schema
-              .required(
-                intl
-                  .formatMessage({ id: "Common.RequiredFieldHint2" })
-                  .replace(
-                    "{0}",
-                    intl.formatMessage({ id: "Fields.EmailAddress" })
+      // comments: Yup.string().required(
+      //   intl
+      //     .formatMessage({ id: "Common.RequiredFieldHint2" })
+      //     .replace("{0}", "Comments")
+      // ),
+
+      quoteValidationSignee: Yup.lazy(
+        (): Yup.Schema<any> =>
+          formik.values.validationStateType === 1
+            ? Yup.object().shape({
+                validatedByFullName: Yup.string().required(
+                  intl
+                    .formatMessage({ id: "Common.RequiredFieldHint2" })
+                    .replace(
+                      "{0}",
+                      intl.formatMessage({ id: "Fields.FullName" })
+                    )
+                ),
+                validatedByCity: Yup.string().required(
+                  intl
+                    .formatMessage({ id: "Common.RequiredFieldHint2" })
+                    .replace(
+                      "{0}",
+                      `${intl.formatMessage({
+                        id: "Fields.Location",
+                      })}-/ ${intl.formatMessage({ id: "Fields.City" })}`
+                    )
+                ),
+                validatedByEmailAddress: Yup.string()
+                  .required(
+                    intl
+                      .formatMessage({ id: "Common.RequiredFieldHint2" })
+                      .replace(
+                        "{0}",
+                        intl.formatMessage({ id: "Fields.EmailAddress" })
+                      )
                   )
-              )
-              .email(
-                intl
-                  .formatMessage({ id: "Common.InvalidFormat" })
-                  .replace(
-                    "{0}",
-                    intl.formatMessage({ id: "Fields.EmailAddress" })
-                  )
-              ),
-          otherwise: (schema) => schema.nullable(),
-        }),
-      }),
+                  .email(
+                    intl
+                      .formatMessage({ id: "Common.InvalidFormat" })
+                      .replace(
+                        "{0}",
+                        intl.formatMessage({ id: "Fields.EmailAddress" })
+                      )
+                  ),
+              })
+            : Yup.object().shape({
+                validatedByFullName: Yup.string().nullable(),
+                validatedByCity: Yup.string().nullable(),
+                validatedByEmailAddress: Yup.string().nullable(),
+              })
+      ),
     }),
 
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
+      let filteredValues;
 
+      if (values.validationStateType === 1) {
+        filteredValues = {
+          quoteId: values.quoteId,
+          validationStateType: values.validationStateType,
+          comments: values.comments,
+          notifyClient: values.notifyClient,
+          quoteValidationSignee: values.quoteValidationSignee,
+        };
+      } else {
+        filteredValues = {
+          quoteId: values.quoteId,
+          validationStateType: values.validationStateType,
+          comments: values.comments,
+          notifyClient: values.notifyClient,
+          declinedReasonType: values.declinedReasonType,
+        };
+      }
       try {
-        // let filteredValues = { ...values }; // Start with a copy of values
+        const response = await validateQuote(filteredValues);
 
-        // // Remove quoteValidationSignee if validationStateType is 2
-        // if (values.validationStateType === 2) {
-        //   const { quoteValidationSignee, ...restValues } = values;
-        //   filteredValues = restValues; // Exclude quoteValidationSignee
-        // }
-        
-        const response = await validateQuote(values);
         if (response.isValid) {
           setRefresh(!refresh);
           setValidateModalOpen(false);
         }
-        setIsSubmitting(false);
         handleToast(response);
       } catch (error) {
         console.error("Post failed:", error);
@@ -127,7 +144,10 @@ const QuoteValidateModal = ({
       }
     },
   });
-  console.log(formik.values);
+
+  console.log(auth.currentUser?.result.isAnonymousUser);
+
+  // console.log(formik.values);
   const tabs = [
     {
       id: 1,
@@ -180,36 +200,43 @@ const QuoteValidateModal = ({
               setValidateModalOpen={setValidateModalOpen}
               quoteNumber={quoteNumber}
             />
-
+            {console.log(auth.currentUser?.result.isAnonymousUser)!}
             <div className="hippo-tab-manager d-flex justify-content-between p-5 flex-grow-1 bg-secondary">
               <div className="d-flex justify-content-start">
                 {tabs.map((tab: any) => (
                   <div key={tab.id}>
-                    {formik.values.validationStateType === 0 &&
-                    (tab.id === 2 || tab.id === 3 || tab.id === 4) ? (
-                      <></>
-                    ) : formik.values.validationStateType === 2 &&
-                      (tab.id === 3 || tab.id === 4) ? (
-                      <></>
-                    ) : (
-                      <button
-                        key={tab.id}
-                        onClick={() => {
-                          handleTabClick(tab);
-                        }}
-                        className={`btn bg-light border-0 mx-2 px-4 ${
-                          activeTab.id === tab.id
-                            ? "hippo-selected-tab text-white bg-dark"
-                            : "text-gray bg-body"
-                        }  `}
-                        data-bs-toggle="tab"
-                        style={{ borderBottomColor: "1px solid black" }}
-                      >
-                        {tab.icon}
-                        <span className="me-1">|</span>
-                        {tab.label}
-                      </button>
-                    )}
+                    {
+                      // !auth.currentUser?.result.isAnonymousUser &&
+                      // (tab.id === 2 || tab.id === 3 || tab.id === 4) ? (
+                      //   <></>
+                      // ) :
+
+                      formik.values.validationStateType === 0 &&
+                      (tab.id === 2 || tab.id === 3 || tab.id === 4) ? (
+                        <></>
+                      ) : formik.values.validationStateType === 2 &&
+                        (tab.id === 3 || tab.id === 4) ? (
+                        <></>
+                      ) : (
+                        <button
+                          key={tab.id}
+                          onClick={() => {
+                            handleTabClick(tab);
+                          }}
+                          className={`btn bg-light border-0 mx-2 px-4 ${
+                            activeTab.id === tab.id
+                              ? "hippo-selected-tab text-white bg-dark"
+                              : "text-gray bg-body"
+                          }  `}
+                          data-bs-toggle="tab"
+                          style={{ borderBottomColor: "1px solid black" }}
+                        >
+                          {tab.icon}
+                          <span className="me-1">|</span>
+                          {tab.label}
+                        </button>
+                      )
+                    }
                   </div>
                 ))}
               </div>

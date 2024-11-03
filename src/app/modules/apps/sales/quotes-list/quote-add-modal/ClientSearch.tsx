@@ -223,7 +223,8 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
                               </td>
                               <td className="text-end">
                                 <small className="bg-gray-300 rounded p-1 px-2">
-                                  kvk-nr {client.customerNr}
+                                  {intl.formatMessage({ id: "Fields.KvkNr" })}{" "}
+                                  {client.customerNr}
                                 </small>
                               </td>
 

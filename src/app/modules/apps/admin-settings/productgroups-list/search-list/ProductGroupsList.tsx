@@ -162,11 +162,10 @@ const ProductGroupsList = ({
 
                   <td className="text-end">
                     {productGroup.actions.canEdit && (
-                       <Tippy
-                            content={intl.formatMessage({
+                      <Tippy
+                        content={intl.formatMessage({
                           id: "Fields.ToolTipEdit",
                         })}
-                      
                       >
                         <button
                           className="btn btn-icon btn-light btn-sm me-2"
@@ -178,8 +177,8 @@ const ProductGroupsList = ({
                     )}
 
                     {productGroup.actions.canDelete && (
-                        <Tippy
-                            content={intl.formatMessage({
+                      <Tippy
+                        content={intl.formatMessage({
                           id: "Fields.ToolTipDelete",
                         })}
                       >

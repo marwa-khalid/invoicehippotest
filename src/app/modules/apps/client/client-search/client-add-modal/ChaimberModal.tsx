@@ -187,7 +187,8 @@ const ChaimberModal = ({ setModalOpen, formik }: Props) => {
                               backgroundColor: "#f0f0f0",
                             }}
                           >
-                            kvk-nr {chaimber.chaimberOfCommerceNr}
+                            {intl.formatMessage({ id: "Fields.KvkNr" })}{" "}
+                            {chaimber.chaimberOfCommerceNr}
                           </div>
                         </div>
 

@@ -19,9 +19,11 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
 
   return (
     <div className="modal-body py-10 px-20 ">
-      <div className="row pb-lg-10">
-        
-        {formik.values.validationStateType === 2 && (
+      {formik.values.validationStateType === 2 && (
+        <div className="row">
+          <label htmlFor="" className="required fw-bold mb-3">
+            Decline Reason
+          </label>
           <Select
             className="react-select-styled mb-10"
             placeholder="Select Decline Reason"
@@ -40,7 +42,9 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
               label: item.Title,
             }))}
           />
-        )}
+        </div>
+      )}
+      <div className="row pb-lg-10">
         <ReactQuill
           theme="snow"
           placeholder="Jouw tekst hier..."
@@ -48,6 +52,18 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
           onChange={handleQuillChange}
           value={formik.values.comments}
         />
+        {formik.errors.comments && (
+          <div className="fv-plugins-message-container mt-20">
+            <div className="fv-help-block">
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: formik.errors.comments,
+                }}
+                role="alert"
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

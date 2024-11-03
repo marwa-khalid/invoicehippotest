@@ -50,7 +50,10 @@ const DigitalSignature = ({ formik }: Props) => {
 
     // Store the Base64 string in Formik values
     if (signatureData) {
-      formik.setFieldValue("validatedBySignatureBase64", signatureData);
+      formik.setFieldValue(
+        "quoteValidationSignee.validatedBySignatureBase64",
+        signatureData
+      );
       console.log("Saved Signature Base64:", signatureData); // Handle the saved signature data
     }
   }, [sigCanvas]);

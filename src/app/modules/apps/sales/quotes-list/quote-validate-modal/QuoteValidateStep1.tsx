@@ -9,7 +9,7 @@ import { FormikProps } from "formik";
 export interface FormValues {
   quoteId: number;
   validationStateType: number;
-  declinedReasonType: number;
+  declinedReasonType: number | undefined;
   comments: string;
   notifyClient: boolean;
   quoteValidationSignee: {
@@ -24,6 +24,7 @@ type Props = { formik: FormikProps<FormValues> };
 
 const QuoteValidateStep1 = ({ formik }: Props) => {
   const intl = useIntl();
+  
 
   return (
     <div className="modal-body py-10 px-20 ">

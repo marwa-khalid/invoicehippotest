@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { deleteQuoteList } from "../core/_requests";
 
@@ -40,7 +40,22 @@ const QuoteValidateModalFooter = ({
       return tabs[nextIndex];
     });
   };
+  // useEffect(() => {
+  //   if (activeTab.id === 3) {
+  //     // Mark all fields as touched when tab 3 is activated
+  //     formik.setTouched({
+  //       quoteValidationSignee: {
+  //         validatedByFullName: true,
+  //         validatedByEmailAddress: true,
+  //         validatedByCity: true,
+  //       },
+  //     });
+  //   }
+  // }, [activeTab]);
 
+  useEffect(() => {
+    formik.validateForm(); // Trigger validation when the component mounts
+  }, [activeTab]);
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
       <div className="d-flex">
@@ -81,7 +96,10 @@ const QuoteValidateModalFooter = ({
             type="button"
             className="btn btn-primary"
             onClick={handleContinue}
-            disabled={formik.values.validationStateType === 0}
+            disabled={
+              formik.values.validationStateType === 0 ||
+              (activeTab.id === 3 && !formik.isValid)
+            }
           >
             Continue
           </button>
