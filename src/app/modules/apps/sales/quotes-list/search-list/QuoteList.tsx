@@ -8,6 +8,7 @@ import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { useAuth } from "../../../../auth";
 import Tippy from "@tippyjs/react";
+import { useNavigate } from "react-router-dom";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
@@ -53,7 +54,7 @@ const QuoteList = ({
   setActivateModalOpen,
 }: ComponentProps) => {
   const [quoteLists, setQuoteList] = useState<any>([]);
-
+  const navigate = useNavigate();
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const auth = useAuth();
@@ -464,11 +465,7 @@ const QuoteList = ({
                             data-bs-target="#offcanvasRight"
                             aria-controls="offcanvasRight"
                           >
-                            <i className="ki-duotone ki-eye fs-2">
-                              <span className="path1"></span>
-                              <span className="path2"></span>
-                              <span className="path3"></span>
-                            </i>
+                            <i className="far fa-file-pdf text-danger fs-2"></i>
                           </button>
                         </Tippy>
                       )}
@@ -516,6 +513,28 @@ const QuoteList = ({
                               {intl.formatMessage({
                                 id: "Fields.ActionDownload",
                               })}
+                            </a>
+                          </li>
+                          <div className="dropdown-divider border-gray-200"></div>
+                          <li
+                            onClick={() => {
+                              localStorage.setItem(
+                                "currentQuote",
+                                JSON.stringify(quoteList)
+                              );
+                              navigate("/estimation/view");
+                            }}
+                          >
+                            <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                              <i className="ki-duotone ki-eye fs-2 me-3">
+                                <span className="path1"></span>
+                                <span className="path2"></span>
+                                <span className="path3"></span>
+                              </i>
+                              {/* {intl.formatMessage({
+                                id: "Fields.TooltipView",
+                              })} */}
+                              View
                             </a>
                           </li>
                           {quoteList.actions.canApprove && (

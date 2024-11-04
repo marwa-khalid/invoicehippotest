@@ -67,7 +67,7 @@ const QuoteValidateModalFooter = ({
           className="form-check-label fs-sm text-muted"
           htmlFor="notifyClientSwitch"
         >
-          Notify Client
+          verstuur de klant een notificatie van deze actie
         </label>
       </div>
       <div className="d-flex">

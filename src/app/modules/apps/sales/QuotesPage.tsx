@@ -4,6 +4,7 @@ import { QuoteListWrapper } from "./quotes-list/QuoteListWrapper";
 import clsx from "clsx";
 import { useLayout } from "../../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
+import { QuoteViewWrapper } from "./quotes-list/QuoteViewWrapper";
 const QoutesPage = () => {
   const { config } = useLayout();
   const intl = useIntl();
@@ -93,6 +94,28 @@ const QoutesPage = () => {
                 )}
               >
                 <QuoteListWrapper />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="view"
+          element={
+            <>
+              <PageTitle breadcrumbs={settingsBreadcrumbs}>
+                {intl.formatMessage({ id: "System.UsageStats_AreaQuotes" })}
+              </PageTitle>
+              <div
+                className={clsx(
+                  "main rounded",
+                  config.app?.sidebar?.default?.class,
+                  {
+                    "bg-light": config.layoutType === "light-sidebar",
+                    "bg-dark": config.layoutType === "dark-sidebar",
+                  }
+                )}
+              >
+                <QuoteViewWrapper />
               </div>
             </>
           }
