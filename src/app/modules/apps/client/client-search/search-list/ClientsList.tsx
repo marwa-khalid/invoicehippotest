@@ -351,6 +351,8 @@ const ClientsList = ({
 
                         return (
                           <Tippy
+                            interactive={true}
+                            sticky={true}
                             content={
                               <div>
                                 <div className="d-flex rounded align-items-center mb-2">
@@ -411,12 +413,13 @@ const ClientsList = ({
                   </div>
                 )}
 
-                {clientList.totals.totalIncomeAmount > 0 &&
-                  clientList.totals.totalCostAmount > 0 && (
-                    <>
-                      <div className="separator separator-solid my-5"></div>
-                      <div className="d-flex gap-10">
-                        {/* {clientList.totals.totalQuotesCount > 0 && (
+                {(clientList.totals.totalCostAmount !== 0 ||
+                  clientList.totals.totalIncomeAmount !== 0 ||
+                  clientList.totals.totalProfitAmount !== 0) && (
+                  <>
+                    <div className="separator separator-solid my-5"></div>
+                    <div className="d-flex gap-10">
+                      {/* {clientList.totals.totalQuotesCount > 0 && (
                         <span className="d-flex align-items-center fw-bold">
                           <i className="ki-duotone ki-add-item text-muted fs-3x me-2">
                             <span className="path1"></span>
@@ -428,63 +431,65 @@ const ClientsList = ({
                         </span>
                       )} */}
 
-                        {clientList.totals.totalIncomeAmount > 0 && (
-                          <span className="d-flex align-items-center fw-bold">
+                      {clientList.totals.totalIncomeAmount !== 0 && (
+                        <span className="d-flex align-items-center ">
+                          <KTSVG
+                            className="svg-icon svg-icon-3x me-2"
+                            path="media/svg/general/income3.svg"
+                          />
+                          <div className="d-flex flex-column">
+                            <small className="text-muted">income:</small>
+                            <span>
+                              {
+                                auth.currentUser?.result.activeCompanyDefaults
+                                  .defaultValuta.sign
+                              }
+                              {clientList.totals.totalIncomeAmount}
+                            </span>
+                          </div>
+                        </span>
+                      )}
+
+                      {clientList.totals.totalCostAmount !== 0 && (
+                        <>
+                          <span className="h-37px bg-gray-400 w-1px me-3"></span>
+                          <span className="d-flex align-items-center">
                             <KTSVG
                               className="svg-icon svg-icon-3x me-2"
-                              path="media/svg/general/income3.svg"
+                              path="media/svg/general/cost3.svg"
                             />
                             <div className="d-flex flex-column">
-                              <span className="text-muted">Income:</span>
+                              <small className="text-muted">
+                                {intl.formatMessage({ id: "Fields.Costs" })}:
+                              </small>
                               <span>
                                 {
                                   auth.currentUser?.result.activeCompanyDefaults
                                     .defaultValuta.sign
                                 }
-                                {clientList.totals.totalIncomeAmount}
+                                {clientList.totals.totalCostAmount}
                               </span>
                             </div>
                           </span>
-                        )}
-
-                        {clientList.totals.totalCostAmount > 0 && (
+                        </>
+                      )}
+                      {clientList.totals.totalCostAmount !== 0 &&
+                        clientList.totals.totalIncomeAmount !== 0 &&
+                        clientList.totals.totalProfitAmount !== 0 && (
                           <>
                             <span className="h-37px bg-gray-400 w-1px me-3"></span>
-                            <span className="d-flex align-items-center fw-bold">
-                              <KTSVG
-                                className="svg-icon svg-icon-3x me-2"
-                                path="media/svg/general/cost3.svg"
-                              />
-                              <div className="d-flex flex-column">
-                                <span className="text-muted">
-                                  {intl.formatMessage({ id: "Fields.Costs" })}:
-                                </span>
-                                <span>
-                                  {
-                                    auth.currentUser?.result
-                                      .activeCompanyDefaults.defaultValuta.sign
-                                  }
-                                  {clientList.totals.totalCostAmount}
-                                </span>
-                              </div>
-                            </span>
-                          </>
-                        )}
-                        {clientList.totals.totalProfitAmount > 0 && (
-                          <>
-                            <span className="h-37px bg-gray-400 w-1px me-3"></span>
-                            <span className="d-flex align-items-center fw-bold">
+                            <span className="d-flex align-items-center">
                               <KTSVG
                                 className="svg-icon svg-icon-3x me-2"
                                 path="media/svg/general/profit3.svg"
                               />
                               <div className="d-flex flex-column">
-                                <span className="text-muted">
+                                <small className="text-muted">
                                   {intl.formatMessage({
                                     id: "Fields.Revenue",
                                   })}
                                   :
-                                </span>
+                                </small>
                                 <span>
                                   {
                                     auth.currentUser?.result
@@ -496,9 +501,9 @@ const ClientsList = ({
                             </span>
                           </>
                         )}
-                      </div>
-                    </>
-                  )}
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

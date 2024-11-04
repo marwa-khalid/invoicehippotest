@@ -41,7 +41,7 @@ export function getClients(
       pageIndex: searchTerm ? 1 : pageIndex,
       searchTerm: searchTerm,
       includeTotals: true,
-      clientFilterType: 0,
+      // clientFilterType: 0,
     },
     true
   );

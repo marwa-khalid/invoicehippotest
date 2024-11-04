@@ -20,11 +20,10 @@ export interface FormValues {
     validatedBySignatureId: number;
   };
 }
-type Props = { formik: FormikProps<FormValues> };
+type Props = { formik: FormikProps<FormValues>; setActiveTab: any; tabs: any };
 
-const QuoteValidateStep1 = ({ formik }: Props) => {
+const QuoteValidateStep1 = ({ formik, setActiveTab, tabs }: Props) => {
   const intl = useIntl();
-  
 
   return (
     <div className="modal-body py-10 px-20 ">
@@ -49,7 +48,10 @@ const QuoteValidateStep1 = ({ formik }: Props) => {
             name="accountType"
             value="approve"
             id="kt_create_account_form_account_type_personal"
-            onChange={() => formik.setFieldValue("validationStateType", 1)}
+            onChange={() => {
+              formik.setFieldValue("validationStateType", 1);
+              setActiveTab(tabs[1]);
+            }}
             checked={formik.values.validationStateType === 1}
           />
           <label
@@ -79,7 +81,10 @@ const QuoteValidateStep1 = ({ formik }: Props) => {
             name="accountType"
             value="decline"
             id="kt_create_account_form_account_type_corporate"
-            onChange={() => formik.setFieldValue("validationStateType", 2)}
+            onChange={() => {
+              formik.setFieldValue("validationStateType", 2);
+              setActiveTab(tabs[1]);
+            }}
             checked={formik.values.validationStateType === 2}
           />
           <label

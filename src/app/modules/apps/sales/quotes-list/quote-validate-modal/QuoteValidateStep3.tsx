@@ -103,7 +103,7 @@ const QuoteValidateStep3 = ({ formik }: Props) => {
             )}
         </div>
       </div>
-      <div className="row mt-md-5 mt-sm-5">
+      <div className="row">
         <div className="fv-row">
           <label className="required fw-bold fs-6 mb-3">
             {intl.formatMessage({ id: "Fields.Location" })}-/

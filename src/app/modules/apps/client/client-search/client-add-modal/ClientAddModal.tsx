@@ -270,6 +270,7 @@ const ClientAddModal = ({
               "contactResponse",
               JSON.stringify(postContactsPromise.result)
             );
+            
           } else {
             handleToast(postContactsPromise);
           }

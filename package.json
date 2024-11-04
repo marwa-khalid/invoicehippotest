@@ -37,6 +37,7 @@
     "prism-react-renderer": "2.0.5",
     "prism-themes": "1.9.0",
     "prismjs": "1.28.0",
+    "pspdfkit": "^2024.7.0",
     "qs": "6.10.3",
     "react": "^18.2.0",
     "react-apexcharts": "1.4.0",

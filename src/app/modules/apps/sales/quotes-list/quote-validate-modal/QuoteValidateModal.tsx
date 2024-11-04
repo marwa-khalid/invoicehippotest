@@ -145,9 +145,6 @@ const QuoteValidateModal = ({
     },
   });
 
-  console.log(auth.currentUser?.result.isAnonymousUser);
-
-  // console.log(formik.values);
   const tabs = [
     {
       id: 1,
@@ -200,50 +197,52 @@ const QuoteValidateModal = ({
               setValidateModalOpen={setValidateModalOpen}
               quoteNumber={quoteNumber}
             />
-            {console.log(auth.currentUser?.result.isAnonymousUser)!}
-            <div className="hippo-tab-manager d-flex justify-content-between p-5 flex-grow-1 bg-secondary">
+
+            {/* <div className="hippo-tab-manager d-flex justify-content-between p-5 flex-grow-1 bg-secondary">
               <div className="d-flex justify-content-start">
                 {tabs.map((tab: any) => (
                   <div key={tab.id}>
-                    {
-                      // !auth.currentUser?.result.isAnonymousUser &&
-                      // (tab.id === 2 || tab.id === 3 || tab.id === 4) ? (
-                      //   <></>
-                      // ) :
-
-                      formik.values.validationStateType === 0 &&
+                    {!auth.currentUser?.result.isAnonymousUser &&
+                    (tab.id === 3 || tab.id === 4) ? (
+                      <></>
+                    ) : formik.values.validationStateType === 0 &&
                       (tab.id === 2 || tab.id === 3 || tab.id === 4) ? (
-                        <></>
-                      ) : formik.values.validationStateType === 2 &&
-                        (tab.id === 3 || tab.id === 4) ? (
-                        <></>
-                      ) : (
-                        <button
-                          key={tab.id}
-                          onClick={() => {
-                            handleTabClick(tab);
-                          }}
-                          className={`btn bg-light border-0 mx-2 px-4 ${
-                            activeTab.id === tab.id
-                              ? "hippo-selected-tab text-white bg-dark"
-                              : "text-gray bg-body"
-                          }  `}
-                          data-bs-toggle="tab"
-                          style={{ borderBottomColor: "1px solid black" }}
-                        >
-                          {tab.icon}
-                          <span className="me-1">|</span>
-                          {tab.label}
-                        </button>
-                      )
-                    }
+                      <></>
+                    ) : formik.values.validationStateType === 2 &&
+                      (tab.id === 3 || tab.id === 4) ? (
+                      <></>
+                    ) : (
+                      <button
+                        key={tab.id}
+                        onClick={() => {
+                          handleTabClick(tab);
+                        }}
+                        className={`btn bg-light border-0 mx-2 px-4 ${
+                          activeTab.id === tab.id
+                            ? "hippo-selected-tab text-white bg-dark"
+                            : "text-gray bg-body"
+                        }  `}
+                        data-bs-toggle="tab"
+                        style={{ borderBottomColor: "1px solid black" }}
+                      >
+                        {tab.icon}
+                        <span className="me-1">|</span>
+                        {tab.label}
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
             {/* start::Modal body */}
             <div className="hippo-tab-content" id="myTabContent">
-              {activeTab.id === 1 && <QuoteValidateStep1 formik={formik} />}
+              {activeTab.id === 1 && (
+                <QuoteValidateStep1
+                  formik={formik}
+                  setActiveTab={setActiveTab}
+                  tabs={tabs}
+                />
+              )}
               {activeTab.id === 2 && <QuoteValidateStep2 formik={formik} />}
               {activeTab.id === 3 && <QuoteValidateStep3 formik={formik} />}
               {activeTab.id === 4 && <QuoteValidateStep4 formik={formik} />}

@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useIntl } from "react-intl";
-import { deleteQuoteList } from "../core/_requests";
-
-import { handleToast } from "../../../../auth/core/_toast";
-import { FormValues } from "./QuoteValidateStep1";
 import { FormikProps } from "formik";
+import { useAuth } from "../../../../auth";
+import { FormValues } from "./QuoteValidateStep1";
 
 interface ComponentProps {
   setValidateModalOpen: (type: boolean) => void;
@@ -19,109 +17,106 @@ interface ComponentProps {
 }
 
 const QuoteValidateModalFooter = ({
-  quoteId,
   setValidateModalOpen,
-  setRefresh,
-  refresh,
   setActiveTab,
   tabs,
-  formik,
   activeTab,
+  formik,
   isSubmitting,
 }: ComponentProps) => {
-  // For localization support
   const intl = useIntl();
-  const handleContinue = () => {
+  const auth = useAuth();
+
+  const handleNavigate = (direction: "next" | "back") => {
     setActiveTab((prevTab: any) => {
       const currentIndex = tabs.findIndex((tab: any) => tab.id === prevTab.id);
-      // setCurrentIndex(currentIndex);
-      const nextIndex =
-        currentIndex < tabs.length - 1 ? currentIndex + 1 : currentIndex;
-      return tabs[nextIndex];
+      const newIndex =
+        direction === "next"
+          ? Math.min(currentIndex + 1, tabs.length - 1)
+          : Math.max(currentIndex - 1, 0);
+      return tabs[newIndex];
     });
   };
-  // useEffect(() => {
-  //   if (activeTab.id === 3) {
-  //     // Mark all fields as touched when tab 3 is activated
-  //     formik.setTouched({
-  //       quoteValidationSignee: {
-  //         validatedByFullName: true,
-  //         validatedByEmailAddress: true,
-  //         validatedByCity: true,
-  //       },
-  //     });
-  //   }
-  // }, [activeTab]);
+
+  const isApproved =
+    (activeTab.id === 2 &&
+      !auth.currentUser?.result.isAnonymousUser &&
+      formik.values.validationStateType === 1) ||
+    activeTab.id === 4;
+
+  const isDeclined =
+    activeTab.id === 2 && formik.values.validationStateType === 2;
 
   useEffect(() => {
-    formik.validateForm(); // Trigger validation when the component mounts
+    formik.validateForm();
   }, [activeTab]);
-  return (
-    <div className="modal-footer d-flex justify-content-end align-items-center ">
-      <div className="d-flex">
-        {/* Cancel Button */}
-        <button
-          type="reset"
-          onClick={() => {
-            setValidateModalOpen(false);
-            localStorage.removeItem("ModalData");
-          }}
-          className="btn btn-secondary me-3"
-        >
-          {intl.formatMessage({ id: "Fields.ActionClose" })}
-        </button>
 
-        {/* Continue Button */}
-        {console.log(formik.values)!}
-        {activeTab.id === 4 ? (
+  return (
+    <div className="modal-footer d-flex justify-content-between align-items-center">
+      <div className="form-check form-switch form-check-success form-check-solid ms-2 d-flex align-items-center">
+        <input
+          className="form-check-input h-25px w-45px me-5 cursor-pointer"
+          type="checkbox"
+          id="notifyClientSwitch"
+          checked={formik.values.notifyClient}
+          onChange={(e) => {
+            formik.setFieldValue("notifyClient", !formik.values.notifyClient);
+          }}
+        />
+        <label
+          className="form-check-label fs-sm text-muted"
+          htmlFor="notifyClientSwitch"
+        >
+          Notify Client
+        </label>
+      </div>
+      <div className="d-flex">
+        {activeTab.id === 1 ? (
           <button
-            type="button"
-            className="btn btn-success"
-            onClick={() => formik.handleSubmit()}
-            disabled={isSubmitting || !formik.isValid}
+            type="reset"
+            onClick={() => {
+              setValidateModalOpen(false);
+              localStorage.removeItem("ModalData");
+            }}
+            className="btn btn-secondary me-3"
           >
-            Approve
-          </button>
-        ) : activeTab.id === 2 && formik.values.validationStateType === 2 ? (
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={() => formik.handleSubmit()}
-            disabled={isSubmitting || !formik.isValid}
-          >
-            Decline
+            {intl.formatMessage({ id: "Fields.ActionClose" })}
           </button>
         ) : (
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleContinue}
-            disabled={
-              formik.values.validationStateType === 0 ||
-              (activeTab.id === 3 && !formik.isValid)
-            }
-          >
-            Continue
-          </button>
+          <>
+            <button
+              type="button"
+              className="btn btn-secondary me-5"
+              onClick={() => handleNavigate("back")}
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              className={`btn ${
+                isApproved
+                  ? "btn-success"
+                  : isDeclined
+                  ? "btn-danger"
+                  : "btn-primary"
+              }`}
+              onClick={() => {
+                isApproved || isDeclined
+                  ? formik.handleSubmit()
+                  : handleNavigate("next");
+              }}
+              disabled={
+                isSubmitting ||
+                (!isApproved &&
+                  !isDeclined &&
+                  formik.values.validationStateType === 0) ||
+                (activeTab.id === 3 && !formik.isValid)
+              }
+            >
+              {isApproved ? "Approve" : isDeclined ? "Decline" : "Next"}
+            </button>
+          </>
         )}
-
-        {/* Save Button */}
-        {/* <button
-          type="submit"
-          className="btn btn-primary"
-          onClick={deleteQuote}
-          //   disabled={!isValid || isSubmitting || !touched}
-        >
-          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionApprove" })}
-          {isSubmitting && (
-            <span className="indicator-progress" style={{ display: "block" }}>
-              {intl.formatMessage({ id: "Common.Busy" })}
-              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-          )}
-
-
-        </button> */}
       </div>
     </div>
   );

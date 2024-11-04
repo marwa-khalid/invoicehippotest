@@ -64,6 +64,7 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
             </div>
           </div>
         )}
+       
       </div>
     </div>
   );
