@@ -77,7 +77,11 @@ const VatTypesList = ({
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
-      <Tippy content="actief">
+      <Tippy
+        content={intl.formatMessage({
+          id: "Fields.ToolTipActive",
+        })}
+      >
         <span>
           <KTSVG
             path="media/icons/duotune/general/gen037.svg"
@@ -86,7 +90,11 @@ const VatTypesList = ({
         </span>
       </Tippy>
     ) : (
-      <Tippy content="inactief">
+      <Tippy
+        content={intl.formatMessage({
+          id: "Fields.ToolTipInactive",
+        })}
+      >
         <span>
           <KTSVG
             path="media/icons/duotune/general/gen037.svg"

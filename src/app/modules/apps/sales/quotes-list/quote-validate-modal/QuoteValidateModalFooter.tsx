@@ -40,7 +40,7 @@ const QuoteValidateModalFooter = ({
 
   const isApproved =
     (activeTab.id === 2 &&
-      !auth.currentUser?.result.isAnonymousUser &&
+      auth.currentUser?.result.isAnonymousUser &&
       formik.values.validationStateType === 1) ||
     activeTab.id === 4;
 
@@ -67,7 +67,9 @@ const QuoteValidateModalFooter = ({
           className="form-check-label fs-sm text-muted"
           htmlFor="notifyClientSwitch"
         >
-          verstuur de klant een notificatie van deze actie
+          {intl.formatMessage({
+            id: "Fields.NotifyClient",
+          })}
         </label>
       </div>
       <div className="d-flex">
@@ -89,7 +91,9 @@ const QuoteValidateModalFooter = ({
               className="btn btn-secondary me-5"
               onClick={() => handleNavigate("back")}
             >
-              Previous
+              {intl.formatMessage({
+                id: "Common.WizardStepPrevious",
+              })}
             </button>
             <button
               type="button"
@@ -113,7 +117,17 @@ const QuoteValidateModalFooter = ({
                 (activeTab.id === 3 && !formik.isValid)
               }
             >
-              {isApproved ? "Approve" : isDeclined ? "Decline" : "Next"}
+              {isApproved
+                ? intl.formatMessage({
+                    id: "Fields.ActionApprove",
+                  })
+                : isDeclined
+                ? intl.formatMessage({
+                    id: "Common.ActionDecline",
+                  })
+                : intl.formatMessage({
+                    id: "Common.WizardStepNext",
+                  })}
             </button>
           </>
         )}

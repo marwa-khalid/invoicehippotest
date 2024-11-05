@@ -221,7 +221,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
                                   </div>
                                 )}
                               </td>
-                              <td className="text-end">
+                              <td className="text-end" style={{ width: 250 }}>
                                 <small className="bg-gray-300 rounded p-1 px-2">
                                   {intl.formatMessage({ id: "Fields.KvkNr" })}{" "}
                                   {client.customerNr}
@@ -231,7 +231,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
                               <td className="text-end">
                                 <Tippy
                                   content={intl.formatMessage({
-                                    id: "Fields.ToolTipEdit",
+                                    id: "Fields.ToolTipLinkClient",
                                   })}
                                 >
                                   <button

@@ -537,7 +537,9 @@ const ClientAddStep2: FC<Props> = ({
                         </i>
                         {/* </button> */}
                         <span className="ms-4 text-muted fw-bold">
-                          Set as Primary Contact
+                          {intl.formatMessage({
+                            id: "Fields.SetAsPrimaryContact",
+                          })}
                         </span>
                       </div>
                       <div>

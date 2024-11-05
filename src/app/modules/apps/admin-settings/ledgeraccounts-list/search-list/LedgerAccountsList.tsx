@@ -87,7 +87,11 @@ const LedgerAccountsList = ({
 
   const renderLockIcon = (isChecked: boolean) => {
     return isChecked ? (
-      <Tippy content="open voor handmatige boekingen">
+      <Tippy
+        content={intl.formatMessage({
+          id: "Fields.ToolTipOpenForManualBookings",
+        })}
+      >
         <span>
           <KTSVG
             path="media/icons/duotune/general/gen051.svg"
@@ -96,7 +100,11 @@ const LedgerAccountsList = ({
         </span>
       </Tippy>
     ) : (
-      <Tippy content="gesloten voor handmatige boekingen">
+      <Tippy
+        content={intl.formatMessage({
+          id: "Fields.ToolTipClosedForManualBookings",
+        })}
+      >
         <span>
           <KTSVG
             path="media/icons/duotune/general/gen051.svg"

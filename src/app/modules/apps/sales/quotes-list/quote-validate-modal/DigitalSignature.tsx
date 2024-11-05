@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { Formik, Form, FormikProps } from "formik";
 import { FormValues } from "./QuoteValidateStep1";
+import { useIntl } from "react-intl";
 
 type Props = {
   formik: FormikProps<FormValues>;
@@ -82,11 +83,15 @@ const DigitalSignature = ({ formik }: Props) => {
       };
     }
   }, [signatureType, savedSignature]); // Trigger when signatureType or savedSignature changes
-
+  const intl = useIntl();
   return (
     <div>
       <form>
-        <h2>Digital Signature</h2>
+        <h2>
+          {intl.formatMessage({
+            id: "Fields.Signature",
+          })}
+        </h2>
 
         <div className="d-flex gap-4 justify-content-center">
           <div className="form-check form-check-custom form-check-solid">
@@ -98,7 +103,11 @@ const DigitalSignature = ({ formik }: Props) => {
               checked={signatureType === "draw"}
               onChange={() => setSignatureType("draw")}
             />
-            <label className="form-check-label">Draw</label>
+            <label className="form-check-label">
+              {intl.formatMessage({
+                id: "Fields.SigningOptionDraw",
+              })}
+            </label>
           </div>
 
           <div className="form-check form-check-custom form-check-solid">
@@ -110,7 +119,11 @@ const DigitalSignature = ({ formik }: Props) => {
               checked={signatureType === "type"}
               onChange={() => setSignatureType("type")}
             />
-            <label className="form-check-label">Type</label>
+            <label className="form-check-label">
+              {intl.formatMessage({
+                id: "Fields.SigningOptionTyping",
+              })}
+            </label>
           </div>
           <div className="form-check form-check-custom form-check-solid">
             <input
@@ -121,7 +134,11 @@ const DigitalSignature = ({ formik }: Props) => {
               checked={signatureType === "upload"}
               onChange={() => setSignatureType("upload")}
             />
-            <label className="form-check-label">Upload</label>
+            <label className="form-check-label">
+              {intl.formatMessage({
+                id: "Fields.SigningOptionUpload",
+              })}
+            </label>
           </div>
         </div>
 
@@ -206,11 +223,10 @@ const DigitalSignature = ({ formik }: Props) => {
                     </i>
                     <div className="ms-4 mt-2">
                       <h3 className="fs-5 fw-bold text-gray-900 mb-1">
-                        Upload 1 file only
+                        {intl.formatMessage({
+                          id: "Fields.FileManagerUploadSingleFile",
+                        })}
                       </h3>
-                      <span className="fs-7 fw-semibold text-gray-500">
-                        Click the button to upload a file
-                      </span>
                     </div>
                   </div>
                 </div>

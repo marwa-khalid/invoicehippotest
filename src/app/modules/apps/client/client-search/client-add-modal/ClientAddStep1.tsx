@@ -287,8 +287,8 @@ const ClientAddStep1: FC<Props> = ({
 
             {/* Quill Editor - This will appear on a new full row if editing */}
             {hasClientType16 && (
-              <div className="fv-row col-12 mb-3">
-                <label className="fw-bold fs-6 mb-2">
+              <div className="fv-row col-12 my-3">
+                <label className="fw-bold fs-6 mb-3">
                   {intl.formatMessage({
                     id: "Fields.FactoringSessionStatement",
                   })}

@@ -40,14 +40,14 @@ const QuoteViewWrapper = () => {
       let PSPDFKit: any, instance: any;
 
       (async function () {
-        container?.requestFullscreen();
+        // container?.requestFullscreen();
 
         PSPDFKit = await import("pspdfkit");
 
         PSPDFKit.unload(container); // Ensure that there's only one PSPDFKit instance.
-        const initialViewState = new PSPDFKit.ViewState({
-          layoutMode: PSPDFKit.LayoutMode.DOUBLE,
-        });
+        // const initialViewState = new PSPDFKit.ViewState({
+        //   layoutMode: PSPDFKit.LayoutMode.DOUBLE,
+        // });
         instance = await PSPDFKit.load({
           // Container where PSPDFKit should be mounted.
           container,
@@ -73,7 +73,11 @@ const QuoteViewWrapper = () => {
     <div>
       <div className="text-end">
         {currentQuote?.actions.canApprove && (
-          <Tippy content="Approve/Disapprove">
+          <Tippy
+            content={intl.formatMessage({
+              id: "Fields.ActionApproveOrDecline",
+            })}
+          >
             <button
               type="button"
               className="btn btn-success btn-sm mb-3 me-7"
@@ -84,7 +88,7 @@ const QuoteViewWrapper = () => {
             >
               <i className="fa far fa-credit-card me-2 fs-1"></i>
               {intl.formatMessage({
-                id: "Fields.ActionApprove",
+                id: "Fields.ActionApproveOrDecline",
               })}
             </button>
           </Tippy>

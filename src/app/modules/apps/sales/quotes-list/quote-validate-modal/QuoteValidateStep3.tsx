@@ -14,6 +14,11 @@ const QuoteValidateStep3 = ({ formik }: Props) => {
 
   return (
     <div className="modal-body py-10 px-20 ">
+      <h2 className="fw-bolder d-flex align-items-center mb-7">
+        {intl.formatMessage({
+          id: "Fields.SigningPersonalDetail",
+        })}
+      </h2>
       <div className="row pb-lg-10">
         <div className="fv-row col-6">
           <label className="required fw-bold fs-6 mb-3">

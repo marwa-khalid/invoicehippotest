@@ -41,7 +41,7 @@ const QuoteValidateModal = ({
       validationStateType: 0,
       declinedReasonType: 1,
       comments: "",
-      notifyClient: true,
+      notifyClient: false,
       quoteValidationSignee: {
         validatedByFullName: "",
         validatedByCity: "",

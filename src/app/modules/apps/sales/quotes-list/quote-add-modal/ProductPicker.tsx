@@ -284,7 +284,7 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                               <td className="text-end">
                                 <Tippy
                                   content={intl.formatMessage({
-                                    id: "Fields.ToolTipEdit",
+                                    id: "Fields.ToolTipLinkProduct",
                                   })}
                                 >
                                   <button

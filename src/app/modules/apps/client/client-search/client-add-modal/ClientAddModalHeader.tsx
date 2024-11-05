@@ -35,7 +35,7 @@ const ClientAddModalHeader = ({
               <div className="alert alert-dismissible bg-light-warning d-flex flex-center flex-column ">
                 <button
                   type="button"
-                  className="btn-close "
+                  className="btn-close"
                   onClick={onClose}
                 ></button>
 

@@ -449,23 +449,26 @@ const QuoteList = ({
                     {/* Buttons Section */}
                     <div className="d-flex align-items-center">
                       {quoteList.actions.canShowPreview && (
-                        <Tippy content="view">
+                        <Tippy
+                          content={intl.formatMessage({
+                            id: "Fields.ToolTipView",
+                          })}
+                        >
                           <button
                             className="btn btn-icon btn-light btn-sm me-4"
                             onClick={() => {
-                              setQuoteNumber(quoteList.quoteNr);
-                              setDownloadUrl(
-                                quoteList.downloadInfo.downloadUrl
+                              localStorage.setItem(
+                                "currentQuote",
+                                JSON.stringify(quoteList)
                               );
-                              setFileExtension(
-                                quoteList.downloadInfo.fileExtension
-                              );
+                              navigate("/estimation/view");
                             }}
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight"
                           >
-                            <i className="far fa-file-pdf text-danger fs-2"></i>
+                            <i className="ki-duotone ki-eye fs-2">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                              <span className="path3"></span>
+                            </i>
                           </button>
                         </Tippy>
                       )}
@@ -518,23 +521,23 @@ const QuoteList = ({
                           <div className="dropdown-divider border-gray-200"></div>
                           <li
                             onClick={() => {
-                              localStorage.setItem(
-                                "currentQuote",
-                                JSON.stringify(quoteList)
+                              setQuoteNumber(quoteList.quoteNr);
+                              setDownloadUrl(
+                                quoteList.downloadInfo.downloadUrl
                               );
-                              navigate("/estimation/view");
+                              setFileExtension(
+                                quoteList.downloadInfo.fileExtension
+                              );
                             }}
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight"
+                            aria-controls="offcanvasRight"
                           >
                             <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                              <i className="ki-duotone ki-eye fs-2 me-3">
-                                <span className="path1"></span>
-                                <span className="path2"></span>
-                                <span className="path3"></span>
-                              </i>
-                              {/* {intl.formatMessage({
-                                id: "Fields.TooltipView",
-                              })} */}
-                              View
+                              <i className="far fa-file-pdf me-3 fs-3"></i>
+                              {intl.formatMessage({
+                                id: "Fields.ToolTipView",
+                              })}
                             </a>
                           </li>
                           {quoteList.actions.canApprove && (
@@ -544,7 +547,7 @@ const QuoteList = ({
                                 <a className="dropdown-item d-flex align-items-center cursor-pointer">
                                   <i className="fa far fa-credit-card me-2 fs-3"></i>
                                   {intl.formatMessage({
-                                    id: "Fields.ActionApprove",
+                                    id: "Fields.ActionApproveOrDecline",
                                   })}
                                 </a>
                               </li>

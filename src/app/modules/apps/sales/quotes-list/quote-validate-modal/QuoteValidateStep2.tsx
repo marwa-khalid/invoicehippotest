@@ -19,14 +19,28 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
 
   return (
     <div className="modal-body py-10 px-20 ">
+      <h2 className="fw-bolder d-flex align-items-center mb-7">
+        {formik.values.validationStateType === 2
+          ? intl.formatMessage({
+              id: "Fields.ValidationDeclineReasib",
+            })
+          : intl.formatMessage({
+              id: "Fields.ValidationComments",
+            })}
+      </h2>
+
       {formik.values.validationStateType === 2 && (
         <div className="row">
           <label htmlFor="" className="required fw-bold mb-3">
-            Decline Reason
+            {intl.formatMessage({
+              id: "Fields.SelectDeclineReasonLabel",
+            })}
           </label>
           <Select
-            className="react-select-styled mb-10"
-            placeholder="Select Decline Reason"
+            className="react-select-styled mb-7"
+            placeholder={intl.formatMessage({
+              id: "Fields.SelectDeclineReasonLabel",
+            })}
             menuPlacement="bottom"
             value={
               enums.QuoteDeclinedReasonTypes.map((item: any) => ({
@@ -45,6 +59,11 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
         </div>
       )}
       <div className="row pb-lg-10">
+        <label htmlFor="" className="required fw-bold mb-3">
+          {intl.formatMessage({
+            id: "Fields.ValidationComments",
+          })}
+        </label>
         <ReactQuill
           theme="snow"
           placeholder="Jouw tekst hier..."
@@ -64,7 +83,6 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
             </div>
           </div>
         )}
-       
       </div>
     </div>
   );

@@ -39,8 +39,8 @@ const QuoteEmailModal = ({
       overrideNotificationType: 1,
       finalizeQuote: false,
       emailOptions: {
-        sendToClient: true,
-        sendMeAnCopy: true,
+        sendToClient: false,
+        sendMeAnCopy: false,
         extraToRecipients: [],
         extraCcRecipients: [],
         extraBccRecipients: [],
@@ -313,7 +313,9 @@ const QuoteEmailModal = ({
                         <span className="path1"></span>
                         <span className="path2"></span>
                       </i>
-                      Aan{" "}
+                      {intl.formatMessage({
+                        id: "Fields.ModalSendQuoteTabTitleTo",
+                      })}{" "}
                       {formik.values.emailOptions.extraToRecipients.length >
                         0 &&
                         `(${formik.values.emailOptions.extraToRecipients.length})`}
@@ -379,7 +381,9 @@ const QuoteEmailModal = ({
                         <span className="path1"></span>
                         <span className="path2"></span>
                       </i>
-                      Cc{" "}
+                      {intl.formatMessage({
+                        id: "Fields.ModalSendQuoteTabTitleCc",
+                      })}{" "}
                       {formik.values.emailOptions.extraCcRecipients.length >
                         0 &&
                         `(${formik.values.emailOptions.extraCcRecipients.length})`}
@@ -445,7 +449,9 @@ const QuoteEmailModal = ({
                         <span className="path1"></span>
                         <span className="path2"></span>
                       </i>
-                      Bcc{" "}
+                      {intl.formatMessage({
+                        id: "Fields.ModalSendQuoteTabTitleBcc",
+                      })}{" "}
                       {formik.values.emailOptions.extraBccRecipients.length >
                         0 &&
                         `(${formik.values.emailOptions.extraBccRecipients.length})`}

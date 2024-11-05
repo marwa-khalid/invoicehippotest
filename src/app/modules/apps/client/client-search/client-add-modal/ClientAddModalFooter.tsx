@@ -22,7 +22,11 @@ const ClientAddModalFooter = ({
 
   const checkIdAndHandleTab = () => {
     if (!formik.values.businessName) {
-      toast.info("Complete initial steps please.");
+      toast.info(
+        intl.formatMessage({
+          id: "Fields.WizardValidation",
+        })
+      );
 
       const tabElement = document.querySelector(
         'a[href="#kt_tab_pane_4"]'

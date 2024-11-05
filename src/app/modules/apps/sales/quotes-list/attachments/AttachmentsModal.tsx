@@ -388,7 +388,9 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                         <span className="path2"></span>
                         <span className="path3"></span>
                       </i>
-                      Browse files
+                      {intl.formatMessage({
+                        id: "Fields.FileManagerBrowseFile",
+                      })}
                     </button>
 
                     <div className="d-flex">
@@ -526,7 +528,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                               {/* {attachment.actions.ca} */}
                               <Tippy
                                 content={intl.formatMessage({
-                                  id: "Fields.ToolTipEdit",
+                                  id: "Fields.ToolTipView",
                                 })}
                               >
                                 <button
@@ -557,7 +559,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                               ) && (
                                 <Tippy
                                   content={intl.formatMessage({
-                                    id: "Fields.ToolTipEdit",
+                                    id: "Fields.ToolTipLinkAttachment",
                                   })}
                                 >
                                   <button
@@ -575,7 +577,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                               )}
                             </div>
                           </div>
-                          <div className="separator border-10  my-5"></div>
+                          <div className="separator border-10 my-5"></div>
                         </>
                       ))
                     ) : (

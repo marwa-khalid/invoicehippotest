@@ -64,7 +64,21 @@ const QuoteAddModalFooter = ({
             aria-expanded="false"
           >
             <i className="fa fas fa-save fs-2 me-2"></i>
-            {!isSubmitting && "concept opslaan"}
+            {!isSubmitting && formik.values.status === 1 ? (
+              <>
+                {intl.formatMessage({
+                  id: "Fields.DraftLabel",
+                })}{" "}
+                {intl.formatMessage({ id: "Common.DefaultSaveButtonText" })}
+              </>
+            ) : (
+              <>
+                {intl.formatMessage({
+                  id: "Fields.ActionEdit",
+                })}{" "}
+                {intl.formatMessage({ id: "Common.DefaultSaveButtonText" })}
+              </>
+            )}
             {isSubmitting && (
               <span className="indicator-progress d-flex align-items-center">
                 {intl.formatMessage({ id: "Common.Busy" })}
@@ -120,42 +134,74 @@ const QuoteAddModalFooter = ({
             </li>
           </ul>
         </div>
+        {formik.values.status === 1 ? (
+          <div className="btn-group dropup">
+            <button
+              type="submit"
+              className="btn btn-success dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i className="fas fa-location-arrow fs-2"></i>
+              {intl.formatMessage({ id: "Fields.ActionActivate" })}
+            </button>
+            <ul className="dropdown-menu w-200px py-4">
+              <li>
+                <a className="dropdown-item d-flex align-items-center" href="#">
+                  <i className="fa fas fa-paper-plane me-2 fs-3"></i>
+                  {intl.formatMessage({ id: "Fields.ActionActivate" })} &{" "}
+                  versturen
+                </a>
+              </li>
 
-        <div className="btn-group dropup">
-          <button
-            type="submit"
-            className="btn btn-success dropdown-toggle"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i className="fas fa-location-arrow fs-2"></i>
-            {intl.formatMessage({ id: "Fields.ActionActivate" })}
-          </button>
-          <ul className="dropdown-menu w-200px py-4">
-            <li>
-              <a className="dropdown-item d-flex align-items-center" href="#">
-                <i className="fa fas fa-paper-plane me-2 fs-3"></i>
-                {intl.formatMessage({ id: "Fields.ActionSaveAndSend" })}
-              </a>
-            </li>
+              <div className="dropdown-divider border-gray-200"></div>
+              <li>
+                <a className="dropdown-item d-flex align-items-center" href="#">
+                  <i className="fa fas fa-cloud-download-alt me-2 fs-3"></i>
+                  {intl.formatMessage({ id: "Fields.ActionActivate" })} &{" "}
+                  {intl.formatMessage({ id: "Fields.ActionDownload" })}
+                </a>
+              </li>
+              <div className="dropdown-divider border-gray-200"></div>
+              <li>
+                <a className="dropdown-item d-flex align-items-center" href="#">
+                  <i className="fa fas fa-flag-checkered me-2 fs-3"></i>
+                  {intl.formatMessage({ id: "Fields.ActionActivate" })}
+                </a>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <div className="btn-group dropup">
+            <button
+              type="submit"
+              className="btn btn-success dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i className="fas fa-location-arrow fs-2"></i>
+              versturen-/
+              {intl.formatMessage({ id: "Fields.ActionDownload" })}
+            </button>
+            <ul className="dropdown-menu w-200px py-4">
+              <li>
+                <a className="dropdown-item d-flex align-items-center" href="#">
+                  <i className="fa fas fa-cloud-download-alt me-2 fs-3"></i>
+                  {intl.formatMessage({ id: "Fields.ActionSave" })} &{" "}
+                  {intl.formatMessage({ id: "Fields.ActionDownload" })}
+                </a>
+              </li>
 
-            <div className="dropdown-divider border-gray-200"></div>
-            <li>
-              <a className="dropdown-item d-flex align-items-center" href="#">
-                <i className="fa fas fa-cloud-download-alt me-2 fs-3"></i>
-                {intl.formatMessage({ id: "Fields.ActionActivate" })} &{" "}
-                {intl.formatMessage({ id: "Fields.ActionDownload" })}
-              </a>
-            </li>
-            <div className="dropdown-divider border-gray-200"></div>
-            <li>
-              <a className="dropdown-item d-flex align-items-center" href="#">
-                <i className="fa fas fa-flag-checkered me-2 fs-3"></i>
-                {intl.formatMessage({ id: "Fields.ActionActivate" })}
-              </a>
-            </li>
-          </ul>
-        </div>
+              <div className="dropdown-divider border-gray-200"></div>
+              <li>
+                <a className="dropdown-item d-flex align-items-center" href="#">
+                  <i className="fa fas fa-paper-plane me-2 fs-3"></i>
+                  {intl.formatMessage({ id: "Fields.ActionSaveAndSend" })}
+                </a>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

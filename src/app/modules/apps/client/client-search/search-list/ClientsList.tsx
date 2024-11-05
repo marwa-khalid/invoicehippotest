@@ -24,6 +24,7 @@ interface ComponentProps {
   addModalOpen: boolean;
   deleteModalOpen: boolean;
   searchCounter: number;
+  setQuoteModalOpen: (type: boolean) => void;
 }
 const ClientsList = ({
   searchTerm,
@@ -40,6 +41,7 @@ const ClientsList = ({
   addModalOpen,
   deleteModalOpen,
   setIntlMessage,
+  setQuoteModalOpen,
 }: ComponentProps) => {
   const [clients, setClients] = useState<any>([]);
   const auth = useAuth();
@@ -145,7 +147,11 @@ const ClientsList = ({
                         {clientList.actions.canCreateQuote && (
                           <li
                             onClick={() => {
-                              openEditModal(clientList.id);
+                              localStorage.setItem(
+                                "clientResponse",
+                                JSON.stringify(clientList)
+                              );
+                              setQuoteModalOpen(true);
                             }}
                           >
                             <a className="dropdown-item d-flex align-items-center cursor-pointer">
@@ -355,16 +361,17 @@ const ClientsList = ({
                             sticky={true}
                             content={
                               <div>
-                                <div className="d-flex rounded align-items-center mb-2">
-                                  <i className="ki-duotone ki-user fs-3 me-1">
-                                    <span className="path1"></span>
-                                    <span className="path2"></span>
-                                  </i>
-                                  <small>
-                                    {contact.fullName.toLowerCase()}
-                                  </small>
-                                </div>
-
+                                {contact.fullName && (
+                                  <div className="d-flex rounded align-items-center mb-2">
+                                    <i className="ki-duotone ki-user fs-3 me-1">
+                                      <span className="path1"></span>
+                                      <span className="path2"></span>
+                                    </i>
+                                    <small>
+                                      {contact.fullName.toLowerCase()}
+                                    </small>
+                                  </div>
+                                )}
                                 {contact.emailAddress && (
                                   <div className="d-flex rounded align-items-center mb-2 ">
                                     <i className="ki-duotone ki-sms fs-3 me-1">
@@ -438,7 +445,12 @@ const ClientsList = ({
                             path="media/svg/general/income3.svg"
                           />
                           <div className="d-flex flex-column">
-                            <small className="text-muted">income:</small>
+                            <small className="text-muted">
+                              {intl.formatMessage({
+                                id: "Fields.TotalIncomeAmount",
+                              })}
+                              :
+                            </small>
                             <span>
                               {
                                 auth.currentUser?.result.activeCompanyDefaults
@@ -449,10 +461,12 @@ const ClientsList = ({
                           </div>
                         </span>
                       )}
-
+                      {clientList.totals.totalIncomeAmount !== 0 &&
+                        clientList.totals.totalCostAmount && (
+                          <span className="h-37px bg-gray-400 w-1px me-3"></span>
+                        )}
                       {clientList.totals.totalCostAmount !== 0 && (
                         <>
-                          <span className="h-37px bg-gray-400 w-1px me-3"></span>
                           <span className="d-flex align-items-center">
                             <KTSVG
                               className="svg-icon svg-icon-3x me-2"
@@ -460,7 +474,10 @@ const ClientsList = ({
                             />
                             <div className="d-flex flex-column">
                               <small className="text-muted">
-                                {intl.formatMessage({ id: "Fields.Costs" })}:
+                                {intl.formatMessage({
+                                  id: "Fields.TotalCostAmount",
+                                })}
+                                :
                               </small>
                               <span>
                                 {
@@ -486,7 +503,7 @@ const ClientsList = ({
                               <div className="d-flex flex-column">
                                 <small className="text-muted">
                                   {intl.formatMessage({
-                                    id: "Fields.Revenue",
+                                    id: "Fields.TotalProfitAmount",
                                   })}
                                   :
                                 </small>

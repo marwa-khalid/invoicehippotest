@@ -28,6 +28,7 @@ import { KTSVG } from "../../../../../../_metronic/helpers";
 import { QuoteViewModal } from "../quote-view-modal/QuoteViewModal";
 import { QuoteRestorationModal } from "../quote-restoration-modal/QuoteRestorationModal";
 import { ListLoading } from "../../../components/ListLoading";
+import Tippy from "@tippyjs/react";
 interface Props {
   setRefresh: (type: boolean) => void;
   refresh: boolean;
@@ -271,6 +272,34 @@ const QuoteAddModal = ({
         ...formik.values,
         ...res.result, // Merge the response with the existing form values
       });
+      const clientResponse = JSON.parse(
+        localStorage.getItem("clientResponse")!
+      );
+
+      if (clientResponse != null) {
+        formik.setFieldValue("header.clientId", clientResponse.id);
+        // formik.setFieldValue(
+        //   "header.clientReferenceNr",
+        //   clientResponse.customerNr
+        // );
+        formik.setFieldValue(
+          "header.clientDisplayName",
+          clientResponse.customerNr + " " + clientResponse.businessName
+        );
+      }
+      const contactResponse = JSON.parse(
+        localStorage.getItem("contactResponse")!
+      );
+      if (contactResponse != null) {
+        formik.setFieldValue("header.clientContactId", 0);
+        setContactResponse(contactResponse);
+      } else {
+        const defaultContact = contactResponse?.find(
+          (contact: any) => contact.isDefaultContact === true
+        )?.id;
+        formik.setFieldValue("header.clientContactId", defaultContact);
+      }
+
       setIsLoading(false);
     };
 
@@ -637,10 +666,7 @@ const QuoteAddModal = ({
                   </i>
                 </div>
                 <div className="col-10 text-warning fw-bold">
-                  Tijdens het bewerken van een concept offerte wordt er een
-                  tijdelijk offertenummer toegekend. Dit nummer wordt
-                  automatisch aangepast naar een definitief offertenummer bij
-                  het activeren of versturen van de offerte.
+                  {intl.formatMessage({ id: "Fields.ModalQuoteDraftInfo" })}
                 </div>
               </div>
             )}
@@ -1101,52 +1127,70 @@ const QuoteAddModal = ({
 
                           <div className="d-flex">
                             {attachment.actions.canView && (
-                              <button
-                                type="button"
-                                className="btn btn-icon btn-dark btn-sm me-2"
-                                data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRight"
-                                aria-controls="offcanvasRight"
-                                onClick={() => {
-                                  setDownloadUrl(
-                                    attachment.downloadInfo.downloadUrl
-                                  );
-                                  setFileExtension(
-                                    attachment.downloadInfo.fileExtension
-                                  );
-                                }}
+                              <Tippy
+                                content={intl.formatMessage({
+                                  id: "Fields.ToolTipView",
+                                })}
                               >
-                                <i className="ki-solid ki-eye fs-1"></i>
-                              </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-icon btn-dark btn-sm me-2"
+                                  data-bs-toggle="offcanvas"
+                                  data-bs-target="#offcanvasRight"
+                                  aria-controls="offcanvasRight"
+                                  onClick={() => {
+                                    setDownloadUrl(
+                                      attachment.downloadInfo.downloadUrl
+                                    );
+                                    setFileExtension(
+                                      attachment.downloadInfo.fileExtension
+                                    );
+                                  }}
+                                >
+                                  <i className="ki-solid ki-eye fs-1"></i>
+                                </button>
+                              </Tippy>
                             )}
                             {attachment.actions.canDownload && (
-                              <button
-                                type="button"
-                                className="btn btn-icon btn-primary btn-sm me-2"
-                                onClick={() => {
-                                  const link = document.createElement("a");
-                                  link.href =
-                                    attachment.downloadInfo.downloadUrl;
-                                  link.setAttribute(
-                                    "download",
-                                    attachment.fileName
-                                  );
-                                  document.body.appendChild(link);
-                                  link.click();
-                                  document.body.removeChild(link);
-                                }}
+                              <Tippy
+                                content={intl.formatMessage({
+                                  id: "Fields.ToolTipDownloadAttachment",
+                                })}
                               >
-                                <i className="fa-solid fa-cloud-arrow-down"></i>
-                              </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-icon btn-primary btn-sm me-2"
+                                  onClick={() => {
+                                    const link = document.createElement("a");
+                                    link.href =
+                                      attachment.downloadInfo.downloadUrl;
+                                    link.setAttribute(
+                                      "download",
+                                      attachment.fileName
+                                    );
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                  }}
+                                >
+                                  <i className="fa-solid fa-cloud-arrow-down"></i>
+                                </button>
+                              </Tippy>
                             )}
                             {attachment.actions.canDelete && (
-                              <button
-                                type="button"
-                                className="btn btn-icon btn-danger btn-sm me-2"
-                                onClick={() => handleDelete(attachment)}
+                              <Tippy
+                                content={intl.formatMessage({
+                                  id: "Fields.ToolTipDelete",
+                                })}
                               >
-                                <i className="ki-solid ki-trash text-white fs-2"></i>
-                              </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-icon btn-danger btn-sm me-2"
+                                  onClick={() => handleDelete(attachment)}
+                                >
+                                  <i className="ki-solid ki-trash text-white fs-2"></i>
+                                </button>
+                              </Tippy>
                             )}
                           </div>
                         </div>
