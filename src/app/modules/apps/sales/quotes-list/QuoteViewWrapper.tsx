@@ -101,7 +101,11 @@ const QuoteViewWrapper = () => {
           <button
             type="button"
             className="btn btn-primary btn-sm mb-3"
-            onClick={() => setAddModalOpen(true)}
+            onClick={() => {
+              localStorage.removeItem("contactResponse");
+              localStorage.removeItem("clientResponse");
+              setAddModalOpen(true);
+            }}
           >
             <KTIcon iconName="plus" className="fs-1" />
             {intl.formatMessage({ id: "Fields.ActionNew" })}

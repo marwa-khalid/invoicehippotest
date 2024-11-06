@@ -40,7 +40,7 @@ const QuoteValidateModalFooter = ({
 
   const isApproved =
     (activeTab.id === 2 &&
-      auth.currentUser?.result.isAnonymousUser &&
+      !auth.currentUser?.result.isAnonymousUser &&
       formik.values.validationStateType === 1) ||
     activeTab.id === 4;
 
@@ -123,7 +123,7 @@ const QuoteValidateModalFooter = ({
                   })
                 : isDeclined
                 ? intl.formatMessage({
-                    id: "Common.ActionDecline",
+                    id: "Fields.ActionDecline",
                   })
                 : intl.formatMessage({
                     id: "Common.WizardStepNext",

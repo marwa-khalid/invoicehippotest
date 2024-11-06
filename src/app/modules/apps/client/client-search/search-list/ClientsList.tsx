@@ -462,7 +462,7 @@ const ClientsList = ({
                         </span>
                       )}
                       {clientList.totals.totalIncomeAmount !== 0 &&
-                        clientList.totals.totalCostAmount && (
+                        clientList.totals.totalCostAmount !== 0 && (
                           <span className="h-37px bg-gray-400 w-1px me-3"></span>
                         )}
                       {clientList.totals.totalCostAmount !== 0 && (
