@@ -44,14 +44,14 @@ const ToolbarClassic = () => {
         Filter
       </a> */}
 
-      <a
+      {/* <a
         href="#"
         onClick={() => setShowCreateAppModal(true)}
         className="btn btn-sm fw-bold btn-primary"
       >
         <KTIcon iconName="plus" className="fs-1" />
         {intl.formatMessage({ id: "Menu.AddNewQuote" })}
-      </a>
+      </a> */}
       {/* <CreateAppModal
         show={showCreateAppModal}
         handleClose={() => setShowCreateAppModal(false)}
