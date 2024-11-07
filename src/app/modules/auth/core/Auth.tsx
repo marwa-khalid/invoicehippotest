@@ -117,7 +117,7 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
         }
         localStorage.removeItem("clientResponse");
         localStorage.removeItem("contactResponse");
-        localStorage.removeItem("currentQuote");
+        // localStorage.removeItem("currentQuote");
         const expirationDate = new Date(auth.result.expirationDateUtc);
         const currentDate = new Date();
         const diff = expirationDate.getTime() - currentDate.getTime();

@@ -141,6 +141,10 @@ const QuoteList = ({
   };
 
   useEffect(() => {
+    localStorage.removeItem("currentQuote");
+  }, []);
+
+  useEffect(() => {
     fetchQuotes();
   }, [
     searchTerm,

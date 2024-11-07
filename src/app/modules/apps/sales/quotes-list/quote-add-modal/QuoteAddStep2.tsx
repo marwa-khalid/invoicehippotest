@@ -764,6 +764,7 @@ const QuoteAddStep2: FC<Props> = ({
                                                 product.units
                                               ).toFixed(2)}`;
                                             } else {
+                                              console.log(vatPercentage);
                                               // VAT Exclusive
                                               const basePriceExclusive = (
                                                 product.unitPrice /

@@ -468,7 +468,7 @@ const QuoteAddModal = ({
           totalDiscountAmount += discountAmount; // Add to total discount summary
         }
       }
-
+      console.log(totalAmount);
       totalPriceExcVat += totalAmount; // Add the price excluding VAT
 
       // Calculate VAT if VAT Type is available
@@ -486,21 +486,24 @@ const QuoteAddModal = ({
           const isBtwExclusive = !vatInfo?.isAlwaysExBtw;
 
           // Check if VAT should always be excluded (use 0.00 for VAT amount)
-          console.log(vatInfo.isAlwaysExBtw);
+
           if (vatInfo.isAlwaysExBtw) {
             vatAmount = 0.0; // Set VAT amount to 0.00
             totalPriceIncVat += totalAmount || 0.0; // No VAT adjustment for total
           } else {
             // Regular VAT calculation logic
             if (product.btwExclusive) {
-              console.log("working");
               vatAmount = (totalAmount * vatInfo.amount) / 100; // Exclusive VAT calculation
               totalPriceIncVat += totalAmount + (vatAmount || 0.0); // Add VAT to total
             } else {
-              console.log("working");
               vatAmount =
-                (totalAmount * vatInfo.amount) / (100 + vatInfo.amount); // Inclusive VAT calculation
+                (totalAmount * vatInfo.amount) /
+                (100 + vatInfo.amount).toFixed(2); // Inclusive VAT calculation
               totalPriceIncVat += totalAmount || 0.0; // No need to adjust totalAmount for inclusive VAT
+
+              totalPriceExcVat =
+                (product.unitPrice / (1 + vatInfo.amount / 100)) *
+                product.units;
             }
           }
 

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { KTIcon } from "../../../../helpers";
 import { CreateAppModal, Dropdown1 } from "../../../../partials";
 import { useLayout } from "../../../core";
@@ -12,6 +12,7 @@ const ToolbarClassic = () => {
     ? "btn-light"
     : "bg-body btn-color-gray-700 btn-active-color-primary";
   const intl = useIntl();
+  const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
   return (
     <div className="d-flex align-items-center gap-2 gap-lg-3">
       {/* <div className="m-0">
@@ -28,7 +29,6 @@ const ToolbarClassic = () => {
         </a>
         <Dropdown1 />
       </div> */}
-
       {/* <div
         data-kt-daterangepicker="true"
         data-kt-daterangepicker-opens="left"
@@ -43,15 +43,26 @@ const ToolbarClassic = () => {
       <a href="#" className="btn btn-sm btn-flex btn-light fw-bold">
         Filter
       </a> */}
-
-      {/* <a
-        href="#"
-        onClick={() => setShowCreateAppModal(true)}
-        className="btn btn-sm fw-bold btn-primary"
-      >
-        <KTIcon iconName="plus" className="fs-1" />
-        {intl.formatMessage({ id: "Menu.AddNewQuote" })}
-      </a> */}
+      {currentQuote && currentQuote.actions.canApprove && (
+        <a
+          href="#"
+          onClick={() => setShowCreateAppModal(true)}
+          className="btn btn-sm fw-bold btn-success d-flex align-items-center"
+        >
+          <i className="fa far fa-credit-card me-2 fs-2"></i>
+          {intl.formatMessage({ id: "Fields.ActionApproveOrDecline" })}
+        </a>
+      )}
+      {currentQuote && (
+        <a
+          href="#"
+          onClick={() => setShowCreateAppModal(true)}
+          className="btn btn-sm fw-bold btn-primary d-flex align-items-center"
+        >
+          <KTIcon iconName="plus" className="fs-1" />
+          {intl.formatMessage({ id: "Menu.AddNewQuote" })}
+        </a>
+      )}
       {/* <CreateAppModal
         show={showCreateAppModal}
         handleClose={() => setShowCreateAppModal(false)}

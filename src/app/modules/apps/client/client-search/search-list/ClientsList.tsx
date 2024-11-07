@@ -425,7 +425,7 @@ const ClientsList = ({
                   clientList.totals.totalProfitAmount !== 0) && (
                   <>
                     <div className="separator separator-solid mt-5 mb-10"></div>
-                    <div className="d-flex gap-10 totals-container position-absolute bottom-0 w-100">
+                    <div className="d-flex gap-5 totals-container position-absolute bottom-0 w-100">
                       {/* {clientList.totals.totalQuotesCount > 0 && (
                         <span className="d-flex align-items-center fw-bold">
                           <i className="ki-duotone ki-add-item text-muted fs-3x me-2">
@@ -507,7 +507,13 @@ const ClientsList = ({
                                   })}
                                   :
                                 </small>
-                                <span>
+                                <span
+                                  className={`${
+                                    clientList.totals.totalProfitAmount > 0
+                                      ? "text-success"
+                                      : "text-danger"
+                                  } fw-bold`}
+                                >
                                   {
                                     auth.currentUser?.result
                                       .activeCompanyDefaults.defaultValuta.sign

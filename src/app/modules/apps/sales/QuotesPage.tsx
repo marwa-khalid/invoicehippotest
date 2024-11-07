@@ -5,9 +5,18 @@ import clsx from "clsx";
 import { useLayout } from "../../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
 import { QuoteViewWrapper } from "./quotes-list/QuoteViewWrapper";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 const QoutesPage = () => {
   const { config } = useLayout();
   const intl = useIntl();
+  const [currentQuote, setCurrentQuote] = useState<any>();
+  const location = useLocation();
+
+  useEffect(() => {
+    const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
+    setCurrentQuote(currentQuote);
+  }, [location]);
   const settingsBreadcrumbs: Array<PageLink> = [
     {
       title: intl.formatMessage({ id: "Menu.Dashboard" }),
@@ -57,6 +66,7 @@ const QoutesPage = () => {
       isSeparator: false,
       isActive: false,
     },
+
     {
       title: "",
       path: "",
@@ -64,9 +74,7 @@ const QoutesPage = () => {
       isActive: false,
     },
     {
-      title: intl.formatMessage({
-        id: "Fields.ToolTipView",
-      }),
+      title: currentQuote?.quoteNr,
       path: "estimation/view",
       isSeparator: false,
       isActive: true,
