@@ -168,65 +168,65 @@ const QuoteViewInnerWrapper = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a
+                {/* <a
                   className="nav-link cursor-pointer"
 
                   // data-bs-toggle="tab"
                   // href="#kt_tab_pane_9"
-                >
-                  <div className="btn-group drop-left">
-                    <button
-                      className="btn btn-icon  btn-sm ms-5 me-2 text-muted"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i className="ki-outline ki-gear me-2 fs-2"></i>
+                > */}
+                <div className=" cursor-pointer mt-5 ms-3 btn-group drop-left">
+                  <button
+                    className="btn btn-icon btn-sm ms-5 me-2 text-muted"
+                    data-bs-toggle="dropdown"
+                    // aria-expanded="false"
+                  >
+                    <i className="ki-outline ki-gear me-2 fs-3"></i>
 
-                      {intl.formatMessage({ id: "Fields.TabOptions" })}
-                      <i className="fa fa-chevron-down ms-1"></i>
-                    </button>
-                    <ul className="dropdown-menu w-content-fit py-4">
-                      <li
+                    {intl.formatMessage({ id: "Fields.TabOptions" })}
+                    <i className="fa fa-chevron-down ms-1"></i>
+                  </button>
+                  <ul className="dropdown-menu w-content-fit py-4">
+                    <li
+                    // onClick={() => {
+                    //   const link = document.createElement("a");
+                    //   link.href = quoteList.downloadInfo.downloadUrl;
+                    //   link.setAttribute(
+                    //     "download",
+                    //     quoteList.downloadInfo.fileName
+                    //   );
+                    //   document.body.appendChild(link);
+                    //   link.click();
+                    //   document.body.removeChild(link);
+                    // }}
+                    >
+                      <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                        <i className="fa-solid fa-cloud-arrow-down me-2 fs-3"></i>
+                        {intl.formatMessage({
+                          id: "Fields.ActionDownload",
+                        })}
+                      </a>
+                    </li>
+                    <div className="dropdown-divider border-gray-200"></div>
+                    <li
                       // onClick={() => {
-                      //   const link = document.createElement("a");
-                      //   link.href = quoteList.downloadInfo.downloadUrl;
-                      //   link.setAttribute(
-                      //     "download",
-                      //     quoteList.downloadInfo.fileName
+                      //   setQuoteNumber(quoteList.quoteNr);
+                      //   setDownloadUrl(quoteList.downloadInfo.downloadUrl);
+                      //   setFileExtension(
+                      //     quoteList.downloadInfo.fileExtension
                       //   );
-                      //   document.body.appendChild(link);
-                      //   link.click();
-                      //   document.body.removeChild(link);
                       // }}
-                      >
-                        <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                          <i className="fa-solid fa-cloud-arrow-down me-2 fs-3"></i>
-                          {intl.formatMessage({
-                            id: "Fields.ActionDownload",
-                          })}
-                        </a>
-                      </li>
-                      <div className="dropdown-divider border-gray-200"></div>
-                      <li
-                        // onClick={() => {
-                        //   setQuoteNumber(quoteList.quoteNr);
-                        //   setDownloadUrl(quoteList.downloadInfo.downloadUrl);
-                        //   setFileExtension(
-                        //     quoteList.downloadInfo.fileExtension
-                        //   );
-                        // }}
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight"
-                        aria-controls="offcanvasRight"
-                      >
-                        <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                          <i className="far fa-file-pdf me-3 fs-3"></i>
-                          {intl.formatMessage({
-                            id: "Fields.ToolTipView",
-                          })}
-                        </a>
-                      </li>
-                      {/* {quoteList.actions.canApprove && (
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                    >
+                      <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                        <i className="far fa-file-pdf me-3 fs-3"></i>
+                        {intl.formatMessage({
+                          id: "Fields.ToolTipView",
+                        })}
+                      </a>
+                    </li>
+                    {/* {quoteList.actions.canApprove && (
                         <>
                           <div className="dropdown-divider border-gray-200"></div>
                           <li onClick={() => openValidateModal(quoteList)}>
@@ -239,23 +239,23 @@ const QuoteViewInnerWrapper = () => {
                           </li>
                         </>
                       )} */}
-                      <div className="dropdown-divider border-gray-200"></div>
-                      <li
-                      // onClick={() => {
-                      //   openEmailModal(quoteList);
-                      // }}
-                      >
-                        <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
-                          <i className="ki-duotone ki-send fs-1 me-2">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                          {intl.formatMessage({
-                            id: "Fields.ActionSendEmail",
-                          })}
-                        </a>
-                      </li>
-                      {/* {quoteList.actions.canCreateCopy && (
+                    <div className="dropdown-divider border-gray-200"></div>
+                    <li
+                    // onClick={() => {
+                    //   openEmailModal(quoteList);
+                    // }}
+                    >
+                      <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
+                        <i className="ki-duotone ki-send fs-1 me-2">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
+                        </i>
+                        {intl.formatMessage({
+                          id: "Fields.ActionSendEmail",
+                        })}
+                      </a>
+                    </li>
+                    {/* {quoteList.actions.canCreateCopy && (
                         <>
                           <div className="dropdown-divider border-gray-200"></div>
                           <li
@@ -306,9 +306,9 @@ const QuoteViewInnerWrapper = () => {
                           </li>
                         </>
                       )} */}
-                    </ul>
-                  </div>
-                </a>
+                  </ul>
+                </div>
+                {/* </a> */}
               </li>
             </ul>
           </div>
@@ -555,7 +555,7 @@ const QuoteViewInnerWrapper = () => {
                           </button>
                         </Tippy>
                       )}
-                      {attachment.actions.canDelete && (
+                      {/* {attachment.actions.canDelete && (
                         <Tippy
                           content={intl.formatMessage({
                             id: "Fields.ToolTipDelete",
@@ -569,7 +569,7 @@ const QuoteViewInnerWrapper = () => {
                             <i className="ki-solid ki-trash text-white fs-2"></i>
                           </button>
                         </Tippy>
-                      )}
+                      )} */}
                     </div>
                   </div>
 
