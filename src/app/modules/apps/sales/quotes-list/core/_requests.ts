@@ -5,6 +5,7 @@ import {
   AccountAutomationModel,
   QuoteListModel,
   GenericBooleanModel,
+  EstimationActivitiesModel,
 } from "./_models";
 
 import {
@@ -32,6 +33,7 @@ import {
   SEND_EMAIL,
   FINALIZE_QUOTE,
   VALIDATE_QUOTE,
+  ESTIMATION_ACTIVITIES,
 } from "./constants";
 import { ContactModel } from "../../../client/client-search/core/_models";
 
@@ -191,4 +193,11 @@ export function getInboxAttachments(searchTerm: string, pageIndex: number) {
 
 export function getMinMaxYear() {
   return getRequest<any>(MIN_MAX_YEAR, true);
+}
+
+export function getEstimationActivitiesById(id: number) {
+  return getRequest<EstimationActivitiesModel>(
+    `${ESTIMATION_ACTIVITIES}/${id}`,
+    true
+  );
 }

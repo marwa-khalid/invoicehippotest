@@ -139,7 +139,7 @@ export function Filter({
             onClick={handleApply} // Apply filter on click
             data-kt-menu-dismiss="true"
           >
-            {intl.formatMessage({ id: "Fields.SearchApplyBtn" })}
+            {intl.formatMessage({ id: "Fields.FilterApplyBtn" })}
           </button>
         </div>
       </div>

@@ -19,3 +19,4 @@ export const CREATE_COPY = `${API_URL_V1}/quote/create-copy`;
 export const SEND_EMAIL = `${API_URL_V1}/quote/send-email`;
 export const FINALIZE_QUOTE = `${API_URL_V1}/quote/finalize`;
 export const VALIDATE_QUOTE = `${API_URL_V1}/quote/validate`;
+export const ESTIMATION_ACTIVITIES = `${API_URL_V1}/report/activities-for-esitmation`;

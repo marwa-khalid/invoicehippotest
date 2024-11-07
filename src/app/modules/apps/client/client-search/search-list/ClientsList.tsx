@@ -89,10 +89,10 @@ const ClientsList = ({
       <div className="row row-cols-1 row-cols-md-1 g-4">
         {clients?.result?.map((clientList: ClientResult) => (
           <div className="col-md-6" key={clientList.id}>
-            <div className="card h-100">
-              <div className="card-body">
+            <div className="card h-100 pb-7">
+              <div className="card-body position-relative">
                 {/* First Row: Checkbox, Divider, Value */}
-                <div className="d-flex align-items-center justify-content-between mb-3">
+                <div className="d-flex align-items-center justify-content-between mb-5">
                   <div
                     className="d-flex flex-column gap-3 cursor-pointer title-clickable"
                     onClick={() => {
@@ -334,7 +334,7 @@ const ClientsList = ({
                     className="d-flex flex-column justify-content-end pe-0"
                     key={clientList.id}
                   >
-                    <div className="separator separator-solid mb-3"></div>
+                    <div className="separator separator-solid mb-5"></div>
                     <div className="symbol-group symbol-hover flex-nowrap">
                       {clientList.contacts.map((contact, index) => {
                         const initials = contact.fullName
@@ -424,8 +424,8 @@ const ClientsList = ({
                   clientList.totals.totalIncomeAmount !== 0 ||
                   clientList.totals.totalProfitAmount !== 0) && (
                   <>
-                    <div className="separator separator-solid my-5"></div>
-                    <div className="d-flex gap-10">
+                    <div className="separator separator-solid mt-5 mb-10"></div>
+                    <div className="d-flex gap-10 totals-container position-absolute bottom-0 w-100">
                       {/* {clientList.totals.totalQuotesCount > 0 && (
                         <span className="d-flex align-items-center fw-bold">
                           <i className="ki-duotone ki-add-item text-muted fs-3x me-2">

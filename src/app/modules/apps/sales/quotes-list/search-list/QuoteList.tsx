@@ -245,7 +245,7 @@ const QuoteList = ({
                     width: "100px",
                   }}
                 >
-                  <div className="ribbon-label  fw-bold">
+                  <div className="ribbon-label fw-bold">
                     {quoteList.valuta.sign}{" "}
                     {quoteList.totals.totalPriceWithVAT.toFixed(2)}
                     <span className="ribbon-inner bg-gray-600"></span>

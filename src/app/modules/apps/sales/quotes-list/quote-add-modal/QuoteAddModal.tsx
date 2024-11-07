@@ -376,11 +376,7 @@ const QuoteAddModal = ({
       const response = await getDiscountTypes();
 
       if (response.isValid) {
-        const options = response.result.map((item: any) => ({
-          value: item.id,
-          label: item.title,
-        }));
-        setDiscountTypes(options);
+        setDiscountTypes(response.result);
       }
     };
     if (discountTypes?.length === 0) {
@@ -449,18 +445,23 @@ const QuoteAddModal = ({
       // Apply discount if available
       if (product.discountMarginId) {
         hasDiscountmargin = true;
-        const discountInfo = discountTypes?.find(
-          (discountType: any) => discountType.value === product.discountMarginId
-        );
+        const discountInfo = discountTypes
+          ?.map((item: any) => ({
+            value: item.id,
+            label: item.title,
+            amount: item.amount,
+            isPercentageMargin: item.isPercentageMargin,
+          }))
+          .find(
+            (discountType: any) =>
+              discountType.value === product.discountMarginId
+          );
 
         if (discountInfo) {
-          const isPercentage = discountInfo.label.includes("%");
-          const discountValue = parseFloat(discountInfo.label.replace("%", ""));
-
-          if (isPercentage) {
-            discountAmount = (totalAmount * discountValue) / 100; // Percentage-based discount
+          if (discountInfo.isPercentageMargin) {
+            discountAmount = (totalAmount * discountInfo.amount) / 100; // Percentage-based discount
           } else {
-            discountAmount = discountValue; // Fixed discount
+            discountAmount = discountInfo.amount; // Fixed discount
           }
 
           totalAmount -= discountAmount; // Subtract discount from total amount
@@ -476,25 +477,29 @@ const QuoteAddModal = ({
           ?.map((item: any) => ({
             value: item.id,
             label: item.title,
+            amount: item.value,
             isAlwaysExBtw: item.isAlwaysExBtw, // Include isAlwaysExVat in the mapping
           }))
           .find((vatType: any) => vatType.value === product.vatTypeId);
 
         if (vatInfo) {
-          const vatRate = parseFloat(vatInfo.label.replace("%", ""));
-          const isBtwExclusive = vatInfo?.isAlwaysExBtw ?? product.btwExclusive;
+          const isBtwExclusive = !vatInfo?.isAlwaysExBtw;
 
           // Check if VAT should always be excluded (use 0.00 for VAT amount)
-          if (vatInfo.isAlwaysExVat) {
+          console.log(vatInfo.isAlwaysExBtw);
+          if (vatInfo.isAlwaysExBtw) {
             vatAmount = 0.0; // Set VAT amount to 0.00
             totalPriceIncVat += totalAmount || 0.0; // No VAT adjustment for total
           } else {
             // Regular VAT calculation logic
-            if (!isBtwExclusive) {
-              vatAmount = (totalAmount * vatRate) / 100; // Exclusive VAT calculation
+            if (product.btwExclusive) {
+              console.log("working");
+              vatAmount = (totalAmount * vatInfo.amount) / 100; // Exclusive VAT calculation
               totalPriceIncVat += totalAmount + (vatAmount || 0.0); // Add VAT to total
             } else {
-              vatAmount = (totalAmount * vatRate) / (100 + vatRate); // Inclusive VAT calculation
+              console.log("working");
+              vatAmount =
+                (totalAmount * vatInfo.amount) / (100 + vatInfo.amount); // Inclusive VAT calculation
               totalPriceIncVat += totalAmount || 0.0; // No need to adjust totalAmount for inclusive VAT
             }
           }
@@ -525,7 +530,13 @@ const QuoteAddModal = ({
     hasDiscountmargin,
     totalDiscountAmount,
   } = calculateVatTotals();
-
+  console.log(
+    vatTotals,
+    totalPriceExcVat,
+    totalPriceIncVat,
+    hasDiscountmargin,
+    totalDiscountAmount
+  );
   useEffect(() => {
     calculateVatTotals();
   }, [formik.values.products]);
@@ -940,7 +951,7 @@ const QuoteAddModal = ({
                           }}
                         >
                           {intl.formatMessage({
-                            id: "Fields.SearchApplyBtn",
+                            id: "Fields.FilterApplyBtn",
                           })}
                         </button>
                       </div>

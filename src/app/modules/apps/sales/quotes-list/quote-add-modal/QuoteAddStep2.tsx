@@ -250,10 +250,7 @@ const QuoteAddStep2: FC<Props> = ({
                                           className="form-check-input h-20px w-40px"
                                           type="checkbox"
                                           id="isBtwExclusiveSwitch"
-                                          checked={
-                                            selectedProduct.btwExclusive ||
-                                            false
-                                          }
+                                          checked={selectedProduct.btwExclusive}
                                           onChange={(e) =>
                                             handleTempInputChange(
                                               "btwExclusive",
@@ -312,13 +309,23 @@ const QuoteAddStep2: FC<Props> = ({
                                           })}
                                         </label>
                                         <Select
-                                          value={discountTypes?.find(
-                                            (discountType: any) =>
-                                              discountType.value ===
-                                              selectedProduct.discountMarginId
-                                          )}
+                                          value={discountTypes
+                                            ?.map((item: any) => ({
+                                              value: item.id,
+                                              label: item.title,
+                                            }))
+                                            .find(
+                                              (discountType: any) =>
+                                                discountType.value ===
+                                                selectedProduct.discountMarginId
+                                            )}
                                           className="react-select-styled"
-                                          options={discountTypes}
+                                          options={discountTypes.map(
+                                            (item: any) => ({
+                                              value: item.id,
+                                              label: item.title,
+                                            })
+                                          )}
                                           onChange={(e) =>
                                             handleTempInputChange(
                                               "discountMarginId",
@@ -392,7 +399,7 @@ const QuoteAddStep2: FC<Props> = ({
                                       onClick={handleSave}
                                     >
                                       {intl.formatMessage({
-                                        id: "Fields.SearchApplyBtn",
+                                        id: "Fields.ActionSave",
                                       })}
                                     </button>
                                   </div>
@@ -868,11 +875,16 @@ const QuoteAddStep2: FC<Props> = ({
                                         <small className="text-danger">
                                           -
                                           {
-                                            discountTypes?.find(
-                                              (discountType: any) =>
-                                                discountType.value ===
-                                                product.discountMarginId
-                                            )?.label
+                                            discountTypes
+                                              ?.map((item: any) => ({
+                                                value: item.id,
+                                                label: item.title,
+                                              }))
+                                              .find(
+                                                (discountType: any) =>
+                                                  discountType.value ===
+                                                  product.discountMarginId
+                                              )?.label
                                           }
                                         </small>
                                       )}

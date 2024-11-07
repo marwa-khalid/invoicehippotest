@@ -233,6 +233,36 @@ interface FinancialAccountByIdResult {
   bankConnectInfo: BankConnectInfo;
 }
 
+export interface EstimationActivitiesResult {
+  subjectId: number;
+  activity: {
+    value: number;
+    name: string;
+    description: string;
+  };
+  status: {
+    value: number;
+    name: string;
+    description: string;
+  };
+  dateCreated: string; // ISO format string
+  actualDateCreated: string; // ISO format string
+  dateStartedProcessing: string; // ISO format string
+  dateFinshedProcessing: string; // ISO format string
+  hasDateStartedProcessing: boolean;
+  hasDateFinshedProcessing: boolean;
+  dateCreatedAsString: string;
+  actualDateCreatedAsString: string;
+  dateStartedProcessingAsString: string;
+  dateFinshedProcessingAsString: string;
+  description: string;
+  processComments: string;
+  technicalComments: string;
+  actorType: string;
+  isSystemUser: boolean;
+  userEmail: string;
+}
+
 export interface BalanceItem {
   id: number;
   title: string;
@@ -298,3 +328,4 @@ export type FinancialInstitutionsModel = ApiResponse<
   FinancialInstitutionsResult[]
 >;
 export type AccountAutomationModel = ApiResponse<AccountAutomationResult>;
+export type EstimationActivitiesModel = ApiResponse<EstimationActivitiesResult>;

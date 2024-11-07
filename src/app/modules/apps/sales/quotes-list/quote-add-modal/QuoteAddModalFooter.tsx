@@ -149,8 +149,7 @@ const QuoteAddModalFooter = ({
               <li>
                 <a className="dropdown-item d-flex align-items-center" href="#">
                   <i className="fa fas fa-paper-plane me-2 fs-3"></i>
-                  {intl.formatMessage({ id: "Fields.ActionActivate" })} &{" "}
-                  versturen
+                  {intl.formatMessage({ id: "Fields.ActionActivateAndSend" })}
                 </a>
               </li>
 
@@ -180,8 +179,8 @@ const QuoteAddModalFooter = ({
               aria-expanded="false"
             >
               <i className="fas fa-location-arrow fs-2"></i>
-              versturen-/
-              {intl.formatMessage({ id: "Fields.ActionDownload" })}
+
+              {intl.formatMessage({ id: "Fields.ActionSendAndDownload" })}
             </button>
             <ul className="dropdown-menu w-200px py-4">
               <li>

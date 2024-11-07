@@ -26,7 +26,7 @@ const QoutesPage = () => {
       title: intl.formatMessage({
         id: "Fields.SearchPanelSubTitleLedgerAccount",
       }),
-      path: "estimation/edit",
+      path: "estimation/view",
       isSeparator: false,
       isActive: false,
     },
@@ -38,7 +38,7 @@ const QoutesPage = () => {
     },
   ];
 
-  const settingsBreadcrumbsEdit: Array<PageLink> = [
+  const settingsBreadcrumbsView: Array<PageLink> = [
     {
       title: intl.formatMessage({ id: "Menu.Dashboard" }),
       path: "/dashboard",
@@ -65,11 +65,11 @@ const QoutesPage = () => {
     },
     {
       title: intl.formatMessage({
-        id: "Fields.EditPageNew",
+        id: "Fields.ToolTipView",
       }),
-      path: "estimation/edit",
+      path: "estimation/view",
       isSeparator: false,
-      isActive: false,
+      isActive: true,
     },
   ];
 
@@ -102,7 +102,7 @@ const QoutesPage = () => {
           path="view"
           element={
             <>
-              <PageTitle breadcrumbs={settingsBreadcrumbs}>
+              <PageTitle breadcrumbs={settingsBreadcrumbsView}>
                 {intl.formatMessage({ id: "System.UsageStats_AreaQuotes" })}
               </PageTitle>
               <div
