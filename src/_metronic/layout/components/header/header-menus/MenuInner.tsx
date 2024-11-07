@@ -13,6 +13,58 @@ export function MenuInner() {
       />
       <MenuItem title="Layout Builder" to="/builder" />
       <MenuInnerWithSub
+        title="Settings"
+        to="/admin"
+        menuPlacement="bottom-start"
+        menuTrigger="click"
+      >
+        <MenuItem to="/admin/vattype" title="Tax Types" hasBullet={true} />
+        <MenuItem
+          to="/admin/ledgeraccount"
+          title="Ledger Accounts"
+          hasBullet={true}
+        />
+        <MenuItem
+          to="/admin/financialaccount"
+          title="Financial Accounts"
+          hasBullet={true}
+        />
+        <MenuItem to="/admin/unit-types" title="Unit Types" hasBullet={true} />
+        <MenuItem
+          to="/admin/productgroups"
+          title="Product Groups"
+          hasBullet={true}
+        />
+        <MenuItem
+          to="/admin/discounts"
+          title="Discount Margins"
+          hasBullet={true}
+        />
+        <MenuItem
+          to="/admin/customfields"
+          title="Custom Fields"
+          hasBullet={true}
+        />
+        <MenuItem to="/admin/settings/users" title="Users" hasBullet={true} />
+      </MenuInnerWithSub>
+      <MenuInnerWithSub
+        to="/client"
+        title="Client"
+        fontIcon="bi-chat-left"
+        icon="message-text-2"
+      >
+        <MenuItem to="/client/search" title="Client" hasBullet={true} />
+      </MenuInnerWithSub>
+
+      <MenuInnerWithSub
+        to="/estimation"
+        title="Quotes"
+        fontIcon="bi-chat-left"
+        icon="message-text-2"
+      >
+        <MenuItem to="/estimation/search" title="Quotes" hasBullet={true} />
+      </MenuInnerWithSub>
+      <MenuInnerWithSub
         title="Crafted"
         to="/crafted"
         menuPlacement="bottom-start"
@@ -156,59 +208,6 @@ export function MenuInner() {
             hasBullet={true}
           />
         </MenuInnerWithSub>
-      </MenuInnerWithSub>
-
-      <MenuInnerWithSub
-        title="Settings"
-        to="/admin"
-        menuPlacement="bottom-start"
-        menuTrigger="click"
-      >
-        <MenuItem to="/admin/vattype" title="Tax Types" hasBullet={true} />
-        <MenuItem
-          to="/admin/ledgeraccount"
-          title="Ledger Accounts"
-          hasBullet={true}
-        />
-        <MenuItem
-          to="/admin/financialaccount"
-          title="Financial Accounts"
-          hasBullet={true}
-        />
-        <MenuItem to="/admin/unit-types" title="Unit Types" hasBullet={true} />
-        <MenuItem
-          to="/admin/productgroups"
-          title="Product Groups"
-          hasBullet={true}
-        />
-        <MenuItem
-          to="/admin/discounts"
-          title="Discount Margins"
-          hasBullet={true}
-        />
-        <MenuItem
-          to="/admin/customfields"
-          title="Custom Fields"
-          hasBullet={true}
-        />
-        <MenuItem to="/admin/settings/users" title="Users" hasBullet={true} />
-      </MenuInnerWithSub>
-      <MenuInnerWithSub
-        to="/client"
-        title="Client"
-        fontIcon="bi-chat-left"
-        icon="message-text-2"
-      >
-        <MenuItem to="/client/search" title="Client" hasBullet={true} />
-      </MenuInnerWithSub>
-
-      <MenuInnerWithSub
-        to="/estimation"
-        title="Quotes"
-        fontIcon="bi-chat-left"
-        icon="message-text-2"
-      >
-        <MenuItem to="/estimation/search" title="Quotes" hasBullet={true} />
       </MenuInnerWithSub>
 
       <MenuInnerWithSub

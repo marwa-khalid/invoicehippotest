@@ -23,6 +23,100 @@ const SidebarMenuMain = () => {
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
+            Settings
+          </span>
+        </div>
+      </div>
+      <SidebarMenuItemWithSub
+        to="/admin"
+        title="Admin"
+        fontIcon="bi-chat-left"
+        icon="message-text-2"
+      >
+        <SidebarMenuItem
+          to="/admin/vattype"
+          title="Tax Types"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to="/admin/ledgeraccount"
+          title="Ledger Accounts"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to="/admin/financialaccount"
+          title="Financial Accounts"
+          hasBullet={true}
+        />
+        {/* <SidebarMenuItem
+          to="/admin/unit-types"
+          title="Unit Types"
+          hasBullet={true}
+        /> */}
+
+        <SidebarMenuItem
+          to="/admin/customfields"
+          title="Custom Fields"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to="/admin/settings/users"
+          title="Users"
+          hasBullet={true}
+        />
+      </SidebarMenuItemWithSub>
+      <SidebarMenuItemWithSub
+        to="/client"
+        title="Client"
+        fontIcon="bi-chat-left"
+        icon="message-text-2"
+      >
+        <SidebarMenuItem to="/client/search" title="Client" hasBullet={true} />
+      </SidebarMenuItemWithSub>
+
+      <SidebarMenuItemWithSub
+        to="/estimation"
+        title="Quotes"
+        fontIcon="bi-chat-left"
+        icon="message-text-2"
+      >
+        <SidebarMenuItem
+          to="/estimation/search"
+          title="Quotes"
+          hasBullet={true}
+        />
+      </SidebarMenuItemWithSub>
+
+      <SidebarMenuItemWithSub
+        to="/admin"
+        title="Sales"
+        fontIcon="bi-chat-left"
+        icon="message-text-2"
+      >
+        <SidebarMenuItem
+          to="/admin/unit-types"
+          title="Unit Types"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to="/admin/productgroups"
+          title="Product Groups"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to="/admin/discounts"
+          title="Discount Margins"
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to="/admin/notification-cycle"
+          title="Reminder Settings"
+          hasBullet={true}
+        />
+      </SidebarMenuItemWithSub>
+      <div className="menu-item">
+        <div className="menu-content pt-8 pb-2">
+          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
             Crafted
           </span>
         </div>
@@ -142,100 +236,6 @@ const SidebarMenuMain = () => {
         <SidebarMenuItem
           to="/crafted/widgets/feeds"
           title="Feeds"
-          hasBullet={true}
-        />
-      </SidebarMenuItemWithSub>
-      <div className="menu-item">
-        <div className="menu-content pt-8 pb-2">
-          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-            Settings
-          </span>
-        </div>
-      </div>
-      <SidebarMenuItemWithSub
-        to="/admin"
-        title="Admin"
-        fontIcon="bi-chat-left"
-        icon="message-text-2"
-      >
-        <SidebarMenuItem
-          to="/admin/vattype"
-          title="Tax Types"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/ledgeraccount"
-          title="Ledger Accounts"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/financialaccount"
-          title="Financial Accounts"
-          hasBullet={true}
-        />
-        {/* <SidebarMenuItem
-          to="/admin/unit-types"
-          title="Unit Types"
-          hasBullet={true}
-        /> */}
-
-        <SidebarMenuItem
-          to="/admin/customfields"
-          title="Custom Fields"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/settings/users"
-          title="Users"
-          hasBullet={true}
-        />
-      </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub
-        to="/client"
-        title="Client"
-        fontIcon="bi-chat-left"
-        icon="message-text-2"
-      >
-        <SidebarMenuItem to="/client/search" title="Client" hasBullet={true} />
-      </SidebarMenuItemWithSub>
-
-      <SidebarMenuItemWithSub
-        to="/estimation"
-        title="Quotes"
-        fontIcon="bi-chat-left"
-        icon="message-text-2"
-      >
-        <SidebarMenuItem
-          to="/estimation/search"
-          title="Quotes"
-          hasBullet={true}
-        />
-      </SidebarMenuItemWithSub>
-
-      <SidebarMenuItemWithSub
-        to="/admin"
-        title="Sales"
-        fontIcon="bi-chat-left"
-        icon="message-text-2"
-      >
-        <SidebarMenuItem
-          to="/admin/unit-types"
-          title="Unit Types"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/productgroups"
-          title="Product Groups"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/discounts"
-          title="Discount Margins"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/notification-cycle"
-          title="Reminder Settings"
           hasBullet={true}
         />
       </SidebarMenuItemWithSub>
