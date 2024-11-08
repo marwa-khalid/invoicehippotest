@@ -120,9 +120,10 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const offcanvasRef = useRef<HTMLDivElement>(null);
-
+  console.log(downloadUrl);
   useEffect(() => {
     if (downloadUrl) {
+      console.log("working");
       const container = containerRef.current; // This `useRef` instance will render the PDF.
 
       let PSPDFKit: any, instance: any;
@@ -133,9 +134,9 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
         PSPDFKit.unload(container); // Ensure that there's only one PSPDFKit instance.
         const toolbarItems = PSPDFKit.defaultToolbarItems;
 
-        toolbarItems.push({
-          type: "spacer",
-        });
+        // toolbarItems.push({
+        //   type: "spacer",
+        // });
 
         // A custom item. Inside the onPress callback we can call into PSPDFKit APIs.
         toolbarItems.push({
@@ -152,7 +153,6 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
           // Container where PSPDFKit should be mounted.
           container,
           toolbarItems: toolbarItems,
-          licenseKey: "",
           document: downloadUrl,
           baseUrl: `${window.location.protocol}//${window.location.host}/${BASE_URL}`,
         });
@@ -172,7 +172,7 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
       aria-labelledby="offcanvasRightLabel"
       data-bs-backdrop="false"
     >
-      <div className="offcanvas-body p-0">
+      <div className="offcanvas-body">
         <div ref={containerRef} style={{ width: "100%", height: "100vh" }} />
       </div>
     </div>

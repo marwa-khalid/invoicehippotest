@@ -138,9 +138,11 @@ const QuoteAddStep1: FC<Props> = ({
 
   useEffect(() => {
     const clientResponse = JSON.parse(localStorage.getItem("clientResponse")!);
+    const isNew = localStorage.getItem("isNew")!;
 
     if (clientResponse != null) {
       formik.setFieldValue("header.clientId", clientResponse.id);
+      fetchContacts();
       // formik.setFieldValue(
       //   "header.clientReferenceNr",
       //   clientResponse.customerNr
@@ -149,37 +151,51 @@ const QuoteAddStep1: FC<Props> = ({
         "header.clientDisplayName",
         clientResponse.customerNr + " " + clientResponse.businessName
       );
-    }
-    const contactResponse = JSON.parse(
-      localStorage.getItem("contactResponse")!
-    );
-    if (contactResponse != null) {
-      formik.setFieldValue("header.clientContactId", 0);
-      setContactResponse(contactResponse);
-    } else {
-      const defaultContact = contactResponse?.find(
-        (contact: any) => contact.isDefaultContact === true
-      )?.id;
-      formik.setFieldValue("header.clientContactId", defaultContact);
+
+      // const contactResponse = JSON.parse(
+      //   localStorage.getItem("contactResponse")!
+      // );
+      // if (contactResponse != null) {
+      //   // formik.setFieldValue("header.clientContactId", 0);
+      //   setContactResponse(contactResponse);
+      // } else {
+      //   const defaultContact = contactResponse?.find(
+      //     (contact: any) => contact.isDefaultContact === true
+      //   )?.id;
+      //   formik.setFieldValue("header.clientContactId", defaultContact);
+      // }
     }
   }, [clientModal, clientSearch]);
 
   useEffect(() => {
-    const fetchContacts = async () => {
-      const response = await getContactListById(formik.values.header.clientId);
+    localStorage.removeItem("isNew");
+  }, [clientModal]);
+  const fetchContacts = async () => {
+    let count = 1;
+    const response = await getContactListById(formik.values.header.clientId);
 
-      if (response.isValid) {
-        setContactResponse(response.result);
+    if (response.isValid) {
+      const isNew = localStorage.getItem("isNew")!;
+
+      if (
+        formik.values.header.clientId !== response?.result[0].clientId ||
+        isNew === "yes"
+      ) {
         const defaultContact = response.result.find(
           (contact) => contact.isDefaultContact === true
         )?.id;
         formik.setFieldValue("header.clientContactId", defaultContact);
       }
-    };
+      setContactResponse(response.result);
+    }
+    count++;
+  };
+  useEffect(() => {
     if (formik.values.header.clientId != 0) {
       fetchContacts();
     }
   }, [formik.values.header.clientId]);
+
   const reset = () => {
     localStorage.removeItem("contactResponse");
     localStorage.removeItem("clientResponse");

@@ -44,8 +44,8 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
 
   const setClient = async (client: any) => {
     if (formik != null) {
-      formik?.setFieldValue("header.clientId", client.id);
-      formik?.setFieldValue("header.clientDisplayName", client.displayName);
+      localStorage.setItem("clientResponse", JSON.stringify(client));
+      localStorage.setItem("isNew", "yes");
       // formik.setFieldValue("header.clientReferenceNr", client.customerNr);
       // formik.setFieldValue("header.clientContactId", 0);
     } else {

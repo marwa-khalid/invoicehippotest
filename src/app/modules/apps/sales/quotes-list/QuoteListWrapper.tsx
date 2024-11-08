@@ -2,7 +2,7 @@ import { FinancialListHeader } from "./components/header/QuoteHeader";
 import { QuoteList } from "./search-list/QuoteList";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../../../_metronic/layout/components/content";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FinancialAccountsToolbar } from "./components/header/FinancialAccountsToolbar";
 import { QuoteDeleteModal } from "./quote-delete-modal/QuoteDeleteModal";
 import { QuoteViewModal } from "./quote-view-modal/QuoteViewModal";
@@ -96,6 +96,11 @@ const QuoteListInnerWrapper = () => {
     }
     setShowClientSearch(false); // Close the modal
   };
+
+  useEffect(() => {
+    localStorage.removeItem("contactResponse");
+    localStorage.removeItem("clientResponse");
+  }, [addModalOpen]);
 
   return (
     <>

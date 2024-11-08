@@ -161,6 +161,13 @@ export function getQuoteById(editModalId: number) {
   return getRequest<QuoteListModel>(`${QUOTE_API}/${editModalId}`, true);
 }
 
+export function getAdditionalDataForQuote(editModalId: number) {
+  return getRequest<QuoteListModel>(
+    `${SEARCH_QUOTE_LIST}/item/${editModalId}`,
+    true
+  );
+}
+
 export function postQuote(values: any) {
   return postRequest<QuotePostModel>(
     QUOTE_API,

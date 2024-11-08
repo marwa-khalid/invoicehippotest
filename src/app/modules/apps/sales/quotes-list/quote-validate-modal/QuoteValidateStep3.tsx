@@ -1,8 +1,4 @@
-import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { KTIcon } from "../../../../../../_metronic/helpers";
-import Tippy from "@tippyjs/react";
-import ReactQuill from "react-quill";
 import clsx from "clsx";
 import { FormikProps } from "formik";
 import { FormValues } from "./QuoteValidateStep1";

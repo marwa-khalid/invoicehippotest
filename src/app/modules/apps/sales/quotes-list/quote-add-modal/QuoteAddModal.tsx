@@ -272,33 +272,34 @@ const QuoteAddModal = ({
         ...formik.values,
         ...res.result, // Merge the response with the existing form values
       });
-      const clientResponse = JSON.parse(
-        localStorage.getItem("clientResponse")!
-      );
+      // const clientResponse = JSON.parse(
+      //   localStorage.getItem("clientResponse")!
+      // );
 
-      if (clientResponse != null) {
-        formik.setFieldValue("header.clientId", clientResponse.id);
-        // formik.setFieldValue(
-        //   "header.clientReferenceNr",
-        //   clientResponse.customerNr
-        // );
-        formik.setFieldValue(
-          "header.clientDisplayName",
-          clientResponse.customerNr + " " + clientResponse.businessName
-        );
-      }
-      const contactResponse = JSON.parse(
-        localStorage.getItem("contactResponse")!
-      );
-      if (contactResponse != null) {
-        formik.setFieldValue("header.clientContactId", 0);
-        setContactResponse(contactResponse);
-      } else {
-        const defaultContact = contactResponse?.find(
-          (contact: any) => contact.isDefaultContact === true
-        )?.id;
-        formik.setFieldValue("header.clientContactId", defaultContact);
-      }
+      // if (clientResponse != null) {
+      //   formik.setFieldValue("header.clientId", clientResponse.id);
+      //   // formik.setFieldValue(
+      //   //   "header.clientReferenceNr",
+      //   //   clientResponse.customerNr
+      //   // );
+      //   formik.setFieldValue(
+      //     "header.clientDisplayName",
+      //     clientResponse.customerNr + " " + clientResponse.businessName
+      //   );
+      // }
+      // const contactResponse = JSON.parse(
+      //   localStorage.getItem("contactResponse")!
+      // );
+      // if (contactResponse != null) {
+      //   formik.setFieldValue("header.clientContactId", 0);
+      //   setContactResponse(contactResponse);
+      // } else {
+      //   console.log(contactResponse);
+      //   const defaultContact = contactResponse?.find(
+      //     (contact: any) => contact.isDefaultContact === true
+      //   )?.id;
+      //   formik.setFieldValue("header.clientContactId", defaultContact);
+      // }
 
       setIsLoading(false);
     };
