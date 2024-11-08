@@ -594,12 +594,14 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                         </h4>
                       </div>
                     )}
-                    <ListPagination
-                      totalPages={attachments.totalPages}
-                      pageIndex={attachments.pageIndex}
-                      onPageChange={handlePageChange}
-                      totalItems={attachments.totalRows}
-                    />
+                    {attachments?.totalRows !== 0 && (
+                      <ListPagination
+                        totalPages={attachments.totalPages}
+                        pageIndex={attachments.pageIndex}
+                        onPageChange={handlePageChange}
+                        totalItems={attachments.totalRows}
+                      />
+                    )}
                   </div>
 
                   {/* <div className="modal-footer d-flex justify-content-end">

@@ -328,13 +328,14 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                 )}
               </div>
             </div>
-
-            <ListPagination
-              totalPages={products?.totalPages}
-              pageIndex={products?.pageIndex}
-              onPageChange={handlePageChange}
-              totalItems={products?.totalRows}
-            />
+            {products?.totalRows !== 0 && (
+              <ListPagination
+                totalPages={products?.totalPages}
+                pageIndex={products?.pageIndex}
+                onPageChange={handlePageChange}
+                totalItems={products?.totalRows}
+              />
+            )}
             <div className="modal-footer">
               <button
                 type="button"

@@ -275,13 +275,14 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
                 )}
               </div>
             </div>
-
-            <ListPagination
-              totalPages={clients?.totalPages}
-              pageIndex={clients?.pageIndex}
-              onPageChange={handlePageChange}
-              totalItems={clients?.totalRows}
-            />
+            {clients?.totalRows !== 0 && (
+              <ListPagination
+                totalPages={clients?.totalPages}
+                pageIndex={clients?.pageIndex}
+                onPageChange={handlePageChange}
+                totalItems={clients?.totalRows}
+              />
+            )}
             <div className="modal-footer">
               <button
                 type="button"
