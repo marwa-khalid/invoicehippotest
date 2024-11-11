@@ -44,6 +44,7 @@ const ClientInnerWrapper = () => {
         setSearchTerm={setSearchTermState}
         searchTerm={searchTerm}
         setSearchCounter={setSearchCounter}
+        setPageIndex={setPageIndexState}
       />
       <ClientToolbar
         totalRows={totalRows}

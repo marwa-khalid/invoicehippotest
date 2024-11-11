@@ -213,16 +213,6 @@ const QuoteViewInnerWrapper = () => {
                       {intl.formatMessage({ id: "Fields.Quotes" })}
                     </a>
                   </li>
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      data-bs-toggle="tab"
-                      href="#kt_tab_activities"
-                    >
-                      <i className="fas fa-history me-2"></i>
-                      {intl.formatMessage({ id: "Fields.TabActionHistory" })}
-                    </a>
-                  </li>
                   {response?.comments?.privateComments && (
                     <li className="nav-item">
                       <a
@@ -241,13 +231,24 @@ const QuoteViewInnerWrapper = () => {
                     </li>
                   )}
                   <li className="nav-item">
-                    <div className="nav-link">
+                    <a
+                      className="nav-link"
+                      data-bs-toggle="tab"
+                      href="#kt_tab_activities"
+                    >
+                      <i className="fas fa-history me-2"></i>
+                      {intl.formatMessage({ id: "Fields.TabActionHistory" })}
+                    </a>
+                  </li>
+
+                  <li className="nav-item">
+                    <div style={{ padding: "0.7rem 0", margin: "0 1rem" }}>
                       <div className="cursor-pointer btn-group drop-left">
                         <button
-                          className="btn btn-icon btn-sm ms-5 me-2 text-muted"
+                          className="btn btn-icon btn-sm ms-5 me-2 text-muted align-items-center d-flex"
                           data-bs-toggle="dropdown"
                         >
-                          <i className="ki-outline ki-gear me-2 fs-3"></i>
+                          <i className="ki-outline ki-gear me-1 fs-3"></i>
 
                           {intl.formatMessage({ id: "Fields.TabOptions" })}
                           <i className="fa fa-chevron-down ms-2"></i>

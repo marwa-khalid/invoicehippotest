@@ -124,7 +124,7 @@ const QuoteAddStep2: FC<Props> = ({
 
   return (
     <div className="modal-body" id="#kt_tab_pane_5">
-      <form className="form p-3" noValidate>
+      <form className="form" noValidate>
         <div className="container">
           {/* Button at the top-right corner */}
           <div className="d-flex justify-content-end mb-4">

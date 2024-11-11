@@ -8,22 +8,20 @@ interface PaginationProps {
   pageIndex: number;
   onPageChange: (page: number) => void;
   totalItems: number;
-  moduleName: string;
+  setPageIndex: (page: number) => void;
 }
 
-const ListPagination = ({
+const QuoteListPagination = ({
   totalPages,
   pageIndex,
   onPageChange,
   totalItems,
-  moduleName,
+  setPageIndex,
 }: PaginationProps) => {
-  console.log(pageIndex);
+  const [state, setState] = useState(pageIndex);
   const intl = useIntl();
 
-  console.log(pageIndex);
   useEffect(() => {
-    // setPageIndex(pageIndex);
     let storedPaginationString = localStorage.getItem("pagination");
 
     // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
@@ -31,74 +29,75 @@ const ListPagination = ({
       ? JSON.parse(storedPaginationString)
       : JSON.parse(import.meta.env.VITE_APP_PAGINATION);
 
-    // Update the page in the module
-
-    pagination[moduleName].pageIndex = pageIndex;
+    // Update the page in the financial-module
+    pagination["quotes-module"].pageIndex = pageIndex;
 
     // Convert the updated object back to a JSON string
     const updatedPaginationString = JSON.stringify(pagination);
 
     // Store the updated JSON string in local storage
     localStorage.setItem("pagination", updatedPaginationString);
-  }, [pageIndex]);
+  }, []);
 
-  const handlePageChange = (newPageIndex: number, e: any) => {
-    e.preventDefault();
-
+  const handlePageChange = (newPageIndex: number) => {
+    setState(newPageIndex);
     onPageChange(newPageIndex);
   };
 
-  const handleFirstPage = (e: any) => {
-    e.preventDefault();
-    if (pageIndex !== 1) {
+  const handleFirstPage = () => {
+    if (state !== 1) {
+      setState(1);
       onPageChange(1);
     }
   };
 
-  const handlePreviousPage = (e: any) => {
-    e.preventDefault();
-    if (pageIndex > 1) {
-      onPageChange(pageIndex - 1);
+  const handlePreviousPage = () => {
+    if (state > 1) {
+      setState(state - 1);
+      onPageChange(state - 1);
     }
   };
 
-  const handleNextPage = (e: any) => {
-    e.preventDefault();
-    if (pageIndex < totalPages) {
-      onPageChange(pageIndex + 1);
+  const handleNextPage = () => {
+    if (state < totalPages) {
+      setState(state + 1);
+      onPageChange(state + 1);
     }
   };
 
-  const handleLastPage = (e: any) => {
-    e.preventDefault();
-    if (pageIndex !== totalPages) {
+  const handleLastPage = () => {
+    if (state !== totalPages) {
+      setState(totalPages);
       onPageChange(totalPages);
     }
   };
 
   const paginationLinks = useMemo(() => {
-    const start = Math.max(1, Math.min(pageIndex - 2, totalPages - 4));
+    const start = Math.max(1, Math.min(state - 2, totalPages - 4));
     const end = Math.min(totalPages, start + 4);
     const links = [];
     for (let i = start; i <= end; i++) {
       links.push({
         label: i.toString(),
-        active: i === pageIndex,
+        active: i === state,
         page: i,
       });
     }
     return links;
-  }, [totalPages, pageIndex]);
+  }, [totalPages, state]);
 
   const handlePageDropdownChange = (selectedOption: any) => {
     if (!selectedOption) return;
 
     const pageNumber = parseInt(selectedOption.value, 10);
 
-    if (!isNaN(pageNumber) && pageNumber !== pageIndex) {
+    setState(pageNumber);
+
+    if (!isNaN(pageNumber) && pageNumber !== state) {
       onPageChange(pageNumber);
     }
   };
+
   const pageOptions = useMemo(() => {
     const options = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -106,12 +105,13 @@ const ListPagination = ({
     }
     return options;
   }, [totalPages]);
+
   return (
-    <div className="row p-5">
+    <div className="row mt-10">
       <div className="col-sm-12 col-md-6 d-flex align-items-center text-grey-800 justify-content-start">
         <div id="kt_table_users_paginate">
           <ul className="pagination">
-            <li className={clsx("page-item", { disabled: pageIndex === 1 })}>
+            <li className={clsx("page-item", { disabled: state === 1 })}>
               <button
                 className="page-link"
                 onClick={handleFirstPage}
@@ -122,7 +122,7 @@ const ListPagination = ({
             </li>
             <li
               className={clsx("page-item previous", {
-                disabled: pageIndex === 1,
+                disabled: state === 1,
               })}
             >
               <button
@@ -140,7 +140,7 @@ const ListPagination = ({
               >
                 <button
                   className="page-link"
-                  onClick={(e) => handlePageChange(link.page, e)}
+                  onClick={() => handlePageChange(link.page)}
                   style={{ cursor: "pointer" }}
                 >
                   {link.label}
@@ -149,7 +149,7 @@ const ListPagination = ({
             ))}
             <li
               className={clsx("page-item next", {
-                disabled: pageIndex === totalPages,
+                disabled: state === totalPages,
               })}
             >
               <button
@@ -162,7 +162,7 @@ const ListPagination = ({
             </li>
             <li
               className={clsx("page-item", {
-                disabled: pageIndex === totalPages,
+                disabled: state === totalPages,
               })}
             >
               <button
@@ -178,8 +178,7 @@ const ListPagination = ({
       </div>
       <div className="col-sm-12 col-md-6 d-flex align-items-center justify-content-center justify-content-md-end">
         <span className="content-fit m-0 text-muted fs-xs">
-          {intl.formatMessage({ id: "Fields.SearchFooterPageTitle" })}{" "}
-          {pageIndex}{" "}
+          {intl.formatMessage({ id: "Fields.SearchFooterPageTitle" })} {state}{" "}
           {intl.formatMessage({ id: "Fields.SearchFooterPageOfTitle" })}{" "}
           {totalPages} |{" "}
           {intl.formatMessage({ id: "Fields.SearchFooterTotalItemsTitle" })}:{" "}
@@ -188,9 +187,9 @@ const ListPagination = ({
         <Select
           className="react-select-styled ms-3"
           options={pageOptions}
-          value={pageOptions.find((option) => {
-            return option.value === pageIndex?.toString();
-          })}
+          value={pageOptions.find(
+            (option) => option.value === state.toString()
+          )}
           onChange={handlePageDropdownChange}
           menuPlacement="top"
         />
@@ -199,4 +198,4 @@ const ListPagination = ({
   );
 };
 
-export { ListPagination };
+export { QuoteListPagination };

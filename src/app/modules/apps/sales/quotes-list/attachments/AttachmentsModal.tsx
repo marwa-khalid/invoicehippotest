@@ -22,21 +22,82 @@ interface Props {
 }
 const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
   const intl = useIntl();
+
+  const getPaginationValues = () => {
+    const storedPaginationString = localStorage.getItem("pagination")!;
+    if (storedPaginationString) {
+      const pagination = JSON.parse(storedPaginationString);
+      const currentPage = pagination["attachment-picker"].pageIndex || 1;
+      const currentSearchTerm =
+        pagination["attachment-picker"].filters.searchTerm || "";
+
+      return {
+        currentPage,
+        currentSearchTerm,
+      };
+    }
+    return {
+      currentPage: 1,
+      currentSearchTerm: "",
+    };
+  };
+
+  const { currentPage, currentSearchTerm } = getPaginationValues();
   const [counter, setCounter] = useState(false);
-  const [pageIndex, setPageIndex] = useState<number>(1);
+  const [pageIndex, setPageIndex] = useState<number>(currentPage);
   const [tempFiles, setTempFiles] = useState<any>([]);
   const [uploading, setUploading] = useState(false);
-  const [localSearchTerm, setLocalSearchTerm] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>(currentSearchTerm);
+  const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const [attachments, setAttachments] = useState<any>([]);
   const [progressList, setProgressList] = useState<number[]>([]);
   const [completedFiles, setCompletedFiles] = useState<any>([]);
   const maxSize = 5 * 1024 * 1024;
   const maxFiles = 25;
+  console.log(currentSearchTerm);
+  console.log(searchTerm);
+  console.log(localSearchTerm);
 
   const handleSearchClick = () => {
     setSearchTerm(localSearchTerm);
     setCounter(!counter);
+    setPageIndex(1);
+
+    let storedPaginationString = localStorage.getItem("pagination");
+
+    // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
+    let pagination = storedPaginationString
+      ? JSON.parse(storedPaginationString)
+      : JSON.parse(import.meta.env.VITE_APP_PAGINATION);
+
+    // Update the filter in the module
+    pagination["attachment-picker"].filters.searchTerm = localSearchTerm;
+
+    // Convert the updated object back to a JSON string
+    const updatedPaginationString = JSON.stringify(pagination);
+
+    // Store the updated JSON string in local storage
+    localStorage.setItem("pagination", updatedPaginationString);
+  };
+  const handleReset = () => {
+    localStorage.setItem(
+      "pagination",
+      JSON.stringify({
+        ...JSON.parse(localStorage.getItem("pagination") || "{}"),
+        "attachment-picker": {
+          ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+            "attachment-picker"
+          ],
+          filters: {
+            searchTerm: "",
+          },
+          pageIndex: 1,
+        },
+      })
+    );
+    setLocalSearchTerm("");
+    setSearchTerm("");
+    setPageIndex(1);
   };
 
   const onDrop = useCallback(
@@ -97,7 +158,6 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
 
   const handlePageChange = (page: number) => {
     setPageIndex(page);
-    fetchAttachments();
   };
 
   const handleLink = (attachment: any) => {
@@ -448,10 +508,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
 
                       <button
                         className="btn btn-secondary btn-icon"
-                        onClick={() => {
-                          setSearchTerm("");
-                          setLocalSearchTerm("");
-                        }}
+                        onClick={() => handleReset()}
                       >
                         <i className="la la-remove fs-3"></i>
                       </button>
@@ -600,6 +657,7 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
                         pageIndex={attachments.pageIndex}
                         onPageChange={handlePageChange}
                         totalItems={attachments.totalRows}
+                        moduleName="attachment-picker"
                       />
                     )}
                   </div>

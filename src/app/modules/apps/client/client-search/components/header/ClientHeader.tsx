@@ -5,12 +5,14 @@ interface ComponentProps {
   setSearchTerm: (term: string) => void;
   searchTerm: string;
   setSearchCounter: React.Dispatch<React.SetStateAction<number>>;
+  setPageIndex: (type: number) => void;
 }
 
 const ClientHeader = ({
   setSearchTerm,
   searchTerm,
   setSearchCounter,
+  setPageIndex,
 }: ComponentProps) => {
   return (
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
@@ -20,6 +22,7 @@ const ClientHeader = ({
           setSearchTerm={setSearchTerm}
           setSearchCounter={setSearchCounter}
           searchTerm={searchTerm}
+          setPageIndex={setPageIndex}
         />
       </div>
     </KTCardBody>

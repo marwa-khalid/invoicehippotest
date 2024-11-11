@@ -38,7 +38,7 @@ export function getClients(
     GET_CLIENTS,
     {
       pageMax: pageMax,
-      pageIndex: searchTerm ? 1 : pageIndex,
+      pageIndex: pageIndex,
       searchTerm: searchTerm,
       includeTotals: true,
       // clientFilterType: 0,

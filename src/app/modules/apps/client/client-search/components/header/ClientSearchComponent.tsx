@@ -6,12 +6,14 @@ interface ComponentProps {
   setSearchTerm: (term: string) => void;
   searchTerm: string;
   setSearchCounter: React.Dispatch<React.SetStateAction<number>>;
+  setPageIndex: (type: number) => void;
 }
 
 const ClientSearchComponent = ({
   setSearchTerm,
   searchTerm,
   setSearchCounter,
+  setPageIndex,
 }: ComponentProps) => {
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const intl = useIntl();
@@ -43,6 +45,7 @@ const ClientSearchComponent = ({
   const handleResetClick = () => {
     setLocalSearchTerm("");
     setSearchTerm("");
+    setPageIndex(1);
     localStorage.setItem(
       "pagination",
       JSON.stringify({

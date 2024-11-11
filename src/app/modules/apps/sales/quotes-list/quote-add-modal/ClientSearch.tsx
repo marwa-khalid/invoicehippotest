@@ -16,15 +16,76 @@ interface Props {
 }
 const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
   const intl = useIntl();
-  const [localSearchTerm, setLocalSearchTerm] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const getPaginationValues = () => {
+    const storedPaginationString = localStorage.getItem("pagination")!;
+    if (storedPaginationString) {
+      const pagination = JSON.parse(storedPaginationString);
+      const currentPage = pagination["client-picker"].pageIndex || 1;
+      const currentSearchTerm =
+        pagination["client-picker"].filters.searchTerm || "";
+
+      return {
+        currentPage,
+        currentSearchTerm,
+      };
+    }
+    return {
+      currentPage: 1,
+      currentSearchTerm: "",
+    };
+  };
+
+  const { currentPage, currentSearchTerm } = getPaginationValues();
+
+  const [searchTerm, setSearchTerm] = useState<string>(currentSearchTerm);
+  const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const [counter, setCounter] = useState(false);
   const [clients, setClients] = useState<any>();
-  const [pageIndex, setPageIndex] = useState<number>(1);
+  const [pageIndex, setPageIndex] = useState<number>(currentPage);
   const handleSearchClick = () => {
     setSearchTerm(localSearchTerm);
     setCounter(!counter);
+    setPageIndex(1);
+
+    let storedPaginationString = localStorage.getItem("pagination");
+
+    // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
+    let pagination = storedPaginationString
+      ? JSON.parse(storedPaginationString)
+      : JSON.parse(import.meta.env.VITE_APP_PAGINATION);
+
+    // Update the filter in the module
+    pagination["client-picker"].filters.searchTerm = localSearchTerm;
+
+    // Convert the updated object back to a JSON string
+    const updatedPaginationString = JSON.stringify(pagination);
+
+    // Store the updated JSON string in local storage
+    localStorage.setItem("pagination", updatedPaginationString);
   };
+
+  const handleReset = () => {
+    localStorage.setItem(
+      "pagination",
+      JSON.stringify({
+        ...JSON.parse(localStorage.getItem("pagination") || "{}"),
+        "client-picker": {
+          ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+            "client-picker"
+          ],
+          filters: {
+            searchTerm: "",
+          },
+          pageIndex: 1,
+        },
+      })
+    );
+    setLocalSearchTerm("");
+    setSearchTerm("");
+    setPageIndex(1);
+  };
+  console.log(searchTerm, pageIndex);
 
   const fetchClients = async () => {
     const response = await getClients(searchTerm, pageIndex, 5);
@@ -33,13 +94,13 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
       setClients(response);
     }
   };
+
   useEffect(() => {
     fetchClients();
   }, [searchTerm, counter, pageIndex]);
-
+  console.log(pageIndex);
   const handlePageChange = (page: number) => {
     setPageIndex(page);
-    fetchClients();
   };
 
   const setClient = async (client: any) => {
@@ -129,8 +190,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
                   <button
                     className="btn btn-secondary btn-icon"
                     onClick={() => {
-                      setSearchTerm("");
-                      setLocalSearchTerm("");
+                      handleReset();
                     }}
                   >
                     <i className="la la-remove fs-3"></i>
@@ -163,7 +223,6 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
                     return (
                       <div key={index}>
                         <table className="table table-row-dashed table-row-gray-300 gy-7">
-                          <thead>{/* <tr></tr> */}</thead>
                           <tbody>
                             <tr className="table-row-dashed">
                               <td width={50}>
@@ -193,12 +252,14 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
                                 </div>
                                 {client.primaryContact && (
                                   <ul className="breadcrumb breadcrumb-secondary breadcrumb-dot mb-3 text-muted ">
-                                    <li className="breadcrumb-item align-items-center">
-                                      <i className="far fa-user fs-6 me-2" />
-                                      <span className="fs-6">
-                                        {client.primaryContact.fullName}
-                                      </span>
-                                    </li>
+                                    {client.primaryContact.fullName && (
+                                      <li className="breadcrumb-item align-items-center">
+                                        <i className="far fa-user fs-6 me-2" />
+                                        <span className="fs-6">
+                                          {client.primaryContact.fullName}
+                                        </span>
+                                      </li>
+                                    )}
                                     {client.primaryContact.emailAddress && (
                                       <li className="breadcrumb-item align-items-center">
                                         <i className="fa fa-envelope fs-7 me-2" />
@@ -281,6 +342,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
                 pageIndex={clients?.pageIndex}
                 onPageChange={handlePageChange}
                 totalItems={clients?.totalRows}
+                moduleName="client-picker"
               />
             )}
             <div className="modal-footer">

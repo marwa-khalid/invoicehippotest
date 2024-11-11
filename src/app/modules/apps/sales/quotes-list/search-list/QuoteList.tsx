@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { QuoteListResult } from "../core/_models";
 import { getQuotes } from "../core/_requests";
 import { ListLoading } from "../../../components/ListLoading";
-import { FinancialListPagination } from "../components/pagination/FinancialListPagination";
+import { QuoteListPagination } from "../components/pagination/QuoteListPagination";
 import { KTCardBody } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
@@ -680,7 +680,7 @@ const QuoteList = ({
       </div>
 
       {quoteLists?.result?.length > 0 && (
-        <FinancialListPagination
+        <QuoteListPagination
           totalPages={quoteLists.totalPages}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}

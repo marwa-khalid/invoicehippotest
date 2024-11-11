@@ -13,15 +13,73 @@ interface Props {
 }
 const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
   const intl = useIntl();
-  const [localSearchTerm, setLocalSearchTerm] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const getPaginationValues = () => {
+    const storedPaginationString = localStorage.getItem("pagination")!;
+    if (storedPaginationString) {
+      const pagination = JSON.parse(storedPaginationString);
+      const currentPage = pagination["product-picker"].pageIndex || 1;
+      const currentSearchTerm =
+        pagination["product-picker"].filters.searchTerm || "";
+
+      return {
+        currentPage,
+        currentSearchTerm,
+      };
+    }
+    return {
+      currentPage: 1,
+      currentSearchTerm: "",
+    };
+  };
+
+  const { currentPage, currentSearchTerm } = getPaginationValues();
+
+  const [searchTerm, setSearchTerm] = useState<string>(currentSearchTerm);
+  const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const [counter, setCounter] = useState(false);
   const [products, setProducts] = useState<any>();
-  const [pageIndex, setPageIndex] = useState<number>(1);
+  const [pageIndex, setPageIndex] = useState<number>(currentPage);
   const handleSearchClick = (e: any) => {
     e.preventDefault();
     setSearchTerm(localSearchTerm);
     setCounter(!counter);
+    setPageIndex(1);
+    let storedPaginationString = localStorage.getItem("pagination");
+
+    // Parse the JSON string to get the JavaScript object, or initialize an empty object if it doesn't exist
+    let pagination = storedPaginationString
+      ? JSON.parse(storedPaginationString)
+      : JSON.parse(import.meta.env.VITE_APP_PAGINATION);
+
+    // Update the filter in the module
+    pagination["product-picker"].filters.searchTerm = localSearchTerm;
+
+    // Convert the updated object back to a JSON string
+    const updatedPaginationString = JSON.stringify(pagination);
+
+    // Store the updated JSON string in local storage
+    localStorage.setItem("pagination", updatedPaginationString);
+  };
+
+  const handleReset = () => {
+    localStorage.setItem(
+      "pagination",
+      JSON.stringify({
+        ...JSON.parse(localStorage.getItem("pagination") || "{}"),
+        "product-picker": {
+          ...JSON.parse(localStorage.getItem("pagination") || "{}")[
+            "product-picker"
+          ],
+          filters: {
+            searchTerm: "",
+          },
+          pageIndex: 1,
+        },
+      })
+    );
+    setLocalSearchTerm("");
+    setSearchTerm("");
+    setPageIndex(1);
   };
 
   const fetchProducts = async () => {
@@ -37,7 +95,6 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
 
   const handlePageChange = (page: number) => {
     setPageIndex(page);
-    fetchProducts();
   };
 
   const fetchProductById = async (id: number) => {
@@ -175,16 +232,13 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
 
                   <button
                     className="btn btn-secondary btn-icon"
-                    onClick={() => {
-                      setSearchTerm("");
-                      setLocalSearchTerm("");
-                    }}
+                    onClick={() => handleReset()}
                   >
                     <i className="la la-remove fs-3"></i>
                   </button>
                 </div>
               </div>
-              {products?.totalRows && (
+              {products?.totalRows > 0 && (
                 <h5>
                   {intl
                     .formatMessage({ id: "Fields.SearchResultHeaderCount" })
@@ -334,6 +388,7 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                 pageIndex={products?.pageIndex}
                 onPageChange={handlePageChange}
                 totalItems={products?.totalRows}
+                moduleName="product-picker"
               />
             )}
             <div className="modal-footer">

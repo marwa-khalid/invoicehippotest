@@ -53,10 +53,11 @@ const ClientsList = ({
 
     try {
       const response = await getClients(searchTerm, pageIndex, 24);
-
-      setClients(response);
-      setPageIndex(response.pageIndex);
-      setTotalRows(response.totalRows);
+      if (response.isValid) {
+        setClients(response);
+        setPageIndex(response.pageIndex);
+        setTotalRows(response.totalRows);
+      }
     } catch (error) {
       console.error("Error fetching clients :", error);
     } finally {
