@@ -9,7 +9,6 @@ import { useAuth } from "../core/Auth";
 import "react-toastify/dist/ReactToastify.css";
 import { LanguagesAuth } from "../../../../_metronic/partials/layout/header-menus/LanguagesAuth";
 import { toAbsoluteUrl } from "../../../../_metronic/helpers";
-import { access } from "fs";
 import { handleToast } from "../core/_toast";
 
 const TwoFactor = () => {
@@ -193,7 +192,7 @@ const TwoFactor = () => {
                   </span>
                 </div>
 
-                <div className="d-flex ">
+                <div className="d-flex flex-end">
                   <button
                     type="submit"
                     id="kt_password_reset_submit"
