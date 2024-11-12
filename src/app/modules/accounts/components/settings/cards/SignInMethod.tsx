@@ -308,7 +308,7 @@ const SignInMethod: FC = () => {
                 Reset Password
               </button>
             </div>
-          </div>
+          </div> 
 
           <div className='notice d-flex bg-light-primary rounded border-primary border border-dashed p-6'>
             <KTIcon iconName='shield-tick' className='fs-2tx text-primary me-4' />

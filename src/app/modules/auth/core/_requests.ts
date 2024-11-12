@@ -15,6 +15,7 @@ import {
   REDIRECT_URL_V1,
   CHANGE_PASSWORD,
   SEPA_CONFIRM,
+  AUTHORIZE_ANONYMOUS,
 } from "./constants";
 import { postRequest, getRequest } from "./_apiservice";
 // Login request
@@ -27,6 +28,21 @@ export function login(userName: string, password: string) {
       languageType: 2,
       deviceType: 1,
       deviceId: "Windows",
+    },
+    false
+  );
+}
+
+//authorize anonymous
+export function authorizeAnonymous(values: any) {
+  return postRequest<AuthModel>(
+    AUTHORIZE_ANONYMOUS,
+    {
+      languageType: 2,
+      deviceType: 1,
+      deviceId: "Windows",
+      accessCode: values.accessCode,
+      oData: values.oData,
     },
     false
   );

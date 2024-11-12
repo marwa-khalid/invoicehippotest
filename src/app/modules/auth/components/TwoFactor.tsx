@@ -1,94 +1,65 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useIntl } from "react-intl";
-import { login } from "../core/_requests";
+import { authorizeAnonymous, checkSepaOdata, login } from "../core/_requests";
 import { useAuth } from "../core/Auth";
 import "react-toastify/dist/ReactToastify.css";
 import { LanguagesAuth } from "../../../../_metronic/partials/layout/header-menus/LanguagesAuth";
 import { toAbsoluteUrl } from "../../../../_metronic/helpers";
-const initialValues = {
-  username: "",
-  password: "",
-};
+import { access } from "fs";
+import { handleToast } from "../core/_toast";
 
 const TwoFactor = () => {
-  const [loading, setLoading] = useState(false);
   const { saveAuth } = useAuth();
   const intl = useIntl();
 
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
+  const query = useQuery();
+  const odata = query.get("odata");
+  console.log(odata);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   // Define the validation schema using Yup
   const loginSchema = Yup.object().shape({
-    username: Yup.string()
-      .email(
-        intl
-          .formatMessage({ id: "Common.InvalidFormat" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.EmailAddress" }))
-      )
-      .min(
-        3,
-        intl
-          .formatMessage({ id: "Common.ValidationMin" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.Password" }))
-          .replace("{1}", `3`)
-      )
-      .max(
-        50,
-        intl
-          .formatMessage({ id: "Common.ValidationMax" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.Password" }))
-          .replace("{1}", `50`)
-      )
-      .required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.EmailAddress" }))
-      ),
-    password: Yup.string()
-      .min(
-        3,
-        intl
-          .formatMessage({ id: "Common.ValidationMin" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.Password" }))
-          .replace("{1}", `3`)
-      )
-      .max(
-        50,
-        intl
-          .formatMessage({ id: "Common.ValidationMax" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.Password" }))
-          .replace("{1}", `50`)
-      )
-      .required(
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.Password" }))
-      ),
+    accessCode: Yup.string().required(
+      intl
+        .formatMessage({ id: "Common.RequiredFieldHint2" })
+        .replace("{0}", intl.formatMessage({ id: "Fields.Code" }))
+    ),
   });
 
   // Initialize Formik
   const formik = useFormik({
-    initialValues,
+    initialValues: {
+      accessCode: "",
+      odata: odata,
+    },
     validationSchema: loginSchema,
-    onSubmit: async (values, { setStatus, setSubmitting }) => {
-      setLoading(true);
+    onSubmit: async (values, { setStatus }) => {
+      setIsSubmitting(true);
       try {
-        const auth = await login(values.username, values.password);
-        saveAuth(auth);
+        const auth = await authorizeAnonymous(values);
+        if (auth.isValid) {
+          saveAuth(auth);
+        }
+        setIsSubmitting(false);
+        handleToast(auth);
       } catch (error) {
         saveAuth(undefined);
         setStatus(intl.formatMessage({ id: "Common.LoginError" }));
-        setSubmitting(false);
-        setLoading(false);
+        setIsSubmitting(false);
       }
     },
   });
 
-  const [code, setCode] = useState(Array(6).fill("")); // Array to store each digit
+  const [code, setCode] = useState(Array(5).fill("")); // Array to store each digit
   const inputRefs = useRef<HTMLInputElement[]>([]); // Array of refs to focus inputs
-
+  console.log(code.join(""));
   // Function to handle input change
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -99,6 +70,7 @@ const TwoFactor = () => {
       const newCode = [...code];
       newCode[index] = value;
       setCode(newCode);
+      formik.setFieldValue("accessCode", newCode.join(""));
 
       // Move to next input field if not the last
       if (index < inputRefs.current.length - 1) {
@@ -106,6 +78,8 @@ const TwoFactor = () => {
       }
     }
   };
+
+  console.log(formik.values);
 
   // Function to handle key down for backspace functionality
   const handleKeyDown = (
@@ -123,13 +97,15 @@ const TwoFactor = () => {
         const newCode = [...code];
         newCode[index] = "";
         setCode(newCode);
+        formik.setFieldValue("accessCode", newCode.join(""));
       }
     }
   };
 
   // Function to clear all inputs
   const clearAll = () => {
-    setCode(Array(6).fill(""));
+    setCode(Array(5).fill(""));
+    formik.setFieldValue("accessCode", "");
     inputRefs.current[0].focus(); // Focus on the first input after clearing
   };
   return (
@@ -196,7 +172,7 @@ const TwoFactor = () => {
                 </div>
                 <div className="fv-row mb-10">
                   <div className="d-flex flex-wrap flex-stack mb-5">
-                    {Array.from({ length: 6 }).map((_, index) => (
+                    {Array.from({ length: 5 }).map((_, index) => (
                       <input
                         key={index}
                         ref={(el) => (inputRefs.current[index] = el!)} // Assign each input ref
@@ -222,6 +198,9 @@ const TwoFactor = () => {
                     type="submit"
                     id="kt_password_reset_submit"
                     className="btn btn-primary me-2"
+                    disabled={
+                      isSubmitting || formik.values.accessCode.length !== 5
+                    }
                   >
                     <span className="indicator-label">
                       {intl.formatMessage({
@@ -229,7 +208,7 @@ const TwoFactor = () => {
                       })}
                     </span>
 
-                    {loading && (
+                    {isSubmitting && (
                       <span className="indicator-progress">
                         {intl.formatMessage({
                           id: "Common.Busy",
