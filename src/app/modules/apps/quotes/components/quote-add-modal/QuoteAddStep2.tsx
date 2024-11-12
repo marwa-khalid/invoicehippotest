@@ -535,7 +535,10 @@ const QuoteAddStep2: FC<Props> = ({
                                     <Tippy
                                       content={
                                         <>
-                                          <div className="text-end">
+                                          <div
+                                            className="text-end"
+                                            style={{ fontFamily: " monospace" }}
+                                          >
                                             {/* Display Amount title without inclusive or exclusive indication when isAlwaysExBtw is true */}
                                             {intl.formatMessage({
                                               id: "Fields.Amount",
@@ -596,7 +599,10 @@ const QuoteAddStep2: FC<Props> = ({
                                               }
                                             })()}
                                           </div>
-                                          <div className="text-end">
+                                          <div
+                                            className="text-end"
+                                            style={{ fontFamily: " monospace" }}
+                                          >
                                             {/* Display VAT title with calculated VAT value or 0.00 when isAlwaysExBtw is true */}
                                             {intl.formatMessage({
                                               id: "Fields.VatTitle",
@@ -705,7 +711,10 @@ const QuoteAddStep2: FC<Props> = ({
                                   <Tippy
                                     content={
                                       <>
-                                        <div className="text-end">
+                                        <div
+                                          className="text-end"
+                                          style={{ fontFamily: " monospace" }}
+                                        >
                                           {/* Display Amount title without inclusive or exclusive indication when isAlwaysExBtw is true */}
                                           {intl.formatMessage({
                                             id: "Fields.Amount",
@@ -782,7 +791,10 @@ const QuoteAddStep2: FC<Props> = ({
                                             }
                                           })()}
                                         </div>
-                                        <div className="text-end">
+                                        <div
+                                          className="text-end"
+                                          style={{ fontFamily: " monospace" }}
+                                        >
                                           {/* Display VAT title with calculated VAT value or 0.00 when isAlwaysExBtw is true */}
                                           {intl.formatMessage({
                                             id: "Fields.VatTitle",
