@@ -1,13 +1,13 @@
 import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../../_metronic/layout/core";
-import { QuoteListWrapper } from "./quotes-list/QuoteListWrapper";
+import { QuoteListWrapper } from "./components/QuoteListWrapper";
 import clsx from "clsx";
 import { useLayout } from "../../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
-import { QuoteViewWrapper } from "./quotes-list/QuoteViewWrapper";
+import { QuoteViewWrapper } from "./components/QuoteViewWrapper";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-const QoutesPage = () => {
+const QuotesPage = () => {
   const { config } = useLayout();
   const intl = useIntl();
   const [currentQuote, setCurrentQuote] = useState<any>();
@@ -134,4 +134,4 @@ const QoutesPage = () => {
   );
 };
 
-export default QoutesPage;
+export default QuotesPage;

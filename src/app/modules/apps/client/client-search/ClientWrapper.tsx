@@ -6,7 +6,7 @@ import { Content } from "../../../../../_metronic/layout/components/content";
 import { useState } from "react";
 import { ClientToolbar } from "./components/header/ClientToolbar";
 import { ClientDeleteModal } from "./client-delete-modal/ClientDeleteModal";
-import { QuoteAddModal } from "../../sales/quotes-list/quote-add-modal/QuoteAddModal";
+import { QuoteAddModal } from "../../quotes/components/quote-add-modal/QuoteAddModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;

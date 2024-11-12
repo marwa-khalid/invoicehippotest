@@ -1,5 +1,5 @@
 import { KTIcon } from "../../../../_metronic/helpers";
-import { EstimationActivitiesResult } from "../sales/quotes-list/core/_models";
+import { EstimationActivitiesResult } from "../quotes/components/core/_models";
 
 const Activities = (activities: any) => {
   console.log(activities);

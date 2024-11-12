@@ -17,7 +17,10 @@ const PrivateRoutes = () => {
     () => import("../modules/apps/admin-settings/SettingsPage")
   );
   const ClientsPage = lazy(() => import("../modules/apps/client/ClientsPage"));
-  const SalesPage = lazy(() => import("../modules/apps/sales/QuotesPage"));
+  const QuotesPage = lazy(() => import("../modules/apps/quotes/QuotesPage"));
+  const InvoicesPage = lazy(
+    () => import("../modules/apps/invoices/InvoicesPage")
+  );
 
   return (
     <Routes>
@@ -91,7 +94,7 @@ const PrivateRoutes = () => {
           path="estimation/*"
           element={
             <SuspensedView>
-              <SalesPage />
+              <QuotesPage />
             </SuspensedView>
           }
         />
