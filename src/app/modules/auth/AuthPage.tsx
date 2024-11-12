@@ -5,12 +5,14 @@ import Login from "./components/Login";
 import { AuthLayout } from "./AuthLayout";
 import { SuccessPage } from "./components/SuccessPage";
 import { ResetPassword } from "./components/ResetPassword";
+import TwoFactor from "./components/TwoFactor";
 
 const AuthPage = () => (
   <Routes>
     <Route element={<AuthLayout />}>
       <Route path="/" element={<Login />} />
       <Route path="/registration" element={<Registration />} />
+      <Route path="/customer" element={<TwoFactor />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/forgot-password/success" element={<SuccessPage />} />
       <Route path="/reset" element={<ResetPassword />} />

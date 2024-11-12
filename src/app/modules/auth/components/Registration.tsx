@@ -95,7 +95,14 @@ export function Registration() {
           <div className="d-flex justify-content-between flex-column-fluid flex-column w-100 mw-450px">
             {/* Header */}
             <div className="d-flex flex-lg-stack flex-sm-center py-2">
-              <div className="me-2"></div>
+              {/* Back link */}
+              <div className="me-2">
+                <Link to="/" className="btn btn-icon bg-light rounded-circle">
+                  <i className="ki-outline ki-black-left fs-2 text-gray-800"></i>
+                </Link>
+              </div>
+
+              {/* Sign Up link */}
               <div className="m-0">
                 <span className="text-gray-500 fw-bold fs-5 me-2">
                   {intl.formatMessage({
