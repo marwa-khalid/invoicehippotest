@@ -482,7 +482,7 @@ const QuoteViewInnerWrapper = () => {
             </div>
             <Tippy
               content={
-                <div className="text-end">
+                <div className="text-end" style={{ fontFamily: " monospace" }}>
                   <div>
                     {intl.formatMessage({
                       id: "Fields.Amount",
@@ -493,7 +493,7 @@ const QuoteViewInnerWrapper = () => {
                   <div>
                     {intl.formatMessage({
                       id: "Fields.VatTitle",
-                    })}
+                    })}{" "}
                     : {additionalData?.valuta.sign}
                     {additionalData?.totals.totalVATAmount.toFixed(2)}
                   </div>
