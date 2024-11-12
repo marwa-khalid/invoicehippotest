@@ -448,6 +448,32 @@ const QuoteList = ({
                           </div>
                         </>
                       )}
+                      {quoteList.hasAttachments && (
+                        <>
+                          <span
+                            style={{
+                              backgroundColor: "#d3d3d3",
+                              height: "37px",
+                              width: "1px",
+                            }}
+                            className="me-5"
+                          ></span>
+
+                          <div className="d-flex align-items-center flex-wrap">
+                            <i className="far fa-file-pdf text-muted fs-3x" />
+                            <div className="d-flex flex-column mx-6">
+                              <span className="fs-sm text-muted">
+                                {intl.formatMessage({
+                                  id: "Fields.Attachments",
+                                })}
+                              </span>
+                              <span className="text-primary fw-bolder">
+                                {quoteList.attachmentsCount}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     {/* Buttons Section */}

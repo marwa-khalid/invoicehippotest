@@ -22,6 +22,10 @@ import { Item2 } from "../../../../../_metronic/partials/content/activity/Item2"
 import { Item3 } from "../../../../../_metronic/partials/content/activity/Item3";
 import { Activities } from "../../components/Activities";
 import ReactQuill from "react-quill";
+import { QuoteCopyModal } from "./quote-copy-modal/QuoteCopyModal";
+import { QuoteEmailModal } from "./quote-email-modal/QuoteEmailModal";
+import { QuoteActivateModal } from "./quote-activate-modal/QuoteActivateModal";
+import { Divider } from "@chakra-ui/react";
 
 const QuoteViewInnerWrapper = () => {
   const { BASE_URL } = import.meta.env;
@@ -29,6 +33,9 @@ const QuoteViewInnerWrapper = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const [copyModalOpen, setCopyModalOpen] = useState(false);
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+  const [activateModalOpen, setActivateModalOpen] = useState(false);
   const [validateModalOpen, setValidateModalOpen] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [editModalId, setEditModalId] = useState(0);
@@ -36,6 +43,24 @@ const QuoteViewInnerWrapper = () => {
   const [errorPage, setErrorPage] = useState<boolean>(false);
   const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
 
+  const openCopyModal = () => {
+    valueSetter();
+    setCopyModalOpen(true);
+  };
+  const openValidateModal = () => {
+    valueSetter();
+    setValidateModalOpen(true);
+  };
+
+  const openEmailModal = () => {
+    valueSetter();
+    setEmailModalOpen(true);
+  };
+
+  const openActivateModal = () => {
+    valueSetter();
+    setActivateModalOpen(true);
+  };
   const valueSetter = () => {
     localStorage.setItem(
       "ModalData",
@@ -154,6 +179,36 @@ const QuoteViewInnerWrapper = () => {
   console.log(additionalData);
   return (
     <>
+      {additionalData?.actions.canApprove && (
+        <button
+          className="btn btn-success btn-sm"
+          style={{
+            position: "fixed",
+            top: "110px",
+            right: "210px",
+            // zIndex: 1000,
+          }}
+          onClick={() => openValidateModal()}
+        >
+          <i className="fa far fa-credit-card me-2 fs-2"></i>
+          {intl.formatMessage({ id: "Fields.ActionApproveOrDecline" })}
+        </button>
+      )}
+      <button
+        className="btn btn-primary btn-sm"
+        style={{
+          position: "fixed",
+          top: "110px",
+          right: "60px",
+        }}
+        onClick={() => {
+          setAddModalOpen(true);
+          setEditModalId(0);
+        }}
+      >
+        <KTIcon iconName="plus" className="fs-2" />
+        {intl.formatMessage({ id: "Menu.AddNewQuote" })}
+      </button>
       {errorPage ? (
         <div className="text-center">
           <ErrorPage />
@@ -272,9 +327,9 @@ const QuoteViewInnerWrapper = () => {
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
                               <li
-                              // onClick={() => {
-                              //   openEmailModal(quoteList);
-                              // }}
+                                onClick={() => {
+                                  openEmailModal();
+                                }}
                               >
                                 <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
                                   <i className="ki-duotone ki-send text-success fs-1 me-2">
@@ -316,19 +371,7 @@ const QuoteViewInnerWrapper = () => {
                           {additionalData?.actions.canCreateCopy && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
-                              <li
-                              // onClick={() => {
-                              //   const link = document.createElement("a");
-                              //   link.href = quoteList.downloadInfo.downloadUrl;
-                              //   link.setAttribute(
-                              //     "download",
-                              //     quoteList.downloadInfo.fileName
-                              //   );
-                              //   document.body.appendChild(link);
-                              //   link.click();
-                              //   document.body.removeChild(link);
-                              // }}
-                              >
+                              <li onClick={() => openCopyModal()}>
                                 <a className="dropdown-item d-flex align-items-center cursor-pointer">
                                   <i className="ki-duotone ki-copy fs-2 me-2 text-primary" />
                                   {intl.formatMessage({
@@ -342,9 +385,9 @@ const QuoteViewInnerWrapper = () => {
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
                               <li
-                              // onClick={() => {
-                              //   openActivateModal(quoteList);
-                              // }}
+                                onClick={() => {
+                                  openActivateModal();
+                                }}
                               >
                                 <a className="dropdown-item d-flex align-items-center cursor-pointer">
                                   <i className="fa fas fa-flag-checkered text-success fs-3 me-2" />
@@ -437,22 +480,42 @@ const QuoteViewInnerWrapper = () => {
                 {additionalData?.quoteStatus?.description.toLowerCase()}
               </div>
             </div>
-
-            <div
-              className="ribbon ribbon-end ribbon-clip position-absolute"
-              style={{
-                top: "10px",
-                right: "0px",
-                height: "30px",
-                width: "100px",
-              }}
+            <Tippy
+              content={
+                <div className="text-end">
+                  <div>
+                    {intl.formatMessage({
+                      id: "Fields.Amount",
+                    })}{" "}
+                    : {additionalData?.valuta.sign}
+                    {additionalData?.totals.totalPrice.toFixed(2)}
+                  </div>
+                  <div>
+                    {intl.formatMessage({
+                      id: "Fields.VatTitle",
+                    })}
+                    : {additionalData?.valuta.sign}
+                    {additionalData?.totals.totalVATAmount.toFixed(2)}
+                  </div>
+                </div>
+              }
             >
-              <div className="ribbon-label fw-bold">
-                {additionalData?.valuta.sign}{" "}
-                {additionalData?.totals.totalPriceWithVAT.toFixed(2)}
-                <span className="ribbon-inner bg-gray-600"></span>
+              <div
+                className="ribbon ribbon-end ribbon-clip position-absolute cursor-pointer"
+                style={{
+                  top: "10px",
+                  right: "0px",
+                  height: "30px",
+                  width: "100px",
+                }}
+              >
+                <div className="ribbon-label fw-bold">
+                  {additionalData?.valuta.sign}{" "}
+                  {additionalData?.totals.totalPriceWithVAT.toFixed(2)}
+                  <span className="ribbon-inner bg-gray-600"></span>
+                </div>
               </div>
-            </div>
+            </Tippy>
 
             <div className="card-body p-0 m-0">
               <div className="tab-content" id="myTabContent">
@@ -656,54 +719,88 @@ const QuoteViewInnerWrapper = () => {
               </div>
             )}
 
-            <div className="card-footer text-end p-5">
-              <Tippy
-                content={intl.formatMessage({
-                  id: "Fields.ToolTipEdit",
-                })}
-              >
-                <button
-                  type="button"
-                  className="btn btn-icon btn-warning btn-sm me-5"
-                  onClick={() => {
-                    setAddModalOpen(true), setEditModalId(currentQuote?.id);
-                  }}
+            <div className="card-footer justify-content-between d-flex p-5">
+              <div></div>
+              {additionalData?.actions.canApprove && (
+                <div>
+                  <button
+                    className="btn btn-success btn-sm"
+                    onClick={() => openValidateModal()}
+                  >
+                    <i className="fa far fa-credit-card me-2 fs-2"></i>
+                    {intl.formatMessage({
+                      id: "Fields.ActionApproveOrDecline",
+                    })}
+                  </button>
+                </div>
+              )}
+              <div>
+                <Tippy
+                  content={intl.formatMessage({
+                    id: "Fields.ToolTipEdit",
+                  })}
                 >
-                  <i className="ki-solid ki-pencil fs-3" />
-                </button>
-              </Tippy>
-              <Tippy
-                content={intl.formatMessage({
-                  id: "Fields.ActionDownload",
-                })}
-              >
-                <button
-                  type="button"
-                  className="btn btn-icon btn-success me-5 btn-sm"
-                  onClick={() => {
-                    const link = document.createElement("a");
-                    link.href = response.downloadInfo.downloadUrl;
-                    link.setAttribute(
-                      "download",
-                      response.downloadInfo.fileName
-                    );
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  }}
+                  <button
+                    type="button"
+                    className="btn btn-icon btn-warning btn-sm me-5"
+                    onClick={() => {
+                      setAddModalOpen(true), setEditModalId(currentQuote?.id);
+                    }}
+                  >
+                    <i className="ki-solid ki-pencil fs-3" />
+                  </button>
+                </Tippy>
+                <Tippy
+                  content={intl.formatMessage({
+                    id: "Fields.ActionDownload",
+                  })}
                 >
-                  <i className="fa-solid fa-cloud-arrow-down fs-4"></i>
-                </button>
-              </Tippy>
-              <Tippy content="versturen">
-                <button
-                  type="button"
-                  className="btn btn-icon btn-success btn-sm"
-                  // onClick={() => setExportModalOpen(true)}
+                  <button
+                    type="button"
+                    className="btn btn-icon btn-success me-5 btn-sm"
+                    onClick={() => {
+                      const link = document.createElement("a");
+                      link.href = response.downloadInfo.downloadUrl;
+                      link.setAttribute(
+                        "download",
+                        response.downloadInfo.fileName
+                      );
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    }}
+                  >
+                    <i className="fa-solid fa-cloud-arrow-down fs-4"></i>
+                  </button>
+                </Tippy>
+
+                <Tippy
+                  content={intl.formatMessage({ id: "Fields.ActionSendEmail" })}
                 >
-                  <i className="fas fa-location-arrow fs-3"></i>
-                </button>
-              </Tippy>
+                  <button
+                    type="button"
+                    className="btn btn-icon btn-success btn-sm"
+                    onClick={() => openEmailModal()}
+                  >
+                    <i className="fas fa-location-arrow fs-3"></i>
+                  </button>
+                </Tippy>
+                {additionalData?.actions.canFinalize && (
+                  <Tippy
+                    content={intl.formatMessage({
+                      id: "Fields.ActionActivate",
+                    })}
+                  >
+                    <button
+                      type="button"
+                      className="btn btn-icon btn-success btn-sm"
+                      onClick={() => openActivateModal()}
+                    >
+                      <i className="fa fas fa-flag-checkered text-success fs-3 me-2" />
+                    </button>
+                  </Tippy>
+                )}
+              </div>
             </div>
           </div>
 
@@ -723,6 +820,36 @@ const QuoteViewInnerWrapper = () => {
               quoteId={currentQuote?.id}
               quoteNumber={currentQuote?.quoteNr}
               setValidateModalOpen={setValidateModalOpen}
+              setRefresh={setRefresh}
+              refresh={refresh}
+            />
+          )}
+
+          {copyModalOpen && (
+            <QuoteCopyModal
+              quoteId={currentQuote?.id}
+              quoteNumber={response?.quoteNr}
+              setCopyModalOpen={setCopyModalOpen}
+              setRefresh={setRefresh}
+              refresh={refresh}
+              setAddModalOpen={setAddModalOpen}
+              setEditModalId={setEditModalId}
+            />
+          )}
+          {emailModalOpen && (
+            <QuoteEmailModal
+              quoteId={currentQuote?.id}
+              quoteNumber={response?.quoteNr}
+              setValidateModalOpen={setEmailModalOpen}
+              setRefresh={setRefresh}
+              refresh={refresh}
+            />
+          )}
+          {activateModalOpen && (
+            <QuoteActivateModal
+              quoteId={currentQuote?.id}
+              quoteNumber={response?.quoteNr}
+              setActivateModalOpen={setActivateModalOpen}
               setRefresh={setRefresh}
               refresh={refresh}
             />

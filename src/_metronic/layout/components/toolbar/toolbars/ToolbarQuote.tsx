@@ -5,7 +5,11 @@ import { CreateAppModal, Dropdown1 } from "../../../../partials";
 import { useLayout } from "../../../core";
 import { useIntl } from "react-intl";
 
-const ToolbarClassic = () => {
+interface Props {
+  setAddModalOpen: boolean;
+  setValidateModalOpen: boolean;
+}
+const ToolbarQuote = ({ setAddModalOpen, setValidateModalOpen }: Props) => {
   const { config } = useLayout();
   const [showCreateAppModal, setShowCreateAppModal] = useState<boolean>(false);
   const daterangepickerButtonClass = config.app?.toolbar?.fixed?.desktop
@@ -43,7 +47,7 @@ const ToolbarClassic = () => {
       <a href="#" className="btn btn-sm btn-flex btn-light fw-bold">
         Filter
       </a> */}
-      {/* {currentQuote && currentQuote.actions.canApprove && (
+      {currentQuote?.actions.canApprove && (
         <a
           href="#"
           onClick={() => setShowCreateAppModal(true)}
@@ -53,22 +57,16 @@ const ToolbarClassic = () => {
           {intl.formatMessage({ id: "Fields.ActionApproveOrDecline" })}
         </a>
       )}
-      {currentQuote && (
-        <a
-          href="#"
-          onClick={() => setShowCreateAppModal(true)}
-          className="btn btn-sm fw-bold btn-primary d-flex align-items-center"
-        >
-          <KTIcon iconName="plus" className="fs-1" />
-          {intl.formatMessage({ id: "Menu.AddNewQuote" })}
-        </a>
-      )} */}
-      {/* <CreateAppModal
-        show={showCreateAppModal}
-        handleClose={() => setShowCreateAppModal(false)}
-      /> */}
+      <a
+        href="#"
+        onClick={() => setShowCreateAppModal(true)}
+        className="btn btn-sm fw-bold btn-primary d-flex align-items-center"
+      >
+        <KTIcon iconName="plus" className="fs-1" />
+        {intl.formatMessage({ id: "Menu.AddNewQuote" })}
+      </a>
     </div>
   );
 };
 
-export { ToolbarClassic };
+export { ToolbarQuote };
