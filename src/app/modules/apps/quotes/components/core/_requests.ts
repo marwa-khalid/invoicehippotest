@@ -161,9 +161,9 @@ export function getQuoteById(editModalId: number) {
   return getRequest<QuoteListModel>(`${QUOTE_API}/${editModalId}`, true);
 }
 
-export function getAdditionalDataForQuote(editModalId: number) {
+export function getQuickViewQuote(quoteId: number) {
   return getRequest<QuoteListModel>(
-    `${SEARCH_QUOTE_LIST}/item/${editModalId}`,
+    `${QUOTE_API}/quick-view-for/${quoteId}`,
     true
   );
 }

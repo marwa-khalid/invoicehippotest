@@ -85,8 +85,6 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
     setSearchTerm("");
     setPageIndex(1);
   };
-  console.log(searchTerm, pageIndex);
-
   const fetchClients = async () => {
     const response = await getClients(searchTerm, pageIndex, 5);
 
@@ -98,7 +96,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik }) => {
   useEffect(() => {
     fetchClients();
   }, [searchTerm, counter, pageIndex]);
-  console.log(pageIndex);
+
   const handlePageChange = (page: number) => {
     setPageIndex(page);
   };

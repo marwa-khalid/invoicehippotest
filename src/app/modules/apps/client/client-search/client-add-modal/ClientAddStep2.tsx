@@ -32,12 +32,12 @@ const ClientAddStep2: FC<Props> = ({
     const fetchSpecificContacts = async () => {
       try {
         const response = await getContactListById(clientId);
-        console.log(response.result.length);
+
         const contacts = response.result?.length > 0 ? response.result : [];
         // Separate primary contact and additional contacts
         const primary =
           contacts.find((contact) => contact.isDefaultContact) || {};
-        console.log(primary);
+       
         const others = contacts.filter((contact) => !contact.isDefaultContact);
         setPrimaryContact(primary);
         setAdditionalContacts(others);

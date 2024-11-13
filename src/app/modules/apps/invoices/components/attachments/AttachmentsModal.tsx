@@ -54,9 +54,6 @@ const AttachmentsModal = ({ formik, setAttachmentsModalOpen }: Props) => {
   const [completedFiles, setCompletedFiles] = useState<any>([]);
   const maxSize = 5 * 1024 * 1024;
   const maxFiles = 25;
-  console.log(currentSearchTerm);
-  console.log(searchTerm);
-  console.log(localSearchTerm);
 
   const handleSearchClick = () => {
     setSearchTerm(localSearchTerm);

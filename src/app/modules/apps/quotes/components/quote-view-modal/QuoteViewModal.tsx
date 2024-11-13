@@ -120,10 +120,9 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const offcanvasRef = useRef<HTMLDivElement>(null);
-  console.log(downloadUrl);
+ 
   useEffect(() => {
     if (downloadUrl) {
-      console.log("working");
       const container = containerRef.current; // This `useRef` instance will render the PDF.
 
       let PSPDFKit: any, instance: any;

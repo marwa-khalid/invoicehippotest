@@ -2,7 +2,7 @@ import { KTIcon } from "../../../../_metronic/helpers";
 import { EstimationActivitiesResult } from "../quotes/components/core/_models";
 
 const Activities = (activities: any) => {
-  console.log(activities);
+  
   return (
     <div className="timeline">
       {activities?.activities?.result?.map(

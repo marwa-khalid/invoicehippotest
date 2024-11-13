@@ -419,6 +419,7 @@ const QuoteList = ({
                           </div>
                         </>
                       )}
+
                       {quoteList.hasRelatedInvoice && (
                         <>
                           <span
@@ -548,6 +549,7 @@ const QuoteList = ({
                               })}
                             </a>
                           </li>
+
                           <div className="dropdown-divider border-gray-200"></div>
                           <li
                             onClick={() => {

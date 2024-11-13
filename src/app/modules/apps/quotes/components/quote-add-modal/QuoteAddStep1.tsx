@@ -7,6 +7,7 @@ import Flatpickr from "react-flatpickr";
 import { ClientAddModal } from "../../../client/client-search/client-add-modal/ClientAddModal";
 import { getContactListById } from "../../../client/client-search/core/_requests";
 import { ClientSearch } from "./ClientSearch";
+import { BooleanSchema } from "yup";
 
 export interface FormValues {
   id: number;
@@ -121,18 +122,20 @@ type Props = {
   formik: FormikProps<FormValues>;
   contactResponse: any;
   setContactResponse: (type: any) => void;
+  refresh: boolean;
+  setRefresh: (type: boolean) => void;
 };
 
 const QuoteAddStep1: FC<Props> = ({
   formik,
   contactResponse,
   setContactResponse,
+  refresh,
+  setRefresh,
 }) => {
   const intl = useIntl();
   const [clientModal, openClientModal] = useState<boolean>(false);
   const [editModalId, setEditModalId] = useState<number>(0);
-
-  const [refresh, setRefresh] = useState(false);
 
   const [clientSearch, setClientSearch] = useState<any>();
 
@@ -164,6 +167,7 @@ const QuoteAddStep1: FC<Props> = ({
       //   )?.id;
       //   formik.setFieldValue("header.clientContactId", defaultContact);
       // }
+
     }
   }, [clientModal, clientSearch]);
 

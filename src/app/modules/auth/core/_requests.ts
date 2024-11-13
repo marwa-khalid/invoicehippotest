@@ -42,7 +42,7 @@ export function authorizeAnonymous(values: any) {
       deviceType: 1,
       deviceId: "Windows",
       accessCode: values.accessCode,
-      oData: values.oData,
+      oData: values.odata,
     },
     false
   );

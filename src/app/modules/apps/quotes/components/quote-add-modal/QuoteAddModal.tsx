@@ -294,7 +294,7 @@ const QuoteAddModal = ({
       //   formik.setFieldValue("header.clientContactId", 0);
       //   setContactResponse(contactResponse);
       // } else {
-      //   console.log(contactResponse);
+  
       //   const defaultContact = contactResponse?.find(
       //     (contact: any) => contact.isDefaultContact === true
       //   )?.id;
@@ -469,7 +469,6 @@ const QuoteAddModal = ({
           totalDiscountAmount += discountAmount; // Add to total discount summary
         }
       }
-      console.log(totalAmount);
       totalPriceExcVat += totalAmount; // Add the price excluding VAT
 
       // Calculate VAT if VAT Type is available
@@ -534,13 +533,7 @@ const QuoteAddModal = ({
     hasDiscountmargin,
     totalDiscountAmount,
   } = calculateVatTotals();
-  console.log(
-    vatTotals,
-    totalPriceExcVat,
-    totalPriceIncVat,
-    hasDiscountmargin,
-    totalDiscountAmount
-  );
+ 
   useEffect(() => {
     calculateVatTotals();
   }, [formik.values.products]);
@@ -691,6 +684,8 @@ const QuoteAddModal = ({
                 <QuoteAddStep1
                   formik={formik}
                   contactResponse={contactResponse}
+                  setRefresh={setRefresh}
+                  refresh={refresh}
                   setContactResponse={setContactResponse}
                 />
               )}

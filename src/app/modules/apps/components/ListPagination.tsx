@@ -18,10 +18,7 @@ const ListPagination = ({
   totalItems,
   moduleName,
 }: PaginationProps) => {
-  console.log(pageIndex);
   const intl = useIntl();
-
-  console.log(pageIndex);
   useEffect(() => {
     // setPageIndex(pageIndex);
     let storedPaginationString = localStorage.getItem("pagination");

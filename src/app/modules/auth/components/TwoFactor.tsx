@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useIntl } from "react-intl";
 import { authorizeAnonymous, checkSepaOdata, login } from "../core/_requests";
 import { useAuth } from "../core/Auth";
@@ -14,15 +14,20 @@ import { handleToast } from "../core/_toast";
 const TwoFactor = () => {
   const { saveAuth } = useAuth();
   const intl = useIntl();
-
+  const navigate = useNavigate();
   function useQuery() {
     return new URLSearchParams(useLocation().search);
   }
   const query = useQuery();
-  const odata = query.get("odata");
-  console.log(odata);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+  const odata = query.get("odata");
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  useEffect(() => {
+    if (!odata) {
+      navigate("/");
+    }
+  }, []);
   // Define the validation schema using Yup
   const loginSchema = Yup.object().shape({
     accessCode: Yup.string().required(
@@ -58,13 +63,14 @@ const TwoFactor = () => {
 
   const [code, setCode] = useState(Array(5).fill("")); // Array to store each digit
   const inputRefs = useRef<HTMLInputElement[]>([]); // Array of refs to focus inputs
-  console.log(code.join(""));
+  
   // Function to handle input change
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    const value = e.target.value.replace(/[^0-9]/g, ""); // Allow only digits
+    const value = e.target.value.replace(/[^A-Z0-9]/g, "");
+    // Allow digits and caps letters
     if (value) {
       const newCode = [...code];
       newCode[index] = value;
@@ -78,7 +84,6 @@ const TwoFactor = () => {
     }
   };
 
-  console.log(formik.values);
 
   // Function to handle key down for backspace functionality
   const handleKeyDown = (

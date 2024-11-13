@@ -29,7 +29,6 @@ const DigitalSignature = ({ formik }: Props) => {
     sigCanvas.current.clear();
     setSavedSignature(null); // Reset saved signature when cleared
   };
-  console.log(savedSignature);
   useEffect(() => {
     let signatureData;
     if (signatureType === "draw") {

@@ -67,8 +67,6 @@ const QuoteViewInnerWrapper = () => {
       fetch();
     }
   }, []);
-  console.log(additionalData);
-  console.log(response);
   useEffect(() => {
     const fetchEstimations = async () => {
       const responseEstimation = await getEstimationActivitiesById(
@@ -151,7 +149,6 @@ const QuoteViewInnerWrapper = () => {
     }
   };
 
-  console.log(additionalData);
   return (
     <>
       {errorPage ? (

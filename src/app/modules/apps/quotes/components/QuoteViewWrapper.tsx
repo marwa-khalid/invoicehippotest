@@ -3,29 +3,19 @@ import { Content } from "../../../../../_metronic/layout/components/content";
 import { ListLoading } from "../../components/ListLoading";
 import Tippy from "@tippyjs/react";
 import { useIntl } from "react-intl";
-import { KTIcon, toAbsoluteUrl } from "../../../../../_metronic/helpers";
+import { KTIcon } from "../../../../../_metronic/helpers";
 import { QuoteAddModal } from "./quote-add-modal/QuoteAddModal";
 import { QuoteValidateModal } from "./quote-validate-modal/QuoteValidateModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
 import { QuoteViewModal } from "./quote-view-modal/QuoteViewModal";
-import { getAdditionalDataForQuote, getQuoteById } from "./core/_requests";
+import { getQuickViewQuote } from "./core/_requests";
 import { getEstimationActivitiesById } from "./core/_requests";
-import { KTSVG } from "../../../../../_metronic/helpers";
-import {
-  EstimationActivitiesModel,
-  EstimationActivitiesResult,
-  QuoteListResult,
-} from "./core/_models";
 import { ErrorPage } from "../../components/ErrorPage";
-import { Item1 } from "../../../../../_metronic/partials/content/activity/Item1";
-import { Item2 } from "../../../../../_metronic/partials/content/activity/Item2";
-import { Item3 } from "../../../../../_metronic/partials/content/activity/Item3";
 import { Activities } from "../../components/Activities";
-import ReactQuill from "react-quill";
 import { QuoteCopyModal } from "./quote-copy-modal/QuoteCopyModal";
 import { QuoteEmailModal } from "./quote-email-modal/QuoteEmailModal";
 import { QuoteActivateModal } from "./quote-activate-modal/QuoteActivateModal";
-import { Divider } from "@chakra-ui/react";
+import { QuoteOdataModal } from "./quote-odata-modal/QuoteOdataModal";
 
 const QuoteViewInnerWrapper = () => {
   const { BASE_URL } = import.meta.env;
@@ -61,39 +51,37 @@ const QuoteViewInnerWrapper = () => {
     valueSetter();
     setActivateModalOpen(true);
   };
+
   const valueSetter = () => {
     localStorage.setItem(
       "ModalData",
       JSON.stringify({
-        quoteDateAsString: currentQuote?.quoteDateAsString,
-        client: currentQuote?.client,
-        totalPriceWithVat: currentQuote?.totals.totalPriceWithVAT,
-        sign: currentQuote?.valuta.sign,
-        status: currentQuote?.quoteStatus.value,
-        attachmentsCount: currentQuote?.attachmentsCount,
+        quoteDateAsString: response?.quoteDateAsString,
+        client: response?.client,
+        totalPriceWithVat: response?.totals.totalPriceWithVAT,
+        sign: response?.valuta.sign,
+        status: response?.quoteStatus.value,
+        attachmentsCount: response?.attachmentsCount,
       })
     );
   };
   const [response, setResponse] = useState<any>();
-  const [additionalData, setAdditionalData] = useState<QuoteListResult>();
 
   useEffect(() => {
     const fetch = async () => {
-      const response = await getQuoteById(currentQuote?.id);
-      const response2 = await getAdditionalDataForQuote(currentQuote?.id);
+      setIsLoading(true);
+      const response = await getQuickViewQuote(currentQuote?.id);
       if (response.isValid) {
         setResponse(response.result);
       }
-      if (response2.isValid) {
-        setAdditionalData(response2.result);
-      }
+      setIsLoading(false);
     };
     if (currentQuote?.id) {
       fetch();
+    } else {
+      setErrorPage(true);
     }
   }, [refresh]);
-  console.log(additionalData);
-  console.log(response);
   useEffect(() => {
     const fetchEstimations = async () => {
       const responseEstimation = await getEstimationActivitiesById(
@@ -109,7 +97,7 @@ const QuoteViewInnerWrapper = () => {
   }, []);
 
   useEffect(() => {
-    if (currentQuote?.downloadInfo.downloadUrl) {
+    if (response?.downloadInfo.downloadUrl) {
       setIsLoading(true);
       const container = containerRef.current;
       let PSPDFKit: any, instance;
@@ -121,7 +109,7 @@ const QuoteViewInnerWrapper = () => {
         instance = await PSPDFKit.load({
           container,
           // initialViewState: new PSPDFKit.ViewState({ zoom: 1.5 }),
-          document: currentQuote.downloadInfo.downloadUrl,
+          document: response.downloadInfo.downloadUrl,
           baseUrl: `${window.location.protocol}//${window.location.host}/${BASE_URL}`,
         });
         instance.setViewState((viewState: any) =>
@@ -131,10 +119,8 @@ const QuoteViewInnerWrapper = () => {
       })();
       setIsLoading(false);
       return () => PSPDFKit && PSPDFKit.unload(container);
-    } else {
-      setErrorPage(true);
     }
-  }, []);
+  }, [response, refresh]);
 
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   useEffect(() => {
@@ -175,11 +161,17 @@ const QuoteViewInnerWrapper = () => {
         return "bg-default"; // Default case
     }
   };
-
-  console.log(additionalData);
+  const [odata, setOdata] = useState<string>("");
+  const [accessCode, setAccessCode] = useState<string>("");
+  const [odataModalOpen, setOdataModalOpen] = useState<boolean>(false);
+  const openOdataCopy = () => {
+    setOdata(response?.anonymousAccessUrl);
+    setAccessCode(response?.anonymousAccessCode);
+    setOdataModalOpen(true);
+  };
   return (
     <>
-      {additionalData?.actions.canApprove && (
+      {response?.actions.canApprove && (
         <button
           className="btn btn-success btn-sm"
           style={{
@@ -229,7 +221,7 @@ const QuoteViewInnerWrapper = () => {
                     >
                       <span className="mx-2 fs-9 fw-normal cursor-pointer">
                         <i className="fas fa-calendar-alt me-2 text-primary"></i>
-                        {additionalData?.quoteDateAsString}
+                        {response?.quoteDateAsString}
                       </span>
                     </Tippy>
                     <Tippy
@@ -239,18 +231,18 @@ const QuoteViewInnerWrapper = () => {
                     >
                       <span className="fs-9 fw-normal cursor-pointer">
                         <i className="fas fa-calendar-alt me-2"></i>
-                        {additionalData?.quoteDueDateAsString}
+                        {response?.quoteDueDateAsString}
                       </span>
                     </Tippy>
                   </div>
 
                   <span className="ms-1 mt-1 fs-5 fw-bold">
-                    {currentQuote?.client}
+                    {response?.client.companyName}
                   </span>
-                  {additionalData?.clientReferenceNr && (
+                  {response?.clientReferenceNr && (
                     <div>
                       <span className="badge bg-secondary fs-9 fw-normal">
-                        {additionalData?.clientReferenceNr}
+                        {response?.clientReferenceNr}
                       </span>
                     </div>
                   )}
@@ -323,7 +315,7 @@ const QuoteViewInnerWrapper = () => {
                             </a>
                           </li>
 
-                          {additionalData?.actions.canSend && (
+                          {response?.actions.canSend && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
                               <li
@@ -343,7 +335,7 @@ const QuoteViewInnerWrapper = () => {
                               </li>
                             </>
                           )}
-                          {additionalData?.actions.canCreateInvoice && (
+                          {response?.actions.canCreateInvoice && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
                               <li
@@ -368,7 +360,7 @@ const QuoteViewInnerWrapper = () => {
                               </li>
                             </>
                           )}
-                          {additionalData?.actions.canCreateCopy && (
+                          {response?.actions.canCreateCopy && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
                               <li onClick={() => openCopyModal()}>
@@ -381,7 +373,7 @@ const QuoteViewInnerWrapper = () => {
                               </li>
                             </>
                           )}
-                          {additionalData?.actions.canFinalize && (
+                          {response?.actions.canFinalize && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
                               <li
@@ -398,7 +390,23 @@ const QuoteViewInnerWrapper = () => {
                               </li>
                             </>
                           )}
-                          {additionalData?.actions.canDownload && (
+                          <div className="dropdown-divider border-gray-200"></div>
+                          <li
+                            onClick={() => {
+                              openOdataCopy();
+                            }}
+                          >
+                            <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                              <i className="ki-duotone ki-square-brackets me-3 fs-2">
+                                <span className="path1"></span>
+                                <span className="path2"></span>
+                                <span className="path3"></span>
+                                <span className="path4"></span>
+                              </i>
+                              Odata
+                            </a>
+                          </li>
+                          {response?.actions.canDownload && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
                               <li
@@ -424,7 +432,7 @@ const QuoteViewInnerWrapper = () => {
                               </li>
                             </>
                           )}
-                          {additionalData?.actions.canDelete && (
+                          {response?.actions.canDelete && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
                               <li
@@ -457,7 +465,7 @@ const QuoteViewInnerWrapper = () => {
               }}
             >
               <div className="ribbon-label fw-bold">
-                {additionalData?.quoteNr}
+                {response?.quoteNr}
                 <span className="ribbon-inner bg-gray-600"></span>
               </div>
             </div>
@@ -474,28 +482,46 @@ const QuoteViewInnerWrapper = () => {
             >
               <div
                 className={`ribbon-label fw-bold ${getStatusClass(
-                  additionalData?.quoteStatus?.value || 1
-                )} ${additionalData?.isDraft ? "text-dark" : "text-white"}`}
+                  response?.quoteStatus?.value || 1
+                )} ${response?.isDraft ? "text-dark" : "text-white"}`}
               >
-                {additionalData?.quoteStatus?.description.toLowerCase()}
+                {response?.quoteStatus?.description.toLowerCase()}
               </div>
             </div>
             <Tippy
               content={
-                <div className="text-end" style={{ fontFamily: " monospace" }}>
-                  <div>
-                    {intl.formatMessage({
-                      id: "Fields.Amount",
-                    })}{" "}
-                    : {additionalData?.valuta.sign}
-                    {additionalData?.totals.totalPrice.toFixed(2)}
-                  </div>
-                  <div>
-                    {intl.formatMessage({
-                      id: "Fields.VatTitle",
-                    })}{" "}
-                    : {additionalData?.valuta.sign}
-                    {additionalData?.totals.totalVATAmount.toFixed(2)}
+                <div style={{ fontFamily: "monospace" }}>
+                  <div className="table" style={{ width: "100%" }}>
+                    <div style={{ display: "table-row" }}>
+                      <div
+                        className="me-2"
+                        style={{ display: "table-cell", textAlign: "right" }}
+                      >
+                        {intl.formatMessage({ id: "Fields.Amount" })}:
+                      </div>
+                      <div
+                        style={{ display: "table-cell", textAlign: "right" }}
+                      >
+                        {"  "}
+                        {response?.valuta.sign}
+                        {response?.totals.totalPrice.toFixed(2)}
+                      </div>
+                    </div>
+                    <div style={{ display: "table-row" }}>
+                      <div
+                        className="me-2"
+                        style={{ display: "table-cell", textAlign: "right" }}
+                      >
+                        {intl.formatMessage({ id: "Fields.VatTitle" })}:
+                      </div>
+                      <div
+                        style={{ display: "table-cell", textAlign: "right" }}
+                      >
+                        {"  "}
+                        {response?.valuta.sign}
+                        {response?.totals.totalVATAmount.toFixed(2)}
+                      </div>
+                    </div>
                   </div>
                 </div>
               }
@@ -510,8 +536,8 @@ const QuoteViewInnerWrapper = () => {
                 }}
               >
                 <div className="ribbon-label fw-bold">
-                  {additionalData?.valuta.sign}{" "}
-                  {additionalData?.totals.totalPriceWithVAT.toFixed(2)}
+                  {response?.valuta.sign}{" "}
+                  {response?.totals.totalPriceWithVAT.toFixed(2)}
                   <span className="ribbon-inner bg-gray-600"></span>
                 </div>
               </div>
@@ -721,7 +747,7 @@ const QuoteViewInnerWrapper = () => {
 
             <div className="card-footer justify-content-between d-flex p-5">
               <div></div>
-              {additionalData?.actions.canApprove && (
+              {response?.actions.canApprove && (
                 <div>
                   <button
                     className="btn btn-success btn-sm"
@@ -785,7 +811,7 @@ const QuoteViewInnerWrapper = () => {
                     <i className="fas fa-location-arrow fs-3"></i>
                   </button>
                 </Tippy>
-                {additionalData?.actions.canFinalize && (
+                {response?.actions.canFinalize && (
                   <Tippy
                     content={intl.formatMessage({
                       id: "Fields.ActionActivate",
@@ -818,7 +844,7 @@ const QuoteViewInnerWrapper = () => {
           {validateModalOpen && (
             <QuoteValidateModal
               quoteId={currentQuote?.id}
-              quoteNumber={currentQuote?.quoteNr}
+              quoteNumber={response?.quoteNr}
               setValidateModalOpen={setValidateModalOpen}
               setRefresh={setRefresh}
               refresh={refresh}
@@ -852,6 +878,16 @@ const QuoteViewInnerWrapper = () => {
               setActivateModalOpen={setActivateModalOpen}
               setRefresh={setRefresh}
               refresh={refresh}
+            />
+          )}
+
+          {odataModalOpen && (
+            <QuoteOdataModal
+              setOdataModalOpen={setOdataModalOpen}
+              setRefresh={setRefresh}
+              refresh={refresh}
+              odata={odata}
+              accessCode={accessCode}
             />
           )}
         </div>

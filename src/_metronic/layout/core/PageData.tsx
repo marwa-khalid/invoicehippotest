@@ -79,7 +79,6 @@ const PageTitle: FC<Props & WithChildren> = ({
       setPageDescription("");
     };
   }, [description]);
-  console.log(breadcrumbs);
   useEffect(() => {
     if (breadcrumbs) {
       setPageBreadcrumbs(breadcrumbs);

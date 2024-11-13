@@ -12,6 +12,7 @@ import { QuoteCopyModal } from "./quote-copy-modal/QuoteCopyModal";
 import { QuoteValidateModal } from "./quote-validate-modal/QuoteValidateModal";
 import { QuoteEmailModal } from "./quote-email-modal/QuoteEmailModal";
 import { QuoteActivateModal } from "./quote-activate-modal/QuoteActivateModal";
+import { QuoteOdataModal } from "./quote-odata-modal/QuoteOdataModal";
 
 const getPaginationValues = () => {
   const storedPaginationString = localStorage.getItem("pagination")!;
@@ -70,6 +71,7 @@ const QuoteListInnerWrapper = () => {
   const [quoteNumber, setQuoteNumber] = useState<string>("");
   const [refresh, setRefresh] = useState(false);
   const [clientName, setClientName] = useState<string>("");
+
   const [periodValueType, setPeriodValueType] = useState<number | null>(
     periodValueFilter
   );
@@ -87,6 +89,7 @@ const QuoteListInnerWrapper = () => {
   const [validateModalOpen, setValidateModalOpen] = useState<boolean>(false);
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
   const [activateModalOpen, setActivateModalOpen] = useState<boolean>(false);
+
   const handleClientModalClose = () => {
     const storedClient = JSON.parse(localStorage.getItem("storedClient")!);
 
@@ -182,6 +185,7 @@ const QuoteListInnerWrapper = () => {
           setEditModalId={setEditModalId}
         />
       )}
+
       {validateModalOpen && (
         <QuoteValidateModal
           quoteId={editModalId}
