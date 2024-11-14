@@ -35,7 +35,7 @@ const QuotesPage = () => {
       title: intl.formatMessage({
         id: "Fields.SearchPanelSubTitleLedgerAccount",
       }),
-      path: "estimation/view",
+      path: "/estimation/search",
       isSeparator: false,
       isActive: false,
     },
@@ -62,7 +62,7 @@ const QuotesPage = () => {
     },
     {
       title: intl.formatMessage({ id: "Fields.SearchPanelTitleQuotes" }),
-      path: "estimation/search",
+      path: "/estimation/search",
       isSeparator: false,
       isActive: false,
     },

@@ -63,13 +63,33 @@ const TwoFactor = () => {
 
   const [code, setCode] = useState(Array(5).fill("")); // Array to store each digit
   const inputRefs = useRef<HTMLInputElement[]>([]); // Array of refs to focus inputs
-  
+
+  // Function to handle input change
+  // Function to handle input change
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData
+      .getData("Text")
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, "");
+
+    if (pastedData.length === 5) {
+      const newCode = pastedData.split("").slice(0, 5); // Only take the first 5 characters
+      setCode(newCode);
+      formik.setFieldValue("accessCode", newCode.join(""));
+
+      // Automatically fill each input box with the pasted characters
+      inputRefs.current.forEach((input, idx) => {
+        if (input) input.value = newCode[idx];
+      });
+    }
+  };
+
   // Function to handle input change
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    // Convert the input value to uppercase and remove any characters that are not A-Z or digits
     const value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
 
     if (value) {
@@ -78,14 +98,12 @@ const TwoFactor = () => {
       setCode(newCode);
       formik.setFieldValue("accessCode", newCode.join(""));
 
-      // Move to next input field if not the last
+      // Move to the next input field if not the last
       if (index < inputRefs.current.length - 1) {
         inputRefs.current[index + 1].focus();
       }
     }
   };
-
-
 
   // Function to handle key down for backspace functionality
   const handleKeyDown = (
@@ -187,6 +205,7 @@ const TwoFactor = () => {
                         value={code[index]}
                         onChange={(e) => handleChange(e, index)}
                         onKeyDown={(e) => handleKeyDown(e, index)}
+                        onPaste={handlePaste} // Add the onPaste handler here
                         className="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2"
                       />
                     ))}

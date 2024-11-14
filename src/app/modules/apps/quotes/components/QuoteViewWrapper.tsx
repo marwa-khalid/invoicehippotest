@@ -57,7 +57,7 @@ const QuoteViewInnerWrapper = () => {
       "ModalData",
       JSON.stringify({
         quoteDateAsString: response?.quoteDateAsString,
-        client: response?.client,
+        client: response?.client?.companyName,
         totalPriceWithVat: response?.totals.totalPriceWithVAT,
         sign: response?.valuta.sign,
         status: response?.quoteStatus.value,
@@ -101,14 +101,15 @@ const QuoteViewInnerWrapper = () => {
       setIsLoading(true);
       const container = containerRef.current;
       let PSPDFKit: any, instance;
+      // PSPDFKit.initialize(context, VIEWER_LICENSE_KEY);
 
       (async function () {
         PSPDFKit = await import("pspdfkit");
         PSPDFKit.unload(container);
 
         instance = await PSPDFKit.load({
-          container,
           licenseKey: VIEWER_LICENSE_KEY,
+          container,
           // initialViewState: new PSPDFKit.ViewState({ zoom: 1.5 }),
           document: response.downloadInfo.downloadUrl,
           baseUrl: `${window.location.protocol}//${window.location.host}/${BASE_URL}`,
@@ -391,22 +392,26 @@ const QuoteViewInnerWrapper = () => {
                               </li>
                             </>
                           )}
-                          <div className="dropdown-divider border-gray-200"></div>
-                          <li
-                            onClick={() => {
-                              openOdataCopy();
-                            }}
-                          >
-                            <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                              <i className="ki-duotone ki-square-brackets me-3 fs-2">
-                                <span className="path1"></span>
-                                <span className="path2"></span>
-                                <span className="path3"></span>
-                                <span className="path4"></span>
-                              </i>
-                              Odata
-                            </a>
-                          </li>
+                          {!response?.isDraft && (
+                            <>
+                              <div className="dropdown-divider border-gray-200"></div>
+                              <li
+                                onClick={() => {
+                                  openOdataCopy();
+                                }}
+                              >
+                                <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                  <i className="ki-duotone ki-square-brackets me-3 fs-2">
+                                    <span className="path1"></span>
+                                    <span className="path2"></span>
+                                    <span className="path3"></span>
+                                    <span className="path4"></span>
+                                  </i>
+                                  Odata
+                                </a>
+                              </li>
+                            </>
+                          )}
                           {response?.actions.canDownload && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
@@ -769,7 +774,7 @@ const QuoteViewInnerWrapper = () => {
                 >
                   <button
                     type="button"
-                    className="btn btn-icon btn-warning btn-sm me-5"
+                    className="btn btn-icon btn-warning btn-sm"
                     onClick={() => {
                       setAddModalOpen(true), setEditModalId(currentQuote?.id);
                     }}
@@ -784,7 +789,7 @@ const QuoteViewInnerWrapper = () => {
                 >
                   <button
                     type="button"
-                    className="btn btn-icon btn-success me-5 btn-sm"
+                    className="btn btn-icon btn-success ms-5 btn-sm"
                     onClick={() => {
                       const link = document.createElement("a");
                       link.href = response.downloadInfo.downloadUrl;
@@ -806,7 +811,7 @@ const QuoteViewInnerWrapper = () => {
                 >
                   <button
                     type="button"
-                    className="btn btn-icon btn-success btn-sm"
+                    className="btn btn-icon btn-success btn-sm ms-5"
                     onClick={() => openEmailModal()}
                   >
                     <i className="fas fa-location-arrow fs-3"></i>
@@ -820,10 +825,10 @@ const QuoteViewInnerWrapper = () => {
                   >
                     <button
                       type="button"
-                      className="btn btn-icon btn-success btn-sm"
+                      className="btn btn-icon btn-success btn-sm ms-5"
                       onClick={() => openActivateModal()}
                     >
-                      <i className="fa fas fa-flag-checkered text-success fs-3 me-2" />
+                      <i className="fa fas fa-flag-checkered fs-3" />
                     </button>
                   </Tippy>
                 )}
