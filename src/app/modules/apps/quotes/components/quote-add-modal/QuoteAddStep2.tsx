@@ -534,127 +534,191 @@ const QuoteAddStep2: FC<Props> = ({
                                     />
                                     <Tippy
                                       content={
-                                        <>
-                                          <div className="text-end">
-                                            {/* Display Amount title without inclusive or exclusive indication when isAlwaysExBtw is true */}
-                                            {intl.formatMessage({
-                                              id: "Fields.Amount",
-                                            })}{" "}
-                                            {(() => {
-                                              const vatEntry = vatTypes
-                                                ?.map((item: any) => ({
-                                                  value: item.id,
-                                                  label: item.title,
-                                                }))
-                                                .find(
-                                                  (vat: any) =>
-                                                    vat.value ===
-                                                    product.vatTypeId
-                                                );
-                                              const isAlwaysExBtw =
-                                                vatEntry?.isAlwaysExBtw;
-                                              const vatPercentage = vatEntry
-                                                ? parseFloat(
-                                                    vatEntry.label.replace(
-                                                      "%",
-                                                      ""
-                                                    )
-                                                  )
-                                                : NaN;
+                                        <div
+                                          style={{ fontFamily: "monospace" }}
+                                        >
+                                          <div
+                                            className="table"
+                                            style={{ width: "100%" }}
+                                          >
+                                            <div
+                                              style={{ display: "table-row" }}
+                                            >
+                                              <div
+                                                className="me-2"
+                                                style={{
+                                                  display: "table-cell",
+                                                  textAlign: "right",
+                                                }}
+                                              >
+                                                {/* Determine Amount title with (inc) or (exc) based on condition */}
+                                                {(() => {
+                                                  const vatEntry = vatTypes
+                                                    ?.map((item: any) => ({
+                                                      value: item.id,
+                                                      label: item.title,
+                                                    }))
+                                                    .find(
+                                                      (vat: any) =>
+                                                        vat.value ===
+                                                        product.vatTypeId
+                                                    );
+                                                  const isAlwaysExBtw =
+                                                    vatEntry?.isAlwaysExBtw;
 
-                                              // If isAlwaysExBtw is true or vatPercentage is NaN, show the original amount without VAT
-                                              if (
-                                                isAlwaysExBtw ||
-                                                isNaN(vatPercentage)
-                                              ) {
-                                                return `${
-                                                  auth.currentUser?.result
-                                                    .activeCompanyDefaults
-                                                    .defaultValuta.sign
-                                                } ${product.unitPrice.toFixed(
-                                                  2
-                                                )}`;
-                                              }
+                                                  // Determine if the title should include "inc" or "exc"
+                                                  const amountTitle =
+                                                    isAlwaysExBtw
+                                                      ? intl.formatMessage({
+                                                          id: "Fields.Amount",
+                                                        })
+                                                      : product.btwExclusive
+                                                      ? `${intl.formatMessage({
+                                                          id: "Fields.Amount",
+                                                        })} (inc):`
+                                                      : `${intl.formatMessage({
+                                                          id: "Fields.Amount",
+                                                        })} (exc):`;
 
-                                              if (product.btwExclusive) {
-                                                // VAT Inclusive
-                                                const totalInclusive = (
-                                                  product.unitPrice +
-                                                  product.unitPrice *
-                                                    (vatPercentage / 100)
-                                                ).toFixed(2);
+                                                  return amountTitle;
+                                                })()}
+                                              </div>
+                                              <div
+                                                style={{
+                                                  display: "table-cell",
+                                                  textAlign: "right",
+                                                }}
+                                              >
+                                                {/* Display the amount based on VAT inclusivity/exclusivity */}
+                                                {(() => {
+                                                  const vatEntry = vatTypes
+                                                    ?.map((item: any) => ({
+                                                      value: item.id,
+                                                      label: item.title,
+                                                    }))
+                                                    .find(
+                                                      (vat: any) =>
+                                                        vat.value ===
+                                                        product.vatTypeId
+                                                    );
+                                                  const isAlwaysExBtw =
+                                                    vatEntry?.isAlwaysExBtw;
+                                                  const vatPercentage = vatEntry
+                                                    ? parseFloat(
+                                                        vatEntry.label.replace(
+                                                          "%",
+                                                          ""
+                                                        )
+                                                      )
+                                                    : NaN;
 
-                                                return `(inc): ${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${totalInclusive}`;
-                                              } else {
-                                                // VAT Exclusive
-                                                const basePriceExclusive = (
-                                                  product.unitPrice /
-                                                  (1 + vatPercentage / 100)
-                                                ).toFixed(2);
+                                                  if (
+                                                    isAlwaysExBtw ||
+                                                    isNaN(vatPercentage)
+                                                  ) {
+                                                    return `${
+                                                      auth.currentUser?.result
+                                                        .activeCompanyDefaults
+                                                        .defaultValuta.sign
+                                                    } ${product.unitPrice.toFixed(
+                                                      2
+                                                    )}`;
+                                                  }
 
-                                                return `(exc): ${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${basePriceExclusive}`;
-                                              }
-                                            })()}
+                                                  if (product.btwExclusive) {
+                                                    const totalInclusive = (
+                                                      product.unitPrice +
+                                                      product.unitPrice *
+                                                        (vatPercentage / 100)
+                                                    ).toFixed(2);
+
+                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${totalInclusive}`;
+                                                  } else {
+                                                    const basePriceExclusive = (
+                                                      product.unitPrice /
+                                                      (1 + vatPercentage / 100)
+                                                    ).toFixed(2);
+
+                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${basePriceExclusive}`;
+                                                  }
+                                                })()}
+                                              </div>
+                                            </div>
+
+                                            <div
+                                              style={{ display: "table-row" }}
+                                            >
+                                              <div
+                                                className="me-2"
+                                                style={{
+                                                  display: "table-cell",
+                                                  textAlign: "right",
+                                                }}
+                                              >
+                                                {/* Display VAT title with calculated VAT value */}
+                                                {intl.formatMessage({
+                                                  id: "Fields.VatTitle",
+                                                })}
+                                                :
+                                              </div>
+                                              <div
+                                                style={{
+                                                  display: "table-cell",
+                                                  textAlign: "right",
+                                                }}
+                                              >
+                                                {(() => {
+                                                  const vatEntry = vatTypes
+                                                    ?.map((item: any) => ({
+                                                      value: item.id,
+                                                      label: item.title,
+                                                    }))
+                                                    .find(
+                                                      (vat: any) =>
+                                                        vat.value ===
+                                                        product.vatTypeId
+                                                    );
+                                                  const isAlwaysExBtw =
+                                                    vatEntry?.isAlwaysExBtw;
+                                                  const vatPercentage = vatEntry
+                                                    ? parseFloat(
+                                                        vatEntry.label.replace(
+                                                          "%",
+                                                          ""
+                                                        )
+                                                      )
+                                                    : NaN;
+
+                                                  if (
+                                                    isAlwaysExBtw ||
+                                                    isNaN(vatPercentage)
+                                                  ) {
+                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} 0.00`;
+                                                  }
+
+                                                  if (product.btwExclusive) {
+                                                    const vatAmountInclusive = (
+                                                      product.unitPrice *
+                                                      (vatPercentage / 100)
+                                                    ).toFixed(2);
+
+                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountInclusive}`;
+                                                  } else {
+                                                    const basePriceExclusive =
+                                                      product.unitPrice /
+                                                      (1 + vatPercentage / 100);
+                                                    const vatAmountExclusive = (
+                                                      product.unitPrice -
+                                                      basePriceExclusive
+                                                    ).toFixed(2);
+
+                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountExclusive}`;
+                                                  }
+                                                })()}
+                                              </div>
+                                            </div>
                                           </div>
-                                          <div className="text-end">
-                                            {/* Display VAT title with calculated VAT value or 0.00 when isAlwaysExBtw is true */}
-                                            {intl.formatMessage({
-                                              id: "Fields.VatTitle",
-                                            })}
-                                            :{" "}
-                                            {(() => {
-                                              const vatEntry = vatTypes
-                                                ?.map((item: any) => ({
-                                                  value: item.id,
-                                                  label: item.title,
-                                                }))
-                                                .find(
-                                                  (vat: any) =>
-                                                    vat.value ===
-                                                    product.vatTypeId
-                                                );
-                                              const isAlwaysExBtw =
-                                                vatEntry?.isAlwaysExBtw;
-                                              const vatPercentage = vatEntry
-                                                ? parseFloat(
-                                                    vatEntry.label.replace(
-                                                      "%",
-                                                      ""
-                                                    )
-                                                  )
-                                                : NaN;
-
-                                              // If isAlwaysExBtw is true or vatPercentage is NaN, show VAT as 0.00
-                                              if (
-                                                isAlwaysExBtw ||
-                                                isNaN(vatPercentage)
-                                              ) {
-                                                return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} 0.00`;
-                                              }
-
-                                              if (product.btwExclusive) {
-                                                // VAT Inclusive
-                                                const vatAmountInclusive = (
-                                                  product.unitPrice *
-                                                  (vatPercentage / 100)
-                                                ).toFixed(2);
-
-                                                return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountInclusive}`;
-                                              } else {
-                                                // VAT Exclusive
-                                                const basePriceExclusive =
-                                                  product.unitPrice /
-                                                  (1 + vatPercentage / 100);
-                                                const vatAmountExclusive = (
-                                                  product.unitPrice -
-                                                  basePriceExclusive
-                                                ).toFixed(2);
-
-                                                return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountExclusive}`;
-                                              }
-                                            })()}
-                                          </div>
-                                        </>
+                                        </div>
                                       }
                                     >
                                       <div
@@ -704,157 +768,214 @@ const QuoteAddStep2: FC<Props> = ({
                                 <td>
                                   <Tippy
                                     content={
-                                      <>
-                                        <div className="text-end">
-                                          {/* Display Amount title without inclusive or exclusive indication when isAlwaysExBtw is true */}
-                                          {intl.formatMessage({
-                                            id: "Fields.Amount",
-                                          })}{" "}
-                                          {(() => {
-                                            const vatEntry = vatTypes
-                                              ?.map((item: any) => ({
-                                                value: item.id,
-                                                label: item.title,
-                                              }))
-                                              .find(
-                                                (vat: any) =>
-                                                  vat.value ===
-                                                  product.vatTypeId
-                                              );
-                                            const isAlwaysExBtw =
-                                              vatEntry?.isAlwaysExBtw;
-                                            const vatPercentage = vatEntry
-                                              ? parseFloat(
-                                                  vatEntry.label.replace(
-                                                    "%",
-                                                    ""
-                                                  )
-                                                )
-                                              : NaN;
+                                      <div style={{ fontFamily: "monospace" }}>
+                                        <div
+                                          className="table"
+                                          style={{ width: "100%" }}
+                                        >
+                                          <div style={{ display: "table-row" }}>
+                                            <div
+                                              className="me-2"
+                                              style={{
+                                                display: "table-cell",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {/* Calculate Amount Title with (inc) or (exc) */}
+                                              {(() => {
+                                                const vatEntry = vatTypes
+                                                  ?.map((item: any) => ({
+                                                    value: item.id,
+                                                    label: item.title,
+                                                  }))
+                                                  .find(
+                                                    (vat: any) =>
+                                                      vat.value ===
+                                                      product.vatTypeId
+                                                  );
+                                                const isAlwaysExBtw =
+                                                  vatEntry?.isAlwaysExBtw;
 
-                                            // If isAlwaysExBtw is true or vatPercentage is NaN, show the original amount without VAT
-                                            if (
-                                              isAlwaysExBtw ||
-                                              isNaN(vatPercentage)
-                                            ) {
-                                              return `${
-                                                auth.currentUser?.result
-                                                  .activeCompanyDefaults
-                                                  .defaultValuta.sign
-                                              } ${(
-                                                product.unitPrice *
-                                                product.units
-                                              ).toFixed(2)}`;
-                                            }
+                                                const amountTitle =
+                                                  isAlwaysExBtw
+                                                    ? intl.formatMessage({
+                                                        id: "Fields.Amount",
+                                                      })
+                                                    : product.btwExclusive
+                                                    ? `${intl.formatMessage({
+                                                        id: "Fields.Amount",
+                                                      })} (inc):`
+                                                    : `${intl.formatMessage({
+                                                        id: "Fields.Amount",
+                                                      })} (exc):`;
 
-                                            if (product.btwExclusive) {
-                                              // VAT Inclusive
-                                              const totalInclusive = (
-                                                product.unitPrice +
-                                                product.unitPrice *
-                                                  (vatPercentage / 100)
-                                              ).toFixed(2);
+                                                return amountTitle;
+                                              })()}
+                                            </div>
+                                            <div
+                                              style={{
+                                                display: "table-cell",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {(() => {
+                                                const vatEntry = vatTypes
+                                                  ?.map((item: any) => ({
+                                                    value: item.id,
+                                                    label: item.title,
+                                                  }))
+                                                  .find(
+                                                    (vat: any) =>
+                                                      vat.value ===
+                                                      product.vatTypeId
+                                                  );
+                                                const isAlwaysExBtw =
+                                                  vatEntry?.isAlwaysExBtw;
+                                                const vatPercentage = vatEntry
+                                                  ? parseFloat(
+                                                      vatEntry.label.replace(
+                                                        "%",
+                                                        ""
+                                                      )
+                                                    )
+                                                  : NaN;
 
-                                              return `(inc): ${
-                                                auth.currentUser?.result
-                                                  .activeCompanyDefaults
-                                                  .defaultValuta.sign
-                                              } ${(
-                                                parseFloat(totalInclusive) *
-                                                product.units
-                                              ).toFixed(2)}`;
-                                            } else {
-                                              // VAT Exclusive
-                                              const basePriceExclusive = (
-                                                product.unitPrice /
-                                                (1 + vatPercentage / 100)
-                                              ).toFixed(2);
+                                                if (
+                                                  isAlwaysExBtw ||
+                                                  isNaN(vatPercentage)
+                                                ) {
+                                                  return `${
+                                                    auth.currentUser?.result
+                                                      .activeCompanyDefaults
+                                                      .defaultValuta.sign
+                                                  } ${(
+                                                    product.unitPrice *
+                                                    product.units
+                                                  ).toFixed(2)}`;
+                                                }
 
-                                              return `(exc): ${
-                                                auth.currentUser?.result
-                                                  .activeCompanyDefaults
-                                                  .defaultValuta.sign
-                                              } ${(
-                                                parseFloat(basePriceExclusive) *
-                                                product.units
-                                              ).toFixed(2)}`;
-                                            }
-                                          })()}
+                                                if (product.btwExclusive) {
+                                                  const totalInclusive = (
+                                                    product.unitPrice +
+                                                    product.unitPrice *
+                                                      (vatPercentage / 100)
+                                                  ).toFixed(2);
+
+                                                  return `${
+                                                    auth.currentUser?.result
+                                                      .activeCompanyDefaults
+                                                      .defaultValuta.sign
+                                                  } ${(
+                                                    parseFloat(totalInclusive) *
+                                                    product.units
+                                                  ).toFixed(2)}`;
+                                                } else {
+                                                  const basePriceExclusive = (
+                                                    product.unitPrice /
+                                                    (1 + vatPercentage / 100)
+                                                  ).toFixed(2);
+
+                                                  return `${
+                                                    auth.currentUser?.result
+                                                      .activeCompanyDefaults
+                                                      .defaultValuta.sign
+                                                  } ${(
+                                                    parseFloat(
+                                                      basePriceExclusive
+                                                    ) * product.units
+                                                  ).toFixed(2)}`;
+                                                }
+                                              })()}
+                                            </div>
+                                          </div>
+
+                                          <div style={{ display: "table-row" }}>
+                                            <div
+                                              className="me-2"
+                                              style={{
+                                                display: "table-cell",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {intl.formatMessage({
+                                                id: "Fields.VatTitle",
+                                              })}
+                                              :
+                                            </div>
+                                            <div
+                                              style={{
+                                                display: "table-cell",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {(() => {
+                                                const vatEntry = vatTypes
+                                                  ?.map((item: any) => ({
+                                                    value: item.id,
+                                                    label: item.title,
+                                                  }))
+                                                  .find(
+                                                    (vat: any) =>
+                                                      vat.value ===
+                                                      product.vatTypeId
+                                                  );
+                                                const isAlwaysExBtw =
+                                                  vatEntry?.isAlwaysExBtw;
+                                                const vatPercentage = vatEntry
+                                                  ? parseFloat(
+                                                      vatEntry.label.replace(
+                                                        "%",
+                                                        ""
+                                                      )
+                                                    )
+                                                  : NaN;
+
+                                                if (
+                                                  isAlwaysExBtw ||
+                                                  isNaN(vatPercentage)
+                                                ) {
+                                                  return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} 0.00`;
+                                                }
+
+                                                if (product.btwExclusive) {
+                                                  const vatAmountInclusive = (
+                                                    product.unitPrice *
+                                                    (vatPercentage / 100)
+                                                  ).toFixed(2);
+
+                                                  return `${
+                                                    auth.currentUser?.result
+                                                      .activeCompanyDefaults
+                                                      .defaultValuta.sign
+                                                  } ${(
+                                                    parseFloat(
+                                                      vatAmountInclusive
+                                                    ) * product.units
+                                                  ).toFixed(2)}`;
+                                                } else {
+                                                  const basePriceExclusive =
+                                                    product.unitPrice /
+                                                    (1 + vatPercentage / 100);
+                                                  const vatAmountExclusive = (
+                                                    product.unitPrice -
+                                                    basePriceExclusive
+                                                  ).toFixed(2);
+
+                                                  return `${
+                                                    auth.currentUser?.result
+                                                      .activeCompanyDefaults
+                                                      .defaultValuta.sign
+                                                  } ${(
+                                                    parseFloat(
+                                                      vatAmountExclusive
+                                                    ) * product.units
+                                                  ).toFixed(2)}`;
+                                                }
+                                              })()}
+                                            </div>
+                                          </div>
                                         </div>
-                                        <div className="text-end">
-                                          {/* Display VAT title with calculated VAT value or 0.00 when isAlwaysExBtw is true */}
-                                          {intl.formatMessage({
-                                            id: "Fields.VatTitle",
-                                          })}
-                                          :{" "}
-                                          {(() => {
-                                            const vatEntry = vatTypes
-                                              ?.map((item: any) => ({
-                                                value: item.id,
-                                                label: item.title,
-                                              }))
-                                              .find(
-                                                (vat: any) =>
-                                                  vat.value ===
-                                                  product.vatTypeId
-                                              );
-                                            const isAlwaysExBtw =
-                                              vatEntry?.isAlwaysExBtw;
-                                            const vatPercentage = vatEntry
-                                              ? parseFloat(
-                                                  vatEntry.label.replace(
-                                                    "%",
-                                                    ""
-                                                  )
-                                                )
-                                              : NaN;
-
-                                            // If isAlwaysExBtw is true or vatPercentage is NaN, show VAT as 0.00
-                                            if (
-                                              isAlwaysExBtw ||
-                                              isNaN(vatPercentage)
-                                            ) {
-                                              return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} 0.00`;
-                                            }
-
-                                            if (product.btwExclusive) {
-                                              // VAT Inclusive
-                                              const vatAmountInclusive = (
-                                                product.unitPrice *
-                                                (vatPercentage / 100)
-                                              ).toFixed(2);
-
-                                              return `${
-                                                auth.currentUser?.result
-                                                  .activeCompanyDefaults
-                                                  .defaultValuta.sign
-                                              } ${(
-                                                parseFloat(vatAmountInclusive) *
-                                                product.units
-                                              ).toFixed(2)}
-                                              `;
-                                            } else {
-                                              // VAT Exclusive
-                                              const basePriceExclusive =
-                                                product.unitPrice /
-                                                (1 + vatPercentage / 100);
-                                              const vatAmountExclusive = (
-                                                product.unitPrice -
-                                                basePriceExclusive
-                                              ).toFixed(2);
-
-                                              return `${
-                                                auth.currentUser?.result
-                                                  .activeCompanyDefaults
-                                                  .defaultValuta.sign
-                                              } ${(
-                                                parseFloat(vatAmountExclusive) *
-                                                product.units
-                                              ).toFixed(2)}`;
-                                            }
-                                          })()}
-                                        </div>
-                                      </>
+                                      </div>
                                     }
                                   >
                                     <div className="d-flex flex-column text-end">

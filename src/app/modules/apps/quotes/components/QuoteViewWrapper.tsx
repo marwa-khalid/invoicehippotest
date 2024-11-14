@@ -16,7 +16,7 @@ import { QuoteCopyModal } from "./quote-copy-modal/QuoteCopyModal";
 import { QuoteEmailModal } from "./quote-email-modal/QuoteEmailModal";
 import { QuoteActivateModal } from "./quote-activate-modal/QuoteActivateModal";
 import { QuoteOdataModal } from "./quote-odata-modal/QuoteOdataModal";
-
+const VIEWER_LICENSE_KEY = import.meta.env.VITE_APP_VIEWER_LICENSE_KEY;
 const QuoteViewInnerWrapper = () => {
   const { BASE_URL } = import.meta.env;
   const intl = useIntl();
@@ -108,6 +108,7 @@ const QuoteViewInnerWrapper = () => {
 
         instance = await PSPDFKit.load({
           container,
+          licenseKey: VIEWER_LICENSE_KEY,
           // initialViewState: new PSPDFKit.ViewState({ zoom: 1.5 }),
           document: response.downloadInfo.downloadUrl,
           baseUrl: `${window.location.protocol}//${window.location.host}/${BASE_URL}`,
@@ -260,7 +261,7 @@ const QuoteViewInnerWrapper = () => {
                       {intl.formatMessage({ id: "Fields.Quotes" })}
                     </a>
                   </li>
-                  {response?.comments?.privateComments && (
+                  {response?.viewTabs?.showPrivateComments && (
                     <li className="nav-item">
                       <a
                         className="nav-link"
@@ -568,7 +569,7 @@ const QuoteViewInnerWrapper = () => {
                 >
                   <span
                     dangerouslySetInnerHTML={{
-                      __html: response?.comments.privateComments,
+                      __html: response?.privateComments,
                     }}
                   />
                 </div>

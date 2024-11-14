@@ -69,8 +69,9 @@ const TwoFactor = () => {
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    const value = e.target.value.replace(/[^A-Z0-9]/g, "");
-    // Allow digits and caps letters
+    // Convert the input value to uppercase and remove any characters that are not A-Z or digits
+    const value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+
     if (value) {
       const newCode = [...code];
       newCode[index] = value;
@@ -83,6 +84,7 @@ const TwoFactor = () => {
       }
     }
   };
+
 
 
   // Function to handle key down for backspace functionality

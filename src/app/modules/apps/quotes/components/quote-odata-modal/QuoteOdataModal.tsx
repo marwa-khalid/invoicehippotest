@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { QuoteOdataModalHeader } from "./QuoteOdataModalHeader";
 import { QuoteOdataModalFooter } from "./QuoteOdataModalFooter";
 import { useIntl } from "react-intl";
+import Tippy from "@tippyjs/react";
 
 interface ComponentProps {
   setOdataModalOpen: (type: boolean) => void;
@@ -92,12 +93,13 @@ const QuoteOdataModal = ({
                       {copyOdataSuccess ? (
                         <i className="ki-duotone ki-check fs-3x text-success"></i>
                       ) : (
-                        <i className="ki-duotone ki-square-brackets fs-3x text-info">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                          <span className="path3"></span>
-                          <span className="path4"></span>
-                        </i>
+                        <Tippy
+                          content={intl.formatMessage({
+                            id: "Fields.ActionCopy",
+                          })}
+                        >
+                          <i className="ki-duotone ki-copy fs-1 text-muted"></i>
+                        </Tippy>
                       )}
                     </button>
                   </div>
@@ -139,12 +141,13 @@ const QuoteOdataModal = ({
                     {copyAccessCodeSuccess ? (
                       <i className="ki-duotone ki-check fs-3x text-success"></i>
                     ) : (
-                      <i className="ki-duotone ki-square-brackets fs-3x text-info">
-                        <span className="path1"></span>
-                        <span className="path2"></span>
-                        <span className="path3"></span>
-                        <span className="path4"></span>
-                      </i>
+                      <Tippy
+                        content={intl.formatMessage({
+                          id: "Fields.ActionCopy",
+                        })}
+                      >
+                        <i className="ki-duotone ki-copy fs-1 text-muted"></i>
+                      </Tippy>
                     )}
                   </button>
                 </div>

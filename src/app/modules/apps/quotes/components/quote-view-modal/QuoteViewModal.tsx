@@ -7,6 +7,7 @@ interface Props {
   downloadUrl: string;
   fileExtension: any;
 }
+const VIEWER_LICENSE_KEY = import.meta.env.VITE_APP_VIEWER_LICENSE_KEY;
 
 const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
   // const viewer = useRef(null);
@@ -120,7 +121,7 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const offcanvasRef = useRef<HTMLDivElement>(null);
- 
+
   useEffect(() => {
     if (downloadUrl) {
       const container = containerRef.current; // This `useRef` instance will render the PDF.
@@ -151,6 +152,7 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
         instance = await PSPDFKit.load({
           // Container where PSPDFKit should be mounted.
           container,
+          licenseKey: VIEWER_LICENSE_KEY,
           toolbarItems: toolbarItems,
           document: downloadUrl,
           baseUrl: `${window.location.protocol}//${window.location.host}/${BASE_URL}`,
