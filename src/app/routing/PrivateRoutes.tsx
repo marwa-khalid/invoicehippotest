@@ -98,6 +98,14 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
+        <Route
+          path="invoice/*"
+          element={
+            <SuspensedView>
+              <InvoicesPage />
+            </SuspensedView>
+          }
+        />
         {/* <Route
           path="apps/user-management/*"
           element={

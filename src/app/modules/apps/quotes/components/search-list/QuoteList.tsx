@@ -380,7 +380,7 @@ const QuoteList = ({
                             <div className="d-flex flex-column mx-6">
                               <span className="fs-sm text-muted">
                                 {intl.formatMessage({
-                                  id: "Fields.InvoiceDueDate",
+                                  id: "Fields.QuoteDueDate",
                                 })}
                               </span>
                               <span className="text-primary fw-bolder">

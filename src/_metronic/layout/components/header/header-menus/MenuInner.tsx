@@ -58,11 +58,12 @@ export function MenuInner() {
 
       <MenuInnerWithSub
         to="/estimation"
-        title="Quotes"
+        title="Sales"
         fontIcon="bi-chat-left"
         icon="message-text-2"
       >
         <MenuItem to="/estimation/search" title="Quotes" hasBullet={true} />
+        <MenuItem to="/invoice/search" title="Invoices" hasBullet={true} />
       </MenuInnerWithSub>
       <MenuInnerWithSub
         title="Crafted"

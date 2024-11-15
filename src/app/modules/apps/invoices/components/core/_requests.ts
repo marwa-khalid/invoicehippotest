@@ -1,11 +1,10 @@
 import {
   QuotePostModel,
   PrivateLedgersModel,
-  FinancialInstitutionsModel,
-  AccountAutomationModel,
   QuoteListModel,
   GenericBooleanModel,
   EstimationActivitiesModel,
+  InvoiceListModel,
 } from "./_models";
 
 import {
@@ -34,6 +33,7 @@ import {
   FINALIZE_QUOTE,
   VALIDATE_QUOTE,
   ESTIMATION_ACTIVITIES,
+  SEARCH_INVOICE_LIST,
 } from "./constants";
 import { ContactModel } from "../../../client/client-search/core/_models";
 
@@ -46,24 +46,16 @@ export function getQuotes(
   quoteStatusTypes: any,
   clientId: number | null
 ) {
-  const payload: any = {
-    pageMax: 25,
-    pageIndex: searchTerm ? 1 : pageIndex,
-    searchTerm: searchTerm,
-    dateRange: dateRange,
-  };
-
-  // Conditionally add statusTypes if not empty
-  if (quoteStatusTypes && quoteStatusTypes.length > 0) {
-    payload.statusTypes = quoteStatusTypes;
-  }
-
-  // Conditionally add clientId if not null
-  if (clientId !== null) {
-    payload.clientId = clientId;
-  }
-
-  return postRequest<QuoteListModel>(SEARCH_QUOTE_LIST, payload, true);
+  return postRequest<InvoiceListModel>(
+    SEARCH_INVOICE_LIST,
+    {
+      pageMax: 25,
+      pageIndex: searchTerm ? 1 : pageIndex,
+      searchTerm: searchTerm,
+      dateRange: dateRange,
+    },
+    true
+  );
 }
 
 export function getLedgerTypes() {

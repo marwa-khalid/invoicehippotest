@@ -198,7 +198,7 @@ const TwoFactor = () => {
                   <div className="d-flex flex-wrap flex-stack mb-5">
                     {Array.from({ length: 5 }).map((_, index) => (
                       <input
-                        key={index}
+                        key={index} 
                         ref={(el) => (inputRefs.current[index] = el!)} // Assign each input ref
                         type="text"
                         maxLength={1}

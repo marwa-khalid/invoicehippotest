@@ -76,7 +76,7 @@ const SidebarMenuMain = () => {
 
       <SidebarMenuItemWithSub
         to="/estimation"
-        title="Quotes"
+        title="Sales"
         fontIcon="bi-chat-left"
         icon="message-text-2"
       >
@@ -85,11 +85,16 @@ const SidebarMenuMain = () => {
           title="Quotes"
           hasBullet={true}
         />
+        <SidebarMenuItem
+          to="/invoice/search"
+          title="Invoices"
+          hasBullet={true}
+        />
       </SidebarMenuItemWithSub>
 
       <SidebarMenuItemWithSub
         to="/admin"
-        title="Sales"
+        title="Additional"
         fontIcon="bi-chat-left"
         icon="message-text-2"
       >

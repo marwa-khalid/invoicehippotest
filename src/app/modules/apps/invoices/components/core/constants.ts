@@ -1,9 +1,12 @@
 const API_URL_V1 = import.meta.env.VITE_APP_INVOICEHIPPO_API_CORE_V1;
 const API_HANDLE_V1 = import.meta.env.VITE_APP_INVOICEHIPPO_API_HANDLE_V1;
+export const SEARCH_INVOICE_LIST = `${API_URL_V1}/invoice/search`;
 export const SEARCH_QUOTE_LIST = `${API_URL_V1}/quote/search`;
+
+//extraaa
 export const PICK_PRODUCT = `${API_URL_V1}/product/search`;
 export const GET_PRODUCT_BY_ID = `${API_URL_V1}/product`;
-export const QUOTE_API = `${API_URL_V1}/quote`;
+export const QUOTE_API = `${API_URL_V1}/invoice`;
 export const GET_UNIT_TYPES = `${API_URL_V1}/lists/unit-types/for/products`;
 export const GET_LEDGERS = `${API_URL_V1}/lists/ledger-accounts/for/sale`;
 export const GET_VATS = `${API_URL_V1}/lists/vat-types/for/sales`;

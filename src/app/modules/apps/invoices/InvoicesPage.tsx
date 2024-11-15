@@ -35,7 +35,7 @@ const InvoicesPage = () => {
       title: intl.formatMessage({
         id: "Fields.SearchPanelSubTitleLedgerAccount",
       }),
-      path: "estimation/view",
+      path: "/invoice/search",
       isSeparator: false,
       isActive: false,
     },
@@ -62,7 +62,7 @@ const InvoicesPage = () => {
     },
     {
       title: intl.formatMessage({ id: "Fields.SearchPanelTitleQuotes" }),
-      path: "estimation/search",
+      path: "/invoice/search",
       isSeparator: false,
       isActive: false,
     },
@@ -75,7 +75,7 @@ const InvoicesPage = () => {
     },
     {
       title: currentQuote?.quoteNr,
-      path: "estimation/view",
+      path: "/estimation/view",
       isSeparator: false,
       isActive: true,
     },
@@ -111,7 +111,7 @@ const InvoicesPage = () => {
           element={
             <>
               <PageTitle breadcrumbs={settingsBreadcrumbsView}>
-                {intl.formatMessage({ id: "System.UsageStats_AreaQuotes" })}
+                {intl.formatMessage({ id: "System.UsageStats_AreaInvoices" })}
               </PageTitle>
               <div
                 className={clsx(

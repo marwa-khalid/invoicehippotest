@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { QuoteListResult } from "../core/_models";
+import { InvoiceListResult, QuoteListResult } from "../core/_models";
 import { getQuotes } from "../core/_requests";
 import { ListLoading } from "../../../components/ListLoading";
 import { QuoteListPagination } from "../components/pagination/QuoteListPagination";
@@ -235,7 +235,7 @@ const QuoteList = ({
       <div className="row row-cols-1 row-cols-md-1 g-4">
         {
           // !isLoading &&
-          quoteLists?.result?.map((quoteList: QuoteListResult) => (
+          quoteLists?.result?.map((quoteList: InvoiceListResult) => (
             <div className="col" key={quoteList.id}>
               <div className="card h-100 pt-6 position-relative">
                 {/* Ribbons */}
@@ -265,7 +265,7 @@ const QuoteList = ({
                   }}
                 >
                   <div className="ribbon-label fw-bold">
-                    {quoteList.quoteNr}
+                    {quoteList.invoiceNr}
                     <span className="ribbon-inner bg-gray-600"></span>
                   </div>
                 </div>
@@ -315,13 +315,13 @@ const QuoteList = ({
                   </div>
                   <ul className="breadcrumb breadcrumb-secondary breadcrumb-dot mb-3 text-muted">
                     <li className="breadcrumb-item">
-                      {quoteList.quoteStatus.name && (
+                      {quoteList.invoiceStatus.name && (
                         <small
                           className={`${getStatusClass(
-                            quoteList.quoteStatus.value
+                            quoteList.invoiceStatus.value
                           )} rounded p-1 text-white fw-bold px-3`}
                         >
-                          {quoteList.quoteStatus.description}
+                          {quoteList.invoiceStatus.description}
                         </small>
                       )}
                     </li>
@@ -343,7 +343,7 @@ const QuoteList = ({
 
                   <div className="d-flex flex-row flex-wrap fs-8 gap-4 mt-5 align-items-center justify-content-between">
                     <div className="d-flex align-items-center flex-wrap">
-                      {quoteList.quoteDate && (
+                      {quoteList.invoiceDate && (
                         <div className="d-flex align-items-center flex-wrap">
                           <i className="ki-duotone ki-calendar fs-3x text-primary">
                             <span className="path1"></span>
@@ -352,16 +352,16 @@ const QuoteList = ({
                           <div className="d-flex flex-column mx-6">
                             <span className="fs-sm text-muted">
                               {intl.formatMessage({
-                                id: "Fields.QuoteDate",
+                                id: "Fields.InvoiceDate",
                               })}
                             </span>
                             <span className="text-primary fw-bolder">
-                              {quoteList.quoteDateAsString}
+                              {quoteList.invoiceDateAsString}
                             </span>
                           </div>
                         </div>
                       )}
-                      {quoteList.quoteDueDate && (
+                      {quoteList.invoiceDueDate && (
                         <>
                           <span
                             style={{
@@ -384,7 +384,38 @@ const QuoteList = ({
                                 })}
                               </span>
                               <span className="text-primary fw-bolder">
-                                {quoteList.quoteDueDateAsString}
+                                {quoteList.invoiceDueDateAsString}
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {quoteList.isAutomated && (
+                        <>
+                          <span
+                            style={{
+                              backgroundColor: "#d3d3d3",
+                              height: "37px",
+                              width: "1px",
+                            }}
+                            className="me-5"
+                          ></span>
+
+                          <div className="d-flex align-items-center flex-wrap">
+                            <i className="ki-duotone ki-calendar fs-3x text-danger">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                            </i>
+                            <div className="d-flex flex-column mx-6">
+                              <span className="fs-sm text-muted">
+                                {intl.formatMessage({
+                                  id: "Fields.InvoiceSubscriptionPeriod",
+                                })}
+                              </span>
+                              <span className="text-primary fw-bolder">
+                                {quoteList.automation?.periodStartDateAsString}{" "}
+                                t/m{" "}
+                                {quoteList.automation?.periodEndDateAsString}
                               </span>
                             </div>
                           </div>
@@ -419,7 +450,7 @@ const QuoteList = ({
                           </div>
                         </>
                       )}
-                      {quoteList.hasRelatedInvoice && (
+                      {quoteList.hasVoucherNr && (
                         <>
                           <span
                             style={{
@@ -438,11 +469,11 @@ const QuoteList = ({
                             <div className="d-flex flex-column mx-6">
                               <span className="fs-sm text-muted">
                                 {intl.formatMessage({
-                                  id: "Fields.InvoiceNr",
+                                  id: "Fields.VoucherNr",
                                 })}
                               </span>
                               <span className="text-primary fw-bolder">
-                                {quoteList.relatedInvoice.invoiceNr}
+                                #{quoteList.voucherNr}
                               </span>
                             </div>
                           </div>
@@ -525,7 +556,7 @@ const QuoteList = ({
                           <div className="dropdown-divider border-gray-200"></div>
                           <li
                             onClick={() => {
-                              setQuoteNumber(quoteList.quoteNr);
+                              setQuoteNumber(quoteList.invoiceNr);
                               setDownloadUrl(
                                 quoteList.downloadInfo.downloadUrl
                               );
@@ -544,7 +575,7 @@ const QuoteList = ({
                               })}
                             </a>
                           </li>
-                          {quoteList.actions.canApprove && (
+                          {quoteList.actions.canSettle && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
                               <li onClick={() => openValidateModal(quoteList)}>
