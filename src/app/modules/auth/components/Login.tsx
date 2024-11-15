@@ -76,6 +76,7 @@ const Login = () => {
       setLoading(true);
       try {
         const auth = await login(values.username, values.password);
+        console.log(auth);
         saveAuth(auth);
       } catch (error) {
         saveAuth(undefined);

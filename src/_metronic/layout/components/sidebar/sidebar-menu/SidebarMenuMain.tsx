@@ -5,166 +5,200 @@ import { SidebarMenuItem } from "./SidebarMenuItem";
 
 const SidebarMenuMain = () => {
   const intl = useIntl();
-
+  const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
+  console.log(currentQuote);
   return (
     <div className="fs-xl fw-bold " style={{ marginBottom: "20px" }}>
-      <SidebarMenuItem
-        to="/dashboard"
-        icon="ki-outline ki-home"
-        title={intl.formatMessage({ id: "Menu.Dashboard" })}
-        fontIcon="bi-app-indicator"
-      />
-      <SidebarMenuItem
-        to="/client/search"
-        icon="switch"
-        title="Clients"
-        fontIcon="bi-layers"
-      />
-      <div className="menu-item">
-        <div className="menu-content pt-8 pb-2">
-          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-            sales
-          </span>
-        </div>
-      </div>
-      <SidebarMenuItemWithSub
-        to="/invoice/search"
-        title="Invoices"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      >
-        <SidebarMenuItem to="/invoice" title="new invoice" hasBullet={true} />
-        <SidebarMenuItem
-          to="/invoice/search"
-          title="overview"
-          hasBullet={true}
-        />
-        <SidebarMenuItem to="/error" title="subscriptions" hasBullet={true} />
-      </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub
-        to="/estimation/search"
-        title="Estimations"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      >
-        <SidebarMenuItem to="/error" title="new estimation" hasBullet={true} />
-        <SidebarMenuItem
-          to="/estimation/search"
-          title="overview"
-          hasBullet={true}
-        />
-      </SidebarMenuItemWithSub>
+      {currentQuote?.isAnonymous ? (
+        <>
+          <SidebarMenuItem
+            to="/dashboard"
+            icon="ki-outline ki-home"
+            title={intl.formatMessage({ id: "Menu.Dashboard" })}
+            fontIcon="bi-app-indicator"
+          />
+          <SidebarMenuItem
+            to="/invoice/search"
+            title="my invoices"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          />
+          <SidebarMenuItem
+            to="/estimation/search"
+            title="my estimations"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          />
+        </>
+      ) : (
+        <>
+          <SidebarMenuItem
+            to="/dashboard"
+            icon="ki-outline ki-home"
+            title={intl.formatMessage({ id: "Menu.Dashboard" })}
+            fontIcon="bi-app-indicator"
+          />
+          <SidebarMenuItem
+            to="/client/search"
+            icon="switch"
+            title="Clients"
+            fontIcon="bi-layers"
+          />
+          <div className="menu-item">
+            <div className="menu-content pt-8 pb-2">
+              <span className="menu-section text-muted text-uppercase fs-8 ls-1">
+                sales
+              </span>
+            </div>
+          </div>
+          <SidebarMenuItemWithSub
+            to="/invoice/search"
+            title="Invoices"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          >
+            <SidebarMenuItem to="/error" title="new invoice" hasBullet={true} />
+            <SidebarMenuItem
+              to="/invoice/search"
+              title="overview"
+              hasBullet={true}
+            />
+            <SidebarMenuItem
+              to="/error"
+              title="subscriptions"
+              hasBullet={true}
+            />
+          </SidebarMenuItemWithSub>
+          <SidebarMenuItemWithSub
+            to="/estimation/search"
+            title="Estimations"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          >
+            <SidebarMenuItem
+              to="/error"
+              title="new estimation"
+              hasBullet={true}
+            />
+            <SidebarMenuItem
+              to="/estimation/search"
+              title="overview"
+              hasBullet={true}
+            />
+          </SidebarMenuItemWithSub>
 
-      <SidebarMenuItemWithSub
-        to="/admin/productgroups"
-        title="Product Groups"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      >
-        <SidebarMenuItem
-          to="/admin/productgroups"
-          title="overview"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/productgroups"
-          title="productgroups"
-          hasBullet={true}
-        />
-      </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub
-        to="/admin/unit-types"
-        title="Settings"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      >
-        <SidebarMenuItem
-          to="/admin/unit-types"
-          title="Unit Types"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/discounts"
-          title="Discount Margins"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/notification-cycle"
-          title="Reminder Settings"
-          hasBullet={true}
-        />
-      </SidebarMenuItemWithSub>
+          <SidebarMenuItemWithSub
+            to="/admin/productgroups"
+            title="Product Groups"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          >
+            <SidebarMenuItem
+              to="/admin/productgroups"
+              title="overview"
+              hasBullet={true}
+            />
+            <SidebarMenuItem
+              to="/admin/productgroups"
+              title="productgroups"
+              hasBullet={true}
+            />
+          </SidebarMenuItemWithSub>
+          <SidebarMenuItemWithSub
+            to="/admin/unit-types"
+            title="Settings"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          >
+            <SidebarMenuItem
+              to="/admin/unit-types"
+              title="Unit Types"
+              hasBullet={true}
+            />
+            <SidebarMenuItem
+              to="/admin/discounts"
+              title="Discount Margins"
+              hasBullet={true}
+            />
+            <SidebarMenuItem
+              to="/admin/notification-cycle"
+              title="Reminder Settings"
+              hasBullet={true}
+            />
+          </SidebarMenuItemWithSub>
 
-      <div className="menu-item">
-        <div className="menu-content pt-8 pb-2">
-          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-            settings
-          </span>
-        </div>
-      </div>
-      <SidebarMenuItem
-        to="/admin/ledgeraccount"
-        title="Ledger Accounts"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      />
-      <SidebarMenuItem
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-        to="/admin/vattype"
-        title="Tax Types"
-      />
-      <SidebarMenuItem
-        to="/admin/financialaccount"
-        title="Financial Accounts"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      />
-      <SidebarMenuItem
-        to="/admin/customfields"
-        title="Custom Fields"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      />
+          <div className="menu-item">
+            <div className="menu-content pt-8 pb-2">
+              <span className="menu-section text-muted text-uppercase fs-8 ls-1">
+                settings
+              </span>
+            </div>
+          </div>
+          <SidebarMenuItem
+            to="/admin/ledgeraccount"
+            title="Ledger Accounts"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          />
+          <SidebarMenuItem
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+            to="/admin/vattype"
+            title="Tax Types"
+          />
+          <SidebarMenuItem
+            to="/admin/financialaccount"
+            title="Financial Accounts"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          />
+          <SidebarMenuItem
+            to="/admin/customfields"
+            title="Custom Fields"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          />
 
-      <div className="menu-item">
-        <div className="menu-content pt-8 pb-2">
-          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-            me & company
-          </span>
-        </div>
-      </div>
+          <div className="menu-item">
+            <div className="menu-content pt-8 pb-2">
+              <span className="menu-section text-muted text-uppercase fs-8 ls-1">
+                me & company
+              </span>
+            </div>
+          </div>
 
-      <SidebarMenuItem
-        to="/error"
-        title="my company"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      />
-      <SidebarMenuItem
-        to="/error"
-        title="company tradenames"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      />
-      <SidebarMenuItem
-        to="/admin/settings/users"
-        title="users"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      />
-      <SidebarMenuItem
-        to="/invoice/search"
-        title="my invoices"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      />
-      <SidebarMenuItem
-        to="/error"
-        title="my subscriptions"
-        icon="ki-outline ki-home"
-        fontIcon="bi-layers"
-      />
+          <SidebarMenuItem
+            to="/error"
+            title="my company"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          />
+          <SidebarMenuItem
+            to="/error"
+            title="company tradenames"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          />
+          <SidebarMenuItem
+            to="/admin/settings/users"
+            title="users"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          />
+          <SidebarMenuItem
+            to="/invoice/search"
+            title="my invoices"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          />
+          <SidebarMenuItem
+            to="/error"
+            title="my subscriptions"
+            icon="ki-outline ki-home"
+            fontIcon="bi-layers"
+          />
+        </>
+      )}
       {/* <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">

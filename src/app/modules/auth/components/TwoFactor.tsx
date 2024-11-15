@@ -49,12 +49,23 @@ const TwoFactor = () => {
       try {
         const auth = await authorizeAnonymous(values);
         if (auth.isValid) {
+          console.log(auth);
           saveAuth(auth);
+          navigate("/estimation/view");
+          localStorage.setItem(
+            "currentQuote",
+            JSON.stringify({
+              id: auth.result.redirectToModuleInstanceId,
+              isAnonymous: true,
+            })
+          );
         }
         setIsSubmitting(false);
         handleToast(auth);
       } catch (error) {
         saveAuth(undefined);
+        handleToast(error);
+
         setStatus(intl.formatMessage({ id: "Common.LoginError" }));
         setIsSubmitting(false);
       }
@@ -198,7 +209,7 @@ const TwoFactor = () => {
                   <div className="d-flex flex-wrap flex-stack mb-5">
                     {Array.from({ length: 5 }).map((_, index) => (
                       <input
-                        key={index} 
+                        key={index}
                         ref={(el) => (inputRefs.current[index] = el!)} // Assign each input ref
                         type="text"
                         maxLength={1}
