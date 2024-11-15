@@ -15,97 +15,72 @@ const SidebarMenuMain = () => {
         fontIcon="bi-app-indicator"
       />
       <SidebarMenuItem
-        to="/builder"
+        to="/client/search"
         icon="switch"
-        title="Layout Builder"
+        title="Clients"
         fontIcon="bi-layers"
       />
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-            Settings
+            sales
           </span>
         </div>
       </div>
       <SidebarMenuItemWithSub
-        to="/admin"
-        title="Admin"
-        fontIcon="bi-chat-left"
-        icon="message-text-2"
+        to="/invoice/search"
+        title="Invoices"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
       >
-        <SidebarMenuItem
-          to="/admin/vattype"
-          title="Tax Types"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/ledgeraccount"
-          title="Ledger Accounts"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/financialaccount"
-          title="Financial Accounts"
-          hasBullet={true}
-        />
-        {/* <SidebarMenuItem
-          to="/admin/unit-types"
-          title="Unit Types"
-          hasBullet={true}
-        /> */}
-
-        <SidebarMenuItem
-          to="/admin/customfields"
-          title="Custom Fields"
-          hasBullet={true}
-        />
-        <SidebarMenuItem
-          to="/admin/settings/users"
-          title="Users"
-          hasBullet={true}
-        />
-      </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub
-        to="/client"
-        title="Client"
-        fontIcon="bi-chat-left"
-        icon="message-text-2"
-      >
-        <SidebarMenuItem to="/client/search" title="Client" hasBullet={true} />
-      </SidebarMenuItemWithSub>
-
-      <SidebarMenuItemWithSub
-        to="/estimation"
-        title="Sales"
-        fontIcon="bi-chat-left"
-        icon="message-text-2"
-      >
-        <SidebarMenuItem
-          to="/estimation/search"
-          title="Quotes"
-          hasBullet={true}
-        />
+        <SidebarMenuItem to="/invoice" title="new invoice" hasBullet={true} />
         <SidebarMenuItem
           to="/invoice/search"
-          title="Invoices"
+          title="overview"
+          hasBullet={true}
+        />
+        <SidebarMenuItem to="/error" title="subscriptions" hasBullet={true} />
+      </SidebarMenuItemWithSub>
+      <SidebarMenuItemWithSub
+        to="/estimation/search"
+        title="Estimations"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
+      >
+        <SidebarMenuItem to="/error" title="new estimation" hasBullet={true} />
+        <SidebarMenuItem
+          to="/estimation/search"
+          title="overview"
           hasBullet={true}
         />
       </SidebarMenuItemWithSub>
 
       <SidebarMenuItemWithSub
-        to="/admin"
-        title="Additional"
-        fontIcon="bi-chat-left"
-        icon="message-text-2"
+        to="/admin/productgroups"
+        title="Product Groups"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
       >
         <SidebarMenuItem
-          to="/admin/unit-types"
-          title="Unit Types"
+          to="/admin/productgroups"
+          title="overview"
           hasBullet={true}
         />
         <SidebarMenuItem
           to="/admin/productgroups"
-          title="Product Groups"
+          title="productgroups"
+          hasBullet={true}
+        />
+      </SidebarMenuItemWithSub>
+      <SidebarMenuItemWithSub
+        to="/admin/unit-types"
+        title="Settings"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
+      >
+        <SidebarMenuItem
+          to="/admin/unit-types"
+          title="Unit Types"
           hasBullet={true}
         />
         <SidebarMenuItem
@@ -119,7 +94,78 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         />
       </SidebarMenuItemWithSub>
+
       <div className="menu-item">
+        <div className="menu-content pt-8 pb-2">
+          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
+            settings
+          </span>
+        </div>
+      </div>
+      <SidebarMenuItem
+        to="/admin/ledgeraccount"
+        title="Ledger Accounts"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
+      />
+      <SidebarMenuItem
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
+        to="/admin/vattype"
+        title="Tax Types"
+      />
+      <SidebarMenuItem
+        to="/admin/financialaccount"
+        title="Financial Accounts"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
+      />
+      <SidebarMenuItem
+        to="/admin/customfields"
+        title="Custom Fields"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
+      />
+
+      <div className="menu-item">
+        <div className="menu-content pt-8 pb-2">
+          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
+            me & company
+          </span>
+        </div>
+      </div>
+
+      <SidebarMenuItem
+        to="/error"
+        title="my company"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
+      />
+      <SidebarMenuItem
+        to="/error"
+        title="company tradenames"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
+      />
+      <SidebarMenuItem
+        to="/admin/settings/users"
+        title="users"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
+      />
+      <SidebarMenuItem
+        to="/invoice/search"
+        title="my invoices"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
+      />
+      <SidebarMenuItem
+        to="/error"
+        title="my subscriptions"
+        icon="ki-outline ki-home"
+        fontIcon="bi-layers"
+      />
+      {/* <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
             Crafted
@@ -244,7 +290,6 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         />
       </SidebarMenuItemWithSub>
-
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
@@ -274,7 +319,6 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         />
       </SidebarMenuItemWithSub>
-
       <SidebarMenuItem
         to="/apps/user-management/users"
         icon="abstract-28"
@@ -294,7 +338,7 @@ const SidebarMenuMain = () => {
             Changelog {import.meta.env.VITE_APP_VERSION}
           </span>
         </a>
-      </div>
+      </div> */}
     </div>
   );
 };

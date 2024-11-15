@@ -3,7 +3,7 @@ import { Content } from "../../../../../_metronic/layout/components/content";
 import { ListLoading } from "../../components/ListLoading";
 import Tippy from "@tippyjs/react";
 import { useIntl } from "react-intl";
-import { KTIcon } from "../../../../../_metronic/helpers";
+import { KTIcon, KTSVG } from "../../../../../_metronic/helpers";
 import { QuoteAddModal } from "./quote-add-modal/QuoteAddModal";
 import { QuoteValidateModal } from "./quote-validate-modal/QuoteValidateModal";
 import { ToolbarWrapper } from "../../../../../_metronic/layout/components/toolbar";
@@ -108,7 +108,7 @@ const QuoteViewInnerWrapper = () => {
         PSPDFKit.unload(container);
 
         instance = await PSPDFKit.load({
-          licenseKey: VIEWER_LICENSE_KEY,
+          // licenseKey: VIEWER_LICENSE_KEY,
           container,
           // initialViewState: new PSPDFKit.ViewState({ zoom: 1.5 }),
           document: response.downloadInfo.downloadUrl,
@@ -184,7 +184,10 @@ const QuoteViewInnerWrapper = () => {
           }}
           onClick={() => openValidateModal()}
         >
-          <i className="fa far fa-credit-card me-2 fs-2"></i>
+          <KTSVG
+            className="svg-icon svg-icon-2 me-2"
+            path="media/svg/general/document-validation-white.svg"
+          />
           {intl.formatMessage({ id: "Fields.ActionApproveOrDecline" })}
         </button>
       )}
@@ -337,6 +340,26 @@ const QuoteViewInnerWrapper = () => {
                               </li>
                             </>
                           )}
+                          {response?.actions.canApprove && (
+                            <>
+                              <div className="dropdown-divider border-gray-200"></div>
+                              <li
+                                onClick={() => {
+                                  openValidateModal();
+                                }}
+                              >
+                                <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
+                                  <KTSVG
+                                    className="svg-icon svg-icon-2 me-2"
+                                    path="media/svg/general/document-validation-bulk-rounded.svg"
+                                  />
+                                  {intl.formatMessage({
+                                    id: "Fields.ActionApproveOrDecline",
+                                  })}
+                                </a>
+                              </li>
+                            </>
+                          )}
                           {response?.actions.canCreateInvoice && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
@@ -354,7 +377,10 @@ const QuoteViewInnerWrapper = () => {
                               // }}
                               >
                                 <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                                  <i className="fa-solid fa-file-invoice text-info fs-2 me-3" />
+                                  <KTSVG
+                                    className="svg-icon svg-icon-2 me-2"
+                                    path="media/svg/general/invoice-01-bulk-rounded.svg"
+                                  />
                                   {intl.formatMessage({
                                     id: "Fields.ActionCreateInvoice",
                                   })}
@@ -401,12 +427,10 @@ const QuoteViewInnerWrapper = () => {
                                 }}
                               >
                                 <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                                  <i className="ki-duotone ki-square-brackets me-3 fs-2">
-                                    <span className="path1"></span>
-                                    <span className="path2"></span>
-                                    <span className="path3"></span>
-                                    <span className="path4"></span>
-                                  </i>
+                                  <KTSVG
+                                    className="svg-icon svg-icon-3 me-2"
+                                    path="media/svg/general/link-square-01-bulk-rounded.svg"
+                                  />
                                   Odata
                                 </a>
                               </li>
@@ -759,7 +783,10 @@ const QuoteViewInnerWrapper = () => {
                     className="btn btn-success btn-sm"
                     onClick={() => openValidateModal()}
                   >
-                    <i className="fa far fa-credit-card me-2 fs-2"></i>
+                    <KTSVG
+                      className="svg-icon svg-icon-2 me-2"
+                      path="media/svg/general/document-validation-white.svg"
+                    />
                     {intl.formatMessage({
                       id: "Fields.ActionApproveOrDecline",
                     })}

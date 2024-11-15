@@ -3,7 +3,7 @@ import { QuoteListResult } from "../core/_models";
 import { getQuotes } from "../core/_requests";
 import { ListLoading } from "../../../components/ListLoading";
 import { QuoteListPagination } from "../components/pagination/QuoteListPagination";
-import { KTCardBody } from "../../../../../../_metronic/helpers";
+import { KTCardBody, KTSVG } from "../../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../../_metronic/helpers";
 import { useAuth } from "../../../../auth";
@@ -284,33 +284,69 @@ const QuoteList = ({
 
                     {/* Current/Total Amount on the Right */}
 
-                    <div className="d-flex flex-column text-end fs-9">
-                      {/* Total Price */}
-                      {quoteList.totals.totalPrice > 0 && (
-                        <div className="d-flex gap-3 justify-content-end fs-sm">
-                          <small className="text-muted">
-                            {intl.formatMessage({ id: "Fields.TotalPrice" })}
-                          </small>
-                          <span className="text-muted ">
-                            {quoteList.valuta.sign}{" "}
-                            {quoteList.totals.totalPrice.toFixed(2)}
-                          </span>
-                        </div>
-                      )}
-                      {/* Total VAT Amount */}
-                      {quoteList.totals.totalVATAmount > 0 && (
-                        <div className="d-flex gap-3 justify-content-end fs-sm">
-                          <small className="text-muted">
-                            {intl.formatMessage({
-                              id: "Fields.TotalVATAmount",
-                            })}
-                          </small>
-                          <span className="text-muted">
-                            {quoteList.valuta.sign}{" "}
-                            {quoteList.totals.totalVATAmount.toFixed(2)}
-                          </span>
-                        </div>
-                      )}
+                    <div
+                      className="text-end fs-9"
+                      style={{ fontFamily: "monospace" }}
+                    >
+                      <div className="table" style={{ width: "100%" }}>
+                        {/* Total Price */}
+                        {quoteList.totals.totalPrice > 0 && (
+                          <div
+                            className="fs-sm"
+                            style={{ display: "table-row" }}
+                          >
+                            <small
+                              className="text-muted"
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {intl.formatMessage({ id: "Fields.TotalPrice" })}:
+                            </small>
+                            <span
+                              className="text-muted"
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {quoteList.valuta.sign}
+                              {quoteList.totals.totalPrice.toFixed(2)}
+                            </span>
+                          </div>
+                        )}
+                        {/* Total VAT Amount */}
+                        {quoteList.totals.totalVATAmount > 0 && (
+                          <div
+                            className="fs-sm"
+                            style={{ display: "table-row" }}
+                          >
+                            <small
+                              className="text-muted"
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {intl.formatMessage({
+                                id: "Fields.TotalVATAmount",
+                              })}
+                              :
+                            </small>
+                            <span
+                              className="text-muted"
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {quoteList.valuta.sign}
+                              {quoteList.totals.totalVATAmount.toFixed(2)}
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                   <ul className="breadcrumb breadcrumb-secondary breadcrumb-dot mb-3 text-muted">
@@ -566,20 +602,27 @@ const QuoteList = ({
                             aria-controls="offcanvasRight"
                           >
                             <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                              <i className="far fa-file-pdf me-3 fs-3 text-info"></i>
+                              <KTSVG
+                                className="svg-icon svg-icon-2 me-2"
+                                path="media/svg/general/file-view-bulk-rounded.svg"
+                              />
                               {intl.formatMessage({
                                 id: "Fields.ToolTipView",
                               })}
                             </a>
                           </li>
-                          {quoteList.actions.canApprove && (
+                          {quoteList.actions.canCreateCopy && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
-                              <li onClick={() => openValidateModal(quoteList)}>
+                              <li
+                                onClick={() => {
+                                  openCopyModal(quoteList);
+                                }}
+                              >
                                 <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                                  <i className="fa far fa-credit-card me-2 fs-3 text-info"></i>
+                                  <i className="ki-duotone ki-copy text-primary fs-1 me-2" />
                                   {intl.formatMessage({
-                                    id: "Fields.ActionApproveOrDecline",
+                                    id: "Fields.ActionCopy",
                                   })}
                                 </a>
                               </li>
@@ -605,23 +648,23 @@ const QuoteList = ({
                               </li>
                             </>
                           )}
-                          {quoteList.actions.canCreateCopy && (
+                          {quoteList.actions.canApprove && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
-                              <li
-                                onClick={() => {
-                                  openCopyModal(quoteList);
-                                }}
-                              >
+                              <li onClick={() => openValidateModal(quoteList)}>
                                 <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                                  <i className="ki-duotone ki-copy text-primary fs-1 me-2" />
+                                  <KTSVG
+                                    className="svg-icon svg-icon-2 me-2"
+                                    path="media/svg/general/document-validation-bulk-rounded.svg"
+                                  />
                                   {intl.formatMessage({
-                                    id: "Fields.ActionCopy",
+                                    id: "Fields.ActionApproveOrDecline",
                                   })}
                                 </a>
                               </li>
                             </>
                           )}
+
                           {quoteList.actions.canCreateInvoice && (
                             <>
                               <div className="dropdown-divider border-gray-200"></div>
@@ -639,7 +682,10 @@ const QuoteList = ({
                               // }}
                               >
                                 <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                                  <i className="fa-solid fa-file-invoice text-info fs-2 me-3" />
+                                  <KTSVG
+                                    className="svg-icon svg-icon-2 me-2"
+                                    path="media/svg/general/invoice-01-bulk-rounded.svg"
+                                  />
                                   {intl.formatMessage({
                                     id: "Fields.ActionCreateInvoice",
                                   })}

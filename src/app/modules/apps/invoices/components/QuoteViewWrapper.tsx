@@ -302,6 +302,11 @@ const QuoteViewInnerWrapper = () => {
                               // }}
                               >
                                 <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                  <KTSVG
+                                    className="svg-icon svg-icon-4"
+                                    path="media/svg/general/invoice-01-bulk-rounded.svg"
+                                  />
+
                                   <i className="fa-solid fa-file-invoice text-info fs-2 me-3" />
                                   {intl.formatMessage({
                                     id: "Fields.ActionCreateInvoice",

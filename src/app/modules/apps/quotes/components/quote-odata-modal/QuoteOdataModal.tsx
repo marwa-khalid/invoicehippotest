@@ -77,7 +77,7 @@ const QuoteOdataModal = ({
                   </i>
                 </div>
                 <div className="alert-text col-10 d-flex flex-column">
-                  <h3 className="mb-2 my-2">Share link:</h3>
+                  <h3 className="mb-2 my-2">share link:</h3>
                   <span
                     style={{ wordBreak: "break-all", whiteSpace: "normal" }}
                   >

@@ -175,7 +175,7 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
         role="dialog"
         aria-modal="true"
       >
-        <div className="modal-dialog mw-1000px">
+        <div className="modal-dialog mw-800px">
           <div className="modal-content">
             <div className="modal-header bg-dark">
               <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-0">
@@ -312,27 +312,75 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                                   {intl.formatMessage({ id: "Fields.Units" })}
                                 </div>
                               </td>
+
                               <td className="text-end">
-                                <div className="d-flex flex-column align-items-end">
-                                  <span className="text-primary fw-bold fs-4">
-                                    € {product.totals.totalPriceWithVAT}
-                                  </span>
-                                  <span className="text-muted fw-normal">
-                                    <small className="fs-xs mr-3">
-                                      {intl.formatMessage({
-                                        id: "Fields.TotalPrice",
-                                      })}{" "}
-                                      € {product.totals.totalPrice}
-                                    </small>
-                                  </span>
-                                  <span className="text-muted fw-normal">
-                                    <small className="fs-xs mr-3">
-                                      {intl.formatMessage({
-                                        id: "Fields.TotalVATAmount",
-                                      })}{" "}
-                                      € {product.totals.totalVATAmount}
-                                    </small>
-                                  </span>
+                                <div
+                                  style={{
+                                    fontFamily: "monospace",
+                                  }}
+                                >
+                                  <div
+                                    className="table text-end"
+                                    style={{ width: "100%" }}
+                                  >
+                                    {/* Total Price */}
+                                    <div
+                                      className="fs-sm"
+                                      style={{ display: "table-row" }}
+                                    >
+                                      <small
+                                        className="text-muted"
+                                        style={{
+                                          display: "table-cell",
+                                          textAlign: "right",
+                                        }}
+                                      >
+                                        {intl.formatMessage({
+                                          id: "Fields.TotalPrice",
+                                        })}
+                                        :
+                                      </small>
+                                      <span
+                                        className="text-muted"
+                                        style={{
+                                          display: "table-cell",
+                                          textAlign: "right",
+                                        }}
+                                      >
+                                        €{product.totals.totalPrice.toFixed(2)}
+                                      </span>
+                                    </div>
+
+                                    <div
+                                      className="fs-sm"
+                                      style={{ display: "table-row" }}
+                                    >
+                                      <small
+                                        className="text-muted"
+                                        style={{
+                                          display: "table-cell",
+                                          textAlign: "right",
+                                        }}
+                                      >
+                                        {intl.formatMessage({
+                                          id: "Fields.TotalVATAmount",
+                                        })}
+                                        :
+                                      </small>
+                                      <span
+                                        className="text-muted"
+                                        style={{
+                                          display: "table-cell",
+                                          textAlign: "right",
+                                        }}
+                                      >
+                                        €
+                                        {product.totals.totalVATAmount.toFixed(
+                                          2
+                                        )}
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
                               </td>
                               <td className="text-end">

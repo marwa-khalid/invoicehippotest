@@ -468,7 +468,7 @@ const QuoteAddModal = ({
           totalDiscountAmount += discountAmount; // Add to total discount summary
         }
       }
-    
+
       totalPriceExcVat += totalAmount; // Add the price excluding VAT
 
       // Calculate VAT if VAT Type is available

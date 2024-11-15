@@ -156,11 +156,10 @@ const ClientsList = ({
                             }}
                           >
                             <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                              <i className="ki-duotone ki-add-item text-success fs-1 me-2">
-                                <span className="path1"></span>
-                                <span className="path2"></span>
-                                <span className="path3"></span>
-                              </i>
+                              <KTSVG
+                                className="svg-icon svg-icon-2 me-2"
+                                path="media/svg/general/estimation-01-bulk-rounded.svg"
+                              />
                               {intl.formatMessage({
                                 id: "Fields.ActionQuoteNew",
                               })}

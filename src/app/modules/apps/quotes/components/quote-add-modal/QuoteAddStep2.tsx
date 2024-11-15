@@ -176,7 +176,7 @@ const QuoteAddStep2: FC<Props> = ({
                           .formatMessage({ id: "Fields.VatTypeId" })
                           .toUpperCase()}
                       </th>
-                      <th className="w-100px text-end">
+                      <th className="w-150px text-end">
                         {intl
                           .formatMessage({ id: "Fields.Total" })
                           .toUpperCase()}

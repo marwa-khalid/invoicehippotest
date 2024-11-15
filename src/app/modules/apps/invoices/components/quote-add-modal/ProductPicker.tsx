@@ -312,27 +312,69 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                                   {intl.formatMessage({ id: "Fields.Units" })}
                                 </div>
                               </td>
-                              <td className="text-end">
-                                <div className="d-flex flex-column align-items-end">
-                                  <span className="text-primary fw-bold fs-4">
-                                    € {product.totals.totalPriceWithVAT}
-                                  </span>
-                                  <span className="text-muted fw-normal">
-                                    <small className="fs-xs mr-3">
+                              <td
+                                className="text-end fs-9"
+                                style={{ fontFamily: "monospace" }}
+                              >
+                                <div
+                                  className="table"
+                                  style={{ width: "100%" }}
+                                >
+                                  {/* Total Price */}
+                                  <div
+                                    className="fs-sm"
+                                    style={{ display: "table-row" }}
+                                  >
+                                    <small
+                                      className="text-muted"
+                                      style={{
+                                        display: "table-cell",
+                                        textAlign: "right",
+                                      }}
+                                    >
                                       {intl.formatMessage({
                                         id: "Fields.TotalPrice",
-                                      })}{" "}
-                                      € {product.totals.totalPrice}
+                                      })}
                                     </small>
-                                  </span>
-                                  <span className="text-muted fw-normal">
-                                    <small className="fs-xs mr-3">
+                                    <span
+                                      className="text-muted"
+                                      style={{
+                                        display: "table-cell",
+                                        textAlign: "right",
+                                      }}
+                                    >
+                                      {product.valuta.sign}
+                                      {product.totals.totalPrice.toFixed(2)}
+                                    </span>
+                                  </div>
+
+                                  <div
+                                    className="fs-sm"
+                                    style={{ display: "table-row" }}
+                                  >
+                                    <small
+                                      className="text-muted"
+                                      style={{
+                                        display: "table-cell",
+                                        textAlign: "right",
+                                      }}
+                                    >
                                       {intl.formatMessage({
                                         id: "Fields.TotalVATAmount",
-                                      })}{" "}
-                                      € {product.totals.totalVATAmount}
+                                      })}
+                                      :
                                     </small>
-                                  </span>
+                                    <span
+                                      className="text-muted"
+                                      style={{
+                                        display: "table-cell",
+                                        textAlign: "right",
+                                      }}
+                                    >
+                                      {product.valuta.sign}
+                                      {product.totals.totalVATAmount.toFixed(2)}
+                                    </span>
+                                  </div>
                                 </div>
                               </td>
                               <td className="text-end">

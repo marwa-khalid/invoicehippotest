@@ -150,9 +150,8 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
         });
 
         instance = await PSPDFKit.load({
-          // Container where PSPDFKit should be mounted.
+          // licenseKey: VIEWER_LICENSE_KEY,
           container,
-          licenseKey: VIEWER_LICENSE_KEY,
           toolbarItems: toolbarItems,
           document: downloadUrl,
           baseUrl: `${window.location.protocol}//${window.location.host}/${BASE_URL}`,
