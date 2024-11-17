@@ -125,10 +125,12 @@ const QuoteList = ({
         quoteStatusTypes,
         clientIdForFilter
       );
-      setQuoteList(response);
+      if (response.isValid) {
+        setQuoteList(response);
 
-      setPageIndex(response.pageIndex);
-      setTotalRows(response.totalRows);
+        setPageIndex(response.pageIndex);
+        setTotalRows(response.totalRows);
+      }
     } catch (error) {
       console.error("Error fetching Quote List:", error);
     } finally {
@@ -141,7 +143,11 @@ const QuoteList = ({
   };
 
   useEffect(() => {
-    localStorage.removeItem("currentQuote");
+    const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
+    console.log(currentQuote);
+    if (!auth.currentUser?.result.isAnonymousUser) {
+      localStorage.removeItem("currentQuote");
+    }
   }, []);
 
   useEffect(() => {

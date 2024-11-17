@@ -16,6 +16,7 @@ import { QuoteCopyModal } from "./quote-copy-modal/QuoteCopyModal";
 import { QuoteEmailModal } from "./quote-email-modal/QuoteEmailModal";
 import { QuoteActivateModal } from "./quote-activate-modal/QuoteActivateModal";
 import { QuoteOdataModal } from "./quote-odata-modal/QuoteOdataModal";
+import { useAuth } from "../../../auth";
 const VIEWER_LICENSE_KEY = import.meta.env.VITE_APP_VIEWER_LICENSE_KEY;
 const QuoteViewInnerWrapper = () => {
   const { BASE_URL } = import.meta.env;
@@ -132,6 +133,7 @@ const QuoteViewInnerWrapper = () => {
       setIsCollapsed(true);
     }
   }, [response?.attachments?.attachments?.length]);
+  console.log(response);
   const [downloadUrl, setDownloadUrl] = useState<string>("");
   const [fileExtension, setFileExtension] = useState<any>();
   const getStatusClass = (quoteStatusValue: number) => {
@@ -171,6 +173,7 @@ const QuoteViewInnerWrapper = () => {
     setAccessCode(response?.anonymousAccessCode);
     setOdataModalOpen(true);
   };
+  const auth = useAuth();
   return (
     <>
       {response?.actions.canApprove && (
@@ -179,7 +182,7 @@ const QuoteViewInnerWrapper = () => {
           style={{
             position: "fixed",
             top: "110px",
-            right: "210px",
+            right: auth.currentUser?.result.isAnonymousUser ? "60px" : "210px",
             // zIndex: 1000,
           }}
           onClick={() => openValidateModal()}
@@ -191,21 +194,25 @@ const QuoteViewInnerWrapper = () => {
           {intl.formatMessage({ id: "Fields.ActionApproveOrDecline" })}
         </button>
       )}
-      <button
-        className="btn btn-primary btn-sm"
-        style={{
-          position: "fixed",
-          top: "110px",
-          right: "60px",
-        }}
-        onClick={() => {
-          setAddModalOpen(true);
-          setEditModalId(0);
-        }}
-      >
-        <KTIcon iconName="plus" className="fs-2" />
-        {intl.formatMessage({ id: "Menu.AddNewQuote" })}
-      </button>
+
+      {!auth.currentUser?.result.isAnonymousUser &&
+        response?.actions.canEdit && (
+          <button
+            className="btn btn-primary btn-sm"
+            style={{
+              position: "fixed",
+              top: "110px",
+              right: "60px",
+            }}
+            onClick={() => {
+              setAddModalOpen(true);
+              setEditModalId(0);
+            }}
+          >
+            <KTIcon iconName="plus" className="fs-2" />
+            {intl.formatMessage({ id: "Menu.AddNewQuote" })}
+          </button>
+        )}
       {errorPage ? (
         <div className="text-center">
           <ErrorPage />
@@ -262,7 +269,7 @@ const QuoteViewInnerWrapper = () => {
                       data-bs-toggle="tab"
                       href="#kt_tab_file"
                     >
-                      {intl.formatMessage({ id: "Fields.Quotes" })}
+                      Offerte
                     </a>
                   </li>
                   {response?.viewTabs?.showPrivateComments && (
@@ -292,197 +299,198 @@ const QuoteViewInnerWrapper = () => {
                       {intl.formatMessage({ id: "Fields.TabActionHistory" })}
                     </a>
                   </li>
-
-                  <li className="nav-item">
-                    <div style={{ padding: "0.7rem 0", margin: "0 1rem" }}>
-                      <div className="cursor-pointer btn-group drop-left">
-                        <button
-                          className="btn btn-icon btn-sm ms-5 me-2 text-muted align-items-center d-flex"
-                          data-bs-toggle="dropdown"
-                        >
-                          <i className="ki-outline ki-gear me-1 fs-3"></i>
-
-                          {intl.formatMessage({ id: "Fields.TabOptions" })}
-                          <i className="fa fa-chevron-down ms-2"></i>
-                        </button>
-                        <ul className="dropdown-menu w-content-fit py-4">
-                          <li
-                            onClick={() => {
-                              setAddModalOpen(true),
-                                setEditModalId(currentQuote?.id);
-                            }}
+                  {!auth.currentUser?.result.isAnonymousUser && (
+                    <li className="nav-item">
+                      <div style={{ padding: "0.7rem 0", margin: "0 1rem" }}>
+                        <div className="cursor-pointer btn-group drop-left">
+                          <button
+                            className="btn btn-icon btn-sm ms-5 me-2 text-muted align-items-center d-flex"
+                            data-bs-toggle="dropdown"
                           >
-                            <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                              <i className="ki-solid ki-pencil text-warning fs-3 me-2" />
-                              {intl.formatMessage({
-                                id: "Fields.ActionEdit",
-                              })}
-                            </a>
-                          </li>
+                            <i className="ki-outline ki-gear me-1 fs-3"></i>
 
-                          {response?.actions.canSend && (
-                            <>
-                              <div className="dropdown-divider border-gray-200"></div>
-                              <li
-                                onClick={() => {
-                                  openEmailModal();
-                                }}
-                              >
-                                <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
-                                  <i className="ki-duotone ki-send text-success fs-1 me-2">
-                                    <span className="path1"></span>
-                                    <span className="path2"></span>
-                                  </i>
-                                  {intl.formatMessage({
-                                    id: "Fields.ActionSendEmail",
-                                  })}
-                                </a>
-                              </li>
-                            </>
-                          )}
-                          {response?.actions.canApprove && (
-                            <>
-                              <div className="dropdown-divider border-gray-200"></div>
-                              <li
-                                onClick={() => {
-                                  openValidateModal();
-                                }}
-                              >
-                                <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
-                                  <KTSVG
-                                    className="svg-icon svg-icon-2 me-2"
-                                    path="media/svg/general/document-validation-bulk-rounded.svg"
-                                  />
-                                  {intl.formatMessage({
-                                    id: "Fields.ActionApproveOrDecline",
-                                  })}
-                                </a>
-                              </li>
-                            </>
-                          )}
-                          {response?.actions.canCreateInvoice && (
-                            <>
-                              <div className="dropdown-divider border-gray-200"></div>
-                              <li
-                              // onClick={() => {
-                              //   const link = document.createElement("a");
-                              //   link.href = quoteList.downloadInfo.downloadUrl;
-                              //   link.setAttribute(
-                              //     "download",
-                              //     quoteList.downloadInfo.fileName
-                              //   );
-                              //   document.body.appendChild(link);
-                              //   link.click();
-                              //   document.body.removeChild(link);
-                              // }}
-                              >
-                                <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                                  <KTSVG
-                                    className="svg-icon svg-icon-2 me-2"
-                                    path="media/svg/general/invoice-01-bulk-rounded.svg"
-                                  />
-                                  {intl.formatMessage({
-                                    id: "Fields.ActionCreateInvoice",
-                                  })}
-                                </a>
-                              </li>
-                            </>
-                          )}
-                          {response?.actions.canCreateCopy && (
-                            <>
-                              <div className="dropdown-divider border-gray-200"></div>
-                              <li onClick={() => openCopyModal()}>
-                                <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                                  <i className="ki-duotone ki-copy fs-2 me-2 text-primary" />
-                                  {intl.formatMessage({
-                                    id: "Fields.ActionCopy",
-                                  })}
-                                </a>
-                              </li>
-                            </>
-                          )}
-                          {response?.actions.canFinalize && (
-                            <>
-                              <div className="dropdown-divider border-gray-200"></div>
-                              <li
-                                onClick={() => {
-                                  openActivateModal();
-                                }}
-                              >
-                                <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                                  <i className="fa fas fa-flag-checkered text-success fs-3 me-2" />
-                                  {intl.formatMessage({
-                                    id: "Fields.ActionActivate",
-                                  })}
-                                </a>
-                              </li>
-                            </>
-                          )}
-                          {!response?.isDraft && (
-                            <>
-                              <div className="dropdown-divider border-gray-200"></div>
-                              <li
-                                onClick={() => {
-                                  openOdataCopy();
-                                }}
-                              >
-                                <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                                  <KTSVG
-                                    className="svg-icon svg-icon-3 me-2"
-                                    path="media/svg/general/link-square-01-bulk-rounded.svg"
-                                  />
-                                  Odata
-                                </a>
-                              </li>
-                            </>
-                          )}
-                          {response?.actions.canDownload && (
-                            <>
-                              <div className="dropdown-divider border-gray-200"></div>
-                              <li
-                                onClick={() => {
-                                  const link = document.createElement("a");
-                                  link.href =
-                                    response?.downloadInfo.downloadUrl;
-                                  link.setAttribute(
-                                    "download",
-                                    response?.downloadInfo.fileName
-                                  );
-                                  document.body.appendChild(link);
-                                  link.click();
-                                  document.body.removeChild(link);
-                                }}
-                              >
-                                <a className="dropdown-item d-flex align-items-center cursor-pointer">
-                                  <i className="fa-solid fa-cloud-arrow-down text-primary me-2 fs-3"></i>
-                                  {intl.formatMessage({
-                                    id: "Fields.ActionDownload",
-                                  })}
-                                </a>
-                              </li>
-                            </>
-                          )}
-                          {response?.actions.canDelete && (
-                            <>
-                              <div className="dropdown-divider border-gray-200"></div>
-                              <li
-                              // onClick={() => {
-                              //   openEmailModal(quoteList);
-                              // }}
-                              >
-                                <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
-                                  <i className="ki-solid ki-trash text-danger fs-2 me-2"></i>
-                                  {intl.formatMessage({
-                                    id: "Fields.ActionDelete",
-                                  })}
-                                </a>
-                              </li>
-                            </>
-                          )}
-                        </ul>
+                            {intl.formatMessage({ id: "Fields.TabOptions" })}
+                            <i className="fa fa-chevron-down ms-2"></i>
+                          </button>
+                          <ul className="dropdown-menu w-content-fit py-4">
+                            <li
+                              onClick={() => {
+                                setAddModalOpen(true),
+                                  setEditModalId(currentQuote?.id);
+                              }}
+                            >
+                              <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                <i className="ki-solid ki-pencil text-warning fs-3 me-2" />
+                                {intl.formatMessage({
+                                  id: "Fields.ActionEdit",
+                                })}
+                              </a>
+                            </li>
+
+                            {response?.actions.canSend && (
+                              <>
+                                <div className="dropdown-divider border-gray-200"></div>
+                                <li
+                                  onClick={() => {
+                                    openEmailModal();
+                                  }}
+                                >
+                                  <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
+                                    <i className="ki-duotone ki-send text-success fs-1 me-2">
+                                      <span className="path1"></span>
+                                      <span className="path2"></span>
+                                    </i>
+                                    {intl.formatMessage({
+                                      id: "Fields.ActionSendEmail",
+                                    })}
+                                  </a>
+                                </li>
+                              </>
+                            )}
+                            {response?.actions.canApprove && (
+                              <>
+                                <div className="dropdown-divider border-gray-200"></div>
+                                <li
+                                  onClick={() => {
+                                    openValidateModal();
+                                  }}
+                                >
+                                  <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
+                                    <KTSVG
+                                      className="svg-icon svg-icon-2 me-2"
+                                      path="media/svg/general/document-validation-bulk-rounded.svg"
+                                    />
+                                    {intl.formatMessage({
+                                      id: "Fields.ActionApproveOrDecline",
+                                    })}
+                                  </a>
+                                </li>
+                              </>
+                            )}
+                            {response?.actions.canCreateInvoice && (
+                              <>
+                                <div className="dropdown-divider border-gray-200"></div>
+                                <li
+                                // onClick={() => {
+                                //   const link = document.createElement("a");
+                                //   link.href = quoteList.downloadInfo.downloadUrl;
+                                //   link.setAttribute(
+                                //     "download",
+                                //     quoteList.downloadInfo.fileName
+                                //   );
+                                //   document.body.appendChild(link);
+                                //   link.click();
+                                //   document.body.removeChild(link);
+                                // }}
+                                >
+                                  <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                    <KTSVG
+                                      className="svg-icon svg-icon-2 me-2"
+                                      path="media/svg/general/invoice-01-bulk-rounded.svg"
+                                    />
+                                    {intl.formatMessage({
+                                      id: "Fields.ActionCreateInvoice",
+                                    })}
+                                  </a>
+                                </li>
+                              </>
+                            )}
+                            {response?.actions.canCreateCopy && (
+                              <>
+                                <div className="dropdown-divider border-gray-200"></div>
+                                <li onClick={() => openCopyModal()}>
+                                  <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                    <i className="ki-duotone ki-copy fs-2 me-2 text-primary" />
+                                    {intl.formatMessage({
+                                      id: "Fields.ActionCopy",
+                                    })}
+                                  </a>
+                                </li>
+                              </>
+                            )}
+                            {response?.actions.canFinalize && (
+                              <>
+                                <div className="dropdown-divider border-gray-200"></div>
+                                <li
+                                  onClick={() => {
+                                    openActivateModal();
+                                  }}
+                                >
+                                  <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                    <i className="fa fas fa-flag-checkered text-success fs-3 me-2" />
+                                    {intl.formatMessage({
+                                      id: "Fields.ActionActivate",
+                                    })}
+                                  </a>
+                                </li>
+                              </>
+                            )}
+                            {!response?.isDraft && (
+                              <>
+                                <div className="dropdown-divider border-gray-200"></div>
+                                <li
+                                  onClick={() => {
+                                    openOdataCopy();
+                                  }}
+                                >
+                                  <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                    <KTSVG
+                                      className="svg-icon svg-icon-3 me-2"
+                                      path="media/svg/general/link-square-01-bulk-rounded.svg"
+                                    />
+                                    Odata
+                                  </a>
+                                </li>
+                              </>
+                            )}
+                            {response?.actions.canDownload && (
+                              <>
+                                <div className="dropdown-divider border-gray-200"></div>
+                                <li
+                                  onClick={() => {
+                                    const link = document.createElement("a");
+                                    link.href =
+                                      response?.downloadInfo.downloadUrl;
+                                    link.setAttribute(
+                                      "download",
+                                      response?.downloadInfo.fileName
+                                    );
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                  }}
+                                >
+                                  <a className="dropdown-item d-flex align-items-center cursor-pointer">
+                                    <i className="fa-solid fa-cloud-arrow-down text-primary me-2 fs-3"></i>
+                                    {intl.formatMessage({
+                                      id: "Fields.ActionDownload",
+                                    })}
+                                  </a>
+                                </li>
+                              </>
+                            )}
+                            {response?.actions.canDelete && (
+                              <>
+                                <div className="dropdown-divider border-gray-200"></div>
+                                <li
+                                // onClick={() => {
+                                //   openEmailModal(quoteList);
+                                // }}
+                                >
+                                  <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
+                                    <i className="ki-solid ki-trash text-danger fs-2 me-2"></i>
+                                    {intl.formatMessage({
+                                      id: "Fields.ActionDelete",
+                                    })}
+                                  </a>
+                                </li>
+                              </>
+                            )}
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                  </li>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>
@@ -794,56 +802,63 @@ const QuoteViewInnerWrapper = () => {
                 </div>
               )}
               <div>
-                <Tippy
-                  content={intl.formatMessage({
-                    id: "Fields.ToolTipEdit",
-                  })}
-                >
-                  <button
-                    type="button"
-                    className="btn btn-icon btn-warning btn-sm"
-                    onClick={() => {
-                      setAddModalOpen(true), setEditModalId(currentQuote?.id);
-                    }}
+                {response?.actions.canEdit && (
+                  <Tippy
+                    content={intl.formatMessage({
+                      id: "Fields.ToolTipEdit",
+                    })}
                   >
-                    <i className="ki-solid ki-pencil fs-3" />
-                  </button>
-                </Tippy>
-                <Tippy
-                  content={intl.formatMessage({
-                    id: "Fields.ActionDownload",
-                  })}
-                >
-                  <button
-                    type="button"
-                    className="btn btn-icon btn-success ms-5 btn-sm"
-                    onClick={() => {
-                      const link = document.createElement("a");
-                      link.href = response.downloadInfo.downloadUrl;
-                      link.setAttribute(
-                        "download",
-                        response.downloadInfo.fileName
-                      );
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                    }}
+                    <button
+                      type="button"
+                      className="btn btn-icon btn-warning btn-sm"
+                      onClick={() => {
+                        setAddModalOpen(true), setEditModalId(currentQuote?.id);
+                      }}
+                    >
+                      <i className="ki-solid ki-pencil fs-3" />
+                    </button>
+                  </Tippy>
+                )}
+                {response?.actions.canDownload && (
+                  <Tippy
+                    content={intl.formatMessage({
+                      id: "Fields.ActionDownload",
+                    })}
                   >
-                    <i className="fa-solid fa-cloud-arrow-down fs-4"></i>
-                  </button>
-                </Tippy>
-
-                <Tippy
-                  content={intl.formatMessage({ id: "Fields.ActionSendEmail" })}
-                >
-                  <button
-                    type="button"
-                    className="btn btn-icon btn-success btn-sm ms-5"
-                    onClick={() => openEmailModal()}
+                    <button
+                      type="button"
+                      className="btn btn-icon btn-success ms-5 btn-sm"
+                      onClick={() => {
+                        const link = document.createElement("a");
+                        link.href = response.downloadInfo.downloadUrl;
+                        link.setAttribute(
+                          "download",
+                          response.downloadInfo.fileName
+                        );
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      }}
+                    >
+                      <i className="fa-solid fa-cloud-arrow-down fs-4"></i>
+                    </button>
+                  </Tippy>
+                )}
+                {response?.actions.canSend && (
+                  <Tippy
+                    content={intl.formatMessage({
+                      id: "Fields.ActionSendEmail",
+                    })}
                   >
-                    <i className="fas fa-location-arrow fs-3"></i>
-                  </button>
-                </Tippy>
+                    <button
+                      type="button"
+                      className="btn btn-icon btn-success btn-sm ms-5"
+                      onClick={() => openEmailModal()}
+                    >
+                      <i className="fas fa-location-arrow fs-3"></i>
+                    </button>
+                  </Tippy>
+                )}
                 {response?.actions.canFinalize && (
                   <Tippy
                     content={intl.formatMessage({

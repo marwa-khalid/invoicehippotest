@@ -4,6 +4,7 @@ import { KTIcon, toAbsoluteUrl } from "../../../helpers";
 import { LayoutSetup, useLayout } from "../../core";
 import { Header } from "./Header";
 import { Navbar } from "./Navbar";
+import { useAuth } from "../../../../app/modules/auth";
 
 export function HeaderWrapper() {
   const { config, classes } = useLayout();
@@ -15,7 +16,7 @@ export function HeaderWrapper() {
   if (!config.app?.header?.display) {
     return null;
   }
-
+  const auth = useAuth();
   return (
     <div
       id="kt_app_header"
@@ -53,12 +54,14 @@ export function HeaderWrapper() {
                 className="d-flex align-items-center d-lg-none ms-n2 me-2 mt-6"
                 title="Show sidebar menu"
               >
-                <div
-                  className="btn btn-icon btn-active-color-primary w-35px h-35px"
-                  id="kt_app_sidebar_mobile_toggle"
-                >
-                  <KTIcon iconName="abstract-14" className=" fs-1" />
-                </div>
+                {!auth.currentUser?.result.isAnonymousUser && (
+                  <div
+                    className="btn btn-icon btn-active-color-primary w-35px h-35px"
+                    id="kt_app_sidebar_mobile_toggle"
+                  >
+                    <KTIcon iconName="abstract-14" className=" fs-1" />
+                  </div>
+                )}
                 <div className="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
                   <Link to="/dashboard" className="d-lg-none">
                     <img
@@ -73,6 +76,19 @@ export function HeaderWrapper() {
               </div>
             ) : null}
           </>
+        )}
+        {auth.currentUser?.result.isAnonymousUser && (
+          <div className="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
+            <Link to="/dashboard" className="d-none d-lg-flex">
+              <img
+                alt="Logo"
+                src={toAbsoluteUrl(
+                  "media/logos/invoicehippo_one_line_art01.svg"
+                )}
+                className="h-250px w-auto mt-4 ms-n4"
+              />
+            </Link>
+          </div>
         )}
 
         {!(

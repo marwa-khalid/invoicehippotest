@@ -14,12 +14,14 @@ import { PageDataProvider } from "./core";
 import { reInitMenu } from "../helpers";
 import { useLayout } from "./core";
 import clsx from "clsx";
+import { useAuth } from "../../app/modules/auth";
 const MasterLayout = () => {
   const location = useLocation();
   const { config } = useLayout();
   useEffect(() => {
     reInitMenu();
   }, [location.key]);
+  const auth = useAuth();
 
   return (
     <PageDataProvider>
@@ -43,27 +45,34 @@ const MasterLayout = () => {
           id="kt_app_page"
         >
           <HeaderWrapper />
-          <div
-            className="app-wrapper flex-column flex-row-fluid"
-            id="kt_app_wrapper"
-            style={{ overflowY: "auto" }}
-          >
-            <Sidebar />
+
+          {!auth.currentUser?.result.isAnonymousUser ? (
             <div
-              className="app-main flex-column flex-row-fluid"
-              id="kt_app_main"
+              className="app-wrapper flex-column flex-row-fluid"
+              id="kt_app_wrapper"
+              style={{ overflowY: "auto" }}
             >
+              <Sidebar />
               <div
-                className="d-flex flex-column flex-column-fluid"
-                // style={{
-                //   maxHeight: "100%", // Allow content to expand within the app-main
-                //   overflowY: "auto", // Enable scrolling for the content area
-                // }}
+                className="app-main flex-column flex-row-fluid"
+                id="kt_app_main"
               >
-                <Outlet />
+                <div
+                  className="d-flex flex-column flex-column-fluid"
+                  // style={{
+                  //   maxHeight: "100%", // Allow content to expand within the app-main
+                  //   overflowY: "auto", // Enable scrolling for the content area
+                  // }}
+                >
+                  <Outlet />
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="mt-20">
+              <Outlet />
+            </div>
+          )}
         </div>
       </div>
 

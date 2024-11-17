@@ -32,7 +32,7 @@ export function MenuInner() {
         <MenuItem to="/admin/unit-types" title="Unit Types" hasBullet={true} />
         <MenuItem
           to="/admin/productgroups"
-          title="Product Groups"
+          title="Products"
           hasBullet={true}
         />
         <MenuItem

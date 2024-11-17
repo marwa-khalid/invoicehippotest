@@ -41,12 +41,15 @@ const useAuth = () => {
 const AuthProvider: FC<WithChildren> = ({ children }) => {
   const [auth, setAuth] = useState<AuthModel | undefined>(authHelper.getAuth());
   const [currentUser, setCurrentUser] = useState<UserModel | undefined>();
-
+  const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
+  console.log(currentQuote);
   const requestUser = async () => {
     try {
-      if (!currentUser) {
+      console.log(currentUser);
+      if (currentQuote || !currentUser) {
         const data = await getProfileInfo();
         if (data) {
+          console.log("working");
           setCurrentUser(data);
         }
       }
@@ -58,8 +61,12 @@ const AuthProvider: FC<WithChildren> = ({ children }) => {
   const saveAuth = (auth: AuthModel | undefined) => {
     if (auth) {
       authHelper.setAuth(auth);
+      if (!auth.result.canRedirectToModule) {
+        localStorage.removeItem("currentQuote");
+      }
       //Check if the token has expired
       if (auth.isValid && auth.result.tokenIsValid) {
+        console.log("working");
         requestUser();
       } else {
         handleToast(auth);

@@ -48,10 +48,10 @@ const TwoFactor = () => {
       setIsSubmitting(true);
       try {
         const auth = await authorizeAnonymous(values);
+        console.log(auth);
         if (auth.isValid) {
           console.log(auth);
-          saveAuth(auth);
-          navigate("/estimation/view");
+
           localStorage.setItem(
             "currentQuote",
             JSON.stringify({
@@ -59,6 +59,8 @@ const TwoFactor = () => {
               isAnonymous: true,
             })
           );
+          saveAuth(auth);
+          navigate("/estimation/view");
         }
         setIsSubmitting(false);
         handleToast(auth);
