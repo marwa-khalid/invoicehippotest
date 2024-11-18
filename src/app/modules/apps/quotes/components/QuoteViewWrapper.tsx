@@ -17,6 +17,8 @@ import { QuoteEmailModal } from "./quote-email-modal/QuoteEmailModal";
 import { QuoteActivateModal } from "./quote-activate-modal/QuoteActivateModal";
 import { QuoteOdataModal } from "./quote-odata-modal/QuoteOdataModal";
 import { useAuth } from "../../../auth";
+import { ThemeModeComponent } from "../../../../../_metronic/assets/ts/layout";
+import { ThemeModeType, useThemeMode } from "../../../../../_metronic/partials";
 const VIEWER_LICENSE_KEY = import.meta.env.VITE_APP_VIEWER_LICENSE_KEY;
 const QuoteViewInnerWrapper = () => {
   const { BASE_URL } = import.meta.env;
@@ -33,6 +35,9 @@ const QuoteViewInnerWrapper = () => {
   const [activities, setActivities] = useState<any>();
   const [errorPage, setErrorPage] = useState<boolean>(false);
   const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
+  const systemMode = ThemeModeComponent.getSystemMode() as "light" | "dark";
+  const { mode, menuMode, updateMode, updateMenuMode } = useThemeMode();
+  const calculatedMode = mode === "system" ? systemMode : mode;
 
   const openCopyModal = () => {
     valueSetter();
@@ -106,7 +111,6 @@ const QuoteViewInnerWrapper = () => {
       setIsLoading(true);
       const container = containerRef.current;
       let PSPDFKit: any, instance;
-      // PSPDFKit.initialize(context, VIEWER_LICENSE_KEY);
 
       (async function () {
         PSPDFKit = await import("pspdfkit");
@@ -115,19 +119,22 @@ const QuoteViewInnerWrapper = () => {
         instance = await PSPDFKit.load({
           // licenseKey: VIEWER_LICENSE_KEY,
           container,
-          // initialViewState: new PSPDFKit.ViewState({ zoom: 1.5 }),
+          theme:
+            calculatedMode === "dark"
+              ? PSPDFKit.Theme.DARK
+              : PSPDFKit.Theme.LIGHT,
           document: response.downloadInfo.downloadUrl,
           baseUrl: `${window.location.protocol}//${window.location.host}/${BASE_URL}`,
         });
         instance.setViewState((viewState: any) =>
           viewState.set("showToolbar", !viewState.showToolbar)
         );
-        PSPDFKit.ZoomMode.FIT_TO_WIDTH;
+        PSPDFKit.ZoomMode.FIT_PAGE;
       })();
       setIsLoading(false);
       return () => PSPDFKit && PSPDFKit.unload(container);
     }
-  }, [response, refresh]);
+  }, [response, refresh, calculatedMode]);
 
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   useEffect(() => {

@@ -2,7 +2,8 @@ import { useEffect, useRef } from "react";
 // import WebViewer from "@pdftron/webviewer"; // Updated import
 // import { KTSVG } from "../../../../../../_metronic/helpers/index.js";
 // const VIEWER_LICENSE_KEY = import.meta.env.VITE_APP_VIEWER_LICENSE_KEY;
-
+import { ThemeModeComponent } from "../../../../../../_metronic/assets/ts/layout";
+import { useThemeMode } from "../../../../../../_metronic/partials";
 interface Props {
   downloadUrl: string;
   fileExtension: any;
@@ -122,23 +123,19 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const offcanvasRef = useRef<HTMLDivElement>(null);
 
+  const systemMode = ThemeModeComponent.getSystemMode() as "light" | "dark";
+  const { mode } = useThemeMode();
+  const calculatedMode = mode === "system" ? systemMode : mode;
   useEffect(() => {
     if (downloadUrl) {
-      const container = containerRef.current; // This `useRef` instance will render the PDF.
-
-      let PSPDFKit: any, instance: any;
+      const container = containerRef.current;
+      let PSPDFKit: any, instance;
 
       (async function () {
         PSPDFKit = await import("pspdfkit");
+        PSPDFKit.unload(container);
+        const toolbarItems = PSPDFKit?.defaultToolbarItems;
 
-        PSPDFKit.unload(container); // Ensure that there's only one PSPDFKit instance.
-        const toolbarItems = PSPDFKit.defaultToolbarItems;
-
-        // toolbarItems.push({
-        //   type: "spacer",
-        // });
-
-        // A custom item. Inside the onPress callback we can call into PSPDFKit APIs.
         toolbarItems.push({
           type: "custom",
           id: "my-custom-button",
@@ -150,17 +147,22 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
         });
 
         instance = await PSPDFKit.load({
-          // licenseKey: VIEWER_LICENSE_KEY,
           container,
-          toolbarItems: toolbarItems,
+          theme:
+            calculatedMode === "dark"
+              ? PSPDFKit.Theme.DARK
+              : PSPDFKit.Theme.LIGHT,
           document: downloadUrl,
+          toolbarItems: toolbarItems,
           baseUrl: `${window.location.protocol}//${window.location.host}/${BASE_URL}`,
         });
+
+        PSPDFKit.ZoomMode.FIT_PAGE;
       })();
 
       return () => PSPDFKit && PSPDFKit.unload(container);
     }
-  }, [downloadUrl]);
+  }, [downloadUrl, calculatedMode]);
 
   // This div element will render the document to the DOM.
   return (
