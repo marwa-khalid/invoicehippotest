@@ -41,7 +41,7 @@ const QuoteValidateModal = ({
       validationStateType: 0,
       declinedReasonType: 1,
       comments: "",
-      notifyClient: false,
+      notifyClient: auth.currentUser?.result.isAnonymousUser ? true : false,
       quoteValidationSignee: {
         validatedByFullName: "",
         validatedByCity: "",
@@ -179,6 +179,8 @@ const QuoteValidateModal = ({
     setActiveTab(tab);
     setCurrentIndex(tab.id - 1);
   };
+
+  console.log(activeTab);
 
   return (
     <>

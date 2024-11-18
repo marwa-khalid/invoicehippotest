@@ -143,11 +143,12 @@ const QuoteList = ({
   };
 
   useEffect(() => {
-    const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
-    console.log(currentQuote);
-    if (!auth.currentUser?.result.isAnonymousUser) {
-      localStorage.removeItem("currentQuote");
-    }
+    // const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
+    // console.log(currentQuote);
+    // if (!auth.currentUser?.result.isAnonymousUser) {
+    localStorage.removeItem("currentQuote");
+    localStorage.removeItem("quoteNr");
+    // }
   }, []);
 
   useEffect(() => {
@@ -245,22 +246,80 @@ const QuoteList = ({
             <div className="col" key={quoteList.id}>
               <div className="card h-100 pt-6 position-relative">
                 {/* Ribbons */}
+                <Tippy
+                  content={
+                    <div style={{ fontFamily: "monospace" }}>
+                      <div className="table" style={{ width: "100%" }}>
+                        {/* Total Price */}
+                        {quoteList.totals.totalPrice > 0 && (
+                          <div style={{ display: "table-row" }}>
+                            <div
+                              className="me-2"
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {intl.formatMessage({ id: "Fields.TotalPrice" })}:
+                            </div>
+                            <div
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {quoteList.valuta.sign}
+                              {quoteList.totals.totalPrice.toFixed(2)}
+                            </div>
+                          </div>
+                        )}
+                        {/* Total VAT Amount */}
+                        {quoteList.totals.totalVATAmount > 0 && (
+                          <div style={{ display: "table-row", gap: 3 }}>
+                            <div
+                              className="me-2"
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {intl.formatMessage({
+                                id: "Fields.TotalVATAmount",
+                              })}
+                              :
+                            </div>
 
-                <div
-                  className="ribbon ribbon-end ribbon-clip position-absolute"
-                  style={{
-                    top: "10px",
-                    right: "0px",
-                    height: "30px",
-                    width: "100px",
-                  }}
+                            <div
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {quoteList.valuta.sign}
+                              {quoteList.totals.totalVATAmount.toFixed(2)}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  }
                 >
-                  <div className="ribbon-label fw-bold">
-                    {quoteList.valuta.sign}{" "}
-                    {quoteList.totals.totalPriceWithVAT.toFixed(2)}
-                    <span className="ribbon-inner bg-gray-600"></span>
+                  <div
+                    className="ribbon ribbon-end ribbon-clip position-absolute cursor-pointer"
+                    style={{
+                      top: "10px",
+                      right: "0px",
+                      height: "30px",
+                      width: "100px",
+                    }}
+                  >
+                    <div className="ribbon-label fw-bold">
+                      {quoteList.valuta.sign}
+                      {quoteList.totals.totalPriceWithVAT.toFixed(2)}
+                      <span className="ribbon-inner bg-gray-600"></span>
+                    </div>
                   </div>
-                </div>
+                </Tippy>
 
                 <div
                   className="ribbon ribbon-start ribbon-clip position-absolute"
@@ -299,71 +358,6 @@ const QuoteList = ({
                     </div>
 
                     {/* Current/Total Amount on the Right */}
-
-                    <div
-                      className="text-end fs-9"
-                      style={{ fontFamily: "monospace" }}
-                    >
-                      <div className="table" style={{ width: "100%" }}>
-                        {/* Total Price */}
-                        {quoteList.totals.totalPrice > 0 && (
-                          <div
-                            className="fs-sm"
-                            style={{ display: "table-row" }}
-                          >
-                            <small
-                              className="text-muted"
-                              style={{
-                                display: "table-cell",
-                                textAlign: "right",
-                              }}
-                            >
-                              {intl.formatMessage({ id: "Fields.TotalPrice" })}:
-                            </small>
-                            <span
-                              className="text-muted"
-                              style={{
-                                display: "table-cell",
-                                textAlign: "right",
-                              }}
-                            >
-                              {quoteList.valuta.sign}
-                              {quoteList.totals.totalPrice.toFixed(2)}
-                            </span>
-                          </div>
-                        )}
-                        {/* Total VAT Amount */}
-                        {quoteList.totals.totalVATAmount > 0 && (
-                          <div
-                            className="fs-sm"
-                            style={{ display: "table-row" }}
-                          >
-                            <small
-                              className="text-muted"
-                              style={{
-                                display: "table-cell",
-                                textAlign: "right",
-                              }}
-                            >
-                              {intl.formatMessage({
-                                id: "Fields.TotalVATAmount",
-                              })}
-                              :
-                            </small>
-                            <span
-                              className="text-muted"
-                              style={{
-                                display: "table-cell",
-                                textAlign: "right",
-                              }}
-                            >
-                              {quoteList.valuta.sign}
-                              {quoteList.totals.totalVATAmount.toFixed(2)}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
                   </div>
                   <ul className="breadcrumb breadcrumb-secondary breadcrumb-dot mb-3 text-muted">
                     <li className="breadcrumb-item">
@@ -619,7 +613,7 @@ const QuoteList = ({
                           >
                             <a className="dropdown-item d-flex align-items-center cursor-pointer">
                               <KTSVG
-                                className="svg-icon svg-icon-2 me-2"
+                                className="svg-icon svg-icon-1 me-2"
                                 path="media/svg/general/file-view-bulk-rounded.svg"
                               />
                               {intl.formatMessage({

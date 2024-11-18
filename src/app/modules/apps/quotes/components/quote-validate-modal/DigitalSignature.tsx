@@ -62,7 +62,19 @@ const DigitalSignature = ({ formik }: Props) => {
 
   const handleUpload = (event: any) => {
     const file = event.target.files[0];
+
     if (file) {
+      const maxSizeInBytes = 3 * 1024 * 1024; // 3MB in bytes
+
+      // Validate file size
+      if (file.size > maxSizeInBytes) {
+        alert(
+          "The file size exceeds the 3MB limit. Please upload a smaller file."
+        );
+        return; // Exit the function if the file is too large
+      }
+
+      // File is valid, read it
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result); // Store the Base64 string
@@ -113,7 +125,7 @@ const DigitalSignature = ({ formik }: Props) => {
             <input
               type="radio"
               name="signatureType"
-              className="form-check-input cursor-pointer"
+              className="form-check-input cursor-pointer fs-3x"
               value="type"
               checked={signatureType === "type"}
               onChange={() => setSignatureType("type")}
@@ -186,7 +198,7 @@ const DigitalSignature = ({ formik }: Props) => {
               <div className="flex mt-10">
                 {fonts.map((font) => (
                   <span
-                    className="me-3 p-3 cursor-pointer rounded"
+                    className="me-3 p-3 cursor-pointer rounded fs-3"
                     key={font}
                     onClick={() => setFontFamily(font)}
                     style={{
@@ -208,7 +220,7 @@ const DigitalSignature = ({ formik }: Props) => {
             <div className="fv-row">
               <input
                 type="file"
-                accept="image/*"
+                accept=".jpg,.jpeg,.svg"
                 id="fileInput"
                 className="d-none" // Hides the input element
                 onChange={handleUpload}

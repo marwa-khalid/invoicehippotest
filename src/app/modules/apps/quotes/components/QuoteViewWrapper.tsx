@@ -74,6 +74,10 @@ const QuoteViewInnerWrapper = () => {
       const response = await getQuickViewQuote(currentQuote?.id);
       if (response.isValid) {
         setResponse(response.result);
+        localStorage.setItem(
+          "quoteNr",
+          JSON.stringify(response.result.quoteNr)
+        );
       }
       setIsLoading(false);
     };
@@ -289,16 +293,18 @@ const QuoteViewInnerWrapper = () => {
                       </a>
                     </li>
                   )}
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      data-bs-toggle="tab"
-                      href="#kt_tab_activities"
-                    >
-                      <i className="fas fa-history me-2"></i>
-                      {intl.formatMessage({ id: "Fields.TabActionHistory" })}
-                    </a>
-                  </li>
+                  {response?.viewTabs?.showActivities && (
+                    <li className="nav-item">
+                      <a
+                        className="nav-link"
+                        data-bs-toggle="tab"
+                        href="#kt_tab_activities"
+                      >
+                        <i className="fas fa-history me-2"></i>
+                        {intl.formatMessage({ id: "Fields.TabActionHistory" })}
+                      </a>
+                    </li>
+                  )}
                   {!auth.currentUser?.result.isAnonymousUser && (
                     <li className="nav-item">
                       <div style={{ padding: "0.7rem 0", margin: "0 1rem" }}>

@@ -240,21 +240,80 @@ const QuoteList = ({
               <div className="card h-100 pt-6 position-relative">
                 {/* Ribbons */}
 
-                <div
-                  className="ribbon ribbon-end ribbon-clip position-absolute"
-                  style={{
-                    top: "10px",
-                    right: "0px",
-                    height: "30px",
-                    width: "100px",
-                  }}
+                <Tippy
+                  content={
+                    <div style={{ fontFamily: "monospace" }}>
+                      <div className="table" style={{ width: "100%" }}>
+                        {/* Total Price */}
+                        {quoteList.totals.totalPrice > 0 && (
+                          <div style={{ display: "table-row" }}>
+                            <div
+                              className="me-2"
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {intl.formatMessage({ id: "Fields.TotalPrice" })}:
+                            </div>
+                            <div
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {quoteList.valuta.sign}
+                              {quoteList.totals.totalPrice.toFixed(2)}
+                            </div>
+                          </div>
+                        )}
+                        {/* Total VAT Amount */}
+                        {quoteList.totals.totalVATAmount > 0 && (
+                          <div style={{ display: "table-row", gap: 3 }}>
+                            <div
+                              className="me-2"
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {intl.formatMessage({
+                                id: "Fields.TotalVATAmount",
+                              })}
+                              :
+                            </div>
+
+                            <div
+                              style={{
+                                display: "table-cell",
+                                textAlign: "right",
+                              }}
+                            >
+                              {quoteList.valuta.sign}
+                              {quoteList.totals.totalVATAmount.toFixed(2)}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  }
                 >
-                  <div className="ribbon-label fw-bold">
-                    {quoteList.valuta.sign}{" "}
-                    {quoteList.totals.totalPriceWithVAT.toFixed(2)}
-                    <span className="ribbon-inner bg-gray-600"></span>
+                  <div
+                    className="ribbon ribbon-end ribbon-clip position-absolute cursor-pointer"
+                    style={{
+                      top: "10px",
+                      right: "0px",
+                      height: "30px",
+                      width: "100px",
+                    }}
+                  >
+                    <div className="ribbon-label fw-bold">
+                      {quoteList.valuta.sign}
+                      {quoteList.totals.totalPriceWithVAT.toFixed(2)}
+                      <span className="ribbon-inner bg-gray-600"></span>
+                    </div>
                   </div>
-                </div>
+                </Tippy>
 
                 <div
                   className="ribbon ribbon-start ribbon-clip position-absolute"
@@ -284,8 +343,8 @@ const QuoteList = ({
 
                     {/* Current/Total Amount on the Right */}
 
-                    <div className="d-flex flex-column text-end fs-9">
-                      {/* Total Price */}
+                    {/* <div className="d-flex flex-column text-end fs-9">
+                      
                       {quoteList.totals.totalPrice > 0 && (
                         <div className="d-flex gap-3 justify-content-end fs-sm">
                           <small className="text-muted">
@@ -297,7 +356,7 @@ const QuoteList = ({
                           </span>
                         </div>
                       )}
-                      {/* Total VAT Amount */}
+                    
                       {quoteList.totals.totalVATAmount > 0 && (
                         <div className="d-flex gap-3 justify-content-end fs-sm">
                           <small className="text-muted">
@@ -311,7 +370,7 @@ const QuoteList = ({
                           </span>
                         </div>
                       )}
-                    </div>
+                    </div> */}
                   </div>
                   <ul className="breadcrumb breadcrumb-secondary breadcrumb-dot mb-3 text-muted">
                     <li className="breadcrumb-item">

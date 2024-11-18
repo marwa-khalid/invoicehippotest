@@ -67,7 +67,7 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
         <ReactQuill
           theme="snow"
           placeholder="Jouw tekst hier..."
-          style={{ height: "200px" }}
+          style={{ height: "150px" }}
           onChange={handleQuillChange}
           value={formik.values.comments}
         />

@@ -5,6 +5,7 @@ import enums from "../../../../../../../invoicehippo.enums.json";
 import { getMinMaxYear } from "../../core/_requests";
 import { ClientSearch } from "../../quote-add-modal/ClientSearch";
 import { MenuDivider } from "@chakra-ui/react";
+import { useAuth } from "../../../../../auth";
 
 interface ComponentProps {
   tempYear: number | null;
@@ -62,6 +63,7 @@ export function QuoteFilter({
     fetchMinMaxYear();
   }, []);
 
+  const auth = useAuth();
   const quarterList = [
     enums.TaxDeclarationPeriodValueTypes[15],
     enums.TaxDeclarationPeriodValueTypes[16],
@@ -279,79 +281,91 @@ export function QuoteFilter({
             isDisabled={disablePeriodSelect}
           />
         </div>
-        <div className="separator border-gray-200 mb-4"></div>
+
         {/* Quote Status Selection */}
-        <div className="mb-5">
-          <label className="form-label fw-bold">
-            {intl.formatMessage({ id: "Fields.SelectOptionDefaultStatusType" })}
-          </label>
-          <Select
-            className="react-select-styled react-select flex flex-wrap w-350px"
-            isClearable
-            menuPlacement="bottom"
-            isMulti
-            placeholder={intl.formatMessage({
-              id: "Fields.SelectOptionDefaultStatusType",
-            })}
-            value={enums.QuoteStatusTypes.map((item) => ({
-              value: item.Value,
-              label: item.Title,
-            })).filter((option) => tempQuoteStatus?.includes(option.value))}
-            onChange={handleQuoteStatusChange}
-            options={enums.QuoteStatusTypes.map((item) => ({
-              value: item.Value,
-              label: item.Title,
-            }))}
-          />
-        </div>
-        <div className="separator border-gray-200 mb-4"></div>
-        {/* Client Search Button */}
-        <div className="mb-3 ">
-          <label className="form-label fw-bold">
-            {intl.formatMessage({ id: "Fields.SelectOptionDefaultClient" })}:
-          </label>
-          <div className="d-flex gap-1 w-100">
-            <button
-              className="btn btn-primary d-inline-flex align-items-center flex-grow-1 rounded-end-0 h-40px"
-              onClick={() => {
-                setShowClientSearch(true);
-              }}
-            >
-              <i className="la la-user-plus fs-2"></i>
-              <span className="ms-1">
-                {!clientName
-                  ? intl.formatMessage({
-                      id: "Fields.SelectOptionDefaultClient",
-                    })
-                  : clientName?.length > 25
-                  ? `${clientName?.slice(0, 25)}...`
-                  : clientName}
-              </span>
-            </button>
+        {!auth.currentUser?.result.isAnonymousUser && (
+          <>
+            <div className="separator border-gray-200 mb-4"></div>
+            <div className="mb-5">
+              <label className="form-label fw-bold">
+                {intl.formatMessage({
+                  id: "Fields.SelectOptionDefaultStatusType",
+                })}
+              </label>
+              <Select
+                className="react-select-styled react-select flex flex-wrap w-350px"
+                isClearable
+                menuPlacement="bottom"
+                isMulti
+                placeholder={intl.formatMessage({
+                  id: "Fields.SelectOptionDefaultStatusType",
+                })}
+                value={enums.QuoteStatusTypes.map((item) => ({
+                  value: item.Value,
+                  label: item.Title,
+                })).filter((option) => tempQuoteStatus?.includes(option.value))}
+                onChange={handleQuoteStatusChange}
+                options={enums.QuoteStatusTypes.map((item) => ({
+                  value: item.Value,
+                  label: item.Title,
+                }))}
+              />
+            </div>
+          </>
+        )}
+        {!auth.currentUser?.result.isAnonymousUser && (
+          <>
+            <div className="separator border-gray-200 mb-4"></div>
 
-            {clientName && (
-              <button
-                className="btn btn-icon btn-secondary cursor-pointer rounded-0 h-40px flex-shrink-0"
-                onClick={() => {
-                  setClientIdForFilter(null);
-                  setClientName("");
-                  localStorage.removeItem("storedClient");
-                }}
-              >
-                <i className="la la-remove fs-3"></i>
-              </button>
-            )}
+            <div className="mb-3 ">
+              <label className="form-label fw-bold">
+                {intl.formatMessage({ id: "Fields.SelectOptionDefaultClient" })}
+                :
+              </label>
+              <div className="d-flex gap-1 w-100">
+                <button
+                  className="btn btn-primary d-inline-flex align-items-center flex-grow-1 rounded-end-0 h-40px"
+                  onClick={() => {
+                    setShowClientSearch(true);
+                  }}
+                >
+                  <i className="la la-user-plus fs-2"></i>
+                  <span className="ms-1">
+                    {!clientName
+                      ? intl.formatMessage({
+                          id: "Fields.SelectOptionDefaultClient",
+                        })
+                      : clientName?.length > 25
+                      ? `${clientName?.slice(0, 25)}...`
+                      : clientName}
+                  </span>
+                </button>
 
-            <button
-              className="btn btn-icon btn-warning cursor-pointer h-40px rounded-end rounded-0 flex-shrink-0"
-              onClick={() => {
-                setShowClientSearch(true);
-              }}
-            >
-              <i className="la la-search-plus fs-3"></i>
-            </button>
-          </div>
-        </div>
+                {clientName && (
+                  <button
+                    className="btn btn-icon btn-secondary cursor-pointer rounded-0 h-40px flex-shrink-0"
+                    onClick={() => {
+                      setClientIdForFilter(null);
+                      setClientName("");
+                      localStorage.removeItem("storedClient");
+                    }}
+                  >
+                    <i className="la la-remove fs-3"></i>
+                  </button>
+                )}
+
+                <button
+                  className="btn btn-icon btn-warning cursor-pointer h-40px rounded-end rounded-0 flex-shrink-0"
+                  onClick={() => {
+                    setShowClientSearch(true);
+                  }}
+                >
+                  <i className="la la-search-plus fs-3"></i>
+                </button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
       <div className="separator border-gray-200 mb-4"></div>
       <div className="d-flex justify-content-end gap-2">

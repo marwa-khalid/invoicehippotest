@@ -18,7 +18,7 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
   };
 
   return (
-    <div className="modal-body py-10 px-20 ">
+    <div className="modal-body pt-10 px-20 pb-20">
       <h2 className="fw-bolder d-flex align-items-center mb-7">
         {formik.values.validationStateType === 2
           ? intl.formatMessage({
@@ -59,15 +59,17 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
         </div>
       )}
       <div className="row pb-lg-10">
-        <label htmlFor="" className="required fw-bold mb-3">
-          {intl.formatMessage({
-            id: "Fields.ValidationComments",
-          })}
-        </label>
+        {formik.values.validationStateType === 2 && (
+          <label htmlFor="" className="required fw-bold mb-3">
+            {intl.formatMessage({
+              id: "Fields.ValidationComments",
+            })}
+          </label>
+        )}
         <ReactQuill
           theme="snow"
           placeholder="Jouw tekst hier..."
-          style={{ height: "200px" }}
+          style={{ height: "150px" }}
           onChange={handleQuillChange}
           value={formik.values.comments}
         />

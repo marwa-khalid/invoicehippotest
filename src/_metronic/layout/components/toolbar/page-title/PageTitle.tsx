@@ -10,6 +10,7 @@ const PageTitle = () => {
   const appPageTitleDirection = config.app?.pageTitle?.direction;
 
   const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
+  const quoteNr = JSON.parse(localStorage.getItem("quoteNr")!);
   return (
     <div
       id="kt_page_title"
@@ -88,8 +89,9 @@ const PageTitle = () => {
                   )}
                 </li>
               ))}
+              {console.log(quoteNr)!}
               <li className="breadcrumb-item text-gray-900">
-                {!currentQuote?.quoteNr ? pageTitle : ""}
+                {!currentQuote?.quoteNr && !quoteNr ? pageTitle : ""}
               </li>
             </ul>
           </>

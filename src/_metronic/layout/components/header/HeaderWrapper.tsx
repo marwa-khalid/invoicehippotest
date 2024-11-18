@@ -79,7 +79,7 @@ export function HeaderWrapper() {
         )}
         {auth.currentUser?.result.isAnonymousUser && (
           <div className="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
-            <Link to="/dashboard" className="d-none d-lg-flex">
+            <Link to="#" className="d-none d-lg-flex">
               <img
                 alt="Logo"
                 src={toAbsoluteUrl(

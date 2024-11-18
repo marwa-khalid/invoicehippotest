@@ -50,28 +50,31 @@ const QuoteValidateModalFooter = ({
   useEffect(() => {
     formik.validateForm();
   }, [activeTab]);
+  console.log(activeTab);
 
   return (
     <div className="modal-footer d-flex justify-content-between align-items-center">
-      <div className="form-check form-switch form-check-success form-check-solid ms-2 d-flex align-items-center">
-        <input
-          className="form-check-input h-25px w-45px me-5 cursor-pointer"
-          type="checkbox"
-          id="notifyClientSwitch"
-          checked={formik.values.notifyClient}
-          onChange={(e) => {
-            formik.setFieldValue("notifyClient", !formik.values.notifyClient);
-          }}
-        />
-        <label
-          className="form-check-label fs-sm text-muted"
-          htmlFor="notifyClientSwitch"
-        >
-          {intl.formatMessage({
-            id: "Fields.NotifyClient",
-          })}
-        </label>
-      </div>
+      {!auth.currentUser?.result?.isAnonymousUser && (
+        <div className="form-check form-switch form-check-success form-check-solid ms-2 d-flex align-items-center">
+          <input
+            className="form-check-input h-25px w-45px me-5 cursor-pointer"
+            type="checkbox"
+            id="notifyClientSwitch"
+            checked={formik.values.notifyClient}
+            onChange={(e) => {
+              formik.setFieldValue("notifyClient", !formik.values.notifyClient);
+            }}
+          />
+          <label
+            className="form-check-label fs-sm text-muted"
+            htmlFor="notifyClientSwitch"
+          >
+            {intl.formatMessage({
+              id: "Fields.NotifyClient",
+            })}
+          </label>
+        </div>
+      )}
       <div className="d-flex">
         {activeTab.id === 1 ? (
           <button

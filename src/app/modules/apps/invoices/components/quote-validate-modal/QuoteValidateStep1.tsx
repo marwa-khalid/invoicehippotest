@@ -55,9 +55,11 @@ const QuoteValidateStep1 = ({ formik, setActiveTab, tabs }: Props) => {
             onChange={() => {
               formik.setFieldValue("validationStateType", 1);
               setActiveTab(tabs[1]);
+              console.log("working");
             }}
             checked={formik.values.validationStateType === 1}
           />
+
           <label
             className="btn btn-outline btn-outline-dashed btn-outline-success p-7 d-flex align-items-center mb-10"
             htmlFor="kt_create_account_form_account_type_personal"

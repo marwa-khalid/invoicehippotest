@@ -17,7 +17,19 @@ const HeaderUserMenu: FC = () => {
       <div className="menu-item px-3">
         <div className="menu-content d-flex align-items-center px-3">
           <div className="symbol symbol-50px me-5">
-            <img alt="Logo" src={toAbsoluteUrl("media/avatars/300-2.jpg")} />
+            {currentUser?.result.activeCompany.hasCompanyLogoUrl ? (
+              <img
+                src={currentUser?.result.activeCompany.companyLogoUrl}
+                alt=""
+                style={{ objectFit: "contain" }}
+              />
+            ) : (
+              <img
+                src={toAbsoluteUrl("media/svg/brand-logos/office-building.svg")}
+                alt=""
+                style={{ objectFit: "contain" }}
+              />
+            )}
           </div>
 
           <div className="d-flex flex-column">
@@ -38,18 +50,6 @@ const HeaderUserMenu: FC = () => {
       {currentUser?.result.isAnonymousUser ? (
         <>
           <div className="separator my-2"></div>
-
-          <div className="menu-item px-5">
-            <Link to={"/crafted/pages/profile"} className="menu-link px-5">
-              {intl.formatMessage({ id: "Fields.ModalManageMyUserProfile" })}
-            </Link>
-          </div>
-
-          <div className="menu-item px-5">
-            <Link to={"/dashboard"} className="menu-link px-5">
-              {intl.formatMessage({ id: "Menu.Dashboard" })}
-            </Link>
-          </div>
 
           <div className="menu-item px-5">
             <Link to={"/estimation/search"} className="menu-link px-5">
@@ -154,12 +154,6 @@ const HeaderUserMenu: FC = () => {
       <div className="separator my-2"></div>
 
       <Languages />
-
-      <div className="menu-item px-5 my-1">
-        <Link to="/crafted/account/settings" className="menu-link px-5">
-          Account Settings
-        </Link>
-      </div>
 
       <div className="menu-item px-5">
         <a onClick={logout} className="menu-link px-5">
