@@ -15,30 +15,39 @@ const HeaderUserMenu: FC = () => {
       data-kt-menu="true"
     >
       <div className="menu-item px-3">
-        <div className="menu-content d-flex align-items-center px-3">
-          <div className="symbol symbol-50px me-5">
+        <div className="menu-content d-flex flex-column align-items-center px-3">
+          {/* Logo centered */}
+          <div className="symbol symbol-50px mb-3 text-center">
             {currentUser?.result.activeCompany.hasCompanyLogoUrl ? (
               <img
                 src={currentUser?.result.activeCompany.companyLogoUrl}
                 alt=""
-                style={{ objectFit: "contain" }}
+                style={{
+                  objectFit: "contain",
+                  width: "100%",
+                  maxWidth: "100px",
+                  height: "auto",
+                }}
               />
             ) : (
               <img
                 src={toAbsoluteUrl("media/svg/brand-logos/office-building.svg")}
                 alt=""
-                style={{ objectFit: "contain" }}
+                style={{
+                  objectFit: "contain",
+                  width: "100%",
+                  maxWidth: "100px",
+                  height: "auto",
+                }}
               />
             )}
           </div>
 
-          <div className="d-flex flex-column">
-            <div className="fw-bolder d-flex align-items-center fs-5">
+          {/* Name and email left-aligned */}
+          <div className="d-flex flex-column align-items-start w-100">
+            <div className="fw-bolder fs-5">
               {currentUser?.result.person.firstName}{" "}
               {currentUser?.result.person.lastName}
-              <span className="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">
-                Pro
-              </span>
             </div>
             <a href="#" className="fw-bold text-muted text-hover-primary fs-7">
               {currentUser?.result.person.emailAddress}
@@ -46,6 +55,8 @@ const HeaderUserMenu: FC = () => {
           </div>
         </div>
       </div>
+
+      <div className="separator my-2"></div>
 
       {currentUser?.result.isAnonymousUser ? (
         <>

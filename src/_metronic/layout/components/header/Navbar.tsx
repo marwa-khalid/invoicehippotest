@@ -13,11 +13,11 @@ import { toast } from "react-toastify";
 const itemClass = "ms-1 ms-md-4";
 const btnClass =
   "btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary";
-const userAvatarClass = "symbol-40px";
+const userAvatarClass = "symbol-20px";
 const btnIconClass = "fs-1"; // Increase this to make icons larger (e.g., fs-3 or fs-4)
 
 // Custom styles to increase the size of the buttons
-const largeBtnClass = "w-45px h-45px"; // Increase button size to accommodate larger icons
+const largeBtnClass = "w-40px h-40px"; // Increase button size to accommodate larger icons
 
 const Navbar = () => {
   const { config } = useLayout();
@@ -87,31 +87,24 @@ const Navbar = () => {
       </div>
       <div className={clsx("app-navbar-item rounded-lg", itemClass)}>
         <div
-          className={clsx(
-            "cursor-pointer symbol symbol-circle",
-            userAvatarClass,
-            largeBtnClass
-          )}
+          className={clsx("cursor-pointer", userAvatarClass, largeBtnClass)}
           data-kt-menu-trigger="{default: 'hover'}"
           data-kt-menu-attach="parent"
           data-kt-menu-placement="bottom-end"
         >
-          {currentUser?.result.activeCompany.hasCompanyLogoUrl ? (
-            <img
-              src={currentUser?.result.activeCompany.companyLogoUrl}
-              style={{ objectFit: "contain" }}
-              alt=""
-            />
-          ) : (
-            <img
-              src={toAbsoluteUrl("media/svg/brand-logos/office-building.svg")}
-              alt=""
-              style={{ objectFit: "contain" }}
-            />
-          )}
+          <img
+            src={toAbsoluteUrl("media/svg/brand-logos/office-building.svg")}
+            alt=""
+            style={{
+              objectFit: "contain", // Ensure the entire image fits within the container
+              width: "40px", // Adjust width to a reasonable size
+              height: "35px", // Adjust height to a reasonable size
+            }}
+          />
         </div>
         <HeaderUserMenu />
       </div>
+
       <div className={clsx("app-navbar-item", itemClass)}>
         <div className={clsx(btnClass, largeBtnClass)}>
           <a onClick={logOutFunction}>
