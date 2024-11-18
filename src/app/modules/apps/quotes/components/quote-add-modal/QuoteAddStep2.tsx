@@ -517,7 +517,7 @@ const QuoteAddStep2: FC<Props> = ({
                                   />
                                 </td>
                                 <td>
-                                  <div className="d-flex align-items-center  position-relative">
+                                  <div className="d-flex align-items-center position-relative">
                                     <input
                                       type="number"
                                       className="form-control form-control-solid border-0 w-100px"
@@ -545,11 +545,11 @@ const QuoteAddStep2: FC<Props> = ({
                                               style={{ display: "table-row" }}
                                             >
                                               <div
-                                                className="me-2"
                                                 style={{
                                                   display: "table-cell",
                                                   textAlign: "right",
                                                 }}
+                                                className="px-2"
                                               >
                                                 {/* Determine Amount title with (inc) or (exc) based on condition */}
                                                 {(() => {
@@ -620,7 +620,7 @@ const QuoteAddStep2: FC<Props> = ({
                                                       auth.currentUser?.result
                                                         .activeCompanyDefaults
                                                         .defaultValuta.sign
-                                                    } ${product.unitPrice.toFixed(
+                                                    }${product.unitPrice.toFixed(
                                                       2
                                                     )}`;
                                                   }
@@ -632,14 +632,14 @@ const QuoteAddStep2: FC<Props> = ({
                                                         (vatPercentage / 100)
                                                     ).toFixed(2);
 
-                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${totalInclusive}`;
+                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${totalInclusive}`;
                                                   } else {
                                                     const basePriceExclusive = (
                                                       product.unitPrice /
                                                       (1 + vatPercentage / 100)
                                                     ).toFixed(2);
 
-                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${basePriceExclusive}`;
+                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${basePriceExclusive}`;
                                                   }
                                                 })()}
                                               </div>
@@ -649,7 +649,7 @@ const QuoteAddStep2: FC<Props> = ({
                                               style={{ display: "table-row" }}
                                             >
                                               <div
-                                                className="me-2"
+                                                className="px-2"
                                                 style={{
                                                   display: "table-cell",
                                                   textAlign: "right",
@@ -693,7 +693,7 @@ const QuoteAddStep2: FC<Props> = ({
                                                     isAlwaysExBtw ||
                                                     isNaN(vatPercentage)
                                                   ) {
-                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} 0.00`;
+                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}0.00`;
                                                   }
 
                                                   if (product.btwExclusive) {
@@ -702,7 +702,7 @@ const QuoteAddStep2: FC<Props> = ({
                                                       (vatPercentage / 100)
                                                     ).toFixed(2);
 
-                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountInclusive}`;
+                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${vatAmountInclusive}`;
                                                   } else {
                                                     const basePriceExclusive =
                                                       product.unitPrice /
@@ -712,7 +712,7 @@ const QuoteAddStep2: FC<Props> = ({
                                                       basePriceExclusive
                                                     ).toFixed(2);
 
-                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} ${vatAmountExclusive}`;
+                                                    return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${vatAmountExclusive}`;
                                                   }
                                                 })()}
                                               </div>
@@ -775,7 +775,7 @@ const QuoteAddStep2: FC<Props> = ({
                                         >
                                           <div style={{ display: "table-row" }}>
                                             <div
-                                              className="me-2"
+                                              className="px-2"
                                               style={{
                                                 display: "table-cell",
                                                 textAlign: "right",
@@ -848,7 +848,7 @@ const QuoteAddStep2: FC<Props> = ({
                                                     auth.currentUser?.result
                                                       .activeCompanyDefaults
                                                       .defaultValuta.sign
-                                                  } ${(
+                                                  }${(
                                                     product.unitPrice *
                                                     product.units
                                                   ).toFixed(2)}`;
@@ -865,7 +865,7 @@ const QuoteAddStep2: FC<Props> = ({
                                                     auth.currentUser?.result
                                                       .activeCompanyDefaults
                                                       .defaultValuta.sign
-                                                  } ${(
+                                                  }${(
                                                     parseFloat(totalInclusive) *
                                                     product.units
                                                   ).toFixed(2)}`;
@@ -879,7 +879,7 @@ const QuoteAddStep2: FC<Props> = ({
                                                     auth.currentUser?.result
                                                       .activeCompanyDefaults
                                                       .defaultValuta.sign
-                                                  } ${(
+                                                  }${(
                                                     parseFloat(
                                                       basePriceExclusive
                                                     ) * product.units
@@ -891,7 +891,7 @@ const QuoteAddStep2: FC<Props> = ({
 
                                           <div style={{ display: "table-row" }}>
                                             <div
-                                              className="me-2"
+                                              className="px-2"
                                               style={{
                                                 display: "table-cell",
                                                 textAlign: "right",
@@ -934,7 +934,7 @@ const QuoteAddStep2: FC<Props> = ({
                                                   isAlwaysExBtw ||
                                                   isNaN(vatPercentage)
                                                 ) {
-                                                  return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign} 0.00`;
+                                                  return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}0.00`;
                                                 }
 
                                                 if (product.btwExclusive) {
@@ -947,7 +947,7 @@ const QuoteAddStep2: FC<Props> = ({
                                                     auth.currentUser?.result
                                                       .activeCompanyDefaults
                                                       .defaultValuta.sign
-                                                  } ${(
+                                                  }${(
                                                     parseFloat(
                                                       vatAmountInclusive
                                                     ) * product.units
@@ -965,7 +965,7 @@ const QuoteAddStep2: FC<Props> = ({
                                                     auth.currentUser?.result
                                                       .activeCompanyDefaults
                                                       .defaultValuta.sign
-                                                  } ${(
+                                                  }${(
                                                     parseFloat(
                                                       vatAmountExclusive
                                                     ) * product.units

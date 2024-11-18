@@ -254,7 +254,7 @@ const QuoteList = ({
                         {quoteList.totals.totalPrice > 0 && (
                           <div style={{ display: "table-row" }}>
                             <div
-                              className="me-2"
+                              className="px-2"
                               style={{
                                 display: "table-cell",
                                 textAlign: "right",
@@ -275,9 +275,9 @@ const QuoteList = ({
                         )}
                         {/* Total VAT Amount */}
                         {quoteList.totals.totalVATAmount > 0 && (
-                          <div style={{ display: "table-row", gap: 3 }}>
+                          <div style={{ display: "table-row" }}>
                             <div
-                              className="me-2"
+                              className="px-2"
                               style={{
                                 display: "table-cell",
                                 textAlign: "right",

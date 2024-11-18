@@ -314,73 +314,89 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                               </td>
 
                               <td className="text-end">
-                                <div
-                                  style={{
-                                    fontFamily: "monospace",
-                                  }}
-                                >
-                                  <div
-                                    className="table text-end"
-                                    style={{ width: "100%" }}
+                                <div className="position-relative">
+                                  €{product.totals.totalPriceWithVAT}
+                                  <Tippy
+                                    content={
+                                      <div
+                                        style={{
+                                          fontFamily: "monospace",
+                                        }}
+                                      >
+                                        <div
+                                          className="table text-end"
+                                          style={{ width: "100%" }}
+                                        >
+                                          {/* Total Price */}
+                                          <div style={{ display: "table-row" }}>
+                                            <div
+                                              className="px-2"
+                                              style={{
+                                                display: "table-cell",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {intl.formatMessage({
+                                                id: "Fields.TotalPrice",
+                                              })}
+                                              :
+                                            </div>
+                                            <div
+                                              style={{
+                                                display: "table-cell",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              €
+                                              {product.totals.totalPrice.toFixed(
+                                                2
+                                              )}
+                                            </div>
+                                          </div>
+                                          <div style={{ display: "table-row" }}>
+                                            <div
+                                              className="px-2"
+                                              style={{
+                                                display: "table-cell",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              {intl.formatMessage({
+                                                id: "Fields.TotalVATAmount",
+                                              })}
+                                              :
+                                            </div>
+                                            <div
+                                              style={{
+                                                display: "table-cell",
+                                                textAlign: "right",
+                                              }}
+                                            >
+                                              €
+                                              {product.totals.totalVATAmount.toFixed(
+                                                2
+                                              )}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    }
                                   >
-                                    {/* Total Price */}
                                     <div
-                                      className="fs-sm"
-                                      style={{ display: "table-row" }}
+                                      className="circle"
+                                      style={{
+                                        position: "absolute",
+                                        top: "-14px",
+                                        right: "-14px",
+                                      }}
                                     >
-                                      <small
-                                        className="text-muted"
-                                        style={{
-                                          display: "table-cell",
-                                          textAlign: "right",
-                                        }}
-                                      >
-                                        {intl.formatMessage({
-                                          id: "Fields.TotalPrice",
-                                        })}
-                                        :
-                                      </small>
-                                      <span
-                                        className="text-muted"
-                                        style={{
-                                          display: "table-cell",
-                                          textAlign: "right",
-                                        }}
-                                      >
-                                        €{product.totals.totalPrice.toFixed(2)}
-                                      </span>
+                                      <i className="ki-duotone ki-information-4 fs-2 cursor-pointer text-primary ms-1">
+                                        <span className="path1"></span>
+                                        <span className="path2"></span>
+                                        <span className="path3"></span>
+                                      </i>
                                     </div>
-
-                                    <div
-                                      className="fs-sm"
-                                      style={{ display: "table-row" }}
-                                    >
-                                      <small
-                                        className="text-muted"
-                                        style={{
-                                          display: "table-cell",
-                                          textAlign: "right",
-                                        }}
-                                      >
-                                        {intl.formatMessage({
-                                          id: "Fields.TotalVATAmount",
-                                        })}
-                                        :
-                                      </small>
-                                      <span
-                                        className="text-muted"
-                                        style={{
-                                          display: "table-cell",
-                                          textAlign: "right",
-                                        }}
-                                      >
-                                        €
-                                        {product.totals.totalVATAmount.toFixed(
-                                          2
-                                        )}
-                                      </span>
-                                    </div>
-                                  </div>
+                                  </Tippy>
                                 </div>
                               </td>
                               <td className="text-end">

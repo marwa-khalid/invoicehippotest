@@ -313,7 +313,7 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                                 </div>
                               </td>
                               <td
-                                className="text-end fs-9"
+                                className="text-end "
                                 style={{ fontFamily: "monospace" }}
                               >
                                 <div
@@ -321,10 +321,7 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                                   style={{ width: "100%" }}
                                 >
                                   {/* Total Price */}
-                                  <div
-                                    className="fs-sm"
-                                    style={{ display: "table-row" }}
-                                  >
+                                  <div style={{ display: "table-row" }}>
                                     <small
                                       className="text-muted"
                                       style={{
@@ -347,6 +344,7 @@ const ProductPicker: FC<Props> = ({ setProductPicker, formik }) => {
                                       {product.totals.totalPrice.toFixed(2)}
                                     </span>
                                   </div>
+                                  {console.log(product.totals)!}
 
                                   <div
                                     className="fs-sm"

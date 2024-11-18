@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../../app/modules/auth";
 import { Languages } from "./Languages";
-import { toAbsoluteUrl } from "../../../helpers";
+import { KTIcon, toAbsoluteUrl } from "../../../helpers";
 import { useIntl } from "react-intl";
 const HeaderUserMenu: FC = () => {
   const { currentUser, logout } = useAuth();
@@ -166,8 +166,14 @@ const HeaderUserMenu: FC = () => {
       <Languages />
 
       <div className="menu-item px-5">
-        <a onClick={logout} className="menu-link px-5">
-          {intl.formatMessage({ id: "Menu.Logout" })}
+        <a
+          onClick={logout}
+          className="menu-link px-5  d-flex justify-content-between"
+        >
+          <span>{intl.formatMessage({ id: "Menu.Logout" })}</span>
+          <span>
+            <KTIcon iconName="exit-right" className="fs-1 text-end" />
+          </span>
         </a>
       </div>
     </div>

@@ -154,7 +154,7 @@ const Login = () => {
                       placeholder={intl.formatMessage({
                         id: "LoginAndRegistration.UserName",
                       })}
-                      style={{ backgroundColor: "#f9f9f9" }}
+                      // style={{ backgroundColor: "#f9f9f9" }}
                       {...formik.getFieldProps("username")}
                       className={clsx("form-control form-control-solid", {
                         "is-invalid":
@@ -184,7 +184,7 @@ const Login = () => {
                         id: "LoginAndRegistration.Password",
                       })}
                       {...formik.getFieldProps("password")}
-                      style={{ backgroundColor: "#f9f9f9" }}
+                      // style={{ backgroundColor: "#f9f9f9" }}
                       className={clsx("form-control form-control-solid", {
                         "is-invalid":
                           formik.touched.password && formik.errors.password,

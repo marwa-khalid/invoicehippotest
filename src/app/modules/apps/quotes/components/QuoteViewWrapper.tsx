@@ -36,8 +36,8 @@ const QuoteViewInnerWrapper = () => {
   const [errorPage, setErrorPage] = useState<boolean>(false);
   const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
   const systemMode = ThemeModeComponent.getSystemMode() as "light" | "dark";
-  const { mode, menuMode, updateMode, updateMenuMode } = useThemeMode();
-  const calculatedMode = mode === "system" ? systemMode : mode;
+  const { mode } = useThemeMode();
+  const calculatedMode = mode === "light" ? systemMode : mode;
 
   const openCopyModal = () => {
     valueSetter();
@@ -545,7 +545,7 @@ const QuoteViewInnerWrapper = () => {
                   <div className="table" style={{ width: "100%" }}>
                     <div style={{ display: "table-row" }}>
                       <div
-                        className="me-2"
+                        className="px-2"
                         style={{ display: "table-cell", textAlign: "right" }}
                       >
                         {intl.formatMessage({ id: "Fields.Amount" })}:
@@ -553,14 +553,13 @@ const QuoteViewInnerWrapper = () => {
                       <div
                         style={{ display: "table-cell", textAlign: "right" }}
                       >
-                        {"  "}
                         {response?.valuta.sign}
                         {response?.totals.totalPrice.toFixed(2)}
                       </div>
                     </div>
                     <div style={{ display: "table-row" }}>
                       <div
-                        className="me-2"
+                        className="px-2"
                         style={{ display: "table-cell", textAlign: "right" }}
                       >
                         {intl.formatMessage({ id: "Fields.VatTitle" })}:
@@ -568,7 +567,6 @@ const QuoteViewInnerWrapper = () => {
                       <div
                         style={{ display: "table-cell", textAlign: "right" }}
                       >
-                        {"  "}
                         {response?.valuta.sign}
                         {response?.totals.totalVATAmount.toFixed(2)}
                       </div>

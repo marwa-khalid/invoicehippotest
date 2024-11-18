@@ -18,7 +18,7 @@ const QuotesPage = () => {
     setTimeout(() => {
       const quoteNr = JSON.parse(localStorage.getItem("quoteNr")!);
       setCurrentQuote(quoteNr);
-    }, 500);
+    }, 1000);
   }, [location]);
   const auth = useAuth();
   const settingsBreadcrumbs: Array<PageLink> = [

@@ -26,7 +26,7 @@ const ListLoading = () => {
         src="/Animation-v2.html"
         width="200"
         height="200"
-        style={{ border: "none" }}
+        style={{ border: "none", background: "none" }}
       />
       {/* <div
         style={{
