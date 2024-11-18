@@ -16,8 +16,8 @@ const HeaderUserMenu: FC = () => {
     >
       <div className="menu-item px-3">
         <div className="menu-content d-flex flex-column align-items-center px-3">
-          {/* Logo centered */}
-          <div className="symbol symbol-50px mb-3 text-center">
+          {/* Logo in a full row */}
+          <div className="symbol symbol-50px mb-3 w-100 text-center">
             {currentUser?.result.activeCompany.hasCompanyLogoUrl ? (
               <img
                 src={currentUser?.result.activeCompany.companyLogoUrl}
@@ -43,9 +43,9 @@ const HeaderUserMenu: FC = () => {
             )}
           </div>
 
-          {/* Name and email left-aligned */}
-          <div className="d-flex flex-column align-items-start w-100">
-            <div className="fw-bolder fs-5">
+          {/* Name and email stacked */}
+          <div className="d-flex flex-column align-items-center text-start">
+            <div className="fw-bolder fs-5 text-start">
               {currentUser?.result.person.firstName}{" "}
               {currentUser?.result.person.lastName}
             </div>
@@ -55,7 +55,6 @@ const HeaderUserMenu: FC = () => {
           </div>
         </div>
       </div>
-
       <div className="separator my-2"></div>
 
       {currentUser?.result.isAnonymousUser ? (
