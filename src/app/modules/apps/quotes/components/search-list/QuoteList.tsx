@@ -281,7 +281,17 @@ const QuoteList = ({
                     {/* Client Name on the Left */}
                     <div
                       className="d-flex flex-column cursor-pointer"
-                      onClick={() => openEditModal(quoteList.id)}
+                      onClick={() => {
+                        if (quoteList?.isDraft) {
+                          openEditModal(quoteList.id);
+                        } else {
+                          localStorage.setItem(
+                            "currentQuote",
+                            JSON.stringify(quoteList)
+                          );
+                          navigate("/estimation/view");
+                        }
+                      }}
                     >
                       <strong className="text-primary">
                         {quoteList.client}
