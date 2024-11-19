@@ -147,6 +147,7 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
         });
 
         instance = await PSPDFKit.load({
+          licenseKey: VIEWER_LICENSE_KEY,
           container,
           theme:
             calculatedMode === "dark"

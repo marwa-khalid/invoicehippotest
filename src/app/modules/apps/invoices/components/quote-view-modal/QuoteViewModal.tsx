@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 // import WebViewer from "@pdftron/webviewer"; // Updated import
 // import { KTSVG } from "../../../../../../_metronic/helpers/index.js";
-// const VIEWER_LICENSE_KEY = import.meta.env.VITE_APP_VIEWER_LICENSE_KEY;
+const VIEWER_LICENSE_KEY = import.meta.env.VITE_APP_VIEWER_LICENSE_KEY;
 
 interface Props {
   downloadUrl: string;
@@ -150,6 +150,7 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
 
         instance = await PSPDFKit.load({
           // Container where PSPDFKit should be mounted.
+          licenseKey: VIEWER_LICENSE_KEY,
           container,
           toolbarItems: toolbarItems,
           document: downloadUrl,

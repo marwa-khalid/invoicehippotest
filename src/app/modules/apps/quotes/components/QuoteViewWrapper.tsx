@@ -117,7 +117,7 @@ const QuoteViewInnerWrapper = () => {
         PSPDFKit.unload(container);
 
         instance = await PSPDFKit.load({
-          // licenseKey: VIEWER_LICENSE_KEY,
+          licenseKey: VIEWER_LICENSE_KEY,
           container,
           theme:
             calculatedMode === "dark"
