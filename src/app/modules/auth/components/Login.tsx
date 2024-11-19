@@ -73,7 +73,6 @@ const Login = () => {
     initialValues,
     validationSchema: loginSchema,
     onSubmit: async (values, { setStatus, setSubmitting }) => {
-      // e.preventDefault();
       setLoading(true);
       try {
         const auth = await login(values.username, values.password);
@@ -130,7 +129,10 @@ const Login = () => {
                 className="form w-100"
                 noValidate
                 id="kt_sign_in_form"
-                onSubmit={formik.handleSubmit}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  formik.handleSubmit;
+                }}
               >
                 <div className="card-body">
                   <div className="text-start mb-10">
