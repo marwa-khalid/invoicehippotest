@@ -60,10 +60,16 @@ const QuoteAddStep2: FC<Props> = ({
     unitPrice: number,
     discountMarginId: null | number
   ) => {
+    console.log(discountTypes);
     // Find the discount label from discount types
-    let discount = discountTypes?.find((discountType: any) => {
-      return discountType.value === discountMarginId;
-    })?.label;
+    let discount = discountTypes
+      ?.map((item: any) => ({
+        value: item.id,
+        label: item.title,
+      }))
+      .find((discountType: any) => {
+        return discountType.value === discountMarginId;
+      })?.label;
 
     let total = units * unitPrice;
 

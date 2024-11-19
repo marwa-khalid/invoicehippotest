@@ -294,7 +294,7 @@ const QuoteAddModal = ({
       //   formik.setFieldValue("header.clientContactId", 0);
       //   setContactResponse(contactResponse);
       // } else {
-  
+
       //   const defaultContact = contactResponse?.find(
       //     (contact: any) => contact.isDefaultContact === true
       //   )?.id;
@@ -469,10 +469,12 @@ const QuoteAddModal = ({
           totalDiscountAmount += discountAmount; // Add to total discount summary
         }
       }
-      totalPriceExcVat += totalAmount; // Add the price excluding VAT
-
+      console.log(totalAmount); //
+      totalPriceExcVat = totalAmount; // Add the price excluding VAT
+      console.log(totalPriceExcVat);
       // Calculate VAT if VAT Type is available
       if (product.vatTypeId) {
+        console.log(product.vatTypeId);
         const vatInfo = vatTypes
           ?.map((item: any) => ({
             value: item.id,
@@ -501,7 +503,7 @@ const QuoteAddModal = ({
                 (100 + vatInfo.amount).toFixed(2); // Inclusive VAT calculation
               totalPriceIncVat += totalAmount || 0.0; // No need to adjust totalAmount for inclusive VAT
 
-              totalPriceExcVat =
+              totalPriceExcVat +=
                 (product.unitPrice / (1 + vatInfo.amount / 100)) *
                 product.units;
             }
@@ -512,6 +514,7 @@ const QuoteAddModal = ({
             vatTotals[vatInfo.label] = { title: vatInfo.label, totalVat: 0.0 };
           }
           vatTotals[vatInfo.label].totalVat += vatAmount || 0.0;
+          totalPriceExcVat -= totalDiscountAmount;
         }
       }
     });
@@ -533,7 +536,7 @@ const QuoteAddModal = ({
     hasDiscountmargin,
     totalDiscountAmount,
   } = calculateVatTotals();
- 
+
   useEffect(() => {
     calculateVatTotals();
   }, [formik.values.products]);
