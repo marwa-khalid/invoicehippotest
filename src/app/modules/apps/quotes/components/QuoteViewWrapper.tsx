@@ -527,7 +527,7 @@ const QuoteViewInnerWrapper = () => {
                 left: "0",
                 right: "0",
                 height: "20px",
-                width: "200px", // Adjust width as needed
+                maxWidth: "220px", // Adjust width as needed
                 margin: "auto",
               }}
             >

@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import { useLayout } from "../../../core";
 import { usePageData } from "../../../core/PageData";
 import { useEffect } from "react";
+import { useAuth } from "../../../../../app/modules/auth";
 
 const PageTitle = () => {
   const { pageTitle, pageDescription, pageBreadcrumbs } = usePageData();
   const { config, classes } = useLayout();
   const appPageTitleDirection = config.app?.pageTitle?.direction;
-
+  const { currentUser } = useAuth();
   const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
   const quoteNr = JSON.parse(localStorage.getItem("quoteNr")!);
   return (
@@ -82,7 +83,11 @@ const PageTitle = () => {
                     >
                       {currentQuote && index === 4
                         ? item.title
-                        : item.title?.toLowerCase()}
+                        : currentQuote &&
+                          currentUser?.result.isAnonymousUser &&
+                          index === 2
+                        ? item.title
+                        : item.title.toLowerCase()}
                     </Link>
                   ) : (
                     <span className="bullet bg-gray-500 w-5px h-2px"></span>

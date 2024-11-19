@@ -46,8 +46,9 @@ const HeaderUserMenu: FC = () => {
           {/* Name and email stacked */}
           <div className="d-flex flex-column align-items-center text-start">
             <div className="fw-bolder fs-5 text-start">
-              {currentUser?.result.person.firstName}{" "}
-              {currentUser?.result.person.lastName}
+              {currentUser?.result.isAnonymousUser
+                ? currentUser?.result.activeCompany.title
+                : `${currentUser?.result.person.firstName} ${currentUser?.result.person.lastName}`}
             </div>
             <a href="#" className="fw-bold text-muted text-hover-primary fs-7">
               {currentUser?.result.person.emailAddress}
@@ -59,8 +60,6 @@ const HeaderUserMenu: FC = () => {
 
       {currentUser?.result.isAnonymousUser ? (
         <>
-          <div className="separator my-2"></div>
-
           <div className="menu-item px-5">
             <Link to={"/estimation/search"} className="menu-link px-5">
               My Estimations

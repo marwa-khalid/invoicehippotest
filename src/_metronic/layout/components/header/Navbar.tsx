@@ -43,16 +43,7 @@ const Navbar = () => {
           </div>
         </div>
       )} */}
-      {!currentUser?.result?.isAnonymousUser && (
-        <div className={clsx("app-navbar-item", itemClass)}>
-          <div
-            id="kt_activities_toggle"
-            className={clsx(btnClass, largeBtnClass)}
-          >
-            <KTIcon iconName="chart-simple" className={clsx(btnIconClass)} />
-          </div>
-        </div>
-      )}
+
       {!currentUser?.result?.isAnonymousUser && (
         <div className={clsx("app-navbar-item", itemClass)}>
           <div

@@ -7,6 +7,7 @@ import { useIntl } from "react-intl";
 import { QuoteViewWrapper } from "./components/QuoteViewWrapper";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../../auth";
 const InvoicesPage = () => {
   const { config } = useLayout();
   const intl = useIntl();
@@ -14,23 +15,29 @@ const InvoicesPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const currentQuote = JSON.parse(localStorage.getItem("currentQuote")!);
-    setCurrentQuote(currentQuote);
+    setTimeout(() => {
+      const quoteNr = JSON.parse(localStorage.getItem("quoteNr")!);
+      setCurrentQuote(quoteNr);
+    }, 1000);
   }, [location]);
+  const auth = useAuth();
   const settingsBreadcrumbs: Array<PageLink> = [
-    {
-      title: intl.formatMessage({ id: "Menu.Dashboard" }),
-      path: "/dashboard",
-      isSeparator: false,
-      isActive: false,
-    },
-    {
-      title: "",
-      path: "",
-      isSeparator: true,
-      isActive: false,
-    },
-
+    ...(!auth.currentUser?.result.isAnonymousUser
+      ? [
+          {
+            title: intl.formatMessage({ id: "Menu.Dashboard" }),
+            path: "/dashboard",
+            isSeparator: false,
+            isActive: false,
+          },
+          {
+            title: "",
+            path: "",
+            isSeparator: true,
+            isActive: false,
+          },
+        ]
+      : []),
     {
       title: intl.formatMessage({
         id: "Fields.SearchPanelSubTitleLedgerAccount",
@@ -48,18 +55,23 @@ const InvoicesPage = () => {
   ];
 
   const settingsBreadcrumbsView: Array<PageLink> = [
-    {
-      title: intl.formatMessage({ id: "Menu.Dashboard" }),
-      path: "/dashboard",
-      isSeparator: false,
-      isActive: false,
-    },
-    {
-      title: "",
-      path: "",
-      isSeparator: true,
-      isActive: false,
-    },
+    ...(!auth.currentUser?.result.isAnonymousUser
+      ? [
+          {
+            title: intl.formatMessage({ id: "Menu.Dashboard" }),
+            path: "/dashboard",
+            isSeparator: false,
+            isActive: false,
+          },
+          {
+            title: "",
+            path: "",
+            isSeparator: true,
+            isActive: false,
+          },
+        ]
+      : []),
+
     {
       title: intl.formatMessage({ id: "Fields.SearchPanelTitleQuotes" }),
       path: "/invoice/search",
@@ -74,8 +86,8 @@ const InvoicesPage = () => {
       isActive: false,
     },
     {
-      title: currentQuote?.quoteNr,
-      path: "/estimation/view",
+      title: currentQuote,
+      path: "estimation/view",
       isSeparator: false,
       isActive: true,
     },

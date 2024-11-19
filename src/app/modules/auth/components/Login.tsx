@@ -73,6 +73,7 @@ const Login = () => {
     initialValues,
     validationSchema: loginSchema,
     onSubmit: async (values, { setStatus, setSubmitting }) => {
+      // e.preventDefault();
       setLoading(true);
       try {
         const auth = await login(values.username, values.password);

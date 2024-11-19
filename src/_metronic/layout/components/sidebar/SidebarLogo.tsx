@@ -4,6 +4,7 @@ import { KTIcon, toAbsoluteUrl } from "../../../helpers";
 import { useLayout } from "../../core";
 import { MutableRefObject, useEffect, useRef } from "react";
 import { ToggleComponent } from "../../../assets/ts/components";
+import { useAuth } from "../../../../app/modules/auth";
 
 type PropsType = {
   sidebarRef: MutableRefObject<HTMLDivElement | null>;
@@ -49,39 +50,45 @@ const SidebarLogo = (props: PropsType) => {
       });
     }, 600);
   }, [toggleRef, props.sidebarRef]);
+  const { currentUser } = useAuth();
 
   return (
     <div className="app-sidebar-logo ms-9" id="kt_app_sidebar_logo">
       {(appSidebarDefaultMinimizeDesktopEnabled ||
-        appSidebarDefaultCollapseDesktopEnabled) && (
-        <div
-          ref={toggleRef}
-          id="kt_app_sidebar_toggle"
-          className={clsx(
-            "btn btn-md btn-icon btn-active-color-primary w-30px h-30px ms-n3 d-none d-lg-flex",
-            { active: appSidebarDefaultMinimizeDefault }
-          )}
-          data-kt-toggle="true"
-          data-kt-toggle-state={toggleState}
-          data-kt-toggle-target="body"
-          data-kt-toggle-name={`app-sidebar-${toggleType}`}
-        >
-          <i className="ki-duotone ki-menu fs-3x">
-            <span className="path1"></span>
-            <span className="path2"></span>
-            <span className="path3"></span>
-            <span className="path4"></span>
-          </i>
-          {/* <i className="ki-outline ki-abstract-14 fs-3 mt-1"></i>{" "} */}
-        </div>
-        //   <KTIcon iconName="ki-abstract-14" className="ki-outline" />
-        //   {/* <i
-        //     className="ki-outline ki-
-        //                     abstract-14                        "
-        //   ></i> */}
-        // </div>
-      )}
-      <Link to="/dashboard" className="ms-n4">
+        appSidebarDefaultCollapseDesktopEnabled) &&
+        !currentUser?.result.isAnonymousUser && (
+          <div
+            ref={toggleRef}
+            id="kt_app_sidebar_toggle"
+            className={clsx(
+              "btn btn-md btn-icon btn-active-color-primary w-30px h-30px ms-n3 d-none d-lg-flex",
+              { active: appSidebarDefaultMinimizeDefault }
+            )}
+            data-kt-toggle="true"
+            data-kt-toggle-state={toggleState}
+            data-kt-toggle-target="body"
+            data-kt-toggle-name={`app-sidebar-${toggleType}`}
+          >
+            <i className="ki-duotone ki-menu fs-3x">
+              <span className="path1"></span>
+              <span className="path2"></span>
+              <span className="path3"></span>
+              <span className="path4"></span>
+            </i>
+            {/* <i className="ki-outline ki-abstract-14 fs-3 mt-1"></i>{" "} */}
+          </div>
+          //   <KTIcon iconName="ki-abstract-14" className="ki-outline" />
+          //   {/* <i
+          //     className="ki-outline ki-
+          //                     abstract-14                        "
+          //   ></i> */}
+          // </div>
+        )}
+
+      <Link
+        to="/dashboard"
+        className={`${currentUser?.result.isAnonymousUser ? "ms-n9" : "ms-n4"}`}
+      >
         {config.layoutType === "dark-sidebar" ? (
           <img
             alt="Logo"

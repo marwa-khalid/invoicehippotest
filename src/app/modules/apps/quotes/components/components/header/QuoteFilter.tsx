@@ -222,6 +222,7 @@ export function QuoteFilter({
       return { value: year, label: year.toString() };
     }
   );
+  const { currentUser } = useAuth();
 
   return (
     <div>

@@ -125,7 +125,7 @@ const QuoteViewModal = ({ downloadUrl, fileExtension }: Props) => {
 
   const systemMode = ThemeModeComponent.getSystemMode() as "light" | "dark";
   const { mode } = useThemeMode();
-  const calculatedMode = mode === "system" ? systemMode : mode;
+  const calculatedMode = mode === "light" ? systemMode : mode;
   useEffect(() => {
     if (downloadUrl) {
       const container = containerRef.current;

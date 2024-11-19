@@ -43,6 +43,7 @@ const Header: FC = () => {
 const updateDOM = (config: ILayout) => {
   if (config.app?.header?.default?.fixed?.desktop) {
     document.body.setAttribute("data-kt-app-header-fixed", "true");
+    
   }
 
   if (config.app?.header?.default?.fixed?.mobile) {

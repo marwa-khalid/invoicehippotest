@@ -11,10 +11,12 @@ import {
   UpgradePlan,
 } from "../partials";
 import { PageDataProvider } from "./core";
-import { reInitMenu } from "../helpers";
+import { reInitMenu, toAbsoluteUrl } from "../helpers";
 import { useLayout } from "./core";
 import clsx from "clsx";
 import { useAuth } from "../../app/modules/auth";
+import { SidebarLogo } from "./components/sidebar/SidebarLogo";
+import { SidebarAnonymous } from "./components/sidebar/SidebarAnonymous";
 const MasterLayout = () => {
   const location = useLocation();
   const { config } = useLayout();
@@ -64,14 +66,18 @@ const MasterLayout = () => {
                   //   overflowY: "auto", // Enable scrolling for the content area
                   // }}
                 >
+                  {}
                   <Outlet />
                 </div>
               </div>
             </div>
           ) : (
-            <div className="mt-20">
-              <Outlet />
-            </div>
+            <>
+              <SidebarAnonymous />
+              <div className="mt-20">
+                <Outlet />
+              </div>
+            </>
           )}
         </div>
       </div>

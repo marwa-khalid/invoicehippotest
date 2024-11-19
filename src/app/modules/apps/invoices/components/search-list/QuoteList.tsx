@@ -142,6 +142,7 @@ const QuoteList = ({
 
   useEffect(() => {
     localStorage.removeItem("currentQuote");
+    localStorage.removeItem("quoteNr");
   }, []);
 
   useEffect(() => {

@@ -49,9 +49,8 @@ const ClientsList = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchClients = async () => {
-    setIsLoading(true);
-
     try {
+      setIsLoading(true);
       const response = await getClients(searchTerm, pageIndex, 24);
       if (response.isValid) {
         setClients(response);
@@ -152,6 +151,7 @@ const ClientsList = ({
                                 "clientResponse",
                                 JSON.stringify(clientList)
                               );
+                              setEditModalId(0);
                               setQuoteModalOpen(true);
                             }}
                           >
