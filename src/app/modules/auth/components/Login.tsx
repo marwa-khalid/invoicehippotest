@@ -130,8 +130,8 @@ const Login = () => {
                 noValidate
                 id="kt_sign_in_form"
                 onSubmit={(e) => {
+                  formik.handleSubmit();
                   e.preventDefault();
-                  formik.handleSubmit;
                 }}
               >
                 <div className="card-body">

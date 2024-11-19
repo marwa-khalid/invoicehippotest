@@ -87,7 +87,7 @@ const PageTitle = () => {
                           currentUser?.result.isAnonymousUser &&
                           index === 2
                         ? item.title
-                        : item.title.toLowerCase()}
+                        : item.title?.toLowerCase()}
                     </Link>
                   ) : (
                     <span className="bullet bg-gray-500 w-5px h-2px"></span>
