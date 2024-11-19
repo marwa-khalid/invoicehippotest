@@ -300,7 +300,7 @@ const QuoteViewInnerWrapper = () => {
                       </a>
                     </li>
                   )}
-                  {response?.viewTabs?.showActivities && (
+                  {response?.viewTabs?.showActionHistory && (
                     <li className="nav-item">
                       <a
                         className="nav-link"
