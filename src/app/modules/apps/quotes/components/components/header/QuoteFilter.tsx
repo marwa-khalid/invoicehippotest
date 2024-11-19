@@ -63,7 +63,7 @@ export function QuoteFilter({
     fetchMinMaxYear();
   }, []);
 
-  const auth = useAuth();
+  const { currentUser } = useAuth();
   const quarterList = [
     enums.TaxDeclarationPeriodValueTypes[15],
     enums.TaxDeclarationPeriodValueTypes[16],
@@ -222,7 +222,6 @@ export function QuoteFilter({
       return { value: year, label: year.toString() };
     }
   );
-  const { currentUser } = useAuth();
 
   return (
     <div>
@@ -284,37 +283,42 @@ export function QuoteFilter({
         </div>
 
         {/* Quote Status Selection */}
-        {!auth.currentUser?.result.isAnonymousUser && (
-          <>
-            <div className="separator border-gray-200 mb-4"></div>
-            <div className="mb-5">
-              <label className="form-label fw-bold">
-                {intl.formatMessage({
-                  id: "Fields.SelectOptionDefaultStatusType",
-                })}
-              </label>
-              <Select
-                className="react-select-styled react-select flex flex-wrap w-350px"
-                isClearable
-                menuPlacement="bottom"
-                isMulti
-                placeholder={intl.formatMessage({
-                  id: "Fields.SelectOptionDefaultStatusType",
-                })}
-                value={enums.QuoteStatusTypes.map((item) => ({
+
+        <div className="separator border-gray-200 mb-4"></div>
+        <div className="mb-5">
+          <label className="form-label fw-bold">
+            {intl.formatMessage({
+              id: "Fields.SelectOptionDefaultStatusType",
+            })}
+          </label>
+          <Select
+            className="react-select-styled react-select flex flex-wrap w-350px"
+            isClearable
+            menuPlacement="bottom"
+            isMulti
+            placeholder={intl.formatMessage({
+              id: "Fields.SelectOptionDefaultStatusType",
+            })}
+            value={enums.QuoteStatusTypes.map((item) => ({
+              value: item.Value,
+              label: item.Title,
+            })).filter((option) => tempQuoteStatus?.includes(option.value))}
+            onChange={handleQuoteStatusChange}
+            options={
+              (currentUser?.result.isAnonymousUser
+                ? enums.QuoteStatusTypes.filter(
+                    (item) => item.Value === 1 || item.Value === 512
+                  ) // Filter options for anonymous users
+                : enums.QuoteStatusTypes
+              ) // Show all options for non-anonymous users
+                .map((item) => ({
                   value: item.Value,
                   label: item.Title,
-                })).filter((option) => tempQuoteStatus?.includes(option.value))}
-                onChange={handleQuoteStatusChange}
-                options={enums.QuoteStatusTypes.map((item) => ({
-                  value: item.Value,
-                  label: item.Title,
-                }))}
-              />
-            </div>
-          </>
-        )}
-        {!auth.currentUser?.result.isAnonymousUser && (
+                })) // Map the filtered or full list to options
+            }
+          />
+        </div>
+        {!currentUser?.result.isAnonymousUser && (
           <>
             <div className="separator border-gray-200 mb-4"></div>
 
