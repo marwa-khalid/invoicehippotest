@@ -251,10 +251,6 @@ export function ResetPassword() {
                           </div>
                         </div>
                       )}
-                      {/* <span className='btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2' data-kt-password-meter-control='visibility'>
-                <i className='ki-outline ki-eye-slash fs-2'></i>
-                <i className='ki-outline ki-eye fs-2 d-none'></i>
-              </span> */}
                     </div>
                     <div
                       className="d-flex align-items-center mb-3"

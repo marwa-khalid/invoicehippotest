@@ -18,6 +18,7 @@ import { useAuth } from "../../app/modules/auth";
 import { SidebarLogo } from "./components/sidebar/SidebarLogo";
 import { SidebarAnonymous } from "./components/sidebar/SidebarAnonymous";
 import { useIntl } from "react-intl";
+import { PasswordChangeModal } from "./PasswordChangeModal";
 const MasterLayout = () => {
   const location = useLocation();
   const { config } = useLayout();
@@ -84,83 +85,7 @@ const MasterLayout = () => {
         </div>
       </div>
       {profileModalOpen && (
-        <>
-          <div
-            className="modal fade show d-block"
-            id="profileModal"
-            role="dialog"
-            tabIndex={-1}
-            aria-modal="true"
-          >
-            {/* begin::Modal dialog */}
-            <div className="modal-dialog modal-dialog-centered ">
-              {/* begin::Modal content */}
-              <div className="modal-content">
-                <div className="modal-header bg-primary d-flex flex-column">
-                  {/* Modal title */}
-                  <div className="d-flex w-100 justify-content-between align-items-center">
-                    <h2 className="fw-bolder mb-0 text-white">
-                      {intl.formatMessage({
-                        id: "Fields.ModalTitleManagePassword",
-                      })}
-                    </h2>
-                    <div
-                      className="btn btn-icon btn-sm btn-active-icon-primary"
-                      data-kt-users-modal-action="close"
-                      onClick={() => {
-                        setProfileModalOpen(false);
-                      }}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <KTIcon iconName="cross" className="fs-1 text-white" />
-                    </div>
-                  </div>
-                </div>
-                {/* begin::Modal body */}
-                <div className="modal-body p-10">
-                  <div className="row d-flex form-wrapper bg-secondary p-5 rounded">
-                    <div className="col-2">
-                      <i className="ki-duotone ki-information-4 fs-3x  my-auto">
-                        <span className="path1"></span>
-                        <span className="path2"></span>
-                        <span className="path3"></span>
-                      </i>
-                    </div>
-                    <span
-                      className="col-10"
-                      dangerouslySetInnerHTML={{
-                        __html: intl.formatMessage({
-                          id: "Fields.RegionInfoUserNewPassword",
-                        }),
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* end::Modal body */}
-                <div className="modal-footer d-flex justify-content-end align-items-center ">
-                  <div className="d-flex">
-                    {/* Cancel Button */}
-                    <button
-                      type="reset"
-                      onClick={() => {
-                        setProfileModalOpen(false);
-                      }}
-                      className="btn btn-secondary me-3"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* end::Modal content */}
-            </div>
-            {/* end::Modal dialog */}
-          </div>
-          {/* begin::Modal Backdrop */}
-          <div className="modal-backdrop fade show"></div>
-          {/* end::Modal Backdrop */}
-        </>
+        <PasswordChangeModal setProfileModalOpen={setProfileModalOpen} />
       )}
       {/* begin:: Drawers */}
       <ActivityDrawer />
