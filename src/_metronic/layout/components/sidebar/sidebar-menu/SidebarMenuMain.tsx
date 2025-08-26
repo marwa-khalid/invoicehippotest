@@ -38,7 +38,7 @@ const SidebarMenuMain = () => {
           <span
             className={clsx(
               "menu-section text-uppercase fs-8 ls-1",
-              !currentUser?.result.isInTakeOverMode
+              currentUser?.result.isInTakeOverMode
                 ? "text-white"
                 : "text-muted"
             )}
@@ -63,7 +63,7 @@ const SidebarMenuMain = () => {
           <span
             className={clsx(
               "menu-section text-uppercase fs-8 ls-1",
-              !currentUser?.result.isInTakeOverMode
+              currentUser?.result.isInTakeOverMode
                 ? "text-white"
                 : "text-muted"
             )}
@@ -165,7 +165,7 @@ const SidebarMenuMain = () => {
           <span
             className={clsx(
               "menu-section text-uppercase fs-8 ls-1",
-              !currentUser?.result.isInTakeOverMode
+              currentUser?.result.isInTakeOverMode
                 ? "text-white"
                 : "text-muted"
             )}
@@ -212,7 +212,7 @@ const SidebarMenuMain = () => {
           <span
             className={clsx(
               "menu-section text-uppercase fs-8 ls-1",
-              !currentUser?.result.isInTakeOverMode
+              currentUser?.result.isInTakeOverMode
                 ? "text-white"
                 : "text-muted"
             )}
@@ -263,7 +263,7 @@ const SidebarMenuMain = () => {
           <span
             className={clsx(
               "menu-section text-uppercase fs-8 ls-1",
-              !currentUser?.result.isInTakeOverMode
+              currentUser?.result.isInTakeOverMode
                 ? "text-white"
                 : "text-muted"
             )}

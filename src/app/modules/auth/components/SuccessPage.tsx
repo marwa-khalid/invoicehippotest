@@ -21,43 +21,29 @@ export function SuccessPage() {
   const intl = useIntl();
   return (
     <div className="d-flex flex-column flex-root" id="kt_app_root">
-      <div className="d-flex flex-column flex-lg-row flex-column-fluid">
-        <div className="d-flex flex-column flex-column-fluid flex-center w-lg-50 p-10">
-          {resetTextInfo && (
-            <div className="d-flex justify-content-between flex-column-fluid flex-column w-100 mw-450px py-20">
-              <h1>Success!</h1>
-              <p dangerouslySetInnerHTML={{ __html: resetTextInfo }}></p>
-              <div className="d-flex justify-content-between align-items-center mb-5">
-                <Link to="/" className="link-primary">
-                  <button
-                    type="submit"
-                    id="kt_sign_in_submit"
-                    className="btn btn-primary mt-100"
-                  >
-                    <span className="indicator-label">
-                      {" "}
-                      {intl.formatMessage({
-                        id: "LoginAndRegistration.LoginButtonText",
-                      })}{" "}
-                      <i className="fa-solid fa-chevron-right"></i>
-                    </span>
-                  </button>
-                </Link>
-              </div>
-            </div>
-          )}
+      {resetTextInfo && (
+        <div className="d-flex justify-content-between flex-column-fluid flex-column w-100 mw-450px py-20">
+          <h1>Success!</h1>
+          <p dangerouslySetInnerHTML={{ __html: resetTextInfo }}></p>
+          <div className="d-flex justify-content-between align-items-center mb-5">
+            <Link to="/" className="link-primary">
+              <button
+                type="submit"
+                id="kt_sign_in_submit"
+                className="btn btn-primary mt-100"
+              >
+                <span className="indicator-label">
+                  {" "}
+                  {intl.formatMessage({
+                    id: "LoginAndRegistration.LoginButtonText",
+                  })}{" "}
+                  <i className="fa-solid fa-chevron-right"></i>
+                </span>
+              </button>
+            </Link>
+          </div>
         </div>
-        <div
-          className="d-none d-lg-flex flex-lg-row-auto w-lg-50 "
-          style={{
-            backgroundImage: `url(${toAbsoluteUrl("media/auth/new-bg.png")})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center right",
-            backgroundRepeat: "no-repeat",
-            height: "100%",
-          }}
-        ></div>
-      </div>
+      )}
     </div>
   );
 }

@@ -10,6 +10,7 @@ import {
   getQuoteById,
   postQuote,
   getNotificationCycles,
+  getQuickViewQuote,
 } from "../core/_requests";
 import { handleToast } from "../../../auth/core/_toast";
 import { QuoteAddStep3 } from "./QuoteAddStep3";
@@ -30,6 +31,7 @@ import { CustomTabManager } from "../../../generic/Tabs/CustomTabManager";
 import { AttachmentListing } from "../../../generic/FileManager/AttachmentListing";
 import { QuoteAddStep4 } from "./QuoteAddStep4";
 import { ExtraOptionsModal } from "../extra-options-modal/ExtraOptionsModal";
+import { IdNotVerifiedFreeIcons } from "@hugeicons/core-free-icons";
 interface Props {
   setRefresh: (type: boolean) => void;
   refresh: boolean;
@@ -70,7 +72,39 @@ const QuoteAddModal = ({
   const [action, setAction] = useState<number>();
   const [contactResponse, setContactResponse] = useState<any>();
   const navigate = useNavigate();
+  const openActivate = (actionType: string, id: number) => {
+    valueSetter(actionType, id);
+    console.log(action);
+    setActivateModalOpen(true);
+  };
 
+  const openSend = (actionType: string, id: number) => {
+    valueSetter(actionType, id);
+    setEmailModalOpen(true);
+  };
+
+  const valueSetter = async (actionType: string, id: number) => {
+    const data = await getQuickViewQuote(id);
+    if (data.isValid) {
+      console.log(data);
+      setEditModalId(data.result.id);
+      setQuoteNumber(data.result.quoteNr);
+
+      localStorage.setItem(
+        "ModalData",
+        JSON.stringify({
+          quoteDateAsString: data?.result.quoteDateAsString,
+          client: data?.result.client.companyName,
+          totalPriceWithVat: data?.result.totals.totalPriceWithVAT,
+          sign: data?.result.valuta.sign,
+          status: data?.result.quoteStatus.value,
+          activeSendInstructions: data?.result?.activeSendInstructions,
+          downloadInfo: data?.result.downloadInfo,
+          actionType: actionType,
+        })
+      );
+    }
+  };
   const formik = useFormik({
     initialValues: {
       id: 0,
@@ -229,13 +263,13 @@ const QuoteAddModal = ({
             case 1:
               setAddModalOpen(false);
               setContactResponse(null);
+              setRefresh(!refresh);
               break;
             case 2:
               setEditModalId(0);
               formik.setValues(formik.initialValues);
               setContactResponse(null);
               setActiveTab(tabs[0]);
-
               break;
             case 3:
               setEditModalId(response.result.id);
@@ -260,12 +294,23 @@ const QuoteAddModal = ({
               link.click();
               document.body.removeChild(link);
               break;
+            case 5:
+              setResponse(response.result);
+              openSend("send", response.result.id);
+              break;
+            case 6:
+              setResponse(response.result);
+              openActivate("download", response.result.id);
+              break;
+            case 7:
+              setResponse(response.result);
+              openActivate("activate", response.result.id);
+              break;
             default:
               setEditModalId(response.result.id);
               setResponse(response.result);
               break;
           }
-          setRefresh(!refresh);
         }
 
         handleToast(response);
@@ -800,12 +845,9 @@ const QuoteAddModal = ({
               isSubmitting={isSubmitting}
               isSubmitting2={isSubmitting2}
               setAction={setAction}
+              openSend={openSend}
               attachmentsModalOpen={attachmentsModalOpen}
               setAttachmentsModalOpen={setAttachmentsModalOpen}
-              setActivateModalOpen={setActivateModalOpen}
-              setQuoteNr={setQuoteNumber}
-              setEditModalId={setEditModalId}
-              setEmailModalOpen={setEmailModalOpen}
             />
           </div>
         </div>

@@ -87,6 +87,7 @@ const Login = () => {
       } catch (error) {
         saveAuth(undefined);
         setSubmitting(false);
+      } finally {
         setLoading(false);
       }
     },
@@ -227,6 +228,9 @@ const Login = () => {
         <input
           type="password"
           autoComplete="current-password"
+          placeholder={intl.formatMessage({
+            id: "LoginAndRegistration.Password",
+          })}
           {...formik.getFieldProps("password")}
           className={clsx(
             "form-control bg-transparent",
@@ -285,7 +289,7 @@ const Login = () => {
           )}
           {loading && (
             <span className="indicator-progress" style={{ display: "block" }}>
-              {intl.formatMessage({ id: "General.Loading" })}...
+              {intl.formatMessage({ id: "Common.Busy" })}...
               <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
           )}

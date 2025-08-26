@@ -84,7 +84,6 @@ export function Registration() {
       <div className="text-center mb-11">
         {/* begin::Title */}
         <h1 className="text-gray-900 fw-bolder mb-3">
-          {" "}
           {intl.formatMessage({
             id: "LoginAndRegistration.TitleRegister",
           })}
@@ -405,7 +404,7 @@ export function Registration() {
           )}
           {loading && (
             <span className="indicator-progress" style={{ display: "block" }}>
-              {intl.formatMessage({ id: "General.Loading" })}...
+              {intl.formatMessage({ id: "Common.Busy" })}...
               <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
           )}
@@ -420,7 +419,21 @@ export function Registration() {
           </button>
         </Link>
       </div>
+
+      {/* Sign Up link */}
       <div className="m-0">
+        <div className="text-gray-500 text-center fw-semibold fs-6">
+          {intl.formatMessage({
+            id: "LoginAndRegistration.SubTitleRegister",
+          })}{" "}
+          <Link to="/login" className="link-primary fw-bold fs-5">
+            {intl.formatMessage({
+              id: "LoginAndRegistration.SubTitleLinkRegister",
+            })}
+          </Link>
+        </div>
+      </div>
+      <div className="mt-3">
         <LanguagesAuth />
       </div>
       {/* end::Form group */}
