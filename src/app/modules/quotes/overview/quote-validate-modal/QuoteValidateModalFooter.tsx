@@ -39,9 +39,9 @@ const QuoteValidateModalFooter = ({
   };
 
   const isApproved =
-    (activeTab.id === 2 &&
-      !auth.currentUser?.result.isAnonymousUser &&
-      formik.values.validationStateType === 1) ||
+    // (activeTab.id === 2 &&
+    //   !auth.currentUser?.result.isAnonymousUser &&
+    //   formik.values.validationStateType === 1) ||
     activeTab.id === 4;
 
   const isDeclined =
@@ -50,7 +50,7 @@ const QuoteValidateModalFooter = ({
   useEffect(() => {
     formik.validateForm();
   }, [activeTab]);
-
+  console.log(isApproved);
   return (
     <div className="modal-footer d-flex justify-content-between align-items-center">
       {!auth.currentUser?.result?.isAnonymousUser ? (

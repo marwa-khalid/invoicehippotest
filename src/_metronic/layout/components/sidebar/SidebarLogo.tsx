@@ -57,8 +57,8 @@ const SidebarLogo = (props: PropsType) => {
       id="kt_app_sidebar_logo"
       style={{
         borderBottom: currentUser?.result.isInTakeOverMode
-          ? "1px dashed white"
-          : "1px dashed black",
+          ? "1px solid white"
+          : "1px solid black",
       }}
     >
       <Link to="/dashboard">

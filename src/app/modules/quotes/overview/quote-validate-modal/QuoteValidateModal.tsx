@@ -144,7 +144,7 @@ const QuoteValidateModal = ({
       }
     },
   });
-
+  console.log(formik.errors);
   const tabs = [
     {
       id: 1,

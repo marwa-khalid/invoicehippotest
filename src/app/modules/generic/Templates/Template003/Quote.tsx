@@ -10,6 +10,7 @@ import styles from "./style.module.css";
 import { useIntl } from "react-intl";
 import { QuoteViewDataResult } from "../../../quotes/overview/core/_models";
 import React from "react";
+import { toAbsoluteUrl } from "../../../../../_metronic/helpers";
 
 interface Props {
   data: QuoteViewDataResult;
@@ -323,6 +324,17 @@ const Quote = ({ data }: Props) => {
             </tfoot>
           </table>
         </div>
+        {data?.hasDataOfSignee && (
+          <div className="signature text-end mt-5">
+            <img
+              src={data?.dataOfSignee.signSignatureBase64}
+              width="content-fit"
+              alt=""
+              className="text-end"
+            />
+          </div>
+        )}
+
         <div className={styles.comments}>
           {data?.hasCustomFieldsAreaBeforeComments && (
             <p
@@ -332,7 +344,7 @@ const Quote = ({ data }: Props) => {
             />
           )}
           <span
-            dangerouslySetInnerHTML={{ __html: data?.invoiceComments?.value }}
+            dangerouslySetInnerHTML={{ __html: data?.quoteComments?.value }}
           />
           <span
             dangerouslySetInnerHTML={{

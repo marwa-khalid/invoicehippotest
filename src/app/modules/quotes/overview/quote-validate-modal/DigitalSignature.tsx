@@ -32,9 +32,7 @@ const DigitalSignature = ({ formik }: Props) => {
   useEffect(() => {
     let signatureData;
     if (signatureType === "draw") {
-      signatureData = sigCanvas.current
-        .getTrimmedCanvas()
-        .toDataURL("image/png");
+      signatureData = sigCanvas.current.getCanvas().toDataURL("image/png");
       setSavedSignature(signatureData); // Save the drawn signature
     } else if (signatureType === "type") {
       const canvas = document.createElement("canvas");

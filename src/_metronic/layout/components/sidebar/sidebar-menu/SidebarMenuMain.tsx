@@ -8,25 +8,10 @@ const SidebarMenuMain = () => {
   const intl = useIntl();
   const { currentUser } = useAuth();
   return (
-    <div
-      className={clsx(
-        "fs-xl fw-bold",
-        currentUser?.result.isInTakeOverMode ? "text-white" : "text-muted"
-      )}
-      style={{ marginBottom: "20px" }}
-    >
-      <div className="menu-item">
-        <div className="menu-content pb-2">
-          <span className="menu-section text-uppercase fs-8 ls-1">
-            {intl.formatMessage({
-              id: "Menu.HeaderStart",
-            })}
-          </span>
-        </div>
-      </div>
+    <>
       <SidebarMenuItem
         to="/dashboard"
-        icon="home"
+        icon="element-11"
         title={intl.formatMessage({ id: "Menu.Dashboard" })}
         fontIcon="bi-app-indicator"
       />
@@ -34,8 +19,8 @@ const SidebarMenuMain = () => {
       <SidebarMenuItemWithSub
         to="/inbox"
         title="Inbox"
+        fontIcon="bi-archive"
         icon="receipt-square"
-        fontIcon="bi-layers"
       >
         <SidebarMenuItem
           to="/inbox/search"
@@ -49,8 +34,15 @@ const SidebarMenuMain = () => {
         />
       </SidebarMenuItemWithSub>
       <div className="menu-item">
-        <div className="menu-content pb-2">
-          <span className="menu-section text-uppercase fs-8 ls-1">
+        <div className="menu-content pt-8 pb-2">
+          <span
+            className={clsx(
+              "menu-section text-uppercase fs-8 ls-1",
+              !currentUser?.result.isInTakeOverMode
+                ? "text-white"
+                : "text-muted"
+            )}
+          >
             {intl.formatMessage({
               id: "Menu.HeaderCustomers",
             })}
@@ -68,7 +60,14 @@ const SidebarMenuMain = () => {
 
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
-          <span className="menu-section text-uppercase fs-8 ls-1">
+          <span
+            className={clsx(
+              "menu-section text-uppercase fs-8 ls-1",
+              !currentUser?.result.isInTakeOverMode
+                ? "text-white"
+                : "text-muted"
+            )}
+          >
             {intl.formatMessage({
               id: "Menu.HeaderSales",
             })}
@@ -163,7 +162,14 @@ const SidebarMenuMain = () => {
       </SidebarMenuItemWithSub>
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
-          <span className="menu-section  text-uppercase fs-8 ls-1">
+          <span
+            className={clsx(
+              "menu-section text-uppercase fs-8 ls-1",
+              !currentUser?.result.isInTakeOverMode
+                ? "text-white"
+                : "text-muted"
+            )}
+          >
             {intl.formatMessage({ id: "Menu.HeaderAccounting" })}
           </span>
         </div>
@@ -203,7 +209,14 @@ const SidebarMenuMain = () => {
       </SidebarMenuItemWithSub>
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
-          <span className="menu-section  text-uppercase fs-8 ls-1">
+          <span
+            className={clsx(
+              "menu-section text-uppercase fs-8 ls-1",
+              !currentUser?.result.isInTakeOverMode
+                ? "text-white"
+                : "text-muted"
+            )}
+          >
             {intl.formatMessage({ id: "Menu.Settings" })}
           </span>
         </div>
@@ -247,7 +260,14 @@ const SidebarMenuMain = () => {
 
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
-          <span className="menu-section  text-uppercase fs-8 ls-1">
+          <span
+            className={clsx(
+              "menu-section text-uppercase fs-8 ls-1",
+              !currentUser?.result.isInTakeOverMode
+                ? "text-white"
+                : "text-muted"
+            )}
+          >
             {intl.formatMessage({ id: "Menu.HeaderCompanyAndMe" })}
           </span>
         </div>
@@ -284,7 +304,7 @@ const SidebarMenuMain = () => {
         icon="ki-outline ki-home"
         fontIcon="bi-layers"
       />
-    </div>
+    </>
   );
 };
 

@@ -54,12 +54,7 @@ const Navbar = ({ setProfileModalOpen }: Props) => {
           className={clsx("position-relative", btnClass)}
           id="kt_drawer_tasks_toggle"
         >
-          <i
-            className={clsx(
-              "ki-duotone ki-notification-on",
-              btnIconClass
-            )}
-          >
+          <i className={clsx("ki-duotone ki-notification-on", btnIconClass)}>
             <span className="path1"></span>
             <span className="path2"></span>
             <span className="path3"></span>
