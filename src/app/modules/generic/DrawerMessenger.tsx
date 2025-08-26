@@ -31,8 +31,8 @@ const DrawerMessenger: FC = () => {
       data-kt-drawer-toggle="#kt_drawer_tasks_toggle"
       data-kt-drawer-close="#kt_drawer_tasks_close"
     >
-      <div className="card w-100 rounded-0" id="kt_drawer_tasks_messenger">
-        <div className="card-header pe-5" id="kt_drawer_tasks_messenger_header">
+      <div className="card w-100 rounded-0" id="kt_drawer_tasks_list">
+        <div className="card-header pe-5" id="kt_drawer_tasks_list_header">
           <div className="card-title">
             <div className="d-flex justify-content-center flex-column me-3">
               <a
