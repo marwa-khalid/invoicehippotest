@@ -1,0 +1,657 @@
+@font-face {
+     font-family: 'Source Sans Pro';
+     src: url('/fonts/SourceSansPro-Bold.woff2') format('woff2'),
+          url('/fonts/SourceSansPro-Bold.woff') format('woff');
+     font-weight: bold;
+     font-style: normal;
+     font-display: swap;
+   }
+   
+   @font-face {
+     font-family: 'Source Sans Pro';
+     src: url('/fonts/SourceSansPro-Regular.woff2') format('woff2'),
+          url('/fonts/SourceSansPro-Regular.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+     font-display: swap;
+   }
+   
+   
+   .hippo_tpl004_beeinvoicepage {
+     width: 100%;
+     min-height: 1123px;
+     margin: 0 auto;
+     box-sizing: border-box;
+     page-break-after: always;
+     font-family: "Inconsolata", monospace;
+     background-color: #fff;
+   }
+   
+   .hippo_tpl004_logo {
+     max-width: 240px;
+     max-height: 84px;
+   }
+   
+   .hippo_tpl004_header_list {
+     font-size: 12px;
+     color: #231f20;
+     font-weight: 400;
+   }
+   
+   .hippo_tpl004_header_flex {
+     display: flex;
+     grid-gap: 20px;
+   }
+   
+   .hippo_tpl004_header_list img {
+     height: 16px;
+     width: 16px;
+     margin-bottom: 10px;
+     display: block;
+   }
+   
+   .hippo_tpl004_invoice_header {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 40px 40px;
+   }
+   
+   @media (max-width: 768px) {
+     .hippo_tpl004_invoice_header {
+       padding: 40px 24px;
+     }
+   }
+   
+   .hippo_tpl004_header {
+     display: flex;
+     justify-content: space-between;
+   
+   }
+   
+   .hippo_tpl004_invoice_number {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+   }
+   
+   .hippo_tpl004_invoice_box {
+     border-bottom: 4px solid #3a8ecc;
+     border-top: 4px solid #3a8ecc;
+     padding: 0px 40px 30px 40px;
+     margin-bottom: 30px;
+   }
+   
+   .hippo_tpl004_invoice_table {
+     display: flex;
+   }
+   
+   .hippo_tpl004_invoice_table_left {
+     width: 50%;
+   }
+   
+   .hippo_tpl004_tabel_heading {
+     display: flex;
+     width: 100%;
+   }
+   
+   .hippo_tpl004_blue_box {
+     background-color: #3a8ecc;
+     display: block;
+     width: 32px;
+     height: 48px;
+   }
+   
+   .hippo_tpl004_table_invoice {
+     font-size: 15px;
+     letter-spacing: 1px;
+     line-height: 48px;
+     background-color: #58595b;
+     color: #fefefe;
+     font-weight: 500;
+     flex: 1;
+     padding-left: 20px;
+   }
+   
+   .hippo_tpl004_invoice_location {
+     display: flex;
+     margin-top: 2px;
+   }
+   
+   .hippo_tpl004_gray_box {
+     width: 40px;
+     height: 44px;
+     background-color: #ece9e7;
+     display: flex;
+     align-items: center;
+     margin: 0px 2px 0px 0px;
+     justify-content: center;
+     height: auto;
+   }
+   
+   .hippo_tpl004_gray_box img {
+     height: 16px;
+     width: 18px;
+   }
+   
+   .hippo_tpl004_table_row {
+     font-size: 18px;
+     letter-spacing: 1px;
+     background: #ebeef1;
+     color: #57585a;
+     font-weight: 400;
+     margin-top: 2px;
+     padding: 10px 10px;
+   }
+   
+   
+   
+   .hippo_tpl004_table_row.hippo_tpl004_table_row2 {
+     color: #5293cc;
+   }
+   
+   .hippo_tpl004_table_row.hippo_tpl004_bg_gray_1000 {
+     background-color: #f8f7f5;
+   }
+   
+   .hippo_tpl004_invoice_table_middle {
+     width: 25%;
+   }
+   
+   .hippo_tpl004_invoice_table_middle .hippo_tpl004_table_invoice {
+     background-color: #3a8ecc;
+   }
+   
+   .hippo_tpl004_table_invoice.hippo_tpl004_table_invoice2 {
+     background-color: #cdcdce !important;
+     color: #58595b;
+   }
+   
+   .hippo_tpl004_text_gray_1200 {
+     color: #5293cc !important;
+   }
+   
+   .hippo_tpl004_row_box {
+     background-color: #ece9e7;
+     padding: 14px 10px;
+     flex: 1;
+     font-size: 11px;
+     color: #57585a;
+     font-weight: 400;
+   }
+   
+   
+   
+   .hippo_tpl004_invoice_number h2 {
+     font-size: 48px;
+     letter-spacing: 3px;
+     line-height: 82px;
+     color: #3a8ecc;
+     margin: 0px;
+     font-weight: 400;
+     text-align: right;
+   }
+   
+   .hippo_tpl004_invoice_number p {
+     font-size: 24px;
+     line-height: 40px;
+     color: #58595b;
+     font-weight: 400;
+     margin-bottom: 0;
+   }
+   
+   .hippo_tpl004_header_right {
+     text-align: right;
+   }
+   
+   .hippo_tpl004_header_right h6 {
+     font-size: 14px;
+     letter-spacing: 0px;
+     margin: 0;
+     line-height: 24px;
+     color: #2b333e;
+     font-weight: 300;
+     font-family: "Montserrat";
+     text-align: right;
+   }
+   
+   .hippo_tpl004_header_right h6 span {
+     font-weight: 600;
+   }
+   
+   .hippo_tpl004_header_due_left p span {
+     font-weight: 400;
+     font-family: "Montserrat";
+     min-width: 104px;
+     color: #68747e;
+   }
+   
+   .hippo_tpl004_profile_detail h6 {
+     font-size: 20px;
+     line-height: 25px;
+     color: #68747e;
+     font-weight: 600;
+     margin: 0px 0px;
+   }
+   
+   .hippo_tpl004_profile_detail p {
+     font-size: 14px;
+     font-weight: normal;
+     color: #68747e;
+   }
+   
+   .hippo_tpl004_profile_detail h3 {
+     font-size: 28px;
+     line-height: 40px;
+     color: #253039;
+     font-weight: 600;
+     margin: 0px 0px 10px;
+   }
+   
+   .hippo_tpl004_header_due_left p {
+     font-size: 14px;
+     letter-spacing: 0px;
+     margin: 0;
+     line-height: 20px;
+     display: flex;
+     color: #68747e;
+     font-weight: 600;
+     font-family: "Montserrat";
+   }
+   
+   .hippo_tpl004_header_due_right h1 {
+     font-size: 64px;
+     letter-spacing: 0px;
+     line-height: 1;
+     color: #2b333e;
+     font-weight: 600;
+     margin: 0;
+     font-family: "Montserrat";
+   }
+   
+   .hippo_tpl004_header_due_right {
+     width: 60%;
+   }
+   
+   .hippo_tpl004_header_due {
+     display: flex;
+     justify-content: space-between;
+     margin-bottom: 56px;
+     margin-top: 20px;
+     max-width: 590px;
+   }
+   
+   .hippo_tpl004_header_due_row {
+     display: grid;
+     grid-template-columns: 4fr 4fr 4fr;
+     grid-gap: 20px;
+   }
+   
+   .hippo_tpl004_header_due_row h6 {
+     font-size: 14px;
+     letter-spacing: 0px;
+     margin: 0;
+     line-height: 24px;
+     border-top: 1px solid #2b333e;
+     color: #3e4954;
+     font-weight: 300;
+     padding-top: 20px;
+     font-family: "Montserrat";
+     margin-top: 20px;
+   }
+   
+   .hippo_tpl004_header_due_row h6 span {
+     font-weight: 600;
+     display: block;
+   }
+   
+   
+   .hippo_tpl004_table {
+     width: 100%;
+     border-collapse: separate;
+     border-spacing: 5px 0;
+     font-family: "Montserrat";
+   }
+   
+   .hippo_tpl004_thead {
+     background-color: #1975bb;
+     color: white;
+     text-align: left;
+   }
+   
+   .hippo_tpl004_thead th:nth-child(2),
+   .hippo_tpl004_thead th:nth-child(3),
+   .hippo_tpl004_thead th:nth-child(4) {
+     background: #232b43;
+   }
+   
+   .hippo_tpl004_th {
+     padding: 12px 24px;
+     font-weight: 600;
+     font-size: 14px;
+   }
+   
+   .hippo_tpl004_tbody {
+     background-color: #ffffff;
+   }
+   
+   .hippo_tpl004_row {
+     background-color: #ffffff;
+   }
+   
+   .hippo_tpl004_row_alt {
+     background-color: #ebeeef;
+   }
+   
+   .hippo_tpl004_td {
+     padding: 12px 24px;
+     vertical-align: middle;
+     font-size: 14px;
+     color: #2b333e;
+     font-weight: 500;
+   }
+   
+   .hippo_tpl004_tbody strong {
+     font-weight: 600;
+   }
+   
+   .hippo_tpl004_td_amount {
+     padding: 12px 24px;
+     color: #2b333e;
+     font-size: 14px;
+     font-weight: 500;
+     vertical-align: middle;
+   }
+   
+   .hippo_tpl004_desc {
+     font-size: 10px;
+     font-weight: 300;
+     margin: 0;
+     color: #68737c;
+     font-style: italic;
+     margin-top: 4px;
+   }
+   
+   /*  */
+   .hippo_tpl004_totalsWrapper {
+     display: flex;
+     justify-content: space-between;
+     gap: 40px;
+     margin: 30px 40px 40px 40px;
+     align-items: flex-start;
+     border-top: 4px solid #3a8ecc;
+   }
+   
+   .hippo_tpl004_paymentBox {
+     font-size: 14px;
+     color: #2b333e;
+     max-width: 50%;
+   }
+   
+   .hippo_tpl004_paymentLabel {
+     font-weight: 700;
+     margin: 24px 0px 0px;
+     font-family: "Titillium Web", sans-serif;
+     font-size: 14px;
+   }
+   
+   .hippo_tpl004_paymentborder h6 {
+     padding-bottom: 10px;
+   }
+   
+   .hippo_tpl004_paymentItem span {
+     font-weight: 600;
+   }
+   
+   .hippo_tpl004_d_block {
+     display: block;
+     margin-top: 5px;
+   }
+   
+   .hippo_tpl004_paymentLabel span {
+     font-weight: 400;
+     display: block;
+     margin-top: 5px;
+   }
+   
+   .hippo_tpl004_paymentborder h6 {
+     font-size: 16px;
+     letter-spacing: 0px;
+     color: #5293cc;
+     font-weight: 400;
+     font-family: "Titillium Web";
+     margin: 20px 0px 0px;
+   }
+   
+   .hippo_tpl004_paymentItem {
+     margin: 12px 0;
+     color: #2b333e;
+     font-weight: 300;
+   }
+   
+   .hippo_tpl004_totalTable {
+     width: auto;
+     border-collapse: collapse;
+     font-size: 14px;
+     color: #68747e;
+     min-width: 184px;
+     margin-top: 20px;
+   }
+   
+   .hippo_tpl004_totalLabel {
+     padding: 0px 10px;
+     font-size: 14px;
+     font-family: "Titillium Web", sans-serif;
+     color: #68747e;
+     font-weight: 700;
+   }
+   
+   
+   
+   .hippo_tpl004_totalValue {
+     text-align: start;
+     padding: 6px 12px;
+     font-size: 14px;
+     color: #2b333e;
+     font-weight: 300;
+   }
+   
+   .hippo_tpl004_totalRow {
+     font-weight: 600;
+     font-size: 14px;
+   }
+   
+   .hippo_tpl004_totalText {
+     padding: 12px 12px;
+     color: #57585a;
+     font-size: 14px;
+     font-weight: 700;
+     font-family: "Titillium Web", sans-serif;
+     border-right: 1px solid #fff;
+   }
+   
+   .hippo_tpl004_totalAmount {
+     padding: 6px 12px;
+     text-align: right;
+     color: #3a8ecc;
+     font-family: "Titillium Web", sans-serif;
+     font-size: 30px;
+   }
+   
+   
+   .hippo_tpl004_invoice_text {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 0px 20px 40px;
+   }
+   
+   .hippo_tpl004_invoice_text h2 {
+     font-size: 54px;
+     color: #232b43;
+     font-weight: 500;
+     margin: 0;
+     font-family: "Source Sans Pro";
+   }
+   
+   
+   
+   .hippo_tpl004_totalsWrapper h2 {
+     font-size: 32px;
+     color: #6c6e70;
+     font-weight: 400;
+     font-family: "Source Sans Pro";
+   }
+   
+   .hippo_tpl004_totalsWrapper h2 span {
+     font-weight: 600;
+   }
+   
+   /*  */
+   .hippo_tpl004_invoice_header2 th:first-child {
+     padding: 0px;
+   }
+   
+   .hippo_tpl004_invoice_header2 th {
+     padding: 12px 20px;
+   }
+   
+   .hippo_tpl004_invoice_header2 th:nth-child(odd) {
+     background-color: #3a8ecc;
+     color: #fff;
+   }
+   
+   .hippo_tpl004_invoice_header2 tr th:first-child {
+     height: 44px;
+   }
+   
+   .hippo_tpl004_invoice_table2 {
+     width: 100%;
+     border-collapse: separate;
+     border-spacing: 0px 6px;
+     font-size: 14px;
+     padding: 0px 40px;
+   }
+   
+   .hippo_tpl004_invoice_header2 {
+     background-color: #58595b;
+     color: #fff;
+   }
+   
+   .hippo_tpl004_invoice_col_description,
+   .hippo_tpl004_invoice_col_price,
+   .hippo_tpl004_invoice_col_qty,
+   .hippo_tpl004_invoice_col_total {
+     text-align: left;
+     padding: 0px;
+   }
+   
+   .hippo_tpl004_invoice_col_price,
+   .hippo_tpl004_invoice_col_qty,
+   .hippo_tpl004_invoice_col_total {
+     text-align: center;
+     font-weight: bold;
+   }
+   
+   
+   .hippo_tpl004_invoice_row_odd {
+     background-color: #fff;
+   }
+   
+   .hippo_tpl004_invoice_item {
+     display: flex;
+     align-items: flex-start;
+     margin-left: -12px;
+   }
+   
+   .hippo_tpl004_invoice_number2 {
+     background-color: #ece9e7;
+     color: #57585a;
+     font-weight: bold;
+     width: 40px;
+     height: 38px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     line-height: 24px;
+     flex-shrink: 0;
+     margin-right: 1px;;
+   }
+   
+   .hippo_tpl004_box {
+     background-color: #3a8ecc;
+     display: block;
+     width: 32px;
+     height: 38px;
+   }
+   
+   .hippo_tpl004_invoice_title {
+     font-weight: bold;
+     background: #d8dcdd;
+     padding: 8.5px 10px;
+   }
+   
+   .hippo_tpl004_invoice_desc {
+     font-size: 12px;
+     color: #57585a;
+     background: #e9e9e8;
+     padding: 8px 10px;
+   }
+   
+   .hippo_tpl004_flex_1 {
+     flex: 1;
+   }
+   
+   .hippo_tpl004_invoice_desc span {
+     opacity: 0;
+   }
+   
+   /* red-coloe */
+   .hippo_tpl004_invoice2_red .hippo_tpl004_invoice_number h2,
+   .hippo_tpl004_invoice2_red .hippo_tpl004_table_row.hippo_tpl004_table_row2,
+   .hippo_tpl004_invoice2_red .hippo_tpl004_paymentborder h6,
+   .hippo_tpl004_invoice2_red .hippo_tpl004_text_gray_1200,
+   .hippo_tpl004_invoice2_red .hippo_tpl004_totalAmount {
+     color: #f06160 !important;
+   }
+   
+   .hippo_tpl004_invoice2_red .hippo_tpl004_blue_box,
+   .hippo_tpl004_invoice2_red .hippo_tpl004_invoice_header2 th:nth-child(odd),
+   .hippo_tpl004_invoice2_red .hippo_tpl004_invoice_table_middle .hippo_tpl004_table_invoice,
+   .hippo_tpl004_invoice2_red .hippo_tpl004_box {
+     background: #f06160;
+     height: auto;
+   }
+   
+   .hippo_tpl005_box{
+     height: 38px;
+     
+     max-height: 40px;
+     background: #f06160;
+     display: block;
+   }
+   
+   .hippo_tpl006_box{
+     height: 48px;
+     width: 32px;
+     background: #f06160;
+     display: block;
+   }
+   
+   .hippo_tpl007_box{
+     height: 45px;
+     background: #3a8ecc;
+     display: block;
+   }
+   
+   
+   
+   .hippo_tpl004_invoice2_red .hippo_tpl004_invoice_box {
+     border-bottom: 4px solid #f06160;
+     border-top: 4px solid #f06160;
+   }
+   
+   .hippo_tpl004_invoice2_red .hippo_tpl004_totalsWrapper {
+     border-top: 4px solid #f06160;
+     align-items: flex-start;
+   }
