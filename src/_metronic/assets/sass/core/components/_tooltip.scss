@@ -1,32 +1,36 @@
-//
-//  Tooltip
-//
-
-
-// Base
-.tooltip {
-    .tooltip-inner {
-        box-shadow: var(--#{$prefix}tooltip-box-shadow);
-    }
-
-    &.tooltop-auto-width {
-       	.tooltip-inner {
-       		white-space: nowrap;
-  			max-width: none;
-        }
-    }
-
-    &.tooltip-inverse {
-        --#{$prefix}tooltip-color: var(--#{$prefix}dark-inverse);
-        --#{$prefix}tooltip-bg: var(--#{$prefix}dark);
-    }
+/* Tooltip base */
+.app-tooltip {
+  background-color: #303030; // same as your bootstrap override
+  color: #fff;
+  padding: 6px;
+  border-radius: 6px;
+  //   box-shadow: 0 4px 10px rgba(24, 24, 24, 0.15);
+  z-index: 9999; // ensure it shows above modals etc.
 }
 
-@if $enable-dark-mode {
-    @include color-mode(dark) {
-        .tooltip:not(.tooltip-inverse) {
-            --#{$prefix}tooltip-bg: #{$tooltip-bg-dark};
-            --#{$prefix}tooltip-box-shadow: #{$tooltip-box-shadow-dark};
-        }
-    }
+.app-tooltip-arrow {
+  fill: #303030; // matches tooltip background
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
 }

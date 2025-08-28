@@ -8,7 +8,6 @@ import {
 import { ListLoading } from "../../../generic/ListLoading";
 import { KTCardBody } from "../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-import Tippy from "@tippyjs/react";
 import { useNavigate } from "react-router-dom";
 import { ListPagination } from "../../../generic/ListPagination";
 import { getDateRange, parseDate } from "../../../../utils/dateUtils";
@@ -19,6 +18,7 @@ import ListCard from "../../../generic/ListElements/ListCard";
 import { NoItemsPage } from "../../../generic/NoItemsPage";
 import { getEnumOptions } from "../../../../helpers/intlHelper";
 import enums from "../../../../../_metronic/i18n/messages/invoicehippo.enums.json";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import {
   ActivitiesModel,
   AttachmentsResult,
@@ -292,24 +292,33 @@ const InvoiceList = ({
                 >
                   <i className="fa fas fa-share text-danger fs-7 me-2"></i>
 
-                  <Tippy
-                    content={intl.formatMessage({
-                      id: "Fields.RelatedInvoice",
-                    })}
-                  >
-                    <span
-                      className="cursor-pointer text-danger border border-danger rounded p-2"
-                      onClick={() => {
-                        localStorage.setItem(
-                          "currentItem",
-                          JSON.stringify(invoiceList.relatedParentInvoice)
-                        );
-                        navigate(`/invoice/view/${invoiceList.uniqueId}`);
-                      }}
-                    >
-                      {invoiceList.relatedParentInvoice?.invoiceNr}
-                    </span>
-                  </Tippy>
+                  <Tooltip.Provider delayDuration={0}>
+                    <Tooltip.Root>
+                      <Tooltip.Trigger asChild>
+                        <span
+                          className="cursor-pointer text-danger border border-danger rounded p-2"
+                          onClick={() => {
+                            localStorage.setItem(
+                              "currentItem",
+                              JSON.stringify(invoiceList.relatedParentInvoice)
+                            );
+                            navigate(`/invoice/view/${invoiceList.uniqueId}`);
+                          }}
+                        >
+                          {invoiceList.relatedParentInvoice?.invoiceNr}
+                        </span>
+                      </Tooltip.Trigger>
+
+                      <Tooltip.Portal>
+                        <Tooltip.Content side="top" className="app-tooltip">
+                          {intl.formatMessage({
+                            id: "Fields.RelatedInvoice",
+                          })}
+                          <Tooltip.Arrow className="app-tooltip-arrow" />
+                        </Tooltip.Content>
+                      </Tooltip.Portal>
+                    </Tooltip.Root>
+                  </Tooltip.Provider>
                 </div>
               )}
               {invoiceList.relatedCreditInvoice !== null && (
@@ -326,103 +335,124 @@ const InvoiceList = ({
                   }}
                 >
                   <i className="fa fas fa-share text-warning fs-7 me-2"></i>
-                  <Tippy
-                    content={intl.formatMessage({
-                      id: "Fields.RelatedCreditInvoice",
-                    })}
-                  >
-                    <span
-                      className="cursor-pointer text-warning border border-warning rounded p-2"
-                      onClick={() => {
-                        localStorage.setItem(
-                          "currentItem",
-                          JSON.stringify(invoiceList.relatedCreditInvoice)
-                        );
-                        navigate(`/invoice/view/${invoiceList.uniqueId}`);
-                      }}
-                    >
-                      {invoiceList.relatedCreditInvoice.invoiceNr}
-                    </span>
-                  </Tippy>
+
+                  <Tooltip.Provider delayDuration={0}>
+                    <Tooltip.Root>
+                      <Tooltip.Trigger asChild>
+                        <span
+                          className="cursor-pointer text-warning border border-warning rounded p-2"
+                          onClick={() => {
+                            localStorage.setItem(
+                              "currentItem",
+                              JSON.stringify(invoiceList.relatedCreditInvoice)
+                            );
+                            navigate(`/invoice/view/${invoiceList.uniqueId}`);
+                          }}
+                        >
+                          {invoiceList.relatedCreditInvoice.invoiceNr}
+                        </span>
+                      </Tooltip.Trigger>
+
+                      <Tooltip.Portal>
+                        <Tooltip.Content side="top" className="app-tooltip">
+                          {intl.formatMessage({
+                            id: "Fields.RelatedCreditInvoice",
+                          })}
+                          <Tooltip.Arrow className="app-tooltip-arrow" />
+                        </Tooltip.Content>
+                      </Tooltip.Portal>
+                    </Tooltip.Root>
+                  </Tooltip.Provider>
                 </div>
               )}
 
               {/* Ribbons */}
 
-              <Tippy
-                content={
-                  <div style={{ fontFamily: "monospace" }}>
-                    <div className="table" style={{ width: "100%" }}>
-                      {/* Total Price */}
-                      {invoiceList.totals.totalPrice && (
-                        <div style={{ display: "table-row" }}>
-                          <div
-                            className="px-2"
-                            style={{
-                              display: "table-cell",
-                              textAlign: "right",
-                            }}
-                          >
-                            {intl.formatMessage({ id: "Fields.TotalPrice" })}:
-                          </div>
-                          <div
-                            style={{
-                              display: "table-cell",
-                              textAlign: "right",
-                            }}
-                          >
-                            {invoiceList.valuta.sign}
-                            {invoiceList.totals.totalPrice.toFixed(2)}
-                          </div>
-                        </div>
-                      )}
-                      {/* Total VAT Amount */}
-                      {invoiceList.totals.totalVATAmount && (
-                        <div style={{ display: "table-row", gap: 3 }}>
-                          <div
-                            className="px-2"
-                            style={{
-                              display: "table-cell",
-                              textAlign: "right",
-                            }}
-                          >
-                            {intl.formatMessage({
-                              id: "Fields.TotalVATAmount",
-                            })}
-                            :
-                          </div>
-
-                          <div
-                            style={{
-                              display: "table-cell",
-                              textAlign: "right",
-                            }}
-                          >
-                            {invoiceList.valuta.sign}
-                            {invoiceList.totals.totalVATAmount.toFixed(2)}
-                          </div>
-                        </div>
-                      )}
+              <Tooltip.Provider delayDuration={0}>
+                <Tooltip.Root>
+                  <Tooltip.Trigger asChild>
+                    <div
+                      className="ribbon ribbon-end ribbon-clip position-absolute cursor-pointer"
+                      style={{
+                        top: "10px",
+                        right: "0px",
+                        height: "30px",
+                        width: "100px",
+                      }}
+                    >
+                      <div className="ribbon-label fw-bold">
+                        {invoiceList.valuta.sign}
+                        {invoiceList.totals.totalPriceWithVAT.toFixed(2)}
+                        <span className="ribbon-inner bg-gray-600"></span>
+                      </div>
                     </div>
-                  </div>
-                }
-              >
-                <div
-                  className="ribbon ribbon-end ribbon-clip position-absolute cursor-pointer"
-                  style={{
-                    top: "10px",
-                    right: "0px",
-                    height: "30px",
-                    width: "100px",
-                  }}
-                >
-                  <div className="ribbon-label fw-bold">
-                    {invoiceList.valuta.sign}
-                    {invoiceList.totals.totalPriceWithVAT.toFixed(2)}
-                    <span className="ribbon-inner bg-gray-600"></span>
-                  </div>
-                </div>
-              </Tippy>
+                  </Tooltip.Trigger>
+
+                  <Tooltip.Portal>
+                    <Tooltip.Content side="top" className="app-tooltip">
+                      <div style={{ fontFamily: "monospace" }}>
+                        <div className="table" style={{ width: "100%" }}>
+                          {/* Total Price */}
+                          {invoiceList.totals.totalPrice && (
+                            <div style={{ display: "table-row" }}>
+                              <div
+                                className="px-2"
+                                style={{
+                                  display: "table-cell",
+                                  textAlign: "right",
+                                }}
+                              >
+                                {intl.formatMessage({
+                                  id: "Fields.TotalPrice",
+                                })}
+                                :
+                              </div>
+                              <div
+                                style={{
+                                  display: "table-cell",
+                                  textAlign: "right",
+                                }}
+                              >
+                                {invoiceList.valuta.sign}
+                                {invoiceList.totals.totalPrice.toFixed(2)}
+                              </div>
+                            </div>
+                          )}
+                          {/* Total VAT Amount */}
+                          {invoiceList.totals.totalVATAmount && (
+                            <div style={{ display: "table-row", gap: 3 }}>
+                              <div
+                                className="px-2"
+                                style={{
+                                  display: "table-cell",
+                                  textAlign: "right",
+                                }}
+                              >
+                                {intl.formatMessage({
+                                  id: "Fields.TotalVATAmount",
+                                })}
+                                :
+                              </div>
+
+                              <div
+                                style={{
+                                  display: "table-cell",
+                                  textAlign: "right",
+                                }}
+                              >
+                                {invoiceList.valuta.sign}
+                                {invoiceList.totals.totalVATAmount.toFixed(2)}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <Tooltip.Arrow className="app-tooltip-arrow" />
+                    </Tooltip.Content>
+                  </Tooltip.Portal>
+                </Tooltip.Root>
+              </Tooltip.Provider>
 
               <div
                 className="ribbon ribbon-start ribbon-clip position-absolute cursor-pointer"
@@ -577,64 +607,93 @@ const InvoiceList = ({
                   {/* Buttons Section */}
                   <div className="d-flex align-items-center">
                     {!isModal && invoiceList.actions.canShowPreview && (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ToolTipView",
-                        })}
-                      >
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => {
-                            localStorage.setItem(
-                              "currentItem",
-                              JSON.stringify(invoiceList)
-                            );
-                            navigate(`/invoice/view/${invoiceList.uniqueId}`);
-                          }}
-                        >
-                          <i className="ki-duotone ki-eye fs-2">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                            <span className="path3"></span>
-                          </i>
-                        </button>
-                      </Tippy>
+                      <Tooltip.Provider delayDuration={0}>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger asChild>
+                            <button
+                              className="btn btn-icon btn-light btn-sm me-4"
+                              onClick={() => {
+                                localStorage.setItem(
+                                  "currentItem",
+                                  JSON.stringify(invoiceList)
+                                );
+                                navigate(
+                                  `/invoice/view/${invoiceList.uniqueId}`
+                                );
+                              }}
+                            >
+                              <i className="ki-duotone ki-eye fs-2">
+                                <span className="path1"></span>
+                                <span className="path2"></span>
+                                <span className="path3"></span>
+                              </i>
+                            </button>
+                          </Tooltip.Trigger>
+
+                          <Tooltip.Portal>
+                            <Tooltip.Content side="top" className="app-tooltip">
+                              {intl.formatMessage({
+                                id: "Fields.ToolTipView",
+                              })}
+                              <Tooltip.Arrow className="app-tooltip-arrow" />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
                     )}
 
                     {!isModal && invoiceList.actions.canEdit && (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ToolTipEdit",
-                        })}
-                      >
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => {
-                            openEditModal(invoiceList.id);
-                          }}
-                        >
-                          <i className="ki-solid ki-pencil text-warning fs-2"></i>
-                        </button>
-                      </Tippy>
+                      <Tooltip.Provider delayDuration={0}>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger asChild>
+                            <button
+                              className="btn btn-icon btn-light btn-sm me-4"
+                              onClick={() => {
+                                openEditModal(invoiceList.id);
+                              }}
+                            >
+                              <i className="ki-solid ki-pencil text-warning fs-2"></i>
+                            </button>
+                          </Tooltip.Trigger>
+
+                          <Tooltip.Portal>
+                            <Tooltip.Content side="top" className="app-tooltip">
+                              {intl.formatMessage({
+                                id: "Fields.ToolTipEdit",
+                              })}
+                              <Tooltip.Arrow className="app-tooltip-arrow" />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
                     )}
                     {isModal && (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ToolTipEdit",
-                        })}
-                      >
-                        <button
-                          className="btn btn-icon btn-primary btn-sm me-4"
-                          onClick={() => {
-                            setInvoiceId && setInvoiceId(invoiceList.id);
-                          }}
-                        >
-                          <i className="ki-duotone ki-pin text-white fs-2">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                          </i>
-                        </button>
-                      </Tippy>
+                      <Tooltip.Provider delayDuration={0}>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger asChild>
+                            <button
+                              className="btn btn-icon btn-primary btn-sm me-4"
+                              onClick={() => {
+                                setInvoiceId && setInvoiceId(invoiceList.id);
+                              }}
+                            >
+                              <i className="ki-duotone ki-pin text-white fs-2">
+                                <span className="path1"></span>
+                                <span className="path2"></span>
+                              </i>
+                            </button>
+                          </Tooltip.Trigger>
+
+                          <Tooltip.Portal>
+                            <Tooltip.Content side="top" className="app-tooltip">
+                              {intl.formatMessage({
+                                id: "Fields.ToolTipEdit",
+                              })}
+                              <Tooltip.Arrow className="app-tooltip-arrow" />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
                     )}
                     {!isModal && (
                       <div className="btn-group drop-left">

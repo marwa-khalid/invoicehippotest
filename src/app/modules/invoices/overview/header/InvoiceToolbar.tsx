@@ -1,7 +1,8 @@
 import { KTIcon } from "../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-import Tippy from "@tippyjs/react";
 import { useAuth } from "../../../auth";
+import * as Tooltip from "@radix-ui/react-tooltip";
+
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
@@ -22,6 +23,7 @@ const InvoiceToolbar = ({
 
   const intl = useIntl();
   const auth = useAuth();
+
   return (
     <div
       className="d-flex justify-content-between align-items-center"
@@ -32,23 +34,29 @@ const InvoiceToolbar = ({
           .formatMessage({ id: "Fields.SearchResultHeaderCount" })
           .replace("{0}", totalRows.toString())}
       </h5>
+
       {!auth.currentUser?.result.isAnonymousUser && (
-        <div>
-          <Tippy
-            content={intl.formatMessage({
-              id: "Fields.ToolTipNew",
-            })}
-          >
-            <button
-              type="button"
-              className="btn btn-primary mb-3"
-              onClick={openAddQuoteModal}
-            >
-              <KTIcon iconName="plus" className="fs-1" />
-              {intl.formatMessage({ id: "Fields.ActionNew" })}
-            </button>
-          </Tippy>
-        </div>
+        <Tooltip.Provider delayDuration={0}>
+          <Tooltip.Root>
+            <Tooltip.Trigger asChild>
+              <button
+                type="button"
+                className="btn btn-primary mb-3"
+                onClick={openAddQuoteModal}
+              >
+                <KTIcon iconName="plus" className="fs-1" />
+                {intl.formatMessage({ id: "Fields.ActionNew" })}
+              </button>
+            </Tooltip.Trigger>
+
+            <Tooltip.Portal>
+              <Tooltip.Content side="top" className="app-tooltip">
+                {intl.formatMessage({ id: "Fields.ToolTipNew" })}
+                <Tooltip.Arrow className="app-tooltip-arrow" />
+              </Tooltip.Content>
+            </Tooltip.Portal>
+          </Tooltip.Root>
+        </Tooltip.Provider>
       )}
     </div>
   );

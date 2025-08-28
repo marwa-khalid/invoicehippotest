@@ -256,9 +256,9 @@ const QuoteAddModalFooter = ({
             <ul className="dropdown-menu w-200px py-4">
               <li
                 onClick={() => {
-                  formik.handleSubmit();
                   setAction(4);
                   setActionType(2);
+                  formik.handleSubmit();
                 }}
               >
                 <a className="dropdown-item d-flex align-items-center" href="#">
@@ -271,10 +271,10 @@ const QuoteAddModalFooter = ({
               <div className="dropdown-divider border-gray-200"></div>
               <li
                 onClick={() => {
-                  formik.handleSubmit();
                   setAction(1);
-                  openSend("save");
                   setActionType(2);
+                  formik.handleSubmit();
+                  openSend("save");
                 }}
               >
                 <a className="dropdown-item d-flex align-items-center" href="#">

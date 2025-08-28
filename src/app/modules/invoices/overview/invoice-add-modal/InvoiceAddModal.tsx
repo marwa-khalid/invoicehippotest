@@ -16,6 +16,7 @@ import {
   getUnitTypes,
   getVatList,
   getFactoringClients,
+  getQuickViewInvoice,
 } from "../core/_requests";
 import { handleToast } from "../../../auth/core/_toast";
 import { InvoiceAddStep3 } from "./InvoiceAddStep3";
@@ -73,6 +74,37 @@ const InvoiceAddModal = ({
   const [action, setAction] = useState<number>();
   const [contactResponse, setContactResponse] = useState<any>();
   const [clientCheck, setClientCheck] = useState<boolean>(false);
+  const openActivate = (actionType: string, id: number) => {
+    setActivateModalOpen(true);
+    valueSetter(actionType, id);
+  };
+
+  const openSend = (actionType: string, id: number) => {
+    setEmailModalOpen(true);
+    valueSetter(actionType, id);
+  };
+
+  const valueSetter = async (actionType: string, id: number) => {
+    const data = await getQuickViewInvoice(formik.values.id);
+    if (data.isValid) {
+      setEditModalId(data.result.id);
+      setInvoiceNr(data.result.invoiceNr);
+      localStorage.setItem(
+        "ModalData",
+        JSON.stringify({
+          invoiceDateAsString: data?.result.invoiceDateAsString,
+          client: data?.result.client.companyName,
+          totalPriceWithVat: data?.result.totals.totalPriceWithVAT,
+          sign: data?.result.valuta.sign,
+          status: data?.result.invoiceStatus.value,
+          activeSendInstructions: data?.result?.activeSendInstructions,
+          totalOpen: data?.result.totals.totalOpen,
+          downloadInfo: data?.result.downloadInfo,
+          actionType: actionType,
+        })
+      );
+    }
+  };
   const formik = useFormik({
     initialValues: {
       id: 0,
@@ -252,6 +284,7 @@ const InvoiceAddModal = ({
             case 1:
               setAddModalOpen(false);
               setContactResponse(null);
+              setRefresh(!refresh);
               break;
             case 2:
               setEditModalId(0);
@@ -283,12 +316,23 @@ const InvoiceAddModal = ({
               link.click();
               document.body.removeChild(link);
               break;
+            case 5:
+              setResponse(response.result);
+              openSend("send", response.result.id);
+              break;
+            case 6:
+              setResponse(response.result);
+              openActivate("download", response.result.id);
+              break;
+            case 7:
+              setResponse(response.result);
+              openActivate("activate", response.result.id);
+              break;
             default:
               setEditModalId(response.result.id);
               setResponse(response.result);
               break;
           }
-          setRefresh(!refresh);
         }
 
         handleToast(response);
@@ -837,10 +881,7 @@ const InvoiceAddModal = ({
           setAction={setAction}
           attachmentsModalOpen={attachmentsModalOpen}
           setAttachmentsModalOpen={setAttachmentsModalOpen}
-          setActivateModalOpen={setActivateModalOpen}
-          setEditModalId={setEditModalId}
-          setInvoiceNr={setInvoiceNr}
-          setEmailModalOpen={setEmailModalOpen}
+          openSend={openSend}
           setActionType={setActionType}
         />
       </ModalWrapper>
