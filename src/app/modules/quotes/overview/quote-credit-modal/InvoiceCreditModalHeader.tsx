@@ -2,24 +2,31 @@ import { KTIcon } from "../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 
 interface ComponentProps {
-  setOdataModalOpen: (type: boolean) => void;
+  setCreditModalOpen: (type: boolean) => void;
+  invoiceNr: string;
 }
 
-const QuoteOdataModalHeader = ({ setOdataModalOpen }: ComponentProps) => {
+const InvoiceCreditModalHeader = ({
+  setCreditModalOpen,
+  invoiceNr,
+}: ComponentProps) => {
   const intl = useIntl();
+
+  const parsedData = JSON.parse(localStorage.getItem("ModalData")!);
 
   return (
     <div className="modal-header bg-primary d-flex flex-column">
       {/* Modal title */}
       <div className="d-flex w-100 justify-content-between align-items-center">
         <h2 className="fw-bolder mb-0 text-white">
-          {intl.formatMessage({ id: "Fields.ActionCopy" })} odata
+          {intl.formatMessage({ id: "Fields.ModalCreateCreditTitleInvoice" })}
         </h2>
         <div
           className="btn btn-icon btn-sm btn-active-icon-primary"
           data-kt-users-modal-action="close"
           onClick={() => {
-            setOdataModalOpen(false);
+            setCreditModalOpen(false);
+            localStorage.removeItem("ModalData");
           }}
           style={{ cursor: "pointer" }}
         >
@@ -28,7 +35,7 @@ const QuoteOdataModalHeader = ({ setOdataModalOpen }: ComponentProps) => {
       </div>
 
       {/* New table below the title */}
-      {/* <div className="w-100 mt-3" style={{ lineHeight: "0.5" }}>
+      <div className="w-100 mt-3" style={{ lineHeight: "0.5" }}>
         <table className="table text-white mt-0">
           <tbody>
             <tr className="my-0">
@@ -41,7 +48,7 @@ const QuoteOdataModalHeader = ({ setOdataModalOpen }: ComponentProps) => {
               <td className="fw-bold">
                 {intl.formatMessage({ id: "Fields.QuoteNr" })}
               </td>
-              <td>: {quoteNumber}</td>
+              <td>: {invoiceNr}</td>
             </tr>
             <tr>
               <td className="fw-bold">
@@ -54,14 +61,24 @@ const QuoteOdataModalHeader = ({ setOdataModalOpen }: ComponentProps) => {
                 {intl.formatMessage({ id: "Fields.Total" })}
               </td>
               <td>
-                : {parsedData?.sign} {parsedData?.totalPriceWithVat}
+                : {parsedData?.sign}
+                {parsedData?.totalPriceWithVat}
+              </td>
+            </tr>
+            <tr>
+              <td className="fw-bold">
+                {intl.formatMessage({ id: "Fields.TotalOpen" })}
+              </td>
+              <td>
+                : {parsedData?.sign}
+                {parsedData?.totalOpen}
               </td>
             </tr>
           </tbody>
         </table>
-      </div> */}
+      </div>
     </div>
   );
 };
 
-export { QuoteOdataModalHeader };
+export { InvoiceCreditModalHeader };

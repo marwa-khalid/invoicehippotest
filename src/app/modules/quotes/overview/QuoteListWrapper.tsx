@@ -21,6 +21,7 @@ import { attachQuoteFile, getAttachmentsById } from "./core/_requests";
 import { useIntl } from "react-intl";
 import { AttachmentsModal } from "../../generic/FileManager/AttachmentsModal";
 import { QuoteOrderConfirmationModal } from "./quote-order-modal/QuoteOrderConfirmationModal";
+import { InvoiceCreditModal } from "./quote-credit-modal/InvoiceCreditModal.js";
 
 const QuoteListInnerWrapper = ({
   isModal,
@@ -68,6 +69,7 @@ const QuoteListInnerWrapper = ({
   const [validateModalOpen, setValidateModalOpen] = useState<boolean>(false);
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
   const [activateModalOpen, setActivateModalOpen] = useState<boolean>(false);
+  const [creditModalOpen, setCreditModalOpen] = useState<boolean>(false);
   const [orderConfirmationModalOpen, setOrderConfirmationModalOpen] =
     useState<boolean>(false);
   const [attachmentsModalOpen, setAttachmentsModalOpen] =
@@ -182,6 +184,7 @@ const QuoteListInnerWrapper = ({
         isModal={isModal}
         setQuoteId={setQuoteId}
         setOrderConfirmationModalOpen={setOrderConfirmationModalOpen}
+        setCreditModalOpen={setCreditModalOpen}
       />
       {addModalOpen && (
         <QuoteAddModal
@@ -194,6 +197,17 @@ const QuoteListInnerWrapper = ({
           setActivateModalOpen={setActivateModalOpen}
           setEmailModalOpen={setEmailModalOpen}
           addModalOpen={addModalOpen}
+        />
+      )}
+      {creditModalOpen && (
+        <InvoiceCreditModal
+          invoiceId={editModalId}
+          invoiceNr={quoteNumber}
+          setCreditModalOpen={setCreditModalOpen}
+          setRefresh={setRefresh}
+          refresh={refresh}
+          setAddModalOpen={setAddModalOpen}
+          setEditModalId={setEditModalId}
         />
       )}
       {orderConfirmationModalOpen && (

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { QuoteOdataModalHeader } from "./QuoteOdataModalHeader";
 import { QuoteOdataModalFooter } from "./QuoteOdataModalFooter";
 import { useIntl } from "react-intl";
-import Tippy from "@tippyjs/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 interface ComponentProps {
   setOdataModalOpen: (type: boolean) => void;
@@ -66,7 +66,7 @@ const QuoteOdataModal = ({
                 role="alert"
               >
                 <div className="alert-icon col-1 me-4">
-                  <i className="ki-duotone ki-information-4 fs-3x text-center text-info">
+                  <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
                     <span className="path1"></span>
                     <span className="path2"></span>
                     <span className="path3"></span>
@@ -89,13 +89,26 @@ const QuoteOdataModal = ({
                       {copyOdataSuccess ? (
                         <i className="ki-duotone ki-check fs-3x text-success"></i>
                       ) : (
-                        <Tippy
-                          content={intl.formatMessage({
-                            id: "Fields.ActionCopy",
-                          })}
-                        >
-                          <i className="ki-duotone ki-copy fs-1 text-muted"></i>
-                        </Tippy>
+                        <Tooltip.Provider delayDuration={0}>
+                          <Tooltip.Root>
+                            <Tooltip.Trigger asChild>
+                              <i className="ki-duotone ki-copy fs-1 text-muted"></i>
+                            </Tooltip.Trigger>
+
+                            <Tooltip.Portal>
+                              <Tooltip.Content
+                                side="top"
+                                className="app-tooltip"
+                              >
+                                {intl.formatMessage({
+                                  id: "Fields.ActionCopy",
+                                })}
+
+                                <Tooltip.Arrow className="app-tooltip-arrow" />
+                              </Tooltip.Content>
+                            </Tooltip.Portal>
+                          </Tooltip.Root>
+                        </Tooltip.Provider>
                       )}
                     </button>
                   </div>
@@ -108,7 +121,7 @@ const QuoteOdataModal = ({
                 role="alert"
               >
                 <div className="alert-icon col-1 me-4">
-                  <i className="ki-duotone ki-information-4 fs-3x text-center text-info">
+                  <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
                     <span className="path1"></span>
                     <span className="path2"></span>
                     <span className="path3"></span>
@@ -137,13 +150,22 @@ const QuoteOdataModal = ({
                     {copyAccessCodeSuccess ? (
                       <i className="ki-duotone ki-check fs-3x text-success"></i>
                     ) : (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ActionCopy",
-                        })}
-                      >
-                        <i className="ki-duotone ki-copy fs-1 text-muted"></i>
-                      </Tippy>
+                      <Tooltip.Provider delayDuration={0}>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger asChild>
+                            <i className="ki-duotone ki-copy fs-1 text-muted"></i>
+                          </Tooltip.Trigger>
+
+                          <Tooltip.Portal>
+                            <Tooltip.Content side="top" className="app-tooltip">
+                              {intl.formatMessage({
+                                id: "Fields.ActionCopy",
+                              })}
+                              <Tooltip.Arrow className="app-tooltip-arrow" />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
                     )}
                   </button>
                 </div>

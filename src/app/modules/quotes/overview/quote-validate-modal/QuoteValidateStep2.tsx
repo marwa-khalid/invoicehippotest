@@ -10,7 +10,8 @@ type Props = { formik: FormikProps<FormValues> };
 const QuoteValidateStep2 = ({ formik }: Props) => {
   const intl = useIntl();
   const handleQuillChange = (content: string) => {
-    formik.setFieldValue("comments", content); // Set statement number in formik
+    const plain = content.replace(/<(.|\n)*?>/g, "").trim();
+    formik.setFieldValue("comments", plain.length === 0 ? "" : content);
   };
   const handleReasonTypeChange = (option: any) => {
     if (option === null) {
@@ -19,7 +20,7 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
   };
 
   return (
-    <div className="modal-body pt-10 px-20 pb-20">
+    <div className="modal-body px-20">
       <h2 className="fw-bolder d-flex align-items-center mb-7">
         {formik.values.validationStateType === 2
           ? intl.formatMessage({
@@ -53,6 +54,7 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
           />
         </div>
       )}
+      {console.log(formik.errors)!}
       <div className="row pb-lg-10">
         {formik.values.validationStateType === 2 && (
           <label htmlFor="" className="required fw-bold mb-3">
@@ -69,7 +71,7 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
           value={formik.values.comments}
         />
         {formik.errors.comments && (
-          <div className="fv-plugins-message-container mt-20">
+          <div className="fv-plugins-message-container mt-15">
             <div className="fv-help-block">
               <span
                 dangerouslySetInnerHTML={{

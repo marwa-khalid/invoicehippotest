@@ -32,8 +32,10 @@ export const INVOICE_DETAILS = (invoiceList: any, intl: any) => [
   },
   {
     iconClass: "ki-duotone ki-receipt-square", // Icon for invoice number
-    value2: "orderNr",
-    value: invoiceList.relatedOrder?.orderNr,
+    labelId: "orderNr",
+    value: invoiceList.hasRelatedOrder
+      ? invoiceList.relatedOrder?.orderNr
+      : null,
     colorClass: "text-dark",
   },
 ];

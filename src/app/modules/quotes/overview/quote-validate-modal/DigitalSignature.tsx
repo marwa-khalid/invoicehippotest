@@ -26,7 +26,7 @@ const DigitalSignature = ({ formik }: Props) => {
 
   // Function to clear the drawn signature
   const clearSignature = () => {
-    sigCanvas.current.clear();
+    sigCanvas.current?.clear();
     setSavedSignature(null); // Reset saved signature when cleared
   };
   useEffect(() => {
@@ -173,7 +173,10 @@ const DigitalSignature = ({ formik }: Props) => {
               />
               <button
                 className="btn btn-danger btn-sm mt-3"
-                onClick={() => clearSignature()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  clearSignature();
+                }}
               >
                 <i className="fa fa-x fs-3 p-0 m-0" />
               </button>
@@ -184,18 +187,20 @@ const DigitalSignature = ({ formik }: Props) => {
             <div className="mt-10">
               <input
                 type="text"
-                className="form-control form-control-solid w-50 mx-auto fs-2"
+                className="form-control form-control-solid w-75 mx-auto fs-1 px-3"
                 value={typedSignature}
                 onChange={(e) => setTypedSignature(e.target.value)}
                 placeholder="Type your signature"
                 style={{
                   fontFamily: fontFamily,
+                  height: "120px", // make taller
                 }}
               />
+
               <div className="flex mt-10">
                 {fonts.map((font) => (
                   <span
-                    className="me-3 p-3 cursor-pointer rounded fs-3"
+                    className="me-3 p-3 cursor-pointer rounded fs-6"
                     key={font}
                     onClick={() => setFontFamily(font)}
                     style={{

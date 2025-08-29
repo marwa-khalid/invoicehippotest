@@ -50,15 +50,18 @@ const QuoteValidateModal = ({
         validatedBySignatureId: 0,
       },
     },
-
+    validateOnChange: true,
     validationSchema: Yup.object().shape({
-      validationStateType: Yup.number(),
-      // comments: Yup.string().required(
-      //   intl
-      //     .formatMessage({ id: "Common.RequiredFieldHint2" })
-      //     .replace("{0}", "Comments")
-      // ),
-
+      comments: Yup.lazy((): Yup.Schema<any> => {
+        if (formik.values.validationStateType === 2) {
+          return Yup.string().required(
+            intl
+              .formatMessage({ id: "Common.RequiredFieldHint2" })
+              .replace("{0}", "Comments")
+          );
+        }
+        return Yup.string().nullable(); // still valid schema if not required
+      }),
       quoteValidationSignee: Yup.lazy(
         (): Yup.Schema<any> =>
           formik.values.validationStateType === 1
@@ -178,6 +181,9 @@ const QuoteValidateModal = ({
     setActiveTab(tab);
     setCurrentIndex(tab.id - 1);
   };
+  useEffect(() => {
+    formik.validateForm();
+  }, [formik.values.validationStateType]);
 
   return (
     <>

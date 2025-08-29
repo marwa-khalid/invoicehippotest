@@ -47,6 +47,7 @@ interface ComponentProps {
   setKey: Dispatch<SetStateAction<number>>;
   isModal?: boolean;
   setQuoteId?: (type: number) => void;
+  setCreditModalOpen: (type: boolean) => void;
 }
 const QuoteList = ({
   searchTerm,
@@ -75,6 +76,7 @@ const QuoteList = ({
   isModal,
   setOrderConfirmationModalOpen,
   setQuoteId,
+  setCreditModalOpen,
 }: ComponentProps) => {
   const [quoteLists, setQuoteList] = useState<any>([]);
   const navigate = useNavigate();
@@ -179,6 +181,11 @@ const QuoteList = ({
   const openActivateModal = (quoteList: any) => {
     valueSetter(quoteList);
     setActivateModalOpen(true);
+  };
+
+  const openCreditModal = (quoteList: any) => {
+    valueSetter(quoteList);
+    setCreditModalOpen(true);
   };
   const valueSetter = (quoteList: any) => {
     setQuoteNumber(quoteList.quoteNr);
@@ -726,17 +733,9 @@ const QuoteList = ({
                           <>
                             <div className="dropdown-divider border-gray-200"></div>
                             <li
-                            // onClick={() => {
-                            //   const link = document.createElement("a");
-                            //   link.href = quoteList.downloadInfo.downloadUrl;
-                            //   link.setAttribute(
-                            //     "download",
-                            //     quoteList.downloadInfo.fileName
-                            //   );
-                            //   document.body.appendChild(link);
-                            //   link.click();
-                            //   document.body.removeChild(link);
-                            // }}
+                              onClick={() => {
+                                openCreditModal(quoteList);
+                              }}
                             >
                               <a className="dropdown-item d-flex align-items-center cursor-pointer">
                                 <KTSVG

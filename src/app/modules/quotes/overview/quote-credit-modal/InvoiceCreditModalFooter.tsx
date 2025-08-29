@@ -1,24 +1,30 @@
 import { useState } from "react";
 import { useIntl } from "react-intl";
-import { finalizeQuote } from "../core/_requests";
+import { createCredit } from "../../../invoices/overview/core/_requests";
 import { handleToast } from "../../../auth/core/_toast";
 
 interface ComponentProps {
-  setActivateModalOpen: (type: boolean) => void;
-  quoteId: number;
+  setCreditModalOpen: (type: boolean) => void;
+  invoiceId: number;
   setRefresh: (type: boolean) => void;
   refresh: boolean;
-  dontSendRemindersOnlyTrackStatus: boolean;
-  adjustQuoteDateToToday: boolean;
+  invoiceDate: string;
+  actionType: number;
+  openDraftSwitch: boolean;
+  setAddModalOpen: (type: boolean) => void;
+  setEditModalId: (type: number) => void;
 }
 
-const QuoteActivateModalFooter = ({
-  quoteId,
-  setActivateModalOpen,
+const InvoiceCreditModalFooter = ({
+  invoiceId,
+  setCreditModalOpen,
   setRefresh,
   refresh,
-  dontSendRemindersOnlyTrackStatus,
-  adjustQuoteDateToToday,
+  invoiceDate,
+  actionType,
+  openDraftSwitch,
+  setAddModalOpen,
+  setEditModalId,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
@@ -26,15 +32,15 @@ const QuoteActivateModalFooter = ({
 
   const copyModal = async () => {
     setIsSubmitting(true);
-    const response = await finalizeQuote(
-      quoteId,
-      dontSendRemindersOnlyTrackStatus,
-      adjustQuoteDateToToday
-    );
+    const response = await createCredit(invoiceId, invoiceDate, actionType);
     if (response.isValid) {
       setRefresh(!refresh);
-      setActivateModalOpen(false);
+      setCreditModalOpen(false);
       setIsSubmitting(false);
+      if (openDraftSwitch) {
+        setEditModalId(response.result);
+        setAddModalOpen(true);
+      }
       localStorage.removeItem("ModalData");
     }
     handleToast(response);
@@ -47,7 +53,7 @@ const QuoteActivateModalFooter = ({
         <button
           type="reset"
           onClick={() => {
-            setActivateModalOpen(false);
+            setCreditModalOpen(false);
             localStorage.removeItem("ModalData");
           }}
           className="btn btn-secondary me-3"
@@ -60,9 +66,9 @@ const QuoteActivateModalFooter = ({
           type="submit"
           className="btn btn-primary"
           onClick={copyModal}
-          //   disabled={!isValid || isSubmitting || !touched}
+          disabled={invoiceDate === ""}
         >
-          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionActivate" })}
+          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionCredit" })}
           {isSubmitting && (
             <span className="indicator-progress" style={{ display: "block" }}>
               <span
@@ -79,4 +85,4 @@ const QuoteActivateModalFooter = ({
   );
 };
 
-export { QuoteActivateModalFooter };
+export { InvoiceCreditModalFooter };

@@ -117,7 +117,8 @@ const QuoteValidateModalFooter = ({
                 (!isApproved &&
                   !isDeclined &&
                   formik.values.validationStateType === 0) ||
-                (activeTab.id === 3 && !formik.isValid)
+                (activeTab.id === 3 && !formik.isValid) ||
+                (formik.values.validationStateType === 2 && !formik.isValid)
               }
             >
               {isApproved
