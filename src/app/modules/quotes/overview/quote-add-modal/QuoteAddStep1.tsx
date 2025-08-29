@@ -15,6 +15,11 @@ type Props = {
   contactResponse: any;
   setContactResponse: (type: any) => void;
   clientCheck: boolean;
+  clientModal: boolean;
+  setClientModalOpen: (type: boolean) => void;
+  setClientModalId: (type: number) => void;
+  clientSearch: boolean;
+  setClientSearch: (type: boolean) => void;
 };
 
 const QuoteAddStep1: FC<Props> = ({
@@ -22,19 +27,20 @@ const QuoteAddStep1: FC<Props> = ({
   contactResponse,
   setContactResponse,
   clientCheck,
+  setClientModalId,
+  setClientModalOpen,
+  setClientSearch,
+  clientModal,
+  clientSearch,
 }) => {
   const intl = useIntl();
-  const [clientModal, setClientModalOpen] = useState<boolean>(false);
-  const [editModalId, setEditModalId] = useState<number>(0);
-
-  const [clientSearch, setClientSearch] = useState<any>();
 
   const openClientModal = () => {
-    setEditModalId(formik.values.header.clientId);
+    setClientModalId(formik.values.header.clientId);
     setClientModalOpen(true);
   };
   const openClientModalInNewMode = () => {
-    setEditModalId(0);
+    setClientModalId(0);
     setClientModalOpen(true);
   };
 
@@ -93,10 +99,6 @@ const QuoteAddStep1: FC<Props> = ({
     label: contact.fullName,
   }));
 
-  const handleClose = () => {
-    setClientSearch(false);
-  };
-
   return (
     <>
       <div className="modal-body" id="#kt_tab_pane_4">
@@ -130,7 +132,11 @@ const QuoteAddStep1: FC<Props> = ({
                 data-td-target-toggle="nearest"
               >
                 <Flatpickr
-                  value={new Date(formik.values.header.quoteDate)}
+                  value={
+                    formik.values.header.quoteDate
+                      ? new Date(formik.values.header.quoteDate)
+                      : ""
+                  }
                   onChange={(date: Date[]) => {
                     if (date[0]) {
                       const d = date[0];
@@ -300,20 +306,6 @@ const QuoteAddStep1: FC<Props> = ({
             </div>
           </div>
         </form>
-        {clientModal && (
-          <ClientAddModal
-            setEditModalId={setEditModalId}
-            setAddModalOpen={setClientModalOpen}
-            editModalId={editModalId}
-          />
-        )}
-        {clientSearch && (
-          <ClientSearch
-            handleClose={handleClose}
-            formik={formik}
-            storageName=""
-          />
-        )}
       </div>
     </>
   );

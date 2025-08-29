@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Content } from "../../../../_metronic/layout/components/content";
 import { ListLoading } from "../../generic/ListLoading";
-import Tippy from "@tippyjs/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { useIntl } from "react-intl";
 import { KTIcon, KTSVG } from "../../../../_metronic/helpers";
 import { QuoteAddModal } from "./quote-add-modal/QuoteAddModal";
@@ -201,24 +201,42 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
                 />
                 <div className="d-flex flex-column">
                   <div>
-                    <Tippy
-                      content={intl.formatMessage({ id: "Fields.QuoteDate" })}
-                    >
-                      <span className="mx-2 fs-9 fw-normal cursor-pointer">
-                        <i className="fas fa-calendar-alt me-2 text-primary"></i>
-                        {response?.quoteDateAsString}
-                      </span>
-                    </Tippy>
-                    <Tippy
-                      content={intl.formatMessage({
-                        id: "Fields.QuoteDueDate",
-                      })}
-                    >
-                      <span className="fs-9 fw-normal cursor-pointer">
-                        <i className="fas fa-calendar-alt me-2"></i>
-                        {response?.quoteDueDateAsString}
-                      </span>
-                    </Tippy>
+                    <Tooltip.Provider delayDuration={0}>
+                      <Tooltip.Root>
+                        <Tooltip.Trigger asChild>
+                          <span className="mx-2 fs-9 fw-normal cursor-pointer">
+                            <i className="fas fa-calendar-alt me-2 text-primary"></i>
+                            {response?.quoteDateAsString}
+                          </span>
+                        </Tooltip.Trigger>
+
+                        <Tooltip.Portal>
+                          <Tooltip.Content side="top" className="app-tooltip">
+                            {intl.formatMessage({ id: "Fields.QuoteDate" })}
+                            <Tooltip.Arrow className="app-tooltip-arrow" />
+                          </Tooltip.Content>
+                        </Tooltip.Portal>
+                      </Tooltip.Root>
+                    </Tooltip.Provider>
+                    <Tooltip.Provider delayDuration={0}>
+                      <Tooltip.Root>
+                        <Tooltip.Trigger asChild>
+                          <span className="fs-9 fw-normal cursor-pointer">
+                            <i className="fas fa-calendar-alt me-2"></i>
+                            {response?.quoteDueDateAsString}
+                          </span>
+                        </Tooltip.Trigger>
+
+                        <Tooltip.Portal>
+                          <Tooltip.Content side="top" className="app-tooltip">
+                            {intl.formatMessage({
+                              id: "Fields.QuoteDueDate",
+                            })}
+                            <Tooltip.Arrow className="app-tooltip-arrow" />
+                          </Tooltip.Content>
+                        </Tooltip.Portal>
+                      </Tooltip.Root>
+                    </Tooltip.Provider>
                   </div>
 
                   <span className="ms-1 mt-1 fs-5 fw-bold">
@@ -511,59 +529,78 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
                   ?.label.toLowerCase()}
               </div>
             </div>
-            <Tippy
-              content={
-                <div style={{ fontFamily: "monospace" }}>
-                  <div className="table" style={{ width: "100%" }}>
-                    <div style={{ display: "table-row" }}>
-                      <div
-                        className="px-2"
-                        style={{ display: "table-cell", textAlign: "right" }}
-                      >
-                        {intl.formatMessage({ id: "Fields.Amount" })}:
-                      </div>
-                      <div
-                        style={{ display: "table-cell", textAlign: "right" }}
-                      >
-                        {response?.valuta.sign}
-                        {response?.totals.totalPrice.toFixed(2)}
-                      </div>
-                    </div>
-                    <div style={{ display: "table-row" }}>
-                      <div
-                        className="px-2"
-                        style={{ display: "table-cell", textAlign: "right" }}
-                      >
-                        {intl.formatMessage({ id: "Fields.VatTitle" })}:
-                      </div>
-                      <div
-                        style={{ display: "table-cell", textAlign: "right" }}
-                      >
-                        {response?.valuta.sign}
-                        {response?.totals.totalVATAmount.toFixed(2)}
-                      </div>
+
+            <Tooltip.Provider delayDuration={0}>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <div
+                    className="ribbon ribbon-end ribbon-clip position-absolute cursor-pointer"
+                    style={{
+                      top: "10px",
+                      right: "0px",
+                      height: "30px",
+                      width: "100px",
+                    }}
+                  >
+                    <div className="ribbon-label fw-bold">
+                      {response?.valuta.sign}{" "}
+                      {response?.totals.totalPriceWithVAT.toFixed(2)}
+                      <span className="ribbon-inner bg-gray-600"></span>
                     </div>
                   </div>
-                </div>
-              }
-            >
-              <div
-                className="ribbon ribbon-end ribbon-clip position-absolute cursor-pointer"
-                style={{
-                  top: "10px",
-                  right: "0px",
-                  height: "30px",
-                  width: "100px",
-                }}
-              >
-                <div className="ribbon-label fw-bold">
-                  {response?.valuta.sign}{" "}
-                  {response?.totals.totalPriceWithVAT.toFixed(2)}
-                  <span className="ribbon-inner bg-gray-600"></span>
-                </div>
-              </div>
-            </Tippy>
+                </Tooltip.Trigger>
 
+                <Tooltip.Portal>
+                  <Tooltip.Content side="top" className="app-tooltip">
+                    <div style={{ fontFamily: "monospace" }}>
+                      <div className="table" style={{ width: "100%" }}>
+                        <div style={{ display: "table-row" }}>
+                          <div
+                            className="px-2"
+                            style={{
+                              display: "table-cell",
+                              textAlign: "right",
+                            }}
+                          >
+                            {intl.formatMessage({ id: "Fields.Amount" })}:
+                          </div>
+                          <div
+                            style={{
+                              display: "table-cell",
+                              textAlign: "right",
+                            }}
+                          >
+                            {response?.valuta.sign}
+                            {response?.totals.totalPrice.toFixed(2)}
+                          </div>
+                        </div>
+                        <div style={{ display: "table-row" }}>
+                          <div
+                            className="px-2"
+                            style={{
+                              display: "table-cell",
+                              textAlign: "right",
+                            }}
+                          >
+                            {intl.formatMessage({ id: "Fields.VatTitle" })}:
+                          </div>
+                          <div
+                            style={{
+                              display: "table-cell",
+                              textAlign: "right",
+                            }}
+                          >
+                            {response?.valuta.sign}
+                            {response?.totals.totalVATAmount.toFixed(2)}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <Tooltip.Arrow className="app-tooltip-arrow" />
+                  </Tooltip.Content>
+                </Tooltip.Portal>
+              </Tooltip.Root>
+            </Tooltip.Provider>
             <div className="card-body p-0 m-0">
               <div className="tab-content" id="myTabContent">
                 <div className="tab-content" id="myTabContent">
@@ -626,77 +663,113 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
                 )}
                 <div>
                   {response?.actions.canEdit && (
-                    <Tippy
-                      content={intl.formatMessage({
-                        id: "Fields.ToolTipEdit",
-                      })}
-                    >
-                      <button
-                        type="button"
-                        className="btn btn-icon btn-warning btn-sm"
-                        onClick={() => {
-                          setAddModalOpen(true),
-                            setEditModalId(currentQuote?.id);
-                        }}
-                      >
-                        <i className="ki-solid ki-pencil fs-3" />
-                      </button>
-                    </Tippy>
+                    <Tooltip.Provider delayDuration={0}>
+                      <Tooltip.Root>
+                        <Tooltip.Trigger asChild>
+                          <button
+                            type="button"
+                            className="btn btn-icon btn-warning btn-sm"
+                            onClick={() => {
+                              setAddModalOpen(true),
+                                setEditModalId(currentQuote?.id);
+                            }}
+                          >
+                            <i className="ki-solid ki-pencil fs-3" />
+                          </button>
+                        </Tooltip.Trigger>
+
+                        <Tooltip.Portal>
+                          <Tooltip.Content side="top" className="app-tooltip">
+                            {intl.formatMessage({
+                              id: "Fields.ToolTipEdit",
+                            })}
+                            <Tooltip.Arrow className="app-tooltip-arrow" />
+                          </Tooltip.Content>
+                        </Tooltip.Portal>
+                      </Tooltip.Root>
+                    </Tooltip.Provider>
                   )}
                   {response?.actions.canDownload && (
-                    <Tippy
-                      content={intl.formatMessage({
-                        id: "Fields.ActionDownload",
-                      })}
-                    >
-                      <button
-                        type="button"
-                        className="btn btn-icon btn-success ms-5 btn-sm"
-                        onClick={() => {
-                          const link = document.createElement("a");
-                          link.href = response.downloadInfo.downloadUrl;
-                          link.setAttribute(
-                            "download",
-                            response.downloadInfo.fileName
-                          );
-                          document.body.appendChild(link);
-                          link.click();
-                          document.body.removeChild(link);
-                        }}
-                      >
-                        <i className="fa-solid fa-cloud-arrow-down fs-4"></i>
-                      </button>
-                    </Tippy>
+                    <Tooltip.Provider delayDuration={0}>
+                      <Tooltip.Root>
+                        <Tooltip.Trigger asChild>
+                          <button
+                            type="button"
+                            className="btn btn-icon btn-success ms-5 btn-sm"
+                            onClick={() => {
+                              const link = document.createElement("a");
+                              link.href = response.downloadInfo.downloadUrl;
+                              link.setAttribute(
+                                "download",
+                                response.downloadInfo.fileName
+                              );
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                            }}
+                          >
+                            <i className="fa-solid fa-cloud-arrow-down fs-4"></i>
+                          </button>
+                        </Tooltip.Trigger>
+
+                        <Tooltip.Portal>
+                          <Tooltip.Content side="top" className="app-tooltip">
+                            {intl.formatMessage({
+                              id: "Fields.ActionDownload",
+                            })}
+                            <Tooltip.Arrow className="app-tooltip-arrow" />
+                          </Tooltip.Content>
+                        </Tooltip.Portal>
+                      </Tooltip.Root>
+                    </Tooltip.Provider>
                   )}
                   {response?.actions.canSend && (
-                    <Tippy
-                      content={intl.formatMessage({
-                        id: "Fields.ActionSendEmail",
-                      })}
-                    >
-                      <button
-                        type="button"
-                        className="btn btn-icon btn-success btn-sm ms-5"
-                        onClick={() => openEmailModal()}
-                      >
-                        <i className="fas fa-location-arrow fs-3"></i>
-                      </button>
-                    </Tippy>
+                    <Tooltip.Provider delayDuration={0}>
+                      <Tooltip.Root>
+                        <Tooltip.Trigger asChild>
+                          <button
+                            type="button"
+                            className="btn btn-icon btn-success btn-sm ms-5"
+                            onClick={() => openEmailModal()}
+                          >
+                            <i className="fas fa-location-arrow fs-3"></i>
+                          </button>
+                        </Tooltip.Trigger>
+
+                        <Tooltip.Portal>
+                          <Tooltip.Content side="top" className="app-tooltip">
+                            {intl.formatMessage({
+                              id: "Fields.ActionSendEmail",
+                            })}
+                            <Tooltip.Arrow className="app-tooltip-arrow" />
+                          </Tooltip.Content>
+                        </Tooltip.Portal>
+                      </Tooltip.Root>
+                    </Tooltip.Provider>
                   )}
                   {response?.actions.canFinalize && (
-                    <Tippy
-                      content={intl.formatMessage({
-                        id: "Fields.ActionActivate",
-                      })}
-                    >
-                      <button
-                        type="button"
-                        className="btn btn-icon btn-success btn-sm ms-5"
-                        onClick={() => openActivateModal()}
-                      >
-                        <i className="fa fas fa-flag-checkered fs-3" />
-                      </button>
-                    </Tippy>
+                    <Tooltip.Provider delayDuration={0}>
+                      <Tooltip.Root>
+                        <Tooltip.Trigger asChild>
+                          <button
+                            type="button"
+                            className="btn btn-icon btn-success btn-sm ms-5"
+                            onClick={() => openActivateModal()}
+                          >
+                            <i className="fa fas fa-flag-checkered fs-3" />
+                          </button>
+                        </Tooltip.Trigger>
+
+                        <Tooltip.Portal>
+                          <Tooltip.Content side="top" className="app-tooltip">
+                            {intl.formatMessage({
+                              id: "Fields.ActionActivate",
+                            })}
+                            <Tooltip.Arrow className="app-tooltip-arrow" />
+                          </Tooltip.Content>
+                        </Tooltip.Portal>
+                      </Tooltip.Root>
+                    </Tooltip.Provider>
                   )}
                 </div>
               </div>
@@ -714,6 +787,7 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
                 setActivateModalOpen={setActivateModalOpen}
                 setQuoteNumber={setQuoteNumber}
                 setEmailModalOpen={setEmailModalOpen}
+                addModalOpen={addModalOpen}
               />
             )}
             {validateModalOpen && (

@@ -50,7 +50,6 @@ const QuoteValidateModalFooter = ({
   useEffect(() => {
     formik.validateForm();
   }, [activeTab]);
-  console.log(isApproved);
   return (
     <div className="modal-footer d-flex justify-content-between align-items-center">
       {!auth.currentUser?.result?.isAnonymousUser ? (

@@ -193,6 +193,7 @@ const QuoteListInnerWrapper = ({
           setQuoteNumber={setQuoteNumber}
           setActivateModalOpen={setActivateModalOpen}
           setEmailModalOpen={setEmailModalOpen}
+          addModalOpen={addModalOpen}
         />
       )}
       {orderConfirmationModalOpen && (

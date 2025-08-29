@@ -5,7 +5,7 @@ import { getProductById } from "../core/_requests";
 import { getProductsForPicker } from "../../../quotes/overview/core/_requests";
 import { ListPagination } from "../../../generic/ListPagination";
 import { FormikProps } from "formik";
-import Tippy from "@tippyjs/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { InvoicePostResult } from "../core/_models";
 // @ts-ignore
 import { resetPaginationModule } from "../../../../helpers/paginationUtils.js";
@@ -14,6 +14,8 @@ import { updatePagination } from "../../../../helpers/paginationUtils.js";
 // @ts-ignore
 import { getPaginationModule } from "../../../../helpers/paginationUtils.js";
 import { ListLoading } from "../../../generic/ListLoading";
+import { useAuth } from "../../../auth/index.js";
+import { toast } from "react-toastify";
 
 interface Props {
   closeProductPicker: any;
@@ -26,6 +28,7 @@ const ProductPicker: FC<Props> = ({ closeProductPicker, formik }) => {
   const [searchTerm, setSearchTerm] = useState<string>(
     filters.searchTerm || ""
   );
+  const { currentUser } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const [counter, setCounter] = useState(false);
@@ -134,6 +137,7 @@ const ProductPicker: FC<Props> = ({ closeProductPicker, formik }) => {
         // Product does not exist, so add it to the list
         formik.values.products = [...formik.values.products, newRow];
       }
+      toast.success("product linked successfully");
     }
   };
 
@@ -147,7 +151,7 @@ const ProductPicker: FC<Props> = ({ closeProductPicker, formik }) => {
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <div className="modal-header bg-dark">
+            <div className="modal-header bg-primary">
               <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-0">
                 <h2 className="fw-bolder mb-0 text-white">
                   {intl.formatMessage({
@@ -173,7 +177,6 @@ const ProductPicker: FC<Props> = ({ closeProductPicker, formik }) => {
 
                 <input
                   type="text"
-                  data-kt-user-table-filter="search"
                   className="form-control form-control-solid w-100 ps-14 rounded-lg me-6"
                   placeholder={intl.formatMessage({
                     id: "Fields.SearchTerm",
@@ -192,7 +195,7 @@ const ProductPicker: FC<Props> = ({ closeProductPicker, formik }) => {
                 />
                 <div className="btn-group">
                   <button
-                    className="btn btn-dark d-inline-flex align-items-center"
+                    className="btn btn-primary d-inline-flex align-items-center"
                     onClick={(e) => handleSearchClick(e)}
                   >
                     <i className="la la-search fs-2"></i>
@@ -236,13 +239,13 @@ const ProductPicker: FC<Props> = ({ closeProductPicker, formik }) => {
                                 />
                               </td>
                               <td width={350}>
-                                <div className="d-flex flex-column align-items-start mb-2">
+                                <div className="d-flex flex-column text-start mb-2">
                                   <small className="text-muted font-weight-light fs-9">
                                     {product.code}
                                   </small>
                                 </div>
                                 <div
-                                  className="d-flex flex-column align-items-start cursor-pointer mb-2"
+                                  className="d-flex flex-column text-start cursor-pointer mb-2"
                                   onClick={(e) => {
                                     e.preventDefault();
                                     fetchProductById(product.id);
@@ -286,112 +289,150 @@ const ProductPicker: FC<Props> = ({ closeProductPicker, formik }) => {
 
                               <td className="text-end">
                                 <div className="position-relative">
-                                  €{product.totals.totalPriceWithVAT}
-                                  <Tippy
-                                    content={
-                                      <div
-                                        style={{
-                                          fontFamily: "monospace",
-                                        }}
-                                      >
+                                  {
+                                    currentUser?.result.activeCompanyDefaults
+                                      .defaultValuta.sign
+                                  }
+                                  {product.totals.totalPriceWithVAT}
+                                  <Tooltip.Provider delayDuration={0}>
+                                    <Tooltip.Root>
+                                      <Tooltip.Trigger asChild>
                                         <div
-                                          className="table text-end"
-                                          style={{ width: "100%" }}
+                                          className="circle"
+                                          style={{
+                                            position: "absolute",
+                                            top: "-14px",
+                                            right: "-14px",
+                                          }}
                                         >
-                                          {/* Total Price */}
-                                          <div style={{ display: "table-row" }}>
-                                            <div
-                                              className="px-2"
-                                              style={{
-                                                display: "table-cell",
-                                                textAlign: "right",
-                                              }}
-                                            >
-                                              {intl.formatMessage({
-                                                id: "Fields.TotalPrice",
-                                              })}
-                                              :
-                                            </div>
-                                            <div
-                                              style={{
-                                                display: "table-cell",
-                                                textAlign: "right",
-                                              }}
-                                            >
-                                              €
-                                              {product.totals.totalPrice.toFixed(
-                                                2
-                                              )}
-                                            </div>
-                                          </div>
-                                          <div style={{ display: "table-row" }}>
-                                            <div
-                                              className="px-2"
-                                              style={{
-                                                display: "table-cell",
-                                                textAlign: "right",
-                                              }}
-                                            >
-                                              {intl.formatMessage({
-                                                id: "Fields.TotalVATAmount",
-                                              })}
-                                              :
-                                            </div>
-                                            <div
-                                              style={{
-                                                display: "table-cell",
-                                                textAlign: "right",
-                                              }}
-                                            >
-                                              €
-                                              {product.totals.totalVATAmount.toFixed(
-                                                2
-                                              )}
-                                            </div>
-                                          </div>
+                                          <i className="ki-duotone ki-information-4 fs-2 cursor-pointer text-primary ms-1">
+                                            <span className="path1"></span>
+                                            <span className="path2"></span>
+                                            <span className="path3"></span>
+                                          </i>
                                         </div>
-                                      </div>
-                                    }
-                                  >
-                                    <div
-                                      className="circle"
-                                      style={{
-                                        position: "absolute",
-                                        top: "-14px",
-                                        right: "-14px",
-                                      }}
-                                    >
-                                      <i className="ki-duotone ki-information-4 fs-2 cursor-pointer text-primary ms-1">
-                                        <span className="path1"></span>
-                                        <span className="path2"></span>
-                                        <span className="path3"></span>
-                                      </i>
-                                    </div>
-                                  </Tippy>
+                                      </Tooltip.Trigger>
+
+                                      <Tooltip.Portal>
+                                        <Tooltip.Content
+                                          side="top"
+                                          className="app-tooltip"
+                                        >
+                                          <div
+                                            style={{
+                                              fontFamily: "monospace",
+                                            }}
+                                          >
+                                            <div
+                                              className="table text-end"
+                                              style={{ width: "100%" }}
+                                            >
+                                              {/* Total Price */}
+                                              <div
+                                                style={{ display: "table-row" }}
+                                              >
+                                                <div
+                                                  className="px-2"
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                >
+                                                  {intl.formatMessage({
+                                                    id: "Fields.TotalPrice",
+                                                  })}
+                                                  :
+                                                </div>
+                                                <div
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                >
+                                                  {
+                                                    currentUser?.result
+                                                      .activeCompanyDefaults
+                                                      .defaultValuta.sign
+                                                  }
+                                                  {product.totals.totalPrice.toFixed(
+                                                    2
+                                                  )}
+                                                </div>
+                                              </div>
+                                              <div
+                                                style={{ display: "table-row" }}
+                                              >
+                                                <div
+                                                  className="px-2"
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                >
+                                                  {intl.formatMessage({
+                                                    id: "Fields.TotalVATAmount",
+                                                  })}
+                                                  :
+                                                </div>
+                                                <div
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                >
+                                                  {
+                                                    currentUser?.result
+                                                      .activeCompanyDefaults
+                                                      .defaultValuta.sign
+                                                  }
+                                                  {product.totals.totalVATAmount.toFixed(
+                                                    2
+                                                  )}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <Tooltip.Arrow className="app-tooltip-arrow" />
+                                        </Tooltip.Content>
+                                      </Tooltip.Portal>
+                                    </Tooltip.Root>
+                                  </Tooltip.Provider>
                                 </div>
                               </td>
                               <td className="text-end">
-                                <Tippy
-                                  content={intl.formatMessage({
-                                    id: "Fields.ToolTipLinkProduct",
-                                  })}
-                                >
-                                  <button
-                                    className="btn btn-icon btn-primary btn-sm me-2"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      fetchProductById(product.id);
-                                    }}
-                                  >
-                                    <i className="ki-duotone ki-pin text-white fs-2">
-                                      <span className="path1"></span>
-                                      <span className="path2"></span>
-                                    </i>
-                                  </button>
-                                </Tippy>
+                                <Tooltip.Provider delayDuration={0}>
+                                  <Tooltip.Root>
+                                    <Tooltip.Trigger asChild>
+                                      <button
+                                        className="btn btn-icon btn-primary btn-sm me-2"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          fetchProductById(product.id);
+                                        }}
+                                      >
+                                        <i className="ki-duotone ki-pin text-white fs-2">
+                                          <span className="path1"></span>
+                                          <span className="path2"></span>
+                                        </i>
+                                      </button>
+                                    </Tooltip.Trigger>
+
+                                    <Tooltip.Portal>
+                                      <Tooltip.Content
+                                        side="top"
+                                        className="app-tooltip"
+                                      >
+                                        {intl.formatMessage({
+                                          id: "Fields.ToolTipLinkProduct",
+                                        })}
+                                        <Tooltip.Arrow className="app-tooltip-arrow" />
+                                      </Tooltip.Content>
+                                    </Tooltip.Portal>
+                                  </Tooltip.Root>
+                                </Tooltip.Provider>
                               </td>
                             </tr>
-                            <div className="dropdown-divider"></div>
+                            <tr></tr>
                           </tbody>
                         </table>
 
@@ -439,7 +480,7 @@ const ProductPicker: FC<Props> = ({ closeProductPicker, formik }) => {
           </div>
         </div>
       </div>
-      <div className="modal-backdrop fade show"></div>
+      {/* <div className="modal-backdrop fade show"></div> */}
     </>
   );
 };

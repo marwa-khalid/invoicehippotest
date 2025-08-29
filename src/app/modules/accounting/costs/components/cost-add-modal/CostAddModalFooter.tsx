@@ -91,7 +91,11 @@ const CostAddModalFooter = ({
 
               {isSubmitting ? (
                 <span className="indicator-progress d-flex align-items-center">
-                  {intl.formatMessage({ id: "Common.Busy" })}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: intl.formatMessage({ id: "Common.Busy" }),
+                    }}
+                  />
                   <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               ) : (

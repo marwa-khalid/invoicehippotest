@@ -310,7 +310,7 @@ const Login = () => {
           {intl.formatMessage({
             id: "LoginAndRegistration.SubTitleLinkLogin",
           })}
-        </Link>
+        </Link>{" "}
       </div>
       <div className="m-0">
         <LanguagesAuth />

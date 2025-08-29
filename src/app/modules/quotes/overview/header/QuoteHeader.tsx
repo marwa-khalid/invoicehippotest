@@ -168,7 +168,9 @@ const QuoteHeader = ({
                   className={clsx(
                     "btn bg-secondary btn-icon fw-bold rounded-0",
                     daterangepickerButtonClass,
-                    { "bg-warning": isFilterApplied }
+                    isFilterApplied
+                      ? "bg-warning"
+                      : !searchTerm && "rounded-end"
                   )}
                   onClick={toggleMenu}
                 >
@@ -210,13 +212,14 @@ const QuoteHeader = ({
               </Menu>
 
               {/* Menu button for filter */}
-
-              <button
-                className="btn btn-secondary btn-icon"
-                onClick={handleResetClick}
-              >
-                <i className="la la-remove fs-3"></i>
-              </button>
+              {(isFilterApplied || searchTerm) && (
+                <button
+                  className="btn btn-secondary btn-icon"
+                  onClick={handleResetClick}
+                >
+                  <i className="la la-remove fs-3"></i>
+                </button>
+              )}
             </div>
           </div>
         </div>

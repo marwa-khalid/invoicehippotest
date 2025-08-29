@@ -68,7 +68,11 @@ const ClientAddModalFooter = ({
         {!isSubmitting && intl.formatMessage({ id: "Fields.ActionSave" })}
         {isSubmitting && (
           <span className="indicator-progress" style={{ display: "block" }}>
-            {intl.formatMessage({ id: "Common.Busy" })}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: intl.formatMessage({ id: "Common.Busy" }),
+              }}
+            />
             <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
           </span>
         )}
@@ -78,7 +82,7 @@ const ClientAddModalFooter = ({
         type="submit"
         className="btn btn-primary"
         onClick={() => {
-          checkIdAndHandleTab()
+          checkIdAndHandleTab();
           // formik.handleSubmit();
           setClose(true);
         }}
@@ -88,7 +92,11 @@ const ClientAddModalFooter = ({
           intl.formatMessage({ id: "Fields.ActionSaveAndClose" })}
         {isSubmitting2 && (
           <span className="indicator-progress" style={{ display: "block" }}>
-            {intl.formatMessage({ id: "Common.Busy" })}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: intl.formatMessage({ id: "Common.Busy" }),
+              }}
+            />
             <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
           </span>
         )}

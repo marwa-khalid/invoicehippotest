@@ -1,6 +1,5 @@
 import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
-import { getQuickViewInvoice } from "../core/_requests";
 import { AttachmentsModal } from "../../../generic/FileManager/AttachmentsModal";
 
 interface Props {
@@ -12,7 +11,6 @@ interface Props {
   attachmentsModalOpen: boolean;
   setAttachmentsModalOpen: (type: boolean) => void;
   setActionType: (type: number) => void;
-  openSend: any;
 }
 const InvoiceAddModalFooter = ({
   isSubmitting,
@@ -22,7 +20,6 @@ const InvoiceAddModalFooter = ({
   formik,
   attachmentsModalOpen,
   setAttachmentsModalOpen,
-  openSend,
   setActionType,
 }: Props) => {
   const intl = useIntl();
@@ -71,25 +68,32 @@ const InvoiceAddModalFooter = ({
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <i className="fa fas fa-save fs-2 me-2"></i>
             {!isSubmitting && formik.values.status === 1 ? (
               <>
+                <i className="fa fas fa-save fs-2 me-2"></i>
                 {intl.formatMessage({
                   id: "Fields.DraftLabel",
                 })}{" "}
                 {intl.formatMessage({ id: "Common.DefaultSaveButtonText" })}
               </>
             ) : (
-              <>
-                {intl.formatMessage({
-                  id: "Fields.ActionEdit",
-                })}{" "}
-                {intl.formatMessage({ id: "Common.DefaultSaveButtonText" })}
-              </>
+              !isSubmitting && (
+                <>
+                  <i className="fa fas fa-save fs-2 me-2"></i>
+                  {intl.formatMessage({
+                    id: "Fields.ActionEdit",
+                  })}{" "}
+                  {intl.formatMessage({ id: "Common.DefaultSaveButtonText" })}
+                </>
+              )
             )}
             {isSubmitting && (
               <span className="indicator-progress d-flex align-items-center">
-                {intl.formatMessage({ id: "Common.Busy" })}
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: intl.formatMessage({ id: "Common.Busy" }),
+                  }}
+                />
                 <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             )}
@@ -102,10 +106,13 @@ const InvoiceAddModalFooter = ({
                 formik.handleSubmit();
               }}
             >
-              <a className="dropdown-item d-flex align-items-center cursor-pointer">
+              <button
+                type="button"
+                className="dropdown-item d-flex align-items-center cursor-pointer"
+              >
                 <i className="fa fas fa-save fs-2 me-2"></i>
                 {intl.formatMessage({ id: "Fields.ActionSave" })}
-              </a>
+              </button>
             </li>
             <div className="dropdown-divider border-gray-200"></div>
             <li
@@ -115,11 +122,14 @@ const InvoiceAddModalFooter = ({
                 formik.handleSubmit();
               }}
             >
-              <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
+              <button
+                type="button"
+                className="dropdown-item d-flex align-items-center text-center cursor-pointer"
+              >
                 <i className="fa fas fa-save fs-2 me-2"></i>
 
                 {intl.formatMessage({ id: "Fields.ActionSaveAndClose" })}
-              </a>
+              </button>
             </li>
             <div className="dropdown-divider border-gray-200"></div>
 
@@ -130,10 +140,13 @@ const InvoiceAddModalFooter = ({
                 formik.handleSubmit();
               }}
             >
-              <a className="dropdown-item d-flex align-items-center cursor-pointer">
+              <button
+                type="button"
+                className="dropdown-item d-flex align-items-center cursor-pointer"
+              >
                 <i className="fa fas fa-save fs-2 me-2"></i>{" "}
                 {intl.formatMessage({ id: "Fields.ActionSaveAndNew" })}
-              </a>
+              </button>
             </li>
             <div className="dropdown-divider border-gray-200"></div>
             <li
@@ -143,10 +156,13 @@ const InvoiceAddModalFooter = ({
                 formik.handleSubmit();
               }}
             >
-              <a className="dropdown-item  d-flex align-items-center cursor-pointer">
+              <button
+                type="button"
+                className="dropdown-item  d-flex align-items-center cursor-pointer"
+              >
                 <i className="fa fas fa-save fs-2 me-2"></i>{" "}
                 {intl.formatMessage({ id: "Fields.ActionSaveAndPreview" })}
-              </a>
+              </button>
             </li>
           </ul>
         </div>
@@ -165,7 +181,11 @@ const InvoiceAddModalFooter = ({
                 intl.formatMessage({ id: "Fields.ActionActivate" })}
               {isSubmitting2 && (
                 <span className="indicator-progress d-flex align-items-center">
-                  {intl.formatMessage({ id: "Common.Busy" })}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: intl.formatMessage({ id: "Common.Busy" }),
+                    }}
+                  />
                   <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               )}
@@ -178,10 +198,13 @@ const InvoiceAddModalFooter = ({
                   formik.handleSubmit();
                 }}
               >
-                <a className="dropdown-item d-flex align-items-center" href="#">
+                <button
+                  type="button"
+                  className="dropdown-item d-flex align-items-center"
+                >
                   <i className="fa fas fa-paper-plane me-2 fs-3"></i>
                   {intl.formatMessage({ id: "Fields.ActionActivateAndSend" })}
-                </a>
+                </button>
               </li>
 
               <div className="dropdown-divider border-gray-200"></div>
@@ -192,11 +215,14 @@ const InvoiceAddModalFooter = ({
                   formik.handleSubmit();
                 }}
               >
-                <a className="dropdown-item d-flex align-items-center" href="#">
+                <button
+                  type="button"
+                  className="dropdown-item d-flex align-items-center"
+                >
                   <i className="fa fas fa-cloud-download-alt me-2 fs-3"></i>
                   {intl.formatMessage({ id: "Fields.ActionActivate" })} &{" "}
                   {intl.formatMessage({ id: "Fields.ActionDownload" })}
-                </a>
+                </button>
               </li>
               <div className="dropdown-divider border-gray-200"></div>
               <li
@@ -206,10 +232,13 @@ const InvoiceAddModalFooter = ({
                   formik.handleSubmit();
                 }}
               >
-                <a className="dropdown-item d-flex align-items-center" href="#">
+                <button
+                  type="button"
+                  className="dropdown-item d-flex align-items-center"
+                >
                   <i className="fa fas fa-flag-checkered me-2 fs-3"></i>
                   {intl.formatMessage({ id: "Fields.ActionActivate" })}
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -233,7 +262,11 @@ const InvoiceAddModalFooter = ({
               )}
               {isSubmitting2 && (
                 <span className="indicator-progress d-flex align-items-center w-full">
-                  {intl.formatMessage({ id: "Common.Busy" })}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: intl.formatMessage({ id: "Common.Busy" }),
+                    }}
+                  />
                   <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               )}
@@ -246,26 +279,31 @@ const InvoiceAddModalFooter = ({
                   formik.handleSubmit();
                 }}
               >
-                <a className="dropdown-item d-flex align-items-center" href="#">
+                <button
+                  type="button"
+                  className="dropdown-item d-flex align-items-center"
+                >
                   <i className="fa fas fa-cloud-download-alt me-2 fs-3"></i>
                   {intl.formatMessage({ id: "Fields.ActionSave" })} &{" "}
                   {intl.formatMessage({ id: "Fields.ActionDownload" })}
-                </a>
+                </button>
               </li>
 
               <div className="dropdown-divider border-gray-200"></div>
               <li
                 onClick={() => {
-                  setAction(1);
+                  setAction(8);
                   setActionType(2);
                   formik.handleSubmit();
-                  openSend("save");
                 }}
               >
-                <a className="dropdown-item d-flex align-items-center" href="#">
+                <button
+                  type="button"
+                  className="dropdown-item d-flex align-items-center"
+                >
                   <i className="fa fas fa-paper-plane me-2 fs-3"></i>
                   {intl.formatMessage({ id: "Fields.ActionSaveAndSend" })}
-                </a>
+                </button>
               </li>
             </ul>
           </div>

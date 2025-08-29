@@ -12,23 +12,27 @@ const InvoiceAddModalFooter = ({
   setAttachmentsModalOpen,
   setLinkingModalOpen,
   showLinking,
-  setAttatchCostModalOpen
+  setAttatchCostModalOpen,
 }: Props) => {
   const intl = useIntl();
 
   return (
     <div className="modal-footer d-flex justify-content-between">
       <div className="btn-group" role="group">
-        { showLinking && <button
-          type="button"
-          className="btn btn-primary d-flex align-items-center"
-          onClick={() => setAttachmentsModalOpen && setAttachmentsModalOpen(true)}
-        >
-          <i className="fas fa-upload me-2"></i>
-          {intl.formatMessage({
-            id: "Fields.ActionPickerAddAttachment",
-          })}
-        </button> }
+        {showLinking && (
+          <button
+            type="button"
+            className="btn btn-primary d-flex align-items-center"
+            onClick={() =>
+              setAttachmentsModalOpen && setAttachmentsModalOpen(true)
+            }
+          >
+            <i className="fas fa-upload me-2"></i>
+            {intl.formatMessage({
+              id: "Fields.ActionPickerAddAttachment",
+            })}
+          </button>
+        )}
       </div>
       <div className="text-end">
         <button
@@ -57,7 +61,11 @@ const InvoiceAddModalFooter = ({
 
             {isSubmitting ? (
               <span className="indicator-progress d-flex align-items-center">
-                {intl.formatMessage({ id: "Common.Busy" })}
+                 <span
+                  dangerouslySetInnerHTML={{
+                    __html: intl.formatMessage({ id: "Common.Busy" }),
+                  }}
+                />
                 <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             ) : (
@@ -67,13 +75,13 @@ const InvoiceAddModalFooter = ({
           <button
             type="button"
             className="btn btn-secondary me-3"
-            onClick={() => { setLinkingModalOpen(true); setAttatchCostModalOpen(false); }}
+            onClick={() => {
+              setLinkingModalOpen(true);
+              setAttatchCostModalOpen(false);
+            }}
           >
-            {
-              intl.formatMessage({ id: "Fields.ActionShowSelectionScreen" })
-            }
+            {intl.formatMessage({ id: "Fields.ActionShowSelectionScreen" })}
           </button>
-
         </div>
       </div>
     </div>

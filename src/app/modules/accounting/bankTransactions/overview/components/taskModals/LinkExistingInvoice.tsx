@@ -668,9 +668,15 @@ const LinkExistingInvoice: FC<Props> = ({
                 disabled={isSubmitting}
                 onClick={() => formik.handleSubmit()}
               >
-                {isSubmitting
-                  ? intl.formatMessage({ id: "Common.Busy" })
-                  : intl.formatMessage({ id: "Fields.ActionSave" })}
+                {isSubmitting ? (
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: intl.formatMessage({ id: "Common.Busy" }),
+                    }}
+                  />
+                ) : (
+                  intl.formatMessage({ id: "Fields.ActionSave" })
+                )}
               </button>
             </div>
           </div>

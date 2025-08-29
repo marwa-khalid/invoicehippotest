@@ -1,21 +1,23 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import Select from "react-select";
 import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
 import "quill/dist/quill.snow.css";
 import Flatpickr from "react-flatpickr";
-import { ClientAddModal } from "../../../client/client-search/client-add-modal/ClientAddModal";
 import { getContactListById } from "../../../client/client-search/core/_requests";
-import { ClientSearch } from "../../../generic/ClientSearch";
 import { ClientAddButtons } from "../../../generic/ClientAddButtons";
 import { InvoicePostResult } from "../core/_models";
-import { Hdr02FreeIcons } from "@hugeicons/core-free-icons";
 
 type Props = {
   formik: FormikProps<InvoicePostResult>;
   contactResponse: any;
   setContactResponse: (type: any) => void;
   clientCheck: boolean;
+  setClientModalId: (type: number) => void;
+  setClientModalOpen: (type: boolean) => void;
+  setClientSearch: (type: boolean) => void;
+  clientSearch: boolean;
+  clientModal: boolean;
 };
 
 const InvoiceAddStep1: FC<Props> = ({
@@ -23,19 +25,20 @@ const InvoiceAddStep1: FC<Props> = ({
   contactResponse,
   setContactResponse,
   clientCheck,
+  setClientModalId,
+  setClientModalOpen,
+  clientSearch,
+  clientModal,
+  setClientSearch,
 }) => {
   const intl = useIntl();
-  const [clientModal, setClientModalOpen] = useState<boolean>(false);
-  const [editModalId, setEditModalId] = useState<number>(0);
-
-  const [clientSearch, setClientSearch] = useState<any>();
 
   const openClientModal = () => {
-    setEditModalId(formik.values.header.clientId);
+    setClientModalId(formik.values.header.clientId);
     setClientModalOpen(true);
   };
   const openClientModalInNewMode = () => {
-    setEditModalId(0);
+    setClientModalId(0);
     setClientModalOpen(true);
   };
 
@@ -68,7 +71,7 @@ const InvoiceAddStep1: FC<Props> = ({
       const defaultContact = response.result.find(
         (contact) => contact.isDefaultContact === true
       )?.id;
-      // formik.setFieldValue("header.clientContactId", defaultContact);
+      formik.setFieldValue("header.clientContactId", defaultContact);
       setContactResponse(response.result);
     }
     count++;
@@ -96,10 +99,6 @@ const InvoiceAddStep1: FC<Props> = ({
     value: contact.id,
     label: contact.fullName,
   }));
-
-  const handleClose = () => {
-    setClientSearch(false);
-  };
 
   return (
     <>
@@ -296,20 +295,6 @@ const InvoiceAddStep1: FC<Props> = ({
             </div>
           </div>
         </form>
-        {clientModal && (
-          <ClientAddModal
-            setEditModalId={setEditModalId}
-            setAddModalOpen={setClientModalOpen}
-            editModalId={editModalId}
-          />
-        )}
-        {clientSearch && (
-          <ClientSearch
-            handleClose={handleClose}
-            formik={formik}
-            storageName="storedClient"
-          />
-        )}
       </div>
     </>
   );

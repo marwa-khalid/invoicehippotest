@@ -3,9 +3,8 @@ import { useIntl } from "react-intl";
 import Select from "react-select";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { FormikProps } from "formik";
-import { ProductPicker } from "./ProductPicker";
 import { useAuth } from "../../../auth";
-import Tippy from "@tippyjs/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { DiscountAddModal } from "../../../admin-settings/discountmargins-list/discount-add-modal/DiscountAddModal";
 import { InvoicePostResult } from "../core/_models";
 import { ProductDetailModal } from "./ProductDetailModal";
@@ -17,8 +16,7 @@ type Props = {
   vatTypes: any;
   unitTypes: any;
   discountTypes: any;
-  refreshTotal: boolean;
-  setRefreshTotal: (type: boolean) => void;
+  setProductPicker: (type: boolean) => void;
   setDiscountRefresh: (type: boolean) => void;
   discountRefresh: boolean;
   setLedgerRefresh: (type: boolean) => void;
@@ -31,8 +29,7 @@ const InvoiceAddStep2: FC<Props> = ({
   vatTypes,
   unitTypes,
   discountTypes,
-  refreshTotal,
-  setRefreshTotal,
+  setProductPicker,
   setDiscountRefresh,
   discountRefresh,
   setLedgerRefresh,
@@ -41,7 +38,7 @@ const InvoiceAddStep2: FC<Props> = ({
   const intl = useIntl();
   const [productModalOpen, setProductModalOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
-  const [productPicker, setProductPicker] = useState<any>();
+
   const [productModalIndex, setProductModalIndex] = useState<number>();
   const [discountAddModalOpen, setDiscountAddModalOpen] =
     useState<boolean>(false);
@@ -137,11 +134,6 @@ const InvoiceAddStep2: FC<Props> = ({
     formik.setFieldValue("products", updatedProducts);
   };
 
-  const closeProductPicker = () => {
-    setProductPicker(false);
-    setRefreshTotal(!refreshTotal);
-  };
-
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
 
@@ -190,12 +182,12 @@ const InvoiceAddStep2: FC<Props> = ({
               >
                 <thead>
                   <tr className="fw-bold text-muted">
-                    <th>
+                    <th className="w-300px">
                       {intl
                         .formatMessage({ id: "Fields.Product" })
                         .toUpperCase()}
                     </th>
-                    <th className="w-90px">
+                    <th className="w-150px">
                       {intl.formatMessage({ id: "Fields.Units" }).toUpperCase()}
                     </th>
                     <th className="w-150px"></th>
@@ -204,12 +196,12 @@ const InvoiceAddStep2: FC<Props> = ({
                         .formatMessage({ id: "Fields.UnitPrice" })
                         .toUpperCase()}
                     </th>
-                    <th className="w-150px">
+                    <th className="w-250px">
                       {intl
                         .formatMessage({ id: "Fields.VatTypeId" })
                         .toUpperCase()}
                     </th>
-                    <th className="w-150px text-end">
+                    <th className="text-end" style={{ width: "130px" }}>
                       {intl.formatMessage({ id: "Fields.Total" }).toUpperCase()}
                     </th>
 
@@ -255,35 +247,63 @@ const InvoiceAddStep2: FC<Props> = ({
                                     </i>
                                   </span>
 
-                                  <Tippy
-                                    content={intl.formatMessage({
-                                      id: "Fields.ToolTipEdit",
-                                    })}
-                                  >
-                                    <button
-                                      className="btn btn-icon btn-light btn-sm me-2 px-2 "
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        setProductModalOpen(true);
-                                        setSelectedProduct(product);
-                                      }}
-                                    >
-                                      <i className="ki-solid ki-pencil text-warning fs-2" />
-                                    </button>
-                                  </Tippy>
-                                  <input
-                                    type="text"
-                                    id={`title_${index}`}
-                                    className="form-control form-control-solid border-0 p-3"
-                                    value={product.title || ""}
-                                    onChange={(e) =>
-                                      handleInputChange(
-                                        index,
-                                        "title",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
+                                  <Tooltip.Provider delayDuration={0}>
+                                    <Tooltip.Root>
+                                      <Tooltip.Trigger asChild>
+                                        <button
+                                          className="btn btn-icon btn-light btn-sm me-2 px-2 "
+                                          onClick={(e) => {
+                                            e.preventDefault();
+                                            setProductModalOpen(true);
+                                            setSelectedProduct(product);
+                                          }}
+                                        >
+                                          <i className="ki-solid ki-pencil text-warning fs-2" />
+                                        </button>
+                                      </Tooltip.Trigger>
+
+                                      <Tooltip.Portal>
+                                        <Tooltip.Content
+                                          side="top"
+                                          className="app-tooltip"
+                                        >
+                                          {intl.formatMessage({
+                                            id: "Fields.ToolTipEdit",
+                                          })}
+                                          <Tooltip.Arrow className="app-tooltip-arrow" />
+                                        </Tooltip.Content>
+                                      </Tooltip.Portal>
+                                    </Tooltip.Root>
+                                  </Tooltip.Provider>
+                                  <Tooltip.Provider delayDuration={0}>
+                                    <Tooltip.Root>
+                                      <Tooltip.Trigger asChild>
+                                        <input
+                                          type="text"
+                                          id={`title_${index}`}
+                                          className="form-control form-control-solid border-0 p-3"
+                                          value={product.title || ""}
+                                          onChange={(e) =>
+                                            handleInputChange(
+                                              index,
+                                              "title",
+                                              e.target.value
+                                            )
+                                          }
+                                        />
+                                      </Tooltip.Trigger>
+
+                                      <Tooltip.Portal>
+                                        <Tooltip.Content
+                                          side="top"
+                                          className="app-tooltip"
+                                        >
+                                          {product.title}
+                                          <Tooltip.Arrow className="app-tooltip-arrow" />
+                                        </Tooltip.Content>
+                                      </Tooltip.Portal>
+                                    </Tooltip.Root>
+                                  </Tooltip.Provider>
                                 </div>
 
                                 <div>
@@ -357,204 +377,231 @@ const InvoiceAddStep2: FC<Props> = ({
                                     min="0.00"
                                     step="0.01"
                                   />
-                                  <Tippy
-                                    content={
-                                      <div style={{ fontFamily: "monospace" }}>
+                                  <Tooltip.Provider delayDuration={0}>
+                                    <Tooltip.Root>
+                                      <Tooltip.Trigger asChild>
                                         <div
-                                          className="table"
-                                          style={{ width: "100%" }}
+                                          className="circle"
+                                          style={{
+                                            position: "absolute",
+                                            top: "-10px",
+                                            right: "-10px",
+                                          }}
                                         >
-                                          <div style={{ display: "table-row" }}>
-                                            <div
-                                              style={{
-                                                display: "table-cell",
-                                                textAlign: "right",
-                                              }}
-                                              className="px-2"
-                                            >
-                                              {/* Determine Amount title with (inc) or (exc) based on condition */}
-                                              {(() => {
-                                                const vatEntry = vatTypes
-                                                  ?.map((item: any) => ({
-                                                    value: item.id,
-                                                    label: item.title,
-                                                  }))
-                                                  .find(
-                                                    (vat: any) =>
-                                                      vat.value ===
-                                                      product.vatTypeId
-                                                  );
-                                                const isAlwaysExBtw =
-                                                  vatEntry?.isAlwaysExBtw;
-
-                                                // Determine if the title should include "inc" or "exc"
-                                                const amountTitle =
-                                                  isAlwaysExBtw
-                                                    ? intl.formatMessage({
-                                                        id: "Fields.Amount",
-                                                      })
-                                                    : product.btwExclusive
-                                                    ? `${intl.formatMessage({
-                                                        id: "Fields.Amount",
-                                                      })} (inc):`
-                                                    : `${intl.formatMessage({
-                                                        id: "Fields.Amount",
-                                                      })} (exc):`;
-
-                                                return amountTitle;
-                                              })()}
-                                            </div>
-                                            <div
-                                              style={{
-                                                display: "table-cell",
-                                                textAlign: "right",
-                                              }}
-                                            >
-                                              {/* Display the amount based on VAT inclusivity/exclusivity */}
-                                              {(() => {
-                                                const vatEntry = vatTypes
-                                                  ?.map((item: any) => ({
-                                                    value: item.id,
-                                                    label: item.title,
-                                                  }))
-                                                  .find(
-                                                    (vat: any) =>
-                                                      vat.value ===
-                                                      product.vatTypeId
-                                                  );
-                                                const isAlwaysExBtw =
-                                                  vatEntry?.isAlwaysExBtw;
-                                                const vatPercentage = vatEntry
-                                                  ? parseFloat(
-                                                      vatEntry.label.replace(
-                                                        "%",
-                                                        ""
-                                                      )
-                                                    )
-                                                  : NaN;
-
-                                                if (
-                                                  isAlwaysExBtw ||
-                                                  isNaN(vatPercentage)
-                                                ) {
-                                                  return `${
-                                                    auth.currentUser?.result
-                                                      .activeCompanyDefaults
-                                                      .defaultValuta.sign
-                                                  }${product.unitPrice.toFixed(
-                                                    2
-                                                  )}`;
-                                                }
-
-                                                if (product.btwExclusive) {
-                                                  const totalInclusive = (
-                                                    product.unitPrice +
-                                                    product.unitPrice *
-                                                      (vatPercentage / 100)
-                                                  ).toFixed(2);
-
-                                                  return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${totalInclusive}`;
-                                                } else {
-                                                  const basePriceExclusive = (
-                                                    product.unitPrice /
-                                                    (1 + vatPercentage / 100)
-                                                  ).toFixed(2);
-
-                                                  return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${basePriceExclusive}`;
-                                                }
-                                              })()}
-                                            </div>
-                                          </div>
-
-                                          <div style={{ display: "table-row" }}>
-                                            <div
-                                              className="px-2"
-                                              style={{
-                                                display: "table-cell",
-                                                textAlign: "right",
-                                              }}
-                                            >
-                                              {/* Display VAT title with calculated VAT value */}
-                                              {intl.formatMessage({
-                                                id: "Fields.VatTitle",
-                                              })}
-                                              :
-                                            </div>
-                                            <div
-                                              style={{
-                                                display: "table-cell",
-                                                textAlign: "right",
-                                              }}
-                                            >
-                                              {(() => {
-                                                const vatEntry = vatTypes
-                                                  ?.map((item: any) => ({
-                                                    value: item.id,
-                                                    label: item.title,
-                                                  }))
-                                                  .find(
-                                                    (vat: any) =>
-                                                      vat.value ===
-                                                      product.vatTypeId
-                                                  );
-                                                const isAlwaysExBtw =
-                                                  vatEntry?.isAlwaysExBtw;
-                                                const vatPercentage = vatEntry
-                                                  ? parseFloat(
-                                                      vatEntry.label.replace(
-                                                        "%",
-                                                        ""
-                                                      )
-                                                    )
-                                                  : NaN;
-
-                                                if (
-                                                  isAlwaysExBtw ||
-                                                  isNaN(vatPercentage)
-                                                ) {
-                                                  return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}0.00`;
-                                                }
-
-                                                if (product.btwExclusive) {
-                                                  const vatAmountInclusive = (
-                                                    product.unitPrice *
-                                                    (vatPercentage / 100)
-                                                  ).toFixed(2);
-
-                                                  return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${vatAmountInclusive}`;
-                                                } else {
-                                                  const basePriceExclusive =
-                                                    product.unitPrice /
-                                                    (1 + vatPercentage / 100);
-                                                  const vatAmountExclusive = (
-                                                    product.unitPrice -
-                                                    basePriceExclusive
-                                                  ).toFixed(2);
-
-                                                  return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${vatAmountExclusive}`;
-                                                }
-                                              })()}
-                                            </div>
-                                          </div>
+                                          <i className="ki-duotone ki-information-4 fs-2 cursor-pointer text-primary ms-1">
+                                            <span className="path1"></span>
+                                            <span className="path2"></span>
+                                            <span className="path3"></span>
+                                          </i>
                                         </div>
-                                      </div>
-                                    }
-                                  >
-                                    <div
-                                      className="circle"
-                                      style={{
-                                        position: "absolute",
-                                        top: "-10px",
-                                        right: "-10px",
-                                      }}
-                                    >
-                                      <i className="ki-duotone ki-information-4 fs-2 cursor-pointer text-primary ms-1">
-                                        <span className="path1"></span>
-                                        <span className="path2"></span>
-                                        <span className="path3"></span>
-                                      </i>
-                                    </div>
-                                  </Tippy>
+                                      </Tooltip.Trigger>
+
+                                      <Tooltip.Portal>
+                                        <Tooltip.Content
+                                          side="top"
+                                          className="app-tooltip"
+                                        >
+                                          <div
+                                            style={{ fontFamily: "monospace" }}
+                                          >
+                                            <div
+                                              className="table"
+                                              style={{ width: "100%" }}
+                                            >
+                                              <div
+                                                style={{ display: "table-row" }}
+                                              >
+                                                <div
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                  className="px-2"
+                                                >
+                                                  {/* Determine Amount title with (inc) or (exc) based on condition */}
+                                                  {(() => {
+                                                    const vatEntry = vatTypes
+                                                      ?.map((item: any) => ({
+                                                        value: item.id,
+                                                        label: item.title,
+                                                      }))
+                                                      .find(
+                                                        (vat: any) =>
+                                                          vat.value ===
+                                                          product.vatTypeId
+                                                      );
+                                                    const isAlwaysExBtw =
+                                                      vatEntry?.isAlwaysExBtw;
+
+                                                    // Determine if the title should include "inc" or "exc"
+                                                    const amountTitle =
+                                                      isAlwaysExBtw
+                                                        ? intl.formatMessage({
+                                                            id: "Fields.Amount",
+                                                          })
+                                                        : product.btwExclusive
+                                                        ? `${intl.formatMessage(
+                                                            {
+                                                              id: "Fields.Amount",
+                                                            }
+                                                          )} (inc):`
+                                                        : `${intl.formatMessage(
+                                                            {
+                                                              id: "Fields.Amount",
+                                                            }
+                                                          )} (exc):`;
+
+                                                    return amountTitle;
+                                                  })()}
+                                                </div>
+                                                <div
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                >
+                                                  {/* Display the amount based on VAT inclusivity/exclusivity */}
+                                                  {(() => {
+                                                    const vatEntry = vatTypes
+                                                      ?.map((item: any) => ({
+                                                        value: item.id,
+                                                        label: item.title,
+                                                      }))
+                                                      .find(
+                                                        (vat: any) =>
+                                                          vat.value ===
+                                                          product.vatTypeId
+                                                      );
+                                                    const isAlwaysExBtw =
+                                                      vatEntry?.isAlwaysExBtw;
+                                                    const vatPercentage =
+                                                      vatEntry
+                                                        ? parseFloat(
+                                                            vatEntry.label.replace(
+                                                              "%",
+                                                              ""
+                                                            )
+                                                          )
+                                                        : NaN;
+
+                                                    if (
+                                                      isAlwaysExBtw ||
+                                                      isNaN(vatPercentage)
+                                                    ) {
+                                                      return `${
+                                                        auth.currentUser?.result
+                                                          .activeCompanyDefaults
+                                                          .defaultValuta.sign
+                                                      }${product.unitPrice.toFixed(
+                                                        2
+                                                      )}`;
+                                                    }
+
+                                                    if (product.btwExclusive) {
+                                                      const totalInclusive = (
+                                                        product.unitPrice +
+                                                        product.unitPrice *
+                                                          (vatPercentage / 100)
+                                                      ).toFixed(2);
+
+                                                      return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${totalInclusive}`;
+                                                    } else {
+                                                      const basePriceExclusive =
+                                                        (
+                                                          product.unitPrice /
+                                                          (1 +
+                                                            vatPercentage / 100)
+                                                        ).toFixed(2);
+
+                                                      return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${basePriceExclusive}`;
+                                                    }
+                                                  })()}
+                                                </div>
+                                              </div>
+
+                                              <div
+                                                style={{ display: "table-row" }}
+                                              >
+                                                <div
+                                                  className="px-2"
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                >
+                                                  {/* Display VAT title with calculated VAT value */}
+                                                  {intl.formatMessage({
+                                                    id: "Fields.VatTitle",
+                                                  })}
+                                                  :
+                                                </div>
+                                                <div
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                >
+                                                  {(() => {
+                                                    const vatEntry = vatTypes
+                                                      ?.map((item: any) => ({
+                                                        value: item.id,
+                                                        label: item.title,
+                                                      }))
+                                                      .find(
+                                                        (vat: any) =>
+                                                          vat.value ===
+                                                          product.vatTypeId
+                                                      );
+                                                    const isAlwaysExBtw =
+                                                      vatEntry?.isAlwaysExBtw;
+                                                    const vatPercentage =
+                                                      vatEntry
+                                                        ? parseFloat(
+                                                            vatEntry.label.replace(
+                                                              "%",
+                                                              ""
+                                                            )
+                                                          )
+                                                        : NaN;
+
+                                                    if (
+                                                      isAlwaysExBtw ||
+                                                      isNaN(vatPercentage)
+                                                    ) {
+                                                      return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}0.00`;
+                                                    }
+
+                                                    if (product.btwExclusive) {
+                                                      const vatAmountInclusive =
+                                                        (
+                                                          product.unitPrice *
+                                                          (vatPercentage / 100)
+                                                        ).toFixed(2);
+
+                                                      return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${vatAmountInclusive}`;
+                                                    } else {
+                                                      const basePriceExclusive =
+                                                        product.unitPrice /
+                                                        (1 +
+                                                          vatPercentage / 100);
+                                                      const vatAmountExclusive =
+                                                        (
+                                                          product.unitPrice -
+                                                          basePriceExclusive
+                                                        ).toFixed(2);
+
+                                                      return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}${vatAmountExclusive}`;
+                                                    }
+                                                  })()}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <Tooltip.Arrow className="app-tooltip-arrow" />
+                                        </Tooltip.Content>
+                                      </Tooltip.Portal>
+                                    </Tooltip.Root>
+                                  </Tooltip.Provider>
                                 </div>
                               </td>
 
@@ -586,250 +633,293 @@ const InvoiceAddStep2: FC<Props> = ({
                               </td>
 
                               <td>
-                                <Tippy
-                                  content={
-                                    <div style={{ fontFamily: "monospace" }}>
-                                      <div
-                                        className="table"
-                                        style={{ width: "100%" }}
-                                      >
-                                        <div style={{ display: "table-row" }}>
-                                          <div
-                                            className="px-2"
-                                            style={{
-                                              display: "table-cell",
-                                              textAlign: "right",
-                                            }}
-                                          >
-                                            {/* Calculate Amount Title with (inc) or (exc) */}
-                                            {(() => {
-                                              const vatEntry = vatTypes
-                                                ?.map((item: any) => ({
-                                                  value: item.id,
-                                                  label: item.title,
-                                                }))
-                                                .find(
-                                                  (vat: any) =>
-                                                    vat.value ===
-                                                    product.vatTypeId
-                                                );
-                                              const isAlwaysExBtw =
-                                                vatEntry?.isAlwaysExBtw;
+                                <div className="d-flex flex-column text-end position-relative">
+                                  <span className="fw-bold cursor-pointer mt-2">
+                                    {
+                                      auth.currentUser?.result
+                                        .activeCompanyDefaults.defaultValuta
+                                        .sign
+                                    }{" "}
+                                    {calculateTotal(
+                                      product.units,
+                                      product.unitPrice,
+                                      product.discountMarginId
+                                    ).toFixed(2)}
+                                  </span>
 
-                                              const amountTitle = isAlwaysExBtw
-                                                ? intl.formatMessage({
-                                                    id: "Fields.Amount",
-                                                  })
-                                                : product.btwExclusive
-                                                ? `${intl.formatMessage({
-                                                    id: "Fields.Amount",
-                                                  })} (inc):`
-                                                : `${intl.formatMessage({
-                                                    id: "Fields.Amount",
-                                                  })} (exc):`;
-
-                                              return amountTitle;
-                                            })()}
-                                          </div>
-                                          <div
-                                            style={{
-                                              display: "table-cell",
-                                              textAlign: "right",
-                                            }}
-                                          >
-                                            {(() => {
-                                              const vatEntry = vatTypes
-                                                ?.map((item: any) => ({
-                                                  value: item.id,
-                                                  label: item.title,
-                                                }))
-                                                .find(
-                                                  (vat: any) =>
-                                                    vat.value ===
-                                                    product.vatTypeId
-                                                );
-                                              const isAlwaysExBtw =
-                                                vatEntry?.isAlwaysExBtw;
-                                              const vatPercentage = vatEntry
-                                                ? parseFloat(
-                                                    vatEntry.label.replace(
-                                                      "%",
-                                                      ""
-                                                    )
-                                                  )
-                                                : NaN;
-
-                                              if (
-                                                isAlwaysExBtw ||
-                                                isNaN(vatPercentage)
-                                              ) {
-                                                return `${
-                                                  auth.currentUser?.result
-                                                    .activeCompanyDefaults
-                                                    .defaultValuta.sign
-                                                }${(
-                                                  product.unitPrice *
-                                                  product.units
-                                                ).toFixed(2)}`;
-                                              }
-
-                                              if (product.btwExclusive) {
-                                                const totalInclusive = (
-                                                  product.unitPrice +
-                                                  product.unitPrice *
-                                                    (vatPercentage / 100)
-                                                ).toFixed(2);
-
-                                                return `${
-                                                  auth.currentUser?.result
-                                                    .activeCompanyDefaults
-                                                    .defaultValuta.sign
-                                                }${(
-                                                  parseFloat(totalInclusive) *
-                                                  product.units
-                                                ).toFixed(2)}`;
-                                              } else {
-                                                const basePriceExclusive = (
-                                                  product.unitPrice /
-                                                  (1 + vatPercentage / 100)
-                                                ).toFixed(2);
-
-                                                return `${
-                                                  auth.currentUser?.result
-                                                    .activeCompanyDefaults
-                                                    .defaultValuta.sign
-                                                }${(
-                                                  parseFloat(
-                                                    basePriceExclusive
-                                                  ) * product.units
-                                                ).toFixed(2)}`;
-                                              }
-                                            })()}
-                                          </div>
-                                        </div>
-
-                                        <div style={{ display: "table-row" }}>
-                                          <div
-                                            className="px-2"
-                                            style={{
-                                              display: "table-cell",
-                                              textAlign: "right",
-                                            }}
-                                          >
-                                            {intl.formatMessage({
-                                              id: "Fields.VatTitle",
-                                            })}
-                                            :
-                                          </div>
-                                          <div
-                                            style={{
-                                              display: "table-cell",
-                                              textAlign: "right",
-                                            }}
-                                          >
-                                            {(() => {
-                                              const vatEntry = vatTypes
-                                                ?.map((item: any) => ({
-                                                  value: item.id,
-                                                  label: item.title,
-                                                }))
-                                                .find(
-                                                  (vat: any) =>
-                                                    vat.value ===
-                                                    product.vatTypeId
-                                                );
-                                              const isAlwaysExBtw =
-                                                vatEntry?.isAlwaysExBtw;
-                                              const vatPercentage = vatEntry
-                                                ? parseFloat(
-                                                    vatEntry.label.replace(
-                                                      "%",
-                                                      ""
-                                                    )
-                                                  )
-                                                : NaN;
-
-                                              if (
-                                                isAlwaysExBtw ||
-                                                isNaN(vatPercentage)
-                                              ) {
-                                                return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}0.00`;
-                                              }
-
-                                              if (product.btwExclusive) {
-                                                const vatAmountInclusive = (
-                                                  product.unitPrice *
-                                                  (vatPercentage / 100)
-                                                ).toFixed(2);
-
-                                                return `${
-                                                  auth.currentUser?.result
-                                                    .activeCompanyDefaults
-                                                    .defaultValuta.sign
-                                                }${(
-                                                  parseFloat(
-                                                    vatAmountInclusive
-                                                  ) * product.units
-                                                ).toFixed(2)}`;
-                                              } else {
-                                                const basePriceExclusive =
-                                                  product.unitPrice /
-                                                  (1 + vatPercentage / 100);
-                                                const vatAmountExclusive = (
-                                                  product.unitPrice -
-                                                  basePriceExclusive
-                                                ).toFixed(2);
-
-                                                return `${
-                                                  auth.currentUser?.result
-                                                    .activeCompanyDefaults
-                                                    .defaultValuta.sign
-                                                }${(
-                                                  parseFloat(
-                                                    vatAmountExclusive
-                                                  ) * product.units
-                                                ).toFixed(2)}`;
-                                              }
-                                            })()}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  }
-                                >
-                                  <div className="d-flex flex-column text-end">
-                                    <span className="fw-bold cursor-pointer mt-2">
+                                  {product.discountMarginId && (
+                                    <small className="text-danger">
+                                      -
                                       {
-                                        auth.currentUser?.result
-                                          .activeCompanyDefaults.defaultValuta
-                                          .sign
-                                      }{" "}
-                                      {calculateTotal(
-                                        product.units,
-                                        product.unitPrice,
-                                        product.discountMarginId
-                                      ).toFixed(2)}
-                                    </span>
+                                        discountTypes
+                                          ?.map((item: any) => ({
+                                            value: item.id,
+                                            label: item.title,
+                                          }))
+                                          .find(
+                                            (discountType: any) =>
+                                              discountType.value ===
+                                              product.discountMarginId
+                                          )?.label
+                                      }
+                                    </small>
+                                  )}
+                                  <Tooltip.Provider delayDuration={0}>
+                                    <Tooltip.Root>
+                                      <Tooltip.Trigger asChild>
+                                        <div
+                                          className="circle"
+                                          style={{
+                                            position: "absolute",
+                                            top: "-10px",
+                                            right: "-17px",
+                                          }}
+                                        >
+                                          <i className="ki-duotone ki-information-4 fs-2 cursor-pointer text-primary ms-1">
+                                            <span className="path1"></span>
+                                            <span className="path2"></span>
+                                            <span className="path3"></span>
+                                          </i>
+                                        </div>
+                                      </Tooltip.Trigger>
 
-                                    {product.discountMarginId && (
-                                      <small className="text-danger">
-                                        -
-                                        {
-                                          discountTypes
-                                            ?.map((item: any) => ({
-                                              value: item.id,
-                                              label: item.title,
-                                            }))
-                                            .find(
-                                              (discountType: any) =>
-                                                discountType.value ===
-                                                product.discountMarginId
-                                            )?.label
-                                        }
-                                      </small>
-                                    )}
-                                  </div>
-                                </Tippy>
+                                      <Tooltip.Portal>
+                                        <Tooltip.Content
+                                          side="top"
+                                          className="app-tooltip"
+                                        >
+                                          <div
+                                            style={{ fontFamily: "monospace" }}
+                                          >
+                                            <div
+                                              className="table"
+                                              style={{ width: "100%" }}
+                                            >
+                                              <div
+                                                style={{ display: "table-row" }}
+                                              >
+                                                <div
+                                                  className="px-2"
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                >
+                                                  {/* Calculate Amount Title with (inc) or (exc) */}
+                                                  {(() => {
+                                                    const vatEntry = vatTypes
+                                                      ?.map((item: any) => ({
+                                                        value: item.id,
+                                                        label: item.title,
+                                                      }))
+                                                      .find(
+                                                        (vat: any) =>
+                                                          vat.value ===
+                                                          product.vatTypeId
+                                                      );
+                                                    const isAlwaysExBtw =
+                                                      vatEntry?.isAlwaysExBtw;
+
+                                                    const amountTitle =
+                                                      isAlwaysExBtw
+                                                        ? intl.formatMessage({
+                                                            id: "Fields.Amount",
+                                                          })
+                                                        : product.btwExclusive
+                                                        ? `${intl.formatMessage(
+                                                            {
+                                                              id: "Fields.Amount",
+                                                            }
+                                                          )} (inc):`
+                                                        : `${intl.formatMessage(
+                                                            {
+                                                              id: "Fields.Amount",
+                                                            }
+                                                          )} (exc):`;
+
+                                                    return amountTitle;
+                                                  })()}
+                                                </div>
+                                                <div
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                >
+                                                  {(() => {
+                                                    const vatEntry = vatTypes
+                                                      ?.map((item: any) => ({
+                                                        value: item.id,
+                                                        label: item.title,
+                                                      }))
+                                                      .find(
+                                                        (vat: any) =>
+                                                          vat.value ===
+                                                          product.vatTypeId
+                                                      );
+                                                    const isAlwaysExBtw =
+                                                      vatEntry?.isAlwaysExBtw;
+                                                    const vatPercentage =
+                                                      vatEntry
+                                                        ? parseFloat(
+                                                            vatEntry.label.replace(
+                                                              "%",
+                                                              ""
+                                                            )
+                                                          )
+                                                        : NaN;
+
+                                                    if (
+                                                      isAlwaysExBtw ||
+                                                      isNaN(vatPercentage)
+                                                    ) {
+                                                      return `${
+                                                        auth.currentUser?.result
+                                                          .activeCompanyDefaults
+                                                          .defaultValuta.sign
+                                                      }${(
+                                                        product.unitPrice *
+                                                        product.units
+                                                      ).toFixed(2)}`;
+                                                    }
+
+                                                    if (product.btwExclusive) {
+                                                      const totalInclusive = (
+                                                        product.unitPrice +
+                                                        product.unitPrice *
+                                                          (vatPercentage / 100)
+                                                      ).toFixed(2);
+
+                                                      return `${
+                                                        auth.currentUser?.result
+                                                          .activeCompanyDefaults
+                                                          .defaultValuta.sign
+                                                      }${(
+                                                        parseFloat(
+                                                          totalInclusive
+                                                        ) * product.units
+                                                      ).toFixed(2)}`;
+                                                    } else {
+                                                      const basePriceExclusive =
+                                                        (
+                                                          product.unitPrice /
+                                                          (1 +
+                                                            vatPercentage / 100)
+                                                        ).toFixed(2);
+
+                                                      return `${
+                                                        auth.currentUser?.result
+                                                          .activeCompanyDefaults
+                                                          .defaultValuta.sign
+                                                      }${(
+                                                        parseFloat(
+                                                          basePriceExclusive
+                                                        ) * product.units
+                                                      ).toFixed(2)}`;
+                                                    }
+                                                  })()}
+                                                </div>
+                                              </div>
+
+                                              <div
+                                                style={{ display: "table-row" }}
+                                              >
+                                                <div
+                                                  className="px-2"
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                >
+                                                  {intl.formatMessage({
+                                                    id: "Fields.VatTitle",
+                                                  })}
+                                                  :
+                                                </div>
+                                                <div
+                                                  style={{
+                                                    display: "table-cell",
+                                                    textAlign: "right",
+                                                  }}
+                                                >
+                                                  {(() => {
+                                                    const vatEntry = vatTypes
+                                                      ?.map((item: any) => ({
+                                                        value: item.id,
+                                                        label: item.title,
+                                                      }))
+                                                      .find(
+                                                        (vat: any) =>
+                                                          vat.value ===
+                                                          product.vatTypeId
+                                                      );
+                                                    const isAlwaysExBtw =
+                                                      vatEntry?.isAlwaysExBtw;
+                                                    const vatPercentage =
+                                                      vatEntry
+                                                        ? parseFloat(
+                                                            vatEntry.label.replace(
+                                                              "%",
+                                                              ""
+                                                            )
+                                                          )
+                                                        : NaN;
+
+                                                    if (
+                                                      isAlwaysExBtw ||
+                                                      isNaN(vatPercentage)
+                                                    ) {
+                                                      return `${auth.currentUser?.result.activeCompanyDefaults.defaultValuta.sign}0.00`;
+                                                    }
+
+                                                    if (product.btwExclusive) {
+                                                      const vatAmountInclusive =
+                                                        (
+                                                          product.unitPrice *
+                                                          (vatPercentage / 100)
+                                                        ).toFixed(2);
+
+                                                      return `${
+                                                        auth.currentUser?.result
+                                                          .activeCompanyDefaults
+                                                          .defaultValuta.sign
+                                                      }${(
+                                                        parseFloat(
+                                                          vatAmountInclusive
+                                                        ) * product.units
+                                                      ).toFixed(2)}`;
+                                                    } else {
+                                                      const basePriceExclusive =
+                                                        product.unitPrice /
+                                                        (1 +
+                                                          vatPercentage / 100);
+                                                      const vatAmountExclusive =
+                                                        (
+                                                          product.unitPrice -
+                                                          basePriceExclusive
+                                                        ).toFixed(2);
+
+                                                      return `${
+                                                        auth.currentUser?.result
+                                                          .activeCompanyDefaults
+                                                          .defaultValuta.sign
+                                                      }${(
+                                                        parseFloat(
+                                                          vatAmountExclusive
+                                                        ) * product.units
+                                                      ).toFixed(2)}`;
+                                                    }
+                                                  })()}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <Tooltip.Arrow className="app-tooltip-arrow" />
+                                        </Tooltip.Content>
+                                      </Tooltip.Portal>
+                                    </Tooltip.Root>
+                                  </Tooltip.Provider>
+                                </div>
                               </td>
 
                               <td className="w-150px text-end">
@@ -903,12 +993,7 @@ const InvoiceAddStep2: FC<Props> = ({
           </Droppable>
         </DragDropContext>
       </form>
-      {productPicker && (
-        <ProductPicker
-          closeProductPicker={closeProductPicker}
-          formik={formik}
-        />
-      )}
+
       {productModalOpen && (
         <ProductDetailModal
           setProductModalOpen={setProductModalOpen}

@@ -52,7 +52,6 @@ const DigitalSignature = ({ formik }: Props) => {
         "quoteValidationSignee.validatedBySignatureBase64",
         signatureData
       );
-      console.log("Saved Signature Base64:", signatureData); // Handle the saved signature data
     }
   }, [sigCanvas]);
   // Function to save the signature (drawn, typed, or uploaded)

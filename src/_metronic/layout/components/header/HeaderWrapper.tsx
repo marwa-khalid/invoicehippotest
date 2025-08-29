@@ -9,14 +9,18 @@ type Props = {
 };
 export function HeaderWrapper({ setProfileModalOpen }: Props) {
   const { config, classes } = useLayout();
-  if (config.app?.header?.default?.container === "fluid") {
-    LayoutSetup.classes.headerContainer.push("container-fluid");
-  } else {
-    LayoutSetup.classes.headerContainer.push("container-xxl");
-  }
+  // if (config.app?.header?.default?.container === "fluid") {
+  //   LayoutSetup.classes.headerContainer.push("container-fluid");
+  // } else {
+  //   LayoutSetup.classes.headerContainer.push("container-xxl");
+  // }
   if (!config.app?.header?.display) {
     return null;
   }
+  const containerClass =
+    config.app?.header?.default?.container === "fluid"
+      ? "container-fluid"
+      : "container-xxl";
 
   return (
     <div
@@ -30,9 +34,14 @@ export function HeaderWrapper({ setProfileModalOpen }: Props) {
     >
       <div
         id="kt_app_header_container"
+        // className={clsx(
+        //   "app-container",
+        //   classes.headerContainer.join(" "),
+        //   config.app?.header?.default?.containerClass
+        // )}
         className={clsx(
           "app-container",
-          classes.headerContainer.join(" "),
+          containerClass,
           config.app?.header?.default?.containerClass
         )}
       >

@@ -1,4 +1,4 @@
-import Tippy from "@tippyjs/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { useIntl } from "react-intl";
 import { KTSVG } from "../../../_metronic/helpers";
 
@@ -31,16 +31,28 @@ const ClientAddButtons = ({
           }}
         >
           <i className="la la-user fs-2"></i>
-          <Tippy content={clientDisplayName}>
-            <span className="ms-1">
-              {clientDisplayName.length > (window.innerWidth <= 576 ? 10 : 35)
-                ? `${clientDisplayName.slice(
-                    0,
-                    window.innerWidth <= 576 ? 10 : 30
-                  )}...`
-                : clientDisplayName}
-            </span>
-          </Tippy>
+          <Tooltip.Provider delayDuration={0}>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <span className="ms-1">
+                  {clientDisplayName.length >
+                  (window.innerWidth <= 576 ? 10 : 35)
+                    ? `${clientDisplayName.slice(
+                        0,
+                        window.innerWidth <= 576 ? 10 : 30
+                      )}...`
+                    : clientDisplayName}
+                </span>
+              </Tooltip.Trigger>
+
+              <Tooltip.Portal>
+                <Tooltip.Content side="top" className="app-tooltip">
+                  {clientDisplayName}
+                  <Tooltip.Arrow className="app-tooltip-arrow" />
+                </Tooltip.Content>
+              </Tooltip.Portal>
+            </Tooltip.Root>
+          </Tooltip.Provider>
         </button>
       ) : (
         <button

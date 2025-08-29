@@ -45,7 +45,7 @@ const QuoteActivateModal = ({
     } else {
       setIsTodayDate(false);
     }
-  }, []);
+  }, [quoteDateAsString]);
   // Check if the dates are the same
 
   const formatExpirationDate = () => {

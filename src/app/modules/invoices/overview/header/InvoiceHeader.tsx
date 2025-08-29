@@ -174,7 +174,6 @@ const InvoiceHeader = ({
                   {intl.formatMessage({ id: "Fields.SearchBtn" })}
                 </span>
               </button>
-
               <Menu
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
@@ -186,7 +185,9 @@ const InvoiceHeader = ({
                   className={clsx(
                     "btn bg-secondary btn-icon fw-bold rounded-0",
                     daterangepickerButtonClass,
-                    { "bg-warning": isFilterApplied }
+                    isFilterApplied
+                      ? "bg-warning"
+                      : !searchTerm && "rounded-end"
                   )}
                   onClick={toggleMenu}
                 >
@@ -226,15 +227,15 @@ const InvoiceHeader = ({
                   />
                 </MenuList>
               </Menu>
-
               {/* Menu button for filter */}
-
-              <button
-                className="btn btn-secondary btn-icon"
-                onClick={handleResetClick}
-              >
-                <i className="la la-remove fs-3"></i>
-              </button>
+              {(isFilterApplied || searchTerm) && (
+                <button
+                  className="btn btn-secondary btn-icon"
+                  onClick={handleResetClick}
+                >
+                  <i className="la la-remove fs-3"></i>
+                </button>
+              )}
             </div>
           </div>
         </div>

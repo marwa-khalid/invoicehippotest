@@ -11,7 +11,6 @@ interface Props {
   setAction: (type: number) => void;
   attachmentsModalOpen: boolean;
   setAttachmentsModalOpen: (type: boolean) => void;
-  openSend: any;
   setActionType: (type: number) => void;
 }
 const QuoteAddModalFooter = ({
@@ -22,7 +21,6 @@ const QuoteAddModalFooter = ({
   formik,
   attachmentsModalOpen,
   setAttachmentsModalOpen,
-  openSend,
   setActionType,
 }: Props) => {
   const intl = useIntl();
@@ -55,7 +53,6 @@ const QuoteAddModalFooter = ({
           type="button"
           className="btn btn-secondary me-3"
           data-bs-dismiss="modal"
-          data-bs-target="client_add_modal"
           onClick={() => {
             setAddModalOpen(false);
           }}
@@ -72,9 +69,9 @@ const QuoteAddModalFooter = ({
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <i className="fa fas fa-save fs-2 me-2"></i>
             {!isSubmitting && formik.values.status === 1 ? (
               <>
+                <i className="fa fas fa-save fs-2 me-2"></i>
                 {intl.formatMessage({
                   id: "Fields.DraftLabel",
                 })}{" "}
@@ -83,6 +80,7 @@ const QuoteAddModalFooter = ({
             ) : (
               !isSubmitting && (
                 <>
+                  <i className="fa fas fa-save fs-2 me-2"></i>
                   {intl.formatMessage({
                     id: "Fields.ActionEdit",
                   })}{" "}
@@ -109,10 +107,13 @@ const QuoteAddModalFooter = ({
                 formik.handleSubmit();
               }}
             >
-              <a className="dropdown-item d-flex align-items-center cursor-pointer">
+              <button
+                type="button"
+                className="dropdown-item d-flex align-items-center cursor-pointer"
+              >
                 <i className="fa fas fa-save fs-2 me-2"></i>
                 {intl.formatMessage({ id: "Fields.ActionSave" })}
-              </a>
+              </button>
             </li>
             <div className="dropdown-divider border-gray-200"></div>
             <li
@@ -122,11 +123,14 @@ const QuoteAddModalFooter = ({
                 formik.handleSubmit();
               }}
             >
-              <a className="dropdown-item d-flex align-items-center text-center cursor-pointer">
+              <button
+                type="button"
+                className="dropdown-item d-flex align-items-center text-center cursor-pointer"
+              >
                 <i className="fa fas fa-save fs-2 me-2"></i>
 
                 {intl.formatMessage({ id: "Fields.ActionSaveAndClose" })}
-              </a>
+              </button>
             </li>
             <div className="dropdown-divider border-gray-200"></div>
 
@@ -137,10 +141,13 @@ const QuoteAddModalFooter = ({
                 formik.handleSubmit();
               }}
             >
-              <a className="dropdown-item d-flex align-items-center cursor-pointer">
+              <button
+                type="button"
+                className="dropdown-item d-flex align-items-center cursor-pointer"
+              >
                 <i className="fa fas fa-save fs-2 me-2"></i>{" "}
                 {intl.formatMessage({ id: "Fields.ActionSaveAndNew" })}
-              </a>
+              </button>
             </li>
             <div className="dropdown-divider border-gray-200"></div>
             <li
@@ -150,10 +157,13 @@ const QuoteAddModalFooter = ({
                 formik.handleSubmit();
               }}
             >
-              <a className="dropdown-item  d-flex align-items-center cursor-pointer">
+              <button
+                type="button"
+                className="dropdown-item  d-flex align-items-center cursor-pointer"
+              >
                 <i className="fa fas fa-save fs-2 me-2"></i>{" "}
                 {intl.formatMessage({ id: "Fields.ActionSaveAndPreview" })}
-              </a>
+              </button>
             </li>
           </ul>
         </div>
@@ -189,10 +199,13 @@ const QuoteAddModalFooter = ({
                   formik.handleSubmit();
                 }}
               >
-                <a className="dropdown-item d-flex align-items-center" href="#">
+                <button
+                  type="button"
+                  className="dropdown-item d-flex align-items-center"
+                >
                   <i className="fa fas fa-paper-plane me-2 fs-3"></i>
                   {intl.formatMessage({ id: "Fields.ActionActivateAndSend" })}
-                </a>
+                </button>
               </li>
 
               <div className="dropdown-divider border-gray-200"></div>
@@ -203,11 +216,14 @@ const QuoteAddModalFooter = ({
                   formik.handleSubmit();
                 }}
               >
-                <a className="dropdown-item d-flex align-items-center" href="#">
+                <button
+                  type="button"
+                  className="dropdown-item d-flex align-items-center"
+                >
                   <i className="fa fas fa-cloud-download-alt me-2 fs-3"></i>
                   {intl.formatMessage({ id: "Fields.ActionActivate" })} &{" "}
                   {intl.formatMessage({ id: "Fields.ActionDownload" })}
-                </a>
+                </button>
               </li>
               <div className="dropdown-divider border-gray-200"></div>
               <li
@@ -217,10 +233,13 @@ const QuoteAddModalFooter = ({
                   formik.handleSubmit();
                 }}
               >
-                <a className="dropdown-item d-flex align-items-center" href="#">
+                <button
+                  type="button"
+                  className="dropdown-item d-flex align-items-center"
+                >
                   <i className="fa fas fa-flag-checkered me-2 fs-3"></i>
                   {intl.formatMessage({ id: "Fields.ActionActivate" })}
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -261,26 +280,31 @@ const QuoteAddModalFooter = ({
                   formik.handleSubmit();
                 }}
               >
-                <a className="dropdown-item d-flex align-items-center" href="#">
+                <button
+                  type="button"
+                  className="dropdown-item d-flex align-items-center"
+                >
                   <i className="fa fas fa-cloud-download-alt me-2 fs-3"></i>
                   {intl.formatMessage({ id: "Fields.ActionSave" })} &{" "}
                   {intl.formatMessage({ id: "Fields.ActionDownload" })}
-                </a>
+                </button>
               </li>
 
               <div className="dropdown-divider border-gray-200"></div>
               <li
                 onClick={() => {
-                  setAction(1);
+                  setAction(8);
                   setActionType(2);
                   formik.handleSubmit();
-                  openSend("save");
                 }}
               >
-                <a className="dropdown-item d-flex align-items-center" href="#">
+                <button
+                  type="button"
+                  className="dropdown-item d-flex align-items-center"
+                >
                   <i className="fa fas fa-paper-plane me-2 fs-3"></i>
                   {intl.formatMessage({ id: "Fields.ActionSaveAndSend" })}
-                </a>
+                </button>
               </li>
             </ul>
           </div>

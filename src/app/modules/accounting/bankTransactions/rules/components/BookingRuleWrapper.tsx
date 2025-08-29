@@ -180,6 +180,7 @@ const BookingRuleInnerWrapper = () => {
           setActivateModalOpen={setActivateModalOpen}
           setInvoiceNr={setInvoiceNr}
           setEmailModalOpen={setEmailModalOpen}
+          addModalOpen={invoiceModalOpen}
         />
       )}
       {emailModalOpen && (

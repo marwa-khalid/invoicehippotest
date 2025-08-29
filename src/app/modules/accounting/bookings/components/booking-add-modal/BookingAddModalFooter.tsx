@@ -92,7 +92,11 @@ const BookingAddModalFooter = ({
               <i className="fa fas fa-save fs-2 me-2 text-white"></i>
               {isSubmitting ? (
                 <span className="indicator-progress d-flex align-items-center">
-                  {intl.formatMessage({ id: "Common.Busy" })}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: intl.formatMessage({ id: "Common.Busy" }),
+                    }}
+                  />
                   <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               ) : (

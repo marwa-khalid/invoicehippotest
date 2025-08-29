@@ -65,7 +65,11 @@ const QuoteActivateModalFooter = ({
           {!isSubmitting && intl.formatMessage({ id: "Fields.ActionActivate" })}
           {isSubmitting && (
             <span className="indicator-progress" style={{ display: "block" }}>
-              {intl.formatMessage({ id: "Common.Busy" })}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: intl.formatMessage({ id: "Common.Busy" }),
+                }}
+              />
               <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
           )}

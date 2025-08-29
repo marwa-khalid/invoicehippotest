@@ -97,7 +97,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik, storageName }) => {
       >
         <div className="modal-dialog mw-900px">
           <div className="modal-content">
-            <div className="modal-header bg-dark">
+            <div className="modal-header bg-primary">
               <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-0">
                 <h2 className="fw-bolder mb-0 text-white">
                   {intl.formatMessage({
@@ -141,7 +141,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik, storageName }) => {
                 />
                 <div className="btn-group">
                   <button
-                    className="btn btn-dark d-inline-flex align-items-center"
+                    className="btn btn-primary d-inline-flex align-items-center"
                     onClick={handleSearchClick}
                   >
                     <i className="la la-search fs-2"></i>
@@ -245,7 +245,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik, storageName }) => {
                                   </div>
                                 )}
                               </td>
-                              <td className="text-end" style={{ width: 250 }}>
+                              <td className="text-end" style={{ width: 350 }}>
                                 <small className="bg-gray-300 rounded p-1 px-2">
                                   {intl.formatMessage({ id: "Fields.KvkNr" })}{" "}
                                   {client.customerNr}
@@ -321,7 +321,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik, storageName }) => {
           </div>
         </div>
       </div>
-      <div className="modal-backdrop fade show"></div>
+      {/* <div className="modal-backdrop fade show"></div> */}
     </>
   );
 };

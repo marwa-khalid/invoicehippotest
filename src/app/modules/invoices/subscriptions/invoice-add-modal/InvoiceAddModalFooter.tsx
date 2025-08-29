@@ -128,7 +128,11 @@ const InvoiceAddModalFooter = ({
             )}
             {isSubmitting && (
               <span className="indicator-progress d-flex align-items-center">
-                {intl.formatMessage({ id: "Common.Busy" })}
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: intl.formatMessage({ id: "Common.Busy" }),
+                  }}
+                />
                 <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             )}
@@ -204,7 +208,11 @@ const InvoiceAddModalFooter = ({
                 intl.formatMessage({ id: "Fields.ActionActivate" })}
               {isSubmitting2 && (
                 <span className="indicator-progress d-flex align-items-center">
-                  {intl.formatMessage({ id: "Common.Busy" })}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: intl.formatMessage({ id: "Common.Busy" }),
+                    }}
+                  />
                   <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               )}
@@ -272,7 +280,11 @@ const InvoiceAddModalFooter = ({
               )}
               {isSubmitting2 && (
                 <span className="indicator-progress d-flex align-items-center w-full">
-                  {intl.formatMessage({ id: "Common.Busy" })}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: intl.formatMessage({ id: "Common.Busy" }),
+                    }}
+                  />
                   <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
               )}

@@ -32,6 +32,9 @@ import ModalWrapper from "../../../generic/Modals/ModalWrapper";
 import { AttachmentListing } from "../../../generic/FileManager/AttachmentListing";
 import { InvoiceAddStep4 } from "./InvoiceAddStep4";
 import { ExtraOptionsModal } from "../extra-options-modal/ExtraOptionsModal";
+import { ProductPicker } from "./ProductPicker";
+import { ClientAddModal } from "../../../client/client-search/client-add-modal/ClientAddModal";
+import { ClientSearch } from "../../../generic/ClientSearch";
 interface Props {
   setRefresh: (type: boolean) => void;
   refresh: boolean;
@@ -41,6 +44,7 @@ interface Props {
   setActivateModalOpen: (type: boolean) => void;
   setInvoiceNr: (type: string) => void;
   setEmailModalOpen: (type: boolean) => void;
+  addModalOpen: boolean;
 }
 type VatTotal = {
   title: string;
@@ -55,6 +59,7 @@ const InvoiceAddModal = ({
   setActivateModalOpen,
   setInvoiceNr,
   setEmailModalOpen,
+  addModalOpen,
 }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -317,20 +322,33 @@ const InvoiceAddModal = ({
               document.body.removeChild(link);
               break;
             case 5:
-              setResponse(response.result);
               openSend("send", response.result.id);
+              setAddModalOpen(false);
+              setContactResponse(null);
+              setRefresh(!refresh);
               break;
             case 6:
-              setResponse(response.result);
               openActivate("download", response.result.id);
+              setAddModalOpen(false);
+              setContactResponse(null);
+              setRefresh(!refresh);
               break;
             case 7:
-              setResponse(response.result);
               openActivate("activate", response.result.id);
+              setAddModalOpen(false);
+              setContactResponse(null);
+              setRefresh(!refresh);
+              break;
+            case 8:
+              openSend("save", response.result.id);
+              setAddModalOpen(false);
+              setContactResponse(null);
+              setRefresh(!refresh);
               break;
             default:
               setEditModalId(response.result.id);
               setResponse(response.result);
+              setRefresh(!refresh);
               break;
           }
         }
@@ -689,13 +707,25 @@ const InvoiceAddModal = ({
       setIsCollapsed(true);
     }
   }, [formik.values.attachments?.attachments?.length]);
+  const [productPicker, setProductPicker] = useState<any>();
+  const closeProductPicker = () => {
+    setProductPicker(false);
+    setRefreshTotal(!refreshTotal);
+  };
+  const [clientModal, setClientModalOpen] = useState<boolean>(false);
+  const [clientModalId, setClientModalId] = useState<number>(0);
 
+  const [clientSearch, setClientSearch] = useState<any>();
+  const handleClose = () => {
+    setClientSearch(false);
+  };
   return (
     <>
       <ModalWrapper
         id="invoice_add_modal"
-        isOpen={isModalOpen} // Replace with the appropriate state for your modal
+        isOpen={addModalOpen} // Replace with the appropriate state for your modal
         onClose={() => setAddModalOpen(false)} // Pass the close handler
+        modalPopup={productPicker || clientSearch || clientModal}
       >
         <ViewCanvas downloadUrl={downloadUrl} keyy={key} />
 
@@ -740,6 +770,11 @@ const InvoiceAddModal = ({
               contactResponse={contactResponse}
               setContactResponse={setContactResponse}
               clientCheck={clientCheck}
+              clientModal={clientModal}
+              clientSearch={clientSearch}
+              setClientModalId={setClientModalId}
+              setClientModalOpen={setClientModalOpen}
+              setClientSearch={setClientSearch}
             />
           )}
           {activeTab.id === "tab2" && (
@@ -749,8 +784,7 @@ const InvoiceAddModal = ({
               ledgers={ledgers}
               unitTypes={unitTypes}
               discountTypes={discountTypes}
-              refreshTotal={refreshTotal}
-              setRefreshTotal={setRefreshTotal}
+              setProductPicker={setProductPicker}
               setDiscountRefresh={setDiscountRefresh}
               discountRefresh={discountRefresh}
               setLedgerRefresh={setLedgerRefresh}
@@ -827,6 +861,7 @@ const InvoiceAddModal = ({
                               {vatTotal.title}
                             </td>
                             <td className="p-0 text-end mr-5  text-nowrap">
+                              {formik.values.customizations.isCreditNota && "-"}
                               {
                                 auth.currentUser?.result.activeCompanyDefaults
                                   .defaultValuta.sign
@@ -843,13 +878,21 @@ const InvoiceAddModal = ({
                 </td>
 
                 <td className="cursor-pointer fw-bold text-end">
+                  {formik.values.customizations.isCreditNota && "-"}
                   {
                     auth.currentUser?.result.activeCompanyDefaults.defaultValuta
                       .sign
                   }{" "}
                   {totalPriceExcVat.toFixed(2)}
                 </td>
-                <td className="cursor-pointer rounded fw-bold fs-2 text-end text-success">
+                <td
+                  className={`cursor-pointer rounded fw-bold fs-2 text-end ${
+                    formik.values.customizations.isCreditNota
+                      ? "text-danger"
+                      : "text-success"
+                  }`}
+                >
+                  {formik.values.customizations.isCreditNota && "-"}
                   {
                     auth.currentUser?.result.activeCompanyDefaults.defaultValuta
                       .sign
@@ -881,12 +924,31 @@ const InvoiceAddModal = ({
           setAction={setAction}
           attachmentsModalOpen={attachmentsModalOpen}
           setAttachmentsModalOpen={setAttachmentsModalOpen}
-          openSend={openSend}
           setActionType={setActionType}
         />
       </ModalWrapper>
       {isLoading && <ListLoading />}
       <div className="modal-backdrop fade show"></div>
+      {productPicker && (
+        <ProductPicker
+          closeProductPicker={closeProductPicker}
+          formik={formik}
+        />
+      )}
+      {clientModal && (
+        <ClientAddModal
+          setEditModalId={setClientModalId}
+          setAddModalOpen={setClientModalOpen}
+          editModalId={clientModalId}
+        />
+      )}
+      {clientSearch && (
+        <ClientSearch
+          handleClose={handleClose}
+          formik={formik}
+          storageName="storedClient"
+        />
+      )}
     </>
   );
 };

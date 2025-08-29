@@ -31,7 +31,10 @@ import { CustomTabManager } from "../../../generic/Tabs/CustomTabManager";
 import { AttachmentListing } from "../../../generic/FileManager/AttachmentListing";
 import { QuoteAddStep4 } from "./QuoteAddStep4";
 import { ExtraOptionsModal } from "../extra-options-modal/ExtraOptionsModal";
-import { IdNotVerifiedFreeIcons } from "@hugeicons/core-free-icons";
+import { ProductPicker } from "./ProductPicker";
+import { ClientAddModal } from "../../../client/client-search/client-add-modal/ClientAddModal";
+import { ClientSearch } from "../../../generic/ClientSearch";
+import ModalWrapper from "../../../generic/Modals/ModalWrapper";
 interface Props {
   setRefresh: (type: boolean) => void;
   refresh: boolean;
@@ -41,6 +44,7 @@ interface Props {
   setActivateModalOpen: (type: boolean) => void;
   setQuoteNumber: (type: string) => void;
   setEmailModalOpen: (type: boolean) => void;
+  addModalOpen: boolean;
 }
 type VatTotal = {
   title: string;
@@ -55,6 +59,7 @@ const QuoteAddModal = ({
   setActivateModalOpen,
   setQuoteNumber,
   setEmailModalOpen,
+  addModalOpen,
 }: Props) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -74,7 +79,6 @@ const QuoteAddModal = ({
   const navigate = useNavigate();
   const openActivate = (actionType: string, id: number) => {
     valueSetter(actionType, id);
-    console.log(action);
     setActivateModalOpen(true);
   };
 
@@ -86,7 +90,6 @@ const QuoteAddModal = ({
   const valueSetter = async (actionType: string, id: number) => {
     const data = await getQuickViewQuote(id);
     if (data.isValid) {
-      console.log(data);
       setEditModalId(data.result.id);
       setQuoteNumber(data.result.quoteNr);
 
@@ -129,7 +132,7 @@ const QuoteAddModal = ({
           vatNr: "",
           ibanNr: "",
         },
-        quoteDate: new Date().toISOString(),
+        quoteDate: "",
         clientId: 0,
         clientContactId: 0,
         deadLineForAcceptanceDays: 0,
@@ -295,27 +298,40 @@ const QuoteAddModal = ({
               document.body.removeChild(link);
               break;
             case 5:
-              setResponse(response.result);
               openSend("send", response.result.id);
+              setAddModalOpen(false);
+              setContactResponse(null);
+              setRefresh(!refresh);
               break;
             case 6:
-              setResponse(response.result);
               openActivate("download", response.result.id);
+              setAddModalOpen(false);
+              setContactResponse(null);
+              setRefresh(!refresh);
               break;
             case 7:
-              setResponse(response.result);
               openActivate("activate", response.result.id);
+              setAddModalOpen(false);
+              setContactResponse(null);
+              setRefresh(!refresh);
+              break;
+            case 8:
+              openSend("save", response.result.id);
+              setAddModalOpen(false);
+              setContactResponse(null);
+              setRefresh(!refresh);
               break;
             default:
               setEditModalId(response.result.id);
               setResponse(response.result);
+              setRefresh(!refresh);
               break;
           }
         }
 
         handleToast(response);
       } catch (error) {
-        console.error("Post failed:", error);
+        // console.error("Post failed:", error);
       } finally {
         setIsSubmitting(false);
         setIsSubmitting2(false);
@@ -647,213 +663,237 @@ const QuoteAddModal = ({
       setIsCollapsed(true);
     }
   }, [formik.values.attachments?.attachments?.length]);
+  const [productPicker, setProductPicker] = useState<any>();
+
+  const closeProductPicker = () => {
+    setProductPicker(false);
+    setRefreshTotal(!refreshTotal);
+  };
+  const [clientModal, setClientModalOpen] = useState<boolean>(false);
+  const [clientModalId, setClientModalId] = useState<number>(0);
+
+  const [clientSearch, setClientSearch] = useState<any>();
+
+  const handleClose = () => {
+    setClientSearch(false);
+  };
 
   return (
     <>
-      <div
-        className="modal fade show d-block"
-        role="dialog"
+      <ModalWrapper
         id="quote_add_modal"
-        aria-modal="true"
-        tabIndex={-1}
+        isOpen={addModalOpen} // Replace with the appropriate state for your modal
+        onClose={() => setAddModalOpen(false)} // Pass the close handler
+        modalPopup={productPicker || clientSearch || clientModal}
       >
-        <div
-          className="modal-dialog "
-          style={{
-            maxWidth: "1024px",
-            width: "100%",
-          }}
-        >
-          <div className="modal-content">
-            <ViewCanvas downloadUrl={downloadUrl} keyy={key} />
-            <QuoteAddModalHeader
-              setAddModalOpen={setAddModalOpen}
-              formik={formik}
-              editModalId={editModalId}
-            />
-
-            <CustomTabManager
-              tabs={tabs}
-              activeTab={activeTab}
-              onTabClick={handleTabClick}
-              onExtraOptionsClick={() => setExtraOptionsModal(true)}
-              hasOptions={true}
-              hasSubscriptions={false}
-            />
-            {editModalId === 0 && (
-              <div
-                className="d-flex info-container p-5"
-                style={{ backgroundColor: "#FFF4DE" }}
-              >
-                <div className="col-1 ms-5">
-                  <i className="ki-duotone ki-information-4 fs-3x text-center text-warning">
-                    <span className="path1"></span>
-                    <span className="path2"></span>
-                    <span className="path3"></span>
-                  </i>
-                </div>
-                <div className="col-10 text-warning fw-bold">
-                  {intl.formatMessage({ id: "Fields.ModalQuoteDraftInfo" })}
-                </div>
-              </div>
-            )}
-
-            <div className="hippo-tab-content" id="myTabContent">
-              {activeTab.id === "tab1" && (
-                <QuoteAddStep1
-                  formik={formik}
-                  contactResponse={contactResponse}
-                  setContactResponse={setContactResponse}
-                  clientCheck={clientCheck}
-                />
-              )}
-              {activeTab.id === "tab2" && (
-                <QuoteAddStep2
-                  clientId={response?.id}
-                  refresh={refresh}
-                  formik={formik}
-                  vatTypes={vatTypes}
-                  ledgers={ledgers}
-                  unitTypes={unitTypes}
-                  discountTypes={discountTypes}
-                  refreshTotal={refreshTotal}
-                  setRefreshTotal={setRefreshTotal}
-                  setDiscountRefresh={setDiscountRefresh}
-                  discountRefresh={discountRefresh}
-                />
-              )}
-              {activeTab.id === "tab3" && (
-                <QuoteAddStep3
-                  setIsSubmitting={setIsSubmitting}
-                  isSubmitting={isSubmitting}
-                  formik={formik}
-                  setAddModalOpen={setAddModalOpen}
-                />
-              )}
-              {formik.values.hasCustomFields && activeTab.id === "tab4" && (
-                <QuoteAddStep4 formik={formik} />
-              )}
+        <ViewCanvas downloadUrl={downloadUrl} keyy={key} />
+        <QuoteAddModalHeader
+          setAddModalOpen={setAddModalOpen}
+          formik={formik}
+          editModalId={editModalId}
+        />
+        <CustomTabManager
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabClick={handleTabClick}
+          onExtraOptionsClick={() => setExtraOptionsModal(true)}
+          hasOptions={true}
+          hasSubscriptions={false}
+        />
+        {editModalId === 0 && (
+          <div
+            className="d-flex info-container p-5"
+            style={{ backgroundColor: "#FFF4DE" }}
+          >
+            <div className="col-1 ms-5">
+              <i className="ki-duotone ki-information-4 fs-3x text-center text-warning">
+                <span className="path1"></span>
+                <span className="path2"></span>
+                <span className="path3"></span>
+              </i>
             </div>
-            {extraOptionsModal && (
-              <ExtraOptionsModal
-                formik={formik}
-                setExtraOptionsModal={setExtraOptionsModal}
-                companyTradeNames={companyTradeNames}
-                notificationCycles={notificationCycles}
-              />
-            )}
-
-            <div className="table-responsive bg-secondary p-10">
-              <table className="table table-row-dashed table-row-gray-300  gs-0 gy-4 ">
-                <thead>
-                  <tr className="fw-bold text-muted">
-                    {hasDiscountmargin && (
-                      <th>
-                        {intl
-                          .formatMessage({ id: "Fields.TotalDiscountSummary" })
-                          .toUpperCase()}
-                      </th>
-                    )}
-                    <th className="text-end">
-                      {intl
-                        .formatMessage({ id: "Fields.TotalVATSummary" })
-                        .toUpperCase()}
-                    </th>
-
-                    <th className="text-end">
-                      {intl
-                        .formatMessage({ id: "Fields.TotalPrice" })
-                        .toUpperCase()}
-                    </th>
-                    <th className="text-end">
-                      {intl.formatMessage({ id: "Fields.Total" }).toUpperCase()}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="fw-bold">
-                    {hasDiscountmargin && (
-                      <td>
-                        {" "}
-                        {
-                          auth.currentUser?.result.activeCompanyDefaults
-                            .defaultValuta.sign
-                        }{" "}
-                        {totalDiscountAmount.toFixed(2)}
-                      </td>
-                    )}
-                    <td>
-                      <div className="table-responsive">
-                        <table className="table">
-                          {vatTotals?.map((vatTotal: any) => (
-                            <tbody key={vatTotal.title + 1}>
-                              <tr className="border-0">
-                                <td className="p-0 border-0 text-end">
-                                  {vatTotal.title}
-                                </td>
-                                <td className="p-0 text-end mr-5  text-nowrap">
-                                  {
-                                    auth.currentUser?.result
-                                      .activeCompanyDefaults.defaultValuta.sign
-                                  }{" "}
-                                  {isNaN(vatTotal.totalVat)
-                                    ? "0.00"
-                                    : vatTotal.totalVat.toFixed(2)}
-                                </td>
-                              </tr>
-                            </tbody>
-                          ))}
-                        </table>
-                      </div>
-                    </td>
-
-                    <td className="cursor-pointer fw-bold text-end">
-                      {
-                        auth.currentUser?.result.activeCompanyDefaults
-                          .defaultValuta.sign
-                      }{" "}
-                      {totalPriceExcVat.toFixed(2)}
-                    </td>
-                    <td className="cursor-pointer rounded fw-bold fs-2 text-end text-success">
-                      {
-                        auth.currentUser?.result.activeCompanyDefaults
-                          .defaultValuta.sign
-                      }{" "}
-                      {totalPriceIncVat.toFixed(2)}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className="col-10 text-warning fw-bold">
+              {intl.formatMessage({ id: "Fields.ModalQuoteDraftInfo" })}
             </div>
-
-            <AttachmentListing
-              attachments={formik?.values?.attachments?.attachments}
-              setIsCollapsed={setIsCollapsed}
-              isCollapsed={isCollapsed}
-              formik={formik}
-              restoreModalOpen={restoreModalOpen}
-              setRestoreModalOpen={setRestoreModalOpen}
-              handleDelete={handleDelete}
-              setDownloadUrl={setDownloadUrl}
-              selectedAttachment={selectedAttachment}
-              setKey={setKey}
-            />
-            <QuoteAddModalFooter
-              formik={formik}
-              setAddModalOpen={setAddModalOpen}
-              setActionType={setActionType}
-              isSubmitting={isSubmitting}
-              isSubmitting2={isSubmitting2}
-              setAction={setAction}
-              openSend={openSend}
-              attachmentsModalOpen={attachmentsModalOpen}
-              setAttachmentsModalOpen={setAttachmentsModalOpen}
-            />
           </div>
+        )}
+        <div className="hippo-tab-content" id="myTabContent">
+          {activeTab.id === "tab1" && (
+            <QuoteAddStep1
+              formik={formik}
+              contactResponse={contactResponse}
+              setContactResponse={setContactResponse}
+              clientCheck={clientCheck}
+              clientModal={clientModal}
+              setClientSearch={setClientSearch}
+              setClientModalId={setClientModalId}
+              setClientModalOpen={setClientModalOpen}
+              clientSearch={clientSearch}
+            />
+          )}
+          {activeTab.id === "tab2" && (
+            <QuoteAddStep2
+              clientId={response?.id}
+              refresh={refresh}
+              formik={formik}
+              vatTypes={vatTypes}
+              ledgers={ledgers}
+              unitTypes={unitTypes}
+              discountTypes={discountTypes}
+              refreshTotal={refreshTotal}
+              setRefreshTotal={setRefreshTotal}
+              setDiscountRefresh={setDiscountRefresh}
+              discountRefresh={discountRefresh}
+              setProductPicker={setProductPicker}
+            />
+          )}
+          {activeTab.id === "tab3" && (
+            <QuoteAddStep3
+              setIsSubmitting={setIsSubmitting}
+              isSubmitting={isSubmitting}
+              formik={formik}
+              setAddModalOpen={setAddModalOpen}
+            />
+          )}
+          {formik.values.hasCustomFields && activeTab.id === "tab4" && (
+            <QuoteAddStep4 formik={formik} />
+          )}
         </div>
-      </div>
+        {extraOptionsModal && (
+          <ExtraOptionsModal
+            formik={formik}
+            setExtraOptionsModal={setExtraOptionsModal}
+            companyTradeNames={companyTradeNames}
+            notificationCycles={notificationCycles}
+          />
+        )}
+        <div className="table-responsive bg-secondary p-10">
+          <table className="table table-row-dashed table-row-gray-300  gs-0 gy-4 ">
+            <thead>
+              <tr className="fw-bold text-muted">
+                {hasDiscountmargin && (
+                  <th>
+                    {intl
+                      .formatMessage({ id: "Fields.TotalDiscountSummary" })
+                      .toUpperCase()}
+                  </th>
+                )}
+                <th className="text-end">
+                  {intl
+                    .formatMessage({ id: "Fields.TotalVATSummary" })
+                    .toUpperCase()}
+                </th>
+
+                <th className="text-end">
+                  {intl
+                    .formatMessage({ id: "Fields.TotalPrice" })
+                    .toUpperCase()}
+                </th>
+                <th className="text-end">
+                  {intl.formatMessage({ id: "Fields.Total" }).toUpperCase()}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="fw-bold">
+                {hasDiscountmargin && (
+                  <td>
+                    {" "}
+                    {
+                      auth.currentUser?.result.activeCompanyDefaults
+                        .defaultValuta.sign
+                    }{" "}
+                    {totalDiscountAmount.toFixed(2)}
+                  </td>
+                )}
+                <td>
+                  <div className="table-responsive">
+                    <table className="table">
+                      {vatTotals?.map((vatTotal: any) => (
+                        <tbody key={vatTotal.title + 1}>
+                          <tr className="border-0">
+                            <td className="p-0 border-0 text-end">
+                              {vatTotal.title}
+                            </td>
+                            <td className="p-0 text-end mr-5  text-nowrap">
+                              {
+                                auth.currentUser?.result.activeCompanyDefaults
+                                  .defaultValuta.sign
+                              }{" "}
+                              {isNaN(vatTotal.totalVat)
+                                ? "0.00"
+                                : vatTotal.totalVat.toFixed(2)}
+                            </td>
+                          </tr>
+                        </tbody>
+                      ))}
+                    </table>
+                  </div>
+                </td>
+
+                <td className="cursor-pointer fw-bold text-end">
+                  {
+                    auth.currentUser?.result.activeCompanyDefaults.defaultValuta
+                      .sign
+                  }{" "}
+                  {totalPriceExcVat.toFixed(2)}
+                </td>
+                <td className="cursor-pointer rounded fw-bold fs-2 text-end text-success">
+                  {
+                    auth.currentUser?.result.activeCompanyDefaults.defaultValuta
+                      .sign
+                  }{" "}
+                  {totalPriceIncVat.toFixed(2)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <AttachmentListing
+          attachments={formik?.values?.attachments?.attachments}
+          setIsCollapsed={setIsCollapsed}
+          isCollapsed={isCollapsed}
+          formik={formik}
+          restoreModalOpen={restoreModalOpen}
+          setRestoreModalOpen={setRestoreModalOpen}
+          handleDelete={handleDelete}
+          setDownloadUrl={setDownloadUrl}
+          selectedAttachment={selectedAttachment}
+          setKey={setKey}
+        />
+        <QuoteAddModalFooter
+          formik={formik}
+          setAddModalOpen={setAddModalOpen}
+          setActionType={setActionType}
+          isSubmitting={isSubmitting}
+          isSubmitting2={isSubmitting2}
+          setAction={setAction}
+          attachmentsModalOpen={attachmentsModalOpen}
+          setAttachmentsModalOpen={setAttachmentsModalOpen}
+        />
+      </ModalWrapper>
       {isLoading && <ListLoading />}
       <div className="modal-backdrop fade show"></div>
+      {productPicker && (
+        <ProductPicker
+          closeProductPicker={closeProductPicker}
+          formik={formik}
+        />
+      )}
+      {clientModal && (
+        <ClientAddModal
+          setEditModalId={setClientModalId}
+          setAddModalOpen={setClientModalOpen}
+          editModalId={clientModalId}
+        />
+      )}
+      {clientSearch && (
+        <ClientSearch
+          handleClose={handleClose}
+          formik={formik}
+          storageName=""
+        />
+      )}
     </>
   );
 };

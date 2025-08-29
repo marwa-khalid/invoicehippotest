@@ -1,4 +1,5 @@
 // components/ModalWrapper.tsx
+import clsx from "clsx";
 import React from "react";
 
 const ModalWrapper = ({
@@ -7,19 +8,21 @@ const ModalWrapper = ({
   onClose,
   maxWidth = "1024px",
   children,
+  modalPopup,
 }: {
   id: string;
   isOpen: boolean;
   onClose: () => void;
   maxWidth?: string;
   children: React.ReactNode;
+  modalPopup?: boolean;
 }) => {
   if (!isOpen) return null;
 
   return (
     <>
       <div
-        className="modal fade show d-block"
+        className={clsx("modal fade show", modalPopup ? "d-none" : "d-block")}
         role="dialog"
         id={id}
         aria-modal="true"
@@ -33,12 +36,12 @@ const ModalWrapper = ({
           }}
         >
           <div className="modal-content">
-            <button
+            {/* <button
               type="button"
               className="btn-close position-absolute top-0 end-0 m-3"
               aria-label="Close"
               onClick={onClose}
-            ></button>
+            ></button> */}
             {children}
           </div>
         </div>

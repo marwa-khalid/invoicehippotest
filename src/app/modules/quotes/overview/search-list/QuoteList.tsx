@@ -5,7 +5,7 @@ import ListCard from "../../../generic/ListElements/ListCard";
 import { ListLoading } from "../../../generic/ListLoading";
 import { KTCardBody, KTSVG } from "../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-import Tippy from "@tippyjs/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { useNavigate } from "react-router-dom";
 import { ListPagination } from "../../../generic/ListPagination";
 import { getDateRange, parseDate } from "../../../../utils/dateUtils";
@@ -248,80 +248,91 @@ const QuoteList = ({
           quoteLists?.result?.map((quoteList: QuoteListResult) => (
             <ListCard key={quoteList.id}>
               {/* Ribbons */}
-              <Tippy
-                content={
-                  <div style={{ fontFamily: "monospace" }}>
-                    <div className="table" style={{ width: "100%" }}>
-                      {/* Total Price */}
-                      {quoteList.totals.totalPrice > 0 && (
-                        <div style={{ display: "table-row" }}>
-                          <div
-                            className="px-2"
-                            style={{
-                              display: "table-cell",
-                              textAlign: "right",
-                            }}
-                          >
-                            {intl.formatMessage({ id: "Fields.TotalPrice" })}:
-                          </div>
-                          <div
-                            style={{
-                              display: "table-cell",
-                              textAlign: "right",
-                            }}
-                          >
-                            {quoteList.valuta.sign}
-                            {quoteList.totals.totalPrice.toFixed(2)}
-                          </div>
-                        </div>
-                      )}
-                      {/* Total VAT Amount */}
-                      {quoteList.totals.totalVATAmount > 0 && (
-                        <div style={{ display: "table-row" }}>
-                          <div
-                            className="px-2"
-                            style={{
-                              display: "table-cell",
-                              textAlign: "right",
-                            }}
-                          >
-                            {intl.formatMessage({
-                              id: "Fields.TotalVATAmount",
-                            })}
-                            :
-                          </div>
-
-                          <div
-                            style={{
-                              display: "table-cell",
-                              textAlign: "right",
-                            }}
-                          >
-                            {quoteList.valuta.sign}
-                            {quoteList.totals.totalVATAmount.toFixed(2)}
-                          </div>
-                        </div>
-                      )}
+              <Tooltip.Provider delayDuration={0}>
+                <Tooltip.Root>
+                  <Tooltip.Trigger asChild>
+                    <div
+                      className="ribbon ribbon-end ribbon-clip position-absolute cursor-pointer"
+                      style={{
+                        top: "10px",
+                        right: "0px",
+                        height: "30px",
+                        width: "100px",
+                      }}
+                    >
+                      <div className="ribbon-label fw-bold">
+                        {quoteList.valuta.sign}
+                        {quoteList.totals.totalPriceWithVAT.toFixed(2)}
+                        <span className="ribbon-inner bg-gray-600"></span>
+                      </div>
                     </div>
-                  </div>
-                }
-              >
-                <div
-                  className="ribbon ribbon-end ribbon-clip position-absolute cursor-pointer"
-                  style={{
-                    top: "10px",
-                    right: "0px",
-                    height: "30px",
-                    width: "100px",
-                  }}
-                >
-                  <div className="ribbon-label fw-bold">
-                    {quoteList.valuta.sign}
-                    {quoteList.totals.totalPriceWithVAT.toFixed(2)}
-                    <span className="ribbon-inner bg-gray-600"></span>
-                  </div>
-                </div>
-              </Tippy>
+                  </Tooltip.Trigger>
+
+                  <Tooltip.Portal>
+                    <Tooltip.Content side="top" className="app-tooltip">
+                      <div style={{ fontFamily: "monospace" }}>
+                        <div className="table" style={{ width: "100%" }}>
+                          {/* Total Price */}
+                          {quoteList.totals.totalPrice > 0 && (
+                            <div style={{ display: "table-row" }}>
+                              <div
+                                className="px-2"
+                                style={{
+                                  display: "table-cell",
+                                  textAlign: "right",
+                                }}
+                              >
+                                {intl.formatMessage({
+                                  id: "Fields.TotalPrice",
+                                })}
+                                :
+                              </div>
+                              <div
+                                style={{
+                                  display: "table-cell",
+                                  textAlign: "right",
+                                }}
+                              >
+                                {quoteList.valuta.sign}
+                                {quoteList.totals.totalPrice.toFixed(2)}
+                              </div>
+                            </div>
+                          )}
+                          {/* Total VAT Amount */}
+                          {quoteList.totals.totalVATAmount > 0 && (
+                            <div style={{ display: "table-row" }}>
+                              <div
+                                className="px-2"
+                                style={{
+                                  display: "table-cell",
+                                  textAlign: "right",
+                                }}
+                              >
+                                {intl.formatMessage({
+                                  id: "Fields.TotalVATAmount",
+                                })}
+                                :
+                              </div>
+
+                              <div
+                                style={{
+                                  display: "table-cell",
+                                  textAlign: "right",
+                                }}
+                              >
+                                {quoteList.valuta.sign}
+                                {quoteList.totals.totalVATAmount.toFixed(2)}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      <Tooltip.Arrow className="app-tooltip-arrow" />
+                    </Tooltip.Content>
+                  </Tooltip.Portal>
+                </Tooltip.Root>
+              </Tooltip.Provider>
 
               <div
                 className="ribbon ribbon-start ribbon-clip position-absolute cursor-pointer"
@@ -505,47 +516,68 @@ const QuoteList = ({
                       )}
                     </button> */}
                     {quoteList.actions.canShowPreview && (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ToolTipView",
-                        })}
-                      >
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => {
-                            localStorage.setItem(
-                              "currentItem",
-                              JSON.stringify(quoteList)
-                            );
-                            navigate(`/estimation/view/${quoteList.uniqueId}`);
-                          }}
-                        >
-                          <i className="ki-duotone ki-eye fs-2">
-                            <span className="path1"></span>
-                            <span className="path2"></span>
-                            <span className="path3"></span>
-                          </i>
-                        </button>
-                      </Tippy>
+                      <Tooltip.Provider delayDuration={0}>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger asChild>
+                            <button
+                              className="btn btn-icon btn-light btn-sm me-4"
+                              onClick={() => {
+                                localStorage.setItem(
+                                  "currentItem",
+                                  JSON.stringify(quoteList)
+                                );
+                                navigate(
+                                  `/estimation/view/${quoteList.uniqueId}`
+                                );
+                              }}
+                            >
+                              <i className="ki-duotone ki-eye fs-2">
+                                <span className="path1"></span>
+                                <span className="path2"></span>
+                                <span className="path3"></span>
+                              </i>
+                            </button>
+                          </Tooltip.Trigger>
+
+                          <Tooltip.Portal>
+                            <Tooltip.Content side="top" className="app-tooltip">
+                              {intl.formatMessage({
+                                id: "Fields.ToolTipView",
+                              })}
+                              <Tooltip.Arrow className="app-tooltip-arrow" />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
                     )}
 
                     {quoteList.actions.canEdit && (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ToolTipEdit",
-                        })}
-                      >
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-4"
-                          onClick={() => {
-                            openEditModal(quoteList.id);
-                            setQuoteId && setQuoteId(quoteList.id);
-                          }}
-                        >
-                          <i className="ki-solid ki-pencil text-warning fs-2"></i>
-                        </button>
-                      </Tippy>
+                      <Tooltip.Provider delayDuration={0}>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger asChild>
+                            <button
+                              className="btn btn-icon btn-light btn-sm me-4"
+                              onClick={() => {
+                                openEditModal(quoteList.id);
+                                setQuoteId && setQuoteId(quoteList.id);
+                              }}
+                            >
+                              <i className="ki-solid ki-pencil text-warning fs-2"></i>
+                            </button>
+                          </Tooltip.Trigger>
+
+                          <Tooltip.Portal>
+                            <Tooltip.Content side="top" className="app-tooltip">
+                              {intl.formatMessage({
+                                id: "Fields.ToolTipEdit",
+                              })}
+                              <Tooltip.Arrow className="app-tooltip-arrow" />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
                     )}
+
                     <div className="btn-group drop-left">
                       <button
                         className="btn btn-icon btn-light btn-sm"

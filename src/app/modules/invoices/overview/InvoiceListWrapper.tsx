@@ -219,6 +219,7 @@ const InvoiceListInnerWrapper = ({
           setActivateModalOpen={setActivateModalOpen}
           setInvoiceNr={setInvoiceNr}
           setEmailModalOpen={setEmailModalOpen}
+          addModalOpen={addModalOpen}
         />
       )}
       {deleteModalOpen && (

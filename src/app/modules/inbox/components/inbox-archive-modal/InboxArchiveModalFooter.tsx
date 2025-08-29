@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useIntl } from "react-intl";
-import {  unArchiveInbox } from "../core/_requests";
+import { unArchiveInbox } from "../core/_requests";
 import { InboxListResult } from "../core/_models";
-
 
 interface ComponentProps {
   setArchiveModalOpen: (type: boolean) => void;
@@ -17,17 +16,15 @@ const InboxArchiveModalFooter = ({
   setArchiveModalOpen,
   setRefresh,
   refresh,
-  showBackButton
+  showBackButton,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-
-
   const handleUnArchive = async () => {
     try {
-      setIsSubmitting(true)
+      setIsSubmitting(true);
       // Extract required values first
       const inboxItemId = inboxDetail.inboxItemId ?? 0; // Default to 0 if undefined
       const fileId = inboxDetail.fileId ?? 0;
@@ -51,15 +48,17 @@ const InboxArchiveModalFooter = ({
     <div className="modal-footer  ">
       <div className="d-flex ">
         <div className="d-flex justify-content-start align-items-center">
-        {showBackButton && <button
-          type="reset"
-          onClick={() => {
-            handleUnArchive();
-          }}
-          className="btn btn-warning me-3"
-        >
-          {intl.formatMessage({ id: "Fields.ActionBackToInbox" })}
-        </button>}
+          {showBackButton && (
+            <button
+              type="reset"
+              onClick={() => {
+                handleUnArchive();
+              }}
+              className="btn btn-warning me-3"
+            >
+              {intl.formatMessage({ id: "Fields.ActionBackToInbox" })}
+            </button>
+          )}
         </div>
         {/* Cancel Button */}
         <div className="d-flex justify-content-end align-items-center">
@@ -78,12 +77,17 @@ const InboxArchiveModalFooter = ({
           <button
             type="submit"
             className="btn btn-primary"
-          //   disabled={!isValid || isSubmitting || !touched}
+            //   disabled={!isValid || isSubmitting || !touched}
           >
-            {!isSubmitting && intl.formatMessage({ id: "Fields.ActionArchive" })}
+            {!isSubmitting &&
+              intl.formatMessage({ id: "Fields.ActionArchive" })}
             {isSubmitting && (
               <span className="indicator-progress" style={{ display: "block" }}>
-                {intl.formatMessage({ id: "Common.Busy" })}
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: intl.formatMessage({ id: "Common.Busy" }),
+                  }}
+                />
                 <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             )}

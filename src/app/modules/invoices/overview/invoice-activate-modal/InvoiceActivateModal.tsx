@@ -37,7 +37,6 @@ const InvoiceActivateModal = ({
   const formattedToday = `${String(today.getDate()).padStart(2, "0")}-${String(
     today.getMonth() + 1
   ).padStart(2, "0")}-${today.getFullYear()}`;
-
   // Format as "YYYY-MM-DD"
   useEffect(() => {
     if (invoiceDateAsString === formattedToday) {
@@ -45,7 +44,7 @@ const InvoiceActivateModal = ({
     } else {
       setIsTodayDate(false);
     }
-  }, []);
+  }, [invoiceDateAsString]);
   // Check if the dates are the same
 
   const formatExpirationDate = () => {

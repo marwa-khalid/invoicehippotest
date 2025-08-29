@@ -103,6 +103,7 @@ const ClientInnerWrapper = () => {
           setQuoteNumber={setQuoteNumber}
           setActivateModalOpen={setActivateModalOpenQuote}
           setEmailModalOpen={setEmailModalOpenQuote}
+          addModalOpen={quoteModalOpen}
         />
       )}
       {emailModalOpenQuote && (
@@ -133,6 +134,7 @@ const ClientInnerWrapper = () => {
           setActivateModalOpen={setActivateModalOpenInvoice}
           setInvoiceNr={setInvoiceNr}
           setEmailModalOpen={setEmailModalOpenInvoice}
+          addModalOpen={invoiceModalOpen}
         />
       )}
       {emailModalOpenInvoice && (
