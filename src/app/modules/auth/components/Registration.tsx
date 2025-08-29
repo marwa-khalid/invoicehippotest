@@ -438,7 +438,7 @@ export function Registration() {
           </Link>
         </div>
       </div>
-      <div className="mt-3">
+      <div className="mt-10 d-flex justify-content-center">
         <LanguagesAuth />
       </div>
       {/* end::Form group */}

@@ -305,14 +305,14 @@ const Login = () => {
       <div className="text-gray-500 text-center fw-semibold fs-6">
         {intl.formatMessage({
           id: "LoginAndRegistration.SubTitleLogin",
-        })}
+        })}{" "}
         <Link to="/registration" className="link-primary">
           {intl.formatMessage({
             id: "LoginAndRegistration.SubTitleLinkLogin",
           })}
-        </Link>{" "}
+        </Link>
       </div>
-      <div className="m-0">
+      <div className="mt-10 d-flex justify-content-center">
         <LanguagesAuth />
       </div>
     </form>
