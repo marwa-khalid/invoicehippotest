@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import SignatureCanvas from "react-signature-canvas";
-import { Formik, Form, FormikProps } from "formik";
+import { FormikProps } from "formik";
 import { FormValues } from "./QuoteValidateStep1";
 import { useIntl } from "react-intl";
 
@@ -19,7 +19,6 @@ const DigitalSignature = ({ formik }: Props) => {
   const fonts = [
     "Arial",
     "Brush Script MT",
-    "Courier New",
     "Times New Roman",
     "Alex Brush",
     "Whisper",

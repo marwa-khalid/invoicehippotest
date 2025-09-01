@@ -970,7 +970,6 @@ const InvoiceAddStep2: FC<Props> = ({
                             {product.description && (
                               <tr>
                                 <td colSpan={7}>
-                                  {" "}
                                   <span
                                     dangerouslySetInnerHTML={{
                                       __html: product.description,

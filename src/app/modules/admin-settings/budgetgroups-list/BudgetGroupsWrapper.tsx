@@ -1,6 +1,6 @@
 import { ProductGroupsHeader } from "./header/ProductGroupsHeader.js";
 import { ProductGroupsList } from "./search-list/ProductGroupsList.js";
-import { ProductGroupsAddModal } from "./productgroups-add-modal/ProductGroupsAddModal.js";
+import { BudgetGroupAddModal } from "./productgroups-add-modal/BudgetGroupAddModal.js";
 import { ToolbarWrapper } from "../../../../_metronic/layout/components/toolbar/index.js";
 import { Content } from "../../../../_metronic/layout/components/content/index.js";
 import { useState } from "react";
@@ -68,7 +68,7 @@ const ProductGroupsInnerWrapper = () => {
       />
 
       {addModalOpen && (
-        <ProductGroupsAddModal
+        <BudgetGroupAddModal
           setRefresh={setRefresh}
           setAddModalOpen={closeAddModal}
           editModalId={editModalId}
