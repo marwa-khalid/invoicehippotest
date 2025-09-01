@@ -64,7 +64,7 @@ const InvoiceCreditModalFooter = ({
         {/* Save Button */}
         <button
           type="submit"
-          className="btn btn-warning"
+          className="btn btn-primary"
           onClick={copyModal}
           disabled={invoiceDate === ""}
         >

@@ -97,7 +97,7 @@ const ClientSearch: FC<Props> = ({ handleClose, formik, storageName }) => {
       >
         <div className="modal-dialog mw-900px">
           <div className="modal-content">
-            <div className="modal-header bg-primary">
+            <div className="modal-header bg-dark">
               <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-0">
                 <h2 className="fw-bolder mb-0 text-white">
                   {intl.formatMessage({

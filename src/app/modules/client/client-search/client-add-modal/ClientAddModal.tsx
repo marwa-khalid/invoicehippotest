@@ -288,7 +288,7 @@ const ClientAddModal = ({
         res = await getDefaultEmpty();
       }
       setResponse(res.result);
-      if (!res.result?.hasCustomFields) {
+      if (!res.result.hasCustomFields) {
         setHideTab4(true);
       }
     };

@@ -47,7 +47,7 @@ interface ComponentProps {
   setKey: Dispatch<SetStateAction<number>>;
   isModal?: boolean;
   setQuoteId?: (type: number) => void;
-  setCreditModalOpen: (type: boolean) => void;
+  setCreateInvoiceModalOpen: (type: boolean) => void;
 }
 const QuoteList = ({
   searchTerm,
@@ -76,7 +76,7 @@ const QuoteList = ({
   isModal,
   setOrderConfirmationModalOpen,
   setQuoteId,
-  setCreditModalOpen,
+  setCreateInvoiceModalOpen,
 }: ComponentProps) => {
   const [quoteLists, setQuoteList] = useState<any>([]);
   const navigate = useNavigate();
@@ -183,9 +183,9 @@ const QuoteList = ({
     setActivateModalOpen(true);
   };
 
-  const openCreditModal = (quoteList: any) => {
+  const openCreateInvoiceModal = (quoteList: any) => {
     valueSetter(quoteList);
-    setCreditModalOpen(true);
+    setCreateInvoiceModalOpen(true);
   };
   const valueSetter = (quoteList: any) => {
     setQuoteNumber(quoteList.quoteNr);
@@ -194,6 +194,7 @@ const QuoteList = ({
       "ModalData",
       JSON.stringify({
         quoteDateAsString: quoteList.quoteDateAsString,
+        quoteListItem: quoteList,
         client: quoteList.client,
         totalPriceWithVat: quoteList.totals.totalPriceWithVAT,
         sign: quoteList.valuta.sign,
@@ -355,7 +356,7 @@ const QuoteList = ({
                   } else {
                     localStorage.setItem(
                       "currentItem",
-                      JSON.stringify(quoteList)
+                      JSON.stringify(quoteList.id)
                     );
                     navigate(`/estimation/view/${quoteList.uniqueId}`);
                   }
@@ -367,7 +368,7 @@ const QuoteList = ({
                   } else {
                     localStorage.setItem(
                       "currentItem",
-                      JSON.stringify(quoteList)
+                      JSON.stringify(quoteList.id)
                     );
                     navigate(`/estimation/view/${quoteList.uniqueId}`);
                   }
@@ -410,7 +411,7 @@ const QuoteList = ({
                       } else {
                         localStorage.setItem(
                           "currentItem",
-                          JSON.stringify(quoteList)
+                          JSON.stringify(quoteList.id)
                         );
                       }
                     }}
@@ -421,7 +422,7 @@ const QuoteList = ({
                       } else {
                         localStorage.setItem(
                           "currentItem",
-                          JSON.stringify(quoteList)
+                          JSON.stringify(quoteList.id)
                         );
                       }
                     }}
@@ -531,7 +532,7 @@ const QuoteList = ({
                               onClick={() => {
                                 localStorage.setItem(
                                   "currentItem",
-                                  JSON.stringify(quoteList)
+                                  JSON.stringify(quoteList.id)
                                 );
                                 navigate(
                                   `/estimation/view/${quoteList.uniqueId}`
@@ -734,7 +735,7 @@ const QuoteList = ({
                             <div className="dropdown-divider border-gray-200"></div>
                             <li
                               onClick={() => {
-                                openCreditModal(quoteList);
+                                openCreateInvoiceModal(quoteList);
                               }}
                             >
                               <a className="dropdown-item d-flex align-items-center cursor-pointer">

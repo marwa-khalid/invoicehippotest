@@ -33,7 +33,7 @@ const InvoiceCreditModal = ({
   const intl = useIntl();
   const [actionType, setActionType] = useState<number>(1);
   const [openDraftSwitch, setOpenDraftSwitch] = useState<boolean>(false);
-  const [invoiceDate, setInvoiceDate] = useState<string>("");
+  const [invoiceDate, setInvoiceDate] = useState<any>(new Date());
 
   return (
     <>
@@ -155,7 +155,7 @@ const InvoiceCreditModal = ({
                 <>
                   <div className="row d-flex form-wrapper bg-secondary p-5 rounded mb-7">
                     <div className="col-2">
-                      <i className="ki-duotone ki-information-4 fs-3x text-center text-warning">
+                      <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
                         <span className="path1"></span>
                         <span className="path2"></span>
                         <span className="path3"></span>
@@ -192,7 +192,7 @@ const InvoiceCreditModal = ({
               {actionType === 2 && (
                 <div className="row d-flex form-wrapper bg-secondary p-5 rounded mb-7">
                   <div className="col-2">
-                    <i className="ki-duotone ki-information-4 fs-3x text-center text-warning">
+                    <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
                       <span className="path1"></span>
                       <span className="path2"></span>
                       <span className="path3"></span>
@@ -211,7 +211,7 @@ const InvoiceCreditModal = ({
               {actionType === 3 && (
                 <div className="row d-flex form-wrapper bg-secondary p-5 rounded mb-7">
                   <div className="col-2">
-                    <i className="ki-duotone ki-information-4 fs-3x text-center text-warning">
+                    <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
                       <span className="path1"></span>
                       <span className="path2"></span>
                       <span className="path3"></span>

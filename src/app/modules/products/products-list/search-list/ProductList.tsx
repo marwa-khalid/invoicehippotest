@@ -3,9 +3,10 @@ import { ListLoading } from "../../../generic/ListLoading";
 import { ListPagination } from "../../../generic/ListPagination";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../_metronic/helpers";
-import Tippy from "@tippyjs/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { getProducts } from "../core/_requests";
 import { ProductResult } from "../core/_models";
+import { useAuth } from "../../../auth";
 interface ComponentProps {
   searchTerm: string;
   setTotalRows: (type: number) => void;
@@ -90,7 +91,7 @@ const ProductList = ({
     setDeleteModalOpen(true);
     localStorage.setItem("ModalData", JSON.stringify(product));
   };
-
+  const { currentUser } = useAuth();
   return (
     <div className="card py-3  p-10">
       <div className="table-responsive">
@@ -173,114 +174,151 @@ const ProductList = ({
                 </td>
                 <td className="text-end" style={{ paddingTop: "2.7rem" }}>
                   <div className="position-relative">
-                    €{product.totals.totalPriceWithVAT.toFixed(2)}
-                    <Tippy
-                      content={
-                        <div
-                          style={{
-                            fontFamily: "monospace",
-                          }}
-                        >
+                    {
+                      currentUser?.result.activeCompanyDefaults.defaultValuta
+                        .sign
+                    }
+                    {product.totals.totalPriceWithVAT.toFixed(2)}
+                    <Tooltip.Provider delayDuration={0}>
+                      <Tooltip.Root>
+                        <Tooltip.Trigger asChild>
                           <div
-                            className="table text-end"
-                            style={{ width: "100%" }}
+                            className="circle"
+                            style={{
+                              position: "absolute",
+                              top: "-14px",
+                              right: "-16px",
+                            }}
                           >
-                            {/* Total Price */}
-                            <div style={{ display: "table-row" }}>
-                              <div
-                                className="px-2"
-                                style={{
-                                  display: "table-cell",
-                                  textAlign: "right",
-                                }}
-                              >
-                                {intl.formatMessage({
-                                  id: "Fields.TotalPrice",
-                                })}
-                                :
-                              </div>
-                              <div
-                                style={{
-                                  display: "table-cell",
-                                  textAlign: "right",
-                                }}
-                              >
-                                €{product.totals.totalPrice.toFixed(2)}
-                              </div>
-                            </div>
-                            <div style={{ display: "table-row" }}>
-                              <div
-                                className="px-2"
-                                style={{
-                                  display: "table-cell",
-                                  textAlign: "right",
-                                }}
-                              >
-                                {intl.formatMessage({
-                                  id: "Fields.TotalVATAmount",
-                                })}
-                                :
-                              </div>
-                              <div
-                                style={{
-                                  display: "table-cell",
-                                  textAlign: "right",
-                                }}
-                              >
-                                €{product.totals.totalVATAmount.toFixed(2)}
-                              </div>
-                            </div>
+                            <i className="ki-duotone ki-information-4 fs-2 cursor-pointer text-primary ms-1">
+                              <span className="path1"></span>
+                              <span className="path2"></span>
+                              <span className="path3"></span>
+                            </i>
                           </div>
-                        </div>
-                      }
-                    >
-                      <div
-                        className="circle"
-                        style={{
-                          position: "absolute",
-                          top: "-14px",
-                          right: "-16px",
-                        }}
-                      >
-                        <i className="ki-duotone ki-information-4 fs-2 cursor-pointer text-primary ms-1">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                          <span className="path3"></span>
-                        </i>
-                      </div>
-                    </Tippy>
+                        </Tooltip.Trigger>
+
+                        <Tooltip.Portal>
+                          <Tooltip.Content side="top" className="app-tooltip">
+                            <div
+                              style={{
+                                fontFamily: "monospace",
+                              }}
+                            >
+                              <div
+                                className="table text-end"
+                                style={{ width: "100%" }}
+                              >
+                                {/* Total Price */}
+                                <div style={{ display: "table-row" }}>
+                                  <div
+                                    className="px-2"
+                                    style={{
+                                      display: "table-cell",
+                                      textAlign: "right",
+                                    }}
+                                  >
+                                    {intl.formatMessage({
+                                      id: "Fields.TotalPrice",
+                                    })}
+                                    :
+                                  </div>
+                                  <div
+                                    style={{
+                                      display: "table-cell",
+                                      textAlign: "right",
+                                    }}
+                                  >
+                                    {
+                                      currentUser?.result.activeCompanyDefaults
+                                        .defaultValuta.sign
+                                    }
+                                    {product.totals.totalPrice.toFixed(2)}
+                                  </div>
+                                </div>
+                                <div style={{ display: "table-row" }}>
+                                  <div
+                                    className="px-2"
+                                    style={{
+                                      display: "table-cell",
+                                      textAlign: "right",
+                                    }}
+                                  >
+                                    {intl.formatMessage({
+                                      id: "Fields.TotalVATAmount",
+                                    })}
+                                    :
+                                  </div>
+                                  <div
+                                    style={{
+                                      display: "table-cell",
+                                      textAlign: "right",
+                                    }}
+                                  >
+                                    {
+                                      currentUser?.result.activeCompanyDefaults
+                                        .defaultValuta.sign
+                                    }
+                                    {product.totals.totalVATAmount.toFixed(2)}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <Tooltip.Arrow className="app-tooltip-arrow" />
+                          </Tooltip.Content>
+                        </Tooltip.Portal>
+                      </Tooltip.Root>
+                    </Tooltip.Provider>
                   </div>
                 </td>
 
                 <td className="text-end" style={{ paddingTop: "2rem" }}>
                   {product.actions.canEdit && (
-                    <Tippy
-                      content={intl.formatMessage({
-                        id: "Fields.ToolTipEdit",
-                      })}
-                    >
-                      <button
-                        className="btn btn-icon btn-light btn-sm me-2"
-                        onClick={() => openEditModal(product.id)}
-                      >
-                        <i className="ki-solid ki-pencil text-warning fs-2" />
-                      </button>
-                    </Tippy>
+                    <Tooltip.Provider delayDuration={0}>
+                      <Tooltip.Root>
+                        <Tooltip.Trigger asChild>
+                          <button
+                            className="btn btn-icon btn-light btn-sm me-2"
+                            onClick={() => openEditModal(product.id)}
+                          >
+                            <i className="ki-solid ki-pencil text-warning fs-2" />
+                          </button>
+                        </Tooltip.Trigger>
+
+                        <Tooltip.Portal>
+                          <Tooltip.Content side="top" className="app-tooltip">
+                            {intl.formatMessage({
+                              id: "Fields.ToolTipEdit",
+                            })}
+                            <Tooltip.Arrow className="app-tooltip-arrow" />
+                          </Tooltip.Content>
+                        </Tooltip.Portal>
+                      </Tooltip.Root>
+                    </Tooltip.Provider>
                   )}
 
                   {product.actions.canDelete && (
-                    <Tippy
-                      content={intl.formatMessage({
-                        id: "Fields.ToolTipDelete",
-                      })}
-                    >
-                      <button
-                        className="btn btn-icon btn-light btn-sm"
-                        onClick={() => openDeleteModal(product)}
-                      >
-                        <i className="ki-solid ki-trash text-danger fs-2" />
-                      </button>
-                    </Tippy>
+                    <Tooltip.Provider delayDuration={0}>
+                      <Tooltip.Root>
+                        <Tooltip.Trigger asChild>
+                          <button
+                            className="btn btn-icon btn-light btn-sm"
+                            onClick={() => openDeleteModal(product)}
+                          >
+                            <i className="ki-solid ki-trash text-danger fs-2" />
+                          </button>
+                        </Tooltip.Trigger>
+
+                        <Tooltip.Portal>
+                          <Tooltip.Content side="top" className="app-tooltip">
+                            {intl.formatMessage({
+                              id: "Fields.ToolTipDelete",
+                            })}
+                            <Tooltip.Arrow className="app-tooltip-arrow" />
+                          </Tooltip.Content>
+                        </Tooltip.Portal>
+                      </Tooltip.Root>
+                    </Tooltip.Provider>
                   )}
                 </td>
               </tr>

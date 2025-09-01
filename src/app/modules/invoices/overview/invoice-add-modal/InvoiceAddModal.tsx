@@ -304,7 +304,7 @@ const InvoiceAddModal = ({
 
               localStorage.setItem(
                 "currentItem",
-                JSON.stringify(response.result)
+                JSON.stringify(response.result.id)
               );
               navigate(`/invoice/view/${response.result.uniqueId}`);
 
@@ -434,6 +434,9 @@ const InvoiceAddModal = ({
     setActiveTab(tab);
   };
   const [ledgerRefresh, setLedgerRefresh] = useState<boolean>(false);
+  const [counter, setCounter] = useState<boolean>(false);
+  const [counter1, setCounter1] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchLedgersForSale = async () => {
       const response = await getLedgerTypes();
@@ -445,7 +448,9 @@ const InvoiceAddModal = ({
         setLedgers(options);
       }
     };
-    fetchLedgersForSale();
+    if (counter || ledgers.length === 0) {
+      fetchLedgersForSale();
+    }
   }, [ledgerRefresh]);
 
   useEffect(() => {
@@ -474,8 +479,9 @@ const InvoiceAddModal = ({
         setDiscountTypes(response.result);
       }
     };
-
-    fetchDiscountTypes();
+    if (discountTypes.length === 0 || counter1) {
+      fetchDiscountTypes();
+    }
   }, [discountRefresh]);
 
   useEffect(() => {
@@ -789,6 +795,10 @@ const InvoiceAddModal = ({
               discountRefresh={discountRefresh}
               setLedgerRefresh={setLedgerRefresh}
               ledgerRefresh={ledgerRefresh}
+              counter={counter}
+              setCounter={setCounter}
+              counter1={counter1}
+              setCounter1={setCounter1}
             />
           )}
           {activeTab.id === "tab3" && <InvoiceAddStep3 formik={formik} />}

@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import { validateQuote } from "../core/_requests";
 import { handleToast } from "../../../auth/core/_toast";
 import { useAuth } from "../../../auth";
+import { DigitalSignature } from "./DigitalSignature";
 interface ComponentProps {
   quoteId: number;
   quoteNumber: string;
@@ -101,6 +102,14 @@ const QuoteValidateModal = ({
                         intl.formatMessage({ id: "Fields.EmailAddress" })
                       )
                   ),
+                validatedBySignatureBase64: Yup.string().required(
+                  intl
+                    .formatMessage({ id: "Common.RequiredFieldHint2" })
+                    .replace(
+                      "{0}",
+                      intl.formatMessage({ id: "Fields.Signature" })
+                    )
+                ),
               })
             : Yup.object().shape({
                 validatedByFullName: Yup.string().nullable(),
@@ -205,6 +214,7 @@ const QuoteValidateModal = ({
 
             {/* start::Modal body */}
             <div className="hippo-tab-content" id="myTabContent">
+              {/* <DigitalSignature formik={formik} /> */}
               {activeTab.id === 1 && (
                 <QuoteValidateStep1
                   formik={formik}

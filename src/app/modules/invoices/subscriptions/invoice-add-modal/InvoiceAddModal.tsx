@@ -267,7 +267,7 @@ const InvoiceAddModal = ({
 
               localStorage.setItem(
                 "currentItem",
-                JSON.stringify(response.result)
+                JSON.stringify(response.result.id)
               );
               navigate(`/invoice/view/${response.result.uniqueId}`);
 

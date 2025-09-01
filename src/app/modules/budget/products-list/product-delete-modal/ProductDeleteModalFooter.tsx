@@ -1,50 +1,41 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { createCredit } from "../../../invoices/overview/core/_requests";
+import { deleteProductGroup } from "../core/_requests";
 import { handleToast } from "../../../auth/core/_toast";
 
 interface ComponentProps {
-  setCreditModalOpen: (type: boolean) => void;
-  invoiceId: number;
+  setDeleteModalOpen: (type: boolean) => void;
+  deleteModalId: number[];
   setRefresh: (type: boolean) => void;
+  setDeleteModalId: (type: number[]) => void;
   refresh: boolean;
-  invoiceDate: string;
-  actionType: number;
-  openDraftSwitch: boolean;
-  setAddModalOpen: (type: boolean) => void;
-  setEditModalId: (type: number) => void;
 }
 
-const InvoiceCreditModalFooter = ({
-  invoiceId,
-  setCreditModalOpen,
+const ProductDeleteModalFooter = ({
+  deleteModalId,
+  setDeleteModalOpen,
   setRefresh,
   refresh,
-  invoiceDate,
-  actionType,
-  openDraftSwitch,
-  setAddModalOpen,
-  setEditModalId,
+  setDeleteModalId,
 }: ComponentProps) => {
   // For localization support
   const intl = useIntl();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const copyModal = async () => {
+  const deleteProduct = async () => {
     setIsSubmitting(true);
-    const response = await createCredit(invoiceId, invoiceDate, actionType);
+
+    const response = await deleteProductGroup(deleteModalId);
+
     if (response.isValid) {
       setRefresh(!refresh);
-      setCreditModalOpen(false);
+      setDeleteModalOpen(false);
+      setDeleteModalId([]);
       setIsSubmitting(false);
-      if (openDraftSwitch) {
-        setEditModalId(response.result);
-        setAddModalOpen(true);
-      }
-      localStorage.removeItem("ModalData");
     }
-    handleToast(response);
+
     setIsSubmitting(false);
+    handleToast(response);
   };
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
@@ -53,10 +44,10 @@ const InvoiceCreditModalFooter = ({
         <button
           type="reset"
           onClick={() => {
-            setCreditModalOpen(false);
-            localStorage.removeItem("ModalData");
+            setDeleteModalOpen(false);
+            setDeleteModalId([]);
           }}
-          className="btn btn-secondary me-3"
+          className="btn btn-light me-3"
         >
           {intl.formatMessage({ id: "Fields.ActionClose" })}
         </button>
@@ -64,12 +55,12 @@ const InvoiceCreditModalFooter = ({
         {/* Save Button */}
         <button
           type="submit"
-          className="btn btn-primary"
-          onClick={copyModal}
-          disabled={invoiceDate === ""}
+          className="btn btn-danger"
+          onClick={deleteProduct}
         >
-          {!isSubmitting && intl.formatMessage({ id: "Fields.ActionCredit" })}
-          {isSubmitting && (
+          {!isSubmitting ? (
+            intl.formatMessage({ id: "Fields.ActionDelete" })
+          ) : (
             <span className="indicator-progress" style={{ display: "block" }}>
               <span
                 dangerouslySetInnerHTML={{
@@ -85,4 +76,4 @@ const InvoiceCreditModalFooter = ({
   );
 };
 
-export { InvoiceCreditModalFooter };
+export { ProductDeleteModalFooter };

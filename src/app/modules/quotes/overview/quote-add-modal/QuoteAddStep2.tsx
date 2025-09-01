@@ -9,6 +9,8 @@ import { useAuth } from "../../../auth";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { DiscountAddModal } from "../../../admin-settings/discountmargins-list/discount-add-modal/DiscountAddModal";
 import { QuotePostResult } from "../core/_models";
+import { ProductDetailModal } from "./ProductDetailModal";
+import { LedgerAddModal } from "../../../admin-settings/ledgeraccounts-list/ledger-add-modal/LedgerAddModal";
 
 type Props = {
   clientId: number;
@@ -23,6 +25,12 @@ type Props = {
   setDiscountRefresh: (type: boolean) => void;
   discountRefresh: boolean;
   setProductPicker: (type: boolean) => void;
+  setLedgerRefresh: (type: boolean) => void;
+  ledgerRefresh: boolean;
+  counter: boolean;
+  setCounter: (type: boolean) => void;
+  counter1: boolean;
+  setCounter1: (type: boolean) => void;
 };
 
 const QuoteAddStep2: FC<Props> = ({
@@ -38,6 +46,12 @@ const QuoteAddStep2: FC<Props> = ({
   setDiscountRefresh,
   discountRefresh,
   setProductPicker,
+  setLedgerRefresh,
+  ledgerRefresh,
+  counter,
+  setCounter,
+  setCounter1,
+  counter1,
 }) => {
   const intl = useIntl();
   const [productModalOpen, setProductModalOpen] = useState<boolean>(false);
@@ -46,6 +60,8 @@ const QuoteAddStep2: FC<Props> = ({
   const [productModalIndex, setProductModalIndex] = useState<number>();
   const [discountAddModalOpen, setDiscountAddModalOpen] =
     useState<boolean>(false);
+  const [ledgerAddModalOpen, setLedgerAddModalOpen] = useState<boolean>(false);
+
   const auth = useAuth();
 
   const handleTempInputChange = (key: any, value: any) => {
@@ -221,232 +237,6 @@ const QuoteAddStep2: FC<Props> = ({
                     </tr>
                     {formik.values.products.map((product, index) => (
                       <React.Fragment key={product.productId}>
-                        {productModalOpen && productModalIndex === index && (
-                          <>
-                            <div
-                              className="modal fade show d-block"
-                              tabIndex={-1}
-                              role="dialog"
-                              id="additional_add_modal"
-                              aria-modal="true"
-                            >
-                              <div
-                                className="modal-dialog"
-                                style={{ minWidth: "600px" }}
-                              >
-                                <div className="modal-content">
-                                  <div className="modal-header bg-dark d-flex justify-content-between">
-                                    <h5 className="modal-title text-white">
-                                      {intl.formatMessage({
-                                        id: "Fields.ModalTitleEditUpdateProduct",
-                                      })}
-                                    </h5>
-                                    <div
-                                      className="btn btn-icon btn-sm ms-2"
-                                      data-bs-dismiss="modal"
-                                      aria-label="Close"
-                                      onClick={() => setProductModalOpen(false)}
-                                    >
-                                      <KTSVG
-                                        path="media/icons/duotune/arrows/arr061.svg"
-                                        className="svg-icon svg-icon-2x text-white"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="modal-body">
-                                    <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-3">
-                                      <label className="required fw-bold fs-6">
-                                        {intl.formatMessage({
-                                          id: "Fields.Product",
-                                        })}
-                                      </label>
-                                      <div className="form-check form-switch mt-1 d-flex align-items-center">
-                                        <label
-                                          className="form-check-label me-20 fs-sm text-muted"
-                                          htmlFor="btwExclusiveSwitch"
-                                        >
-                                          {intl.formatMessage({
-                                            id: "Fields.BtwExclusive",
-                                          })}
-                                        </label>
-                                        <input
-                                          className="form-check-input h-20px w-40px"
-                                          type="checkbox"
-                                          id="isBtwExclusiveSwitch"
-                                          checked={selectedProduct.btwExclusive}
-                                          onChange={(e) =>
-                                            handleTempInputChange(
-                                              "btwExclusive",
-                                              e.target.checked
-                                            )
-                                          }
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="row mb-5">
-                                      <input
-                                        type="text"
-                                        onChange={(e) =>
-                                          handleTempInputChange(
-                                            "title",
-                                            e.target.value
-                                          )
-                                        }
-                                        value={selectedProduct.title || ""}
-                                        className="form-control form-control-solid"
-                                        placeholder={intl.formatMessage({
-                                          id: "Fields.Product",
-                                        })}
-                                      />
-                                    </div>
-                                    <div className="row d-flex mb-5">
-                                      <div className="fv-row col-8">
-                                        <label className="required fw-bold fs-6 mb-3">
-                                          {intl.formatMessage({
-                                            id: "Fields.LedgerAccount",
-                                          })}
-                                        </label>
-                                        <Select
-                                          value={ledgers?.find(
-                                            (ledger: any) =>
-                                              ledger.value ===
-                                              selectedProduct.ledgerAccountId
-                                          )}
-                                          className="react-select-styled"
-                                          options={ledgers}
-                                          onChange={(e) =>
-                                            handleTempInputChange(
-                                              "ledgerAccountId",
-                                              e?.value
-                                            )
-                                          }
-                                          placeholder={intl.formatMessage({
-                                            id: "Fields.LedgerAccount",
-                                          })}
-                                        />
-                                      </div>
-                                      <div className="fv-row col-4">
-                                        <div className="d-flex justify-content-between">
-                                          <label className="fw-bold fs-6 mb-3">
-                                            {intl.formatMessage({
-                                              id: "Fields.TotalDiscountSummary",
-                                            })}
-                                          </label>
-
-                                          <div
-                                            className="cursor-pointer"
-                                            onClick={() =>
-                                              setDiscountAddModalOpen(true)
-                                            }
-                                          >
-                                            <KTIcon
-                                              iconName="plus"
-                                              className="fs-2 text-primary"
-                                            />
-                                          </div>
-                                        </div>
-
-                                        <Select
-                                          value={discountTypes
-                                            ?.map((item: any) => ({
-                                              value: item.id,
-                                              label: item.title,
-                                            }))
-                                            .find(
-                                              (discountType: any) =>
-                                                discountType.value ===
-                                                selectedProduct.discountMarginId
-                                            )}
-                                          className="react-select-styled"
-                                          options={discountTypes.map(
-                                            (item: any) => ({
-                                              value: item.id,
-                                              label: item.title,
-                                            })
-                                          )}
-                                          onChange={(e) =>
-                                            handleTempInputChange(
-                                              "discountMarginId",
-                                              e?.value
-                                            )
-                                          }
-                                          isClearable
-                                          placeholder={intl.formatMessage({
-                                            id: "Fields.TotalDiscountSummary",
-                                          })}
-                                        />
-                                      </div>
-                                    </div>
-
-                                    <ul className="nav nav-tabs nav-line-tabs nav-line-tabs-2xe mb-5 fs-6 align-items-center d-flex justify-content-start">
-                                      <li className="nav-item">
-                                        <a
-                                          className="nav-link active d-flex align-items-center justify-content-center"
-                                          data-bs-toggle="tab"
-                                          href="#kt_tab_pane_1"
-                                        >
-                                          {intl.formatMessage({
-                                            id: "Fields.Description",
-                                          })}
-                                        </a>
-                                      </li>
-                                    </ul>
-
-                                    <div
-                                      className="tab-content"
-                                      id="myTabContent"
-                                    >
-                                      <div
-                                        className="tab-pane fade show active"
-                                        id="kt_tab_pane_1"
-                                        role="tabpanel"
-                                      >
-                                        <div className="row d-flex mb-5">
-                                          <ReactQuill
-                                            theme="snow"
-                                            placeholder="Jouw tekst hier..."
-                                            style={{ height: "300px" }}
-                                            onChange={(content) =>
-                                              handleQuillChange(
-                                                "description",
-                                                content
-                                              )
-                                            }
-                                            value={
-                                              selectedProduct.description || ""
-                                            }
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="modal-footer">
-                                    <button
-                                      type="button"
-                                      className="btn btn-secondary"
-                                      data-bs-dismiss="modal"
-                                      onClick={() => setProductModalOpen(false)}
-                                    >
-                                      {intl.formatMessage({
-                                        id: "Fields.ActionClose",
-                                      })}
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="btn btn-primary"
-                                      onClick={handleSave}
-                                    >
-                                      {intl.formatMessage({
-                                        id: "Fields.ActionSave",
-                                      })}
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="modal-backdrop fade show"></div>
-                          </>
-                        )}
                         <Draggable
                           key={product.productId}
                           draggableId={index.toString()}
@@ -1259,12 +1049,36 @@ const QuoteAddStep2: FC<Props> = ({
           </DragDropContext>
         </div>
       </form>
-
+      {productModalOpen && (
+        <ProductDetailModal
+          setProductModalOpen={setProductModalOpen}
+          setLedgerAddModalOpen={setLedgerAddModalOpen}
+          selectedProduct={selectedProduct}
+          handleTempInputChange={handleTempInputChange}
+          ledgers={ledgers}
+          setDiscountAddModalOpen={setDiscountAddModalOpen}
+          discountTypes={discountTypes}
+          handleQuillChange={handleQuillChange}
+          handleSave={handleSave}
+          counter={counter}
+          setCounter={setCounter}
+          counter1={counter1}
+          setCounter1={setCounter1}
+        />
+      )}
       {discountAddModalOpen && (
         <DiscountAddModal
           setRefresh={setDiscountRefresh}
           refresh={discountRefresh}
           setAddModalOpen={setDiscountAddModalOpen}
+        />
+      )}
+      {ledgerAddModalOpen && (
+        <LedgerAddModal
+          setRefresh={setLedgerRefresh}
+          refresh={ledgerRefresh}
+          setAddModalOpen={setLedgerAddModalOpen}
+          fromInvoice={true}
         />
       )}
     </div>

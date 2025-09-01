@@ -38,9 +38,7 @@ const SidebarMenuMain = () => {
           <span
             className={clsx(
               "menu-section text-uppercase fs-8 ls-1",
-              currentUser?.result.isInTakeOverMode
-                ? "text-white"
-                : "text-muted"
+              currentUser?.result.isInTakeOverMode ? "text-white" : "text-muted"
             )}
           >
             {intl.formatMessage({
@@ -63,9 +61,7 @@ const SidebarMenuMain = () => {
           <span
             className={clsx(
               "menu-section text-uppercase fs-8 ls-1",
-              currentUser?.result.isInTakeOverMode
-                ? "text-white"
-                : "text-muted"
+              currentUser?.result.isInTakeOverMode ? "text-white" : "text-muted"
             )}
           >
             {intl.formatMessage({
@@ -131,6 +127,31 @@ const SidebarMenuMain = () => {
         />
       </SidebarMenuItemWithSub>
       <SidebarMenuItemWithSub
+        to="/admin/budgetgroups"
+        title="Budgets"
+        // {intl.formatMessage({
+        //   id: "Menu.Products",
+        // })}
+        icon="add-item"
+        fontIcon="bi-layers"
+      >
+        <SidebarMenuItem
+          to="/budget/search"
+          title={intl.formatMessage({
+            id: "Menu.ProductsOverview",
+          })}
+          hasBullet={true}
+        />
+        <SidebarMenuItem
+          to="/admin/budgetgroups"
+          title="Budget groups"
+          // {intl.formatMessage({
+          //   id: "Menu.ProductGroups",
+          // })}
+          hasBullet={true}
+        />
+      </SidebarMenuItemWithSub>
+      <SidebarMenuItemWithSub
         to="/admin/unit-types"
         title={intl.formatMessage({
           id: "Menu.Settings",
@@ -165,9 +186,7 @@ const SidebarMenuMain = () => {
           <span
             className={clsx(
               "menu-section text-uppercase fs-8 ls-1",
-              currentUser?.result.isInTakeOverMode
-                ? "text-white"
-                : "text-muted"
+              currentUser?.result.isInTakeOverMode ? "text-white" : "text-muted"
             )}
           >
             {intl.formatMessage({ id: "Menu.HeaderAccounting" })}
@@ -212,9 +231,7 @@ const SidebarMenuMain = () => {
           <span
             className={clsx(
               "menu-section text-uppercase fs-8 ls-1",
-              currentUser?.result.isInTakeOverMode
-                ? "text-white"
-                : "text-muted"
+              currentUser?.result.isInTakeOverMode ? "text-white" : "text-muted"
             )}
           >
             {intl.formatMessage({ id: "Menu.Settings" })}
@@ -263,9 +280,7 @@ const SidebarMenuMain = () => {
           <span
             className={clsx(
               "menu-section text-uppercase fs-8 ls-1",
-              currentUser?.result.isInTakeOverMode
-                ? "text-white"
-                : "text-muted"
+              currentUser?.result.isInTakeOverMode ? "text-white" : "text-muted"
             )}
           >
             {intl.formatMessage({ id: "Menu.HeaderCompanyAndMe" })}

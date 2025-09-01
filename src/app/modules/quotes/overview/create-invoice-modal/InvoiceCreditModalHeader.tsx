@@ -2,13 +2,13 @@ import { KTIcon } from "../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
 
 interface ComponentProps {
-  setCreditModalOpen: (type: boolean) => void;
-  invoiceNr: string;
+  setCreateInvoiceModalOpen: (type: boolean) => void;
+  quoteNr: string;
 }
 
 const InvoiceCreditModalHeader = ({
-  setCreditModalOpen,
-  invoiceNr,
+  setCreateInvoiceModalOpen,
+  quoteNr,
 }: ComponentProps) => {
   const intl = useIntl();
 
@@ -19,13 +19,14 @@ const InvoiceCreditModalHeader = ({
       {/* Modal title */}
       <div className="d-flex w-100 justify-content-between align-items-center">
         <h2 className="fw-bolder mb-0 text-white">
-          {intl.formatMessage({ id: "Fields.ModalCreateCreditTitleInvoice" })}
+          {intl.formatMessage({ id: "Fields.ModalCreateInvoiceTitle" })}
         </h2>
+
         <div
           className="btn btn-icon btn-sm btn-active-icon-primary"
           data-kt-users-modal-action="close"
           onClick={() => {
-            setCreditModalOpen(false);
+            setCreateInvoiceModalOpen(false);
             localStorage.removeItem("ModalData");
           }}
           style={{ cursor: "pointer" }}
@@ -36,7 +37,7 @@ const InvoiceCreditModalHeader = ({
 
       {/* New table below the title */}
       <div className="w-100 mt-3" style={{ lineHeight: "0.5" }}>
-        <table className="table text-white mt-0">
+        <table className="table text-white mt-0 compact-table">
           <tbody>
             <tr className="my-0">
               <td className="fw-bold">
@@ -48,7 +49,7 @@ const InvoiceCreditModalHeader = ({
               <td className="fw-bold">
                 {intl.formatMessage({ id: "Fields.QuoteNr" })}
               </td>
-              <td>: {invoiceNr}</td>
+              <td>: {quoteNr}</td>
             </tr>
             <tr>
               <td className="fw-bold">
@@ -63,15 +64,6 @@ const InvoiceCreditModalHeader = ({
               <td>
                 : {parsedData?.sign}
                 {parsedData?.totalPriceWithVat}
-              </td>
-            </tr>
-            <tr>
-              <td className="fw-bold">
-                {intl.formatMessage({ id: "Fields.TotalOpen" })}
-              </td>
-              <td>
-                : {parsedData?.sign}
-                {parsedData?.totalOpen}
               </td>
             </tr>
           </tbody>

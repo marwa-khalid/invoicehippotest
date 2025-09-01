@@ -5,9 +5,7 @@ import {
   GenericBooleanModel,
   QuoteViewDataModel,
 } from "./_models";
-import {
-  ActivitiesModel,
-} from "../../../accounting/bookings/components/core/_models";
+import { ActivitiesModel } from "../../../accounting/bookings/components/core/_models";
 
 import {
   getRequest,
@@ -37,6 +35,7 @@ import {
   QUOTE_ATTACHMENT,
   GET_ATTACHMENTS,
   CREATE_ORDER_CONFIRMATION,
+  CREATE_INVOICE_FOR_QUOTE,
 } from "./constants";
 import { ContactModel } from "../../../client/client-search/core/_models";
 import { ProductModel } from "../../../products/products-list/core/_models";
@@ -243,7 +242,18 @@ export function createOrderConfirmation(values: any) {
     true
   );
 }
-
+export function createInvoiceForQuote(
+  quoteId: number,
+  invoiceDate: string,
+  actionType: number,
+  copyAttachments: boolean
+) {
+  return postRequest<GenericNumberModel>(
+    CREATE_INVOICE_FOR_QUOTE,
+    { quoteId, invoiceDate, actionType, copyAttachments },
+    true
+  );
+}
 export function getMinMaxYear() {
   return getRequest<any>(MIN_MAX_YEAR, true);
 }

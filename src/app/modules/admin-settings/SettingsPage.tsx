@@ -18,6 +18,7 @@ import { SubscribersWrapper } from "./subscribers/SubscribersWrapper";
 import DetailPage from "./subscribers/detailPage/DetailPage";
 import { LocalizationWrapper } from "./localizations/LocalizationWrapper";
 import { TemplatesWrapper } from "./templates/TemplatesWrapper";
+import { BudgetGroupsWrapper } from "./budgetgroups-list/BudgetGroupsWrapper";
 
 const AdminPage = () => {
   const { config } = useLayout();
@@ -215,6 +216,31 @@ const AdminPage = () => {
                 )}
               >
                 <ProductGroupsWrapper />
+              </div>
+            </>
+          }
+        />
+        <Route
+          path="budgetgroups"
+          element={
+            <>
+              <PageTitle breadcrumbs={settingsBreadcrumbs}>
+                {/* {intl.formatMessage({
+                  id: "Fields.SearchPanelTitleProductGroup",
+                })} */}
+                Budget Groups
+              </PageTitle>
+              <div
+                className={clsx(
+                  "main rounded",
+                  config.app?.sidebar?.default?.class
+                  // {
+                  //   "bg-light": config.layoutType === "light-sidebar",
+                  //   "bg-dark": config.layoutType === "dark-sidebar",
+                  // }
+                )}
+              >
+                <BudgetGroupsWrapper />
               </div>
             </>
           }

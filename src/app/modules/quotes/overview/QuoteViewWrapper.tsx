@@ -25,6 +25,8 @@ import { getEnumOptions } from "../../../helpers/intlHelper";
 import { ActivitiesResult } from "../../accounting/bookings/components/core/_models";
 import { AttachmentListing } from "../../generic/FileManager/AttachmentListing";
 import Quote from "../../generic/Templates/Template003/Quote";
+import { CreateInvoiceModal } from "./create-invoice-modal/CreateInvoiceModal";
+import { QuoteList } from "./search-list/QuoteList";
 const VIEWER_LICENSE_KEY = import.meta.env.VITE_APP_VIEWER_LICENSE_KEY;
 const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
   const intl = useIntl();
@@ -62,13 +64,17 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
     valueSetter();
     setActivateModalOpen(true);
   };
-
+  const openCreateInvoiceModal = () => {
+    valueSetter();
+    setCreateInvoiceModalOpen(true);
+  };
   const valueSetter = () => {
     localStorage.setItem(
       "ModalData",
       JSON.stringify({
         quoteDateAsString: response?.quoteDateAsString,
         client: response?.client?.companyName,
+        quoteListItem: response,
         totalPriceWithVat: response?.totals.totalPriceWithVAT,
         sign: response?.valuta.sign,
         status: response?.quoteStatus.value,
@@ -80,7 +86,7 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
   useEffect(() => {
     const fetch = async () => {
       setIsLoading(true);
-      const response = await getQuickViewQuote(currentQuote?.id);
+      const response = await getQuickViewQuote(currentQuote);
       if (response.isValid) {
         setResponse(response.result);
         setQuoteData({
@@ -96,7 +102,7 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
       }
       setIsLoading(false);
     };
-    if (currentQuote?.id) {
+    if (currentQuote) {
       fetch();
     } else {
       setErrorPage(true);
@@ -105,13 +111,13 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
   useEffect(() => {
     const fetchEstimations = async () => {
       const responseEstimation = await getEstimationActivitiesById(
-        currentQuote?.id
+        currentQuote
       );
       if (responseEstimation.isValid) {
         setActivities(responseEstimation.result);
       }
     };
-    if (currentQuote?.id) {
+    if (currentQuote) {
       fetchEstimations();
     }
   }, []);
@@ -140,13 +146,15 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
   const [viewData, setViewData] = useState<any>();
   useEffect(() => {
     const fetch = async () => {
-      const response = await getQuoteViewData(currentQuote?.id);
+      const response = await getQuoteViewData(currentQuote);
       if (response.isValid) {
         setViewData(response.result);
       }
     };
     fetch();
   }, [refresh]);
+  const [createInvoiceModalOpen, setCreateInvoiceModalOpen] =
+    useState<boolean>(false);
   return (
     <>
       {/* {response?.actions.canApprove && (
@@ -317,7 +325,7 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
                             <li
                               onClick={() => {
                                 setAddModalOpen(true),
-                                  setEditModalId(currentQuote?.id);
+                                  setEditModalId(currentQuote);
                               }}
                             >
                               <a className="dropdown-item d-flex align-items-center cursor-pointer">
@@ -372,17 +380,9 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
                               <>
                                 <div className="dropdown-divider border-gray-200"></div>
                                 <li
-                                // onClick={() => {
-                                //   const link = document.createElement("a");
-                                //   link.href = quoteList.downloadInfo.downloadUrl;
-                                //   link.setAttribute(
-                                //     "download",
-                                //     quoteList.downloadInfo.fileName
-                                //   );
-                                //   document.body.appendChild(link);
-                                //   link.click();
-                                //   document.body.removeChild(link);
-                                // }}
+                                  onClick={() => {
+                                    openCreateInvoiceModal();
+                                  }}
                                 >
                                   <a className="dropdown-item d-flex align-items-center cursor-pointer">
                                     <KTSVG
@@ -671,7 +671,7 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
                             className="btn btn-icon btn-warning btn-sm"
                             onClick={() => {
                               setAddModalOpen(true),
-                                setEditModalId(currentQuote?.id);
+                                setEditModalId(currentQuote);
                             }}
                           >
                             <i className="ki-solid ki-pencil fs-3" />
@@ -792,7 +792,7 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
             )}
             {validateModalOpen && (
               <QuoteValidateModal
-                quoteId={currentQuote?.id}
+                quoteId={currentQuote}
                 quoteNumber={response?.quoteNr}
                 setValidateModalOpen={setValidateModalOpen}
                 setRefresh={setRefresh}
@@ -802,7 +802,7 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
 
             {copyModalOpen && (
               <QuoteCopyModal
-                quoteId={currentQuote?.id}
+                quoteId={currentQuote}
                 quoteNumber={response?.quoteNr}
                 setCopyModalOpen={setCopyModalOpen}
                 setRefresh={setRefresh}
@@ -813,7 +813,7 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
             )}
             {emailModalOpen && (
               <QuoteEmailModal
-                quoteId={currentQuote?.id}
+                quoteId={currentQuote}
                 quoteNumber={response?.quoteNr}
                 setEmailModalOpen={setEmailModalOpen}
                 setRefresh={setRefresh}
@@ -822,7 +822,7 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
             )}
             {activateModalOpen && (
               <QuoteActivateModal
-                quoteId={currentQuote?.id}
+                quoteId={currentQuote}
                 quoteNumber={response?.quoteNr}
                 setActivateModalOpen={setActivateModalOpen}
                 setRefresh={setRefresh}
@@ -835,6 +835,16 @@ const QuoteViewInnerWrapper = ({ setQuoteData }: any) => {
                 setOdataModalOpen={setOdataModalOpen}
                 odata={odata}
                 accessCode={accessCode}
+              />
+            )}
+            {createInvoiceModalOpen && (
+              <CreateInvoiceModal
+                quoteId={currentQuote}
+                quoteNr={response?.quoteNr}
+                setCreateInvoiceModalOpen={setCreateInvoiceModalOpen}
+                setRefresh={setRefresh}
+                refresh={refresh}
+                setEditModalId={setEditModalId}
               />
             )}
           </div>

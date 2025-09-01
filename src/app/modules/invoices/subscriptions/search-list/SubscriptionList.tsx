@@ -323,7 +323,7 @@ const SubscriptionList = ({
                       onClick={() => {
                         localStorage.setItem(
                           "currentItem",
-                          JSON.stringify(subscription.relatedParentInvoice)
+                          JSON.stringify(subscription.relatedParentInvoice.id)
                         );
                         navigate(`/invoice/view/${subscription.uniqueId}`);
                       }}
@@ -357,7 +357,7 @@ const SubscriptionList = ({
                       onClick={() => {
                         localStorage.setItem(
                           "currentItem",
-                          JSON.stringify(subscription.relatedCreditInvoice)
+                          JSON.stringify(subscription.relatedCreditInvoice.id)
                         );
                         navigate(`/invoice/view/${subscription.uniqueId}`);
                       }}
@@ -432,7 +432,7 @@ const SubscriptionList = ({
                   } else {
                     localStorage.setItem(
                       "currentItem",
-                      JSON.stringify(subscription)
+                      JSON.stringify(subscription.id)
                     );
                     navigate(`/invoice/view/${subscription.uniqueId}`);
                   }
@@ -444,7 +444,7 @@ const SubscriptionList = ({
                   } else {
                     localStorage.setItem(
                       "currentItem",
-                      JSON.stringify(subscription)
+                      JSON.stringify(subscription.id)
                     );
                     navigate(`/invoice/view/${subscription.uniqueId}`);
                   }
@@ -487,7 +487,7 @@ const SubscriptionList = ({
                       } else {
                         localStorage.setItem(
                           "currentItem",
-                          JSON.stringify(subscription)
+                          JSON.stringify(subscription.id)
                         );
                       }
                     }}
@@ -498,7 +498,7 @@ const SubscriptionList = ({
                       } else {
                         localStorage.setItem(
                           "currentItem",
-                          JSON.stringify(subscription)
+                          JSON.stringify(subscription.id)
                         );
                       }
                     }}
@@ -579,7 +579,7 @@ const SubscriptionList = ({
                           onClick={() => {
                             localStorage.setItem(
                               "currentItem",
-                              JSON.stringify(subscription)
+                              JSON.stringify(subscription.id)
                             );
                             navigate(`/invoice/view/${subscription.uniqueId}`);
                           }}

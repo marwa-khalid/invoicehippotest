@@ -391,7 +391,7 @@ const CostList = ({
                       } else {
                         localStorage.setItem(
                           "currentItem",
-                          JSON.stringify(costList)
+                          JSON.stringify(costList.id)
                         );
                       }
                     }}
@@ -402,7 +402,7 @@ const CostList = ({
                       } else {
                         localStorage.setItem(
                           "currentItem",
-                          JSON.stringify(costList)
+                          JSON.stringify(costList.id)
                         );
                       }
                     }}

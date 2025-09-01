@@ -21,6 +21,10 @@ type Props = {
   discountRefresh: boolean;
   setLedgerRefresh: (type: boolean) => void;
   ledgerRefresh: boolean;
+  counter: boolean;
+  setCounter: (type: boolean) => void;
+  counter1: boolean;
+  setCounter1: (type: boolean) => void;
 };
 
 const InvoiceAddStep2: FC<Props> = ({
@@ -34,6 +38,10 @@ const InvoiceAddStep2: FC<Props> = ({
   discountRefresh,
   setLedgerRefresh,
   ledgerRefresh,
+  counter,
+  setCounter,
+  setCounter1,
+  counter1,
 }) => {
   const intl = useIntl();
   const [productModalOpen, setProductModalOpen] = useState<boolean>(false);
@@ -1005,6 +1013,10 @@ const InvoiceAddStep2: FC<Props> = ({
           discountTypes={discountTypes}
           handleQuillChange={handleQuillChange}
           handleSave={handleSave}
+          counter={counter}
+          setCounter={setCounter}
+          counter1={counter1}
+          setCounter1={setCounter1}
         />
       )}
       {discountAddModalOpen && (

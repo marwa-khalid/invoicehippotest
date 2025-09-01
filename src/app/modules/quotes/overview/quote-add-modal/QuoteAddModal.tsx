@@ -280,7 +280,7 @@ const QuoteAddModal = ({
 
               localStorage.setItem(
                 "currentItem",
-                JSON.stringify(response.result)
+                JSON.stringify(response.result.id)
               );
               navigate(`/estimation/view/${response.result.uniqueId}`);
 
@@ -405,6 +405,9 @@ const QuoteAddModal = ({
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);
   };
+  const [counter, setCounter] = useState<boolean>(false);
+  const [counter1, setCounter1] = useState<boolean>(false);
+  const [ledgerRefresh, setLedgerRefresh] = useState<boolean>(false);
   useEffect(() => {
     const fetchLedgersForSale = async () => {
       const response = await getLedgerTypes();
@@ -416,10 +419,10 @@ const QuoteAddModal = ({
         setLedgers(options);
       }
     };
-    if (ledgers?.length === 0) {
+    if (counter || ledgers.length === 0) {
       fetchLedgersForSale();
     }
-  }, []);
+  }, [ledgerRefresh]);
 
   useEffect(() => {
     const fetchUnitTypes = async () => {
@@ -447,8 +450,9 @@ const QuoteAddModal = ({
         setDiscountTypes(response.result);
       }
     };
-
-    fetchDiscountTypes();
+    if (counter1 || discountTypes.length === 0) {
+      fetchDiscountTypes();
+    }
   }, [discountRefresh]);
 
   useEffect(() => {
@@ -744,7 +748,13 @@ const QuoteAddModal = ({
               setRefreshTotal={setRefreshTotal}
               setDiscountRefresh={setDiscountRefresh}
               discountRefresh={discountRefresh}
+              ledgerRefresh={ledgerRefresh}
+              setLedgerRefresh={setLedgerRefresh}
               setProductPicker={setProductPicker}
+              counter={counter}
+              setCounter={setCounter}
+              counter1={counter1}
+              setCounter1={setCounter1}
             />
           )}
           {activeTab.id === "tab3" && (

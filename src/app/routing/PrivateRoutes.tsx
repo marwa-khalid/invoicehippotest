@@ -8,6 +8,7 @@ import { WithChildren } from "../../_metronic/helpers";
 import InboxPage from "../modules/inbox/InboxPage";
 import InboxArchivePage from "../modules/inbox/InboxArchivePage";
 import AccountingPage from "../modules/accounting/bankTransactions/AccountingPage";
+import BudgetsPage from "../modules/budget/BudgetsPage";
 const PrivateRoutes = () => {
   const SettingsPage = lazy(
     () => import("../modules/admin-settings/SettingsPage")
@@ -93,6 +94,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <ProductsPage />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path="budget/*"
+          element={
+            <SuspensedView>
+              <BudgetsPage />
             </SuspensedView>
           }
         />

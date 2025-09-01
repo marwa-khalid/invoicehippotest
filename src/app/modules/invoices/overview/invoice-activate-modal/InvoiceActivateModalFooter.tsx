@@ -69,7 +69,7 @@ const InvoiceActivateModalFooter = ({
         {/* Save Button */}
         <button
           type="submit"
-          className="btn btn-info"
+          className="btn btn-primary"
           onClick={finalize}
           //   disabled={!isValid || isSubmitting || !touched}
         >

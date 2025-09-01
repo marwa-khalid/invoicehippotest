@@ -9,7 +9,7 @@ const InvoiceOdataModalHeader = ({ setOdataModalOpen }: ComponentProps) => {
   const intl = useIntl();
 
   return (
-    <div className="modal-header bg-info d-flex flex-column">
+    <div className="modal-header bg-primary d-flex flex-column">
       {/* Modal title */}
       <div className="d-flex w-100 justify-content-between align-items-center">
         <h2 className="fw-bolder mb-0 text-white">

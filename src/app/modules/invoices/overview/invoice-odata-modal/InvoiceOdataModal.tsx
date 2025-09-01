@@ -66,7 +66,7 @@ const InvoiceOdataModal = ({
                 role="alert"
               >
                 <div className="alert-icon col-1 me-4">
-                  <i className="ki-duotone ki-information-4 fs-3x text-center text-info">
+                  <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
                     <span className="path1"></span>
                     <span className="path2"></span>
                     <span className="path3"></span>
@@ -108,7 +108,7 @@ const InvoiceOdataModal = ({
                 role="alert"
               >
                 <div className="alert-icon col-1 me-4">
-                  <i className="ki-duotone ki-information-4 fs-3x text-center text-info">
+                  <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
                     <span className="path1"></span>
                     <span className="path2"></span>
                     <span className="path3"></span>

@@ -27,7 +27,7 @@ const InvoiceOdataModalFooter = ({
         {/* Save Button */}
         <button
           type="submit"
-          className="btn btn-info"
+          className="btn btn-primary"
           onClick={() => window.open(odataUrl, "_blank")}
         >
           Open Link in New tab

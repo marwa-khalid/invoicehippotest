@@ -20,43 +20,75 @@ const DigitalSignature = ({ formik }: Props) => {
     "Arial",
     "Brush Script MT",
     "Courier New",
-    "Georgia",
     "Times New Roman",
+    "Alex Brush",
+    "Whisper",
+    "Birthstone",
+    "Great Vibes",
+    "Satisfy",
   ];
 
   // Function to clear the drawn signature
   const clearSignature = () => {
     sigCanvas.current?.clear();
     setSavedSignature(null); // Reset saved signature when cleared
+    formik.setFieldValue(
+      "quoteValidationSignee.validatedBySignatureBase64",
+      null
+    );
   };
-  useEffect(() => {
-    let signatureData;
-    if (signatureType === "draw") {
-      signatureData = sigCanvas.current.getCanvas().toDataURL("image/png");
-      setSavedSignature(signatureData); // Save the drawn signature
-    } else if (signatureType === "type") {
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-      canvas.width = 400; // Set width
-      canvas.height = 200; // Set height
-      context!.font = `40px ${fontFamily}`;
-      context!.fillText(typedSignature, 10, 100); // Position the text
-      signatureData = canvas.toDataURL("image/png");
-    } else if (signatureType === "upload" && image) {
-      signatureData = image; // If image is a URL, use it directly.
-    }
+  // useEffect(() => {
+  //   let signatureData;
+  //   if (signatureType === "draw") {
+  //     signatureData = sigCanvas.current.getCanvas().toDataURL("image/png");
+  //     setSavedSignature(signatureData); // Save the drawn signature
+  //   } else if (signatureType === "type") {
+  //     const canvas = document.createElement("canvas");
+  //     const context = canvas.getContext("2d");
+  //     canvas.width = 400; // Set width
+  //     canvas.height = 200; // Set height
+  //     context!.font = `40px ${fontFamily}`;
+  //     context!.fillText(typedSignature, 10, 100); // Position the text
+  //     signatureData = canvas.toDataURL("image/png");
+  //   } else if (signatureType === "upload" && image) {
+  //     signatureData = image; // If image is a URL, use it directly.
+  //   }
 
-    // Store the Base64 string in Formik values
-    if (signatureData) {
-      formik.setFieldValue(
-        "quoteValidationSignee.validatedBySignatureBase64",
-        signatureData
-      );
-    }
-  }, [sigCanvas]);
+  //   // Store the Base64 string in Formik values
+  //   if (signatureData) {
+  //     formik.setFieldValue(
+  //       "quoteValidationSignee.validatedBySignatureBase64",
+  //       signatureData
+  //     );
+  //   }
+  // }, [sigCanvas]);
   // Function to save the signature (drawn, typed, or uploaded)
   const saveSignature = (setFieldValue: any) => {};
+  useEffect(() => {
+    if (signatureType === "type" && typedSignature) {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = 400;
+      canvas.height = 200;
+      ctx!.font = `40px ${fontFamily}`;
+      ctx!.fillText(typedSignature, 10, 100);
+      const dataUrl = canvas.toDataURL("image/png");
+      formik.setFieldValue(
+        "quoteValidationSignee.validatedBySignatureBase64",
+        dataUrl
+      );
+    }
+  }, [typedSignature, fontFamily, signatureType]);
 
+  useEffect(() => {
+    if (signatureType === "upload" && image) {
+      formik.setFieldValue(
+        "quoteValidationSignee.validatedBySignatureBase64",
+        image
+      );
+    }
+  }, [image, signatureType]);
+  console.log(formik.values.quoteValidationSignee);
   const handleUpload = (event: any) => {
     const file = event.target.files[0];
 
@@ -165,12 +197,22 @@ const DigitalSignature = ({ formik }: Props) => {
                 ref={sigCanvas}
                 penColor="black"
                 backgroundColor="#dddddd"
+                onEnd={() => {
+                  const dataUrl = sigCanvas.current
+                    .getCanvas()
+                    .toDataURL("image/png");
+                  formik.setFieldValue(
+                    "quoteValidationSignee.validatedBySignatureBase64",
+                    dataUrl
+                  );
+                }}
                 canvasProps={{
                   width: 400,
                   height: 200,
                   className: "sigCanvas rounded",
                 }}
               />
+
               <button
                 className="btn btn-danger btn-sm mt-3"
                 onClick={(e) => {
@@ -187,7 +229,7 @@ const DigitalSignature = ({ formik }: Props) => {
             <div className="mt-10">
               <input
                 type="text"
-                className="form-control form-control-solid w-75 mx-auto fs-1 px-3"
+                className="form-control form-control-solid w-75 mx-auto fs-4x px-3"
                 value={typedSignature}
                 onChange={(e) => setTypedSignature(e.target.value)}
                 placeholder="Type your signature"
@@ -197,11 +239,18 @@ const DigitalSignature = ({ formik }: Props) => {
                 }}
               />
 
-              <div className="flex mt-10">
+              <div
+                className="mt-10"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, 1fr)",
+                  gap: "12px",
+                }}
+              >
                 {fonts.map((font) => (
                   <span
-                    className="me-3 p-3 cursor-pointer rounded fs-6"
                     key={font}
+                    className="p-2 cursor-pointer rounded fs-5 text-center"
                     onClick={() => setFontFamily(font)}
                     style={{
                       fontFamily: font,
@@ -260,7 +309,21 @@ const DigitalSignature = ({ formik }: Props) => {
             </div>
           )}
         </div>
-
+        {formik.touched.quoteValidationSignee?.validatedBySignatureBase64 &&
+          formik.errors.quoteValidationSignee?.validatedBySignatureBase64 && (
+            <div className="fv-plugins-message-container">
+              <div className="fv-help-block">
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      formik.errors.quoteValidationSignee
+                        ?.validatedBySignatureBase64,
+                  }}
+                  role="alert"
+                />
+              </div>
+            </div>
+          )}
         {/* Button to save the signature and trigger Formik submission */}
         {/* <div className="text-end">
             <button

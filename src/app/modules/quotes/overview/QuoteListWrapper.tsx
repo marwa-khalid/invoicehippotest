@@ -21,7 +21,7 @@ import { attachQuoteFile, getAttachmentsById } from "./core/_requests";
 import { useIntl } from "react-intl";
 import { AttachmentsModal } from "../../generic/FileManager/AttachmentsModal";
 import { QuoteOrderConfirmationModal } from "./quote-order-modal/QuoteOrderConfirmationModal";
-import { InvoiceCreditModal } from "./quote-credit-modal/InvoiceCreditModal.js";
+import { CreateInvoiceModal } from "./create-invoice-modal/CreateInvoiceModal.js";
 
 const QuoteListInnerWrapper = ({
   isModal,
@@ -69,7 +69,8 @@ const QuoteListInnerWrapper = ({
   const [validateModalOpen, setValidateModalOpen] = useState<boolean>(false);
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
   const [activateModalOpen, setActivateModalOpen] = useState<boolean>(false);
-  const [creditModalOpen, setCreditModalOpen] = useState<boolean>(false);
+  const [createInvoiceModalOpen, setCreateInvoiceModalOpen] =
+    useState<boolean>(false);
   const [orderConfirmationModalOpen, setOrderConfirmationModalOpen] =
     useState<boolean>(false);
   const [attachmentsModalOpen, setAttachmentsModalOpen] =
@@ -184,7 +185,7 @@ const QuoteListInnerWrapper = ({
         isModal={isModal}
         setQuoteId={setQuoteId}
         setOrderConfirmationModalOpen={setOrderConfirmationModalOpen}
-        setCreditModalOpen={setCreditModalOpen}
+        setCreateInvoiceModalOpen={setCreateInvoiceModalOpen}
       />
       {addModalOpen && (
         <QuoteAddModal
@@ -199,14 +200,13 @@ const QuoteListInnerWrapper = ({
           addModalOpen={addModalOpen}
         />
       )}
-      {creditModalOpen && (
-        <InvoiceCreditModal
-          invoiceId={editModalId}
-          invoiceNr={quoteNumber}
-          setCreditModalOpen={setCreditModalOpen}
+      {createInvoiceModalOpen && (
+        <CreateInvoiceModal
+          quoteId={editModalId}
+          quoteNr={quoteNumber}
+          setCreateInvoiceModalOpen={setCreateInvoiceModalOpen}
           setRefresh={setRefresh}
           refresh={refresh}
-          setAddModalOpen={setAddModalOpen}
           setEditModalId={setEditModalId}
         />
       )}

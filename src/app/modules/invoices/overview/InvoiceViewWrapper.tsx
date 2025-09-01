@@ -115,7 +115,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
   useEffect(() => {
     const fetch = async () => {
       setIsLoading(true);
-      const response = await getQuickViewInvoice(currentInvoice?.id);
+      const response = await getQuickViewInvoice(currentInvoice);
       if (response.isValid) {
         setResponse(response.result);
         setInvoiceData({
@@ -132,7 +132,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
       }
       setIsLoading(false);
     };
-    if (currentInvoice?.id) {
+    if (currentInvoice) {
       fetch();
     } else {
       setErrorPage(true);
@@ -141,7 +141,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
   const [viewData, setViewData] = useState<any>();
   useEffect(() => {
     const fetch = async () => {
-      const response = await getInvoiceViewData(currentInvoice?.id);
+      const response = await getInvoiceViewData(currentInvoice);
       if (response.isValid) {
         setViewData(response.result);
       }
@@ -151,37 +151,35 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
 
   useEffect(() => {
     const fetchActivities = async () => {
-      const responseEstimation = await getInvoiceActivitiesById(
-        currentInvoice?.id
-      );
+      const responseEstimation = await getInvoiceActivitiesById(currentInvoice);
       if (responseEstimation.isValid) {
         setActivities(responseEstimation.result);
       }
     };
-    if (currentInvoice?.id) {
+    if (currentInvoice) {
       fetchActivities();
     }
   }, [refresh]);
 
   useEffect(() => {
     const fetchMutations = async () => {
-      const response = await getInvoiceMutationsById(currentInvoice?.id);
+      const response = await getInvoiceMutationsById(currentInvoice);
       if (response.isValid) {
         setMutations(response.result);
       }
     };
-    if (currentInvoice?.id) {
+    if (currentInvoice) {
       fetchMutations();
     }
   }, [refresh]);
   useEffect(() => {
     const fetchPayments = async () => {
-      const response = await getInvoicePaymentsById(currentInvoice?.id);
+      const response = await getInvoicePaymentsById(currentInvoice);
       if (response.isValid) {
         setPayments(response);
       }
     };
-    if (currentInvoice?.id) {
+    if (currentInvoice) {
       fetchPayments();
     }
   }, [refresh]);
@@ -393,7 +391,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
                             <li
                               onClick={() => {
                                 setAddModalOpen(true),
-                                  setEditModalId(currentInvoice?.id);
+                                  setEditModalId(currentInvoice);
                               }}
                             >
                               <a className="dropdown-item d-flex align-items-center cursor-pointer">
@@ -635,7 +633,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
                         onClick={() => {
                           localStorage.setItem(
                             "currentItem",
-                            JSON.stringify(response?.relatedParentInvoice)
+                            JSON.stringify(response?.relatedParentInvoice.id)
                           );
                           navigate(`/invoice/view/${response?.uniqueId}`);
                           setRefresh(!refresh);
@@ -682,7 +680,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
                         onClick={() => {
                           localStorage.setItem(
                             "currentItem",
-                            JSON.stringify(response?.relatedCreditInvoice)
+                            JSON.stringify(response?.relatedCreditInvoice.id)
                           );
                           navigate(`/invoice/view/${response.uniqueId}`);
                           setRefresh(!refresh);
@@ -717,7 +715,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
               <div
                 className={`ribbon-label fw-bold ${getStatusClass(
                   response?.invoiceStatus?.value || 1
-                )} ${response?.isDraft ? "text-dark" : "text-white"}`}
+                )} `}
               >
                 {getEnumOptions(enums.InvoiceStatusTypes, intl)
                   .find((item) => item.value === response?.invoiceStatus.value)
@@ -905,8 +903,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
                         type="button"
                         className="btn btn-icon btn-warning btn-sm"
                         onClick={() => {
-                          setAddModalOpen(true),
-                            setEditModalId(currentInvoice?.id);
+                          setAddModalOpen(true), setEditModalId(currentInvoice);
                         }}
                       >
                         <i className="ki-solid ki-pencil fs-3" />
@@ -1026,7 +1023,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
 
           {copyModalOpen && (
             <InvoiceCopyModal
-              invoiceId={currentInvoice?.id}
+              invoiceId={currentInvoice}
               invoiceNr={response?.invoiceNr}
               setCopyModalOpen={setCopyModalOpen}
               setRefresh={setRefresh}
@@ -1037,7 +1034,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
           )}
           {creditModalOpen && (
             <InvoiceCreditModal
-              invoiceId={currentInvoice?.id}
+              invoiceId={currentInvoice}
               invoiceNr={response?.invoiceNr}
               setCreditModalOpen={setCreditModalOpen}
               setRefresh={setRefresh}
@@ -1048,7 +1045,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
           )}
           {emailModalOpen && (
             <InvoiceEmailModal
-              invoiceId={currentInvoice?.id}
+              invoiceId={currentInvoice}
               invoiceNr={response?.invoiceNr}
               setEmailModalOpen={setEmailModalOpen}
               setRefresh={setRefresh}
@@ -1058,7 +1055,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
           )}
           {activateModalOpen && (
             <InvoiceActivateModal
-              invoiceId={currentInvoice?.id}
+              invoiceId={currentInvoice}
               invoiceNr={response?.invoiceNr}
               setActivateModalOpen={setActivateModalOpen}
               setRefresh={setRefresh}
@@ -1075,7 +1072,7 @@ const InvoiceViewInnerWrapper = ({ setInvoiceData }: any) => {
           )}
           {paymentModalOpen && (
             <InvoicePaymentModal
-              invoiceId={currentInvoice?.id}
+              invoiceId={currentInvoice}
               invoiceNr={response?.invoiceNr}
               setPaymentModalOpen={setPaymentModalOpen}
               setRefresh={setRefresh}

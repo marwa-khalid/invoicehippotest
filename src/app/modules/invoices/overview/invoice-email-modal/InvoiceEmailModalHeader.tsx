@@ -42,7 +42,7 @@ const InvoiceEmailModalHeader = ({
 
       {/* New table below the title */}
       <div className="w-100 mt-3" style={{ lineHeight: "0.5" }}>
-        <table className="table text-white mt-0">
+        <table className="table text-white mt-0 compact-table-lg">
           <tbody>
             <tr className="my-0">
               <td className="fw-bold">

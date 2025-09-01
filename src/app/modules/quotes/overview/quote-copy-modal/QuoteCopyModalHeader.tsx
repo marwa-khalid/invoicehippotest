@@ -15,7 +15,7 @@ const QuoteCopyModalHeader = ({
   const parsedData = JSON.parse(localStorage.getItem("ModalData")!);
 
   return (
-    <div className="modal-header bg-info d-flex flex-column">
+    <div className="modal-header bg-primary d-flex flex-column">
       {/* Modal title */}
       <div className="d-flex w-100 justify-content-between align-items-center">
         <h2 className="fw-bolder mb-0 text-white">
@@ -36,7 +36,7 @@ const QuoteCopyModalHeader = ({
 
       {/* New table below the title */}
       <div className="w-100 mt-3" style={{ lineHeight: "0.5" }}>
-        <table className="table text-white mt-0 w-50">
+        <table className="table text-white mt-0 compact-table">
           <tbody>
             <tr className="my-0">
               <td className="fw-bold">

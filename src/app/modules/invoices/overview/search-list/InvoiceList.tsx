@@ -300,7 +300,7 @@ const InvoiceList = ({
                           onClick={() => {
                             localStorage.setItem(
                               "currentItem",
-                              JSON.stringify(invoiceList.relatedParentInvoice)
+                              JSON.stringify(invoiceList.relatedParentInvoice.id)
                             );
                             navigate(`/invoice/view/${invoiceList.uniqueId}`);
                           }}
@@ -344,7 +344,7 @@ const InvoiceList = ({
                           onClick={() => {
                             localStorage.setItem(
                               "currentItem",
-                              JSON.stringify(invoiceList.relatedCreditInvoice)
+                              JSON.stringify(invoiceList.relatedCreditInvoice.id)
                             );
                             navigate(`/invoice/view/${invoiceList.uniqueId}`);
                           }}
@@ -468,7 +468,7 @@ const InvoiceList = ({
                   } else {
                     localStorage.setItem(
                       "currentItem",
-                      JSON.stringify(invoiceList)
+                      JSON.stringify(invoiceList.id)
                     );
                     navigate(`/invoice/view/${invoiceList.uniqueId}`);
                   }
@@ -480,7 +480,7 @@ const InvoiceList = ({
                   } else {
                     localStorage.setItem(
                       "currentItem",
-                      JSON.stringify(invoiceList)
+                      JSON.stringify(invoiceList.id)
                     );
                     navigate(`/invoice/view/${invoiceList.uniqueId}`);
                   }
@@ -524,7 +524,7 @@ const InvoiceList = ({
                       } else {
                         localStorage.setItem(
                           "currentItem",
-                          JSON.stringify(invoiceList)
+                          JSON.stringify(invoiceList.id)
                         );
                       }
                     }}
@@ -535,7 +535,7 @@ const InvoiceList = ({
                       } else {
                         localStorage.setItem(
                           "currentItem",
-                          JSON.stringify(invoiceList)
+                          JSON.stringify(invoiceList.id)
                         );
                       }
                     }}
@@ -615,7 +615,7 @@ const InvoiceList = ({
                               onClick={() => {
                                 localStorage.setItem(
                                   "currentItem",
-                                  JSON.stringify(invoiceList)
+                                  JSON.stringify(invoiceList.id)
                                 );
                                 navigate(
                                   `/invoice/view/${invoiceList.uniqueId}`

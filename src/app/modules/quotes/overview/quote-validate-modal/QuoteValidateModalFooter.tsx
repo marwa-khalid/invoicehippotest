@@ -46,6 +46,15 @@ const QuoteValidateModalFooter = ({
 
   const isDeclined =
     activeTab.id === 2 && formik.values.validationStateType === 2;
+  const tab3Fields = [
+    "validatedByFullName",
+    "validatedByCity",
+    "validatedByEmailAddress",
+  ] as const;
+
+  const hasTab3Errors = tab3Fields.some(
+    (field) => !!(formik.errors.quoteValidationSignee as any)?.[field]
+  );
 
   useEffect(() => {
     formik.validateForm();
@@ -117,7 +126,8 @@ const QuoteValidateModalFooter = ({
                 (!isApproved &&
                   !isDeclined &&
                   formik.values.validationStateType === 0) ||
-                (activeTab.id === 3 && !formik.isValid) ||
+                (activeTab.id === 3 && hasTab3Errors) ||
+                (activeTab.id === 4 && !formik.isValid) ||
                 (formik.values.validationStateType === 2 && !formik.isValid)
               }
             >

@@ -654,7 +654,7 @@ const InvoiceViewInnerWrapper = () => {
                     onClick={() => {
                       localStorage.setItem(
                         "currentItem",
-                        JSON.stringify(response?.relatedParentInvoice)
+                        JSON.stringify(response?.relatedParentInvoice.id)
                       );
                       navigate(`/invoice/view/${response?.uniqueId}`);
                       setRefresh(!refresh);
@@ -691,7 +691,7 @@ const InvoiceViewInnerWrapper = () => {
                     onClick={() => {
                       localStorage.setItem(
                         "currentItem",
-                        JSON.stringify(response?.relatedCreditInvoice)
+                        JSON.stringify(response?.relatedCreditInvoice.id)
                       );
                       navigate(`/invoice/view/${response.uniqueId}`);
                       setRefresh(!refresh);

@@ -5,22 +5,20 @@ import { useIntl } from "react-intl";
 import Flatpickr from "react-flatpickr";
 
 interface ComponentProps {
-  invoiceId: number;
-  invoiceNr: string;
-  setCreditModalOpen: (type: boolean) => void;
+  quoteId: number;
+  quoteNr: string;
+  setCreateInvoiceModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
   refresh: boolean;
-  setAddModalOpen: (type: boolean) => void;
   setEditModalId: (type: number) => void;
 }
 
-const InvoiceCreditModal = ({
-  invoiceId,
-  invoiceNr,
-  setCreditModalOpen,
+const CreateInvoiceModal = ({
+  quoteId,
+  quoteNr,
+  setCreateInvoiceModalOpen,
   setRefresh,
   refresh,
-  setAddModalOpen,
   setEditModalId,
 }: ComponentProps) => {
   useEffect(() => {
@@ -33,7 +31,8 @@ const InvoiceCreditModal = ({
   const intl = useIntl();
   const [actionType, setActionType] = useState<number>(1);
   const [openDraftSwitch, setOpenDraftSwitch] = useState<boolean>(false);
-  const [invoiceDate, setInvoiceDate] = useState<string>("");
+  const [copyAttachments, setCopyAttachments] = useState<boolean>(false);
+  const [invoiceDate, setInvoiceDate] = useState<any>(new Date());
 
   return (
     <>
@@ -49,8 +48,8 @@ const InvoiceCreditModal = ({
           {/* begin::Modal content */}
           <div className="modal-content">
             <InvoiceCreditModalHeader
-              setCreditModalOpen={setCreditModalOpen}
-              invoiceNr={invoiceNr}
+              setCreateInvoiceModalOpen={setCreateInvoiceModalOpen}
+              quoteNr={quoteNr}
             />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
@@ -65,7 +64,7 @@ const InvoiceCreditModal = ({
                   data-td-target-toggle="nearest"
                 >
                   <Flatpickr
-                    value={invoiceDate}
+                    value={invoiceDate ? new Date(invoiceDate) : new Date()}
                     onChange={(date: Date[]) => {
                       if (date[0]) {
                         // Adjust the date to avoid time zone issues and format as ISO string
@@ -99,7 +98,8 @@ const InvoiceCreditModal = ({
                   </span>
                 </div>
               </div>
-              <div className="mb-5">
+              <div className="separator my-10"></div>
+              <div className="mb-10">
                 <div className="form-check mb-5">
                   <input
                     className="form-check-input cursor-pointer"
@@ -132,65 +132,30 @@ const InvoiceCreditModal = ({
                     })}
                   </label>
                 </div>
-                <div className="form-check mb-5">
-                  <input
-                    className="form-check-input cursor-pointer"
-                    type="radio"
-                    name="creditOption"
-                    id="settleOption"
-                    value={3}
-                    checked={actionType === 3}
-                    onChange={() => setActionType(3)}
-                  />
-                  <label className="form-check-label" htmlFor="settleOption">
-                    {intl.formatMessage({
-                      id: "Fields.ModalCreditCreateFinalizeAndSettle",
-                    })}
-                  </label>
-                </div>
               </div>
 
               {/* Info divs */}
               {actionType === 1 && (
-                <>
-                  <div className="row d-flex form-wrapper bg-secondary p-5 rounded mb-7">
-                    <div className="col-2">
-                      <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
-                        <span className="path1"></span>
-                        <span className="path2"></span>
-                        <span className="path3"></span>
-                      </i>
-                    </div>
-                    <span
-                      className="col-10"
-                      dangerouslySetInnerHTML={{
-                        __html: intl.formatMessage({
-                          id: "Fields.ModalCreditCreateAsDraftOptionInfo",
-                        }),
-                      }}
-                    />
+                <div className="row d-flex form-wrapper bg-secondary p-5 rounded">
+                  <div className="col-2">
+                    <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
+                      <span className="path1"></span>
+                      <span className="path2"></span>
+                      <span className="path3"></span>
+                    </i>
                   </div>
-                  <div className="form-check form-switch mt-1 ms-2 d-flex align-items-center">
-                    <input
-                      className="form-check-input h-25px w-45px me-5 cursor-pointer"
-                      type="checkbox"
-                      id="openDraftSwitch"
-                      checked={openDraftSwitch}
-                      onChange={() => setOpenDraftSwitch(!openDraftSwitch)}
-                    />
-                    <label
-                      className="form-check-label fs-sm text-muted"
-                      htmlFor="openDraftSwitch"
-                    >
-                      {intl.formatMessage({
-                        id: "Fields.ModalOpenDraftAfterAction",
-                      })}
-                    </label>
-                  </div>
-                </>
+                  <span
+                    className="col-10"
+                    dangerouslySetInnerHTML={{
+                      __html: intl.formatMessage({
+                        id: "Fields.ModalQuoteCreateInvoiceAsDraftOptionInfo",
+                      }),
+                    }}
+                  />
+                </div>
               )}
               {actionType === 2 && (
-                <div className="row d-flex form-wrapper bg-secondary p-5 rounded mb-7">
+                <div className="row d-flex form-wrapper bg-secondary p-5 rounded">
                   <div className="col-2">
                     <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
                       <span className="path1"></span>
@@ -202,40 +167,61 @@ const InvoiceCreditModal = ({
                     className="col-10"
                     dangerouslySetInnerHTML={{
                       __html: intl.formatMessage({
-                        id: "Fields.ModalCreditCreateAndFinalizeOptionInfo",
+                        id: "Fields.ModalQuoteCreateInvoiceAndFinalizeOptionInfo",
                       }),
                     }}
                   />
                 </div>
               )}
-              {actionType === 3 && (
-                <div className="row d-flex form-wrapper bg-secondary p-5 rounded mb-7">
-                  <div className="col-2">
-                    <i className="ki-duotone ki-information-4 fs-3x text-center text-primary">
-                      <span className="path1"></span>
-                      <span className="path2"></span>
-                      <span className="path3"></span>
-                    </i>
-                  </div>
-                  <span
-                    className="col-10"
-                    dangerouslySetInnerHTML={{
-                      __html: intl.formatMessage({
-                        id: "Fields.ModalCreditCreateFinalizeAndSettleOptionInfo",
-                      }),
-                    }}
-                  />
-                </div>
-              )}
+              <div className="separator my-10"></div>
+              <div className="form-check form-switch mt-1 ms-2 d-flex align-items-center">
+                <input
+                  className="form-check-input h-25px w-45px me-5 cursor-pointer"
+                  type="checkbox"
+                  id="openDraftSwitch"
+                  checked={openDraftSwitch}
+                  onChange={() => setOpenDraftSwitch(!openDraftSwitch)}
+                />
+                <label
+                  className="form-check-label fs-sm text-muted"
+                  htmlFor="openDraftSwitch"
+                >
+                  {actionType === 1
+                    ? intl.formatMessage({
+                        id: "Fields.ModalOpenDraftAfterAction",
+                      })
+                    : intl.formatMessage({
+                        id: "Fields.ModalOpenInvoiceAfterAction",
+                      })}
+                </label>
+              </div>
+              <div className="separator my-10"></div>
+              <div className="form-check form-switch mt-1 ms-2 d-flex align-items-center">
+                <input
+                  className="form-check-input h-25px w-45px me-5 cursor-pointer"
+                  type="checkbox"
+                  id="copyAttachmentsSwitch"
+                  checked={copyAttachments}
+                  onChange={() => setCopyAttachments(!copyAttachments)}
+                />
+                <label
+                  className="form-check-label fs-sm text-muted"
+                  htmlFor="copyAttachmentsSwitch"
+                >
+                  {intl.formatMessage({
+                    id: "Fields.CopyAttachments",
+                  })}
+                </label>
+              </div>
             </div>
             {/* end::Modal body */}
             <InvoiceCreditModalFooter
-              invoiceId={invoiceId}
-              setCreditModalOpen={setCreditModalOpen}
+              quoteId={quoteId}
+              setCreateInvoiceModalOpen={setCreateInvoiceModalOpen}
               setRefresh={setRefresh}
               openDraftSwitch={openDraftSwitch}
+              copyAttachments={copyAttachments}
               refresh={refresh}
-              setAddModalOpen={setAddModalOpen}
               setEditModalId={setEditModalId}
               actionType={actionType}
               invoiceDate={invoiceDate}
@@ -252,4 +238,4 @@ const InvoiceCreditModal = ({
   );
 };
 
-export { InvoiceCreditModal };
+export { CreateInvoiceModal };

@@ -62,7 +62,7 @@ const InvoiceCopyModalFooter = ({
         {/* Save Button */}
         <button
           type="submit"
-          className="btn btn-info"
+          className="btn btn-primary"
           onClick={copyModal}
           //   disabled={!isValid || isSubmitting || !touched}
         >

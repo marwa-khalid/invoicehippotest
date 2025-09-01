@@ -23,3 +23,4 @@ export const ESTIMATION_ACTIVITIES = `${API_URL_V1}/report/activities-for-esitma
 export const GET_ATTACHMENTS = `${API_URL_V1}/quote/attachments-for`;
 export const QUOTE_ATTACHMENT = `${API_URL_V1}/inbox/attach-to-quote`;
 export const CREATE_ORDER_CONFIRMATION = `${API_URL_V1}/quote/create-order-confirmation/from-quote`;
+export const CREATE_INVOICE_FOR_QUOTE = `${API_URL_V1}/quote/create-invoice`;
