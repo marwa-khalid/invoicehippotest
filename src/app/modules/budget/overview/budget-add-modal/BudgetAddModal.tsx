@@ -64,12 +64,12 @@ const BudgetAddModal = ({
           .formatMessage({ id: "Common.RequiredFieldHint2" })
           .replace("{0}", "budget group")
       ),
-      relatedLedgerAccounts: Yup.array().min(
-        1,
-        intl
-          .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
-      ),
+      // relatedLedgerAccounts: Yup.array().min(
+      //   1,
+      //   intl
+      //     .formatMessage({ id: "Common.RequiredFieldHint2" })
+      //     .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
+      // ),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);

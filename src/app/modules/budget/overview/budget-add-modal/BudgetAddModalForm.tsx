@@ -166,7 +166,7 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
           </div>
           <div className="fv-row col-6">
             <div className="d-flex justify-content-between">
-              <label className="fw-bold fs-6 mb-3">
+              <label className="required fw-bold fs-6 mb-3">
                 {/* {intl.formatMessage({
                 id: "Fields.BudgetGroup",
               })} */}
@@ -215,7 +215,7 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
         </div>
 
         <div className="row d-flex mb-5">
-          <label className="required fw-bold fs-6 mb-3">
+          <label className="fw-bold fs-6 mb-3">
             {intl.formatMessage({
               id: "Fields.LedgerAccount",
             })}
@@ -231,15 +231,20 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
             placeholder={intl.formatMessage({
               id: "Fields.SelectOptionDefaultLedgerAccount",
             })}
-            onChange={(selected: any) =>
+            onChange={(selected: any) => {
+              if (selected && selected.length > 5) {
+                // keep only the first 5 selections
+                selected = selected.slice(0, 5);
+              }
               formik.setFieldValue(
                 "relatedLedgerAccounts",
                 selected ? selected.map((s: any) => s.value) : []
-              )
-            }
-            onBlur={() => formik.setFieldTouched("relatedLedgerAccounts", true)}
+              );
+            }}
+            // onBlur={() => formik.setFieldTouched("relatedLedgerAccounts", true)}
           />
-          {formik.touched.relatedLedgerAccounts &&
+
+          {/* {formik.touched.relatedLedgerAccounts &&
             formik.errors.relatedLedgerAccounts && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
@@ -251,7 +256,7 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
                   />
                 </div>
               </div>
-            )}
+            )} */}
         </div>
 
         <div className="row d-flex mb-5">

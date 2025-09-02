@@ -121,31 +121,31 @@ const BudgetList = ({
                   >
                     <span className="fw-bold">{budget.title}</span>
                   </div>
-                  <div className="d-flex flex-column align-items-start">
+                  {/* <div className="d-flex flex-column align-items-start">
                     <small
                       className="text-muted font-weight-light fs-9"
                       dangerouslySetInnerHTML={{ __html: budget.description }}
                     />
-                  </div>
+                  </div> */}
                 </td>
 
                 <td width={200}>
                   {budget.hasBudgetGroup && (
-                    <>
-                      <div className="d-flex flex-column align-items-start cursor-pointer">
-                        <span className="fw-bold">
-                          {budget.budgetGroup.title}
-                        </span>
-                      </div>
-                      <div className="d-flex flex-column align-items-start">
-                        <small
-                          className="text-muted font-weight-light fs-9"
-                          dangerouslySetInnerHTML={{
-                            __html: budget.budgetGroup.description,
-                          }}
-                        />
-                      </div>
-                    </>
+                    // <>
+                    <div className="d-flex flex-column align-items-start cursor-pointer">
+                      <span className="fw-bold">
+                        {budget.budgetGroup.title}
+                      </span>
+                    </div>
+                    // <div className="d-flex flex-column align-items-start">
+                    //   <small
+                    //     className="text-muted font-weight-light fs-9"
+                    //     dangerouslySetInnerHTML={{
+                    //       __html: budget.budgetGroup.description,
+                    //     }}
+                    //   />
+                    // </div>
+                    // </>
                   )}
                 </td>
                 {/* <td>
@@ -174,53 +174,55 @@ const BudgetList = ({
                 </td>
 
                 <td className="text-end">
-                  {budget.actions.canEdit && (
-                    <Tooltip.Provider delayDuration={0}>
-                      <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                          <button
-                            className="btn btn-icon btn-light btn-sm me-2"
-                            onClick={() => openEditModal(budget.id)}
-                          >
-                            <i className="ki-solid ki-pencil text-warning fs-2" />
-                          </button>
-                        </Tooltip.Trigger>
+                  <div className="d-flex gap-1 text-end justify-content-end">
+                    {budget.actions.canEdit && (
+                      <Tooltip.Provider delayDuration={0}>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger asChild>
+                            <button
+                              className="btn btn-icon btn-light btn-sm"
+                              onClick={() => openEditModal(budget.id)}
+                            >
+                              <i className="ki-solid ki-pencil text-warning fs-2" />
+                            </button>
+                          </Tooltip.Trigger>
 
-                        <Tooltip.Portal>
-                          <Tooltip.Content side="top" className="app-tooltip">
-                            {intl.formatMessage({
-                              id: "Fields.ToolTipEdit",
-                            })}
-                            <Tooltip.Arrow className="app-tooltip-arrow" />
-                          </Tooltip.Content>
-                        </Tooltip.Portal>
-                      </Tooltip.Root>
-                    </Tooltip.Provider>
-                  )}
+                          <Tooltip.Portal>
+                            <Tooltip.Content side="top" className="app-tooltip">
+                              {intl.formatMessage({
+                                id: "Fields.ToolTipEdit",
+                              })}
+                              <Tooltip.Arrow className="app-tooltip-arrow" />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
+                    )}
 
-                  {budget.actions.canDelete && (
-                    <Tooltip.Provider delayDuration={0}>
-                      <Tooltip.Root>
-                        <Tooltip.Trigger asChild>
-                          <button
-                            className="btn btn-icon btn-light btn-sm"
-                            onClick={() => openDeleteModal(budget)}
-                          >
-                            <i className="ki-solid ki-trash text-danger fs-2" />
-                          </button>
-                        </Tooltip.Trigger>
+                    {budget.actions.canDelete && (
+                      <Tooltip.Provider delayDuration={0}>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger asChild>
+                            <button
+                              className="btn btn-icon btn-light btn-sm"
+                              onClick={() => openDeleteModal(budget)}
+                            >
+                              <i className="ki-solid ki-trash text-danger fs-2" />
+                            </button>
+                          </Tooltip.Trigger>
 
-                        <Tooltip.Portal>
-                          <Tooltip.Content side="top" className="app-tooltip">
-                            {intl.formatMessage({
-                              id: "Fields.ToolTipDelete",
-                            })}
-                            <Tooltip.Arrow className="app-tooltip-arrow" />
-                          </Tooltip.Content>
-                        </Tooltip.Portal>
-                      </Tooltip.Root>
-                    </Tooltip.Provider>
-                  )}
+                          <Tooltip.Portal>
+                            <Tooltip.Content side="top" className="app-tooltip">
+                              {intl.formatMessage({
+                                id: "Fields.ToolTipDelete",
+                              })}
+                              <Tooltip.Arrow className="app-tooltip-arrow" />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
