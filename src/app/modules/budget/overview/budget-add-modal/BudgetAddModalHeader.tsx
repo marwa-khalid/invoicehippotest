@@ -5,7 +5,7 @@ interface ComponentProps {
   setAddModalOpen: (type: boolean) => void;
   editModalId: number;
 }
-const ProductAddModalHeader = ({
+const BudgetAddModalHeader = ({
   setAddModalOpen,
   editModalId,
 }: ComponentProps) => {
@@ -15,9 +15,10 @@ const ProductAddModalHeader = ({
     <div className="modal-header d-flex justify-content-between align-items-center bg-primary">
       {/* begin::Modal title */}
       <h2 className="fw-bolder mb-0 text-white">
-        {editModalId != 0
+        {/* {editModalId != 0
           ? intl.formatMessage({ id: "Fields.ModalEditTitleProduct" })
-          : intl.formatMessage({ id: "Fields.ModalNewTitleProduct" })}
+          : intl.formatMessage({ id: "Fields.ModalNewTitleProduct" })} */}
+        {editModalId != 0 ? "Edit Budget" : "Add Budget"}
       </h2>
       {/* begin::Close */}
       <div
@@ -32,4 +33,4 @@ const ProductAddModalHeader = ({
   );
 };
 
-export { ProductAddModalHeader };
+export { BudgetAddModalHeader };

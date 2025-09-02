@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { ProductAddModalHeader } from "./ProductAddModalHeader";
-import { ProductAddModalFooter } from "./ProductAddModalFooter";
+import { BudgetAddModalHeader } from "./BudgetAddModalHeader";
+import { BudgetAddModalFooter } from "./BudgetAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
-import { ProductAddModalForm } from "./ProductAddModalForm";
+import { BudgetAddModalForm } from "./BudgetAddModalForm";
 import { handleToast } from "../../../auth/core/_toast";
-import { getProductById, postProduct } from "../core/_requests";
+import { getBudgetById, postBudget } from "../core/_requests";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
@@ -14,7 +14,7 @@ interface Props {
   refresh: boolean;
   setEditModalId: (type: number) => void;
 }
-const ProductAddModal = ({
+const BudgetAddModal = ({
   setRefresh,
   setAddModalOpen,
   editModalId,
@@ -34,25 +34,8 @@ const ProductAddModal = ({
       id: 0,
       title: "",
       description: "",
-      code: "",
-      eanCode: "",
-      supplierInhouseCode: "",
-      supplierClientId: 0,
-      supplierClientDisplayName: "",
-      productGroupId: 0,
-      pricing: {
-        units: 0,
-        unitPrice: 0,
-        companyUnitTypeId: 3242,
-        btwExclusive: false,
-        ledgerAccountId: 77630,
-        vatTypeId: 5906,
-      },
-      pricingMargin: {
-        purchasePrice: 0,
-        marginFactorType: 0,
-        marginFactor: 0,
-      },
+      budgetGroupId: 0,
+      relatedLedgerAccounts: [] as number[],
     },
     validationSchema: Yup.object().shape({
       title: Yup.string()
@@ -75,15 +58,28 @@ const ProductAddModal = ({
             .formatMessage({ id: "Common.RequiredFieldHint2" })
             .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
         ),
+
+      budgetGroupId: Yup.number().required(
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", "budget group")
+      ),
+      relatedLedgerAccounts: Yup.array().min(
+        1,
+        intl
+          .formatMessage({ id: "Common.RequiredFieldHint2" })
+          .replace("{0}", intl.formatMessage({ id: "Fields.LedgerAccount" }))
+      ),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       setIsSubmitting(true);
       try {
-        const response = await postProduct(values);
+        const response = await postBudget(values);
         if (response.isValid) {
           formik.resetForm();
           setRefresh(!refresh);
           setAddModalOpen(false);
+          setEditModalId(0);
         }
         handleToast(response);
       } catch (error) {
@@ -98,7 +94,7 @@ const ProductAddModal = ({
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const response = await getProductById(editModalId);
+        const response = await getBudgetById(editModalId);
         if (response.isValid) {
           formik.setValues({
             ...formik.values,
@@ -113,18 +109,6 @@ const ProductAddModal = ({
       fetchInitialData();
     }
   }, [editModalId]);
-  const [amountReadOnly, setAmountReadOnly] = useState<boolean>(false);
-  useEffect(() => {
-    if (
-      formik.values.pricingMargin.marginFactorType != 1 &&
-      formik.values.pricingMargin.marginFactorType != 2
-    ) {
-      setAmountReadOnly(false);
-    } else {
-      setAmountReadOnly(true);
-    }
-  }, [formik.values.pricingMargin.marginFactorType]);
-
   return (
     <>
       <div
@@ -136,22 +120,18 @@ const ProductAddModal = ({
       >
         <div className="modal-dialog mw-700px">
           <div className="modal-content">
-            <ProductAddModalHeader
+            <BudgetAddModalHeader
               setAddModalOpen={setAddModalOpen}
               editModalId={editModalId}
             />
             <div className="modal-body p-10">
-              <ProductAddModalForm
+              <BudgetAddModalForm
                 formik={formik}
-                isSubmitting={isSubmitting}
-                editModalId={editModalId}
                 refresh={refresh}
                 setRefresh={setRefresh}
-                setEditModalId={setEditModalId}
-                amountReadOnly={amountReadOnly}
               />
             </div>
-            <ProductAddModalFooter
+            <BudgetAddModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setAddModalOpen={setAddModalOpen}
@@ -164,4 +144,4 @@ const ProductAddModal = ({
   );
 };
 
-export { ProductAddModal };
+export { BudgetAddModal };

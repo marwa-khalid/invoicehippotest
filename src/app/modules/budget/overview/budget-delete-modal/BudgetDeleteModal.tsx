@@ -1,20 +1,22 @@
-import { useEffect, useState } from "react";
-import { ProductDeleteModalHeader } from "./ProductDeleteModalHeader";
-import { ProductDeleteModalFooter } from "./ProductDeleteModalFooter";
+import { useEffect } from "react";
+import { BudgetDeleteModalHeader } from "./BudgetDeleteModalHeader";
+import { BudgetDeleteModalFooter } from "./BudgetDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
   deleteModalId: number[];
   setDeleteModalOpen: (type: boolean) => void;
   setRefresh: (type: boolean) => void;
   setDeleteModalId: (type: number[]) => void;
-  refresh:boolean
+  refresh: boolean;
+  budgetTitle: string;
 }
-const ProductDeleteModal = ({
+const BudgetDeleteModal = ({
   deleteModalId,
   setDeleteModalOpen,
   setDeleteModalId,
   setRefresh,
   refresh,
+  budgetTitle,
 }: ComponentProps) => {
   useEffect(() => {
     document.body.classList.add("modal-open");
@@ -23,7 +25,6 @@ const ProductDeleteModal = ({
     };
   }, []);
   const intl = useIntl();
-  const parsedData = JSON.parse(localStorage.getItem("ModalData")!);
 
   return (
     <>
@@ -38,28 +39,29 @@ const ProductDeleteModal = ({
         <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <ProductDeleteModalHeader
+            <BudgetDeleteModalHeader
               setDeleteModalOpen={setDeleteModalOpen}
-              parsedData={parsedData}
               setDeleteModalId={setDeleteModalId}
             />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div className="form-wrapper">
-                <span
+                {/* <span
                   dangerouslySetInnerHTML={{
                     __html: intl
                       .formatMessage({
-                        id: "Fields.ModalDeleteDescriptionProduct",
+                        id: "Fields.ModalDeleteDescriptionBudget",
                       })
-                      .replace("{0}", parsedData?.displayName),
+                      .replace("{0}", budgetTitle),
                   }}
-                />
+                /> */}
+                Are you sure you want to delete budget entry :{" "}
+                <strong>{budgetTitle}</strong>?
               </div>
             </div>
 
             {/* end::Modal body */}
-            <ProductDeleteModalFooter
+            <BudgetDeleteModalFooter
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
@@ -78,4 +80,4 @@ const ProductDeleteModal = ({
   );
 };
 
-export { ProductDeleteModal };
+export { BudgetDeleteModal };

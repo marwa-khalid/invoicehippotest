@@ -1,10 +1,10 @@
-import { KTCardBody, KTIcon } from "../../../../../_metronic/helpers";
-import { useLayout } from "../../../../../_metronic/layout/core";
+import { KTCardBody, KTIcon } from "../../../../../_metronic/helpers/index.js";
+import { useLayout } from "../../../../../_metronic/layout/core/index.js";
 import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import clsx from "clsx";
 import { Menu, MenuButton, MenuList } from "@chakra-ui/react";
-import { ProductsFilter } from "./ProductsFilter";
+import { BudgetFilter } from "./BudgetFilter.js";
 // @ts-ignore
 import { resetPaginationModule } from "../../../../helpers/paginationUtils.js";
 // @ts-ignore
@@ -14,51 +14,28 @@ interface ComponentProps {
   setSearchTerm: (term: string) => void;
   searchTerm: string;
   setSearchCounter: React.Dispatch<React.SetStateAction<number>>;
-  setProductGroupId: (type: number | null) => void;
-  productGroupId: number | null;
-  setClientIdForFilter: (type: number | null) => void;
-  clientIdForFilter: number | null;
-  setShowClientSearch: (type: boolean) => void;
-  setClientName: (type: string) => void;
-  clientName: string;
-  setTempClientId: (type: number | null) => void;
-  tempClientId: number | null;
+  setBudgetGroupId: (type: number | null) => void;
+  budgetGroupId: number | null;
   setPageIndexState: (type: number) => void;
-  resetClient: (type: any) => void;
 }
 
-const ProductsHeader = ({
+const BudgetHeader = ({
   setSearchTerm,
   searchTerm,
   setSearchCounter,
-  setClientIdForFilter,
-  clientIdForFilter,
-  setShowClientSearch,
-  setClientName,
-  clientName,
-  setTempClientId,
-  tempClientId,
-  setProductGroupId,
-  productGroupId,
+  setBudgetGroupId,
+  budgetGroupId,
   setPageIndexState,
-  resetClient,
 }: ComponentProps) => {
   const [localSearchTerm, setLocalSearchTerm] = useState<string>(searchTerm);
   const intl = useIntl();
-  const [tempProductGroupId, setTempProductGroupId] = useState<number | null>(
-    productGroupId
+  const [tempBudgetGroupId, setTempBudgetGroupId] = useState<number | null>(
+    budgetGroupId
   );
   useEffect(() => {
-    setTempProductGroupId(productGroupId);
+    setTempBudgetGroupId(budgetGroupId);
   }, []);
   const [isFilterApplied, setIsFilterApplied] = useState<boolean>(false);
-  useEffect(() => {
-    if (clientIdForFilter) {
-      setClientName(
-        JSON.parse(localStorage.getItem("storedClientForProduct")!)?.displayName
-      );
-    }
-  }, [clientIdForFilter]);
 
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => {
@@ -67,7 +44,7 @@ const ProductsHeader = ({
   const handleSearchClick = () => {
     if (localSearchTerm !== undefined) {
       setSearchTerm(localSearchTerm);
-      const moduleKey = "products-module";
+      const moduleKey = "budgets-module";
       updatePagination(moduleKey, { searchTerm: localSearchTerm || "" }, 1);
       setSearchCounter((prev) => prev + 1);
       setPageIndexState(1);
@@ -75,36 +52,27 @@ const ProductsHeader = ({
   };
 
   useEffect(() => {
-    if (clientIdForFilter || productGroupId) {
+    if (budgetGroupId) {
       setIsFilterApplied(true);
     } else {
       setIsFilterApplied(false);
     }
-  }, [productGroupId, clientIdForFilter]);
+  }, [budgetGroupId]);
   const handleResetClick = () => {
     setLocalSearchTerm("");
     setSearchCounter((prev) => prev + 1);
     setSearchTerm("");
-    const moduleKey = "products-module";
+    const moduleKey = "budgets-module";
     resetPaginationModule(moduleKey);
     valueSetter();
   };
 
   const valueSetter = () => {
-    setTempClientId(null);
-    setTempProductGroupId(null);
-    setClientIdForFilter(null);
-    setProductGroupId(null);
-    setClientName("");
-    localStorage.removeItem("storedClientForProduct");
+    setTempBudgetGroupId(null);
+    setBudgetGroupId(null);
     setIsOpen(false);
     setPageIndexState(1);
   };
-
-  const { config } = useLayout();
-  const daterangepickerButtonClass = config.app?.toolbar?.fixed?.desktop
-    ? "btn-light"
-    : "bg-body btn-color-gray-700 btn-active-color-primary";
 
   return (
     <KTCardBody className="card mb-5 mb-xl-10 pb-0">
@@ -155,8 +123,9 @@ const ProductsHeader = ({
                 <MenuButton
                   className={clsx(
                     "btn bg-secondary btn-icon fw-bold rounded-0",
-                    daterangepickerButtonClass,
-                    { "bg-warning": isFilterApplied }
+                    isFilterApplied
+                      ? "bg-warning"
+                      : !searchTerm && "rounded-end"
                   )}
                   onClick={toggleMenu}
                 >
@@ -170,36 +139,30 @@ const ProductsHeader = ({
                   className="p-5 bg-body border-0 shadow-sm"
                   zIndex={10}
                 >
-                  <ProductsFilter
+                  <BudgetFilter
                     valueSetter={valueSetter}
                     setPageStateIndex={setPageIndexState}
                     isFilterApplied={isFilterApplied}
                     toggleMenu={toggleMenu}
                     setIsOpen={setIsOpen}
                     isOpen={isOpen}
-                    setProductGroupId={setProductGroupId}
-                    tempProductGroupId={tempProductGroupId}
-                    setTempProductGroupId={setTempProductGroupId}
-                    setClientIdForFilter={setClientIdForFilter}
-                    tempClientId={tempClientId}
-                    setTempClientId={setTempClientId}
+                    setBudgetGroupId={setBudgetGroupId}
+                    tempBudgetGroupId={tempBudgetGroupId}
+                    setTempBudgetGroupId={setTempBudgetGroupId}
                     setIsFilterApplied={setIsFilterApplied}
-                    setShowClientSearch={setShowClientSearch}
-                    clientName={clientName}
-                    setClientName={setClientName}
-                    resetClient={resetClient}
                   />
                 </MenuList>
               </Menu>
 
               {/* Menu button for filter */}
-
-              <button
-                className="btn btn-secondary btn-icon"
-                onClick={handleResetClick}
-              >
-                <i className="la la-remove fs-3"></i>
-              </button>
+              {(isFilterApplied || searchTerm) && (
+                <button
+                  className="btn btn-secondary btn-icon"
+                  onClick={handleResetClick}
+                >
+                  <i className="la la-remove fs-3"></i>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -208,4 +171,4 @@ const ProductsHeader = ({
   );
 };
 
-export { ProductsHeader };
+export { BudgetHeader };

@@ -1,72 +1,48 @@
 import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import Select from "react-select";
-import { getProductGroupList } from "../core/_requests";
+import { getBudgetGroups } from "../../../admin-settings/budgetgroups-list/core/_requests.js";
 // @ts-ignore
 import { updatePagination } from "../../../../helpers/paginationUtils.js";
-import { ClientAddButtons } from "../../../generic/ClientAddButtons";
-import { useAuth } from "../../../auth";
-
 interface ComponentProps {
-  setProductGroupId: (type: number | null) => void;
-  setClientIdForFilter: (clientId: number | null) => void;
-  tempClientId: number | null;
+  setBudgetGroupId: (type: number | null) => void;
   setIsFilterApplied: (type: boolean) => void;
-  tempProductGroupId: number | null;
-  setTempProductGroupId: (type: number | null) => void;
+  tempBudgetGroupId: number | null;
+  setTempBudgetGroupId: (type: number | null) => void;
   isFilterApplied: boolean;
-  setTempClientId: (clientId: number | null) => void;
-  setShowClientSearch: (type: boolean) => void;
-  setClientName: (type: string) => void;
   setIsOpen: (type: boolean) => void;
-  clientName: string;
   toggleMenu: any;
-  resetClient: (type: any) => void;
   setPageStateIndex: (type: number) => void;
   valueSetter: any;
   isOpen: boolean;
 }
 
-export function ProductsFilter({
-  setProductGroupId,
-  tempProductGroupId,
+export function BudgetFilter({
+  setBudgetGroupId,
+  tempBudgetGroupId,
   isFilterApplied,
-  setClientIdForFilter,
   setIsOpen,
-  tempClientId,
   setIsFilterApplied,
-  setTempClientId,
-  setShowClientSearch,
-  setClientName,
-  clientName,
   toggleMenu,
-  setTempProductGroupId,
-  resetClient,
+  setTempBudgetGroupId,
   setPageStateIndex,
   valueSetter,
   isOpen,
 }: ComponentProps) {
   const intl = useIntl();
-  const { currentUser } = useAuth();
 
   const handleApply = () => {
-    setProductGroupId(tempProductGroupId);
-    setClientIdForFilter(tempClientId);
-    const moduleKey = "products-module";
+    setBudgetGroupId(tempBudgetGroupId);
+    const moduleKey = "budgets-module";
     updatePagination(
       moduleKey,
       {
-        productGroupId: tempProductGroupId || null,
-        clientFilter: tempClientId || null,
+        budgetGroupId: tempBudgetGroupId || null,
       },
       1
     );
     setPageStateIndex(1);
     toggleMenu();
-  };
-
-  const openClientModal = () => {
-    setShowClientSearch(true);
   };
 
   const handleReset = () => {
@@ -75,12 +51,11 @@ export function ProductsFilter({
       return;
     } else {
       setIsFilterApplied(false);
-      const moduleKey = "products-module";
+      const moduleKey = "budgets-module";
       updatePagination(
         moduleKey,
         {
-          productGroupId: null,
-          clientFilter: null,
+          budgetGroupId: null,
         },
         1
       );
@@ -88,16 +63,16 @@ export function ProductsFilter({
     }
   };
 
-  const [productGroups, setProductGroups] = useState<any>([]);
+  const [budgetGroups, setBudgetGroups] = useState<any>([]);
   useEffect(() => {
-    const fetchProductGroups = async () => {
-      const response = await getProductGroupList();
+    const fetchBudgetGroups = async () => {
+      const response = await getBudgetGroups("", 1);
       if (response.isValid) {
-        setProductGroups(response.result);
+        setBudgetGroups(response.result);
       }
     };
-    if (productGroups?.length === 0) {
-      fetchProductGroups();
+    if (budgetGroups?.length === 0) {
+      fetchBudgetGroups();
     }
   }, []);
 
@@ -115,50 +90,35 @@ export function ProductsFilter({
         {/* GROUP Selection */}
         <div className="mb-5">
           <label className="form-label fw-bold">
-            {intl.formatMessage({ id: "Menu.ProductGroups" })}:
+            {/* {intl.formatMessage({ id: "Menu.BudgetGroups" })}: */}
+            Budget Groups
           </label>
           <Select
             value={
-              tempProductGroupId
-                ? productGroups
+              tempBudgetGroupId
+                ? budgetGroups
                     ?.map((item: any) => ({
                       value: item.id,
                       label: item.title,
                     }))
                     .find(
-                      (productGroups: any) =>
-                        productGroups.value === tempProductGroupId
+                      (budgetGroups: any) =>
+                        budgetGroups.value === tempBudgetGroupId
                     )
                 : null
             }
             className="react-select-styled"
-            options={productGroups.map((item: any) => ({
+            options={budgetGroups.map((item: any) => ({
               value: item.id,
               label: item.title,
             }))}
             placeholder={intl.formatMessage({ id: "Fields.SelectOptionNvt" })}
             onChange={(option) =>
-              setTempProductGroupId(option ? option.value : null)
+              setTempBudgetGroupId(option ? option.value : null)
             }
             isClearable
           />
         </div>
-
-        <div className="separator border-gray-200 mb-4"></div>
-        {/* Client Search Button */}
-        {!currentUser?.result.isAnonymousUser && (
-          <>
-            <ClientAddButtons
-              clientDisplayName={clientName}
-              openClientModal={openClientModal}
-              openClientModalInNewMode={openClientModal}
-              reset={resetClient}
-              setClientSearch={openClientModal}
-              type="filter"
-            />
-            <div className="separator border-gray-200 mb-4"></div>
-          </>
-        )}
       </div>
       <div className="separator border-gray-200 mb-4"></div>
       <div className="d-flex justify-content-end gap-2">

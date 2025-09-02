@@ -173,8 +173,6 @@ const ProductAddModalForm = ({
   const handleQuillChange = (content: string) => {
     formik.setFieldValue("description", content);
   };
-  console.log(formik.values);
-  console.log(formik.errors);
   useEffect(() => {
     let calculatedAmount = 0;
 
@@ -231,9 +229,9 @@ const ProductAddModalForm = ({
       .find(
         (option: any) => option.id === formik.values.pricing.vatTypeId
       )?.value;
-    console.log(formik.values.pricing.unitPrice);
+
     const unitPrice = formik.values.pricing.unitPrice || 0;
-    console.log(formik.values.pricing.unitPrice);
+
     if (!taxAmount || !unitPrice) {
       if (unitPrice > 0) {
         setTaxInfo({
@@ -241,9 +239,7 @@ const ProductAddModalForm = ({
           tax: 0,
           totalAmount: unitPrice,
         });
-        console.log(formik.values.pricing.unitPrice);
       } else {
-        console.log(formik.values.pricing.unitPrice);
         setTaxInfo({ amountExcludingTax: 0, tax: 0, totalAmount: 0 });
       }
       return;
@@ -265,7 +261,6 @@ const ProductAddModalForm = ({
       tax = unitPrice - amountExcludingTax;
       totalAmount = unitPrice; // Already inclusive
     }
-    console.log(amountExcludingTax);
 
     setTaxInfo({
       amountExcludingTax:

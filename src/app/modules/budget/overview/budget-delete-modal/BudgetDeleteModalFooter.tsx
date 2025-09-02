@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { useIntl } from "react-intl";
-import { deleteProductGroup } from "../core/_requests";
+import { deleteBudget } from "../core/_requests";
 import { handleToast } from "../../../auth/core/_toast";
 
 interface ComponentProps {
@@ -11,7 +11,7 @@ interface ComponentProps {
   refresh: boolean;
 }
 
-const ProductDeleteModalFooter = ({
+const BudgetDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
@@ -22,10 +22,10 @@ const ProductDeleteModalFooter = ({
   const intl = useIntl();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const deleteProduct = async () => {
+  const deleteRecord = async () => {
     setIsSubmitting(true);
 
-    const response = await deleteProductGroup(deleteModalId);
+    const response = await deleteBudget(deleteModalId);
 
     if (response.isValid) {
       setRefresh(!refresh);
@@ -53,11 +53,7 @@ const ProductDeleteModalFooter = ({
         </button>
 
         {/* Save Button */}
-        <button
-          type="submit"
-          className="btn btn-danger"
-          onClick={deleteProduct}
-        >
+        <button type="submit" className="btn btn-danger" onClick={deleteRecord}>
           {!isSubmitting ? (
             intl.formatMessage({ id: "Fields.ActionDelete" })
           ) : (
@@ -76,4 +72,4 @@ const ProductDeleteModalFooter = ({
   );
 };
 
-export { ProductDeleteModalFooter };
+export { BudgetDeleteModalFooter };

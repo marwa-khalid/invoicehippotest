@@ -12,6 +12,14 @@ interface ApiResponse<T> {
   isValid: boolean;
   textInfo: any;
 }
+
+export interface BudgetPost {
+  id: number;
+  title: string;
+  description: string;
+  budgetGroupId: number;
+  relatedLedgerAccounts: number[];
+}
 export interface BudgetResult {
   id: number;
   title: string;
@@ -40,37 +48,5 @@ export interface BudgetResult {
     canDelete: boolean;
   };
 }
-
-export type BudgetModel = ApiResponse<BudgetResult>;
-
-//extraa
-export interface ProductResult {
-  id: number;
-  title: string;
-  displayName: string;
-  code: string;
-  description: string;
-  units: number;
-  unitType: string;
-  unitPrice: number;
-  totals: {
-    totalPriceWithVAT: number;
-    totalVATAmount: number;
-    totalPrice: number;
-  };
-  vatTitle: string;
-  supplier: string;
-  productGroup: string;
-  ledgerAccountDisplayName: string;
-  actions: {
-    canEdit: boolean;
-    canDelete: boolean;
-  };
-  unitTypeId: number;
-  vatTypeId: number;
-  ledgerAccountId: number;
-  btwExclusive: boolean;
-  useDescriptionOnInvoice: boolean;
-  useDescriptionOnQuote: boolean;
-}
-export type ProductModel = ApiResponse<ProductResult>;
+export type BudgetPostModel = ApiResponse<BudgetPost>;
+export type BudgetModel = ApiResponse<BudgetResult[]>;

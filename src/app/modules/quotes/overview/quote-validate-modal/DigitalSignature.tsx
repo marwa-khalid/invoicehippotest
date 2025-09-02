@@ -87,7 +87,6 @@ const DigitalSignature = ({ formik }: Props) => {
       );
     }
   }, [image, signatureType]);
-  console.log(formik.values.quoteValidationSignee);
   const handleUpload = (event: any) => {
     const file = event.target.files[0];
 

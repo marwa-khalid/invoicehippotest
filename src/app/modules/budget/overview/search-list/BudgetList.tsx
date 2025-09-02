@@ -16,35 +16,31 @@ interface ComponentProps {
   refresh: boolean;
   setPageIndex: (type: number) => void;
   pageIndex: number;
-  addModalOpen: boolean;
-  deleteModalOpen: boolean;
   setDeleteSelectedButton: (type: boolean) => void;
   deleteModalId: any;
   setDeleteModalId: any;
   searchCounter: number;
-  productGroupId: number | null;
-  clientId: number | null;
+  budgetGroupId: number | null;
+  setBudgetTitle: (type: string) => void;
 }
 
-const ProductList = ({
+const BudgetList = ({
   searchTerm,
   setAddModalOpen,
   setEditModalId,
-  productGroupId,
-  clientId,
+  budgetGroupId,
+  setBudgetTitle,
   setDeleteModalOpen,
   refresh,
   setPageIndex,
   pageIndex,
-  addModalOpen,
-  deleteModalOpen,
   setDeleteSelectedButton,
   deleteModalId,
   setDeleteModalId,
   searchCounter,
   setTotalRows,
 }: ComponentProps) => {
-  const [products, setProducts] = useState<any>([]);
+  const [budgets, setBudgets] = useState<any>([]);
   const intl = useIntl();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -53,18 +49,18 @@ const ProductList = ({
       setDeleteSelectedButton(false);
     }
   }, [deleteModalId]);
-  const fetchProducts = async () => {
+  const fetchBudgets = async () => {
     try {
       setIsLoading(true);
       const response = await getBudgets(
         searchTerm,
         pageIndex,
         10,
-        productGroupId
+        budgetGroupId
       );
 
       if (response.isValid) {
-        setProducts(response);
+        setBudgets(response);
         setTotalRows(response.totalRows);
       }
     } finally {
@@ -76,19 +72,18 @@ const ProductList = ({
     setPageIndex(page);
   };
   useEffect(() => {
-    fetchProducts();
-  }, [searchTerm, searchCounter, refresh, pageIndex, productGroupId]);
+    fetchBudgets();
+  }, [searchTerm, searchCounter, refresh, pageIndex, budgetGroupId]);
 
   const openEditModal = (id: number) => {
     setEditModalId(id);
     setAddModalOpen(true);
   };
 
-  const openDeleteModal = (product: BudgetResult) => {
-    setDeleteModalId([product.id]);
-
+  const openDeleteModal = (budget: BudgetResult) => {
+    setDeleteModalId([budget.id]);
+    setBudgetTitle(budget.title);
     setDeleteModalOpen(true);
-    localStorage.setItem("ModalData", JSON.stringify(product));
   };
   const { currentUser } = useAuth();
   return (
@@ -97,7 +92,6 @@ const ProductList = ({
         <table className="table table-row-dashed table-row-gray-300 align-top gs-0 gy-4">
           <thead>
             <tr className="fw-bold text-muted">
-              <th></th>
               <th className="w-25px">
                 {intl.formatMessage({ id: "Fields.Title" })}
               </th>
@@ -115,79 +109,78 @@ const ProductList = ({
             </tr>
           </thead>
           <tbody>
-            {products?.result?.map((product: BudgetResult) => (
-              <tr key={product.id}>
-                <td width={60}>
-                  <img
-                    alt="PNG"
-                    src={toAbsoluteUrl("media/logos/budget.png")}
-                    width={60}
-                    height={40}
-                  />
-                </td>
+            {budgets?.result?.map((budget: BudgetResult) => (
+              <tr key={budget.id}>
                 <td width={150}>
-                  <div className="d-flex flex-column align-items-start">
-                    <small className="text-muted font-weight-light fs-9">
-                      {product.description}
-                    </small>
-                  </div>
                   <div
                     className="d-flex flex-column align-items-start cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault();
-                      openEditModal(product.id);
+                      openEditModal(budget.id);
                     }}
                   >
-                    <span className="fw-bold">{product.title}</span>
+                    <span className="fw-bold">{budget.title}</span>
+                  </div>
+                  <div className="d-flex flex-column align-items-start">
+                    <small
+                      className="text-muted font-weight-light fs-9"
+                      dangerouslySetInnerHTML={{ __html: budget.description }}
+                    />
                   </div>
                 </td>
-                {product.hasBudgetGroup && (
-                  <td width={200}>
-                    <div className="d-flex flex-column align-items-start">
-                      <small className="text-muted font-weight-light fs-9">
-                        {product.budgetGroup.description}
-                      </small>
-                    </div>
 
-                    <div className="d-flex flex-column align-items-start cursor-pointer">
-                      <span className="fw-bold">
-                        {product.budgetGroup.title}
-                      </span>
-                      {/* {product.budgetGroup.title}
-                        {product.budgetGroup.subjects?.map(
-                          (subject) => subject.description
-                        )} */}
-                    </div>
-                  </td>
-                )}
-                {product.hasRelatedLedgerAccounts && (
-                  <td className="text-muted" width={300}>
-                    {product.relatedLedgerAccounts.map((account) => (
+                <td width={200}>
+                  {budget.hasBudgetGroup && (
+                    <>
+                      <div className="d-flex flex-column align-items-start cursor-pointer">
+                        <span className="fw-bold">
+                          {budget.budgetGroup.title}
+                        </span>
+                      </div>
+                      <div className="d-flex flex-column align-items-start">
+                        <small
+                          className="text-muted font-weight-light fs-9"
+                          dangerouslySetInnerHTML={{
+                            __html: budget.budgetGroup.description,
+                          }}
+                        />
+                      </div>
+                    </>
+                  )}
+                </td>
+                {/* <td>
+                  {budget.budgetGroup.subjects?.map(
+                    (subject) => subject.title
+                  )}
+                  {budget.budgetGroup.subjects?.map(
+                    (subject) => subject.description
+                  )}
+                </td> */}
+
+                <td className="text-muted" width={300}>
+                  {budget.hasRelatedLedgerAccounts &&
+                    budget.relatedLedgerAccounts.map((account) => (
                       <div className="d-flex flex-column align-items-start">
                         <span className="text-muted fw-normal">
-                          <i className="ki-duotone ki-dropbox">
+                          <i className="ki-duotone ki-file">
                             <span className="path1"></span>
                             <span className="path2"></span>
-                            <span className="path3"></span>
-                            <span className="path4"></span>
-                            <span className="path5"></span>
                           </i>
                           &nbsp;
                           {account.code}-{account.title}
                         </span>
                       </div>
                     ))}
-                  </td>
-                )}
+                </td>
 
                 <td className="text-end">
-                  {product.actions.canEdit && (
+                  {budget.actions.canEdit && (
                     <Tooltip.Provider delayDuration={0}>
                       <Tooltip.Root>
                         <Tooltip.Trigger asChild>
                           <button
                             className="btn btn-icon btn-light btn-sm me-2"
-                            onClick={() => openEditModal(product.id)}
+                            onClick={() => openEditModal(budget.id)}
                           >
                             <i className="ki-solid ki-pencil text-warning fs-2" />
                           </button>
@@ -205,13 +198,13 @@ const ProductList = ({
                     </Tooltip.Provider>
                   )}
 
-                  {product.actions.canDelete && (
+                  {budget.actions.canDelete && (
                     <Tooltip.Provider delayDuration={0}>
                       <Tooltip.Root>
                         <Tooltip.Trigger asChild>
                           <button
                             className="btn btn-icon btn-light btn-sm"
-                            onClick={() => openDeleteModal(product)}
+                            onClick={() => openDeleteModal(budget)}
                           >
                             <i className="ki-solid ki-trash text-danger fs-2" />
                           </button>
@@ -231,7 +224,7 @@ const ProductList = ({
                 </td>
               </tr>
             ))}
-            {products?.result?.length == 0 && (
+            {budgets?.result?.length == 0 && (
               <tr>
                 <td colSpan={7} className="text-center">
                   <img
@@ -257,17 +250,17 @@ const ProductList = ({
           </tbody>
         </table>
       </div>
-      {products?.result?.length > 0 && (
+      {budgets?.result?.length > 0 && (
         <ListPagination
-          totalPages={products?.totalPages}
+          totalPages={budgets?.totalPages}
           pageIndex={pageIndex}
-          moduleName="products-module"
+          moduleName="budgets-module"
           onPageChange={handlePageChange}
-          totalItems={products?.totalRows}
+          totalItems={budgets?.totalRows}
         />
       )}
     </div>
   );
 };
 
-export { ProductList };
+export { BudgetList };

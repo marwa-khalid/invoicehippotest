@@ -146,14 +146,14 @@ const AuthInit: FC<WithChildren> = ({ children }) => {
     if (auth && auth.result?.token) {
       // Check if the token has expired
       if (auth.result.tokenIsValid) {
-        const remove = localStorage.getItem("Pge");
+        const remove = localStorage.getItem("nPge");
 
         // If it hasn't run, execute the code
         if (!remove) {
           localStorage.removeItem("pagination"),
             // Set the flag in localStorage to mark it as run
-            localStorage.setItem("Pge", "true");
-          localStorage.removeItem("nePg");
+            localStorage.setItem("nPge", "true");
+          localStorage.removeItem("Pge");
         }
         localStorage.removeItem("clientResponse");
         localStorage.removeItem("contactResponse");

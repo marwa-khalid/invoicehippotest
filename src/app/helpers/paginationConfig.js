@@ -1,4 +1,8 @@
 export const defaultPaginationConfig = {
+  "budgets-module": {
+    pageIndex: 1,
+    filters: { searchTerm: "", budgetGroupId: null },
+  },
   "transaction-module": {
     pageIndex: 1,
     filters: {

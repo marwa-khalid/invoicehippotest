@@ -1,15 +1,15 @@
 import { FC } from "react";
 import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
-import { FormValues } from "./ProductAddModalForm";
+import { BudgetPost } from "../core/_models";
 
 type Props = {
-  formik: FormikProps<FormValues>;
+  formik: FormikProps<BudgetPost>;
   isSubmitting: boolean;
   setAddModalOpen: (type: boolean) => void;
 };
 
-const ProductAddModalFooter: FC<Props> = ({
+const BudgetAddModalFooter: FC<Props> = ({
   formik,
   isSubmitting,
   setAddModalOpen,
@@ -50,4 +50,4 @@ const ProductAddModalFooter: FC<Props> = ({
   );
 };
 
-export { ProductAddModalFooter };
+export { BudgetAddModalFooter };

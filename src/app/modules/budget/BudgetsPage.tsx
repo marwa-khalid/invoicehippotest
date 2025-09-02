@@ -1,6 +1,6 @@
 import { Route, Routes, Outlet, Navigate } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../_metronic/layout/core";
-import { ProductWrapper } from "./products-list/ProductWrapper";
+import { BudgetWrapper } from "./overview/BudgetWrapper";
 import clsx from "clsx";
 import { useLayout } from "../../../_metronic/layout/core";
 import { useIntl } from "react-intl";
@@ -50,7 +50,7 @@ const BudgetsPage = () => {
                   // }
                 )}
               >
-                <ProductWrapper />
+                <BudgetWrapper />
               </div>
             </>
           }

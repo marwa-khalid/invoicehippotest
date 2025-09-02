@@ -54,7 +54,6 @@ const QuoteValidateStep2 = ({ formik }: Props) => {
           />
         </div>
       )}
-      {console.log(formik.errors)!}
       <div className="row pb-lg-10">
         {formik.values.validationStateType === 2 && (
           <label htmlFor="" className="required fw-bold mb-3">

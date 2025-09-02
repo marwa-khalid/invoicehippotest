@@ -7,16 +7,14 @@ interface ToolbarProps {
   setEditModalId: (type: number) => void;
 }
 
-const ProductsToolbar = ({
+const BudgetToolbar = ({
   totalRows,
   setAddModalOpen,
   setEditModalId,
 }: ToolbarProps) => {
-  const openAddProductModal = () => {
-    localStorage.removeItem("contactResponse");
-    localStorage.removeItem("clientResponse");
-    setAddModalOpen(true);
+  const openAddBudgetModal = () => {
     setEditModalId(0);
+    setAddModalOpen(true);
   };
 
   const intl = useIntl();
@@ -39,11 +37,11 @@ const ProductsToolbar = ({
               type="button"
               className="btn btn-primary mb-3"
               onClick={() => {
-                openAddProductModal();
+                openAddBudgetModal();
               }}
             >
               <KTIcon iconName="plus" className="fs-2" />
-              {/* {intl.formatMessage({ id: "Fields.ModalNewTitleProduct" })} */}
+              {/* {intl.formatMessage({ id: "Fields.ModalNewTitleBudget" })} */}
               Add new budget
             </button>
           </Tooltip.Trigger>
@@ -62,4 +60,4 @@ const ProductsToolbar = ({
   );
 };
 
-export { ProductsToolbar };
+export { BudgetToolbar };

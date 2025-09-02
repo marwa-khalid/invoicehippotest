@@ -185,7 +185,7 @@ const BudgetGroupAddStep2: FC<Props> = ({ formik, ledgers }) => {
                                     }
                                   />
                                 </div>
-                                {console.log(formik.values.subjects)!}
+
                                 <div>
                                   <span className="text-muted fs-8 d-flex align-items-center mt-2">
                                     {ledgers

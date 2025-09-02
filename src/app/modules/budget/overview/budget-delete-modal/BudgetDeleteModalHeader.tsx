@@ -4,13 +4,11 @@ import { useIntl } from "react-intl";
 interface ComponentProps {
   setDeleteModalOpen: (type: boolean) => void;
   setDeleteModalId: (type: number[]) => void;
-  parsedData: any;
 }
 
-const ProductDeleteModalHeader = ({
+const BudgetDeleteModalHeader = ({
   setDeleteModalOpen,
   setDeleteModalId,
-  parsedData,
 }: ComponentProps) => {
   const intl = useIntl();
 
@@ -19,7 +17,8 @@ const ProductDeleteModalHeader = ({
       <div className="d-flex w-100 justify-content-between align-items-center">
         {/* begin::Modal title */}
         <h2 className="fw-bolder mb-0 text-white">
-          {intl.formatMessage({ id: "Fields.ModalDeleteTitleProduct" })}
+          {/* {intl.formatMessage({ id: "Fields.ModalDeleteTitleBudget" })} */}
+          Delete Budget Entry
         </h2>
         {/* end::Modal title */}
 
@@ -37,33 +36,10 @@ const ProductDeleteModalHeader = ({
           <KTIcon iconName="cross" className="fs-1 text-white" />
         </div>
       </div>
-      <div className="w-100 mt-3" style={{ lineHeight: "0.5" }}>
-        <table className="table text-white mt-0">
-          <tbody>
-            <tr className="my-0">
-              <td className="fw-bold">
-                {intl.formatMessage({ id: "Fields.Code" })}
-              </td>
-              <td>: {parsedData.code}</td>
-            </tr>
-            <tr>
-              <td className="fw-bold">
-                {intl.formatMessage({ id: "Fields.FullName" })}
-              </td>
-              <td>: {parsedData.displayName}</td>
-            </tr>
-            <tr>
-              <td className="fw-bold">
-                {intl.formatMessage({ id: "Fields.UnitPrice" })}
-              </td>
-              <td>: €{parsedData.unitPrice}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+
       {/* end::Close */}
     </div>
   );
 };
 
-export { ProductDeleteModalHeader };
+export { BudgetDeleteModalHeader };
