@@ -23,19 +23,19 @@ const BudgetDeleteModalFooter = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const deleteRecord = async () => {
-    setIsSubmitting(true);
+    try {
+      setIsSubmitting(true);
+      const response = await deleteBudget(deleteModalId);
+      if (response.isValid) {
+        setRefresh(!refresh);
+        setDeleteModalOpen(false);
+        setDeleteModalId([]);
+      }
 
-    const response = await deleteBudget(deleteModalId);
-
-    if (response.isValid) {
-      setRefresh(!refresh);
-      setDeleteModalOpen(false);
-      setDeleteModalId([]);
+      handleToast(response);
+    } finally {
       setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
-    handleToast(response);
   };
   return (
     <div className="modal-footer d-flex justify-content-end align-items-center ">
