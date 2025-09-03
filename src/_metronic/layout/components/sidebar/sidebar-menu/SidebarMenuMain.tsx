@@ -128,10 +128,9 @@ const SidebarMenuMain = () => {
       </SidebarMenuItemWithSub>
       <SidebarMenuItemWithSub
         to="/admin/budgetgroups"
-        title="Budgets"
-        // {intl.formatMessage({
-        //   id: "Menu.Products",
-        // })}
+        title={intl.formatMessage({
+          id: "Menu.BudgetManagement",
+        })}
         icon="add-item"
         fontIcon="bi-layers"
       >
@@ -144,10 +143,9 @@ const SidebarMenuMain = () => {
         />
         <SidebarMenuItem
           to="/admin/budgetgroups"
-          title="Budget groups"
-          // {intl.formatMessage({
-          //   id: "Menu.ProductGroups",
-          // })}
+          title={intl.formatMessage({
+            id: "Menu.BudgetGroups",
+          })}
           hasBullet={true}
         />
       </SidebarMenuItemWithSub>

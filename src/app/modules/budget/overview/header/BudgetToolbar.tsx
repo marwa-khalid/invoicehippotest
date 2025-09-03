@@ -41,8 +41,7 @@ const BudgetToolbar = ({
               }}
             >
               <KTIcon iconName="plus" className="fs-2" />
-              {/* {intl.formatMessage({ id: "Fields.ModalNewTitleBudget" })} */}
-              Add new budget
+              {intl.formatMessage({ id: "Fields.ModalNewTitleBudgetTopic" })}
             </button>
           </Tooltip.Trigger>
 

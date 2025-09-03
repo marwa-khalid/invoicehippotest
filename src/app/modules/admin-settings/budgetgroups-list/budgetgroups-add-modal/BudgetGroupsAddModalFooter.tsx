@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
-import { PartialResult } from "../core/_requests";
 import { BudgetGroupPost } from "../core/_models";
 
 type Props = {
@@ -10,18 +9,7 @@ type Props = {
   setAddModalOpen: any;
 };
 
-interface FormValues {
-  id: number;
-  title: string;
-  description: string;
-  subjects: {
-    title: string;
-    description: string;
-    relatedLedgerAccounts: number[];
-  }[];
-}
-
-const ProductGroupsAddModalFooter: FC<Props> = ({
+const BudgetGroupsAddModalFooter: FC<Props> = ({
   formik,
   isSubmitting,
   setAddModalOpen,
@@ -59,4 +47,4 @@ const ProductGroupsAddModalFooter: FC<Props> = ({
   );
 };
 
-export { ProductGroupsAddModalFooter };
+export { BudgetGroupsAddModalFooter };

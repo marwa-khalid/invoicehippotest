@@ -19,19 +19,23 @@ const BudgetGroupAddStep1: FC<Props> = ({ formik }) => {
     <div className="modal-body" id="#kt_tab_pane_4">
       <form className="form p-4" noValidate>
         <div className="mb-7">
-          <label className="required fw-bold fs-6 mb-2">Group Title</label>
+          <label className="required fw-bold fs-6 mb-2" htmlFor="title">
+            {intl.formatMessage({ id: "Fields.Title" })}
+          </label>
           <input
             type="text"
+            id="title"
             {...formik.getFieldProps("title")}
             className={clsx("form-control form-control-solid", {
               "is-invalid": formik.touched.title && formik.errors.title,
             })}
+            placeholder={intl.formatMessage({ id: "Fields.Description" })}
           />
         </div>
 
         <div className="mb-7">
-          <label className="required fw-bold fs-6 mb-2">
-            Group Description
+          <label className="fw-bold fs-6 mb-2" htmlFor="description">
+            {intl.formatMessage({ id: "Fields.Description" })}
           </label>
           <ReactQuill
             theme="snow"

@@ -4,7 +4,7 @@ import { BudgetGroupResult } from "../core/_models";
 import { ListLoading } from "../../../generic/ListLoading";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../../../_metronic/helpers";
-import Tippy from "@tippyjs/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 import { ListPagination } from "../../../generic/ListPagination";
 interface ComponentProps {
   searchTerm: string;
@@ -24,7 +24,7 @@ interface ComponentProps {
   searchCounter: number;
 }
 
-const ProductGroupsList = ({
+const BudgetGroupsList = ({
   searchTerm,
   setTotalRows,
   setAddModalOpen,
@@ -55,7 +55,6 @@ const ProductGroupsList = ({
         setTotalRows(response.totalRows);
       }
     } catch (error) {
-      console.error("Error fetching product groups:", error);
     } finally {
       setIsLoading(false);
     }
@@ -133,7 +132,7 @@ const ProductGroupsList = ({
               </th>
               <th className="w-25px"></th>
               <th>{intl.formatMessage({ id: "Fields.Title" })}</th>
-              <th>{intl.formatMessage({ id: "Fields.Description" })}</th>
+              <th>{intl.formatMessage({ id: "Fields.TabBudgetSubjects" })}</th>
             </tr>
           </thead>
           <tbody>
@@ -141,17 +140,21 @@ const ProductGroupsList = ({
               (productGroup: BudgetGroupResult, index: number) => (
                 <tr key={productGroup.id}>
                   <td>
-                    <div className="form-check form-check-sm form-check-custom form-check-solid">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id={`record_${index}`}
-                        checked={deleteModalId?.includes(productGroup.id)}
-                        onChange={() => toggleRowSelection(productGroup.id)}
-                      />
-                    </div>
+                    {productGroup.actions.canDelete && (
+                      <div className="form-check form-check-sm form-check-custom form-check-solid">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id={`record_${index}`}
+                          checked={deleteModalId?.includes(productGroup.id)}
+                          onChange={() => toggleRowSelection(productGroup.id)}
+                        />
+                      </div>
+                    )}
                   </td>
-                  <td className="text-muted">|</td>
+                  <td className="text-muted">
+                    {productGroup.actions.canDelete && "|"}
+                  </td>
                   <td
                     className="cursor-pointer fw-bold"
                     onClick={() => openEditModal(productGroup.id)}
@@ -161,38 +164,69 @@ const ProductGroupsList = ({
                       {productGroup.description}
                     </small> */}
                   </td>
-                  <td> {productGroup.description}</td>
+                  <td>
+                    {productGroup.subjects.map((subject) => (
+                      <div
+                        key={subject.id}
+                        className="d-flex gap-2 align-items-center"
+                      >
+                        <i className="ki-solid ki-notepad fs-4" />
+                        {subject.title}
+                      </div>
+                    ))}
+                  </td>
                   <td className="text-end">
                     {productGroup.actions.canEdit && (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ToolTipEdit",
-                        })}
-                      >
-                        <button
-                          className="btn btn-icon btn-light btn-sm me-2"
-                          onClick={() => openEditModal(productGroup.id)}
-                        >
-                          <i className="ki-solid ki-pencil text-warning fs-2" />
-                        </button>
-                      </Tippy>
+                      <Tooltip.Provider delayDuration={0}>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger asChild>
+                            <button
+                              className="btn btn-icon btn-light btn-sm me-2"
+                              onClick={() => openEditModal(productGroup.id)}
+                            >
+                              <i className="ki-solid ki-pencil text-warning fs-2" />
+                            </button>
+                          </Tooltip.Trigger>
+
+                          <Tooltip.Portal>
+                            <Tooltip.Content side="top" className="app-tooltip">
+                              {intl.formatMessage({
+                                id: "Fields.ToolTipEdit",
+                              })}
+                              <Tooltip.Arrow className="app-tooltip-arrow" />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
                     )}
 
                     {productGroup.actions.canDelete && (
-                      <Tippy
-                        content={intl.formatMessage({
-                          id: "Fields.ToolTipDelete",
-                        })}
-                      >
-                        <button
-                          className="btn btn-icon btn-light btn-sm"
-                          onClick={() =>
-                            openDeleteModal(productGroup.id, productGroup.title)
-                          }
-                        >
-                          <i className="ki-solid ki-trash text-danger fs-2" />
-                        </button>
-                      </Tippy>
+                      <Tooltip.Provider delayDuration={0}>
+                        <Tooltip.Root>
+                          <Tooltip.Trigger asChild>
+                            <button
+                              className="btn btn-icon btn-light btn-sm"
+                              onClick={() =>
+                                openDeleteModal(
+                                  productGroup.id,
+                                  productGroup.title
+                                )
+                              }
+                            >
+                              <i className="ki-solid ki-trash text-danger fs-2" />
+                            </button>
+                          </Tooltip.Trigger>
+
+                          <Tooltip.Portal>
+                            <Tooltip.Content side="top" className="app-tooltip">
+                              {intl.formatMessage({
+                                id: "Fields.ToolTipDelete",
+                              })}
+                              <Tooltip.Arrow className="app-tooltip-arrow" />
+                            </Tooltip.Content>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      </Tooltip.Provider>
                     )}
                   </td>
                 </tr>
@@ -237,4 +271,4 @@ const ProductGroupsList = ({
   );
 };
 
-export { ProductGroupsList };
+export { BudgetGroupsList };

@@ -33,10 +33,9 @@ const SubjectDetailModal = ({
         <div className="modal-content">
           <div className="modal-header bg-dark d-flex justify-content-between">
             <h5 className="modal-title text-white">
-              {/* {intl.formatMessage({
-                id: "Fields.ModalTitleEditUpdateSubject",
-              })} */}
-              Edit Subject
+              {intl.formatMessage({
+                id: "Fields.ModalEditTitleBudgetTopic",
+              })}
             </h5>
             <div
               className="btn btn-icon btn-sm ms-2"
@@ -52,76 +51,45 @@ const SubjectDetailModal = ({
           </div>
 
           <div className="modal-body">
-            {/* Toggle Switch */}
-            {/* <div className="fv-row col-12 d-flex justify-content-between align-items-center mb-3">
-              <h2 className="required fw-bold fs-6">
-                {intl.formatMessage({
-                  id: "Fields.Subjects",
-                })}
-                
-              </h2>
-              <div className="form-check form-switch mt-1 d-flex align-items-center">
-                <label
-                  className="form-check-label me-20 fs-sm text-muted"
-                  htmlFor="isBtwExclusiveSwitch"
-                >
-                  {intl.formatMessage({
-                    id: "Fields.BtwExclusive",
-                  })}
-                </label>
-                <input
-                  className="form-check-input h-20px w-40px"
-                  type="checkbox"
-                  id="isBtwExclusiveSwitch"
-                  checked={selectedSubject?.btwExclusive || false}
-                  onChange={(e) =>
-                    handleTempInputChange("btwExclusive", e.target.checked)
-                  }
-                />
-              </div>
-            </div> */}
-
             {/* Title */}
             <div className="mb-3">
-              <label className="fw-bold mb-2">Title</label>
+              <label className="required fw-bold mb-2" htmlFor="title">
+                {intl.formatMessage({ id: "Fields.Title" })}
+              </label>
               <input
                 type="text"
+                id="title"
                 value={selectedSubject?.title || ""}
                 onChange={(e) => handleTempInputChange("title", e.target.value)}
                 className="form-control form-control-white"
+                placeholder={intl.formatMessage({ id: "Fields.Title" })}
               />
             </div>
 
-            {/* Description (short) */}
-            {/* <div className="mb-3">
-              <label className="fw-bold mb-2">Description</label>
-              <input
-                type="text"
-                value={selectedSubject?.description || ""}
-                onChange={(e) =>
-                  handleTempInputChange("description", e.target.value)
-                }
-                className="form-control form-control-white"
-              />
-            </div> */}
-
             {/* Related Ledgers */}
             <div className="mb-3">
-              <label className="fw-bold mb-2">Related Ledgers</label>
+              <label className="fw-bold mb-2" htmlFor="linkedLedgers">
+                {intl.formatMessage({ id: "Fields.LinkedLedgerAccounts" })}
+              </label>
               <Select
                 isMulti
                 options={ledgers}
+                inputId="linkedLedgers"
                 value={ledgers
                   .flatMap((g: any) => g.options)
                   .filter((o: any) =>
                     selectedSubject?.relatedLedgerAccounts?.includes(o?.value)
                   )}
-                onChange={(selected: any) =>
+                onChange={(selected: any) => {
+                  if (selected && selected.length > 5) {
+                    // keep only the first 5 selections
+                    selected = selected.slice(0, 5);
+                  }
                   handleTempInputChange(
                     "relatedLedgerAccounts",
                     selected ? selected.map((s: any) => s.value) : []
-                  )
-                }
+                  );
+                }}
               />
             </div>
 

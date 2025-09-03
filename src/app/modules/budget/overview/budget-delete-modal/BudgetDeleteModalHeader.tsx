@@ -17,8 +17,7 @@ const BudgetDeleteModalHeader = ({
       <div className="d-flex w-100 justify-content-between align-items-center">
         {/* begin::Modal title */}
         <h2 className="fw-bolder mb-0 text-white">
-          {/* {intl.formatMessage({ id: "Fields.ModalDeleteTitleBudget" })} */}
-          Delete Budget Entry
+          {intl.formatMessage({ id: "Fields.ModalDeleteTitleBudgetTopic" })}
         </h2>
         {/* end::Modal title */}
 
@@ -29,7 +28,6 @@ const BudgetDeleteModalHeader = ({
           onClick={() => {
             setDeleteModalOpen(false);
             setDeleteModalId([]);
-            localStorage.removeItem("ModalData");
           }}
           style={{ cursor: "pointer" }}
         >

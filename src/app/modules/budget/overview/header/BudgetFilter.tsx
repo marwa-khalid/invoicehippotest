@@ -90,8 +90,7 @@ export function BudgetFilter({
         {/* GROUP Selection */}
         <div className="mb-5">
           <label className="form-label fw-bold">
-            {/* {intl.formatMessage({ id: "Menu.BudgetGroups" })}: */}
-            Budget Groups
+            {intl.formatMessage({ id: "Menu.BudgetGroups" })}:
           </label>
           <Select
             value={

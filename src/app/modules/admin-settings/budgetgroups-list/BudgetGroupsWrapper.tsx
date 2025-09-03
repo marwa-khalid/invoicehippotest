@@ -1,11 +1,11 @@
 import { ProductGroupsHeader } from "./header/ProductGroupsHeader.js";
-import { ProductGroupsList } from "./search-list/ProductGroupsList.js";
-import { BudgetGroupAddModal } from "./productgroups-add-modal/BudgetGroupAddModal.js";
+import { BudgetGroupsList } from "./search-list/BudgetGroupsList.js";
+import { BudgetGroupAddModal } from "./budgetgroups-add-modal/BudgetGroupAddModal.js";
 import { ToolbarWrapper } from "../../../../_metronic/layout/components/toolbar/index.js";
 import { Content } from "../../../../_metronic/layout/components/content/index.js";
 import { useState } from "react";
 import { ProductGroupsToolbar } from "./header/ProductGroupsToolbar.js";
-import { ProductGroupsDeleteModal } from "./productgroups-delete-modal/ProductGroupsDeleteModal.js";
+import { BudgetGroupsDeleteModal } from "./budgetgroups-delete-modal/BudgetGroupsDeleteModal.js";
 // @ts-ignore
 import { getPaginationModule } from "../../../helpers/paginationUtils.js";
 
@@ -49,7 +49,7 @@ const ProductGroupsInnerWrapper = () => {
         setDeleteModalOpen={setDeleteModalOpen}
       />
 
-      <ProductGroupsList
+      <BudgetGroupsList
         searchCounter={searchCounter}
         searchTerm={searchTermState}
         setTotalRows={setTotalRows}
@@ -77,7 +77,7 @@ const ProductGroupsInnerWrapper = () => {
       )}
 
       {deleteModalOpen && (
-        <ProductGroupsDeleteModal
+        <BudgetGroupsDeleteModal
           deleteModalId={deleteModalId}
           productGroupTitle={productGroupTitle}
           setDeleteModalOpen={setDeleteModalOpen}

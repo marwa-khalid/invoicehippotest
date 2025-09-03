@@ -85,7 +85,6 @@ const BudgetList = ({
     setBudgetTitle(budget.title);
     setDeleteModalOpen(true);
   };
-  const { currentUser } = useAuth();
   return (
     <div className="card py-3  p-10">
       <div className="table-responsive">
@@ -96,15 +95,11 @@ const BudgetList = ({
                 {intl.formatMessage({ id: "Fields.Title" })}
               </th>
               <th className="w-25px">
-                {/* {intl.formatMessage({ id: "Fields.BudgetGroup" })} */}
-                budget group
+                {intl.formatMessage({ id: "Menu.BudgetGroups" })}
               </th>
               <th>
-                related {intl.formatMessage({ id: "Fields.LedgerAccount" })}
+                {intl.formatMessage({ id: "Fields.LinkedLedgerAccounts" })}
               </th>
-              {/* <th className="mw-80px text-end">
-                {intl.formatMessage({ id: "Fields.SalePrice" })}
-              </th> */}
               <th></th>
             </tr>
           </thead>
@@ -160,7 +155,10 @@ const BudgetList = ({
                 <td className="text-muted" width={300}>
                   {budget.hasRelatedLedgerAccounts &&
                     budget.relatedLedgerAccounts.map((account) => (
-                      <div className="d-flex flex-column align-items-start">
+                      <div
+                        key={account.id}
+                        className="d-flex flex-column align-items-start"
+                      >
                         <span className="text-muted fw-normal">
                           <i className="ki-duotone ki-file">
                             <span className="path1"></span>

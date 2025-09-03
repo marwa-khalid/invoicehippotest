@@ -46,17 +46,15 @@ const BudgetDeleteModal = ({
             {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div className="form-wrapper">
-                {/* <span
+                <span
                   dangerouslySetInnerHTML={{
                     __html: intl
                       .formatMessage({
-                        id: "Fields.ModalDeleteDescriptionBudget",
+                        id: "Fields.ModalDeleteDescriptionBudgetTopic",
                       })
                       .replace("{0}", budgetTitle),
                   }}
-                /> */}
-                Are you sure you want to delete budget entry :{" "}
-                <strong>{budgetTitle}</strong>?
+                />
               </div>
             </div>
 

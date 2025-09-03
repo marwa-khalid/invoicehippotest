@@ -1,6 +1,6 @@
 import { KTIcon } from "../../../../../_metronic/helpers";
 import { useIntl } from "react-intl";
-import Tippy from "@tippyjs/react";
+import * as Tooltip from "@radix-ui/react-tooltip";
 interface ToolbarProps {
   totalRows: number;
   setAddModalOpen: (type: boolean) => void;
@@ -40,24 +40,32 @@ const ProductGroupsToolbar = ({
           })}
         </button>
       ) : (
-        <Tippy
-          content={intl.formatMessage({
-            id: "Fields.ToolTipNew",
-          })}
-        >
-          <button
-            type="button"
-            className="btn btn-primary mb-3"
-            onClick={() => {
-              setEditModalId(0);
-              setAddModalOpen(true);
-            }}
-          >
-            <KTIcon iconName="plus" className="fs-2" />
-            {/* {intl.formatMessage({ id: "Fields.ModalNewTitleProductGroup" })} */}
-            add new budget group
-          </button>
-        </Tippy>
+        <Tooltip.Provider delayDuration={0}>
+          <Tooltip.Root>
+            <Tooltip.Trigger asChild>
+              <button
+                type="button"
+                className="btn btn-primary mb-3"
+                onClick={() => {
+                  setEditModalId(0);
+                  setAddModalOpen(true);
+                }}
+              >
+                <KTIcon iconName="plus" className="fs-2" />
+                {intl.formatMessage({ id: "Fields.ModalNewTitleBudgetGroup" })}
+              </button>
+            </Tooltip.Trigger>
+
+            <Tooltip.Portal>
+              <Tooltip.Content side="top" className="app-tooltip">
+                {intl.formatMessage({
+                  id: "Fields.ToolTipNew",
+                })}
+                <Tooltip.Arrow className="app-tooltip-arrow" />
+              </Tooltip.Content>
+            </Tooltip.Portal>
+          </Tooltip.Root>
+        </Tooltip.Provider>
       )}
       {/* end:: Add product group */}
     </div>

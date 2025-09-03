@@ -37,8 +37,7 @@ const BudgetsPage = () => {
           element={
             <>
               <PageTitle breadcrumbs={settingsBreadcrumbs}>
-                {/* {intl.formatMessage({ id: "Fields.SearchPanelTitleProduct" })} */}
-                Budgets
+                {intl.formatMessage({ id: "Menu.BudgetManagement" })}
               </PageTitle>
               <div
                 className={clsx(

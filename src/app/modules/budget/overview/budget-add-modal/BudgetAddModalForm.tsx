@@ -2,11 +2,9 @@ import { useIntl } from "react-intl";
 import { FormikProps } from "formik";
 import ReactQuill from "react-quill-new";
 import { useEffect, useState } from "react";
-import { getLedgerTypes } from "../../../quotes/overview/core/_requests";
 import Select from "react-select";
-import * as Tooltip from "@radix-ui/react-tooltip";
 import { KTIcon } from "../../../../../_metronic/helpers";
-import { BudgetGroupAddModal } from "../../../admin-settings/budgetgroups-list/productgroups-add-modal/BudgetGroupAddModal";
+import { BudgetGroupAddModal } from "../../../admin-settings/budgetgroups-list/budgetgroups-add-modal/BudgetGroupAddModal";
 import { LedgerAddModal } from "../../../admin-settings/ledgeraccounts-list/ledger-add-modal/LedgerAddModal";
 import { BudgetPost } from "../core/_models";
 import { getBudgetGroups } from "../../../admin-settings/budgetgroups-list/core/_requests";
@@ -134,13 +132,14 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
       <form>
         <div className="row d-flex mb-2">
           <div className="fv-row col-6">
-            <label className="required fw-bold mb-3 fs-6">
+            <label className="required fw-bold mb-3 fs-6" htmlFor="title">
               {intl.formatMessage({
                 id: "Fields.Title",
               })}
             </label>
             <input
               type="text"
+              id="title"
               {...formik.getFieldProps("title")}
               className={clsx(
                 "form-control form-control-solid",
@@ -166,11 +165,13 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
           </div>
           <div className="fv-row col-6">
             <div className="d-flex justify-content-between">
-              <label className="required fw-bold fs-6 mb-3">
-                {/* {intl.formatMessage({
-                id: "Fields.BudgetGroup",
-              })} */}
-                Budget Group
+              <label
+                className="required fw-bold fs-6 mb-3"
+                htmlFor="budgetGroup"
+              >
+                {intl.formatMessage({
+                  id: "Menu.BudgetGroups",
+                })}
               </label>
 
               <div className="cursor-pointer" onClick={openBudgetGroupModal}>
@@ -188,12 +189,13 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
                     budgetGroups.value === formik.values.budgetGroupId
                 )}
               className="react-select-styled"
+              inputId="budgetGroup"
               options={budgetGroups.map((item: any) => ({
                 value: item.id,
                 label: item.title,
               }))}
               placeholder={intl.formatMessage({
-                id: "System.ListOption_DefaultEmptyOption",
+                id: "Fields.SelectOptionDefaultBudgetGroup",
               })}
               isClearable
               onChange={(e) => formik.setFieldValue("budgetGroupId", e?.value)}
@@ -215,13 +217,14 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
         </div>
 
         <div className="row d-flex mb-5">
-          <label className="fw-bold fs-6 mb-3">
+          <label className="fw-bold fs-6 mb-3" htmlFor="linkedledgers">
             {intl.formatMessage({
-              id: "Fields.LedgerAccount",
+              id: "Fields.LinkedLedgerAccounts",
             })}
           </label>
           <Select
             isMulti
+            inputId="linkedledgers"
             options={ledgers}
             value={ledgers
               .flatMap((g: any) => g.options)
@@ -260,13 +263,14 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
         </div>
 
         <div className="row d-flex mb-5">
-          <label htmlFor="" className="fw-bold mb-2">
+          <label htmlFor="descriptionQuill" className="fw-bold mb-2">
             {intl.formatMessage({
               id: "Fields.Description",
             })}
           </label>
           <ReactQuill
             theme="snow"
+            id="descriptionQuill"
             placeholder="Jouw tekst hier..."
             style={{ height: "200px" }}
             onChange={(content) => handleQuillChange(content)}

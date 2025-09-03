@@ -62,7 +62,7 @@ const BudgetAddModal = ({
       budgetGroupId: Yup.number().required(
         intl
           .formatMessage({ id: "Common.RequiredFieldHint2" })
-          .replace("{0}", "budget group")
+          .replace("{0}", intl.formatMessage({ id: "Menu.BudgetGroups" }))
       ),
       // relatedLedgerAccounts: Yup.array().min(
       //   1,

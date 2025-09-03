@@ -225,10 +225,7 @@ const AdminPage = () => {
           element={
             <>
               <PageTitle breadcrumbs={settingsBreadcrumbs}>
-                {/* {intl.formatMessage({
-                  id: "Fields.SearchPanelTitleProductGroup",
-                })} */}
-                Budget Groups
+                {intl.formatMessage({ id: "Menu.BudgetGroups" })}
               </PageTitle>
               <div
                 className={clsx(

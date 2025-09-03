@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { ProductGroupsAddModalHeader } from "./ProductGroupsAddModalHeader";
-import { ProductGroupsAddModalFooter } from "./ProductGroupsAddModalFooter";
-import Select from "react-select";
+import { useEffect, useState } from "react";
+import { BudgetGroupsAddModalHeader } from "./BudgetGroupsAddModalHeader";
+import { BudgetGroupsAddModalFooter } from "./BudgetGroupsAddModalFooter";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useIntl } from "react-intl";
 import { handleToast } from "../../../auth/core/_toast";
-import * as Tooltip from "@radix-ui/react-tooltip";
 import { getBudgetGroupById, postBudgetGroup } from "../core/_requests";
-import clsx from "clsx";
 import { getLedgerAccountsForFilter } from "../../ledgeraccounts-list/core/_requests";
-import { Draggable } from "@hello-pangea/dnd";
 import { BudgetGroupAddStep1 } from "./BudgetGroupAddStep1";
 import { BudgetGroupAddStep2 } from "./BudgetGroupAddStep2";
 import { CustomTabManager } from "../../../generic/Tabs/CustomTabManager";
@@ -25,18 +21,15 @@ const BudgetGroupAddModal = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [ledgers, setLedgers] = useState<any>([]);
   const intl = useIntl();
-  const [productModalOpen, setProductModalOpen] = useState<boolean>(false);
-  const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
-  const [productModalIndex, setProductModalIndex] = useState<number>();
   const tabs = [
     {
       id: "tab1",
-      label: "Detail",
+      label: intl.formatMessage({ id: "Fields.TabCommon" }),
       icon: "fa-regular fa-address-book fs-3 hippo-tab-icon",
     },
     {
       id: "tab2",
-      label:"Subjects",
+      label: intl.formatMessage({ id: "Fields.TabBudgetSubjects" }),
       icon: "fa-solid fa-file-invoice fs-3 hippo-tab-icon",
     },
   ];
@@ -100,13 +93,35 @@ const BudgetGroupAddModal = ({
     },
 
     validationSchema: Yup.object({
-      title: Yup.string().min(3).max(50).required(),
-      description: Yup.string().min(3).max(50).required(),
+      title: Yup.string()
+        .min(
+          3,
+          intl
+            .formatMessage({ id: "Common.ValidationMin" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{1}", `3`)
+        )
+        .max(
+          100,
+          intl
+            .formatMessage({ id: "Common.ValidationMax" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+            .replace("{1}", `100`)
+        )
+        .required(
+          intl
+            .formatMessage({ id: "Common.RequiredFieldHint2" })
+            .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+        ),
+
       subjects: Yup.array().of(
         Yup.object({
-          title: Yup.string().required("Subject title required"),
-          description: Yup.string().required("Subject description required"),
-          relatedLedgerAccounts: Yup.array().min(1, "Pick at least one ledger"),
+          title: Yup.string().required(
+            intl
+              .formatMessage({ id: "Common.RequiredFieldHint2" })
+              .replace("{0}", intl.formatMessage({ id: "Fields.Title" }))
+          ),
+          // relatedLedgerAccounts: Yup.array().min(1, "Pick at least one ledger"),
         })
       ),
     }),
@@ -142,9 +157,10 @@ const BudgetGroupAddModal = ({
           id: res.result?.id || 0,
           title: res.result?.title || "",
           description: res.result?.description || "",
-          subjects: res.result?.subjects || [
-            { title: "", description: "", relatedLedgerAccounts: [] },
-          ],
+          subjects:
+            res.result?.subjects.length !== 0
+              ? res.result?.subjects
+              : [{ title: "", description: "", relatedLedgerAccounts: [] }],
         });
       });
     }
@@ -174,7 +190,7 @@ const BudgetGroupAddModal = ({
       >
         <div className="modal-dialog mw-800px">
           <div className="modal-content">
-            <ProductGroupsAddModalHeader
+            <BudgetGroupsAddModalHeader
               setAddModalOpen={setAddModalOpen}
               editModalId={editModalId}
             />
@@ -195,7 +211,7 @@ const BudgetGroupAddModal = ({
                 <BudgetGroupAddStep2 formik={formik} ledgers={ledgers} />
               )}
             </div>
-            <ProductGroupsAddModalFooter
+            <BudgetGroupsAddModalFooter
               formik={formik}
               isSubmitting={isSubmitting}
               setAddModalOpen={setAddModalOpen}

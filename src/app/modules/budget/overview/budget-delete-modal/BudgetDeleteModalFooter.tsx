@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import { useIntl } from "react-intl";
 import { deleteBudget } from "../core/_requests";
 import { handleToast } from "../../../auth/core/_toast";

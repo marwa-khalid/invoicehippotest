@@ -11,7 +11,7 @@ interface ComponentProps {
   refresh: boolean;
 }
 
-const ProductGroupsDeleteModalFooter = ({
+const BudgetGroupsDeleteModalFooter = ({
   deleteModalId,
   setDeleteModalOpen,
   setRefresh,
@@ -76,4 +76,4 @@ const ProductGroupsDeleteModalFooter = ({
   );
 };
 
-export { ProductGroupsDeleteModalFooter };
+export { BudgetGroupsDeleteModalFooter };

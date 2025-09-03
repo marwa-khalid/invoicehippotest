@@ -128,7 +128,9 @@ const Login = () => {
               src={toAbsoluteUrl("media/svg/brand-logos/google-icon.svg")}
               className="h-15px me-3"
             />
-            Sign in with Google
+            {intl.formatMessage({
+              id: "LoginAndRegistration.SignInWithGoogle",
+            })}
           </a>
           {/* end::Google link */}
         </div>
@@ -151,7 +153,7 @@ const Login = () => {
               src={toAbsoluteUrl("media/svg/brand-logos/apple-black-dark.svg")}
               className="theme-dark-show h-15px me-3"
             />
-            Sign in with Apple
+            {intl.formatMessage({ id: "LoginAndRegistration.SignInWithApple" })}
           </a>
           {/* end::Google link */}
         </div>
@@ -162,7 +164,7 @@ const Login = () => {
       {/* begin::Separator */}
       <div className="separator separator-content my-14">
         <span className="w-125px text-gray-500 fw-semibold fs-7">
-          Or with email
+          {intl.formatMessage({ id: "LoginAndRegistration.SignInWithEmail" })}
         </span>
       </div>
       {/* end::Separator */}

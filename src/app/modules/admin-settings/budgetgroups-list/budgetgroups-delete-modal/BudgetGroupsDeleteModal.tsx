@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { ProductGroupsDeleteModalHeader } from "./ProductGroupsDeleteModalHeader";
-import { ProductGroupsDeleteModalFooter } from "./ProductGroupsDeleteModalFooter";
+import { BudgetGroupsDeleteModalHeader } from "./BudgetGroupsDeleteModalHeader";
+import { BudgetGroupsDeleteModalFooter } from "./BudgetGroupsDeleteModalFooter";
 import { useIntl } from "react-intl";
 interface ComponentProps {
   productGroupTitle: string;
@@ -10,7 +10,7 @@ interface ComponentProps {
   setDeleteModalId: (type: number[]) => void;
   refresh: boolean;
 }
-const ProductGroupsDeleteModal = ({
+const BudgetGroupsDeleteModal = ({
   deleteModalId,
   productGroupTitle,
   setDeleteModalOpen,
@@ -38,29 +38,27 @@ const ProductGroupsDeleteModal = ({
         <div className="modal-dialog modal-dialog-centered ">
           {/* begin::Modal content */}
           <div className="modal-content">
-            <ProductGroupsDeleteModalHeader
+            <BudgetGroupsDeleteModalHeader
               setDeleteModalOpen={setDeleteModalOpen}
               setDeleteModalId={setDeleteModalId}
             />
             {/* begin::Modal body */}
             <div className="modal-body p-10">
               <div className="form-wrapper">
-                {/* <span
+                <span
                   dangerouslySetInnerHTML={{
                     __html: intl
                       .formatMessage({
-                        id: "Fields.ModalDeleteDescriptionProductGroup",
+                        id: "Fields.ModalDeleteDescriptionBudgetGroup",
                       })
                       .replace("{0}", productGroupTitle),
                   }}
-                /> */}
-                Are you sure you want to delete budget group:{" "}
-                <strong>{productGroupTitle}</strong>
+                />
               </div>
             </div>
 
             {/* end::Modal body */}
-            <ProductGroupsDeleteModalFooter
+            <BudgetGroupsDeleteModalFooter
               deleteModalId={deleteModalId}
               setDeleteModalOpen={setDeleteModalOpen}
               setRefresh={setRefresh}
@@ -79,4 +77,4 @@ const ProductGroupsDeleteModal = ({
   );
 };
 
-export { ProductGroupsDeleteModal };
+export { BudgetGroupsDeleteModal };
