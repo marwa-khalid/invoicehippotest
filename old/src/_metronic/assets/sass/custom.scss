@@ -1,0 +1,67 @@
+.tile {
+    width: 125px;
+    height: 125px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 1px 1px 8px -5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+  }
+
+  /* Hover Effect */
+  .tile:hover {
+    transform: scale(1.05);
+  }
+
+  /* Icons inside Tiles */
+  .tile-icon {
+    font-size: 4rem !important;
+    color: #414a61 !important;
+  }
+
+  /* Tile Label */
+  .tile-label {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #414a61;
+  }
+
+  /* Tile Colors */
+  .tile.invoice { background-color: lightblue; }
+  .tile.receipt { background-color: lightgreen; }
+  .tile.booking { background-color: lightcoral; }
+  .tile.manual, .tile.receipts, .tile.booking-gray {
+    background-color: gray;
+    color: white;
+  }
+
+  /* Divider */
+  .divider {
+    width: 80%;
+    height: 3px;
+    background-color: #ffffff;
+    margin: 15px auto;
+  }
+
+
+  .invoice-container-12{
+    max-width: 1024px;
+    margin: auto;
+  }
+
+  #kt_app_content_container .btn.btn-success.btn-sm{
+    right: 180px !important;
+  }
+  
+  #kt_app_content_container .btn.btn-primary.btn-sm{
+    right: 24px !important;
+  }

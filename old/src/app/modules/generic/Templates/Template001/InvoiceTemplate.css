@@ -1,0 +1,314 @@
+/* Make container take full viewport height and use flex layout */
+.invoice-container {
+  background: #fff;
+  font-family: "Arial", sans-serif;
+  color: #222;
+  margin: auto;
+  min-height: 1122px; /* A4 page height */
+  display: flex;
+  flex-direction: column;
+}
+
+.invoice-wrapper {
+  flex: 1 0 auto; /* This makes the content expand but not shrink below content height */
+}
+
+.invoice-content:last-of-type {
+  margin-top: auto; /* Push this to the bottom */
+}
+
+.footer {
+  flex-shrink: 0; /* Footer won't shrink */
+}
+
+.invoice-content {
+  padding: 50px;
+}
+
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  margin-bottom: 2rem;
+}
+
+.invoice-left {
+  background: #fff;
+  width: 60%;
+  padding: 0%;
+  margin: 20px;
+  border-top-left-radius: 10px;
+}
+
+.invoice-right {
+  background: #1d1d1d;
+  width: 40%;
+  color: #fff;
+  border-bottom-left-radius: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.invoice-green-corner {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: #e6f0cd;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.header-left .company-name {
+  margin: 0;
+}
+
+.company-subtitle {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.header-right h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.invoice-meta div {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.invoice-to {
+  /* margin-top: 30px; */
+  font-size: 15px;
+}
+
+.invoice-table {
+  width: 100%;
+  /* margin-top: 30px; */
+  border-collapse: collapse;
+}
+
+.invoice-table thead {
+  background: #3a3a3a;
+  color: #fff;
+}
+
+.invoice-table thead tr {
+  background: #3a3a3a;
+  color: #fff;
+}
+
+.invoice-table thead th {
+  padding: 12px 20px;
+  border: none;
+}
+
+.invoice-table thead th:first-child {
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+.invoice-table thead th:last-child {
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.invoice-table th,
+.invoice-table td {
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.green-pill-row {
+  background-color: #e5f5e0;
+  border-radius: 20px;
+}
+
+.bottom-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.payment-method,
+.totals {
+  width: 48%;
+}
+
+.payment-method div {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.totals-line {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.total {
+  background: #f5f5f5;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.terms {
+  max-width: 600px;
+  font-size: 14px;
+  color: #444;
+}
+
+.signature {
+  /* margin-top: 50px; */
+  align-items: end;
+  font-weight: bold;
+}
+
+.invoice-table thead {
+  background: #3a3a3a;
+  color: #fff;
+}
+
+.invoice-row td {
+  padding: 14px 20px;
+  border: none;
+}
+
+.green-row {
+  background-color: #e6f0cd;
+  border-radius: 50px;
+}
+/* .gray-row {
+  background-color: #e7e9e3f3;
+  border-radius: 50px;
+} */
+
+/* Rounded row effect (make rounded pill rows) */
+.invoice-row.green-row td:first-child {
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+.invoice-row.green-row td:last-child {
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
+.footer {
+  display: flex;
+  background-color: #2d2d2d;
+  color: #fff;
+  flex-direction: end;
+}
+
+.footer-content {
+  display: flex;
+  padding: 50px;
+  gap: 60px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.footer-right {
+  width: 120px;
+  height: 80px;
+  background-color: #84c441;
+  align-self: flex-end;
+  margin-bottom: 60px;
+  margin-left: auto;
+}
+
+/* @media print {
+  body {
+    margin: 0;
+  }
+
+  .invoice-container {
+    width: 210mm;
+    height: 1122px;
+    page-break-after: always;
+  }
+
+  
+  .no-print {
+    display: none;
+  }
+}
+ */
+/* @media print {
+  .invoice-container {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    overflow: visible;
+    background-color: white;
+    page-break-after: always;
+  }
+
+  .invoice-header,
+  .invoice-content,
+  .footer {
+    page-break-inside: avoid;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .no-print {
+    display: none;
+  }
+}
+.invoice-table tr {
+  page-break-inside: avoid;
+} */
+/* Print-specific styles */
+@media print {
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+
+  /* Force header/footer on every printed page */
+  #header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
+  #footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  /* Ensure content flows across pages */
+  #content {
+    margin-top: 150px; /* Match header height */
+    margin-bottom: 50px; /* Match footer height */
+    page-break-inside: avoid;
+  }
+
+  /* Avoid breaking rows across pages */
+  .invoice-row {
+    page-break-inside: avoid;
+  }
+
+  /* Force page breaks if content overflows */
+  .invoice-table {
+    page-break-after: auto;
+  }
+}

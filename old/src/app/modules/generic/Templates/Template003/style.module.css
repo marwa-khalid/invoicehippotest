@@ -1,0 +1,558 @@
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("/fonts/SourceSansPro-Bold.woff2") format("woff2"),
+    url("/fonts/SourceSansPro-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("/fonts/SourceSansPro-Regular.woff2") format("woff2"),
+    url("/fonts/SourceSansPro-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.beeinvoicepage {
+  width: 100%;
+  min-height: 1123px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  page-break-after: always;
+  font-family: "Roboto", sans-serif;
+  padding-bottom: 120px;
+}
+
+body {
+  margin: 0;
+}
+.beeAlignCenter {
+  text-align: center;
+}
+
+.beeTopHeader {
+  text-align: center;
+  background: #f5f3f1;
+  padding: 40px 0px;
+}
+
+.beeTopHeader img {
+  margin: 0 auto;
+  max-height: 50px;
+}
+
+.beePageNm {
+  color: #4c4c4e;
+  font-weight: 400;
+  font-size: 26px;
+  position: relative;
+  padding-left: 30px;
+}
+
+.beePageNm::after {
+  content: "";
+  background: #fbae17;
+  height: 1px;
+  width: 56px;
+  position: absolute;
+  left: -48px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.beeCardBody {
+  padding: 0px 48px 48px;
+  margin-top: -16px;
+}
+
+.beeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.beeHeader h1 {
+  font-size: 32px;
+  text-transform: uppercase;
+  color: #414142;
+  font-weight: 900;
+  margin: 0;
+  letter-spacing: 9px;
+}
+
+.beeHamburger {
+  display: flex;
+  align-items: center;
+  grid-gap: 4px;
+  margin-bottom: 5px;
+  font-family: "Source Sans Pro";
+  font-size: 14px;
+  color: #404041;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.beeHeaderRight {
+  min-width: 290px;
+}
+
+.beeHamburger svg,
+.beeHeaderRight svg {
+  color: #fbae17;
+}
+
+.beeHeaderRight svg {
+  width: 16px;
+  height: 16px;
+}
+
+.beeHeaderRight a {
+  display: flex;
+  /* align-items: center; */
+  grid-gap: 10px;
+  font-size: 13px;
+  line-height: 18px;
+  margin-bottom: 8px;
+  font-family: "Source Sans Pro";
+  color: #404041;
+  text-decoration: none;
+  font-weight: 400;
+  max-width: 246px;
+}
+.beeHeaderRight a span {
+  color: #404041;
+}
+
+.beeInvoiceDetails {
+  display: flex;
+  grid-gap: 40px;
+  justify-content: space-between;
+  margin-top: 60px;
+}
+
+.beeInvoiceDetails h4 {
+  font-size: 14px;
+  color: #414142;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 0px 10px 0px;
+  font-family: "Source Sans Pro";
+}
+
+.beeInvoiceDetailList span {
+  font-size: 12px;
+  line-height: 18px;
+  color: #414142;
+  font-weight: 700;
+  margin: 0;
+  font-family: "Roboto";
+  min-width: 80px;
+  border-right: 1px solid #fbae17;
+  min-width: 100px;
+  text-transform: lowercase;
+}
+
+.beeInvoiceDetailList {
+  display: flex;
+  align-items: stretch; 
+  border-bottom: 1px solid #939598;
+  padding: 4px 0px;
+}
+
+.beeInvoiceDetailList p {
+  font-size: 12px;
+  line-height: 18px;
+  padding-left: 20px;
+  margin: 0;
+  color: #424143;
+  font-weight: 400;
+  padding-right: 10px;
+  font-family: "Roboto";
+}
+
+.borderBottom0 {
+  border-bottom: none !important;
+}
+.borderTop0 {
+  border-top: none !important;
+}
+.comments {
+  margin-top: 30px;
+}
+.beeTfoot .beePayment {
+  border-left: 0px;
+  padding: 0.75rem;
+  font-style: italic;
+  font-family: "Source Sans Pro";
+  font-weight: 700;
+}
+.beeInvoiceTaxDetail {
+  border-left: 0px;
+  text-align: right;
+  border-bottom: 1px solid #8a8a8a51;
+  padding: 0.75rem;
+  padding-right: 0;
+  /* font-style: italic; */
+  font-family: "Source Sans Pro";
+  font-weight: 700;
+}
+
+.beeBorderOrange {
+  border-bottom: 2px solid #fbae17 !important;
+}
+.beeInvoiceTaxDetail p {
+  font-size: 12px;
+  line-height: 18px;
+  margin: 0;
+  color: #424143;
+  padding-right: 0.75rem;
+  font-weight: 400;
+  font-family: "Roboto";
+}
+
+.beeInvoiceTaxDetail span {
+  font-size: 12px;
+  line-height: 18px;
+  display: block;
+  padding-right: 20px;
+  color: #414142;
+  font-weight: 700;
+  margin: 0;
+  font-family: "Roboto";
+  min-width: 80px;
+  border-right: 1px solid #fbae17;
+  min-width: 100px;
+}
+.beeOpacity0 {
+  opacity: 0;
+}
+
+.colorRed {
+  color: #f64e60 !important;
+}
+
+.beeInvoiceDetailsInner {
+  min-width: 293px;
+}
+
+.beeInvoiceDetailsInner2 span {
+  min-width: 100px;
+}
+
+.beeInvoiceWrapper {
+  margin-top: 40px;
+}
+
+.beeInvoiceWrapper .beeTh {
+  border-top: 2px solid #fbae17;
+  border-bottom: 1px solid #fbae17;
+  font-size: 12px;
+  padding: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #403f40;
+  text-align: right;
+  font-weight: 600;
+  vertical-align: top;
+}
+
+.beeInvoiceTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.beeItemDescription {
+  padding: 0.75rem 0.75rem;
+  background: #f0f1f2;
+  border-left: 0.4px solid #ccc;
+  color: #999;
+  font-size: 95%;
+}
+
+.beeTfoot {
+  position: relative;
+}
+
+.beeTd:first-child::after,
+.beeTfoot::after {
+  content: "";
+  background: #403f40;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  border-radius: 50%;
+}
+
+.beeTd:first-child {
+  text-align: left;
+  /* background: #f0f1f2; */
+  padding: 0.5rem 0.75rem;
+  position: relative;
+}
+
+.beeTd {
+  border-bottom: 1px solid #ccc;
+  text-align: right;
+  font-size: 12px;
+  color: #403f40;
+  border-left: 0.4px solid #ccc;
+  padding: 0.5rem 0.75rem;
+  vertical-align: top;
+}
+
+.beeTdSep {
+  border-bottom: 1px solid #ccc;
+  text-align: right;
+  font-size: 12px;
+  color: #403f40;
+  border-left: 0.4px solid #ccc;
+  vertical-align: top;
+}
+
+.beeDiscount small {
+  background-color: #f0f1f2;
+  color: #e83e8c;
+  padding: 2px;
+  margin-top: 2px;
+  border-radius: 0.42rem;
+}
+
+.beeItemDescription strong {
+  display: block;
+  /* margin-bottom: 5px; */
+  /* color: #403f40; */
+  font-family: "Source Sans Pro";
+}
+
+.beeDetails {
+  font-size: 13px;
+}
+
+.beeDetails h2 {
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.beeTfoot .beeTd {
+  border-left: 0px;
+  border-bottom: 2px solid #fbae17;
+  padding: 0.75rem;
+  font-style: italic;
+  font-family: "Source Sans Pro";
+  font-weight: 700;
+}
+
+.beeTfoot .beeTdDiscount {
+  border-left: 0px;
+  border-bottom: 1px solid #8a8a8a51;
+  padding: 0.75rem;
+  /* font-style: italic; */
+  font-family: "Source Sans Pro";
+  font-weight: 700;
+  text-align: right;
+  color: #403f40;
+}
+
+.beeTfoot .beeInvoiceTermsLeft {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+
+.beeTfoot .beeInvoiceTermsLeft h4 {
+  font-size: 13px;
+  color: #403f40;
+  font-family: "Source Sans Pro";
+  font-weight: 700;
+  margin: 0px 0px 0px;
+  padding: 0.75rem;
+  text-transform: uppercase;
+}
+
+.beeTfoot .beeSeparator {
+  border-bottom: 2px solid #fbae17;
+}
+
+.beeTfoot .beeInvoiceTermsLeft p {
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+}
+
+.beeAlignLeft {
+  text-align: left !important;
+}
+
+.beeTfoot .beeInvoiceTerms {
+  border-bottom: 2px solid #fbae17;
+}
+
+/* .beeInvoiceTerms p span {
+  font-weight: 700;
+} */
+
+.mb10 {
+  margin-bottom: 30px !important;
+}
+
+.beeRow {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.beeLabel {
+  font-weight: bold;
+  color: #403f40;
+  font-size: 14px;
+  font-family: "Source Sans Pro";
+  text-align: right;
+  border-bottom: 2px solid #fbae17;
+}
+
+.beeValue {
+  color: #403f40;
+  font-size: 16px;
+  font-family: "Source Sans Pro";
+  font-weight: 700;
+  text-align: right;
+  border-bottom: 2px solid #fbae17;
+  padding: 0.75rem;
+}
+
+.beeDivider {
+  height: 2px;
+  background-color: orange;
+  margin: 10px 0;
+}
+
+.beeTotal {
+  font-weight: bold;
+  color: #403f40;
+  font-family: "Source Sans Pro";
+  font-size: 14px;
+}
+
+.beeSignatureBlock {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.beeSignature {
+  max-height: 68px;
+}
+
+.beeName {
+  font-weight: bold;
+  color: #403f40;
+  font-size: 16px;
+  font-family: "Source Sans Pro";
+  margin-top: -10px;
+  margin-bottom: 4px;
+}
+
+.beeTitle {
+  font-size: 12px;
+  color: #403f40;
+  font-family: "Source Sans Pro";
+}
+
+.beeInvoiceTermsRight {
+  max-width: 210px;
+  width: 100%;
+}
+
+#price-td {
+  display: flex;
+  justify-content: end;
+  align-items: end;
+}
+
+.beeFooterInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.beeCardFooter {
+  background: #f5f3f1;
+  padding: 30px 30px 30px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.beeCardFooter::after {
+  content: "";
+  background: #fbae17;
+  height: 2px;
+  width: 100px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.beeCardFooter img {
+  max-height: 30px;
+}
+
+.beeCardFooter p {
+  font-size: 12px;
+  color: #414142;
+  font-weight: 700;
+  text-align: right;
+  font-style: italic;
+  font-family: "Source Sans Pro";
+}
+
+#kt_app_content_container .btn.btn-success.btn-sm {
+  position: absolute !important;
+  top: -80px !important;
+  right: 200px !important;
+}
+
+#kt_app_content_container .btn.btn-primary.btn-sm {
+  position: absolute !important;
+  top: -80px !important;
+  right: 32px !important;
+}
+
+@media (min-width: 1000px) {
+  #kt_app_content_container {
+    max-width: 1024px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  #kt_app_toolbar_container {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+}
+
+.invoiceScaleWrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Scale down the document proportionally on mobile */
+@media (max-width: 767px) {
+  .beeinvoicepage {
+    transform: scale(0.75);
+    transform-origin: top left;
+    width: 133.33%; /* 100 / 0.75 */
+  }
+}
+
+@media (max-width: 480px) {
+  .beeinvoicepage {
+    transform: scale(0.65);
+    transform-origin: top left;
+    width: 153.85%;
+  }
+}

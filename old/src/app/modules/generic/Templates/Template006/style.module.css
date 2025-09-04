@@ -1,0 +1,526 @@
+@font-face {
+     font-family: 'Source Sans Pro';
+     src: url('/fonts/SourceSansPro-Bold.woff2') format('woff2'),
+          url('/fonts/SourceSansPro-Bold.woff') format('woff');
+     font-weight: bold;
+     font-style: normal;
+     font-display: swap;
+   }
+   
+   @font-face {
+     font-family: 'Source Sans Pro';
+     src: url('/fonts/SourceSansPro-Regular.woff2') format('woff2'),
+          url('/fonts/SourceSansPro-Regular.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+     font-display: swap;
+   }
+   
+   
+   .hippo_tpl002_beeinvoicepage {
+     width: 100%;
+     min-height: 1123px;
+     margin: 0 auto;
+     box-sizing: border-box;
+     page-break-after: always;
+     font-family: "Roboto", sans-serif;
+   }
+   
+   .hippo_tpl002_logo {
+     max-width: 240px;
+     max-height: 84px;
+   }
+   
+   .hippo_tpl002_header {
+     display: flex;
+     justify-content: space-between;
+     padding: 40px 0 0  60px;
+   }
+   
+   @media (max-width: 768px) {
+     .hippo_tpl002_header {
+       padding: 40px 24px;
+     }
+   }
+   
+   .hippo_tpl002_header_right {
+     text-align: right;
+   }
+   
+   .hippo_tpl002_header_right h6 {
+     font-size: 14px;
+     letter-spacing: 0px;
+     margin: 0;
+     line-height: 24px;
+     color: #2b333e;
+     font-weight: 300;
+     font-family: "Montserrat";
+     text-align: right;
+   }
+   
+   .hippo_tpl002_header_right h6 span {
+     font-weight: 600;
+   }
+   
+   .hippo_tpl002_header_due_left p span {
+     font-weight: 600;
+     font-family: "Montserrat";
+     min-width: 104px;
+   }
+   
+   .hippo_tpl002_header_due_left p {
+     font-size: 14px;
+     letter-spacing: 0px;
+     margin: 0;
+     line-height: 20px;
+     display: flex;
+     color: #3e4954;
+     font-weight: 300;
+     font-family: "Montserrat";
+   }
+   
+   .hippo_tpl002_header_due_right h1 {
+     font-size: 64px;
+     letter-spacing: 0px;
+     line-height: 1;
+     color: #2b333e;
+     font-weight: 600;
+     margin: 0;
+     font-family: "Montserrat";
+   }
+   
+   .hippo_tpl002_header_due_right {
+     width: 60%;
+   }
+   
+   .hippo_tpl002_header_due {
+     display: flex;
+     justify-content: space-between;
+     margin-bottom: 56px;
+     margin-top: 20px;
+     max-width: 590px;
+     padding-left: 60px;
+   }
+   
+   @media (max-width: 768px) {
+     .hippo_tpl002_header_due {
+       padding-left: 24px;
+     }
+   }
+   
+   .hippo_tpl002_header_due_row {
+     display: grid;
+     grid-template-columns: 4fr 4fr 4fr;
+     grid-gap: 20px;
+   }
+   
+   .hippo_tpl002_header_due_row h6 {
+     font-size: 14px;
+     letter-spacing: 0px;
+     margin: 0;
+     line-height: 24px;
+     border-top: 1px solid #2b333e;
+     color: #3e4954;
+     font-weight: 300;
+     padding-top: 20px;
+     font-family: "Montserrat";
+     margin-top: 20px;
+   }
+   
+   .hippo_tpl002_header_due_row h6 span {
+     font-weight: 600;
+     display: block;
+   }
+   
+   
+   .hippo_tpl002_table {
+     width: 100%;
+     border-collapse: collapse;
+     font-family: "Montserrat";
+     /* margin: 0px -24px; */
+   }
+   
+   .hippo_tpl002_thead {
+     background-color: #1975bb;
+     color: white;
+     text-align: left;
+   }
+   
+   .hippo_tpl002_th {
+     padding: 12px 24px;
+     font-weight: 600;
+     font-size: 14px;
+   }
+   
+   .hippo_tpl002_th:nth-child(1) {
+     padding-left: 60px;
+   }
+   
+   .hippo_tpl002_th:last-child {
+     padding-right: 60px;
+   }
+   
+   @media (max-width: 768px) {
+     .hippo_tpl002_th:nth-child(1) {
+       padding-left: 24px;
+     }
+     .hippo_tpl002_th:last-child {
+       padding-right: 24px;
+     }
+   }
+   
+   
+   .hippo_tpl002_tbody {
+     background-color: #ffffff;
+   }
+   
+   .hippo_tpl002_row {
+     background-color: #ffffff;
+   }
+   
+   .hippo_tpl002_row_alt {
+     background-color: #ebeeef;
+   }
+   
+   .hippo_tpl002_td {
+     padding: 12px 24px;
+     vertical-align: middle;
+     font-size: 14px;
+     color: #2b333e;
+   }
+   
+   .hippo_tpl002_td:first-child{
+     padding-left: 60px;
+   }
+   
+   @media (max-width: 768px) {
+     .hippo_tpl002_td:first-child{
+       padding-left: 24px;
+     }
+   }
+   
+   
+   .hippo_tpl002_tbody strong {
+     font-weight: 600;
+   }
+   
+   .hippo_tpl002_td_amount {
+     padding: 12px 24px;
+     color: #2b333e;
+     font-size: 14px;
+     vertical-align: middle;
+   }
+   
+   .hippo_tpl002_desc {
+     font-size: 10px;
+     font-weight: 300;
+     margin: 0;
+     color: #68737c;
+     font-style: italic;
+     margin-top: 4px;
+   }
+   
+   /*  */
+   .hippo_tpl002_totalsWrapper {
+     display: flex;
+     justify-content: space-between;
+     gap: 40px;
+     margin-top: 40px;
+     align-items: end;
+     padding-left: 80px;
+   }
+   
+   @media (max-width: 768px) {
+     .hippo_tpl002_totalsWrapper {
+       padding-left: 24px;
+     }
+   }
+   
+   
+   .hippo_tpl002_paymentBox {
+     font-size: 14px;
+     color: #2b333e;
+     max-width: 50%;
+   }
+   
+   .hippo_tpl002_paymentLabel {
+     font-weight: 600;
+     padding-left: 10px;
+     margin-bottom: 8px;
+   }
+   
+   .hippo_tpl002_paymentItem {
+     margin: 12px 0;
+     color: #2b333e;
+     font-weight: 300;
+     padding-left: 10px;
+   }
+   
+   .hippo_tpl002_totalTable {
+     width: auto;
+     border-collapse: collapse;
+     font-size: 14px;
+     color: #2e3a45;
+     min-width: 285px;
+   }
+   
+   .hippo_tpl002_totalLabel {
+     text-align: left;
+     padding: 12px 12px;
+     font-size: 14px;
+     color: #2b333e;
+     font-weight: 400;
+   }
+   
+   .hippo_tpl002_totalValue {
+     text-align: left;
+     padding: 12px 12px;
+     font-size: 14px;
+     color: #2b333e;
+     font-weight: 300;
+   }
+   
+   .hippo_tpl002_totalRow {
+     background-color: #1975bb;
+     color: white;
+     font-weight: 600;
+     font-size: 14px;
+   }
+   
+   .hippo_tpl002_totalText {
+     padding: 12px 12px;
+     border-right: 1px solid #fff;
+   }
+   
+   .hippo_tpl002_totalAmount {
+     padding: 6px 12px;
+     text-align: right;
+   }
+   
+   .hippo_tpl002_totalTable tr td:last-child {
+     padding-right: 40px;
+   }
+   
+   /* .hippo_tpl002_paymentborder {
+     border-left: 1px solid #2b333e;
+   } */
+   
+   .hippo_tpl002_invoice_text {
+     width: fit-content;
+     margin-left: auto;
+     padding-right: 60px;
+   }
+   
+   @media (max-width: 768px) {
+     .hippo_tpl002_invoice_text {
+       padding-right: 24px;
+     }
+   }
+   
+   .hippo_tpl002_invoice_text h2 {
+     font-size: 54px;
+     color: #1875bb;
+     font-weight: 600;
+     margin: 0;
+     font-family: "Source Sans Pro";
+   }
+   
+   .hippo_tpl002_invoice_text span {
+     display: block;
+     font-size: 12px;
+     line-height: 5px;
+     margin: 0;
+     color: #6c6e70;
+     font-weight: 700;
+   }
+   
+   .hippo_tpl002_totalLabelbg {
+     background-color: #e6e7e8;
+   }
+   
+   .hippo_tpl002_totalsWrapper h2 {
+     font-size: 32px;
+     color: #6c6e70;
+     font-weight: 400;
+     font-family: "Source Sans Pro";
+   }
+   
+   .hippo_tpl002_totalsWrapper h2 span {
+     font-weight: 600;
+   }
+   
+   .hippo_tpl002_footer {
+     background-color: #e6e7e8;
+     padding-top: 20px;
+     margin-top: 50px;
+   }
+   
+   .hippo_tpl002_footer_inner {
+     display: flex;
+     align-items: center;
+     background-image: url(../../images/footer-bg.png);
+     background-size: 110% 110%;
+     background-repeat: no-repeat;
+     max-width: 80%;
+     justify-content: space-between;
+     padding: 10px 40px;
+     padding-right: 80px;
+   }
+   
+   .hippo_tpl002_footer_list {
+     display: flex;
+     align-items: center;
+     grid-gap: 12px;
+   }
+   
+   .hippo_tpl002_footer_list img {
+     height: 20px;
+   }
+   
+   .hippo_tpl002_footer_list p {
+     font-size: 12px;
+     color: #fff;
+     font-weight: 400;
+   }
+   
+   /* gray */
+   .hippo_tpl002_beeinvoicepage_gray .hippo_tpl002_invoice_text h2 {
+     color: #403f40;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_gray .hippo_tpl002_invoice_text h2 {
+     color: #403f40;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_gray .hippo_tpl002_thead,
+   .hippo_tpl002_beeinvoicepage_gray .hippo_tpl002_totalRow {
+     background-color: #403f40;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_gray .hippo_tpl002_row_alt {
+     background-color: #e6e7e8;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_gray .hippo_tpl002_footer_inner {
+     background-image: url(../images/footer-bg-gray.png);
+   }
+   
+   /* green */
+   .hippo_tpl002_beeinvoicepage_green .hippo_tpl002_invoice_text h2 {
+     color: #00a550;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_green .hippo_tpl002_invoice_text h2 {
+     color: #00a550;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_green .hippo_tpl002_thead,
+   .hippo_tpl002_beeinvoicepage_green .hippo_tpl002_totalRow {
+     background-color: #00a550;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_green .hippo_tpl002_row_alt {
+     background-color: #e5e2e1;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_green .hippo_tpl002_footer_inner {
+     background-image: url(../images/footer-bg-green.png);
+   }
+   
+   /* LightBlue */
+   
+   
+   .hippo_tpl002_beeinvoicepage_LightBlue .hippo_tpl002_invoice_text h2 {
+     color: #37bdba;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_LightBlue .hippo_tpl002_invoice_text h2 {
+     color: #37bdba;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_LightBlue .hippo_tpl002_thead,
+   .hippo_tpl002_beeinvoicepage_LightBlue .hippo_tpl002_totalRow {
+     background-color: #37bdba;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_LightBlue .hippo_tpl002_row_alt {
+     background-color: #e5e2e1;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_LightBlue .hippo_tpl002_footer_inner {
+     background-image: url(../images/footer-bg-lightblue.png);
+   }
+   
+   
+   
+   /* orange */
+   
+   
+   .hippo_tpl002_beeinvoicepage_orange .hippo_tpl002_invoice_text h2 {
+     color: #f7931d;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_orange .hippo_tpl002_invoice_text h2 {
+     color: #f7931d;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_orange .hippo_tpl002_thead,
+   .hippo_tpl002_beeinvoicepage_orange .hippo_tpl002_totalRow {
+     background-color: #f7931d;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_orange .hippo_tpl002_row_alt {
+     background-color: #e5e2e1;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_orange .hippo_tpl002_footer_inner {
+     background-image: url(../images/footer-bg-orange.png);
+   }
+   
+   /* red */
+   
+   
+   .hippo_tpl002_beeinvoicepage_red .hippo_tpl002_invoice_text h2 {
+     color: #c62129;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_red .hippo_tpl002_invoice_text h2 {
+     color: #c62129;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_red .hippo_tpl002_thead,
+   .hippo_tpl002_beeinvoicepage_red .hippo_tpl002_totalRow {
+     background-color: #c62129;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_red .hippo_tpl002_row_alt {
+     background-color: #e5e2e1;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_red .hippo_tpl002_footer_inner {
+     background-image: url(../images/footer-bg-red.png);
+   }
+   
+   /* voilet */
+   
+   
+   .hippo_tpl002_beeinvoicepage_voilet .hippo_tpl002_invoice_text h2 {
+     color: #b31e8d;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_voilet .hippo_tpl002_invoice_text h2 {
+     color: #b31e8d;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_voilet .hippo_tpl002_thead,
+   .hippo_tpl002_beeinvoicepage_voilet .hippo_tpl002_totalRow {
+     background-color: #b31e8d;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_voilet .hippo_tpl002_row_alt {
+     background-color: #e5e2e1;
+   }
+   
+   .hippo_tpl002_beeinvoicepage_voilet .hippo_tpl002_footer_inner {
+     background-image: url(../images/footer-bg-voilet.png);
+   }

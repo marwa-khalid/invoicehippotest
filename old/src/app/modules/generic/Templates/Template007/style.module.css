@@ -1,0 +1,454 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url('/fonts/SourceSansPro-Bold.woff2') format('woff2'),
+       url('/fonts/SourceSansPro-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url('/fonts/SourceSansPro-Regular.woff2') format('woff2'),
+       url('/fonts/SourceSansPro-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+.hippo_tpl003_beeinvoicepage {
+  width: 100%;
+  min-height: 1123px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  page-break-after: always;
+  font-family: "Roboto", sans-serif;
+  background-color: #fff;
+}
+
+.hippo_tpl003_logo {
+  max-width: 240px;
+  max-height: 84px;
+}
+
+.hippo_tpl003_header_list {
+  display: flex;
+  align-items: center;
+  grid-gap: 10px;
+  font-size: 12px;
+  color: #fff;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.hippo_tpl003_header_list img {
+  height: 16px;
+  width: 20px;
+  filter: invert(1);
+}
+
+.hippo_tpl003_invoice_header {
+  background-image: url(../../images/bg-skyblue.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding: 40px 40px 140px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hippo_tpl003_header {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 0px 0px;
+}
+
+.hippo_tpl003_header_right {
+  text-align: right;
+}
+
+.hippo_tpl003_header_right h6 {
+  font-size: 14px;
+  letter-spacing: 0px;
+  margin: 0;
+  line-height: 24px;
+  color: #2b333e;
+  font-weight: 300;
+  font-family: "Montserrat";
+  text-align: right;
+}
+
+.hippo_tpl003_header_right h6 span {
+  font-weight: 600;
+}
+
+.hippo_tpl003_header_due_left p span {
+  font-weight: 400;
+  font-family: "Montserrat";
+  min-width: 104px;
+  color: #68747e;
+}
+
+.hippo_tpl003_profile_detail h6 {
+  font-size: 20px;
+  line-height: 25px;
+  color: #68747e;
+  font-weight: 600;
+  margin: 0px 0px;
+}
+
+.hippo_tpl003_profile_detail p {
+  font-size: 14px;
+  font-weight: normal;
+  color: #68747e;
+}
+
+.hippo_tpl003_profile_detail h3 {
+  font-size: 28px;
+  line-height: 40px;
+  color: #253039;
+  font-weight: 600;
+  margin: 0px 0px 10px;
+}
+
+.hippo_tpl003_header_due_left p {
+  font-size: 14px;
+  letter-spacing: 0px;
+  margin: 0;
+  line-height: 20px;
+  display: flex;
+  color: #68747e;
+  font-weight: 600;
+  font-family: "Montserrat";
+}
+
+.hippo_tpl003_header_due_right h1 {
+  font-size: 64px;
+  letter-spacing: 0px;
+  line-height: 1;
+  color: #2b333e;
+  font-weight: 600;
+  margin: 0;
+  font-family: "Montserrat";
+}
+
+.hippo_tpl003_header_due_right {
+  width: 60%;
+}
+
+.hippo_tpl003_header_due {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 56px;
+  margin-top: 20px;
+  max-width: 590px;
+}
+
+.hippo_tpl003_header_due_row {
+  display: grid;
+  grid-template-columns: 4fr 4fr 4fr;
+  grid-gap: 20px;
+}
+
+.hippo_tpl003_header_due_row h6 {
+  font-size: 14px;
+  letter-spacing: 0px;
+  margin: 0;
+  line-height: 24px;
+  border-top: 1px solid #2b333e;
+  color: #3e4954;
+  font-weight: 300;
+  padding-top: 20px;
+  font-family: "Montserrat";
+  margin-top: 20px;
+}
+
+.hippo_tpl003_header_due_row h6 span {
+  font-weight: 600;
+  display: block;
+}
+
+
+.hippo_tpl003_table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 5px 0;
+  font-family: "Montserrat";
+  padding: 0 40px;
+  /* margin: 0px -24px; */
+}
+
+@media (max-width: 768px) {
+  .hippo_tpl003_table {
+    padding: 0 20px;
+  }
+}
+
+.hippo_tpl003_thead {
+  background-color: #1975bb;
+  color: white;
+  text-align: left;
+}
+
+.hippo_tpl003_thead th:nth-child(2),
+.hippo_tpl003_thead th:nth-child(3),
+.hippo_tpl003_thead th:nth-child(4) {
+  background: #232b43;
+}
+
+.hippo_tpl003_th {
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.hippo_tpl003_tbody {
+  background-color: #ffffff;
+}
+
+.hippo_tpl003_row {
+  background-color: #ffffff;
+}
+
+.hippo_tpl003_row_alt {
+  background-color: #ebeeef;
+}
+
+.hippo_tpl003_td {
+  padding: 12px 24px;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #2b333e;
+  font-weight: 500;
+}
+
+.hippo_tpl003_tbody strong {
+  font-weight: 600;
+}
+
+.hippo_tpl003_td_amount {
+  padding: 12px 24px;
+  color: #2b333e;
+  font-size: 14px;
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+.hippo_tpl003_desc {
+  font-size: 11px;
+  font-weight: 300;
+  margin: 0;
+  color: #68737c;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/*  */
+.hippo_tpl003_totalsWrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 20px;
+  align-items: end;
+  padding: 0 60px;
+}
+
+.hippo_tpl003_totalsWrapper:last-child {
+  margin-bottom: 60px;
+  margin-top: 100px;
+}
+
+.hippo_tpl003_paymentBox {
+  font-size: 14px;
+  color: #2b333e;
+  max-width: 50%;
+}
+
+.hippo_tpl003_paymentLabel {
+  font-weight: 700;
+  margin: 24px 0px 0px;
+  font-size: 14px;
+}
+
+.hippo_tpl003_paymentborder h6 {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #2b333e;
+}
+
+.hippo_tpl003_paymentItem span {
+  font-weight: 600;
+}
+
+.hippo_tpl003_d_block {
+  display: block;
+  margin-top: 5px;
+}
+
+.hippo_tpl003_paymentLabel span {
+  font-weight: 400;
+}
+
+.hippo_tpl003_paymentItem {
+  margin: 12px 0;
+  color: #2b333e;
+  font-weight: 300;
+}
+
+.hippo_tpl003_totalTable {
+  width: auto;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #68747e;
+  min-width: 320px;
+}
+
+.hippo_tpl003_totalLabel {
+  text-align: left;
+  padding: 12px 12px;
+  font-size: 14px;
+  color: #68747e;
+  font-weight: 400;
+}
+
+
+
+.hippo_tpl003_totalValue {
+  text-align: left;
+  padding: 12px 12px;
+  font-size: 14px;
+  color: #2b333e;
+  font-weight: 300;
+}
+
+.hippo_tpl003_totalRow {
+  background-color: #0d96cf;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.hippo_tpl003_totalText {
+  padding: 12px 12px;
+  border-right: 1px solid #fff;
+}
+
+.hippo_tpl003_totalAmount {
+  padding: 6px 12px;
+  text-align: right;
+}
+
+.hippo_tpl003_totalTable tr td:last-child {
+  padding-right: 16px;
+  text-align: end;
+}
+
+
+
+.hippo_tpl003_invoice_text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 70px 40px;
+}
+
+@media (max-width: 768px) {
+  .hippo_tpl003_invoice_text {
+
+    padding: 20px 20px 20px;
+  }
+}
+
+.hippo_tpl003_invoice_text h2 {
+  font-size: 54px;
+  color: #232b43;
+  font-weight: 500;
+  margin: 0;
+  font-family: "Source Sans Pro";
+}
+
+
+
+.hippo_tpl003_totalsWrapper h2 {
+  font-size: 32px;
+  color: #6c6e70;
+  font-weight: 400;
+  font-family: "Source Sans Pro";
+}
+
+.hippo_tpl003_totalsWrapper h2 span {
+  font-weight: 600;
+}
+
+/* magents-color */
+.hippo_tpl003_beeinvoicepage_magenta .hippo_tpl003_invoice_header {
+  background-image: url(../../images/bg-pink.png);
+}
+
+.hippo_tpl003_beeinvoicepage_magenta .hippo_tpl003_thead {
+  background-color: #ca5093;
+}
+
+.hippo_tpl003_beeinvoicepage_magenta .hippo_tpl003_row_alt {
+  background-color: #f3e5e7;
+}
+
+.hippo_tpl003_beeinvoicepage_magenta .hippo_tpl003_totalRow {
+  background-color: #ca5093;
+}
+
+/* brown-color */
+
+.hippo_tpl003_beeinvoicepage_brown .hippo_tpl003_invoice_header {
+  background-image: url(../../images/bg-orange.png);
+}
+
+.hippo_tpl003_beeinvoicepage_brown .hippo_tpl003_thead {
+  background-color: #f06524;
+}
+
+.hippo_tpl003_beeinvoicepage_brown .hippo_tpl003_row_alt {
+  background-color: #f9e8df;
+}
+
+.hippo_tpl003_beeinvoicepage_brown .hippo_tpl003_totalRow {
+  background-color: #f06524;
+}
+
+/* green-color */
+
+.hippo_tpl003_beeinvoicepage_green .hippo_tpl003_invoice_header {
+  background-image: url(../../images/bg-green.png);
+}
+
+.hippo_tpl003_beeinvoicepage_green .hippo_tpl003_thead {
+  background-color: #38b54c;
+}
+
+.hippo_tpl003_beeinvoicepage_green .hippo_tpl003_row_alt {
+  background-color: #e7ece2;
+}
+
+.hippo_tpl003_beeinvoicepage_green .hippo_tpl003_totalRow {
+  background-color: #38b54c;
+}
+
+/* sky-color */
+
+.hippo_tpl003_beeinvoicepage_sky .hippo_tpl003_invoice_header {
+  background-image: url(../../images/bg-magenta.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.hippo_tpl003_beeinvoicepage_sky .hippo_tpl003_thead {
+  background-color: #2abdc3;
+}
+
+.hippo_tpl003_beeinvoicepage_sky .hippo_tpl003_row_alt {
+  background-color: #e5eeee;
+}
+
+.hippo_tpl003_beeinvoicepage_sky .hippo_tpl003_totalRow {
+  background-color: #2abdc3;
+}

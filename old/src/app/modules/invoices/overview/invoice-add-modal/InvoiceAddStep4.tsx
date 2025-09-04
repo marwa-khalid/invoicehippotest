@@ -1,0 +1,269 @@
+import { FC } from "react";
+import Select from "react-select";
+import { useIntl } from "react-intl";
+import clsx from "clsx";
+import Flatpickr from "react-flatpickr";
+import { parse } from "date-fns";
+import { InvoicePostResult } from "../core/_models";
+import { FormikProps } from "formik";
+type Props = {
+  formik: FormikProps<InvoicePostResult>;
+};
+
+const InvoiceAddStep4: FC<Props> = ({ formik }) => {
+  const intl = useIntl();
+  // Helper function to render form fields based on fieldType with global index
+  const renderFormField = (field: any, fieldIndex: number) => {
+    switch (field?.fieldType?.name) {
+      case "Text":
+        return (
+          <div className="row mb-7" key={field.fieldId}>
+            <label
+              className="fw-bold fs-6 mb-3"
+              htmlFor={`textField_${fieldIndex}`}
+            >
+              {field.fieldLabel}
+            </label>
+            <input
+              type="text"
+              id={`textField_${fieldIndex}`}
+              {...formik.getFieldProps(
+                `customFields[${fieldIndex}].value.asText`
+              )}
+              value={
+                formik.values.customFields?.[fieldIndex]?.value?.asText || ""
+              }
+              onChange={formik.handleChange}
+              className="form-control form-control-white"
+              placeholder={field.fieldLabel}
+            />
+          </div>
+        );
+
+      case "Number":
+        return (
+          <div className="row mb-7" key={field.fieldId}>
+            <label
+              className="fw-bold fs-6 mb-3"
+              htmlFor={`numberField${fieldIndex}`}
+            >
+              {field.fieldLabel}
+            </label>
+            <input
+              type="number"
+              id={`numberField${fieldIndex}`}
+              {...formik.getFieldProps(
+                `customFields[${fieldIndex}].value.asNumber`
+              )}
+              value={
+                formik.values.customFields?.[fieldIndex]?.value?.asNumber || ""
+              }
+              onChange={formik.handleChange}
+              className="form-control form-control-white"
+              placeholder={field.fieldLabel}
+            />
+          </div>
+        );
+
+      case "Date":
+        return (
+          <div className="row mb-7" key={field.fieldId}>
+            <label className="fw-bold fs-6 mb-3" htmlFor="custom_picker_date">
+              {field.fieldLabel}
+            </label>
+            <div
+              className="input-group"
+              data-td-target-input="nearest"
+              data-td-target-toggle="nearest"
+            >
+              <Flatpickr
+                value={
+                  formik.values.customFields[fieldIndex].value.asDate
+                    ? new Date(
+                        formik.values.customFields[fieldIndex].value.asDate
+                      )
+                    : "" // Ensure it's a Date object or null
+                }
+                onChange={(date: Date[]) => {
+                  if (date.length > 0) {
+                    const localISOString = date[0].toLocaleDateString("sv-SE"); // Format: yyyy-MM-dd
+                    formik.setFieldValue(
+                      `customFields[${fieldIndex}].value.asDate`,
+                      localISOString
+                    );
+                  } else {
+                    formik.setFieldValue(
+                      `customFields[${fieldIndex}].value.asDate`,
+                      ""
+                    );
+                  }
+                }}
+                id="custom_picker_date"
+                onBlur={(e) => {
+                  const inputValue = e.target.value; // Example: "06-09-2022"
+                  const parsedDate = parse(
+                    inputValue,
+                    "dd-MM-yyyy",
+                    new Date()
+                  );
+                  if (!isNaN(parsedDate.getTime())) {
+                    const localDate = new Date(
+                      parsedDate.getFullYear(),
+                      parsedDate.getMonth(),
+                      parsedDate.getDate()
+                    ); // Adjust to local timezone
+                    formik.setFieldValue(
+                      `customFields[${fieldIndex}].value.asDate`,
+                      localDate.toLocaleDateString("sv-SE")
+                    );
+                  } else {
+                  }
+                }}
+                options={{
+                  weekNumbers: true,
+                  dateFormat: "d-m-Y",
+                  allowInput: true,
+                }}
+                className="form-control"
+                placeholder="dd-MM-yyyy"
+              />
+              <span
+                className="input-group-text"
+                data-td-target="#custom_picker_date"
+                data-td-toggle="datetimepicker"
+              >
+                <i className="ki-duotone ki-calendar fs-2">
+                  <span className="path1"></span>
+                  <span className="path2"></span>
+                </i>
+              </span>
+            </div>
+          </div>
+        );
+
+      case "Options":
+        return (
+          <div className="fv-row mb-7" key={field.fieldId}>
+            <label className="fw-bold fs-6 mb-3" htmlFor="optionsField">
+              {field.fieldLabel}
+            </label>
+            <Select
+              className="react-select-styled"
+              menuPlacement="top"
+              placeholder={intl.formatMessage({
+                id: "Fields.SelectOptionNvt",
+              })}
+              inputId="optionsField"
+              options={field.options.map((option: string) => ({
+                value: option,
+                label: option,
+              }))}
+              value={
+                formik.values.customFields?.[fieldIndex]?.value?.asText
+                  ? {
+                      value:
+                        formik.values.customFields?.[fieldIndex]?.value.asText,
+                      label:
+                        formik.values.customFields?.[fieldIndex]?.value.asText,
+                    }
+                  : null
+              }
+              onChange={(selectedOption: any) => {
+                formik.setFieldValue(
+                  `customFields[${fieldIndex}].value.asText`,
+                  selectedOption ? selectedOption.value : ""
+                );
+              }}
+              isClearable
+            />
+          </div>
+        );
+      case "MultipleOptions":
+        return (
+          <div className="fv-row mb-7" key={field.fieldId}>
+            <label className="fw-bold fs-6 mb-3" htmlFor="multipleOptionsField">
+              {field.fieldLabel}
+            </label>
+            <Select
+              className="react-select-styled"
+              menuPlacement="top"
+              inputId="multipleOptionsField"
+              placeholder={intl.formatMessage({
+                id: "Fields.SelectOptionNvt",
+              })}
+              options={field.options.map((option: string) => ({
+                value: option,
+                label: option,
+              }))}
+              value={
+                formik.values.customFields?.[fieldIndex]?.value?.asOptions
+                  ? formik.values.customFields?.[
+                      fieldIndex
+                    ]?.value.asOptions.map((opt: string) => ({
+                      value: opt,
+                      label: opt,
+                    }))
+                  : []
+              }
+              onChange={(selectedOptions: any) => {
+                formik.setFieldValue(
+                  `customFields[${fieldIndex}].value.asOptions`,
+                  selectedOptions
+                    ? selectedOptions.map((opt: any) => opt.value)
+                    : []
+                );
+              }}
+              isClearable
+              isMulti
+            />
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  // Group fields by their groupDisplayName and use global index
+  const groupedFields = formik.values.customFields
+    ?.filter((field: any) => field !== undefined)
+    .reduce((groups: any, field: any, index: number) => {
+      const group =
+        field?.groupDisplayName ||
+        intl.formatMessage({ id: "Fields.CustomFeaturesUngrouped" });
+      if (!groups[group]) {
+        groups[group] = [];
+      }
+      groups[group].push({ field, index });
+      return groups;
+    }, {});
+  return (
+    <div className="modal-body">
+      <form className="form p-3" noValidate>
+        {Object.keys(groupedFields).map((groupName) => (
+          <div className="card bg-secondary mb-5" key={groupName}>
+            <div className="card-header d-flex flex-column p-3 mx-3">
+              <h4 className="card-title text-gray-600 fw-bold mb-0">
+                {groupName}
+              </h4>
+
+              <span className="mt-0 text-muted fs-7">
+                {intl.formatMessage({ id: "Fields.CustomFeaturesSubTitle" })}
+              </span>
+            </div>
+            <div className="separator border-gray-300"></div>
+            <div className="card-body">
+              {groupedFields[groupName].map(
+                ({ field, index }: { field: any; index: number }) => {
+                  return renderFormField(field, index);
+                }
+              )}
+            </div>
+          </div>
+        ))}
+      </form>
+    </div>
+  );
+};
+
+export { InvoiceAddStep4 };

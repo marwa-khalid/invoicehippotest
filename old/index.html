@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Metronic React Demo 1" />
+    <meta name="icon" />
+    <!-- <script>
+      // if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === "object") {
+      //   __REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {};
+      // }
+    </script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+      window.intercomSettings = {
+        app_id: "ypc4i8s9", // Replace with your Intercom App ID
+      };
+    </script>
+    <script>
+      (function () {
+        var w = window;
+        var ic = w.Intercom;
+        if (typeof ic === "function") {
+          ic("reattach_activator");
+          ic("update", w.intercomSettings);
+        } else {
+          var d = document;
+          var i = function () {
+            i.c(arguments);
+          };
+          i.q = [];
+          i.c = function (args) {
+            i.q.push(args);
+          };
+          w.Intercom = i;
+          var l = function () {
+            var s = d.createElement("script");
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://widget.intercom.io/widget/ypc4i8s9";
+            var x = d.getElementsByTagName("script")[0];
+            x.parentNode.insertBefore(s, x);
+          };
+          if (document.readyState === "complete") {
+            l();
+          } else if (w.attachEvent) {
+            w.attachEvent("onload", l);
+          } else {
+            w.addEventListener("load", l, false);
+          }
+        }
+      })();
+    </script>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Add these in your public/index.html -->
+    <!-- <link
+      rel="stylesheet"
+      href="https://unpkg.com/@yaireo/tagify/dist/tagify.css"
+    /> -->
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- <script src="/webviewer/lib/webviewer.min.js"></script> -->
+
+    <!-- <link
+      href="assets/plugins/global/plugins.bundle.css"
+      rel="stylesheet"
+      type="text/css"
+    /> -->
+
+    <title>InvoiceHippo</title>
+    <link rel="shortcut icon" href="/favicon_art01.svg" />
+    <link
+      rel="stylesheet"
+      id="layout-styles-anchor"
+      href="/splash-screen.css"
+    />
+  </head>
+
+  <body id="kt_body" class="page-loading" style="overflow: hidden">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div id="root"></div>
+
+    <!--begin::Loading markup-->
+    <div id="splash-screen" class="splash-screen">
+      <img
+        src="/ih_animation.gif"
+        alt="Loading animation"
+        width="250px"
+        height="auto"
+        maxWidth="25%"
+        className="loading-animation justify-content-center text-center align-items-center"
+      />
+    </div>
+
+    <script type="module" src="/src/main.tsx"></script>
+    <!-- <script
+      type="text/javascript"
+      src="https://unpkg.com/default-passive-events"
+    ></script> -->
+
+    <!-- <script src="https://unpkg.com/@yaireo/tagify/dist/react.tagify"></script> -->
+    <!-- <script src="assets/plugins/global/plugins.bundle.js"></script> -->
+    <!-- <script src="assets/plugins/global/plugins.bundle.js"></script> -->
+  </body>
+</html>
