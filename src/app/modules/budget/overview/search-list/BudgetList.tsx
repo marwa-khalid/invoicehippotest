@@ -91,7 +91,7 @@ const BudgetList = ({
         <table className="table table-row-dashed table-row-gray-300 align-top gs-0 gy-4">
           <thead>
             <tr className="fw-bold text-muted">
-              <th className="w-25px">
+              <th className="w-auto">
                 {intl.formatMessage({ id: "Fields.Title" })}
               </th>
               <th className="w-25px">
@@ -106,7 +106,7 @@ const BudgetList = ({
           <tbody>
             {budgets?.result?.map((budget: BudgetResult) => (
               <tr key={budget.id}>
-                <td width={150}>
+                <td width={350}>
                   <div
                     className="d-flex flex-column align-items-start cursor-pointer"
                     onClick={(e) => {
@@ -152,7 +152,7 @@ const BudgetList = ({
                   )}
                 </td> */}
 
-                <td className="text-muted" width={300}>
+                <td className="text-muted" width={360}>
                   {budget.hasRelatedLedgerAccounts &&
                     budget.relatedLedgerAccounts.map((account) => (
                       <div

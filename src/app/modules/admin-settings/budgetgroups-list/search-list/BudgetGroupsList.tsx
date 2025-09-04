@@ -116,7 +116,7 @@ const BudgetGroupsList = ({
   return (
     <div className="card py-3  p-10">
       <div className="table-responsive">
-        <table className="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+        <table className="table table-row-dashed table-row-gray-300 align-top gs-0 gy-4">
           <thead>
             <tr className="fw-bold text-muted">
               <th className="w-25px">

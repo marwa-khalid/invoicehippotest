@@ -18,8 +18,8 @@ const BudgetGroupAddStep1: FC<Props> = ({ formik }) => {
   return (
     <div className="modal-body" id="#kt_tab_pane_4">
       <form className="form p-4" noValidate>
-        <div className="mb-7">
-          <label className="required fw-bold fs-6 mb-2" htmlFor="title">
+        <div className="mb-5">
+          <label className="required fw-bold fs-6 mb-3" htmlFor="title">
             {intl.formatMessage({ id: "Fields.Title" })}
           </label>
           <input
@@ -29,22 +29,34 @@ const BudgetGroupAddStep1: FC<Props> = ({ formik }) => {
             className={clsx("form-control form-control-solid", {
               "is-invalid": formik.touched.title && formik.errors.title,
             })}
-            placeholder={intl.formatMessage({ id: "Fields.Description" })}
+            placeholder={intl.formatMessage({ id: "Fields.Title" })}
           />
+          {formik.touched.title && formik.errors.title && (
+            <div className="fv-plugins-message-container">
+              <div className="fv-help-block">
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: formik.errors.title,
+                  }}
+                  role="alert"
+                />
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="mb-7">
-          <label className="fw-bold fs-6 mb-2" htmlFor="description">
+        <div className="row mb-5">
+          <label className="fw-bold fs-6 mb-3">
             {intl.formatMessage({ id: "Fields.Description" })}
+            <ReactQuill
+              theme="snow"
+              className="mt-3"
+              placeholder="Jouw tekst hier..."
+              style={{ height: "200px" }}
+              onChange={(content) => handleQuillChange(content)}
+              value={formik.values.description || ""}
+            />
           </label>
-          <ReactQuill
-            theme="snow"
-            id="description"
-            placeholder="Jouw tekst hier..."
-            style={{ height: "300px" }}
-            onChange={(content) => handleQuillChange(content)}
-            value={formik.values.description || ""}
-          />
         </div>
       </form>
     </div>

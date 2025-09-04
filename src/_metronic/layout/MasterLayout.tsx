@@ -63,13 +63,13 @@ const MasterLayout = () => {
         />
       )}
       {/* begin:: Drawers */}
-      <ActivityDrawer />
+      {/* <ActivityDrawer /> */}
       {/* <RightToolbar /> */}
       <DrawerMessenger />
       {/* end:: Drawers */}
 
       {/* begin:: Modals */}
-      <InviteUsers />
+      {/* <InviteUsers /> */}
       <UpgradePlan />
       {/* end:: Modals */}
       <ScrollTop />

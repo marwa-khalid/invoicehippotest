@@ -206,7 +206,7 @@ const InviteUsers: FC = () => {
 
             <div className='d-flex flex-stack'>
               <div className='me-5 fw-bold'>
-                <label className='fs-6'>Adding Users by Team Members</label>
+                {/* <label className='fs-6'>Adding Users by Team Members</label> */}
                 <div className='fs-7 text-muted'>
                   If you need more info, please check budget planning
                 </div>

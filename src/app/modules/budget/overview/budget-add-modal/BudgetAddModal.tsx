@@ -7,6 +7,7 @@ import { useIntl } from "react-intl";
 import { BudgetAddModalForm } from "./BudgetAddModalForm";
 import { handleToast } from "../../../auth/core/_toast";
 import { getBudgetById, postBudget } from "../core/_requests";
+import { BudgetPost } from "../core/_models";
 interface Props {
   setRefresh: (type: boolean) => void;
   setAddModalOpen: (type: boolean) => void;
@@ -29,14 +30,15 @@ const BudgetAddModal = ({
   }, []);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const intl = useIntl();
+  const initialValues: BudgetPost = {
+    id: 0,
+    title: "",
+    description: "",
+    budgetGroupId: null,
+    relatedLedgerAccounts: [] as number[],
+  };
   const formik = useFormik({
-    initialValues: {
-      id: 0,
-      title: "",
-      description: "",
-      budgetGroupId: 0,
-      relatedLedgerAccounts: [] as number[],
-    },
+    initialValues: initialValues,
     validationSchema: Yup.object().shape({
       title: Yup.string()
         .min(

@@ -127,7 +127,7 @@ const SidebarMenuMain = () => {
         />
       </SidebarMenuItemWithSub>
       <SidebarMenuItemWithSub
-        to="/admin/budgetgroups"
+        to="/budget"
         title={intl.formatMessage({
           id: "Menu.BudgetManagement",
         })}

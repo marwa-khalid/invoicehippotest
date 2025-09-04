@@ -123,8 +123,8 @@ const AuthLayout = () => {
           <Link to="/" className="mb-12">
             <img
               alt="Logo"
-              src={toAbsoluteUrl("media/logos/invoicehippo_art01.png")}
-              className="h-75px text-white"
+              src={toAbsoluteUrl("media/logos/invoicehippo_art01_white.png")}
+              className="h-200px"
             />
           </Link>
           {/* end::Logo */}

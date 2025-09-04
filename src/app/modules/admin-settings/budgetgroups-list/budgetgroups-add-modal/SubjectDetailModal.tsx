@@ -52,8 +52,8 @@ const SubjectDetailModal = ({
 
           <div className="modal-body">
             {/* Title */}
-            <div className="mb-3">
-              <label className="required fw-bold mb-2" htmlFor="title">
+            <div className="mb-5">
+              <label className="required fw-bold mb-3" htmlFor="title">
                 {intl.formatMessage({ id: "Fields.Title" })}
               </label>
               <input
@@ -67,8 +67,8 @@ const SubjectDetailModal = ({
             </div>
 
             {/* Related Ledgers */}
-            <div className="mb-3">
-              <label className="fw-bold mb-2" htmlFor="linkedLedgers">
+            <div className="mb-5">
+              <label className="fw-bold mb-3" htmlFor="linkedLedgers">
                 {intl.formatMessage({ id: "Fields.LinkedLedgerAccounts" })}
               </label>
               <Select
@@ -91,6 +91,20 @@ const SubjectDetailModal = ({
                   );
                 }}
               />
+              {selectedSubject.relatedLedgerAccounts.length === 5 && (
+                <div className="fv-plugins-message-container text-end mt-2">
+                  <div className="text-warning">
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: intl.formatMessage({
+                          id: "Fields.LinkedLedgerAccountsComments",
+                        }),
+                      }}
+                      role="alert"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Rich text editor */}
@@ -114,12 +128,12 @@ const SubjectDetailModal = ({
                 id="kt_tab_pane_1"
                 role="tabpanel"
               >
-                <div className="row d-flex mb-5">
+                <div className="row d-flex mb-10">
                   <ReactQuill
                     theme="snow"
                     id="description"
                     placeholder="Jouw tekst hier..."
-                    style={{ height: "300px" }}
+                    style={{ height: "200px" }}
                     onChange={(content) =>
                       handleQuillChange("description", content)
                     }
@@ -146,6 +160,7 @@ const SubjectDetailModal = ({
               type="button"
               className="btn btn-primary"
               onClick={handleSave}
+              disabled={!selectedSubject.title}
             >
               {intl.formatMessage({
                 id: "Fields.ActionSave",

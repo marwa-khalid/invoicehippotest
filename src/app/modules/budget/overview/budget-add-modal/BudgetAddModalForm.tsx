@@ -10,6 +10,7 @@ import { BudgetPost } from "../core/_models";
 import { getBudgetGroups } from "../../../admin-settings/budgetgroups-list/core/_requests";
 import { getLedgerAccountsForFilter } from "../../../admin-settings/ledgeraccounts-list/core/_requests";
 import clsx from "clsx";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 type Props = {
   formik: FormikProps<BudgetPost>;
@@ -111,6 +112,12 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
   //     setCounter(false);
   //   }
   // }, [ledgers]);
+  const customSelectStyles = {
+    control: (provided: any) => ({
+      ...provided,
+      minHeight: "calc(1.9rem + 1.3rem + 2px)", // Matches Bootstrap input height
+    }),
+  };
   useEffect(() => {
     if (counter1) {
       // find ledger with highest value
@@ -130,7 +137,7 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
   return (
     <>
       <form>
-        <div className="row d-flex mb-2">
+        <div className="row d-flex mb-5">
           <div className="fv-row col-6">
             <label className="required fw-bold mb-3 fs-6" htmlFor="title">
               {intl.formatMessage({
@@ -175,7 +182,24 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
               </label>
 
               <div className="cursor-pointer" onClick={openBudgetGroupModal}>
-                <KTIcon iconName="plus" className="fs-2 text-primary" />
+                <Tooltip.Provider delayDuration={0}>
+                  <Tooltip.Root>
+                    <Tooltip.Trigger asChild>
+                    <span tabIndex={0}>
+                      <KTIcon iconName="plus" className="fs-2 text-primary" />
+                      </span>
+                    </Tooltip.Trigger>
+
+                    <Tooltip.Portal>
+                      <Tooltip.Content side="top" className="app-tooltip">
+                        {intl.formatMessage({
+                          id: "Fields.ToolTipNew",
+                        })}
+                        <Tooltip.Arrow className="app-tooltip-arrow" />
+                      </Tooltip.Content>
+                    </Tooltip.Portal>
+                  </Tooltip.Root>
+                </Tooltip.Provider>
               </div>
             </div>
             <Select
@@ -188,7 +212,8 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
                   (budgetGroups: any) =>
                     budgetGroups.value === formik.values.budgetGroupId
                 )}
-              className="react-select-styled"
+              hideSelectedOptions={true}
+              styles={customSelectStyles}
               inputId="budgetGroup"
               options={budgetGroups.map((item: any) => ({
                 value: item.id,
@@ -247,30 +272,30 @@ const BudgetAddModalForm = ({ formik, refresh, setRefresh }: Props) => {
             // onBlur={() => formik.setFieldTouched("relatedLedgerAccounts", true)}
           />
 
-          {/* {formik.touched.relatedLedgerAccounts &&
-            formik.errors.relatedLedgerAccounts && (
-              <div className="fv-plugins-message-container">
-                <div className="fv-help-block">
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: formik.errors.relatedLedgerAccounts,
-                    }}
-                    role="alert"
-                  />
-                </div>
+          {formik.values.relatedLedgerAccounts.length === 5 && (
+            <div className="fv-plugins-message-container text-end mt-2">
+              <div className="text-warning">
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: intl.formatMessage({
+                      id: "Fields.LinkedLedgerAccountsComments",
+                    }),
+                  }}
+                  role="alert"
+                />
               </div>
-            )} */}
+            </div>
+          )}
         </div>
 
         <div className="row d-flex mb-5">
-          <label htmlFor="descriptionQuill" className="fw-bold mb-2">
+          <span className="fw-bold fs-6 mb-3">
             {intl.formatMessage({
               id: "Fields.Description",
             })}
-          </label>
+          </span>
           <ReactQuill
             theme="snow"
-            id="descriptionQuill"
             placeholder="Jouw tekst hier..."
             style={{ height: "200px" }}
             onChange={(content) => handleQuillChange(content)}

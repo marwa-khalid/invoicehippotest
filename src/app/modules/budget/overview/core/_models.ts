@@ -17,7 +17,7 @@ export interface BudgetPost {
   id: number;
   title: string;
   description: string;
-  budgetGroupId: number;
+  budgetGroupId: number | null;
   relatedLedgerAccounts: number[];
 }
 export interface BudgetResult {
